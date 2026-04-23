@@ -12,6 +12,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    passWithNoTests: true,
     setupFiles: ['./tests/unit/setup.ts'],
     coverage: {
       provider: 'v8',
