@@ -9,9 +9,7 @@ export interface Membership {
 
 export interface CreateMembershipCommand {
   name: string
-}
-
-export interface UpdateMembershipCommand {
-  name: string
   status: MembershipStatus
 }
+
+export type UpdateMembershipCommand = CreateMembershipCommand

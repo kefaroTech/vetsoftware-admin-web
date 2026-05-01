@@ -6,25 +6,22 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppModal from '@/components/ui/AppModal.vue'
-import AppInput from '@/components/ui/AppInput.vue'
 import MembershipStatusBadge from '../components/MembershipStatusBadge.vue'
+import MembershipForm from '../components/MembershipForm.vue'
 import type { CreateMembershipCommand } from '../types/memberships.types'
 
 const { memberships, loading, fetchAll, create, remove } = useMemberships()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
 const formLoading = ref(false)
-const newName = ref('')
 
 onMounted(fetchAll)
 
-async function handleCreate() {
-  if (!newName.value.trim()) return
+async function handleCreate(data: CreateMembershipCommand) {
   formLoading.value = true
   try {
-    await create({ name: newName.value } as CreateMembershipCommand)
+    await create(data)
     showModal.value = false
-    newName.value = ''
   } finally {
     formLoading.value = false
   }
@@ -54,21 +51,22 @@ async function handleDelete(id: number, name: string) {
         <td class="px-4 py-3 text-xs text-gray-500">{{ m.createdDate }}</td>
         <td class="px-4 py-3">
           <div class="flex gap-2">
-            <RouterLink :to="`/membresias/${m.id}`" class="text-xs text-indigo-600 hover:underline">Editar</RouterLink>
-            <button class="text-xs text-red-500 hover:underline" @click="handleDelete(m.id, m.name)">Eliminar</button>
+            <RouterLink :to="`/membresias/${m.id}`" class="text-xs text-indigo-600 hover:underline">
+              Editar
+            </RouterLink>
+            <button
+              class="text-xs text-red-500 hover:underline"
+              @click="handleDelete(m.id, m.name)"
+            >
+              Eliminar
+            </button>
           </div>
         </td>
       </tr>
     </AppTable>
 
     <AppModal :open="showModal" title="Nueva membresía" @close="showModal = false">
-      <form class="flex flex-col gap-4" @submit.prevent="handleCreate">
-        <AppInput v-model="newName" label="Nombre" placeholder="Plan básico" />
-        <div class="flex justify-end gap-2">
-          <AppButton variant="secondary" @click="showModal = false">Cancelar</AppButton>
-          <AppButton type="submit" :loading="formLoading">Crear</AppButton>
-        </div>
-      </form>
+      <MembershipForm :loading="formLoading" @submit="handleCreate" @cancel="showModal = false" />
     </AppModal>
   </AppLayout>
 </template>

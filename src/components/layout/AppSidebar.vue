@@ -9,7 +9,13 @@ const navItems = [
   { name: ROUTE_NAMES.COMPANIES_LIST, label: 'Empresas', path: '/empresas' },
   { name: ROUTE_NAMES.EMPLOYEES_LIST, label: 'Empleados', path: '/empleados' },
   { name: ROUTE_NAMES.MEMBERSHIPS_LIST, label: 'Membresías', path: '/membresias' },
+  { name: ROUTE_NAMES.MEMBERSHIP_SUB_MODULES_LIST, label: 'Membresías - Submódulos', path: '/membresias-submodulos' },
   { name: ROUTE_NAMES.MODULES_LIST, label: 'Módulos', path: '/modulos' },
+  { name: ROUTE_NAMES.SUBMODULES_LIST, label: 'Submódulos', path: '/submodulos' },
+  { name: ROUTE_NAMES.PERMISSIONS_LIST, label: 'Permisos', path: '/permisos' },
+  { name: ROUTE_NAMES.BASE_PERMISSIONS_LIST, label: 'Permisos base', path: '/permisos-base' },
+  { name: ROUTE_NAMES.BASE_ROLES_LIST, label: 'Roles base', path: '/roles-base' },
+  { name: ROUTE_NAMES.BASE_ROLE_PERMISSIONS_LIST, label: 'Permisos de roles base', path: '/permisos-roles-base' },
 ]
 </script>
 

@@ -19,6 +19,12 @@ export default defineConfig({
       '/employees': API_TARGET,
       '/memberships': API_TARGET,
       '/modules': API_TARGET,
+      '/sub-modules': API_TARGET,
+      '/base-permissions': API_TARGET,
+      '/permissions': API_TARGET,
+      '/base-roles': API_TARGET,
+      '/base-role-permissions': API_TARGET,
+      '/membership-sub-modules': API_TARGET,
     },
   },
 })

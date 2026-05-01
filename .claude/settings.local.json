@@ -5,7 +5,13 @@
       "Bash(npx vue-tsc *)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Read(//c/Users/orlan/OneDrive/Documentos/Proyectos/VetSoftware/**)",
+      "Bash(Get-ChildItem -Recurse -Depth 2)",
+      "Bash(Select-Object FullName)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\orlan\\\\OneDrive\\\\Documentos\\\\Proyectos\\\\VetSoftwareFront\" -Force)",
+      "Bash(Select-Object Name, Mode)",
+      "Bash(Get-ChildItem *)"
     ]
   }
 }
