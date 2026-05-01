@@ -1,3 +1,4 @@
+import { storeToRefs } from 'pinia'
 import { useMembershipsStore } from '../stores/memberships.store'
 import { membershipsApi } from '../api/memberships.api'
 import { useNotification } from '@/composables/useNotification'
@@ -5,6 +6,7 @@ import type { CreateMembershipCommand, UpdateMembershipCommand } from '../types/
 
 export function useMemberships() {
   const store = useMembershipsStore()
+  const { memberships, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
@@ -52,9 +54,9 @@ export function useMemberships() {
   }
 
   return {
-    memberships: store.memberships,
-    selected: store.selected,
-    loading: store.loading,
+    memberships,
+    selected,
+    loading,
     fetchAll, fetchById, create, update, remove,
   }
 }

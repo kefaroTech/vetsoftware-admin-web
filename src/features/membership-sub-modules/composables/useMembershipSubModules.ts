@@ -1,3 +1,4 @@
+import { storeToRefs } from 'pinia'
 import { useMembershipSubModulesStore } from '../stores/membership-sub-modules.store'
 import { membershipSubModulesApi } from '../api/membership-sub-modules.api'
 import { useNotification } from '@/composables/useNotification'
@@ -8,6 +9,7 @@ import type {
 
 export function useMembershipSubModules() {
   const store = useMembershipSubModulesStore()
+  const { membershipSubModules, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
@@ -55,9 +57,9 @@ export function useMembershipSubModules() {
   }
 
   return {
-    membershipSubModules: store.membershipSubModules,
-    selected: store.selected,
-    loading: store.loading,
+    membershipSubModules,
+    selected,
+    loading,
     fetchAll, fetchById, create, update, remove,
   }
 }

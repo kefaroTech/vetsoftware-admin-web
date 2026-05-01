@@ -1,3 +1,4 @@
+import { storeToRefs } from 'pinia'
 import { useModulesStore } from '../stores/modules.store'
 import { modulesApi } from '../api/modules.api'
 import { useNotification } from '@/composables/useNotification'
@@ -5,6 +6,7 @@ import type { CreateModuleCommand, UpdateModuleCommand } from '../types/modules.
 
 export function useModules() {
   const store = useModulesStore()
+  const { modules, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
@@ -52,9 +54,9 @@ export function useModules() {
   }
 
   return {
-    modules: store.modules,
-    selected: store.selected,
-    loading: store.loading,
+    modules,
+    selected,
+    loading,
     fetchAll, fetchById, create, update, remove,
   }
 }

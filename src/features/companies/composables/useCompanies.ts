@@ -1,3 +1,4 @@
+import { storeToRefs } from 'pinia'
 import { useCompaniesStore } from '../stores/companies.store'
 import { companiesApi } from '../api/companies.api'
 import { useNotification } from '@/composables/useNotification'
@@ -5,6 +6,7 @@ import type { CreateCompanyCommand, UpdateCompanyCommand } from '../types/compan
 
 export function useCompanies() {
   const store = useCompaniesStore()
+  const { companies, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
@@ -52,9 +54,9 @@ export function useCompanies() {
   }
 
   return {
-    companies: store.companies,
-    selected: store.selected,
-    loading: store.loading,
+    companies,
+    selected,
+    loading,
     fetchAll,
     fetchById,
     create,

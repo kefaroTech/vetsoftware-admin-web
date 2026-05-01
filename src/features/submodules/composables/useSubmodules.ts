@@ -1,3 +1,4 @@
+import { storeToRefs } from 'pinia'
 import { useSubmodulesStore } from '../stores/submodules.store'
 import { submodulesApi } from '../api/submodules.api'
 import { useNotification } from '@/composables/useNotification'
@@ -5,6 +6,7 @@ import type { CreateSubmoduleCommand, UpdateSubmoduleCommand } from '../types/su
 
 export function useSubmodules() {
   const store = useSubmodulesStore()
+  const { submodules, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
@@ -52,9 +54,9 @@ export function useSubmodules() {
   }
 
   return {
-    submodules: store.submodules,
-    selected: store.selected,
-    loading: store.loading,
+    submodules,
+    selected,
+    loading,
     fetchAll, fetchById, create, update, remove,
   }
 }

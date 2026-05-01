@@ -1,3 +1,4 @@
+import { storeToRefs } from 'pinia'
 import { useBaseRolePermissionsStore } from '../stores/base-role-permissions.store'
 import { baseRolePermissionsApi } from '../api/base-role-permissions.api'
 import { useNotification } from '@/composables/useNotification'
@@ -8,6 +9,7 @@ import type {
 
 export function useBaseRolePermissions() {
   const store = useBaseRolePermissionsStore()
+  const { baseRolePermissions, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
@@ -55,9 +57,9 @@ export function useBaseRolePermissions() {
   }
 
   return {
-    baseRolePermissions: store.baseRolePermissions,
-    selected: store.selected,
-    loading: store.loading,
+    baseRolePermissions,
+    selected,
+    loading,
     fetchAll, fetchById, create, update, remove,
   }
 }

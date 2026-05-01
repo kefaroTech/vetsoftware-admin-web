@@ -1,3 +1,4 @@
+import { storeToRefs } from 'pinia'
 import { useEmployeesStore } from '../stores/employees.store'
 import { employeesApi } from '../api/employees.api'
 import { useNotification } from '@/composables/useNotification'
@@ -5,6 +6,7 @@ import type { CreateEmployeeCommand, UpdateEmployeeCommand } from '../types/empl
 
 export function useEmployees() {
   const store = useEmployeesStore()
+  const { employees, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
@@ -52,9 +54,9 @@ export function useEmployees() {
   }
 
   return {
-    employees: store.employees,
-    selected: store.selected,
-    loading: store.loading,
+    employees,
+    selected,
+    loading,
     fetchAll, fetchById, create, update, remove,
   }
 }
