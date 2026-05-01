@@ -7,14 +7,14 @@ defineProps<{
 </script>
 
 <template>
-  <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-    <table class="w-full text-sm">
-      <thead class="bg-gray-50">
+  <v-card variant="outlined" rounded="lg">
+    <v-table density="comfortable" hover>
+      <thead>
         <tr>
           <th
             v-for="header in headers"
             :key="header"
-            class="px-4 py-3 text-left font-medium text-gray-600"
+            class="text-left text-medium-emphasis font-weight-medium"
           >
             {{ header }}
           </th>
@@ -22,15 +22,17 @@ defineProps<{
       </thead>
       <tbody>
         <tr v-if="loading">
-          <td :colspan="headers.length" class="py-12 text-center text-gray-400">Cargando...</td>
+          <td :colspan="headers.length" class="text-center text-medium-emphasis py-8">
+            <v-progress-circular indeterminate color="primary" size="32" />
+          </td>
         </tr>
         <tr v-else-if="empty">
-          <td :colspan="headers.length" class="py-12 text-center text-gray-400">
+          <td :colspan="headers.length" class="text-center text-medium-emphasis py-8">
             Sin resultados
           </td>
         </tr>
         <slot v-else />
       </tbody>
-    </table>
-  </div>
+    </v-table>
+  </v-card>
 </template>

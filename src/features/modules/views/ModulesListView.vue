@@ -4,7 +4,6 @@ import { useModules } from '../composables/useModules'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
-import AppButton from '@/components/ui/AppButton.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import ModuleForm from '../components/ModuleForm.vue'
 import type { CreateModuleCommand } from '../types/modules.types'
@@ -34,9 +33,11 @@ async function handleDelete(id: number, name: string) {
 
 <template>
   <AppLayout>
-    <div class="mb-6 flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-gray-900">Módulos</h1>
-      <AppButton @click="showModal = true">+ Nuevo módulo</AppButton>
+    <div class="d-flex align-center justify-space-between mb-6">
+      <h1 class="text-h4 font-weight-bold">Módulos</h1>
+      <v-btn color="primary" prepend-icon="mdi-plus" @click="showModal = true">
+        Nuevo módulo
+      </v-btn>
     </div>
 
     <AppTable
@@ -44,14 +45,26 @@ async function handleDelete(id: number, name: string) {
       :loading="loading"
       :empty="modules.length === 0"
     >
-      <tr v-for="m in modules" :key="m.id" class="border-t border-gray-100 hover:bg-gray-50">
-        <td class="px-4 py-3 font-medium text-gray-900">{{ m.name }}</td>
-        <td class="px-4 py-3 font-mono text-sm text-gray-600">{{ m.code }}</td>
-        <td class="px-4 py-3 text-xs text-gray-500">{{ m.createdDate }}</td>
-        <td class="px-4 py-3">
-          <div class="flex gap-2">
-            <RouterLink :to="`/modulos/${m.id}`" class="text-xs text-indigo-600 hover:underline">Editar</RouterLink>
-            <button class="text-xs text-red-500 hover:underline" @click="handleDelete(m.id, m.name)">Eliminar</button>
+      <tr v-for="m in modules" :key="m.id">
+        <td class="font-weight-medium">{{ m.name }}</td>
+        <td class="text-body-2 font-mono">{{ m.code }}</td>
+        <td class="text-caption text-medium-emphasis">{{ m.createdDate }}</td>
+        <td>
+          <div class="d-flex ga-1">
+            <v-btn
+              :to="`/modulos/${m.id}`"
+              size="small"
+              variant="text"
+              color="primary"
+              icon="mdi-pencil"
+            />
+            <v-btn
+              size="small"
+              variant="text"
+              color="error"
+              icon="mdi-delete"
+              @click="handleDelete(m.id, m.name)"
+            />
           </div>
         </td>
       </tr>

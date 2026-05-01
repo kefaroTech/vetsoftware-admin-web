@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import AppInput from '@/components/ui/AppInput.vue'
-import AppButton from '@/components/ui/AppButton.vue'
 import type { Membership, CreateMembershipCommand } from '../types/memberships.types'
 
 const props = defineProps<{
@@ -15,6 +13,8 @@ const emit = defineEmits<{
 }>()
 
 const form = ref<CreateMembershipCommand>({ name: '', status: 'ACTIVE' })
+const formValid = ref(false)
+const requiredRule = (v: string) => !!v || 'Campo requerido'
 
 watch(
   () => props.initial,
@@ -23,27 +23,36 @@ watch(
   },
   { immediate: true },
 )
+
+function submit() {
+  if (formValid.value) emit('submit', form.value)
+}
 </script>
 
 <template>
-  <form class="flex flex-col gap-4" @submit.prevent="emit('submit', form)">
-    <AppInput v-model="form.name" label="Nombre" placeholder="Plan básico" />
-
-    <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-700">Estado</label>
-      <select
+  <v-form v-model="formValid" @submit.prevent="submit">
+    <div class="d-flex flex-column ga-3">
+      <v-text-field
+        v-model="form.name"
+        label="Nombre"
+        placeholder="Plan básico"
+        :rules="[requiredRule]"
+      />
+      <v-select
         v-model="form.status"
-        class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-      >
-        <option value="ACTIVE">Activa</option>
-        <option value="INACTIVE">Inactiva</option>
-        <option value="DEPRECATED">Deprecada</option>
-      </select>
+        label="Estado"
+        :items="[
+          { title: 'Activa', value: 'ACTIVE' },
+          { title: 'Inactiva', value: 'INACTIVE' },
+          { title: 'Deprecada', value: 'DEPRECATED' },
+        ]"
+      />
+      <div class="d-flex justify-end ga-2 mt-2">
+        <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
+        <v-btn type="submit" color="primary" :loading="loading">
+          {{ initial ? 'Guardar' : 'Crear' }}
+        </v-btn>
+      </div>
     </div>
-
-    <div class="flex justify-end gap-2">
-      <AppButton variant="secondary" @click="emit('cancel')">Cancelar</AppButton>
-      <AppButton type="submit" :loading="loading">{{ initial ? 'Guardar' : 'Crear' }}</AppButton>
-    </div>
-  </form>
+  </v-form>
 </template>

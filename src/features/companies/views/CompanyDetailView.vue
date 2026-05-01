@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCompanies } from '../composables/useCompanies'
 import AppLayout from '@/components/layout/AppLayout.vue'
-import AppButton from '@/components/ui/AppButton.vue'
 import AppSpinner from '@/components/feedback/AppSpinner.vue'
 import CompanyForm from '../components/CompanyForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
@@ -29,14 +28,19 @@ async function handleUpdate(data: CreateCompanyCommand) {
 
 <template>
   <AppLayout>
-    <div class="mb-6 flex items-center gap-4">
-      <AppButton variant="secondary" @click="router.back()">← Volver</AppButton>
-      <h1 class="text-2xl font-bold text-gray-900">Editar empresa</h1>
+    <div class="d-flex align-center ga-3 mb-6">
+      <v-btn variant="text" prepend-icon="mdi-arrow-left" @click="router.back()">Volver</v-btn>
+      <h1 class="text-h4 font-weight-bold">Editar empresa</h1>
     </div>
 
     <AppSpinner v-if="loading" />
-    <div v-else-if="selected" class="max-w-lg rounded-xl bg-white p-6 shadow-sm">
-      <CompanyForm :initial="selected" :loading="saving" @submit="handleUpdate" @cancel="router.back()" />
-    </div>
+    <v-card v-else-if="selected" max-width="640" class="pa-6">
+      <CompanyForm
+        :initial="selected"
+        :loading="saving"
+        @submit="handleUpdate"
+        @cancel="router.back()"
+      />
+    </v-card>
   </AppLayout>
 </template>

@@ -1,43 +1,44 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useNotification } from '@/composables/useNotification'
 
 const { notifications, dismiss } = useNotification()
+
+function colorFor(type: string) {
+  if (type === 'success') return 'success'
+  if (type === 'error') return 'error'
+  if (type === 'warning') return 'warning'
+  return 'grey-darken-3'
+}
+
+function iconFor(type: string) {
+  if (type === 'success') return 'mdi-check-circle'
+  if (type === 'error') return 'mdi-alert-circle'
+  if (type === 'warning') return 'mdi-alert'
+  return 'mdi-information'
+}
+
+const items = computed(() => notifications.value)
 </script>
 
 <template>
-  <Teleport to="body">
-    <div class="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
-      <TransitionGroup name="toast">
-        <div
-          v-for="n in notifications"
-          :key="n.id"
-          :class="[
-            'flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-white shadow-lg',
-            n.type === 'success'
-              ? 'bg-green-600'
-              : n.type === 'error'
-                ? 'bg-red-600'
-                : n.type === 'warning'
-                  ? 'bg-yellow-500'
-                  : 'bg-gray-800',
-          ]"
-        >
-          <span>{{ n.message }}</span>
-          <button class="ml-2 opacity-70 hover:opacity-100" @click="dismiss(n.id)">✕</button>
-        </div>
-      </TransitionGroup>
-    </div>
-  </Teleport>
+  <div class="vet-toast-wrapper">
+    <v-snackbar
+      v-for="n in items"
+      :key="n.id"
+      :model-value="true"
+      :color="colorFor(n.type)"
+      :timeout="-1"
+      location="bottom right"
+      class="ma-2"
+    >
+      <div class="d-flex align-center ga-2">
+        <v-icon :icon="iconFor(n.type)" />
+        <span>{{ n.message }}</span>
+      </div>
+      <template #actions>
+        <v-btn icon="mdi-close" variant="text" size="small" @click="dismiss(n.id)" />
+      </template>
+    </v-snackbar>
+  </div>
 </template>
-
-<style scoped>
-.toast-enter-active,
-.toast-leave-active {
-  transition: all 0.3s ease;
-}
-.toast-enter-from,
-.toast-leave-to {
-  opacity: 0;
-  transform: translateX(100%);
-}
-</style>

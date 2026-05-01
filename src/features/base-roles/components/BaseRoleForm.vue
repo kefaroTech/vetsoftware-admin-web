@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import AppInput from '@/components/ui/AppInput.vue'
-import AppButton from '@/components/ui/AppButton.vue'
 import type { BaseRole, CreateBaseRoleCommand } from '../types/base-roles.types'
 
 const props = defineProps<{
@@ -15,6 +13,8 @@ const emit = defineEmits<{
 }>()
 
 const form = ref<CreateBaseRoleCommand>({ name: '', code: '', mandatory: false })
+const formValid = ref(false)
+const requiredRule = (v: string) => !!v || 'Campo requerido'
 
 watch(
   () => props.initial,
@@ -23,26 +23,38 @@ watch(
   },
   { immediate: true },
 )
+
+function submit() {
+  if (formValid.value) emit('submit', form.value)
+}
 </script>
 
 <template>
-  <form class="flex flex-col gap-4" @submit.prevent="emit('submit', form)">
-    <AppInput v-model="form.name" label="Nombre" placeholder="Administrador" />
-    <AppInput v-model="form.code" label="Código" placeholder="ADMIN" />
-
-    <div class="flex items-center gap-2">
-      <input
-        id="mandatory"
-        v-model="form.mandatory"
-        type="checkbox"
-        class="rounded text-indigo-600"
+  <v-form v-model="formValid" @submit.prevent="submit">
+    <div class="d-flex flex-column ga-3">
+      <v-text-field
+        v-model="form.name"
+        label="Nombre"
+        placeholder="Administrador"
+        :rules="[requiredRule]"
       />
-      <label for="mandatory" class="text-sm font-medium text-gray-700">Obligatorio</label>
+      <v-text-field
+        v-model="form.code"
+        label="Código"
+        placeholder="ADMIN"
+        :rules="[requiredRule]"
+      />
+      <v-checkbox
+        v-model="form.mandatory"
+        label="Obligatorio"
+        hide-details
+      />
+      <div class="d-flex justify-end ga-2 mt-2">
+        <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
+        <v-btn type="submit" color="primary" :loading="loading">
+          {{ initial ? 'Guardar' : 'Crear' }}
+        </v-btn>
+      </div>
     </div>
-
-    <div class="flex justify-end gap-2">
-      <AppButton variant="secondary" @click="emit('cancel')">Cancelar</AppButton>
-      <AppButton type="submit" :loading="loading">{{ initial ? 'Guardar' : 'Crear' }}</AppButton>
-    </div>
-  </form>
+  </v-form>
 </template>

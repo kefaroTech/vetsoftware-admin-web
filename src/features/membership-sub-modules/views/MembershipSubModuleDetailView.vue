@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMembershipSubModules } from '../composables/useMembershipSubModules'
 import AppLayout from '@/components/layout/AppLayout.vue'
-import AppButton from '@/components/ui/AppButton.vue'
 import AppSpinner from '@/components/feedback/AppSpinner.vue'
 import MembershipSubModuleForm from '../components/MembershipSubModuleForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
@@ -29,19 +28,19 @@ async function handleSave(data: CreateMembershipSubModuleCommand) {
 
 <template>
   <AppLayout>
-    <div class="mb-6 flex items-center gap-4">
-      <AppButton variant="secondary" @click="router.back()">← Volver</AppButton>
-      <h1 class="text-2xl font-bold text-gray-900">Editar asociación membresía-submódulo</h1>
+    <div class="d-flex align-center ga-3 mb-6">
+      <v-btn variant="text" prepend-icon="mdi-arrow-left" @click="router.back()">Volver</v-btn>
+      <h1 class="text-h4 font-weight-bold">Editar asociación membresía-submódulo</h1>
     </div>
 
     <AppSpinner v-if="loading" />
-    <div v-else-if="selected" class="max-w-lg rounded-xl bg-white p-6 shadow-sm">
+    <v-card v-else-if="selected" max-width="640" class="pa-6">
       <MembershipSubModuleForm
         :initial="selected"
         :loading="saving"
         @submit="handleSave"
         @cancel="router.back()"
       />
-    </div>
+    </v-card>
   </AppLayout>
 </template>

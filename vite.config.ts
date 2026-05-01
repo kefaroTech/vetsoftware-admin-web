@@ -1,12 +1,12 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import tailwindcss from '@tailwindcss/vite'
+import vuetify from 'vite-plugin-vuetify'
 import path from 'path'
 
 const API_TARGET = 'http://localhost:8080'
 
 export default defineConfig({
-  plugins: [vue(), tailwindcss()],
+  plugins: [vue(), vuetify({ autoImport: true })],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

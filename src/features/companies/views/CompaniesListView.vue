@@ -4,7 +4,6 @@ import { useCompanies } from '../composables/useCompanies'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
-import AppButton from '@/components/ui/AppButton.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import CompanyForm from '../components/CompanyForm.vue'
 import type { CreateCompanyCommand } from '../types/companies.types'
@@ -34,9 +33,11 @@ async function handleDelete(id: number, name: string) {
 
 <template>
   <AppLayout>
-    <div class="mb-6 flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-gray-900">Empresas</h1>
-      <AppButton @click="showModal = true">+ Nueva empresa</AppButton>
+    <div class="d-flex align-center justify-space-between mb-6">
+      <h1 class="text-h4 font-weight-bold">Empresas</h1>
+      <v-btn color="primary" prepend-icon="mdi-plus" @click="showModal = true">
+        Nueva empresa
+      </v-btn>
     </div>
 
     <AppTable
@@ -44,29 +45,27 @@ async function handleDelete(id: number, name: string) {
       :loading="loading"
       :empty="companies.length === 0"
     >
-      <tr
-        v-for="company in companies"
-        :key="company.id"
-        class="border-t border-gray-100 hover:bg-gray-50"
-      >
-        <td class="px-4 py-3 font-medium text-gray-900">{{ company.name }}</td>
-        <td class="px-4 py-3 text-gray-600">{{ company.identifier }}</td>
-        <td class="px-4 py-3 text-gray-600">{{ company.contactNumber }}</td>
-        <td class="px-4 py-3 text-gray-500 text-xs">{{ company.createdDate }}</td>
-        <td class="px-4 py-3">
-          <div class="flex gap-2">
-            <RouterLink
+      <tr v-for="company in companies" :key="company.id">
+        <td class="font-weight-medium">{{ company.name }}</td>
+        <td>{{ company.identifier }}</td>
+        <td>{{ company.contactNumber }}</td>
+        <td class="text-caption text-medium-emphasis">{{ company.createdDate }}</td>
+        <td>
+          <div class="d-flex ga-1">
+            <v-btn
               :to="`/empresas/${company.id}`"
-              class="text-xs text-indigo-600 hover:underline"
-            >
-              Editar
-            </RouterLink>
-            <button
-              class="text-xs text-red-500 hover:underline"
+              size="small"
+              variant="text"
+              color="primary"
+              icon="mdi-pencil"
+            />
+            <v-btn
+              size="small"
+              variant="text"
+              color="error"
+              icon="mdi-delete"
               @click="handleDelete(company.id, company.name)"
-            >
-              Eliminar
-            </button>
+            />
           </div>
         </td>
       </tr>

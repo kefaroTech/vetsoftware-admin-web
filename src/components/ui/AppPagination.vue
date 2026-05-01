@@ -13,23 +13,29 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="flex items-center justify-between py-3">
-    <span class="text-sm text-gray-500">Página {{ page + 1 }} de {{ totalPages }}</span>
-    <div class="flex gap-2">
-      <button
+  <div class="d-flex align-center justify-space-between py-3">
+    <span class="text-body-2 text-medium-emphasis">
+      Página {{ page + 1 }} de {{ totalPages }}
+    </span>
+    <div class="d-flex ga-2">
+      <v-btn
+        variant="outlined"
+        size="small"
         :disabled="!hasPrev"
-        class="rounded-lg border border-gray-300 px-3 py-1 text-sm hover:bg-gray-50 disabled:opacity-40"
+        prepend-icon="mdi-chevron-left"
         @click="$emit('prev')"
       >
-        ← Anterior
-      </button>
-      <button
+        Anterior
+      </v-btn>
+      <v-btn
+        variant="outlined"
+        size="small"
         :disabled="!hasNext"
-        class="rounded-lg border border-gray-300 px-3 py-1 text-sm hover:bg-gray-50 disabled:opacity-40"
+        append-icon="mdi-chevron-right"
         @click="$emit('next')"
       >
-        Siguiente →
-      </button>
+        Siguiente
+      </v-btn>
     </div>
   </div>
 </template>

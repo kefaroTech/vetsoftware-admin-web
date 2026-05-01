@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import { useAuth } from '@/features/auth/composables/useAuth'
-import AppButton from '@/components/ui/AppButton.vue'
 
 const { logout } = useAuth()
 </script>
 
 <template>
-  <header class="flex h-14 items-center justify-between border-b border-gray-200 bg-white px-6">
-    <slot />
-    <AppButton variant="secondary" @click="logout">Cerrar sesión</AppButton>
-  </header>
+  <v-app-bar color="surface" elevation="1" density="comfortable">
+    <v-app-bar-title>
+      <slot>
+        <span class="text-subtitle-1 font-weight-medium">Panel administrativo</span>
+      </slot>
+    </v-app-bar-title>
+    <v-spacer />
+    <v-btn variant="text" prepend-icon="mdi-logout" @click="logout">
+      Cerrar sesión
+    </v-btn>
+  </v-app-bar>
 </template>

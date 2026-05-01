@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
-import AppButton from '@/components/ui/AppButton.vue'
-import AppSpinner from '@/components/feedback/AppSpinner.vue'
 import { membershipsApi } from '@/features/memberships/api/memberships.api'
 import { submodulesApi } from '@/features/submodules/api/submodules.api'
 import type { Membership } from '@/features/memberships/types/memberships.types'
 import type { Submodule } from '@/features/submodules/types/submodules.types'
-import type { MembershipSubModule, CreateMembershipSubModuleCommand } from '../types/membership-sub-modules.types'
+import type {
+  MembershipSubModule,
+  CreateMembershipSubModuleCommand,
+} from '../types/membership-sub-modules.types'
 
 const props = defineProps<{
   initial?: MembershipSubModule | null
@@ -19,6 +20,7 @@ const emit = defineEmits<{
 }>()
 
 const form = ref<CreateMembershipSubModuleCommand>({ membershipId: 0, subModuleId: 0 })
+const formValid = ref(false)
 const memberships = ref<Membership[]>([])
 const submodules = ref<Submodule[]>([])
 const loadingData = ref(false)
@@ -48,39 +50,39 @@ watch(
   },
   { immediate: true },
 )
+
+function submit() {
+  if (formValid.value) emit('submit', form.value)
+}
 </script>
 
 <template>
-  <form class="flex flex-col gap-4" @submit.prevent="emit('submit', form)">
-    <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-700">Membresía</label>
-      <AppSpinner v-if="loadingData" />
-      <select
-        v-else
+  <v-form v-model="formValid" @submit.prevent="submit">
+    <div class="d-flex flex-column ga-3">
+      <v-select
         v-model="form.membershipId"
-        class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-      >
-        <option v-for="m in memberships" :key="m.id" :value="m.id">{{ m.name }}</option>
-      </select>
-    </div>
-
-    <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-700">Submódulo</label>
-      <AppSpinner v-if="loadingData" />
-      <select
-        v-else
+        label="Membresía"
+        :items="memberships"
+        item-title="name"
+        item-value="id"
+        :loading="loadingData"
+        :rules="[(v) => !!v || 'Campo requerido']"
+      />
+      <v-select
         v-model="form.subModuleId"
-        class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-      >
-        <option v-for="s in submodules" :key="s.id" :value="s.id">
-          {{ s.name }} ({{ s.code }})
-        </option>
-      </select>
+        label="Submódulo"
+        :items="submodules"
+        :item-title="(s: Submodule) => `${s.name} (${s.code})`"
+        item-value="id"
+        :loading="loadingData"
+        :rules="[(v) => !!v || 'Campo requerido']"
+      />
+      <div class="d-flex justify-end ga-2 mt-2">
+        <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
+        <v-btn type="submit" color="primary" :loading="loading">
+          {{ initial ? 'Guardar' : 'Crear' }}
+        </v-btn>
+      </div>
     </div>
-
-    <div class="flex justify-end gap-2">
-      <AppButton variant="secondary" @click="emit('cancel')">Cancelar</AppButton>
-      <AppButton type="submit" :loading="loading">{{ initial ? 'Guardar' : 'Crear' }}</AppButton>
-    </div>
-  </form>
+  </v-form>
 </template>

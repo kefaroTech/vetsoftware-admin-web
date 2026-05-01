@@ -2,13 +2,15 @@
 defineProps<{
   title: string
   description?: string
+  icon?: string
 }>()
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center py-16 text-center">
-    <p class="text-lg font-medium text-gray-700">{{ title }}</p>
-    <p v-if="description" class="mt-1 text-sm text-gray-400">{{ description }}</p>
+  <div class="d-flex flex-column align-center justify-center pa-12 text-center">
+    <v-icon v-if="icon" :icon="icon" size="48" color="grey-lighten-1" class="mb-3" />
+    <p class="text-h6 text-medium-emphasis">{{ title }}</p>
+    <p v-if="description" class="text-body-2 text-disabled mt-1">{{ description }}</p>
     <slot />
   </div>
 </template>

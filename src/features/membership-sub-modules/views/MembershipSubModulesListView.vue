@@ -4,7 +4,6 @@ import { useMembershipSubModules } from '../composables/useMembershipSubModules'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
-import AppButton from '@/components/ui/AppButton.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import MembershipSubModuleForm from '../components/MembershipSubModuleForm.vue'
 import type { CreateMembershipSubModuleCommand } from '../types/membership-sub-modules.types'
@@ -34,9 +33,11 @@ async function handleDelete(id: number) {
 
 <template>
   <AppLayout>
-    <div class="mb-6 flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-gray-900">Membresías - Submódulos</h1>
-      <AppButton @click="showModal = true">+ Nueva asociación</AppButton>
+    <div class="d-flex align-center justify-space-between mb-6">
+      <h1 class="text-h4 font-weight-bold">Membresías - Submódulos</h1>
+      <v-btn color="primary" prepend-icon="mdi-plus" @click="showModal = true">
+        Nueva asociación
+      </v-btn>
     </div>
 
     <AppTable
@@ -44,34 +45,36 @@ async function handleDelete(id: number) {
       :loading="loading"
       :empty="membershipSubModules.length === 0"
     >
-      <tr
-        v-for="m in membershipSubModules"
-        :key="m.id"
-        class="border-t border-gray-100 hover:bg-gray-50"
-      >
-        <td class="px-4 py-3 text-sm text-gray-900">{{ m.membershipId }}</td>
-        <td class="px-4 py-3 text-sm text-gray-900">{{ m.subModuleId }}</td>
-        <td class="px-4 py-3 text-xs text-gray-500">{{ m.createdDate }}</td>
-        <td class="px-4 py-3">
-          <div class="flex gap-2">
-            <RouterLink
+      <tr v-for="m in membershipSubModules" :key="m.id">
+        <td>{{ m.membershipId }}</td>
+        <td>{{ m.subModuleId }}</td>
+        <td class="text-caption text-medium-emphasis">{{ m.createdDate }}</td>
+        <td>
+          <div class="d-flex ga-1">
+            <v-btn
               :to="`/membresias-submodulos/${m.id}`"
-              class="text-xs text-indigo-600 hover:underline"
-            >
-              Editar
-            </RouterLink>
-            <button
-              class="text-xs text-red-500 hover:underline"
+              size="small"
+              variant="text"
+              color="primary"
+              icon="mdi-pencil"
+            />
+            <v-btn
+              size="small"
+              variant="text"
+              color="error"
+              icon="mdi-delete"
               @click="handleDelete(m.id)"
-            >
-              Eliminar
-            </button>
+            />
           </div>
         </td>
       </tr>
     </AppTable>
 
-    <AppModal :open="showModal" title="Nueva asociación membresía-submódulo" @close="showModal = false">
+    <AppModal
+      :open="showModal"
+      title="Nueva asociación membresía-submódulo"
+      @close="showModal = false"
+    >
       <MembershipSubModuleForm
         :loading="formLoading"
         @submit="handleCreate"

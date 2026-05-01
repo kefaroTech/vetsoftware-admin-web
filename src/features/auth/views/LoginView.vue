@@ -2,23 +2,18 @@
 import { ref } from 'vue'
 import { useAuth } from '../composables/useAuth'
 import { useNotification } from '@/composables/useNotification'
-import AppButton from '@/components/ui/AppButton.vue'
-import AppInput from '@/components/ui/AppInput.vue'
-import AppToast from '@/components/feedback/AppToast.vue'
 
 const { login } = useAuth()
 const { notify } = useNotification()
 
 const form = ref({ code: '', password: '' })
 const loading = ref(false)
-const errors = ref({ code: '', password: '' })
+const formValid = ref(false)
+
+const requiredRule = (v: string) => !!v || 'Campo requerido'
 
 async function handleSubmit() {
-  errors.value = { code: '', password: '' }
-  if (!form.value.code) errors.value.code = 'Campo requerido'
-  if (!form.value.password) errors.value.password = 'Campo requerido'
-  if (errors.value.code || errors.value.password) return
-
+  if (!formValid.value) return
   loading.value = true
   try {
     await login(form.value)
@@ -31,28 +26,48 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-gray-50">
-    <div class="w-full max-w-sm rounded-xl bg-white p-8 shadow-md">
-      <h1 class="mb-1 text-2xl font-bold text-gray-900">VetSoftware</h1>
-      <p class="mb-6 text-sm text-gray-500">Panel de administración</p>
+  <v-main class="bg-background">
+    <v-container class="fill-height" fluid>
+      <v-row align="center" justify="center">
+        <v-col cols="12" sm="8" md="5" lg="4">
+          <v-card rounded="xl" elevation="3" class="pa-2">
+            <v-card-text class="pa-6">
+              <h1 class="text-h5 font-weight-bold text-primary mb-1">VetSoftware</h1>
+              <p class="text-body-2 text-medium-emphasis mb-6">Panel de administración</p>
 
-      <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
-        <AppInput
-          v-model="form.code"
-          label="Código de usuario"
-          placeholder="SYS001"
-          :error="errors.code"
-        />
-        <AppInput
-          v-model="form.password"
-          label="Contraseña"
-          type="password"
-          placeholder="••••••••"
-          :error="errors.password"
-        />
-        <AppButton type="submit" :loading="loading" class="w-full">Ingresar</AppButton>
-      </form>
-    </div>
-    <AppToast />
-  </div>
+              <v-form v-model="formValid" @submit.prevent="handleSubmit">
+                <v-text-field
+                  v-model="form.code"
+                  label="Código de usuario"
+                  placeholder="SYS001"
+                  prepend-inner-icon="mdi-account"
+                  :rules="[requiredRule]"
+                  class="mb-2"
+                />
+                <v-text-field
+                  v-model="form.password"
+                  label="Contraseña"
+                  type="password"
+                  placeholder="••••••••"
+                  prepend-inner-icon="mdi-lock"
+                  :rules="[requiredRule]"
+                  class="mb-4"
+                />
+                <v-btn
+                  type="submit"
+                  color="primary"
+                  variant="elevated"
+                  :loading="loading"
+                  block
+                  size="large"
+                >
+                  Ingresar
+                </v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-main>
 </template>
