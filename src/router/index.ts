@@ -3,12 +3,10 @@ import { authGuard } from './guards/auth.guard'
 import { permissionGuard } from './guards/permission.guard'
 import { authRoutes } from './routes/auth.routes'
 import { companiesRoutes } from './routes/companies.routes'
-import { employeesRoutes } from './routes/employees.routes'
 import { membershipsRoutes } from './routes/memberships.routes'
 import { modulesRoutes } from './routes/modules.routes'
 import { submodulesRoutes } from './routes/submodules.routes'
 import { basePermissionsRoutes } from './routes/base-permissions.routes'
-import { permissionsRoutes } from './routes/permissions.routes'
 import { baseRolesRoutes } from './routes/base-roles.routes'
 import { baseRolePermissionsRoutes } from './routes/base-role-permissions.routes'
 import { membershipSubModulesRoutes } from './routes/membership-sub-modules.routes'
@@ -28,12 +26,10 @@ const router = createRouter({
     },
     ...authRoutes,
     ...companiesRoutes,
-    ...employeesRoutes,
     ...membershipsRoutes,
     ...modulesRoutes,
     ...submodulesRoutes,
     ...basePermissionsRoutes,
-    ...permissionsRoutes,
     ...baseRolesRoutes,
     ...baseRolePermissionsRoutes,
     ...membershipSubModulesRoutes,
