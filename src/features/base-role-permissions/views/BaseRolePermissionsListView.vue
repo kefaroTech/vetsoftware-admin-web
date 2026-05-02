@@ -41,13 +41,13 @@ async function handleDelete(id: number) {
     </div>
 
     <AppTable
-      :headers="['Rol base ID', 'Permiso base ID', 'Fecha creación', 'Acciones']"
+      :headers="['Rol base', 'Permiso base', 'Fecha creación', 'Acciones']"
       :loading="loading"
       :empty="baseRolePermissions.length === 0"
     >
       <tr v-for="p in baseRolePermissions" :key="p.id">
-        <td>{{ p.baseRoleId }}</td>
-        <td>{{ p.basePermissionId }}</td>
+        <td>{{ p.baseRole?.name ?? '—' }}</td>
+        <td>{{ p.basePermission?.name ?? '—' }}</td>
         <td class="text-caption text-medium-emphasis">{{ p.createdDate }}</td>
         <td>
           <div class="d-flex ga-1">

@@ -14,7 +14,14 @@
       "Bash(Get-ChildItem *)",
       "Bash(not exist *)",
       "Bash(npm run *)",
-      "Bash(npx vite *)"
+      "Bash(npx vite *)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(curl -s http://localhost:8080/v3/api-docs)",
+      "Bash(curl -s -X POST http://localhost:8080/api/v1/auth/login/system -H \"Content-Type: application/json\" -d '{\"code\":\"admin\",\"password\":\"admin\"}')",
+      "Bash(curl -s -i -X POST http://localhost:5173/api/v1/auth/login/system -H \"Content-Type: application/json\" -d '{\"code\":\"badcode\",\"password\":\"badpass\"}')",
+      "Bash(curl -s -i -X OPTIONS http://localhost:8080/api/v1/auth/login/system -H \"Origin: http://localhost:5173\" -H \"Access-Control-Request-Method: POST\" -H \"Access-Control-Request-Headers: Content-Type\")",
+      "Bash(./mvnw -q compile -DskipTests)",
+      "Bash(mvn -v)"
     ]
   }
 }

@@ -1,8 +1,14 @@
+export interface BasePermissionSubModuleSummary {
+  id: number
+  name: string
+  code: string
+}
+
 export interface BasePermission {
   id: number
   name: string
   code: string
-  subModuleId: number
+  subModule: BasePermissionSubModuleSummary
   createdDate: string
 }
 

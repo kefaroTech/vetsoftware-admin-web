@@ -49,8 +49,8 @@ watch(
       form.value = {
         name: val.name,
         code: val.code,
-        companyId: val.companyId,
-        subModuleId: val.subModuleId,
+        companyId: val.company?.id ?? 0,
+        subModuleId: val.subModule?.id ?? 0,
       }
     }
   },

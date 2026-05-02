@@ -41,13 +41,13 @@ async function handleDelete(id: number) {
     </div>
 
     <AppTable
-      :headers="['Membresía ID', 'Submódulo ID', 'Fecha creación', 'Acciones']"
+      :headers="['Membresía', 'Submódulo', 'Fecha creación', 'Acciones']"
       :loading="loading"
       :empty="membershipSubModules.length === 0"
     >
       <tr v-for="m in membershipSubModules" :key="m.id">
-        <td>{{ m.membershipId }}</td>
-        <td>{{ m.subModuleId }}</td>
+        <td>{{ m.membership?.name ?? '—' }}</td>
+        <td>{{ m.subModule?.name ?? '—' }}</td>
         <td class="text-caption text-medium-emphasis">{{ m.createdDate }}</td>
         <td>
           <div class="d-flex ga-1">

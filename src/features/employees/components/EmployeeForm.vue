@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, computed } from 'vue'
 import { companiesApi } from '@/features/companies/api/companies.api'
+import { useAuthStore } from '@/features/auth/stores/auth.store'
 import type { Company } from '@/features/companies/types/companies.types'
 import type {
   Employee,
   CreateEmployeeCommand,
   UpdateEmployeeCommand,
 } from '../types/employees.types'
+import type { EmployeeStatus } from '@/types/common.types'
 
 const props = defineProps<{
   initial?: Employee | null
@@ -20,6 +22,7 @@ const emit = defineEmits<{
 }>()
 
 const isEdit = computed(() => props.mode === 'edit' || !!props.initial)
+const authStore = useAuthStore()
 
 const form = ref({
   employeeCode: '',
@@ -27,7 +30,7 @@ const form = ref({
   email: '',
   password: '',
   companyId: 0,
-  status: 'ACTIVE' as 'ACTIVE' | 'INACTIVE',
+  status: 'ACTIVE' as EmployeeStatus,
 })
 
 const formValid = ref(false)
@@ -59,7 +62,7 @@ watch(
         name: val.name,
         email: val.email,
         password: '',
-        companyId: val.companyId,
+        companyId: val.company?.id ?? 0,
         status: val.status,
       }
     }
@@ -70,14 +73,21 @@ watch(
 function submit() {
   if (!formValid.value) return
   if (isEdit.value) {
-    emit('submit', { name: form.value.name, email: form.value.email, status: form.value.status })
-  } else {
     emit('submit', {
       employeeCode: form.value.employeeCode,
       name: form.value.name,
       email: form.value.email,
+      status: form.value.status,
+    })
+  } else {
+    emit('submit', {
+      employeeCode: form.value.employeeCode,
       password: form.value.password,
+      name: form.value.name,
+      email: form.value.email,
+      status: form.value.status,
       companyId: form.value.companyId,
+      createdBy: authStore.userId ?? 0,
     })
   }
 }

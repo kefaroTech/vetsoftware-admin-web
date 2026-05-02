@@ -46,7 +46,7 @@ onMounted(async () => {
 watch(
   () => props.initial,
   (val) => {
-    if (val) form.value = { baseRoleId: val.baseRoleId, basePermissionId: val.basePermissionId }
+    if (val) form.value = { baseRoleId: val.baseRole?.id ?? 0, basePermissionId: val.basePermission?.id ?? 0 }
   },
   { immediate: true },
 )

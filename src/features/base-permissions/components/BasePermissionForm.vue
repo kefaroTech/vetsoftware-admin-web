@@ -35,7 +35,7 @@ onMounted(async () => {
 watch(
   () => props.initial,
   (val) => {
-    if (val) form.value = { name: val.name, code: val.code, subModuleId: val.subModuleId }
+    if (val) form.value = { name: val.name, code: val.code, subModuleId: val.subModule?.id ?? 0 }
   },
   { immediate: true },
 )

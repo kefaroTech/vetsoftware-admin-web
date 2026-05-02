@@ -1,7 +1,19 @@
+export interface BaseRoleSummary {
+  id: number
+  name: string
+  code: string
+}
+
+export interface BasePermissionSummary {
+  id: number
+  name: string
+  code: string
+}
+
 export interface BaseRolePermission {
   id: number
-  baseRoleId: number
-  basePermissionId: number
+  baseRole: BaseRoleSummary
+  basePermission: BasePermissionSummary
   createdDate: string
 }
 

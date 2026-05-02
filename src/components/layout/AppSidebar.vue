@@ -29,7 +29,7 @@ const navItems = [
         :to="item.path"
         :prepend-icon="item.icon"
         :title="item.label"
-        active-color="primary"
+        color="primary"
         rounded="lg"
       />
     </v-list>

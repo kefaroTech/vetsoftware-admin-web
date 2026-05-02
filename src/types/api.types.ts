@@ -11,8 +11,18 @@ export interface PagedResponse<T> {
   size: number
 }
 
-export interface ApiError {
+export interface ProblemDetailFieldError {
+  field: string
   message: string
+}
+
+export interface ProblemDetail {
+  type?: string
+  title: string
   status: number
-  timestamp: string
+  detail: string
+  instance?: string
+  code: string
+  traceId?: string
+  errors?: ProblemDetailFieldError[]
 }

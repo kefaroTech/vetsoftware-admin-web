@@ -1,7 +1,18 @@
+export interface MembershipSummary {
+  id: number
+  name: string
+}
+
+export interface MembershipSubModuleSubModuleSummary {
+  id: number
+  name: string
+  code: string
+}
+
 export interface MembershipSubModule {
   id: number
-  membershipId: number
-  subModuleId: number
+  membership: MembershipSummary
+  subModule: MembershipSubModuleSubModuleSummary
   createdDate: string
 }
 
