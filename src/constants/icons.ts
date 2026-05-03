@@ -1,12 +1,13 @@
 export const ICONS = {
   DASHBOARD: 'tabler:layout-dashboard',
   COMPANY: 'tabler:building',
-  MEMBERSHIP: 'tabler:id-badge-2',
+  EMPLOYEE: 'tabler:users',
+  MEMBERSHIP: 'tabler:ticket',
   MEMBERSHIP_SUBMODULE: 'tabler:transform',
   MODULE: 'tabler:apps',
   SUBMODULE: 'tabler:components',
   BASE_PERMISSION: 'tabler:key',
-  BASE_ROLE: 'tabler:shield-lock',
+  BASE_ROLE: 'tabler:shield',
   BASE_ROLE_PERMISSION: 'tabler:shield-check',
 
   ADD: 'tabler:plus',
@@ -18,6 +19,12 @@ export const ICONS = {
 
   USER: 'tabler:user',
   LOCK: 'tabler:lock',
+
+  SEARCH: 'tabler:search',
+  BELL: 'tabler:bell',
+  PAW: 'tabler:paw',
+  ARROW_RIGHT: 'tabler:arrow-right',
+  ARROW_UP_RIGHT: 'tabler:arrow-up-right',
 
   CHEVRON_LEFT: 'tabler:chevron-left',
   CHEVRON_RIGHT: 'tabler:chevron-right',

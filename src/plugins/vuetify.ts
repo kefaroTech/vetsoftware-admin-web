@@ -13,10 +13,10 @@ const iconify: IconSet = {
 const customTheme = {
   dark: false,
   colors: {
-    background: '#F9FAFB',
-    surface: '#FFFFFF',
-    primary: '#4F46E5',
-    secondary: '#6B7280',
+    background: '#fbfaff',
+    surface: '#ffffff',
+    primary: '#7e22ce',
+    secondary: '#6b5b80',
     success: '#10B981',
     error: '#EF4444',
     warning: '#F59E0B',
