@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ICONS } from '@/constants/icons'
+
 defineProps<{
   page: number
   totalPages: number
@@ -22,7 +24,7 @@ defineEmits<{
         variant="outlined"
         size="small"
         :disabled="!hasPrev"
-        prepend-icon="mdi-chevron-left"
+        :prepend-icon="ICONS.CHEVRON_LEFT"
         @click="$emit('prev')"
       >
         Anterior
@@ -31,7 +33,7 @@ defineEmits<{
         variant="outlined"
         size="small"
         :disabled="!hasNext"
-        append-icon="mdi-chevron-right"
+        :append-icon="ICONS.CHEVRON_RIGHT"
         @click="$emit('next')"
       >
         Siguiente

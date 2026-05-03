@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import AppLayout from '@/components/layout/AppLayout.vue'
+import { ICONS } from '@/constants/icons'
 
 const modules = [
-  { name: 'Empresas', path: '/empresas', icon: 'mdi-domain', color: 'blue' },
-  { name: 'Empleados', path: '/empleados', icon: 'mdi-account-group', color: 'green' },
-  { name: 'Membresías', path: '/membresias', icon: 'mdi-card-account-details', color: 'purple' },
-  { name: 'Módulos', path: '/modulos', icon: 'mdi-view-module', color: 'orange' },
-  { name: 'Submódulos', path: '/submodulos', icon: 'mdi-view-grid', color: 'teal' },
-  { name: 'Permisos', path: '/permisos', icon: 'mdi-key-variant', color: 'indigo' },
-  { name: 'Permisos base', path: '/permisos-base', icon: 'mdi-key', color: 'cyan' },
-  { name: 'Roles base', path: '/roles-base', icon: 'mdi-shield-account', color: 'pink' },
+  { name: 'Empresas', path: '/empresas', icon: ICONS.COMPANY, color: 'blue' },
+  { name: 'Empleados', path: '/empleados', icon: 'tabler:users-group', color: 'green' },
+  { name: 'Membresías', path: '/membresias', icon: ICONS.MEMBERSHIP, color: 'purple' },
+  { name: 'Módulos', path: '/modulos', icon: ICONS.MODULE, color: 'orange' },
+  { name: 'Submódulos', path: '/submodulos', icon: ICONS.SUBMODULE, color: 'teal' },
+  { name: 'Permisos', path: '/permisos', icon: 'tabler:key-variant', color: 'indigo' },
+  { name: 'Permisos base', path: '/permisos-base', icon: ICONS.BASE_PERMISSION, color: 'cyan' },
+  { name: 'Roles base', path: '/roles-base', icon: ICONS.BASE_ROLE, color: 'pink' },
 ]
 </script>
 

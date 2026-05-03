@@ -1,7 +1,14 @@
 import 'vuetify/styles'
-import '@mdi/font/css/materialdesignicons.css'
-import { createVuetify } from 'vuetify'
-import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import { h } from 'vue'
+import { createVuetify, type IconSet, type IconProps } from 'vuetify'
+import { Icon, addCollection } from '@iconify/vue'
+import tablerCollection from '@iconify-json/tabler/icons.json'
+
+addCollection(tablerCollection as Parameters<typeof addCollection>[0])
+
+const iconify: IconSet = {
+  component: (props: IconProps) => h(Icon, { icon: props.icon as string }),
+}
 
 const customTheme = {
   dark: false,
@@ -23,9 +30,8 @@ export default createVuetify({
     themes: { customTheme },
   },
   icons: {
-    defaultSet: 'mdi',
-    aliases,
-    sets: { mdi },
+    defaultSet: 'iconify',
+    sets: { iconify },
   },
   defaults: {
     VBtn: { variant: 'elevated', density: 'default' },

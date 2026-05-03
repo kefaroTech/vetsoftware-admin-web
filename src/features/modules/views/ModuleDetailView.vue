@@ -6,6 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import AppSpinner from '@/components/feedback/AppSpinner.vue'
 import ModuleForm from '../components/ModuleForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
+import { ICONS } from '@/constants/icons'
 import type { CreateModuleCommand } from '../types/modules.types'
 
 const props = defineProps<{ id: string }>()
@@ -29,7 +30,7 @@ async function handleSave(data: CreateModuleCommand) {
 <template>
   <AppLayout>
     <div class="d-flex align-center ga-3 mb-6">
-      <v-btn variant="text" prepend-icon="mdi-arrow-left" @click="router.back()">Volver</v-btn>
+      <v-btn variant="text" :prepend-icon="ICONS.BACK" @click="router.back()">Volver</v-btn>
       <h1 class="text-h4 font-weight-bold">Editar módulo</h1>
     </div>
 

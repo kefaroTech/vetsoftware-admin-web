@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { ICONS } from '@/constants/icons'
 
 const props = defineProps<{
   open: boolean
@@ -24,7 +25,7 @@ const dialogModel = computed({
     <v-card rounded="lg">
       <v-card-title class="d-flex align-center justify-space-between pa-4">
         <span class="text-h6">{{ title }}</span>
-        <v-btn icon="mdi-close" variant="text" size="small" @click="emit('close')" />
+        <v-btn :icon="ICONS.CLOSE" variant="text" size="small" @click="emit('close')" />
       </v-card-title>
       <v-divider />
       <v-card-text class="pa-4">

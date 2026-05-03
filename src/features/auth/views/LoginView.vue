@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useAuth } from '../composables/useAuth'
 import { useNotification } from '@/composables/useNotification'
+import { ICONS } from '@/constants/icons'
 
 const { login } = useAuth()
 const { notify } = useNotification()
@@ -40,7 +41,7 @@ async function handleSubmit() {
                   v-model="form.code"
                   label="Código de usuario"
                   placeholder="SYS001"
-                  prepend-inner-icon="mdi-account"
+                  :prepend-inner-icon="ICONS.USER"
                   :rules="[requiredRule]"
                   class="mb-2"
                 />
@@ -49,7 +50,7 @@ async function handleSubmit() {
                   label="Contraseña"
                   type="password"
                   placeholder="••••••••"
-                  prepend-inner-icon="mdi-lock"
+                  :prepend-inner-icon="ICONS.LOCK"
                   :rules="[requiredRule]"
                   class="mb-4"
                 />

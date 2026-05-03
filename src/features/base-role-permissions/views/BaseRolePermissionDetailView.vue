@@ -6,6 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import AppSpinner from '@/components/feedback/AppSpinner.vue'
 import BaseRolePermissionForm from '../components/BaseRolePermissionForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
+import { ICONS } from '@/constants/icons'
 import type { CreateBaseRolePermissionCommand } from '../types/base-role-permissions.types'
 
 const props = defineProps<{ id: string }>()
@@ -29,7 +30,7 @@ async function handleSave(data: CreateBaseRolePermissionCommand) {
 <template>
   <AppLayout>
     <div class="d-flex align-center ga-3 mb-6">
-      <v-btn variant="text" prepend-icon="mdi-arrow-left" @click="router.back()">Volver</v-btn>
+      <v-btn variant="text" :prepend-icon="ICONS.BACK" @click="router.back()">Volver</v-btn>
       <h1 class="text-h4 font-weight-bold">Editar asociación rol-permiso</h1>
     </div>
 

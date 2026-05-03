@@ -21,7 +21,8 @@
       "Bash(curl -s -i -X POST http://localhost:5173/api/v1/auth/login/system -H \"Content-Type: application/json\" -d '{\"code\":\"badcode\",\"password\":\"badpass\"}')",
       "Bash(curl -s -i -X OPTIONS http://localhost:8080/api/v1/auth/login/system -H \"Origin: http://localhost:5173\" -H \"Access-Control-Request-Method: POST\" -H \"Access-Control-Request-Headers: Content-Type\")",
       "Bash(./mvnw -q compile -DskipTests)",
-      "Bash(mvn -v)"
+      "Bash(mvn -v)",
+      "Bash(Select-Object -First 20)"
     ]
   }
 }

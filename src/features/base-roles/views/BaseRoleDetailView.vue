@@ -6,6 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import AppSpinner from '@/components/feedback/AppSpinner.vue'
 import BaseRoleForm from '../components/BaseRoleForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
+import { ICONS } from '@/constants/icons'
 import type { CreateBaseRoleCommand } from '../types/base-roles.types'
 
 const props = defineProps<{ id: string }>()
@@ -29,7 +30,7 @@ async function handleSave(data: CreateBaseRoleCommand) {
 <template>
   <AppLayout>
     <div class="d-flex align-center ga-3 mb-6">
-      <v-btn variant="text" prepend-icon="mdi-arrow-left" @click="router.back()">Volver</v-btn>
+      <v-btn variant="text" :prepend-icon="ICONS.BACK" @click="router.back()">Volver</v-btn>
       <h1 class="text-h4 font-weight-bold">Editar rol base</h1>
     </div>
 

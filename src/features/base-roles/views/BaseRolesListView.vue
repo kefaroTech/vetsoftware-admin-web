@@ -6,6 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import BaseRoleForm from '../components/BaseRoleForm.vue'
+import { ICONS } from '@/constants/icons'
 import type { CreateBaseRoleCommand } from '../types/base-roles.types'
 
 const { baseRoles, loading, fetchAll, create, remove } = useBaseRoles()
@@ -35,7 +36,7 @@ async function handleDelete(id: number, name: string) {
   <AppLayout>
     <div class="d-flex align-center justify-space-between mb-6">
       <h1 class="text-h4 font-weight-bold">Roles base</h1>
-      <v-btn color="primary" prepend-icon="mdi-plus" @click="showModal = true">
+      <v-btn color="primary" :prepend-icon="ICONS.ADD" @click="showModal = true">
         Nuevo rol base
       </v-btn>
     </div>
@@ -50,7 +51,7 @@ async function handleDelete(id: number, name: string) {
         <td class="text-body-2 font-mono">{{ r.code }}</td>
         <td>
           <v-icon
-            :icon="r.mandatory ? 'mdi-check-circle' : 'mdi-circle-outline'"
+            :icon="r.mandatory ? ICONS.CHECKED : ICONS.UNCHECKED"
             :color="r.mandatory ? 'success' : 'grey-lighten-1'"
             size="small"
           />
@@ -63,13 +64,13 @@ async function handleDelete(id: number, name: string) {
               size="small"
               variant="text"
               color="primary"
-              icon="mdi-pencil"
+              :icon="ICONS.EDIT"
             />
             <v-btn
               size="small"
               variant="text"
               color="error"
-              icon="mdi-delete"
+              :icon="ICONS.DELETE"
               @click="handleDelete(r.id, r.name)"
             />
           </div>

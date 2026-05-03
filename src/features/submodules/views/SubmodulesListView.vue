@@ -6,6 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import SubmoduleForm from '../components/SubmoduleForm.vue'
+import { ICONS } from '@/constants/icons'
 import type { CreateSubmoduleCommand } from '../types/submodules.types'
 
 const { submodules, loading, fetchAll, create, remove } = useSubmodules()
@@ -35,7 +36,7 @@ async function handleDelete(id: number, name: string) {
   <AppLayout>
     <div class="d-flex align-center justify-space-between mb-6">
       <h1 class="text-h4 font-weight-bold">Submódulos</h1>
-      <v-btn color="primary" prepend-icon="mdi-plus" @click="showModal = true">
+      <v-btn color="primary" :prepend-icon="ICONS.ADD" @click="showModal = true">
         Nuevo submódulo
       </v-btn>
     </div>
@@ -57,13 +58,13 @@ async function handleDelete(id: number, name: string) {
               size="small"
               variant="text"
               color="primary"
-              icon="mdi-pencil"
+              :icon="ICONS.EDIT"
             />
             <v-btn
               size="small"
               variant="text"
               color="error"
-              icon="mdi-delete"
+              :icon="ICONS.DELETE"
               @click="handleDelete(s.id, s.name)"
             />
           </div>

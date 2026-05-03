@@ -7,6 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import MembershipStatusBadge from '../components/MembershipStatusBadge.vue'
 import MembershipForm from '../components/MembershipForm.vue'
+import { ICONS } from '@/constants/icons'
 import type { CreateMembershipCommand } from '../types/memberships.types'
 
 const { memberships, loading, fetchAll, create, remove } = useMemberships()
@@ -36,7 +37,7 @@ async function handleDelete(id: number, name: string) {
   <AppLayout>
     <div class="d-flex align-center justify-space-between mb-6">
       <h1 class="text-h4 font-weight-bold">Membresías</h1>
-      <v-btn color="primary" prepend-icon="mdi-plus" @click="showModal = true">
+      <v-btn color="primary" :prepend-icon="ICONS.ADD" @click="showModal = true">
         Nueva membresía
       </v-btn>
     </div>
@@ -57,13 +58,13 @@ async function handleDelete(id: number, name: string) {
               size="small"
               variant="text"
               color="primary"
-              icon="mdi-pencil"
+              :icon="ICONS.EDIT"
             />
             <v-btn
               size="small"
               variant="text"
               color="error"
-              icon="mdi-delete"
+              :icon="ICONS.DELETE"
               @click="handleDelete(m.id, m.name)"
             />
           </div>

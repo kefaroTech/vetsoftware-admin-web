@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useNotification } from '@/composables/useNotification'
+import { ICONS } from '@/constants/icons'
 
 const { notifications, dismiss } = useNotification()
 
@@ -12,10 +13,10 @@ function colorFor(type: string) {
 }
 
 function iconFor(type: string) {
-  if (type === 'success') return 'mdi-check-circle'
-  if (type === 'error') return 'mdi-alert-circle'
-  if (type === 'warning') return 'mdi-alert'
-  return 'mdi-information'
+  if (type === 'success') return ICONS.SUCCESS
+  if (type === 'error') return ICONS.ERROR
+  if (type === 'warning') return ICONS.WARNING
+  return ICONS.INFO
 }
 
 const items = computed(() => notifications.value)
@@ -37,7 +38,7 @@ const items = computed(() => notifications.value)
         <span>{{ n.message }}</span>
       </div>
       <template #actions>
-        <v-btn icon="mdi-close" variant="text" size="small" @click="dismiss(n.id)" />
+        <v-btn :icon="ICONS.CLOSE" variant="text" size="small" @click="dismiss(n.id)" />
       </template>
     </v-snackbar>
   </div>
