@@ -9,21 +9,15 @@ import BaseRolePermissionForm from '../components/BaseRolePermissionForm.vue'
 import { ICONS } from '@/constants/icons'
 import type { CreateBaseRolePermissionCommand } from '../types/base-role-permissions.types'
 
-const { baseRolePermissions, loading, fetchAll, create, remove } = useBaseRolePermissions()
+const { baseRolePermissions, fetchAll, create, remove } = useBaseRolePermissions()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
-const formLoading = ref(false)
 
 onMounted(fetchAll)
 
 async function handleCreate(data: CreateBaseRolePermissionCommand) {
-  formLoading.value = true
-  try {
-    await create(data)
-    showModal.value = false
-  } finally {
-    formLoading.value = false
-  }
+  await create(data)
+  showModal.value = false
 }
 
 async function handleDelete(id: number) {
@@ -43,7 +37,6 @@ async function handleDelete(id: number) {
 
     <AppTable
       :headers="['Rol base', 'Permiso base', 'Fecha creación', 'Acciones']"
-      :loading="loading"
       :empty="baseRolePermissions.length === 0"
     >
       <tr v-for="p in baseRolePermissions" :key="p.id">
@@ -72,11 +65,7 @@ async function handleDelete(id: number) {
     </AppTable>
 
     <AppModal :open="showModal" title="Nueva asociación rol-permiso" @close="showModal = false">
-      <BaseRolePermissionForm
-        :loading="formLoading"
-        @submit="handleCreate"
-        @cancel="showModal = false"
-      />
+      <BaseRolePermissionForm @submit="handleCreate" @cancel="showModal = false" />
     </AppModal>
   </AppLayout>
 </template>

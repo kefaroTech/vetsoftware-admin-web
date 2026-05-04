@@ -9,21 +9,15 @@ import SubmoduleForm from '../components/SubmoduleForm.vue'
 import { ICONS } from '@/constants/icons'
 import type { CreateSubmoduleCommand } from '../types/submodules.types'
 
-const { submodules, loading, fetchAll, create, remove } = useSubmodules()
+const { submodules, fetchAll, create, remove } = useSubmodules()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
-const formLoading = ref(false)
 
 onMounted(fetchAll)
 
 async function handleCreate(data: CreateSubmoduleCommand) {
-  formLoading.value = true
-  try {
-    await create(data)
-    showModal.value = false
-  } finally {
-    formLoading.value = false
-  }
+  await create(data)
+  showModal.value = false
 }
 
 async function handleDelete(id: number, name: string) {
@@ -43,7 +37,6 @@ async function handleDelete(id: number, name: string) {
 
     <AppTable
       :headers="['Nombre', 'Código', 'Módulo', 'Fecha creación', 'Acciones']"
-      :loading="loading"
       :empty="submodules.length === 0"
     >
       <tr v-for="s in submodules" :key="s.id">
@@ -73,7 +66,7 @@ async function handleDelete(id: number, name: string) {
     </AppTable>
 
     <AppModal :open="showModal" title="Nuevo submódulo" @close="showModal = false">
-      <SubmoduleForm :loading="formLoading" @submit="handleCreate" @cancel="showModal = false" />
+      <SubmoduleForm @submit="handleCreate" @cancel="showModal = false" />
     </AppModal>
   </AppLayout>
 </template>

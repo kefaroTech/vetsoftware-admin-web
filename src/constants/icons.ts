@@ -10,6 +10,12 @@ export const ICONS = {
   BASE_ROLE: 'tabler:shield',
   BASE_ROLE_PERMISSION: 'tabler:shield-check',
 
+  ANIMAL_SETTINGS: 'tabler:dog',
+  SPECIES: 'tabler:cat',
+  BREED: 'tabler:fish',
+  COLOR: 'tabler:palette',
+  CHEVRON_DOWN: 'tabler:chevron-down',
+
   ADD: 'tabler:plus',
   EDIT: 'tabler:pencil',
   DELETE: 'tabler:trash',
@@ -19,6 +25,9 @@ export const ICONS = {
 
   USER: 'tabler:user',
   LOCK: 'tabler:lock',
+  MAIL: 'tabler:mail',
+  EYE: 'tabler:eye',
+  EYE_OFF: 'tabler:eye-off',
 
   SEARCH: 'tabler:search',
   BELL: 'tabler:bell',

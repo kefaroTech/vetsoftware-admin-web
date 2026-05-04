@@ -5,7 +5,6 @@ const props = defineProps<{
   variant?: 'primary' | 'secondary' | 'danger'
   type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
-  loading?: boolean
   block?: boolean
 }>()
 
@@ -24,7 +23,6 @@ const btnVariant = computed(() => (props.variant === 'secondary' ? 'outlined' : 
     :color="color"
     :variant="btnVariant"
     :disabled="disabled"
-    :loading="loading"
     :block="block"
   >
     <slot />

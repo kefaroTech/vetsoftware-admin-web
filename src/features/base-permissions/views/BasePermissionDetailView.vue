@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBasePermissions } from '../composables/useBasePermissions'
 import AppLayout from '@/components/layout/AppLayout.vue'
-import AppSpinner from '@/components/feedback/AppSpinner.vue'
 import BasePermissionForm from '../components/BasePermissionForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
@@ -11,19 +10,13 @@ import type { CreateBasePermissionCommand } from '../types/base-permissions.type
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
-const { selected, loading, fetchById, update } = useBasePermissions()
-const saving = ref(false)
+const { selected, fetchById, update } = useBasePermissions()
 
 onMounted(() => fetchById(Number(props.id)))
 
 async function handleSave(data: CreateBasePermissionCommand) {
-  saving.value = true
-  try {
-    await update(Number(props.id), data)
-    router.push({ name: ROUTE_NAMES.BASE_PERMISSIONS_LIST })
-  } finally {
-    saving.value = false
-  }
+  await update(Number(props.id), data)
+  router.push({ name: ROUTE_NAMES.BASE_PERMISSIONS_LIST })
 }
 </script>
 
@@ -34,14 +27,8 @@ async function handleSave(data: CreateBasePermissionCommand) {
       <h1 class="text-h4 font-weight-bold">Editar permiso base</h1>
     </div>
 
-    <AppSpinner v-if="loading" />
-    <v-card v-else-if="selected" max-width="640" class="pa-6">
-      <BasePermissionForm
-        :initial="selected"
-        :loading="saving"
-        @submit="handleSave"
-        @cancel="router.back()"
-      />
+    <v-card v-if="selected" max-width="640" class="pa-6">
+      <BasePermissionForm :initial="selected" @submit="handleSave" @cancel="router.back()" />
     </v-card>
   </AppLayout>
 </template>

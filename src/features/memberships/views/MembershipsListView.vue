@@ -10,21 +10,15 @@ import MembershipForm from '../components/MembershipForm.vue'
 import { ICONS } from '@/constants/icons'
 import type { CreateMembershipCommand } from '../types/memberships.types'
 
-const { memberships, loading, fetchAll, create, remove } = useMemberships()
+const { memberships, fetchAll, create, remove } = useMemberships()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
-const formLoading = ref(false)
 
 onMounted(fetchAll)
 
 async function handleCreate(data: CreateMembershipCommand) {
-  formLoading.value = true
-  try {
-    await create(data)
-    showModal.value = false
-  } finally {
-    formLoading.value = false
-  }
+  await create(data)
+  showModal.value = false
 }
 
 async function handleDelete(id: number, name: string) {
@@ -44,7 +38,6 @@ async function handleDelete(id: number, name: string) {
 
     <AppTable
       :headers="['Nombre', 'Estado', 'Fecha creación', 'Acciones']"
-      :loading="loading"
       :empty="memberships.length === 0"
     >
       <tr v-for="m in memberships" :key="m.id">
@@ -73,7 +66,7 @@ async function handleDelete(id: number, name: string) {
     </AppTable>
 
     <AppModal :open="showModal" title="Nueva membresía" @close="showModal = false">
-      <MembershipForm :loading="formLoading" @submit="handleCreate" @cancel="showModal = false" />
+      <MembershipForm @submit="handleCreate" @cancel="showModal = false" />
     </AppModal>
   </AppLayout>
 </template>

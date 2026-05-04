@@ -11,7 +11,6 @@ import type {
 
 const props = defineProps<{
   initial?: BaseRolePermission | null
-  loading?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -23,23 +22,17 @@ const form = ref<CreateBaseRolePermissionCommand>({ baseRoleId: 0, basePermissio
 const formValid = ref(false)
 const baseRoles = ref<BaseRole[]>([])
 const basePermissions = ref<BasePermission[]>([])
-const loadingData = ref(false)
 
 onMounted(async () => {
-  loadingData.value = true
-  try {
-    const [rolesRes, permsRes] = await Promise.all([
-      baseRolesApi.list(),
-      basePermissionsApi.list(),
-    ])
-    baseRoles.value = rolesRes.data
-    basePermissions.value = permsRes.data
-    if (!props.initial) {
-      if (rolesRes.data.length > 0) form.value.baseRoleId = rolesRes.data[0].id
-      if (permsRes.data.length > 0) form.value.basePermissionId = permsRes.data[0].id
-    }
-  } finally {
-    loadingData.value = false
+  const [rolesRes, permsRes] = await Promise.all([
+    baseRolesApi.list(),
+    basePermissionsApi.list(),
+  ])
+  baseRoles.value = rolesRes.data
+  basePermissions.value = permsRes.data
+  if (!props.initial) {
+    if (rolesRes.data.length > 0) form.value.baseRoleId = rolesRes.data[0].id
+    if (permsRes.data.length > 0) form.value.basePermissionId = permsRes.data[0].id
   }
 })
 
@@ -65,7 +58,6 @@ function submit() {
         :items="baseRoles"
         :item-title="(r: BaseRole) => `${r.name} (${r.code})`"
         item-value="id"
-        :loading="loadingData"
         :rules="[(v) => !!v || 'Campo requerido']"
       />
       <v-select
@@ -74,12 +66,11 @@ function submit() {
         :items="basePermissions"
         :item-title="(p: BasePermission) => `${p.name} (${p.code})`"
         item-value="id"
-        :loading="loadingData"
         :rules="[(v) => !!v || 'Campo requerido']"
       />
       <div class="d-flex justify-end ga-2 mt-2">
         <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-        <v-btn type="submit" color="primary" :loading="loading">
+        <v-btn type="submit" color="primary">
           {{ initial ? 'Guardar' : 'Crear' }}
         </v-btn>
       </div>

@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { Icon } from '@iconify/vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
 import { useAuth } from '@/features/auth/composables/useAuth'
 
 const { logout } = useAuth()
+const route = useRoute()
 
-type NavItem = {
+type NavLeaf = {
   name?: (typeof ROUTE_NAMES)[keyof typeof ROUTE_NAMES]
   label: string
   path: string
@@ -14,10 +17,20 @@ type NavItem = {
   count?: string
 }
 
+type NavParent = {
+  label: string
+  icon: string
+  children: NavLeaf[]
+}
+
+type NavItem = NavLeaf | NavParent
+
 type NavGroup = {
   title: string
   items: NavItem[]
 }
+
+const isParent = (item: NavItem): item is NavParent => 'children' in item
 
 const navGroups: NavGroup[] = [
   {
@@ -43,9 +56,29 @@ const navGroups: NavGroup[] = [
       { name: ROUTE_NAMES.BASE_PERMISSIONS_LIST, label: 'Permisos base', path: '/permisos-base', icon: ICONS.BASE_PERMISSION, count: '38' },
       { name: ROUTE_NAMES.BASE_ROLES_LIST, label: 'Roles base', path: '/roles-base', icon: ICONS.BASE_ROLE, count: '9' },
       { name: ROUTE_NAMES.BASE_ROLE_PERMISSIONS_LIST, label: 'Permisos de roles', path: '/permisos-roles-base', icon: ICONS.BASE_ROLE_PERMISSION },
+      {
+        label: 'Animales',
+        icon: ICONS.ANIMAL_SETTINGS,
+        children: [
+          { name: ROUTE_NAMES.SPECIES_LIST, label: 'Especies', path: '/animales/especies', icon: ICONS.SPECIES },
+          { name: ROUTE_NAMES.BREEDS_LIST, label: 'Razas', path: '/animales/razas', icon: ICONS.BREED },
+          { name: ROUTE_NAMES.ANIMAL_COLORS_LIST, label: 'Colores', path: '/animales/colores', icon: ICONS.COLOR },
+        ],
+      },
     ],
   },
 ]
+
+const expanded = ref<Record<string, boolean>>({})
+
+const isChildActive = (parent: NavParent) =>
+  parent.children.some((child) => route.path.startsWith(child.path))
+
+const isExpanded = (parent: NavParent) => expanded.value[parent.label] ?? isChildActive(parent)
+
+const toggle = (parent: NavParent) => {
+  expanded.value[parent.label] = !isExpanded(parent)
+}
 </script>
 
 <template>
@@ -64,17 +97,51 @@ const navGroups: NavGroup[] = [
       <div v-for="group in navGroups" :key="group.title" class="nav-group">
         <div class="nav-group-title">{{ group.title }}</div>
         <div class="nav-list">
-          <RouterLink
-            v-for="item in group.items"
-            :key="item.path"
-            :to="item.path"
-            class="nav-item"
-            active-class="is-active"
-          >
-            <Icon :icon="item.icon" width="15" height="15" class="nav-icon" />
-            <span class="nav-label">{{ item.label }}</span>
-            <span v-if="item.count" class="nav-count">{{ item.count }}</span>
-          </RouterLink>
+          <template v-for="item in group.items" :key="item.label">
+            <RouterLink
+              v-if="!isParent(item)"
+              :to="item.path"
+              class="nav-item"
+              active-class="is-active"
+            >
+              <Icon :icon="item.icon" width="15" height="15" class="nav-icon" />
+              <span class="nav-label">{{ item.label }}</span>
+              <span v-if="item.count" class="nav-count">{{ item.count }}</span>
+            </RouterLink>
+
+            <div v-else class="nav-parent">
+              <button
+                type="button"
+                class="nav-item nav-item-parent"
+                :class="{ 'is-active': isChildActive(item) }"
+                :aria-expanded="isExpanded(item)"
+                @click="toggle(item)"
+              >
+                <Icon :icon="item.icon" width="15" height="15" class="nav-icon" />
+                <span class="nav-label">{{ item.label }}</span>
+                <Icon
+                  :icon="ICONS.CHEVRON_DOWN"
+                  width="13"
+                  height="13"
+                  class="nav-chevron"
+                  :class="{ 'is-open': isExpanded(item) }"
+                />
+              </button>
+
+              <div v-show="isExpanded(item)" class="nav-sublist">
+                <RouterLink
+                  v-for="child in item.children"
+                  :key="child.path"
+                  :to="child.path"
+                  class="nav-item nav-subitem"
+                  active-class="is-active"
+                >
+                  <Icon :icon="child.icon" width="13" height="13" class="nav-icon" />
+                  <span class="nav-label">{{ child.label }}</span>
+                </RouterLink>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </nav>
@@ -219,6 +286,60 @@ const navGroups: NavGroup[] = [
 
 .nav-item.is-active .nav-count {
   color: #7e22ce;
+}
+
+.nav-parent {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-item-parent {
+  background: transparent;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+
+.nav-chevron {
+  color: #a89bbd;
+  transition: transform 0.18s ease;
+}
+
+.nav-chevron.is-open {
+  transform: rotate(180deg);
+  color: #7e22ce;
+}
+
+.nav-sublist {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 2px 0 4px 18px;
+  padding-left: 10px;
+  border-left: 1px solid #ece5f4;
+}
+
+.nav-subitem {
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b5b80;
+}
+
+.nav-subitem:hover {
+  color: #3d2e57;
+}
+
+.nav-subitem.is-active {
+  color: #1a1325;
+}
+
+.nav-subitem.is-active::before {
+  left: -11px;
+  top: 6px;
+  bottom: 6px;
 }
 
 .sidebar-footer {

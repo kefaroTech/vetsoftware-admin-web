@@ -6,7 +6,6 @@ import type { Submodule, CreateSubmoduleCommand } from '../types/submodules.type
 
 const props = defineProps<{
   initial?: Submodule | null
-  loading?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -17,19 +16,13 @@ const emit = defineEmits<{
 const form = ref<CreateSubmoduleCommand>({ name: '', code: '', moduleId: 0 })
 const formValid = ref(false)
 const availableModules = ref<AppModule[]>([])
-const loadingModules = ref(false)
 
 const requiredRule = (v: string) => !!v || 'Campo requerido'
 
 onMounted(async () => {
-  loadingModules.value = true
-  try {
-    const { data } = await modulesApi.list()
-    availableModules.value = data
-    if (!props.initial && data.length > 0) form.value.moduleId = data[0].id
-  } finally {
-    loadingModules.value = false
-  }
+  const { data } = await modulesApi.list()
+  availableModules.value = data
+  if (!props.initial && data.length > 0) form.value.moduleId = data[0].id
 })
 
 watch(
@@ -66,12 +59,11 @@ function submit() {
         :items="availableModules"
         :item-title="(m: AppModule) => `${m.name} (${m.code})`"
         item-value="id"
-        :loading="loadingModules"
         :rules="[(v) => !!v || 'Campo requerido']"
       />
       <div class="d-flex justify-end ga-2 mt-2">
         <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-        <v-btn type="submit" color="primary" :loading="loading">
+        <v-btn type="submit" color="primary">
           {{ initial ? 'Guardar' : 'Crear' }}
         </v-btn>
       </div>

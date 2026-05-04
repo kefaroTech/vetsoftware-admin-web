@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import { storageService } from '@/services/storage/storage.service'
+import { popLoader, pushLoader } from '@/composables/useGlobalLoader'
 import type { ProblemDetail } from '@/types/api.types'
 
 export const http = axios.create({
@@ -10,12 +11,17 @@ export const http = axios.create({
 http.interceptors.request.use((config) => {
   const token = storageService.getToken()
   if (token) config.headers.Authorization = `Bearer ${token}`
+  pushLoader()
   return config
 })
 
 http.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    popLoader()
+    return response
+  },
   (error: AxiosError<ProblemDetail>) => {
+    popLoader()
     if (error.response?.status === 401 && !error.config?.url?.includes('/auth/login')) {
       storageService.removeToken()
       window.location.href = '/login'

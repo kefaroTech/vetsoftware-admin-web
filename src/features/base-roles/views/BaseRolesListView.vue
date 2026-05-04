@@ -9,21 +9,15 @@ import BaseRoleForm from '../components/BaseRoleForm.vue'
 import { ICONS } from '@/constants/icons'
 import type { CreateBaseRoleCommand } from '../types/base-roles.types'
 
-const { baseRoles, loading, fetchAll, create, remove } = useBaseRoles()
+const { baseRoles, fetchAll, create, remove } = useBaseRoles()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
-const formLoading = ref(false)
 
 onMounted(fetchAll)
 
 async function handleCreate(data: CreateBaseRoleCommand) {
-  formLoading.value = true
-  try {
-    await create(data)
-    showModal.value = false
-  } finally {
-    formLoading.value = false
-  }
+  await create(data)
+  showModal.value = false
 }
 
 async function handleDelete(id: number, name: string) {
@@ -43,7 +37,6 @@ async function handleDelete(id: number, name: string) {
 
     <AppTable
       :headers="['Nombre', 'Código', 'Obligatorio', 'Fecha creación', 'Acciones']"
-      :loading="loading"
       :empty="baseRoles.length === 0"
     >
       <tr v-for="r in baseRoles" :key="r.id">
@@ -79,7 +72,7 @@ async function handleDelete(id: number, name: string) {
     </AppTable>
 
     <AppModal :open="showModal" title="Nuevo rol base" @close="showModal = false">
-      <BaseRoleForm :loading="formLoading" @submit="handleCreate" @cancel="showModal = false" />
+      <BaseRoleForm @submit="handleCreate" @cancel="showModal = false" />
     </AppModal>
   </AppLayout>
 </template>

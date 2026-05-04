@@ -9,21 +9,15 @@ import CompanyForm from '../components/CompanyForm.vue'
 import { ICONS } from '@/constants/icons'
 import type { CreateCompanyCommand } from '../types/companies.types'
 
-const { companies, loading, fetchAll, create, remove } = useCompanies()
+const { companies, fetchAll, create, remove } = useCompanies()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
-const formLoading = ref(false)
 
 onMounted(fetchAll)
 
 async function handleCreate(data: CreateCompanyCommand) {
-  formLoading.value = true
-  try {
-    await create(data)
-    showModal.value = false
-  } finally {
-    formLoading.value = false
-  }
+  await create(data)
+  showModal.value = false
 }
 
 async function handleDelete(id: number, name: string) {
@@ -43,7 +37,6 @@ async function handleDelete(id: number, name: string) {
 
     <AppTable
       :headers="['Nombre', 'Identificador', 'Teléfono', 'Fecha creación', 'Acciones']"
-      :loading="loading"
       :empty="companies.length === 0"
     >
       <tr v-for="company in companies" :key="company.id">
@@ -73,7 +66,7 @@ async function handleDelete(id: number, name: string) {
     </AppTable>
 
     <AppModal :open="showModal" title="Nueva empresa" @close="showModal = false">
-      <CompanyForm :loading="formLoading" @submit="handleCreate" @cancel="showModal = false" />
+      <CompanyForm @submit="handleCreate" @cancel="showModal = false" />
     </AppModal>
   </AppLayout>
 </template>

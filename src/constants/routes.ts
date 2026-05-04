@@ -17,4 +17,10 @@ export const ROUTE_NAMES = {
   BASE_ROLE_PERMISSION_DETAIL: 'base-role-permission-detail',
   MEMBERSHIP_SUB_MODULES_LIST: 'membership-sub-modules-list',
   MEMBERSHIP_SUB_MODULE_DETAIL: 'membership-sub-module-detail',
+  SPECIES_LIST: 'species-list',
+  SPECIE_DETAIL: 'specie-detail',
+  BREEDS_LIST: 'breeds-list',
+  BREED_DETAIL: 'breed-detail',
+  ANIMAL_COLORS_LIST: 'animal-colors-list',
+  ANIMAL_COLOR_DETAIL: 'animal-color-detail',
 } as const

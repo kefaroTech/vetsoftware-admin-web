@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { popLoader, pushLoader } from '@/composables/useGlobalLoader'
 import { authGuard } from './guards/auth.guard'
 import { permissionGuard } from './guards/permission.guard'
 import { authRoutes } from './routes/auth.routes'
@@ -10,6 +11,9 @@ import { basePermissionsRoutes } from './routes/base-permissions.routes'
 import { baseRolesRoutes } from './routes/base-roles.routes'
 import { baseRolePermissionsRoutes } from './routes/base-role-permissions.routes'
 import { membershipSubModulesRoutes } from './routes/membership-sub-modules.routes'
+import { speciesRoutes } from './routes/species.routes'
+import { breedsRoutes } from './routes/breeds.routes'
+import { animalColorsRoutes } from './routes/animal-colors.routes'
 import { ROUTE_NAMES } from '@/constants/routes'
 
 const router = createRouter({
@@ -33,10 +37,34 @@ const router = createRouter({
     ...baseRolesRoutes,
     ...baseRolePermissionsRoutes,
     ...membershipSubModulesRoutes,
+    ...speciesRoutes,
+    ...breedsRoutes,
+    ...animalColorsRoutes,
   ],
 })
 
+let navigating = false
+
+function startNavLoader() {
+  if (!navigating) {
+    navigating = true
+    pushLoader()
+  }
+}
+
+function endNavLoader() {
+  if (navigating) {
+    navigating = false
+    popLoader()
+  }
+}
+
+router.beforeEach((to, from) => {
+  if (to.fullPath !== from.fullPath) startNavLoader()
+})
 router.beforeEach(authGuard)
 router.beforeEach(permissionGuard)
+router.afterEach(endNavLoader)
+router.onError(endNavLoader)
 
 export default router

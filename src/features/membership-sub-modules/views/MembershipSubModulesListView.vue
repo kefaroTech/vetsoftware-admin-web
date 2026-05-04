@@ -9,21 +9,15 @@ import MembershipSubModuleForm from '../components/MembershipSubModuleForm.vue'
 import { ICONS } from '@/constants/icons'
 import type { CreateMembershipSubModuleCommand } from '../types/membership-sub-modules.types'
 
-const { membershipSubModules, loading, fetchAll, create, remove } = useMembershipSubModules()
+const { membershipSubModules, fetchAll, create, remove } = useMembershipSubModules()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
-const formLoading = ref(false)
 
 onMounted(fetchAll)
 
 async function handleCreate(data: CreateMembershipSubModuleCommand) {
-  formLoading.value = true
-  try {
-    await create(data)
-    showModal.value = false
-  } finally {
-    formLoading.value = false
-  }
+  await create(data)
+  showModal.value = false
 }
 
 async function handleDelete(id: number) {
@@ -43,7 +37,6 @@ async function handleDelete(id: number) {
 
     <AppTable
       :headers="['Membresía', 'Submódulo', 'Fecha creación', 'Acciones']"
-      :loading="loading"
       :empty="membershipSubModules.length === 0"
     >
       <tr v-for="m in membershipSubModules" :key="m.id">
@@ -76,11 +69,7 @@ async function handleDelete(id: number) {
       title="Nueva asociación membresía-submódulo"
       @close="showModal = false"
     >
-      <MembershipSubModuleForm
-        :loading="formLoading"
-        @submit="handleCreate"
-        @cancel="showModal = false"
-      />
+      <MembershipSubModuleForm @submit="handleCreate" @cancel="showModal = false" />
     </AppModal>
   </AppLayout>
 </template>

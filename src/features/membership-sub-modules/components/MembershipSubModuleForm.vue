@@ -11,7 +11,6 @@ import type {
 
 const props = defineProps<{
   initial?: MembershipSubModule | null
-  loading?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -23,23 +22,17 @@ const form = ref<CreateMembershipSubModuleCommand>({ membershipId: 0, subModuleI
 const formValid = ref(false)
 const memberships = ref<Membership[]>([])
 const submodules = ref<Submodule[]>([])
-const loadingData = ref(false)
 
 onMounted(async () => {
-  loadingData.value = true
-  try {
-    const [membershipsRes, submodulesRes] = await Promise.all([
-      membershipsApi.list(),
-      submodulesApi.list(),
-    ])
-    memberships.value = membershipsRes.data
-    submodules.value = submodulesRes.data
-    if (!props.initial) {
-      if (membershipsRes.data.length > 0) form.value.membershipId = membershipsRes.data[0].id
-      if (submodulesRes.data.length > 0) form.value.subModuleId = submodulesRes.data[0].id
-    }
-  } finally {
-    loadingData.value = false
+  const [membershipsRes, submodulesRes] = await Promise.all([
+    membershipsApi.list(),
+    submodulesApi.list(),
+  ])
+  memberships.value = membershipsRes.data
+  submodules.value = submodulesRes.data
+  if (!props.initial) {
+    if (membershipsRes.data.length > 0) form.value.membershipId = membershipsRes.data[0].id
+    if (submodulesRes.data.length > 0) form.value.subModuleId = submodulesRes.data[0].id
   }
 })
 
@@ -65,7 +58,6 @@ function submit() {
         :items="memberships"
         item-title="name"
         item-value="id"
-        :loading="loadingData"
         :rules="[(v) => !!v || 'Campo requerido']"
       />
       <v-select
@@ -74,12 +66,11 @@ function submit() {
         :items="submodules"
         :item-title="(s: Submodule) => `${s.name} (${s.code})`"
         item-value="id"
-        :loading="loadingData"
         :rules="[(v) => !!v || 'Campo requerido']"
       />
       <div class="d-flex justify-end ga-2 mt-2">
         <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-        <v-btn type="submit" color="primary" :loading="loading">
+        <v-btn type="submit" color="primary">
           {{ initial ? 'Guardar' : 'Crear' }}
         </v-btn>
       </div>

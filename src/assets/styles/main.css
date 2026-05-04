@@ -1,3 +1,10 @@
+:root {
+  --hue: 300;
+  --amatista-500: oklch(58% 0.18 var(--hue));
+  --amatista-600: oklch(50% 0.18 var(--hue));
+  --amatista-700: oklch(42% 0.16 var(--hue));
+}
+
 html,
 body,
 #app {

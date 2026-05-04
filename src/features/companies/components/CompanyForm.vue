@@ -4,7 +4,6 @@ import type { Company, CreateCompanyCommand } from '../types/companies.types'
 
 const props = defineProps<{
   initial?: Company | null
-  loading?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -70,7 +69,7 @@ function submit() {
       />
       <div class="d-flex justify-end ga-2 mt-2">
         <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-        <v-btn type="submit" color="primary" :loading="loading">
+        <v-btn type="submit" color="primary">
           {{ initial ? 'Guardar' : 'Crear' }}
         </v-btn>
       </div>

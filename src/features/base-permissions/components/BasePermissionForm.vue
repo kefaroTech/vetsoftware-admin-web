@@ -6,7 +6,6 @@ import type { BasePermission, CreateBasePermissionCommand } from '../types/base-
 
 const props = defineProps<{
   initial?: BasePermission | null
-  loading?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -17,19 +16,13 @@ const emit = defineEmits<{
 const form = ref<CreateBasePermissionCommand>({ name: '', code: '', subModuleId: 0 })
 const formValid = ref(false)
 const availableSubmodules = ref<Submodule[]>([])
-const loadingSubmodules = ref(false)
 
 const requiredRule = (v: string) => !!v || 'Campo requerido'
 
 onMounted(async () => {
-  loadingSubmodules.value = true
-  try {
-    const { data } = await submodulesApi.list()
-    availableSubmodules.value = data
-    if (!props.initial && data.length > 0) form.value.subModuleId = data[0].id
-  } finally {
-    loadingSubmodules.value = false
-  }
+  const { data } = await submodulesApi.list()
+  availableSubmodules.value = data
+  if (!props.initial && data.length > 0) form.value.subModuleId = data[0].id
 })
 
 watch(
@@ -66,12 +59,11 @@ function submit() {
         :items="availableSubmodules"
         :item-title="(s: Submodule) => `${s.name} (${s.code})`"
         item-value="id"
-        :loading="loadingSubmodules"
         :rules="[(v) => !!v || 'Campo requerido']"
       />
       <div class="d-flex justify-end ga-2 mt-2">
         <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-        <v-btn type="submit" color="primary" :loading="loading">
+        <v-btn type="submit" color="primary">
           {{ initial ? 'Guardar' : 'Crear' }}
         </v-btn>
       </div>

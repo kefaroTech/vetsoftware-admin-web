@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBaseRolePermissions } from '../composables/useBaseRolePermissions'
 import AppLayout from '@/components/layout/AppLayout.vue'
-import AppSpinner from '@/components/feedback/AppSpinner.vue'
 import BaseRolePermissionForm from '../components/BaseRolePermissionForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
@@ -11,19 +10,13 @@ import type { CreateBaseRolePermissionCommand } from '../types/base-role-permiss
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
-const { selected, loading, fetchById, update } = useBaseRolePermissions()
-const saving = ref(false)
+const { selected, fetchById, update } = useBaseRolePermissions()
 
 onMounted(() => fetchById(Number(props.id)))
 
 async function handleSave(data: CreateBaseRolePermissionCommand) {
-  saving.value = true
-  try {
-    await update(Number(props.id), data)
-    router.push({ name: ROUTE_NAMES.BASE_ROLE_PERMISSIONS_LIST })
-  } finally {
-    saving.value = false
-  }
+  await update(Number(props.id), data)
+  router.push({ name: ROUTE_NAMES.BASE_ROLE_PERMISSIONS_LIST })
 }
 </script>
 
@@ -34,14 +27,8 @@ async function handleSave(data: CreateBaseRolePermissionCommand) {
       <h1 class="text-h4 font-weight-bold">Editar asociación rol-permiso</h1>
     </div>
 
-    <AppSpinner v-if="loading" />
-    <v-card v-else-if="selected" max-width="640" class="pa-6">
-      <BaseRolePermissionForm
-        :initial="selected"
-        :loading="saving"
-        @submit="handleSave"
-        @cancel="router.back()"
-      />
+    <v-card v-if="selected" max-width="640" class="pa-6">
+      <BaseRolePermissionForm :initial="selected" @submit="handleSave" @cancel="router.back()" />
     </v-card>
   </AppLayout>
 </template>

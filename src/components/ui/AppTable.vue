@@ -1,7 +1,6 @@
 <script setup lang="ts">
 defineProps<{
   headers: string[]
-  loading?: boolean
   empty?: boolean
 }>()
 </script>
@@ -21,12 +20,7 @@ defineProps<{
         </tr>
       </thead>
       <tbody>
-        <tr v-if="loading">
-          <td :colspan="headers.length" class="text-center text-medium-emphasis py-8">
-            <v-progress-circular indeterminate color="primary" size="32" />
-          </td>
-        </tr>
-        <tr v-else-if="empty">
+        <tr v-if="empty">
           <td :colspan="headers.length" class="text-center text-medium-emphasis py-8">
             Sin resultados
           </td>

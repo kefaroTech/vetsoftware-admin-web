@@ -9,21 +9,15 @@ import ModuleForm from '../components/ModuleForm.vue'
 import { ICONS } from '@/constants/icons'
 import type { CreateModuleCommand } from '../types/modules.types'
 
-const { modules, loading, fetchAll, create, remove } = useModules()
+const { modules, fetchAll, create, remove } = useModules()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
-const formLoading = ref(false)
 
 onMounted(fetchAll)
 
 async function handleCreate(data: CreateModuleCommand) {
-  formLoading.value = true
-  try {
-    await create(data)
-    showModal.value = false
-  } finally {
-    formLoading.value = false
-  }
+  await create(data)
+  showModal.value = false
 }
 
 async function handleDelete(id: number, name: string) {
@@ -43,7 +37,6 @@ async function handleDelete(id: number, name: string) {
 
     <AppTable
       :headers="['Nombre', 'Código', 'Fecha creación', 'Acciones']"
-      :loading="loading"
       :empty="modules.length === 0"
     >
       <tr v-for="m in modules" :key="m.id">
@@ -72,7 +65,7 @@ async function handleDelete(id: number, name: string) {
     </AppTable>
 
     <AppModal :open="showModal" title="Nuevo módulo" @close="showModal = false">
-      <ModuleForm :loading="formLoading" @submit="handleCreate" @cancel="showModal = false" />
+      <ModuleForm @submit="handleCreate" @cancel="showModal = false" />
     </AppModal>
   </AppLayout>
 </template>

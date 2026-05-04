@@ -9,21 +9,15 @@ import BasePermissionForm from '../components/BasePermissionForm.vue'
 import { ICONS } from '@/constants/icons'
 import type { CreateBasePermissionCommand } from '../types/base-permissions.types'
 
-const { permissions, loading, fetchAll, create, remove } = useBasePermissions()
+const { permissions, fetchAll, create, remove } = useBasePermissions()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
-const formLoading = ref(false)
 
 onMounted(fetchAll)
 
 async function handleCreate(data: CreateBasePermissionCommand) {
-  formLoading.value = true
-  try {
-    await create(data)
-    showModal.value = false
-  } finally {
-    formLoading.value = false
-  }
+  await create(data)
+  showModal.value = false
 }
 
 async function handleDelete(id: number, name: string) {
@@ -43,7 +37,6 @@ async function handleDelete(id: number, name: string) {
 
     <AppTable
       :headers="['Nombre', 'Código', 'Submódulo', 'Fecha creación', 'Acciones']"
-      :loading="loading"
       :empty="permissions.length === 0"
     >
       <tr v-for="p in permissions" :key="p.id">
@@ -73,11 +66,7 @@ async function handleDelete(id: number, name: string) {
     </AppTable>
 
     <AppModal :open="showModal" title="Nuevo permiso base" @close="showModal = false">
-      <BasePermissionForm
-        :loading="formLoading"
-        @submit="handleCreate"
-        @cancel="showModal = false"
-      />
+      <BasePermissionForm @submit="handleCreate" @cancel="showModal = false" />
     </AppModal>
   </AppLayout>
 </template>

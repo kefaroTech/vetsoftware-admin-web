@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Loader · Huella latiendo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hue: 300;
+    --amatista-100: oklch(94% 0.035 var(--hue));
+    --amatista-200: oklch(88% 0.07  var(--hue));
+    --amatista-300: oklch(78% 0.12  var(--hue));
+    --amatista-400: oklch(68% 0.16  var(--hue));
+    --amatista-500: oklch(58% 0.18  var(--hue));
+    --amatista-600: oklch(50% 0.18  var(--hue));
+    --amatista-700: oklch(42% 0.16  var(--hue));
+    --amatista-900: oklch(22% 0.08  var(--hue));
+    --warm-50:  oklch(99% 0.005 60);
+    --warm-100: oklch(97% 0.008 60);
+    --warm-200: oklch(92% 0.012 60);
+    --warm-500: oklch(58% 0.012 60);
+    --warm-600: oklch(45% 0.012 60);
+    --warm-900: oklch(16% 0.012 60);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--warm-100);
+    font-family: 'Geist', sans-serif;
+    color: var(--warm-900);
+    min-height: 100vh;
+  }
+  .page { max-width: 760px; margin: 0 auto; padding: 64px 40px 80px; }
+  .header { margin-bottom: 32px; }
+  .header h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 44px; font-weight: 400; letter-spacing: -0.02em;
+    margin: 0 0 6px;
+  }
+  .header p {
+    margin: 0; color: var(--warm-600); font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  .card {
+    background: var(--warm-50);
+    border: 1px solid var(--warm-200);
+    border-radius: 18px;
+    padding: 32px 28px;
+  }
+  .stage {
+    background: linear-gradient(180deg, var(--warm-100), var(--warm-50));
+    border: 1px solid var(--warm-200);
+    border-radius: 14px;
+    min-height: 320px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: visible;
+  }
+
+  .loader { width: 160px; height: 160px; }
+  .loader svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .paw-pivot {
+    transform-origin: center; transform-box: fill-box;
+    animation: beat 1.2s ease-in-out infinite;
+    color: var(--amatista-700);
+  }
+  @keyframes beat {
+    0%, 50%, 100% { transform: scale(1); }
+    14%           { transform: scale(1.18); }
+    28%           { transform: scale(1.08); }
+  }
+
+  /* Tamaños (showcase abajo) */
+  .sizes-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 36px; padding: 32px 16px 16px;
+  }
+  .sizes-row svg { display: block; }
+  .s1 svg { width: 24px; height: 24px; }
+  .s2 svg { width: 40px; height: 40px; }
+  .s3 svg { width: 64px; height: 64px; }
+  .s4 svg { width: 96px; height: 96px; }
+  .lbl {
+    text-align: center;
+    font-size: 11px; color: var(--warm-500);
+    margin-top: 10px;
+    letter-spacing: 0.06em;
+  }
+  .size-item { display: flex; flex-direction: column; align-items: center; }
+
+  .stage-sizes {
+    margin-top: 22px;
+    background: linear-gradient(180deg, var(--warm-100), var(--warm-50));
+    border: 1px solid var(--warm-200);
+    border-radius: 14px;
+  }
+  .footnote {
+    margin-top: 18px; font-size: 12.5px; color: var(--warm-600); text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="header">
+    <h1>Huella latiendo</h1>
+    <p>Huella con la silueta correcta (pad triangular redondeado + 4 dedos ovalados, dos delanteros + dos laterales angulados). El glow sigue el contorno real de la huella, no su bounding box.</p>
+  </header>
+
+  <div class="card">
+    <div class="stage">
+      <div class="loader">
+        <svg viewBox="-40 -40 200 200">
+          <defs>
+            <!-- Glow que respeta la silueta exacta de la huella -->
+            <filter id="paw-glow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur1"/>
+              <feFlood flood-color="oklch(50% 0.18 300)" flood-opacity="0.55" result="color1"/>
+              <feComposite in="color1" in2="blur1" operator="in" result="glow1"/>
+
+              <feGaussianBlur in="SourceAlpha" stdDeviation="9" result="blur2"/>
+              <feFlood flood-color="oklch(55% 0.18 300)" flood-opacity="0.45" result="color2"/>
+              <feComposite in="color2" in2="blur2" operator="in" result="glow2"/>
+
+              <feMerge>
+                <feMergeNode in="glow2"/>
+                <feMergeNode in="glow1"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <!-- La huella. fill="currentColor" en cada elemento (no se hereda a través de <use>). -->
+            <g id="paw">
+              <!-- Pad central -->
+              <path fill="currentColor" d="
+                M 60 58
+                C 80 58, 94 72, 97 90
+                C 100 105, 92 120, 80 124
+                C 73 127, 66 124, 60 124
+                C 54 124, 47 127, 40 124
+                C 28 120, 20 105, 23 90
+                C 26 72, 40 58, 60 58 Z
+              "/>
+              <!-- Dedo central izquierdo (más grande) -->
+              <ellipse fill="currentColor" cx="42" cy="22" rx="14" ry="19"/>
+              <!-- Dedo central derecho (más grande) -->
+              <ellipse fill="currentColor" cx="78" cy="22" rx="14" ry="19"/>
+              <!-- Dedo lateral izquierdo (más grande, angulado afuera) -->
+              <ellipse fill="currentColor" cx="14" cy="46" rx="12" ry="16" transform="rotate(-25 14 46)"/>
+              <!-- Dedo lateral derecho (más grande, angulado afuera) -->
+              <ellipse fill="currentColor" cx="106" cy="46" rx="12" ry="16" transform="rotate(25 106 46)"/>
+            </g>
+          </defs>
+
+          <!-- huella renderizada con filtro glow + animación de latido -->
+          <g class="paw-pivot" filter="url(#paw-glow)">
+            <use href="#paw"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="stage stage-sizes">
+      <div class="sizes-row">
+        <div class="size-item">
+          <div class="loader s1">
+            <svg viewBox="-40 -40 200 200"><g class="paw-pivot" filter="url(#paw-glow)"><use href="#paw"/></g></svg>
+          </div>
+          <div class="lbl">24 · INLINE</div>
+        </div>
+        <div class="size-item">
+          <div class="loader s2">
+            <svg viewBox="-40 -40 200 200"><g class="paw-pivot" filter="url(#paw-glow)"><use href="#paw"/></g></svg>
+          </div>
+          <div class="lbl">40 · BOTÓN</div>
+        </div>
+        <div class="size-item">
+          <div class="loader s3">
+            <svg viewBox="-40 -40 200 200"><g class="paw-pivot" filter="url(#paw-glow)"><use href="#paw"/></g></svg>
+          </div>
+          <div class="lbl">64 · CARD</div>
+        </div>
+        <div class="size-item">
+          <div class="loader s4">
+            <svg viewBox="-40 -40 200 200"><g class="paw-pivot" filter="url(#paw-glow)"><use href="#paw"/></g></svg>
+          </div>
+          <div class="lbl">96 · HERO</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="footnote">El glow es un filtro SVG (feGaussianBlur sobre el SourceAlpha de la huella) — sigue exactamente la silueta de los dedos y el pad, no un cuadrado.</p>
+  </div>
+</div>
+</body>
+</html>
