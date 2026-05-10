@@ -16,6 +16,13 @@ export const ICONS = {
   COLOR: 'tabler:palette',
   CHEVRON_DOWN: 'tabler:chevron-down',
 
+  CLINICAL_CATALOGS: 'tabler:clipboard-heart',
+  CONSULTATION_TYPE: 'tabler:stethoscope',
+  VACCINATION_TYPE: 'tabler:vaccine',
+  SURGERY_TYPE: 'tabler:scalpel',
+  LABORATORY_TEST_TYPE: 'tabler:test-pipe',
+  DIAGNOSTIC_IMAGING_TYPE: 'tabler:photo-scan',
+
   ADD: 'tabler:plus',
   EDIT: 'tabler:pencil',
   DELETE: 'tabler:trash',

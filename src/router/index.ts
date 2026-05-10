@@ -14,6 +14,11 @@ import { membershipSubModulesRoutes } from './routes/membership-sub-modules.rout
 import { speciesRoutes } from './routes/species.routes'
 import { breedsRoutes } from './routes/breeds.routes'
 import { animalColorsRoutes } from './routes/animal-colors.routes'
+import { consultationTypesRoutes } from './routes/consultation-types.routes'
+import { vaccinationTypesRoutes } from './routes/vaccination-types.routes'
+import { surgeryTypesRoutes } from './routes/surgery-types.routes'
+import { laboratoryTestTypesRoutes } from './routes/laboratory-test-types.routes'
+import { diagnosticImagingTypesRoutes } from './routes/diagnostic-imaging-types.routes'
 import { ROUTE_NAMES } from '@/constants/routes'
 
 const router = createRouter({
@@ -40,6 +45,11 @@ const router = createRouter({
     ...speciesRoutes,
     ...breedsRoutes,
     ...animalColorsRoutes,
+    ...consultationTypesRoutes,
+    ...vaccinationTypesRoutes,
+    ...surgeryTypesRoutes,
+    ...laboratoryTestTypesRoutes,
+    ...diagnosticImagingTypesRoutes,
   ],
 })
 

@@ -1,0 +1,81 @@
+import { storeToRefs } from 'pinia'
+import { useLaboratoryTestTypesStore } from '../stores/laboratory-test-types.store'
+import { laboratoryTestTypesApi } from '../api/laboratory-test-types.api'
+import { useNotification } from '@/composables/useNotification'
+import type { CreateLaboratoryTestTypeCommand } from '../types/laboratory-test-types.types'
+
+export interface LaboratoryTestTypeFormData {
+  name: string
+  description: string
+}
+
+export function useLaboratoryTestTypes() {
+  const store = useLaboratoryTestTypesStore()
+  const { laboratoryTestTypes, selected, loading } = storeToRefs(store)
+  const { notify } = useNotification()
+
+  async function fetchAll() {
+    store.setLoading(true)
+    try {
+      const { data } = await laboratoryTestTypesApi.list()
+      store.setLaboratoryTestTypes(data.filter((t) => t.general))
+    } catch {
+      notify('Error al cargar los tipos de laboratorio', 'error')
+    } finally {
+      store.setLoading(false)
+    }
+  }
+
+  async function fetchById(id: number) {
+    store.setLoading(true)
+    try {
+      const { data } = await laboratoryTestTypesApi.getById(id)
+      store.setSelected(data)
+    } catch {
+      notify('Tipo de laboratorio no encontrado', 'error')
+    } finally {
+      store.setLoading(false)
+    }
+  }
+
+  async function create(form: LaboratoryTestTypeFormData) {
+    const payload: CreateLaboratoryTestTypeCommand = {
+      name: form.name,
+      description: form.description,
+      companyId: null,
+      general: true,
+    }
+    const { data } = await laboratoryTestTypesApi.create(payload)
+    store.setLaboratoryTestTypes([...store.laboratoryTestTypes, data])
+    notify('Tipo de laboratorio creado exitosamente', 'success')
+    return data
+  }
+
+  async function update(id: number, form: LaboratoryTestTypeFormData) {
+    const payload: CreateLaboratoryTestTypeCommand = {
+      name: form.name,
+      description: form.description,
+      companyId: null,
+      general: true,
+    }
+    const { data } = await laboratoryTestTypesApi.update(id, payload)
+    store.setLaboratoryTestTypes(
+      store.laboratoryTestTypes.map((t) => (t.id === id ? data : t)),
+    )
+    notify('Tipo de laboratorio actualizado', 'success')
+    return data
+  }
+
+  async function remove(id: number) {
+    await laboratoryTestTypesApi.remove(id)
+    store.setLaboratoryTestTypes(store.laboratoryTestTypes.filter((t) => t.id !== id))
+    notify('Tipo de laboratorio eliminado', 'success')
+  }
+
+  return {
+    laboratoryTestTypes,
+    selected,
+    loading,
+    fetchAll, fetchById, create, update, remove,
+  }
+}

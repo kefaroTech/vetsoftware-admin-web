@@ -65,6 +65,17 @@ const navGroups: NavGroup[] = [
           { name: ROUTE_NAMES.ANIMAL_COLORS_LIST, label: 'Colores', path: '/animales/colores', icon: ICONS.COLOR },
         ],
       },
+      {
+        label: 'Catálogos clínicos',
+        icon: ICONS.CLINICAL_CATALOGS,
+        children: [
+          { name: ROUTE_NAMES.CONSULTATION_TYPES_LIST, label: 'Tipos de consulta', path: '/catalogos-clinicos/tipos-consulta', icon: ICONS.CONSULTATION_TYPE },
+          { name: ROUTE_NAMES.VACCINATION_TYPES_LIST, label: 'Tipos de vacuna', path: '/catalogos-clinicos/tipos-vacuna', icon: ICONS.VACCINATION_TYPE },
+          { name: ROUTE_NAMES.SURGERY_TYPES_LIST, label: 'Tipos de cirugía', path: '/catalogos-clinicos/tipos-cirugia', icon: ICONS.SURGERY_TYPE },
+          { name: ROUTE_NAMES.LABORATORY_TEST_TYPES_LIST, label: 'Tipos de laboratorio', path: '/catalogos-clinicos/tipos-laboratorio', icon: ICONS.LABORATORY_TEST_TYPE },
+          { name: ROUTE_NAMES.DIAGNOSTIC_IMAGING_TYPES_LIST, label: 'Tipos de imagen', path: '/catalogos-clinicos/tipos-imagen', icon: ICONS.DIAGNOSTIC_IMAGING_TYPE },
+        ],
+      },
     ],
   },
 ]
