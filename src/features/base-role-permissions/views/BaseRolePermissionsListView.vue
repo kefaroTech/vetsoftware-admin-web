@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useBaseRolePermissions } from '../composables/useBaseRolePermissions'
+import { useAdminPermissionPublish } from '../composables/useAdminPermissionPublish'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
@@ -10,6 +11,7 @@ import { ICONS } from '@/constants/icons'
 import type { CreateBaseRolePermissionCommand } from '../types/base-role-permissions.types'
 
 const { baseRolePermissions, fetchAll, create, remove } = useBaseRolePermissions()
+const { publish, isPublishing } = useAdminPermissionPublish()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
 
@@ -24,15 +26,33 @@ async function handleDelete(id: number) {
   const ok = await confirm('¿Eliminar esta asociación rol-permiso?')
   if (ok) await remove(id)
 }
+
+async function handlePublish() {
+  const ok = await confirm(
+    'Esto sincronizará el rol ADMIN de todas las companies con el catálogo actual de permisos. ¿Continuar?',
+  )
+  if (ok) await publish()
+}
 </script>
 
 <template>
   <AppLayout>
     <div class="d-flex align-center justify-space-between mb-6">
       <h1 class="text-h4 font-weight-bold">Permisos de roles base</h1>
-      <v-btn color="primary" :prepend-icon="ICONS.ADD" @click="showModal = true">
-        Nueva asociación
-      </v-btn>
+      <div class="d-flex ga-2">
+        <v-btn
+          color="secondary"
+          variant="outlined"
+          :loading="isPublishing"
+          :disabled="isPublishing"
+          @click="handlePublish"
+        >
+          Publicar permisos a ADMIN
+        </v-btn>
+        <v-btn color="primary" :prepend-icon="ICONS.ADD" @click="showModal = true">
+          Nueva asociación
+        </v-btn>
+      </div>
     </div>
 
     <AppTable
