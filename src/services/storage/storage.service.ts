@@ -5,4 +5,8 @@ export const storageService = {
   setToken: (token: string): void => localStorage.setItem(TOKEN_KEY, token),
   removeToken: (): void => localStorage.removeItem(TOKEN_KEY),
   clear: (): void => localStorage.clear(),
+  clearAll: (): void => {
+    try { localStorage.clear() } catch { /* ignore */ }
+    try { sessionStorage.clear() } catch { /* ignore */ }
+  },
 }

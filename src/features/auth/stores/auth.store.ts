@@ -31,7 +31,7 @@ export const useAuthStore = defineStore('auth', () => {
   function logout() {
     token.value = null
     permissions.value = []
-    storageService.removeToken()
+    storageService.clearAll()
   }
 
   return {
