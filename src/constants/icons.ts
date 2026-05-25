@@ -22,6 +22,7 @@ export const ICONS = {
   SURGERY_TYPE: 'tabler:scalpel',
   LABORATORY_TEST_TYPE: 'tabler:test-pipe',
   DIAGNOSTIC_IMAGING_TYPE: 'tabler:photo-scan',
+  SPA_TYPE: 'tabler:bath',
 
   ADD: 'tabler:plus',
   EDIT: 'tabler:pencil',

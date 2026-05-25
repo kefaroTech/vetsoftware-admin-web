@@ -74,6 +74,7 @@ const navGroups: NavGroup[] = [
           { name: ROUTE_NAMES.SURGERY_TYPES_LIST, label: 'Tipos de cirugía', path: '/catalogos-clinicos/tipos-cirugia', icon: ICONS.SURGERY_TYPE },
           { name: ROUTE_NAMES.LABORATORY_TEST_TYPES_LIST, label: 'Tipos de laboratorio', path: '/catalogos-clinicos/tipos-laboratorio', icon: ICONS.LABORATORY_TEST_TYPE },
           { name: ROUTE_NAMES.DIAGNOSTIC_IMAGING_TYPES_LIST, label: 'Tipos de imagen', path: '/catalogos-clinicos/tipos-imagen', icon: ICONS.DIAGNOSTIC_IMAGING_TYPE },
+          { name: ROUTE_NAMES.SPA_TYPES_LIST, label: 'Tipos de spa', path: '/catalogos-clinicos/tipos-spa', icon: ICONS.SPA_TYPE },
         ],
       },
     ],

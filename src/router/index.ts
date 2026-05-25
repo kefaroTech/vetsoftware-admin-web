@@ -19,6 +19,7 @@ import { vaccinationTypesRoutes } from './routes/vaccination-types.routes'
 import { surgeryTypesRoutes } from './routes/surgery-types.routes'
 import { laboratoryTestTypesRoutes } from './routes/laboratory-test-types.routes'
 import { diagnosticImagingTypesRoutes } from './routes/diagnostic-imaging-types.routes'
+import { spaTypesRoutes } from './routes/spa-types.routes'
 import { ROUTE_NAMES } from '@/constants/routes'
 
 const router = createRouter({
@@ -50,6 +51,7 @@ const router = createRouter({
     ...surgeryTypesRoutes,
     ...laboratoryTestTypesRoutes,
     ...diagnosticImagingTypesRoutes,
+    ...spaTypesRoutes,
   ],
 })
 
