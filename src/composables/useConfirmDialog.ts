@@ -1,29 +1,8 @@
-import { ref } from 'vue'
-
-const isOpen = ref(false)
-const message = ref('')
-let resolver: ((confirmed: boolean) => void) | null = null
+import { storeToRefs } from 'pinia'
+import { useConfirmDialogStore } from '@/stores/confirmDialog.store'
 
 export function useConfirmDialog() {
-  function confirm(msg: string): Promise<boolean> {
-    message.value = msg
-    isOpen.value = true
-    return new Promise((resolve) => {
-      resolver = resolve
-    })
-  }
-
-  function accept() {
-    isOpen.value = false
-    resolver?.(true)
-    resolver = null
-  }
-
-  function cancel() {
-    isOpen.value = false
-    resolver?.(false)
-    resolver = null
-  }
-
-  return { isOpen, message, confirm, accept, cancel }
+  const store = useConfirmDialogStore()
+  const { isOpen, message } = storeToRefs(store)
+  return { isOpen, message, confirm: store.confirm, accept: store.accept, cancel: store.cancel }
 }

@@ -1,26 +1,10 @@
-import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useNotificationStore, type Notification, type NotificationType } from '@/stores/notification.store'
 
-type NotificationType = 'success' | 'error' | 'warning' | 'info'
-
-interface Notification {
-  id: number
-  message: string
-  type: NotificationType
-}
-
-const notifications = ref<Notification[]>([])
-let nextId = 0
+export type { Notification, NotificationType }
 
 export function useNotification() {
-  function notify(message: string, type: NotificationType = 'info') {
-    const id = nextId++
-    notifications.value.push({ id, message, type })
-    setTimeout(() => dismiss(id), 4000)
-  }
-
-  function dismiss(id: number) {
-    notifications.value = notifications.value.filter((n) => n.id !== id)
-  }
-
-  return { notifications, notify, dismiss }
+  const store = useNotificationStore()
+  const { notifications } = storeToRefs(store)
+  return { notifications, notify: store.notify, dismiss: store.dismiss }
 }
