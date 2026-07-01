@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VetSoftware</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; font-family:'Inter',sans-serif; color:#1a1325; background:#f5f1fa; -webkit-font-smoothing:antialiased; }
+  input, button { font-family: inherit; }
+  #root { width:100vw; height:100vh; overflow:hidden; }
+  @keyframes viewFade { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+  @keyframes appFade { from { opacity:0; } to { opacity:1; } }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="icons.jsx"></script>
+<script type="text/babel" src="emp-shared.jsx"></script>
+<script type="text/babel" src="app-store.jsx"></script>
+<script type="text/babel" src="app-shell.jsx"></script>
+<script type="text/babel" src="app-login.jsx"></script>
+<script type="text/babel" src="app-dashboard.jsx"></script>
+<script type="text/babel" src="app-empleados.jsx"></script>
+<script type="text/babel" src="app-config.jsx"></script>
+<script type="text/babel">
+  const { AppProvider, useApp } = window;
+
+  function CurrentView() {
+    const { view } = useApp();
+    switch (view) {
+      case 'dashboard': return <DashboardView />;
+      case 'empleados': return <EmpleadosView />;
+      case 'configuracion': return <ConfigView />;
+      case 'empresas': return <PlaceholderView icon="IconBuilding" title="Empresas" desc="Aquí podrás administrar las clínicas y centros veterinarios registrados en la plataforma." />;
+      case 'membresias': return <PlaceholderView icon="IconTicket" title="Membresías" desc="Gestiona los planes de suscripción y sus submódulos asignados." />;
+      case 'modulos': return <PlaceholderView icon="IconModule" title="Módulos" desc="Configura los módulos y submódulos disponibles del sistema." />;
+      case 'permisos': return <PlaceholderView icon="IconKey" title="Permisos base" desc="Administra el catálogo de permisos asignables a los roles." />;
+      case 'roles': return <PlaceholderView icon="IconShield" title="Roles base" desc="Define las plantillas de roles y sus permisos asociados." />;
+      default: return <DashboardView />;
+    }
+  }
+
+  function AppRoot() {
+    const { authed, view } = useApp();
+    if (!authed) {
+      return <div key="login" style={{ width: '100%', height: '100%', animation: 'appFade .3s ease' }}><LoginView /></div>;
+    }
+    return (
+      <div key="app" style={{ width: '100%', height: '100%', display: 'grid', gridTemplateColumns: '244px 1fr', background: '#fbfaff', animation: 'appFade .35s ease' }}>
+        <AppSidebar />
+        <div key={view} style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', animation: 'viewFade .28s cubic-bezier(.2,.8,.2,1)' }}>
+          <CurrentView />
+        </div>
+        <Toast />
+      </div>
+    );
+  }
+
+  function App() {
+    return (
+      <AppProvider>
+        <AppRoot />
+      </AppProvider>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
