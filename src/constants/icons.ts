@@ -30,6 +30,11 @@ export const ICONS = {
   CLOSE: 'tabler:x',
   BACK: 'tabler:arrow-left',
   LOGOUT: 'tabler:logout',
+  CHECK: 'tabler:check',
+
+  SETTINGS: 'tabler:settings',
+  RECEIPT: 'tabler:receipt',
+  HISTORY: 'tabler:history',
 
   USER: 'tabler:user',
   LOCK: 'tabler:lock',

@@ -79,6 +79,12 @@ const navGroups: NavGroup[] = [
       },
     ],
   },
+  {
+    title: 'Sistema',
+    items: [
+      { name: ROUTE_NAMES.CONFIG, label: 'Configuración', path: '/configuracion', icon: ICONS.SETTINGS },
+    ],
+  },
 ]
 
 const expanded = ref<Record<string, boolean>>({})

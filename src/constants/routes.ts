@@ -35,4 +35,5 @@ export const ROUTE_NAMES = {
   DIAGNOSTIC_IMAGING_TYPE_DETAIL: 'diagnostic-imaging-type-detail',
   SPA_TYPES_LIST: 'spa-types-list',
   SPA_TYPE_DETAIL: 'spa-type-detail',
+  CONFIG: 'config',
 } as const

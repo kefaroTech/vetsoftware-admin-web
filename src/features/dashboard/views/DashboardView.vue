@@ -1,11 +1,22 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Icon } from '@iconify/vue'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import { ICONS } from '@/constants/icons'
 import { ROUTE_NAMES } from '@/constants/routes'
+import { useSystemConfig } from '@/features/config/composables/useSystemConfig'
 
 const router = useRouter()
+
+// UVT vigente para el strip destacado de facturación electrónica.
+const { uvtValue, fetch: fetchConfig } = useSystemConfig()
+const currentYear = new Date().getFullYear()
+onMounted(fetchConfig)
+
+function formatCOP(n: number) {
+  return '$' + Math.round(n || 0).toLocaleString('es-CO')
+}
 
 type Tile = {
   name?: (typeof ROUTE_NAMES)[keyof typeof ROUTE_NAMES]
@@ -73,12 +84,12 @@ const tiles: Tile[] = [
     path: '/roles-base',
   },
   {
-    name: ROUTE_NAMES.BASE_ROLE_PERMISSIONS_LIST,
-    title: 'Permisos de roles',
-    count: '—',
-    desc: 'Configuración de permisos por rol.',
-    icon: ICONS.BASE_ROLE_PERMISSION,
-    path: '/permisos-roles-base',
+    name: ROUTE_NAMES.CONFIG,
+    title: 'Configuración',
+    count: '',
+    desc: 'UVT, facturación electrónica y ajustes del sistema.',
+    icon: ICONS.SETTINGS,
+    path: '/configuracion',
   },
 ]
 
@@ -109,6 +120,18 @@ function goTo(path: string) {
         </div>
       </div>
     </section>
+
+    <button class="uvt-strip" type="button" @click="goTo('/configuracion')">
+      <div class="uvt-strip-ic"><Icon :icon="ICONS.RECEIPT" width="20" height="20" /></div>
+      <div class="uvt-strip-text">
+        <div class="uvt-strip-kicker">Facturación electrónica</div>
+        <div class="uvt-strip-desc">Valor UVT vigente {{ currentYear }} para cálculos de facturación</div>
+      </div>
+      <div class="uvt-strip-right">
+        <div class="uvt-strip-value">{{ formatCOP(uvtValue) }}</div>
+        <div class="uvt-strip-cta">Configurar <Icon :icon="ICONS.ARROW_RIGHT" width="11" height="11" /></div>
+      </div>
+    </button>
 
     <header class="modules-header">
       <h2 class="modules-title">Módulos del sistema</h2>
@@ -233,6 +256,80 @@ function goTo(path: string) {
 
 .cta-secondary:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+.uvt-strip {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  padding: 16px 22px;
+  margin-bottom: 24px;
+  background: #ffffff;
+  border: 1px solid #e9d5ff;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.uvt-strip:hover {
+  border-color: #c084fc;
+  box-shadow: 0 4px 16px -6px rgba(126, 34, 206, 0.15);
+}
+
+.uvt-strip-ic {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f3e8ff;
+  color: #7e22ce;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.uvt-strip-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.uvt-strip-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  color: #7e22ce;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.uvt-strip-desc {
+  font-size: 13px;
+  color: #3d2e57;
+}
+
+.uvt-strip-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.uvt-strip-value {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #1a1325;
+  line-height: 1;
+}
+
+.uvt-strip-cta {
+  font-size: 11px;
+  color: #a89bbd;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
 }
 
 .modules-header {

@@ -20,6 +20,7 @@ import { surgeryTypesRoutes } from './routes/surgery-types.routes'
 import { laboratoryTestTypesRoutes } from './routes/laboratory-test-types.routes'
 import { diagnosticImagingTypesRoutes } from './routes/diagnostic-imaging-types.routes'
 import { spaTypesRoutes } from './routes/spa-types.routes'
+import { configRoutes } from './routes/config.routes'
 import { ROUTE_NAMES } from '@/constants/routes'
 
 const router = createRouter({
@@ -52,6 +53,7 @@ const router = createRouter({
     ...laboratoryTestTypesRoutes,
     ...diagnosticImagingTypesRoutes,
     ...spaTypesRoutes,
+    ...configRoutes,
   ],
 })
 
