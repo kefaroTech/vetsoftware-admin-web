@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
+import AppInput from '@/components/ui/AppInput.vue'
+import AppSelect from '@/components/ui/AppSelect.vue'
 import { modulesApi } from '@/features/modules/api/modules.api'
 import type { AppModule } from '@/features/modules/types/modules.types'
 import type { Submodule, CreateSubmoduleCommand } from '../types/submodules.types'
@@ -14,11 +16,18 @@ const emit = defineEmits<{
 }>()
 
 const form = ref<CreateSubmoduleCommand>({ name: '', code: '', moduleId: 0 })
-const formValid = ref(false)
-const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
+const submitted = ref(false)
 const availableModules = ref<AppModule[]>([])
 
-const requiredRule = (v: string) => !!v || 'Campo requerido'
+const moduleOptions = computed(() =>
+  availableModules.value.map((m) => ({ value: m.id, label: `${m.name} (${m.code})` })),
+)
+
+const errors = computed(() => ({
+  name: form.value.name.trim() ? '' : 'Campo requerido',
+  code: form.value.code.trim() ? '' : 'Campo requerido',
+  moduleId: form.value.moduleId ? '' : 'Campo requerido',
+}))
 
 onMounted(async () => {
   const { data } = await modulesApi.list()
@@ -34,41 +43,40 @@ watch(
   { immediate: true },
 )
 
-async function submit() {
-  const { valid } = (await formRef.value?.validate()) ?? { valid: false }
-  if (valid) emit('submit', form.value)
+function submit() {
+  submitted.value = true
+  if (Object.values(errors.value).every((e) => !e)) emit('submit', form.value)
 }
 </script>
 
 <template>
-  <v-form ref="formRef" v-model="formValid" @submit.prevent="submit">
-    <div class="d-flex flex-column ga-3">
-      <v-text-field
-        v-model="form.name"
-        label="Nombre *"
-        placeholder="Gestión de citas"
-        :rules="[requiredRule]"
-      />
-      <v-text-field
-        v-model="form.code"
-        label="Código *"
-        placeholder="APPOINTMENTS_MANAGE"
-        :rules="[requiredRule]"
-      />
-      <v-select
-        v-model="form.moduleId"
-        label="Módulo padre *"
-        :items="availableModules"
-        :item-title="(m: AppModule) => `${m.name} (${m.code})`"
-        item-value="id"
-        :rules="[(v) => !!v || 'Campo requerido']"
-      />
-      <div class="d-flex justify-end ga-2 mt-2">
-        <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-        <v-btn type="submit" color="primary">
-          {{ initial ? 'Guardar' : 'Crear' }}
-        </v-btn>
-      </div>
+  <form class="app-form" novalidate @submit.prevent="submit">
+    <AppInput
+      v-model="form.name"
+      label="Nombre"
+      required
+      placeholder="Gestión de citas"
+      :error="submitted ? errors.name : ''"
+    />
+    <AppInput
+      v-model="form.code"
+      label="Código"
+      required
+      placeholder="APPOINTMENTS_MANAGE"
+      :error="submitted ? errors.code : ''"
+    />
+    <AppSelect
+      v-model="form.moduleId"
+      label="Módulo padre"
+      required
+      :options="moduleOptions"
+      :error="submitted ? errors.moduleId : ''"
+    />
+    <div class="app-form__actions">
+      <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
+      <v-btn type="submit" color="primary">
+        {{ initial ? 'Guardar' : 'Crear' }}
+      </v-btn>
     </div>
-  </v-form>
+  </form>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
+import AppInput from '@/components/ui/AppInput.vue'
 import type { Company, CreateCompanyCommand } from '../types/companies.types'
 
 const props = defineProps<{
@@ -17,11 +18,12 @@ const form = ref<CreateCompanyCommand>({
   address: '',
   contactNumber: '',
 })
+const submitted = ref(false)
 
-const formValid = ref(false)
-const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
-
-const requiredRule = (v: string) => !!v || 'Campo requerido'
+const errors = computed(() => ({
+  name: form.value.name.trim() ? '' : 'Campo requerido',
+  identifier: form.value.identifier.trim() ? '' : 'Campo requerido',
+}))
 
 watch(
   () => props.initial,
@@ -38,44 +40,45 @@ watch(
   { immediate: true },
 )
 
-async function submit() {
-  const { valid } = (await formRef.value?.validate()) ?? { valid: false }
-  if (valid) emit('submit', form.value)
+function onContact(v: string) {
+  form.value.contactNumber = v.replace(/[^+\d\s()-]/g, '')
+}
+
+function submit() {
+  submitted.value = true
+  if (Object.values(errors.value).every((e) => !e)) emit('submit', form.value)
 }
 </script>
 
 <template>
-  <v-form ref="formRef" v-model="formValid" @submit.prevent="submit">
-    <div class="d-flex flex-column ga-3">
-      <v-text-field
-        v-model="form.name"
-        label="Nombre *"
-        placeholder="Clínica Veterinaria Ejemplo"
-        :rules="[requiredRule]"
-      />
-      <v-text-field
-        v-model="form.identifier"
-        label="Identificador *"
-        placeholder="CVE-001"
-        :rules="[requiredRule]"
-      />
-      <v-text-field
-        v-model="form.address"
-        label="Dirección"
-        placeholder="Calle 123"
-      />
-      <v-text-field
-        v-model="form.contactNumber"
-        label="Teléfono"
-        placeholder="+57 300 000 0000"
-        @update:model-value="form.contactNumber = ($event ?? '').replace(/[^+\d\s()-]/g, '')"
-      />
-      <div class="d-flex justify-end ga-2 mt-2">
-        <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-        <v-btn type="submit" color="primary">
-          {{ initial ? 'Guardar' : 'Crear' }}
-        </v-btn>
-      </div>
+  <form class="app-form" novalidate @submit.prevent="submit">
+    <AppInput
+      v-model="form.name"
+      label="Nombre"
+      required
+      placeholder="Clínica Veterinaria Ejemplo"
+      :error="submitted ? errors.name : ''"
+    />
+    <AppInput
+      v-model="form.identifier"
+      label="Identificador"
+      required
+      placeholder="CVE-001"
+      :error="submitted ? errors.identifier : ''"
+    />
+    <AppInput v-model="form.address" label="Dirección" placeholder="Calle 123" />
+    <AppInput
+      :model-value="form.contactNumber"
+      label="Teléfono"
+      placeholder="+57 300 000 0000"
+      inputmode="tel"
+      @update:model-value="onContact"
+    />
+    <div class="app-form__actions">
+      <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
+      <v-btn type="submit" color="primary">
+        {{ initial ? 'Guardar' : 'Crear' }}
+      </v-btn>
     </div>
-  </v-form>
+  </form>
 </template>

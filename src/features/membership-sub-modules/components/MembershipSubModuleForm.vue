@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
+import AppSelect from '@/components/ui/AppSelect.vue'
 import { membershipsApi } from '@/features/memberships/api/memberships.api'
 import { submodulesApi } from '@/features/submodules/api/submodules.api'
 import type { Membership } from '@/features/memberships/types/memberships.types'
@@ -19,10 +20,21 @@ const emit = defineEmits<{
 }>()
 
 const form = ref<CreateMembershipSubModuleCommand>({ membershipId: 0, subModuleId: 0 })
-const formValid = ref(false)
-const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
+const submitted = ref(false)
 const memberships = ref<Membership[]>([])
 const submodules = ref<Submodule[]>([])
+
+const membershipOptions = computed(() =>
+  memberships.value.map((m) => ({ value: m.id, label: m.name })),
+)
+const submoduleOptions = computed(() =>
+  submodules.value.map((s) => ({ value: s.id, label: `${s.name} (${s.code})` })),
+)
+
+const errors = computed(() => ({
+  membershipId: form.value.membershipId ? '' : 'Campo requerido',
+  subModuleId: form.value.subModuleId ? '' : 'Campo requerido',
+}))
 
 onMounted(async () => {
   const [membershipsRes, submodulesRes] = await Promise.all([
@@ -40,42 +52,42 @@ onMounted(async () => {
 watch(
   () => props.initial,
   (val) => {
-    if (val) form.value = { membershipId: val.membership?.id ?? 0, subModuleId: val.subModule?.id ?? 0 }
+    if (val)
+      form.value = {
+        membershipId: val.membership?.id ?? 0,
+        subModuleId: val.subModule?.id ?? 0,
+      }
   },
   { immediate: true },
 )
 
-async function submit() {
-  const { valid } = (await formRef.value?.validate()) ?? { valid: false }
-  if (valid) emit('submit', form.value)
+function submit() {
+  submitted.value = true
+  if (Object.values(errors.value).every((e) => !e)) emit('submit', form.value)
 }
 </script>
 
 <template>
-  <v-form ref="formRef" v-model="formValid" @submit.prevent="submit">
-    <div class="d-flex flex-column ga-3">
-      <v-select
-        v-model="form.membershipId"
-        label="Membresía *"
-        :items="memberships"
-        item-title="name"
-        item-value="id"
-        :rules="[(v) => !!v || 'Campo requerido']"
-      />
-      <v-select
-        v-model="form.subModuleId"
-        label="Submódulo *"
-        :items="submodules"
-        :item-title="(s: Submodule) => `${s.name} (${s.code})`"
-        item-value="id"
-        :rules="[(v) => !!v || 'Campo requerido']"
-      />
-      <div class="d-flex justify-end ga-2 mt-2">
-        <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-        <v-btn type="submit" color="primary">
-          {{ initial ? 'Guardar' : 'Crear' }}
-        </v-btn>
-      </div>
+  <form class="app-form" novalidate @submit.prevent="submit">
+    <AppSelect
+      v-model="form.membershipId"
+      label="Membresía"
+      required
+      :options="membershipOptions"
+      :error="submitted ? errors.membershipId : ''"
+    />
+    <AppSelect
+      v-model="form.subModuleId"
+      label="Submódulo"
+      required
+      :options="submoduleOptions"
+      :error="submitted ? errors.subModuleId : ''"
+    />
+    <div class="app-form__actions">
+      <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
+      <v-btn type="submit" color="primary">
+        {{ initial ? 'Guardar' : 'Crear' }}
+      </v-btn>
     </div>
-  </v-form>
+  </form>
 </template>

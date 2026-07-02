@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
+import AppSelect from '@/components/ui/AppSelect.vue'
 import { baseRolesApi } from '@/features/base-roles/api/base-roles.api'
 import { basePermissionsApi } from '@/features/base-permissions/api/base-permissions.api'
 import type { BaseRole } from '@/features/base-roles/types/base-roles.types'
@@ -19,10 +20,21 @@ const emit = defineEmits<{
 }>()
 
 const form = ref<CreateBaseRolePermissionCommand>({ baseRoleId: 0, basePermissionId: 0 })
-const formValid = ref(false)
-const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
+const submitted = ref(false)
 const baseRoles = ref<BaseRole[]>([])
 const basePermissions = ref<BasePermission[]>([])
+
+const roleOptions = computed(() =>
+  baseRoles.value.map((r) => ({ value: r.id, label: `${r.name} (${r.code})` })),
+)
+const permissionOptions = computed(() =>
+  basePermissions.value.map((p) => ({ value: p.id, label: `${p.name} (${p.code})` })),
+)
+
+const errors = computed(() => ({
+  baseRoleId: form.value.baseRoleId ? '' : 'Campo requerido',
+  basePermissionId: form.value.basePermissionId ? '' : 'Campo requerido',
+}))
 
 onMounted(async () => {
   const [rolesRes, permsRes] = await Promise.all([
@@ -40,42 +52,42 @@ onMounted(async () => {
 watch(
   () => props.initial,
   (val) => {
-    if (val) form.value = { baseRoleId: val.baseRole?.id ?? 0, basePermissionId: val.basePermission?.id ?? 0 }
+    if (val)
+      form.value = {
+        baseRoleId: val.baseRole?.id ?? 0,
+        basePermissionId: val.basePermission?.id ?? 0,
+      }
   },
   { immediate: true },
 )
 
-async function submit() {
-  const { valid } = (await formRef.value?.validate()) ?? { valid: false }
-  if (valid) emit('submit', form.value)
+function submit() {
+  submitted.value = true
+  if (Object.values(errors.value).every((e) => !e)) emit('submit', form.value)
 }
 </script>
 
 <template>
-  <v-form ref="formRef" v-model="formValid" @submit.prevent="submit">
-    <div class="d-flex flex-column ga-3">
-      <v-select
-        v-model="form.baseRoleId"
-        label="Rol base *"
-        :items="baseRoles"
-        :item-title="(r: BaseRole) => `${r.name} (${r.code})`"
-        item-value="id"
-        :rules="[(v) => !!v || 'Campo requerido']"
-      />
-      <v-select
-        v-model="form.basePermissionId"
-        label="Permiso base *"
-        :items="basePermissions"
-        :item-title="(p: BasePermission) => `${p.name} (${p.code})`"
-        item-value="id"
-        :rules="[(v) => !!v || 'Campo requerido']"
-      />
-      <div class="d-flex justify-end ga-2 mt-2">
-        <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-        <v-btn type="submit" color="primary">
-          {{ initial ? 'Guardar' : 'Crear' }}
-        </v-btn>
-      </div>
+  <form class="app-form" novalidate @submit.prevent="submit">
+    <AppSelect
+      v-model="form.baseRoleId"
+      label="Rol base"
+      required
+      :options="roleOptions"
+      :error="submitted ? errors.baseRoleId : ''"
+    />
+    <AppSelect
+      v-model="form.basePermissionId"
+      label="Permiso base"
+      required
+      :options="permissionOptions"
+      :error="submitted ? errors.basePermissionId : ''"
+    />
+    <div class="app-form__actions">
+      <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
+      <v-btn type="submit" color="primary">
+        {{ initial ? 'Guardar' : 'Crear' }}
+      </v-btn>
     </div>
-  </v-form>
+  </form>
 </template>
