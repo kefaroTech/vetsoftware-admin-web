@@ -10,12 +10,14 @@ export function useAuth() {
 
   async function login(payload: LoginCommand) {
     const { data } = await authApi.login(payload)
-    authStore.setToken(data.token)
+    authStore.setSession(data.token, data.refreshToken)
+    // Hidrata permisos antes de navegar para que el permissionGuard tenga datos frescos.
+    await authStore.fetchMe()
     await router.push({ name: ROUTE_NAMES.DASHBOARD })
   }
 
-  function logout() {
-    authStore.logout()
+  async function logout() {
+    await authStore.logout()
     window.location.assign('/login')
   }
 

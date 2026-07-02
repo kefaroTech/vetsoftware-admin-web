@@ -1,5 +1,6 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
-import { storageService } from '@/services/storage/storage.service'
+import { useAuthStore } from '@/features/auth/stores/auth.store'
+import { useNotification } from '@/composables/useNotification'
 import { ROUTE_NAMES } from '@/constants/routes'
 
 export function authGuard(
@@ -8,10 +9,18 @@ export function authGuard(
   next: NavigationGuardNext,
 ) {
   const isPublic = to.meta.public === true
-  const token = storageService.getToken()
+  const authStore = useAuthStore()
 
   if (isPublic) return next()
-  if (!token) return next({ name: ROUTE_NAMES.LOGIN })
+  if (!authStore.token) return next({ name: ROUTE_NAMES.LOGIN })
+
+  // Access vencido y SIN refresh token → no se puede renovar: limpiamos y avisamos.
+  // Con refresh token dejamos pasar: el primer 401 dispara el refresh transparente.
+  if (authStore.isExpired && !authStore.refreshToken) {
+    authStore.clearSession()
+    useNotification().notify('Sesión expirada, vuelve a iniciar sesión.', 'warning')
+    return next({ name: ROUTE_NAMES.LOGIN })
+  }
 
   next()
 }
