@@ -19,6 +19,7 @@ const form = ref<CreateCompanyCommand>({
 })
 
 const formValid = ref(false)
+const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
 
 const requiredRule = (v: string) => !!v || 'Campo requerido'
 
@@ -37,23 +38,24 @@ watch(
   { immediate: true },
 )
 
-function submit() {
-  if (formValid.value) emit('submit', form.value)
+async function submit() {
+  const { valid } = (await formRef.value?.validate()) ?? { valid: false }
+  if (valid) emit('submit', form.value)
 }
 </script>
 
 <template>
-  <v-form v-model="formValid" @submit.prevent="submit">
+  <v-form ref="formRef" v-model="formValid" @submit.prevent="submit">
     <div class="d-flex flex-column ga-3">
       <v-text-field
         v-model="form.name"
-        label="Nombre"
+        label="Nombre *"
         placeholder="Clínica Veterinaria Ejemplo"
         :rules="[requiredRule]"
       />
       <v-text-field
         v-model="form.identifier"
-        label="Identificador"
+        label="Identificador *"
         placeholder="CVE-001"
         :rules="[requiredRule]"
       />
@@ -66,6 +68,7 @@ function submit() {
         v-model="form.contactNumber"
         label="Teléfono"
         placeholder="+57 300 000 0000"
+        @update:model-value="form.contactNumber = ($event ?? '').replace(/[^+\d\s()-]/g, '')"
       />
       <div class="d-flex justify-end ga-2 mt-2">
         <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>

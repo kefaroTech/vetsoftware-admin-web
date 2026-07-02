@@ -20,6 +20,7 @@ const emit = defineEmits<{
 
 const form = ref<CreateBaseRolePermissionCommand>({ baseRoleId: 0, basePermissionId: 0 })
 const formValid = ref(false)
+const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
 const baseRoles = ref<BaseRole[]>([])
 const basePermissions = ref<BasePermission[]>([])
 
@@ -44,17 +45,18 @@ watch(
   { immediate: true },
 )
 
-function submit() {
-  if (formValid.value) emit('submit', form.value)
+async function submit() {
+  const { valid } = (await formRef.value?.validate()) ?? { valid: false }
+  if (valid) emit('submit', form.value)
 }
 </script>
 
 <template>
-  <v-form v-model="formValid" @submit.prevent="submit">
+  <v-form ref="formRef" v-model="formValid" @submit.prevent="submit">
     <div class="d-flex flex-column ga-3">
       <v-select
         v-model="form.baseRoleId"
-        label="Rol base"
+        label="Rol base *"
         :items="baseRoles"
         :item-title="(r: BaseRole) => `${r.name} (${r.code})`"
         item-value="id"
@@ -62,7 +64,7 @@ function submit() {
       />
       <v-select
         v-model="form.basePermissionId"
-        label="Permiso base"
+        label="Permiso base *"
         :items="basePermissions"
         :item-title="(p: BasePermission) => `${p.name} (${p.code})`"
         item-value="id"

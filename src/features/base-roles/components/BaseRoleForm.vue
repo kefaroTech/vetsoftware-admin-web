@@ -13,6 +13,7 @@ const emit = defineEmits<{
 
 const form = ref<CreateBaseRoleCommand>({ name: '', code: '', mandatory: false })
 const formValid = ref(false)
+const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
 const requiredRule = (v: string) => !!v || 'Campo requerido'
 
 watch(
@@ -23,23 +24,24 @@ watch(
   { immediate: true },
 )
 
-function submit() {
-  if (formValid.value) emit('submit', form.value)
+async function submit() {
+  const { valid } = (await formRef.value?.validate()) ?? { valid: false }
+  if (valid) emit('submit', form.value)
 }
 </script>
 
 <template>
-  <v-form v-model="formValid" @submit.prevent="submit">
+  <v-form ref="formRef" v-model="formValid" @submit.prevent="submit">
     <div class="d-flex flex-column ga-3">
       <v-text-field
         v-model="form.name"
-        label="Nombre"
+        label="Nombre *"
         placeholder="Administrador"
         :rules="[requiredRule]"
       />
       <v-text-field
         v-model="form.code"
-        label="Código"
+        label="Código *"
         placeholder="ADMIN"
         :rules="[requiredRule]"
       />
