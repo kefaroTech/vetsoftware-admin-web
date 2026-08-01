@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { storageService } from '@/services/storage/storage.service'
 import { setRefreshHandler } from '@/services/http/http.client'
-import { PERMISSIONS } from '@/constants/permissions'
 import { authApi } from '../api/auth.api'
 import { decodeJwt } from '../utils/jwt'
 
@@ -62,11 +61,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function hasPermission(permission: string) {
-    // `admin.all` es comodín: concede cualquier permiso (espejo de useAuthorization del PublicFront).
-    return (
-      permissions.value.includes(PERMISSIONS.ADMIN_ALL) ||
-      permissions.value.includes(permission)
-    )
+    return userType.value === 'SYSTEM_USER' || permissions.value.includes(permission)
   }
 
   // Single-flight: varias requests 401 concurrentes comparten un único /auth/refresh.
