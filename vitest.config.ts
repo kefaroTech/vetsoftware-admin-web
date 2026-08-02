@@ -6,18 +6,25 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(import.meta.dirname, './src'),
     },
   },
   test: {
     environment: 'jsdom',
     globals: true,
-    passWithNoTests: true,
+    passWithNoTests: false,
+    include: ['tests/unit/**/*.spec.ts'],
     setupFiles: ['./tests/unit/setup.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
-      include: ['src/**'],
+      include: ['src/services/http/api-base-url.ts'],
+      thresholds: {
+        statements: 100,
+        branches: 100,
+        functions: 100,
+        lines: 100,
+      },
     },
   },
 })

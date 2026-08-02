@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios'
 import { storageService } from '@/services/storage/storage.service'
 import { popLoader, pushLoader } from '@/composables/useGlobalLoader'
 import type { ProblemDetail } from '@/types/api.types'
+import { createApiBaseUrl } from './api-base-url'
 
 declare module 'axios' {
   export interface AxiosRequestConfig {
@@ -11,7 +12,7 @@ declare module 'axios' {
 }
 
 export const http = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL ?? ''}/api/v1`,
+  baseURL: createApiBaseUrl(import.meta.env.VITE_API_URL),
   headers: { 'Content-Type': 'application/json' },
 })
 
