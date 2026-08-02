@@ -37,10 +37,7 @@ const errors = computed(() => ({
 }))
 
 onMounted(async () => {
-  const [rolesRes, permsRes] = await Promise.all([
-    baseRolesApi.list(),
-    basePermissionsApi.list(),
-  ])
+  const [rolesRes, permsRes] = await Promise.all([baseRolesApi.list(), basePermissionsApi.list()])
   baseRoles.value = rolesRes.data
   basePermissions.value = permsRes.data
   if (!props.initial) {

@@ -2,7 +2,10 @@
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
-import type { ConsultationType, CreateConsultationTypeCommand } from '../types/consultation-types.types'
+import type {
+  ConsultationType,
+  CreateConsultationTypeCommand,
+} from '../types/consultation-types.types'
 
 const props = defineProps<{
   initial?: ConsultationType | null

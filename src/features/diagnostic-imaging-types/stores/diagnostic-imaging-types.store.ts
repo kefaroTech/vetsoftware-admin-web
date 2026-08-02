@@ -10,8 +10,12 @@ export const useDiagnosticImagingTypesStore = defineStore('diagnosticImagingType
   function setDiagnosticImagingTypes(data: DiagnosticImagingType[]) {
     diagnosticImagingTypes.value = data
   }
-  function setSelected(s: DiagnosticImagingType | null) { selected.value = s }
-  function setLoading(value: boolean) { loading.value = value }
+  function setSelected(s: DiagnosticImagingType | null) {
+    selected.value = s
+  }
+  function setLoading(value: boolean) {
+    loading.value = value
+  }
 
   return {
     diagnosticImagingTypes,

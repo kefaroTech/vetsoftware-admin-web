@@ -36,16 +36,19 @@ defineEmits<{
   cursor: pointer;
   user-select: none;
 }
+
 .app-check.disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
+
 .app-check__native {
   position: absolute;
   width: 0;
   height: 0;
   opacity: 0;
 }
+
 .app-check__box {
   width: 18px;
   height: 18px;
@@ -55,16 +58,22 @@ defineEmits<{
   display: grid;
   place-items: center;
   color: #fff;
-  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
+
 .app-check.checked .app-check__box {
   background: #7e22ce;
   border-color: #7e22ce;
 }
+
 .app-check__native:focus-visible + .app-check__box {
   border-color: var(--vs-field-focus);
   box-shadow: 0 0 0 4px var(--vs-field-focus-ring);
 }
+
 .app-check__label {
   font-size: 13px;
   color: #3d2e57;

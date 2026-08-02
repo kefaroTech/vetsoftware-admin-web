@@ -28,11 +28,7 @@ async function handleSave(data: DiagnosticImagingTypeFormData) {
     </div>
 
     <v-card v-if="selected" max-width="640" class="pa-6">
-      <DiagnosticImagingTypeForm
-        :initial="selected"
-        @submit="handleSave"
-        @cancel="router.back()"
-      />
+      <DiagnosticImagingTypeForm :initial="selected" @submit="handleSave" @cancel="router.back()" />
     </v-card>
   </AppLayout>
 </template>

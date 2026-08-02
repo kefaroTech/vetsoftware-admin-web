@@ -50,11 +50,28 @@ const filterId = `paw-glow-${useId()}`
       </defs>
 
       <g class="paw-pivot" :filter="props.glow ? `url(#${filterId})` : undefined">
-        <path fill="currentColor" d="M 60 58 C 80 58, 94 72, 97 90 C 100 105, 92 120, 80 124 C 73 127, 66 124, 60 124 C 54 124, 47 127, 40 124 C 28 120, 20 105, 23 90 C 26 72, 40 58, 60 58 Z" />
+        <path
+          fill="currentColor"
+          d="M 60 58 C 80 58, 94 72, 97 90 C 100 105, 92 120, 80 124 C 73 127, 66 124, 60 124 C 54 124, 47 127, 40 124 C 28 120, 20 105, 23 90 C 26 72, 40 58, 60 58 Z"
+        />
         <ellipse fill="currentColor" cx="42" cy="22" rx="14" ry="19" />
         <ellipse fill="currentColor" cx="78" cy="22" rx="14" ry="19" />
-        <ellipse fill="currentColor" cx="14" cy="46" rx="12" ry="16" transform="rotate(-25 14 46)" />
-        <ellipse fill="currentColor" cx="106" cy="46" rx="12" ry="16" transform="rotate(25 106 46)" />
+        <ellipse
+          fill="currentColor"
+          cx="14"
+          cy="46"
+          rx="12"
+          ry="16"
+          transform="rotate(-25 14 46)"
+        />
+        <ellipse
+          fill="currentColor"
+          cx="106"
+          cy="46"
+          rx="12"
+          ry="16"
+          transform="rotate(25 106 46)"
+        />
       </g>
     </svg>
     <span class="sr-only">{{ props.label }}</span>
@@ -66,7 +83,7 @@ const filterId = `paw-glow-${useId()}`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--amatista-700, oklch(42% 0.16 300));
+  color: var(--amatista-700, oklch(42% 0.16 300deg));
   flex-shrink: 0;
 }
 
@@ -84,9 +101,17 @@ const filterId = `paw-glow-${useId()}`
 }
 
 @keyframes paw-beat {
-  0%, 50%, 100% { transform: scale(1); }
-  14%           { transform: scale(1.18); }
-  28%           { transform: scale(1.08); }
+  0%,
+  50%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.18);
+  }
+  28% {
+    transform: scale(1.08);
+  }
 }
 
 .sr-only {
@@ -96,12 +121,14 @@ const filterId = `paw-glow-${useId()}`
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .paw-pivot { animation: none; }
+  .paw-pivot {
+    animation: none;
+  }
 }
 </style>

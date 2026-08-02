@@ -6,7 +6,6 @@ export const breedsApi = {
   listBySpecie: (specieId: number) => http.get<Breed[]>(`/species/${specieId}/breeds`),
   getById: (id: number) => http.get<Breed>(`/breeds/${id}`),
   create: (payload: CreateBreedCommand) => http.post<Breed>('/breeds', payload),
-  update: (id: number, payload: UpdateBreedCommand) =>
-    http.put<Breed>(`/breeds/${id}`, payload),
+  update: (id: number, payload: UpdateBreedCommand) => http.put<Breed>(`/breeds/${id}`, payload),
   remove: (id: number) => http.delete(`/breeds/${id}`),
 }

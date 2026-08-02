@@ -1,5 +1,9 @@
 import { http } from '@/services/http/http.client'
-import type { Submodule, CreateSubmoduleCommand, UpdateSubmoduleCommand } from '../types/submodules.types'
+import type {
+  Submodule,
+  CreateSubmoduleCommand,
+  UpdateSubmoduleCommand,
+} from '../types/submodules.types'
 
 export const submodulesApi = {
   list: () => http.get<Submodule[]>('/sub-modules'),

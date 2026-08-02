@@ -59,9 +59,7 @@ export function useVaccinationTypes() {
       general: true,
     }
     const { data } = await vaccinationTypesApi.update(id, payload)
-    store.setVaccinationTypes(
-      store.vaccinationTypes.map((t) => (t.id === id ? data : t)),
-    )
+    store.setVaccinationTypes(store.vaccinationTypes.map((t) => (t.id === id ? data : t)))
     notify('Tipo de vacuna actualizado', 'success')
     return data
   }
@@ -76,6 +74,10 @@ export function useVaccinationTypes() {
     vaccinationTypes,
     selected,
     loading,
-    fetchAll, fetchById, create, update, remove,
+    fetchAll,
+    fetchById,
+    create,
+    update,
+    remove,
   }
 }

@@ -44,9 +44,7 @@ async function handleSubmit() {
         </div>
         <span class="brand-name">VetSoftware</span>
       </div>
-      <div class="topbar-link">
-        ¿Eres nuevo? <a href="#">Solicita acceso</a>
-      </div>
+      <div class="topbar-link">¿Eres nuevo? <a href="#">Solicita acceso</a></div>
     </header>
 
     <main class="login-main">
@@ -63,7 +61,13 @@ async function handleSubmit() {
           <div class="field">
             <label for="login-code">Código de usuario</label>
             <div class="input-box" :class="{ 'has-error': !!errorMessage }">
-              <Icon :icon="ICONS.USER" width="15" height="15" class="leading-icon" aria-hidden="true" />
+              <Icon
+                :icon="ICONS.USER"
+                width="15"
+                height="15"
+                class="leading-icon"
+                aria-hidden="true"
+              />
               <input
                 id="login-code"
                 v-model="code"
@@ -78,7 +82,13 @@ async function handleSubmit() {
           <div class="field">
             <label for="login-password">Contraseña</label>
             <div class="input-box" :class="{ 'has-error': !!errorMessage }">
-              <Icon :icon="ICONS.LOCK" width="15" height="15" class="leading-icon" aria-hidden="true" />
+              <Icon
+                :icon="ICONS.LOCK"
+                width="15"
+                height="15"
+                class="leading-icon"
+                aria-hidden="true"
+              />
               <input
                 id="login-password"
                 v-model="password"
@@ -128,7 +138,12 @@ async function handleSubmit() {
   display: flex;
   flex-direction: column;
   background: radial-gradient(ellipse at top, #f3e8ff 0%, #f5f1fa 50%, #ede8f4 100%);
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   color: #1a1325;
   overflow-x: hidden;
 }
@@ -139,19 +154,21 @@ async function handleSubmit() {
   pointer-events: none;
   z-index: 0;
 }
+
 .blob-tr {
   top: -150px;
   right: -150px;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(192, 132, 252, 0.25), transparent 60%);
+  background: radial-gradient(circle, rgb(192 132 252 / 25%), transparent 60%);
 }
+
 .blob-bl {
   bottom: -150px;
   left: -150px;
   width: 450px;
   height: 450px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.18), transparent 60%);
+  background: radial-gradient(circle, rgb(168 85 247 / 18%), transparent 60%);
 }
 
 .topbar {
@@ -168,6 +185,7 @@ async function handleSubmit() {
   align-items: center;
   gap: 10px;
 }
+
 .brand-mark {
   width: 30px;
   height: 30px;
@@ -175,9 +193,10 @@ async function handleSubmit() {
   background: linear-gradient(135deg, #a855f7, #581c87);
   display: grid;
   place-items: center;
-  color: #ffffff;
-  box-shadow: 0 2px 6px -1px rgba(126, 34, 206, 0.4);
+  color: #fff;
+  box-shadow: 0 2px 6px -1px rgb(126 34 206 / 40%);
 }
+
 .brand-name {
   font-size: 14px;
   font-weight: 700;
@@ -189,11 +208,13 @@ async function handleSubmit() {
   font-size: 13px;
   color: #6b5b80;
 }
+
 .topbar-link a {
   color: #7e22ce;
   font-weight: 600;
   text-decoration: none;
 }
+
 .topbar-link a:hover {
   color: #581c87;
 }
@@ -211,13 +232,13 @@ async function handleSubmit() {
 .login-card {
   width: 100%;
   max-width: 440px;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #ece5f4;
   border-radius: 16px;
   padding: 40px 44px;
   box-shadow:
-    0 24px 48px -16px rgba(91, 33, 182, 0.18),
-    0 4px 12px -4px rgba(91, 33, 182, 0.08);
+    0 24px 48px -16px rgb(91 33 182 / 18%),
+    0 4px 12px -4px rgb(91 33 182 / 8%);
 }
 
 .eyebrow {
@@ -279,15 +300,19 @@ async function handleSubmit() {
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #ece5f4;
   border-radius: 8px;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
+
 .input-box:focus-within {
   border-color: #a855f7;
-  box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.12);
+  box-shadow: 0 0 0 4px rgb(168 85 247 / 12%);
 }
+
 .input-box.has-error {
   border-color: #dc2626;
 }
@@ -297,6 +322,7 @@ async function handleSubmit() {
   flex-shrink: 0;
   transition: color 0.15s;
 }
+
 .input-box:focus-within .leading-icon {
   color: #7e22ce;
 }
@@ -311,10 +337,12 @@ async function handleSubmit() {
   font-family: inherit;
   min-width: 0;
 }
+
 .input-box input:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
+
 .input-box input::placeholder {
   color: #a89bbd;
 }
@@ -329,9 +357,11 @@ async function handleSubmit() {
   place-items: center;
   transition: color 0.15s;
 }
+
 .eye-btn:hover:not(:disabled) {
   color: #7e22ce;
 }
+
 .eye-btn:disabled {
   cursor: not-allowed;
 }
@@ -341,7 +371,7 @@ async function handleSubmit() {
   padding: 12px 16px;
   border-radius: 9px;
   background: linear-gradient(180deg, #9333ea, #7e22ce);
-  color: #ffffff;
+  color: #fff;
   border: none;
   cursor: pointer;
   font-size: 14px;
@@ -352,16 +382,20 @@ async function handleSubmit() {
   justify-content: center;
   gap: 8px;
   box-shadow:
-    0 4px 12px -2px rgba(126, 34, 206, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  transition: transform 0.12s, box-shadow 0.15s;
+    0 4px 12px -2px rgb(126 34 206 / 40%),
+    inset 0 1px 0 rgb(255 255 255 / 15%);
+  transition:
+    transform 0.12s,
+    box-shadow 0.15s;
 }
+
 .primary-btn:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow:
-    0 8px 20px -4px rgba(126, 34, 206, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    0 8px 20px -4px rgb(126 34 206 / 50%),
+    inset 0 1px 0 rgb(255 255 255 / 15%);
 }
+
 .primary-btn:disabled {
   cursor: not-allowed;
   opacity: 0.75;
@@ -377,29 +411,35 @@ async function handleSubmit() {
   font-size: 12px;
   color: #6b5b80;
 }
+
 .footer-links {
   display: flex;
   gap: 16px;
 }
+
 .footer-links a {
   color: #6b5b80;
   text-decoration: none;
 }
+
 .footer-links a:hover {
   color: #7e22ce;
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .topbar,
   .footer {
     padding: 16px 20px;
   }
+
   .login-card {
     padding: 28px 24px;
   }
+
   .title {
     font-size: 28px;
   }
+
   .footer {
     flex-direction: column;
     gap: 8px;

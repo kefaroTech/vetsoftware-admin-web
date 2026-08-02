@@ -19,8 +19,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  quality:
-    name: Lint, test and build
+  frontend-quality-gate:
+    name: Frontend quality gate
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
@@ -45,8 +45,8 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=high
 
-      - name: Lint
-        run: npm run lint
+      - name: Run global quality gate
+        run: npm run quality
 
       - name: Run unit tests with coverage
         run: npm run test:coverage

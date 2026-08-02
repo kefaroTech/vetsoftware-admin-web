@@ -35,10 +35,7 @@ async function handleDelete(id: number, name: string) {
       </v-btn>
     </div>
 
-    <AppTable
-      :headers="['Nombre', 'Fecha creación', 'Acciones']"
-      :empty="colors.length === 0"
-    >
+    <AppTable :headers="['Nombre', 'Fecha creación', 'Acciones']" :empty="colors.length === 0">
       <tr v-for="c in colors" :key="c.id">
         <td class="font-weight-medium">{{ c.name }}</td>
         <td class="text-caption text-medium-emphasis">{{ c.createdDate }}</td>

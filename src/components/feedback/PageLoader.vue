@@ -7,13 +7,7 @@ const { visible } = useGlobalLoader()
 
 <template>
   <Transition name="page-loader-fade">
-    <div
-      v-if="visible"
-      class="page-loader"
-      role="alert"
-      aria-busy="true"
-      aria-live="assertive"
-    >
+    <div v-if="visible" class="page-loader" role="alert" aria-busy="true" aria-live="assertive">
       <PawLoader :size="192" color="#ffffff" />
     </div>
   </Transition>
@@ -23,9 +17,8 @@ const { visible } = useGlobalLoader()
 .page-loader {
   position: fixed;
   inset: 0;
-  background: rgba(15, 7, 30, 0.72);
+  background: rgb(15 7 30 / 72%);
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;

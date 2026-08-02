@@ -60,6 +60,10 @@ export function useConsultationTypes() {
     consultationTypes,
     selected,
     loading,
-    fetchAll, fetchById, create, update, remove,
+    fetchAll,
+    fetchById,
+    create,
+    update,
+    remove,
   }
 }

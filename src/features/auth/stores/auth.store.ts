@@ -93,7 +93,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function logout() {
     // Logout server-side (best-effort): revoca los refresh tokens. Limpiamos local igual.
-    try { await authApi.logout() } catch { /* ignore */ }
+    try {
+      await authApi.logout()
+    } catch {
+      /* ignore */
+    }
     clearSession()
   }
 

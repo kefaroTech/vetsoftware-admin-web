@@ -18,7 +18,7 @@ function formatCOP(n: number) {
   return '$' + Math.round(n || 0).toLocaleString('es-CO')
 }
 
-type Tile = {
+interface Tile {
   name?: (typeof ROUTE_NAMES)[keyof typeof ROUTE_NAMES]
   title: string
   count: string
@@ -114,9 +114,7 @@ function goTo(path: string) {
             Ver empresas
             <Icon :icon="ICONS.ARROW_RIGHT" width="13" height="13" />
           </button>
-          <button class="cta-secondary" @click="goTo('/membresias')">
-            Configurar membresías
-          </button>
+          <button class="cta-secondary" @click="goTo('/membresias')">Configurar membresías</button>
         </div>
       </div>
     </section>
@@ -125,11 +123,15 @@ function goTo(path: string) {
       <div class="uvt-strip-ic"><Icon :icon="ICONS.RECEIPT" width="20" height="20" /></div>
       <div class="uvt-strip-text">
         <div class="uvt-strip-kicker">Facturación electrónica</div>
-        <div class="uvt-strip-desc">Valor UVT vigente {{ currentYear }} para cálculos de facturación</div>
+        <div class="uvt-strip-desc">
+          Valor UVT vigente {{ currentYear }} para cálculos de facturación
+        </div>
       </div>
       <div class="uvt-strip-right">
         <div class="uvt-strip-value">{{ formatCOP(uvtValue) }}</div>
-        <div class="uvt-strip-cta">Configurar <Icon :icon="ICONS.ARROW_RIGHT" width="11" height="11" /></div>
+        <div class="uvt-strip-cta">
+          Configurar <Icon :icon="ICONS.ARROW_RIGHT" width="11" height="11" />
+        </div>
       </div>
     </button>
 
@@ -167,7 +169,7 @@ function goTo(path: string) {
   background: linear-gradient(135deg, #581c87 0%, #3b0764 100%);
   border-radius: 14px;
   padding: 28px 32px;
-  color: #ffffff;
+  color: #fff;
   margin-bottom: 24px;
   position: relative;
   overflow: hidden;
@@ -180,7 +182,7 @@ function goTo(path: string) {
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(216, 180, 254, 0.25), transparent 70%);
+  background: radial-gradient(circle, rgb(216 180 254 / 25%), transparent 70%);
   pointer-events: none;
 }
 
@@ -204,7 +206,7 @@ function goTo(path: string) {
   margin: 0;
   letter-spacing: -0.01em;
   line-height: 1.1;
-  color: #ffffff;
+  color: #fff;
 }
 
 .hero-text {
@@ -223,7 +225,7 @@ function goTo(path: string) {
 .cta-primary {
   padding: 8px 14px;
   border-radius: 7px;
-  background: #ffffff;
+  background: #fff;
   color: #3b0764;
   border: none;
   cursor: pointer;
@@ -233,20 +235,22 @@ function goTo(path: string) {
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: transform 0.12s, box-shadow 0.12s;
+  transition:
+    transform 0.12s,
+    box-shadow 0.12s;
 }
 
 .cta-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 12px -4px rgb(0 0 0 / 25%);
 }
 
 .cta-secondary {
   padding: 8px 14px;
   border-radius: 7px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgb(255 255 255 / 10%);
+  color: #fff;
+  border: 1px solid rgb(255 255 255 / 20%);
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
@@ -255,7 +259,7 @@ function goTo(path: string) {
 }
 
 .cta-secondary:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgb(255 255 255 / 20%);
 }
 
 .uvt-strip {
@@ -267,16 +271,18 @@ function goTo(path: string) {
   font-family: inherit;
   padding: 16px 22px;
   margin-bottom: 24px;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #e9d5ff;
   border-radius: 12px;
   cursor: pointer;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .uvt-strip:hover {
   border-color: #c084fc;
-  box-shadow: 0 4px 16px -6px rgba(126, 34, 206, 0.15);
+  box-shadow: 0 4px 16px -6px rgb(126 34 206 / 15%);
 }
 
 .uvt-strip-ic {
@@ -392,9 +398,9 @@ function goTo(path: string) {
 }
 
 .tile:hover {
-  background: #ffffff;
+  background: #fff;
   border-color: #d8b4fe;
-  box-shadow: 0 4px 16px -6px rgba(126, 34, 206, 0.15);
+  box-shadow: 0 4px 16px -6px rgb(126 34 206 / 15%);
 }
 
 .tile-row {
@@ -407,7 +413,7 @@ function goTo(path: string) {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #ece5f4;
   color: #7e22ce;
   display: grid;
@@ -455,13 +461,13 @@ function goTo(path: string) {
   line-height: 1.45;
 }
 
-@media (max-width: 1279px) {
+@media (width <= 1279px) {
   .tiles-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .tiles-grid {
     grid-template-columns: 1fr;
   }

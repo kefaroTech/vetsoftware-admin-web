@@ -12,7 +12,6 @@ export const authApi = {
   loginEmployee: (payload: LoginEmployeeCommand) =>
     http.post<TokenResponse>('/auth/login/employee', payload),
   me: () => http.get<MeResponse>('/auth/me'),
-  refresh: (refreshToken: string) =>
-    http.post<TokenResponse>('/auth/refresh', { refreshToken }),
+  refresh: (refreshToken: string) => http.post<TokenResponse>('/auth/refresh', { refreshToken }),
   logout: () => http.post('/auth/logout'),
 }

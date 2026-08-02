@@ -59,9 +59,7 @@ export function useLaboratoryTestTypes() {
       general: true,
     }
     const { data } = await laboratoryTestTypesApi.update(id, payload)
-    store.setLaboratoryTestTypes(
-      store.laboratoryTestTypes.map((t) => (t.id === id ? data : t)),
-    )
+    store.setLaboratoryTestTypes(store.laboratoryTestTypes.map((t) => (t.id === id ? data : t)))
     notify('Tipo de laboratorio actualizado', 'success')
     return data
   }
@@ -76,6 +74,10 @@ export function useLaboratoryTestTypes() {
     laboratoryTestTypes,
     selected,
     loading,
-    fetchAll, fetchById, create, update, remove,
+    fetchAll,
+    fetchById,
+    create,
+    update,
+    remove,
   }
 }

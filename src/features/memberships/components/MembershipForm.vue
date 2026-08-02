@@ -16,7 +16,7 @@ const emit = defineEmits<{
 const form = ref<CreateMembershipCommand>({ name: '', status: 'ACTIVE' })
 const submitted = ref(false)
 
-const statusOptions: Array<{ value: CreateMembershipCommand['status']; label: string }> = [
+const statusOptions: { value: CreateMembershipCommand['status']; label: string }[] = [
   { value: 'ACTIVE', label: 'Activa' },
   { value: 'INACTIVE', label: 'Inactiva' },
   { value: 'DEPRECATED', label: 'Deprecada' },

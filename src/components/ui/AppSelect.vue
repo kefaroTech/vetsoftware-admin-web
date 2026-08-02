@@ -38,9 +38,7 @@ const highlighted = ref(-1)
 const panelStyle = ref<Record<string, string>>({})
 
 const selected = computed(() => props.options.find((o) => o.value === props.modelValue))
-const selectedIndex = computed(() =>
-  props.options.findIndex((o) => o.value === props.modelValue),
-)
+const selectedIndex = computed(() => props.options.findIndex((o) => o.value === props.modelValue))
 
 function updatePosition() {
   const t = trigger.value
@@ -259,6 +257,7 @@ onBeforeUnmount(() => {
 .app-select {
   position: relative;
 }
+
 .app-select__value {
   flex: 1;
   min-width: 0;
@@ -267,15 +266,20 @@ onBeforeUnmount(() => {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .app-select__value.placeholder {
   color: #a89bbd;
 }
+
 .app-select__chev {
   flex-shrink: 0;
   color: #a89bbd;
   pointer-events: none;
-  transition: transform 0.18s ease, color 0.15s ease;
+  transition:
+    transform 0.18s ease,
+    color 0.15s ease;
 }
+
 .app-select.open .app-select__chev {
   transform: rotate(180deg);
   color: var(--vs-field-focus);
@@ -293,20 +297,28 @@ onBeforeUnmount(() => {
   background: #fff;
   border: 1px solid var(--vs-field-border);
   border-radius: 11px;
-  box-shadow: 0 14px 38px rgba(88, 28, 135, 0.18);
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  box-shadow: 0 14px 38px rgb(88 28 135 / 18%);
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   animation: app-select-pop 0.13s ease;
 }
+
 @keyframes app-select-pop {
   from {
     opacity: 0;
     transform: translateY(-4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 .app-select-panel__item {
   display: flex;
   align-items: center;
@@ -317,9 +329,11 @@ onBeforeUnmount(() => {
   color: #3d2e57;
   cursor: pointer;
 }
+
 .app-select-panel__item + .app-select-panel__item {
   margin-top: 2px;
 }
+
 .app-select-panel__label {
   flex: 1;
   min-width: 0;
@@ -327,24 +341,29 @@ onBeforeUnmount(() => {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .app-select-panel__check {
   flex-shrink: 0;
   color: #7e22ce;
 }
+
 .app-select-panel__item.active {
   background: #f3e8ff;
   color: #6b21a8;
 }
+
 .app-select-panel__item.selected {
   font-weight: 600;
   color: #6b21a8;
 }
+
 .app-select-panel__empty {
   padding: 12px 11px;
   font-size: 13px;
   color: #a89bbd;
   text-align: center;
 }
+
 @media (prefers-reduced-motion: reduce) {
   .app-select-panel {
     animation: none;

@@ -7,9 +7,22 @@ export const useMembershipSubModulesStore = defineStore('membership-sub-modules'
   const selected = ref<MembershipSubModule | null>(null)
   const loading = ref(false)
 
-  function setMembershipSubModules(data: MembershipSubModule[]) { membershipSubModules.value = data }
-  function setSelected(m: MembershipSubModule | null) { selected.value = m }
-  function setLoading(value: boolean) { loading.value = value }
+  function setMembershipSubModules(data: MembershipSubModule[]) {
+    membershipSubModules.value = data
+  }
+  function setSelected(m: MembershipSubModule | null) {
+    selected.value = m
+  }
+  function setLoading(value: boolean) {
+    loading.value = value
+  }
 
-  return { membershipSubModules, selected, loading, setMembershipSubModules, setSelected, setLoading }
+  return {
+    membershipSubModules,
+    selected,
+    loading,
+    setMembershipSubModules,
+    setSelected,
+    setLoading,
+  }
 })

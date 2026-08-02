@@ -39,7 +39,7 @@ function goToCompanies() {
 .topbar {
   padding: 16px 32px;
   border-bottom: 1px solid #ece5f4;
-  background: #ffffff;
+  background: #fff;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -80,13 +80,15 @@ function goToCompanies() {
   height: 34px;
   border-radius: 8px;
   border: 1px solid #ece5f4;
-  background: #ffffff;
+  background: #fff;
   display: grid;
   place-items: center;
   cursor: pointer;
   position: relative;
   color: #3d2e57;
-  transition: background 0.12s, border-color 0.12s;
+  transition:
+    background 0.12s,
+    border-color 0.12s;
 }
 
 .bell-btn:hover {
@@ -102,7 +104,7 @@ function goToCompanies() {
   height: 6px;
   border-radius: 50%;
   background: #7e22ce;
-  border: 2px solid #ffffff;
+  border: 2px solid #fff;
 }
 
 .primary-btn {
@@ -115,7 +117,7 @@ function goToCompanies() {
   background: #1a1325;
   font-size: 13px;
   font-weight: 600;
-  color: #ffffff;
+  color: #fff;
   cursor: pointer;
   font-family: inherit;
   transition: background 0.12s;

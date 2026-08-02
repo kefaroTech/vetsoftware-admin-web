@@ -1,5 +1,9 @@
 import { http } from '@/services/http/http.client'
-import type { BaseRole, CreateBaseRoleCommand, UpdateBaseRoleCommand } from '../types/base-roles.types'
+import type {
+  BaseRole,
+  CreateBaseRoleCommand,
+  UpdateBaseRoleCommand,
+} from '../types/base-roles.types'
 
 export const baseRolesApi = {
   list: () => http.get<BaseRole[]>('/base-roles'),
