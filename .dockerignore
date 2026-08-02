@@ -1,0 +1,12 @@
+.git
+.github
+.husky
+.idea
+coverage
+dist
+docs
+node_modules
+playwright-report
+test-results
+*.log
+.env.*.local
