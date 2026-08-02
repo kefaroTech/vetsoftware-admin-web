@@ -68,9 +68,7 @@ export function useDiagnosticImagingTypes() {
 
   async function remove(id: number) {
     await diagnosticImagingTypesApi.remove(id)
-    store.setDiagnosticImagingTypes(
-      store.diagnosticImagingTypes.filter((t) => t.id !== id),
-    )
+    store.setDiagnosticImagingTypes(store.diagnosticImagingTypes.filter((t) => t.id !== id))
     notify('Tipo de imagen diagnóstica eliminado', 'success')
   }
 
@@ -78,6 +76,10 @@ export function useDiagnosticImagingTypes() {
     diagnosticImagingTypes,
     selected,
     loading,
-    fetchAll, fetchById, create, update, remove,
+    fetchAll,
+    fetchById,
+    create,
+    update,
+    remove,
   }
 }

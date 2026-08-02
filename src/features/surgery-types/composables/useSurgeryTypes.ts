@@ -59,9 +59,7 @@ export function useSurgeryTypes() {
       general: true,
     }
     const { data } = await surgeryTypesApi.update(id, payload)
-    store.setSurgeryTypes(
-      store.surgeryTypes.map((t) => (t.id === id ? data : t)),
-    )
+    store.setSurgeryTypes(store.surgeryTypes.map((t) => (t.id === id ? data : t)))
     notify('Tipo de cirugía actualizado', 'success')
     return data
   }
@@ -76,6 +74,10 @@ export function useSurgeryTypes() {
     surgeryTypes,
     selected,
     loading,
-    fetchAll, fetchById, create, update, remove,
+    fetchAll,
+    fetchById,
+    create,
+    update,
+    remove,
   }
 }

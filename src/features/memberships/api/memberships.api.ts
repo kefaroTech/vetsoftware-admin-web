@@ -1,5 +1,9 @@
 import { http } from '@/services/http/http.client'
-import type { Membership, CreateMembershipCommand, UpdateMembershipCommand } from '../types/memberships.types'
+import type {
+  Membership,
+  CreateMembershipCommand,
+  UpdateMembershipCommand,
+} from '../types/memberships.types'
 
 export const membershipsApi = {
   list: () => http.get<Membership[]>('/memberships'),

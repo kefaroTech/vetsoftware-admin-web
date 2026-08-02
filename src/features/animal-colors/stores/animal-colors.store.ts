@@ -7,9 +7,15 @@ export const useAnimalColorsStore = defineStore('animal-colors', () => {
   const selected = ref<AnimalColor | null>(null)
   const loading = ref(false)
 
-  function setColors(data: AnimalColor[]) { colors.value = data }
-  function setSelected(c: AnimalColor | null) { selected.value = c }
-  function setLoading(value: boolean) { loading.value = value }
+  function setColors(data: AnimalColor[]) {
+    colors.value = data
+  }
+  function setSelected(c: AnimalColor | null) {
+    selected.value = c
+  }
+  function setLoading(value: boolean) {
+    loading.value = value
+  }
 
   return { colors, selected, loading, setColors, setSelected, setLoading }
 })

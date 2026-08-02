@@ -64,11 +64,7 @@ async function handleDelete(id: number, name: string) {
       </tr>
     </AppTable>
 
-    <AppModal
-      :open="showModal"
-      title="Nuevo tipo de imagen diagnóstica"
-      @close="showModal = false"
-    >
+    <AppModal :open="showModal" title="Nuevo tipo de imagen diagnóstica" @close="showModal = false">
       <DiagnosticImagingTypeForm @submit="handleCreate" @cancel="showModal = false" />
     </AppModal>
   </AppLayout>

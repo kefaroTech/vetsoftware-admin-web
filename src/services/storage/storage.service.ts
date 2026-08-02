@@ -10,7 +10,15 @@ export const storageService = {
   removeRefreshToken: (): void => localStorage.removeItem(REFRESH_KEY),
   clear: (): void => localStorage.clear(),
   clearAll: (): void => {
-    try { localStorage.clear() } catch { /* ignore */ }
-    try { sessionStorage.clear() } catch { /* ignore */ }
+    try {
+      localStorage.clear()
+    } catch {
+      /* ignore */
+    }
+    try {
+      sessionStorage.clear()
+    } catch {
+      /* ignore */
+    }
   },
 }

@@ -1,5 +1,9 @@
 import { storeToRefs } from 'pinia'
-import { useNotificationStore, type Notification, type NotificationType } from '@/stores/notification.store'
+import {
+  useNotificationStore,
+  type Notification,
+  type NotificationType,
+} from '@/stores/notification.store'
 
 export type { Notification, NotificationType }
 

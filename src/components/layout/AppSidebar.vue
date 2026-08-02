@@ -9,7 +9,7 @@ import { useAuth } from '@/features/auth/composables/useAuth'
 const { logout } = useAuth()
 const route = useRoute()
 
-type NavLeaf = {
+interface NavLeaf {
   name?: (typeof ROUTE_NAMES)[keyof typeof ROUTE_NAMES]
   label: string
   path: string
@@ -17,7 +17,7 @@ type NavLeaf = {
   count?: string
 }
 
-type NavParent = {
+interface NavParent {
   label: string
   icon: string
   children: NavLeaf[]
@@ -25,7 +25,7 @@ type NavParent = {
 
 type NavItem = NavLeaf | NavParent
 
-type NavGroup = {
+interface NavGroup {
   title: string
   items: NavItem[]
 }
@@ -36,45 +36,141 @@ const navGroups: NavGroup[] = [
   {
     title: 'General',
     items: [
-      { name: ROUTE_NAMES.DASHBOARD, label: 'Dashboard', path: '/dashboard', icon: ICONS.DASHBOARD },
-      { name: ROUTE_NAMES.COMPANIES_LIST, label: 'Empresas', path: '/empresas', icon: ICONS.COMPANY, count: '128' },
+      {
+        name: ROUTE_NAMES.DASHBOARD,
+        label: 'Dashboard',
+        path: '/dashboard',
+        icon: ICONS.DASHBOARD,
+      },
+      {
+        name: ROUTE_NAMES.COMPANIES_LIST,
+        label: 'Empresas',
+        path: '/empresas',
+        icon: ICONS.COMPANY,
+        count: '128',
+      },
       { label: 'Empleados', path: '/empleados', icon: ICONS.EMPLOYEE, count: '1.8k' },
     ],
   },
   {
     title: 'Suscripciones',
     items: [
-      { name: ROUTE_NAMES.MEMBERSHIPS_LIST, label: 'Membresías', path: '/membresias', icon: ICONS.MEMBERSHIP, count: '6' },
-      { name: ROUTE_NAMES.MEMBERSHIP_SUB_MODULES_LIST, label: 'Membresías · Submódulos', path: '/membresias-submodulos', icon: ICONS.MEMBERSHIP_SUBMODULE },
+      {
+        name: ROUTE_NAMES.MEMBERSHIPS_LIST,
+        label: 'Membresías',
+        path: '/membresias',
+        icon: ICONS.MEMBERSHIP,
+        count: '6',
+      },
+      {
+        name: ROUTE_NAMES.MEMBERSHIP_SUB_MODULES_LIST,
+        label: 'Membresías · Submódulos',
+        path: '/membresias-submodulos',
+        icon: ICONS.MEMBERSHIP_SUBMODULE,
+      },
     ],
   },
   {
     title: 'Configuración',
     items: [
-      { name: ROUTE_NAMES.MODULES_LIST, label: 'Módulos', path: '/modulos', icon: ICONS.MODULE, count: '14' },
-      { name: ROUTE_NAMES.SUBMODULES_LIST, label: 'Submódulos', path: '/submodulos', icon: ICONS.SUBMODULE, count: '52' },
-      { name: ROUTE_NAMES.BASE_PERMISSIONS_LIST, label: 'Permisos base', path: '/permisos-base', icon: ICONS.BASE_PERMISSION, count: '38' },
-      { name: ROUTE_NAMES.BASE_ROLES_LIST, label: 'Roles base', path: '/roles-base', icon: ICONS.BASE_ROLE, count: '9' },
-      { name: ROUTE_NAMES.BASE_ROLE_PERMISSIONS_LIST, label: 'Permisos de roles', path: '/permisos-roles-base', icon: ICONS.BASE_ROLE_PERMISSION },
+      {
+        name: ROUTE_NAMES.MODULES_LIST,
+        label: 'Módulos',
+        path: '/modulos',
+        icon: ICONS.MODULE,
+        count: '14',
+      },
+      {
+        name: ROUTE_NAMES.SUBMODULES_LIST,
+        label: 'Submódulos',
+        path: '/submodulos',
+        icon: ICONS.SUBMODULE,
+        count: '52',
+      },
+      {
+        name: ROUTE_NAMES.BASE_PERMISSIONS_LIST,
+        label: 'Permisos base',
+        path: '/permisos-base',
+        icon: ICONS.BASE_PERMISSION,
+        count: '38',
+      },
+      {
+        name: ROUTE_NAMES.BASE_ROLES_LIST,
+        label: 'Roles base',
+        path: '/roles-base',
+        icon: ICONS.BASE_ROLE,
+        count: '9',
+      },
+      {
+        name: ROUTE_NAMES.BASE_ROLE_PERMISSIONS_LIST,
+        label: 'Permisos de roles',
+        path: '/permisos-roles-base',
+        icon: ICONS.BASE_ROLE_PERMISSION,
+      },
       {
         label: 'Animales',
         icon: ICONS.ANIMAL_SETTINGS,
         children: [
-          { name: ROUTE_NAMES.SPECIES_LIST, label: 'Especies', path: '/animales/especies', icon: ICONS.SPECIES },
-          { name: ROUTE_NAMES.BREEDS_LIST, label: 'Razas', path: '/animales/razas', icon: ICONS.BREED },
-          { name: ROUTE_NAMES.ANIMAL_COLORS_LIST, label: 'Colores', path: '/animales/colores', icon: ICONS.COLOR },
+          {
+            name: ROUTE_NAMES.SPECIES_LIST,
+            label: 'Especies',
+            path: '/animales/especies',
+            icon: ICONS.SPECIES,
+          },
+          {
+            name: ROUTE_NAMES.BREEDS_LIST,
+            label: 'Razas',
+            path: '/animales/razas',
+            icon: ICONS.BREED,
+          },
+          {
+            name: ROUTE_NAMES.ANIMAL_COLORS_LIST,
+            label: 'Colores',
+            path: '/animales/colores',
+            icon: ICONS.COLOR,
+          },
         ],
       },
       {
         label: 'Catálogos clínicos',
         icon: ICONS.CLINICAL_CATALOGS,
         children: [
-          { name: ROUTE_NAMES.CONSULTATION_TYPES_LIST, label: 'Tipos de consulta', path: '/catalogos-clinicos/tipos-consulta', icon: ICONS.CONSULTATION_TYPE },
-          { name: ROUTE_NAMES.VACCINATION_TYPES_LIST, label: 'Tipos de vacuna', path: '/catalogos-clinicos/tipos-vacuna', icon: ICONS.VACCINATION_TYPE },
-          { name: ROUTE_NAMES.SURGERY_TYPES_LIST, label: 'Tipos de cirugía', path: '/catalogos-clinicos/tipos-cirugia', icon: ICONS.SURGERY_TYPE },
-          { name: ROUTE_NAMES.LABORATORY_TEST_TYPES_LIST, label: 'Tipos de laboratorio', path: '/catalogos-clinicos/tipos-laboratorio', icon: ICONS.LABORATORY_TEST_TYPE },
-          { name: ROUTE_NAMES.DIAGNOSTIC_IMAGING_TYPES_LIST, label: 'Tipos de imagen', path: '/catalogos-clinicos/tipos-imagen', icon: ICONS.DIAGNOSTIC_IMAGING_TYPE },
-          { name: ROUTE_NAMES.SPA_TYPES_LIST, label: 'Tipos de spa', path: '/catalogos-clinicos/tipos-spa', icon: ICONS.SPA_TYPE },
+          {
+            name: ROUTE_NAMES.CONSULTATION_TYPES_LIST,
+            label: 'Tipos de consulta',
+            path: '/catalogos-clinicos/tipos-consulta',
+            icon: ICONS.CONSULTATION_TYPE,
+          },
+          {
+            name: ROUTE_NAMES.VACCINATION_TYPES_LIST,
+            label: 'Tipos de vacuna',
+            path: '/catalogos-clinicos/tipos-vacuna',
+            icon: ICONS.VACCINATION_TYPE,
+          },
+          {
+            name: ROUTE_NAMES.SURGERY_TYPES_LIST,
+            label: 'Tipos de cirugía',
+            path: '/catalogos-clinicos/tipos-cirugia',
+            icon: ICONS.SURGERY_TYPE,
+          },
+          {
+            name: ROUTE_NAMES.LABORATORY_TEST_TYPES_LIST,
+            label: 'Tipos de laboratorio',
+            path: '/catalogos-clinicos/tipos-laboratorio',
+            icon: ICONS.LABORATORY_TEST_TYPE,
+          },
+          {
+            name: ROUTE_NAMES.DIAGNOSTIC_IMAGING_TYPES_LIST,
+            label: 'Tipos de imagen',
+            path: '/catalogos-clinicos/tipos-imagen',
+            icon: ICONS.DIAGNOSTIC_IMAGING_TYPE,
+          },
+          {
+            name: ROUTE_NAMES.SPA_TYPES_LIST,
+            label: 'Tipos de spa',
+            path: '/catalogos-clinicos/tipos-spa',
+            icon: ICONS.SPA_TYPE,
+          },
         ],
       },
     ],
@@ -82,7 +178,12 @@ const navGroups: NavGroup[] = [
   {
     title: 'Sistema',
     items: [
-      { name: ROUTE_NAMES.CONFIG, label: 'Configuración', path: '/configuracion', icon: ICONS.SETTINGS },
+      {
+        name: ROUTE_NAMES.CONFIG,
+        label: 'Configuración',
+        path: '/configuracion',
+        icon: ICONS.SETTINGS,
+      },
     ],
   },
 ]
@@ -179,7 +280,7 @@ const toggle = (parent: NavParent) => {
 
 <style scoped>
 .sidebar {
-  background: #ffffff;
+  background: #fff;
   border-right: 1px solid #ece5f4;
   padding: 20px 16px;
   display: flex;
@@ -205,8 +306,8 @@ const toggle = (parent: NavParent) => {
   background: linear-gradient(135deg, #a855f7, #581c87);
   display: grid;
   place-items: center;
-  color: #ffffff;
-  box-shadow: 0 2px 6px -1px rgba(126, 34, 206, 0.4);
+  color: #fff;
+  box-shadow: 0 2px 6px -1px rgb(126 34 206 / 40%);
 }
 
 .brand {
@@ -375,7 +476,7 @@ const toggle = (parent: NavParent) => {
   height: 28px;
   border-radius: 50%;
   background: #3d2e57;
-  color: #ffffff;
+  color: #fff;
   display: grid;
   place-items: center;
   font-size: 11px;
@@ -410,7 +511,9 @@ const toggle = (parent: NavParent) => {
   display: grid;
   place-items: center;
   border-radius: 4px;
-  transition: color 0.12s, background 0.12s;
+  transition:
+    color 0.12s,
+    background 0.12s;
 }
 
 .logout-btn:hover {

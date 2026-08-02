@@ -46,6 +46,7 @@ const tab = ref<TabKey>('facturacion')
 .page-head {
   margin-bottom: 22px;
 }
+
 .eyebrow {
   font-size: 11px;
   font-weight: 600;
@@ -54,6 +55,7 @@ const tab = ref<TabKey>('facturacion')
   text-transform: uppercase;
   margin-bottom: 6px;
 }
+
 .title {
   font-family: 'Instrument Serif', Georgia, serif;
   font-size: 32px;
@@ -63,12 +65,14 @@ const tab = ref<TabKey>('facturacion')
   line-height: 1.1;
   margin: 0;
 }
+
 .tabs {
   display: flex;
   gap: 4px;
   border-bottom: 1px solid #ece5f4;
   margin-bottom: 24px;
 }
+
 .tab {
   display: flex;
   align-items: center;
@@ -83,10 +87,12 @@ const tab = ref<TabKey>('facturacion')
   color: #6b5b80;
   position: relative;
 }
+
 .tab.active {
   font-weight: 600;
   color: #7e22ce;
 }
+
 .tab.active::after {
   content: '';
   position: absolute;
@@ -97,6 +103,7 @@ const tab = ref<TabKey>('facturacion')
   background: #7e22ce;
   border-radius: 2px;
 }
+
 .placeholder {
   padding: 40px;
   text-align: center;

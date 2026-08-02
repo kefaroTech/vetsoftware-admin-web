@@ -2,10 +2,7 @@ import { storeToRefs } from 'pinia'
 import { useSpaTypesStore } from '../stores/spa-types.store'
 import { spaTypesApi } from '../api/spa-types.api'
 import { useNotification } from '@/composables/useNotification'
-import type {
-  CreateSpaTypeCommand,
-  UpdateSpaTypeCommand,
-} from '../types/spa-types.types'
+import type { CreateSpaTypeCommand, UpdateSpaTypeCommand } from '../types/spa-types.types'
 
 export function useSpaTypes() {
   const store = useSpaTypesStore()
@@ -60,6 +57,10 @@ export function useSpaTypes() {
     spaTypes,
     selected,
     loading,
-    fetchAll, fetchById, create, update, remove,
+    fetchAll,
+    fetchById,
+    create,
+    update,
+    remove,
   }
 }

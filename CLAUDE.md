@@ -28,7 +28,9 @@ Convención (ya usada en cada feature de este repo):
    ```ts
    export const useXxxStore = defineStore('xxx', () => {
      const items = ref<T[]>([])
-     function setItems(d: T[]) { items.value = d }
+     function setItems(d: T[]) {
+       items.value = d
+     }
      return { items, setItems }
    })
    ```

@@ -7,9 +7,15 @@ export const useConsultationTypesStore = defineStore('consultationTypes', () => 
   const selected = ref<ConsultationType | null>(null)
   const loading = ref(false)
 
-  function setConsultationTypes(data: ConsultationType[]) { consultationTypes.value = data }
-  function setSelected(s: ConsultationType | null) { selected.value = s }
-  function setLoading(value: boolean) { loading.value = value }
+  function setConsultationTypes(data: ConsultationType[]) {
+    consultationTypes.value = data
+  }
+  function setSelected(s: ConsultationType | null) {
+    selected.value = s
+  }
+  function setLoading(value: boolean) {
+    loading.value = value
+  }
 
   return { consultationTypes, selected, loading, setConsultationTypes, setSelected, setLoading }
 })

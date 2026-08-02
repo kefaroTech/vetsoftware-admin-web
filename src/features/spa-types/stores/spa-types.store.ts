@@ -7,9 +7,15 @@ export const useSpaTypesStore = defineStore('spaTypes', () => {
   const selected = ref<SpaType | null>(null)
   const loading = ref(false)
 
-  function setSpaTypes(data: SpaType[]) { spaTypes.value = data }
-  function setSelected(s: SpaType | null) { selected.value = s }
-  function setLoading(value: boolean) { loading.value = value }
+  function setSpaTypes(data: SpaType[]) {
+    spaTypes.value = data
+  }
+  function setSelected(s: SpaType | null) {
+    selected.value = s
+  }
+  function setLoading(value: boolean) {
+    loading.value = value
+  }
 
   return { spaTypes, selected, loading, setSpaTypes, setSelected, setLoading }
 })

@@ -56,6 +56,7 @@ export default tseslint.config(
         { order: ['defineOptions', 'defineProps', 'defineEmits', 'defineSlots'] },
       ],
       'vue/multi-word-component-names': 'off',
+      'vue/require-default-prop': 'off',
       'vue/no-unused-emit-declarations': 'warn',
       'vue/no-unused-properties': [
         'warn',

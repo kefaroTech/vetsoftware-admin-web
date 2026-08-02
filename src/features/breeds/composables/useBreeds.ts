@@ -57,6 +57,10 @@ export function useBreeds() {
     breeds,
     selected,
     loading,
-    fetchAll, fetchById, create, update, remove,
+    fetchAll,
+    fetchById,
+    create,
+    update,
+    remove,
   }
 }

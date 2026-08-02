@@ -7,9 +7,15 @@ export const useBreedsStore = defineStore('breeds', () => {
   const selected = ref<Breed | null>(null)
   const loading = ref(false)
 
-  function setBreeds(data: Breed[]) { breeds.value = data }
-  function setSelected(b: Breed | null) { selected.value = b }
-  function setLoading(value: boolean) { loading.value = value }
+  function setBreeds(data: Breed[]) {
+    breeds.value = data
+  }
+  function setSelected(b: Breed | null) {
+    selected.value = b
+  }
+  function setLoading(value: boolean) {
+    loading.value = value
+  }
 
   return { breeds, selected, loading, setBreeds, setSelected, setLoading }
 })

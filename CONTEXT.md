@@ -12,6 +12,7 @@ Front del **admin de plataforma** (operador del sistema, NO admin de empresa). C
 - Commitlint con `commitlint-config-gitmoji` (mensajes con emojis)
 
 Repos hermanos:
+
 - `../VetSoftware/` — Backend único.
 - `../VetSoftwarePublicFront/` — Front del empleado de clínica (no confundir).
 
@@ -26,26 +27,26 @@ Repos hermanos:
 
 Patrón uniforme por feature: `api/*.api.ts`, `stores/*.store.ts`, `composables/use*.ts`, `types/*.types.ts`, `components/*Form.vue`, `views/*ListView.vue` + `*DetailView.vue`.
 
-| Feature | Endpoints | UI |
-|---|---|---|
-| `auth/` | `POST /auth/login/system` (+ `/auth/login/employee` declarado pero sin UI) | `LoginView.vue` |
-| `dashboard/` | — | `DashboardView.vue` (sin guard de permiso) |
-| `companies/` | CRUD `/companies` | List, Detail |
-| `memberships/` | CRUD `/memberships` | List, Detail + `MembershipStatusBadge` |
-| `modules/` | CRUD `/modules` | List, Detail |
-| `submodules/` | CRUD `/sub-modules` (folder es `submodules`, path `/sub-modules`) | List, Detail |
-| `base-permissions/` | CRUD `/base-permissions` | List, Detail |
-| `base-roles/` | CRUD `/base-roles` (ruta `/roles-base`) | List, Detail |
-| `base-role-permissions/` | CRUD `/base-role-permissions` + **`POST /admin/admin-permissions/publish`** | List (con botón "Publicar permisos a ADMIN"), Detail |
-| `membership-sub-modules/` | CRUD `/membership-sub-modules` | List, Detail |
-| `species/` | CRUD `/species` | List, Detail |
-| `breeds/` | CRUD `/breeds` + `GET /species/{specieId}/breeds` | List, Detail |
-| `animal-colors/` | CRUD `/animal-colors` | List, Detail |
-| `consultation-types/` | CRUD `/consultation-types` | List, Detail |
-| `vaccination-types/` | CRUD `/vaccination-types` | List, Detail |
-| `surgery-types/` | CRUD `/surgery-types` | List, Detail |
-| `laboratory-test-types/` | CRUD `/laboratory-test-types` | List, Detail |
-| `diagnostic-imaging-types/` | CRUD `/diagnostic-imaging-types` | List, Detail |
+| Feature                     | Endpoints                                                                   | UI                                                   |
+| --------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `auth/`                     | `POST /auth/login/system` (+ `/auth/login/employee` declarado pero sin UI)  | `LoginView.vue`                                      |
+| `dashboard/`                | —                                                                           | `DashboardView.vue` (sin guard de permiso)           |
+| `companies/`                | CRUD `/companies`                                                           | List, Detail                                         |
+| `memberships/`              | CRUD `/memberships`                                                         | List, Detail + `MembershipStatusBadge`               |
+| `modules/`                  | CRUD `/modules`                                                             | List, Detail                                         |
+| `submodules/`               | CRUD `/sub-modules` (folder es `submodules`, path `/sub-modules`)           | List, Detail                                         |
+| `base-permissions/`         | CRUD `/base-permissions`                                                    | List, Detail                                         |
+| `base-roles/`               | CRUD `/base-roles` (ruta `/roles-base`)                                     | List, Detail                                         |
+| `base-role-permissions/`    | CRUD `/base-role-permissions` + **`POST /admin/admin-permissions/publish`** | List (con botón "Publicar permisos a ADMIN"), Detail |
+| `membership-sub-modules/`   | CRUD `/membership-sub-modules`                                              | List, Detail                                         |
+| `species/`                  | CRUD `/species`                                                             | List, Detail                                         |
+| `breeds/`                   | CRUD `/breeds` + `GET /species/{specieId}/breeds`                           | List, Detail                                         |
+| `animal-colors/`            | CRUD `/animal-colors`                                                       | List, Detail                                         |
+| `consultation-types/`       | CRUD `/consultation-types`                                                  | List, Detail                                         |
+| `vaccination-types/`        | CRUD `/vaccination-types`                                                   | List, Detail                                         |
+| `surgery-types/`            | CRUD `/surgery-types`                                                       | List, Detail                                         |
+| `laboratory-test-types/`    | CRUD `/laboratory-test-types`                                               | List, Detail                                         |
+| `diagnostic-imaging-types/` | CRUD `/diagnostic-imaging-types`                                            | List, Detail                                         |
 
 ## Cliente HTTP
 
@@ -77,6 +78,7 @@ Patrón uniforme por feature: `api/*.api.ts`, `stores/*.store.ts`, `composables/
 `src/router/index.ts`. Rutas con paths en español: `/empresas`, `/membresias`, `/modulos`, `/submodulos`, `/permisos-base`, `/roles-base`, `/permisos-roles-base`, `/membresias-submodulos`, `/animales/{especies|razas|colores}`, `/catalogos-clinicos/{tipos-consulta|tipos-vacuna|...}`.
 
 **Guards globales**:
+
 1. Loader de navegación.
 2. `authGuard`: si `meta.public !== true` y no hay token → `login`. Sólo `/login` es `public`.
 3. `permissionGuard`: si `to.meta.permission` y `authStore.hasPermission(...)` falla → `dashboard`.

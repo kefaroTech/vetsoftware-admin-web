@@ -31,7 +31,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
           persist-credentials: false
 
       - name: Set up Node.js
@@ -46,14 +45,8 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=high
 
-      - name: Check changed files
-        if: github.event_name == 'pull_request'
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-        run: npx lint-staged --diff="$BASE_SHA...HEAD"
-
-      - name: Lint
-        run: npm run lint
+      - name: Run global quality gate
+        run: npm run quality
 
       - name: Run unit tests with coverage
         run: npm run test:coverage

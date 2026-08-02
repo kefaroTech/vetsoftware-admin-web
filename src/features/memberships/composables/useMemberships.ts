@@ -57,6 +57,10 @@ export function useMemberships() {
     memberships,
     selected,
     loading,
-    fetchAll, fetchById, create, update, remove,
+    fetchAll,
+    fetchById,
+    create,
+    update,
+    remove,
   }
 }

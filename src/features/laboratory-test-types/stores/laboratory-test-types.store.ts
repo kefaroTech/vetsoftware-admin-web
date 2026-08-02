@@ -7,9 +7,15 @@ export const useLaboratoryTestTypesStore = defineStore('laboratoryTestTypes', ()
   const selected = ref<LaboratoryTestType | null>(null)
   const loading = ref(false)
 
-  function setLaboratoryTestTypes(data: LaboratoryTestType[]) { laboratoryTestTypes.value = data }
-  function setSelected(s: LaboratoryTestType | null) { selected.value = s }
-  function setLoading(value: boolean) { loading.value = value }
+  function setLaboratoryTestTypes(data: LaboratoryTestType[]) {
+    laboratoryTestTypes.value = data
+  }
+  function setSelected(s: LaboratoryTestType | null) {
+    selected.value = s
+  }
+  function setLoading(value: boolean) {
+    loading.value = value
+  }
 
   return {
     laboratoryTestTypes,

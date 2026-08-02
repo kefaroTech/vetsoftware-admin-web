@@ -7,9 +7,15 @@ export const useSpeciesStore = defineStore('species', () => {
   const selected = ref<Specie | null>(null)
   const loading = ref(false)
 
-  function setSpecies(data: Specie[]) { species.value = data }
-  function setSelected(s: Specie | null) { selected.value = s }
-  function setLoading(value: boolean) { loading.value = value }
+  function setSpecies(data: Specie[]) {
+    species.value = data
+  }
+  function setSelected(s: Specie | null) {
+    selected.value = s
+  }
+  function setLoading(value: boolean) {
+    loading.value = value
+  }
 
   return { species, selected, loading, setSpecies, setSelected, setLoading }
 })
