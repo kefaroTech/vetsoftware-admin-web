@@ -1,2 +1,2 @@
 sh scripts/security/scan-secrets.sh staged
-npm run quality
+npm run quality:staged

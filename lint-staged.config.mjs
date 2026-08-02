@@ -5,5 +5,7 @@ export default {
   'src/**/*.{css,scss,sass,vue}': [
     'stylelint --cache --cache-strategy content --cache-location node_modules/.cache/stylelint/ --max-warnings=0',
   ],
-  '*.{js,mjs,cjs,ts,tsx,vue,json,md,yml,yaml,html,css,scss,sass}': ['prettier --check'],
+  './*.{js,mjs,cjs,ts,tsx,vue,json,md,yml,yaml,html,css,scss,sass}': ['prettier --check'],
+  '{src,public,tests,e2e,emails,scripts,docker,.github}/**/*.{js,mjs,cjs,ts,tsx,vue,json,md,yml,yaml,html,css,scss,sass}':
+    ['prettier --check'],
 }
