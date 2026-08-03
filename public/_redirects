@@ -1,0 +1,3 @@
+# Fallback SPA de Cloudflare Pages: vue-router usa history mode.
+# Equivale al `try_files $uri $uri/ /index.html` del nginx del contenedor.
+/*    /index.html   200

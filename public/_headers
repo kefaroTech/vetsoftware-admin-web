@@ -1,0 +1,14 @@
+# Espejo de las cabeceras del nginx no-root (docker/nginx.conf) para Cloudflare Pages.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), geolocation=(), microphone=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cache-Control: no-cache
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/index.html
+  Cache-Control: no-cache
