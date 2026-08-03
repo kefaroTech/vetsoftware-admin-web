@@ -1,0 +1,76 @@
+name: Deploy dev to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-deploy-dev
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and publish dev
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment: development
+    env:
+      CI: true
+      HUSKY: 0
+      WRANGLER_VERSION: '4.118.0'
+      CLOUDFLARE_PROJECT: vetsoftware-front-dev
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
+      - name: Run global quality gate
+        run: npm run quality
+
+      - name: Run unit tests with coverage
+        run: npm run test:coverage
+
+      - name: Build dev profile
+        run: npm run build:dev
+
+      - name: Validate Cloudflare configuration
+        shell: bash
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          [[ -n "$CLOUDFLARE_ACCOUNT_ID" && -n "$CLOUDFLARE_API_TOKEN" ]] || {
+            echo "Configure CLOUDFLARE_ACCOUNT_ID y CLOUDFLARE_API_TOKEN en el environment development." >&2
+            exit 1
+          }
+
+      - name: Publish to Cloudflare Pages
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: >-
+          npx --yes wrangler@"$WRANGLER_VERSION" pages deploy dist
+          --project-name="$CLOUDFLARE_PROJECT"
+          --branch=develop
+          --commit-hash="$GITHUB_SHA"
+          --commit-dirty=false
