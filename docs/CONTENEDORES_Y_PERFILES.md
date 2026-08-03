@@ -12,4 +12,6 @@ Vite reserva la palabra `local`, por lo que el script usa internamente el modo t
 
 El `Dockerfile` construye `prod` por omisión y sirve la SPA con nginx no-root en el puerto 8080. La configuración aplica fallback a `index.html`, compresión, caché prolongada de assets, cabeceras de seguridad y `/health`.
 
+Los builds de CI y dev son efímeros y nunca se publican en ECR. Únicamente una release SemVer aprobada en el environment `production`, y ejecutada desde `main`, conserva una imagen productiva como artefacto de recuperación. El despliegue dev se realizará en Cloudflare Pages y no creará tags, repositorios ni copias históricas ECR.
+
 No coloque secretos en archivos `VITE_*`: sus valores quedan incluidos en el JavaScript entregado al navegador.
