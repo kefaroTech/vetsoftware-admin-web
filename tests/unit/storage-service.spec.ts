@@ -49,48 +49,36 @@ describe('access token', () => {
   })
 })
 
-describe('refresh token', () => {
-  it('vive en una clave distinta del access token', () => {
-    // Compartir clave haría que borrar uno borrase el otro, cerrando la sesión
-    // en cada renovación.
-    storageService.setToken('access')
-    storageService.setRefreshToken('refresh')
-
-    expect(storageService.getToken()).toBe('access')
-    expect(storageService.getRefreshToken()).toBe('refresh')
+describe('el refresh token ya no vive aquí', () => {
+  it('el almacén no expone ninguna operación de refresh token', () => {
+    // FE-03: el refresh dura 30 días y en `localStorage` lo podía leer
+    // cualquier script. Ahora lo emite el backend en una cookie HttpOnly. Si
+    // alguien reintrodujera un getter/setter aquí, estaría devolviendo la
+    // credencial de un mes al alcance de un XSS.
+    expect(Object.keys(storageService)).toEqual([
+      'getToken',
+      'setToken',
+      'removeToken',
+      'clear',
+      'clearAll',
+    ])
   })
 
-  it('borrar el access no arrastra al refresh', () => {
-    // El interceptor borra el access para forzar la renovación; si se llevara el
-    // refresh, no habría con qué renovar.
+  it('no queda rastro del refresh token en localStorage tras usar el almacén', () => {
     storageService.setToken('access')
-    storageService.setRefreshToken('refresh')
 
-    storageService.removeToken()
-
-    expect(storageService.getRefreshToken()).toBe('refresh')
-  })
-
-  it('borrar el refresh no arrastra al access', () => {
-    storageService.setToken('access')
-    storageService.setRefreshToken('refresh')
-
-    storageService.removeRefreshToken()
-
-    expect(storageService.getToken()).toBe('access')
+    expect(Object.keys(localStorage)).toEqual(['vet_token'])
   })
 })
 
 describe('limpieza de sesión', () => {
   it('clearAll deja localStorage y sessionStorage vacíos', () => {
     storageService.setToken('access')
-    storageService.setRefreshToken('refresh')
     sessionStorage.setItem('aviso', 'algo')
 
     storageService.clearAll()
 
     expect(storageService.getToken()).toBeNull()
-    expect(storageService.getRefreshToken()).toBeNull()
     expect(sessionStorage.getItem('aviso')).toBeNull()
   })
 

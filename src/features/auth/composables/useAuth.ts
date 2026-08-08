@@ -1,3 +1,4 @@
+import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth.store'
 import { authApi } from '../api/auth.api'
@@ -7,6 +8,11 @@ import type { LoginCommand } from '../types/auth.types'
 export function useAuth() {
   const authStore = useAuthStore()
   const router = useRouter()
+  // `storeToRefs` y no `authStore.isAuthenticated`: Pinia desenvuelve el
+  // computed al leerlo, así que devolverlo directo entrega un booleano
+  // CONGELADO —el valor que tenía en el momento de llamar a `useAuth()`— y
+  // ningún consumidor se entera del login ni del logout.
+  const { isAuthenticated } = storeToRefs(authStore)
 
   async function login(payload: LoginCommand) {
     const { data } = await authApi.login(payload)
@@ -21,5 +27,5 @@ export function useAuth() {
     window.location.assign('/login')
   }
 
-  return { login, logout, isAuthenticated: authStore.isAuthenticated }
+  return { login, logout, isAuthenticated }
 }
