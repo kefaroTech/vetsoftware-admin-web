@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
+import AppSelect from '@/components/ui/AppSelect.vue'
+import { speciesApi } from '@/features/species/api/species.api'
+import type { Specie } from '@/features/species/types/species.types'
 import type { AnimalColor, CreateAnimalColorCommand } from '../types/animal-colors.types'
 
 const props = defineProps<{
@@ -12,17 +15,29 @@ const emit = defineEmits<{
   cancel: []
 }>()
 
-const form = ref<CreateAnimalColorCommand>({ name: '' })
+const form = ref<CreateAnimalColorCommand>({ name: '', specieId: 0 })
 const submitted = ref(false)
+const availableSpecies = ref<Specie[]>([])
+
+const specieOptions = computed(() =>
+  availableSpecies.value.map((s) => ({ value: s.id, label: s.name })),
+)
 
 const errors = computed(() => ({
   name: form.value.name.trim() ? '' : 'Campo requerido',
+  specieId: form.value.specieId ? '' : 'Campo requerido',
 }))
+
+onMounted(async () => {
+  const { data } = await speciesApi.list()
+  availableSpecies.value = data
+  if (!props.initial && data.length > 0) form.value.specieId = data[0].id
+})
 
 watch(
   () => props.initial,
   (val) => {
-    if (val) form.value = { name: val.name }
+    if (val) form.value = { name: val.name, specieId: val.specie?.id ?? 0 }
   },
   { immediate: true },
 )
@@ -41,6 +56,13 @@ function submit() {
       required
       placeholder="Negro"
       :error="submitted ? errors.name : ''"
+    />
+    <AppSelect
+      v-model="form.specieId"
+      label="Especie"
+      required
+      :options="specieOptions"
+      :error="submitted ? errors.specieId : ''"
     />
     <div class="app-form__actions">
       <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
