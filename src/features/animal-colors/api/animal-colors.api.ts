@@ -7,6 +7,7 @@ import type {
 
 export const animalColorsApi = {
   list: () => http.get<AnimalColor[]>('/animal-colors'),
+  listBySpecie: (specieId: number) => http.get<AnimalColor[]>(`/species/${specieId}/animal-colors`),
   getById: (id: number) => http.get<AnimalColor>(`/animal-colors/${id}`),
   create: (payload: CreateAnimalColorCommand) => http.post<AnimalColor>('/animal-colors', payload),
   update: (id: number, payload: UpdateAnimalColorCommand) =>

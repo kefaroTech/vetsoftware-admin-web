@@ -24,6 +24,18 @@ export function useAnimalColors() {
     }
   }
 
+  async function fetchBySpecie(specieId: number) {
+    store.setLoading(true)
+    try {
+      const { data } = await animalColorsApi.listBySpecie(specieId)
+      store.setColors(data)
+    } catch {
+      notify('Error al cargar los colores', 'error')
+    } finally {
+      store.setLoading(false)
+    }
+  }
+
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
@@ -61,6 +73,7 @@ export function useAnimalColors() {
     selected,
     loading,
     fetchAll,
+    fetchBySpecie,
     fetchById,
     create,
     update,
