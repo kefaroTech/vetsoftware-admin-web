@@ -60,11 +60,45 @@ export default defineConfig({
           functions: 100,
           lines: 100,
         },
-        // Única entrada por debajo de 100 %, y a propósito. Lo que queda sin
-        // cubrir son ramas defensivas que axios no produce en la práctica: un
-        // error sin `config`, una request sin `url`, un AxiosError sin `message`.
-        // Forzarlas exigiría fabricar objetos que el runtime nunca construye, y
-        // esas pruebas solo servirían para mover un número.
+        'src/composables/usePagination.ts': {
+          statements: 100,
+          branches: 100,
+          functions: 100,
+          lines: 100,
+        },
+        'src/services/storage/storage.service.ts': {
+          statements: 100,
+          branches: 100,
+          functions: 100,
+          lines: 100,
+        },
+        'src/stores/confirmDialog.store.ts': {
+          statements: 100,
+          branches: 100,
+          functions: 100,
+          lines: 100,
+        },
+        'src/stores/notification.store.ts': {
+          statements: 100,
+          branches: 100,
+          functions: 100,
+          lines: 100,
+        },
+        // Por debajo de 100 % en ramas: queda la del temporizador de salida
+        // cuando llega una petición nueva justo mientras el velo se retira. Se
+        // ejercita en las pruebas, pero v8 no la marca porque el `setTimeout`
+        // resuelve por el otro lado.
+        'src/stores/loader.store.ts': {
+          statements: 100,
+          branches: 93,
+          functions: 100,
+          lines: 100,
+        },
+        // También por debajo de 100 %, y a propósito. Lo que queda sin cubrir
+        // son ramas defensivas que axios no produce en la práctica: un error sin
+        // `config`, una request sin `url`, un AxiosError sin `message`. Forzarlas
+        // exigiría fabricar objetos que el runtime nunca construye, y esas
+        // pruebas solo servirían para mover un número.
         'src/services/http/http.client.ts': {
           statements: 98,
           branches: 92,
