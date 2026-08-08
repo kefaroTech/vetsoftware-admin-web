@@ -1,10 +1,42 @@
 # Espejo de las cabeceras del nginx no-root (docker/nginx.conf) para Cloudflare Pages.
+# Los dos archivos DEBEN declarar lo mismo: tests/unit/security-headers.spec.ts lo verifica.
+#
+# La CSP está construida contra lo que este panel carga de verdad, no contra una
+# plantilla genérica. Cada origen externo de la lista está justificado abajo; lo
+# que no aparece, no se carga (y si algún día se necesita, el navegador lo
+# bloquea con un error visible en consola en vez de fallar en silencio).
+#
+#   script-src 'self'          → el build de Vite solo emite módulos propios. Sin
+#                                'unsafe-inline' ni 'unsafe-eval': el proyecto no
+#                                tiene eval, new Function, v-html ni innerHTML.
+#   style-src fonts.googleapis → index.html carga la hoja de Google Fonts. El
+#                                'unsafe-inline' es inevitable hoy porque Vuetify
+#                                inyecta estilos en línea.
+#   font-src  fonts.gstatic    → los ficheros de fuente que referencia esa hoja.
+#   img-src   'self' data:     → este panel no muestra ninguna imagen remota
+#                                (verificado: cero <img> con origen externo).
+#   connect-src                → los DOS orígenes de API, porque el mismo archivo
+#                                estático se despliega en dev y en prod. Ambos son
+#                                de primera parte; el test comprueba que coincidan
+#                                con VITE_API_URL de .env.dev y .env.prod.
+#   frame-src 'none'           → el panel no incrusta iframes.
+#
+# api.iconify.design NO está permitido a propósito: los iconos se resuelven desde
+# el subset local generado en build (ver scripts/build-icon-subset.mjs). Si alguien
+# reintroduce una descarga desde la CDN, la CSP la corta.
+#
+# HSTS sin `preload`: entrar en la lista de precarga es una decisión de dominio,
+# no de repositorio, y salir de ella tarda meses. max-age + includeSubDomains dan
+# la protección real sin ese compromiso irreversible.
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), geolocation=(), microphone=()
+  Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=()
   Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dev-api.kefaro.tech https://api.vetsoftware.co; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
   Cache-Control: no-cache
 
 /assets/*
