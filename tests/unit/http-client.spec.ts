@@ -210,7 +210,6 @@ describe('401 y renovación de sesión', () => {
     // observa sobre un doble en vez de dejar que reviente.
     vi.stubGlobal('location', { pathname: '/pacientes', href: '' })
     storageService.setToken('access-viejo')
-    storageService.setRefreshToken('refresh-vigente')
   })
 
   afterEach(() => {
@@ -270,7 +269,6 @@ describe('401 y renovación de sesión', () => {
 
     expect(refresh).not.toHaveBeenCalled()
     expect(storageService.getToken()).toBeNull()
-    expect(storageService.getRefreshToken()).toBeNull()
     expect(location.href).toBe('/login')
   })
 

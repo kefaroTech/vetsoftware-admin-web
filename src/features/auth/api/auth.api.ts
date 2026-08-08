@@ -12,6 +12,7 @@ export const authApi = {
   loginEmployee: (payload: LoginEmployeeCommand) =>
     http.post<TokenResponse>('/auth/login/employee', payload),
   me: () => http.get<MeResponse>('/auth/me'),
-  refresh: (refreshToken: string) => http.post<TokenResponse>('/auth/refresh', { refreshToken }),
+  // Sin cuerpo: el refresh token va en la cookie HttpOnly que adjunta el navegador.
+  refresh: () => http.post<TokenResponse>('/auth/refresh'),
   logout: () => http.post('/auth/logout'),
 }

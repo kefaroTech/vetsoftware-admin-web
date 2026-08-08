@@ -1,6 +1,5 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import { useAuthStore } from '@/features/auth/stores/auth.store'
-import { useNotification } from '@/composables/useNotification'
 import { ROUTE_NAMES } from '@/constants/routes'
 
 export function authGuard(
@@ -14,13 +13,13 @@ export function authGuard(
   if (isPublic) return next()
   if (!authStore.token) return next({ name: ROUTE_NAMES.LOGIN })
 
-  // Access vencido y SIN refresh token → no se puede renovar: limpiamos y avisamos.
-  // Con refresh token dejamos pasar: el primer 401 dispara el refresh transparente.
-  if (authStore.isExpired && !authStore.refreshToken) {
-    authStore.clearSession()
-    useNotification().notify('Sesión expirada, vuelve a iniciar sesión.', 'warning')
-    return next({ name: ROUTE_NAMES.LOGIN })
-  }
-
+  // Con el access vencido se deja pasar igualmente: el refresh token vive en una
+  // cookie HttpOnly y este código no puede comprobar si existe. El primer 401
+  // dispara el refresh transparente, y si no hay cookie el backend responde 401
+  // otra vez y el interceptor manda a login limpiando la sesión.
+  //
+  // Antes se decidía aquí leyendo el refresh token de localStorage. Perder esa
+  // comprobación cuesta una petición en el caso de sesión ya muerta, y a cambio
+  // el refresh deja de ser legible por cualquier script de la página.
   next()
 }
