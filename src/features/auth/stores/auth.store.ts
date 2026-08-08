@@ -9,7 +9,6 @@ export type UserType = 'EMPLOYEE' | 'SYSTEM_USER'
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(storageService.getToken())
-  const refreshToken = ref<string | null>(storageService.getRefreshToken())
   const permissions = ref<string[]>([])
 
   const payload = computed(() => (token.value ? decodeJwt(token.value) : null))
@@ -33,17 +32,19 @@ export const useAuthStore = defineStore('auth', () => {
     storageService.setToken(newToken)
   }
 
-  /** Persiste el par access + refresh (login y rotación). */
-  function setSession(newToken: string, newRefreshToken: string) {
+  /**
+   * Persiste la sesión tras un login o una rotación.
+   *
+   * Ya no recibe el refresh token: el backend lo emite en una cookie HttpOnly
+   * que este código no puede leer ni necesita. Aquí solo queda el access token.
+   */
+  function setSession(newToken: string) {
     token.value = newToken
-    refreshToken.value = newRefreshToken
     storageService.setToken(newToken)
-    storageService.setRefreshToken(newRefreshToken)
   }
 
   function clearSession() {
     token.value = null
-    refreshToken.value = null
     permissions.value = []
     storageService.clearAll()
   }
@@ -67,15 +68,21 @@ export const useAuthStore = defineStore('auth', () => {
   // Single-flight: varias requests 401 concurrentes comparten un único /auth/refresh.
   let refreshInFlight: Promise<string | null> | null = null
 
-  /** Rota el refresh token y actualiza la sesión; devuelve el nuevo access token o null. */
+  /**
+   * Rota el refresh token y actualiza la sesión; devuelve el nuevo access token
+   * o null.
+   *
+   * Ya no comprueba antes si hay refresh token: vive en una cookie HttpOnly y
+   * este código no puede verla. La ausencia se resuelve en el servidor, que
+   * responde 401 y aquí acaba en `clearSession()`. Un viaje de red de más en el
+   * único caso en que la sesión ya estaba perdida.
+   */
   async function refreshSession(): Promise<string | null> {
     if (refreshInFlight) return refreshInFlight
-    const current = refreshToken.value
-    if (!current) return null
     refreshInFlight = authApi
-      .refresh(current)
+      .refresh()
       .then(({ data }) => {
-        setSession(data.token, data.refreshToken)
+        setSession(data.token)
         return data.token
       })
       .catch(() => {
@@ -103,7 +110,6 @@ export const useAuthStore = defineStore('auth', () => {
 
   return {
     token,
-    refreshToken,
     permissions,
     userId,
     userType,

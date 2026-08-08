@@ -35,12 +35,18 @@ export const http = axios.create({
   baseURL: createApiBaseUrl(import.meta.env.VITE_API_URL),
   headers: { 'Content-Type': 'application/json' },
   timeout: DEFAULT_TIMEOUT_MS,
+  // El refresh token viaja en una cookie HttpOnly que emite el backend, así que
+  // el navegador tiene que adjuntarla en /auth/refresh y /auth/logout. Sin esto
+  // la cookie ni siquiera se guarda: en una petición cross-origin, el navegador
+  // descarta Set-Cookie salvo que la petición se hiciera con credenciales.
+  // El backend ya responde con Access-Control-Allow-Credentials y una lista
+  // explícita de orígenes, que es lo que este flag exige.
+  withCredentials: true,
 })
 
 /** Limpia el token y fuerza el ir a login (hard redirect). Usado cuando el refresh no es posible. */
 function redirectToLogin() {
   storageService.removeToken()
-  storageService.removeRefreshToken()
   if (window.location.pathname !== '/login') {
     window.location.href = '/login'
   }

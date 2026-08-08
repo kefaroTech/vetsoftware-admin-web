@@ -10,10 +10,14 @@ export interface LoginEmployeeCommand {
 
 export type LoginCommand = LoginSystemUserCommand
 
+/**
+ * El backend ya no entrega el refresh token en el cuerpo: lo emite en una cookie
+ * `HttpOnly`. El campo sigue apareciendo en el JSON con valor `null` y se omite
+ * aquí a propósito, para que ningún código nuevo intente leerlo.
+ */
 export interface TokenResponse {
   token: string
   type: string
-  refreshToken: string
 }
 
 export interface MeResponse {

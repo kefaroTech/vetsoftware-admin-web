@@ -66,31 +66,30 @@ describe('authGuard', () => {
     expect(notify).not.toHaveBeenCalled()
   })
 
-  it('deja pasar con el access vencido si queda refresh token', () => {
-    // El 401 posterior dispara la renovación transparente. Cerrar sesión aquí
-    // expulsaría al usuario en cada recarga después de una hora.
+  it('deja pasar con el access vencido y delega la renovación al interceptor', () => {
+    // El refresh token vive en una cookie HttpOnly: el guard no puede saber si
+    // existe. Deja pasar siempre, el primer 401 dispara la renovación, y si no
+    // hay cookie el backend responde 401 otra vez y el interceptor manda a login.
+    //
+    // Antes esta decisión se tomaba leyendo el refresh token de localStorage.
+    // Ese era exactamente el valor que un XSS podía llevarse.
     const store = useAuthStore()
     store.token = tokenExpiring(-60)
-    store.refreshToken = 'refresh-vigente'
-    const next = vi.fn() as unknown as NavigationGuardNext
-
-    authGuard(route(), route(), next)
-
-    expect(next).toHaveBeenCalledWith()
-    expect(notify).not.toHaveBeenCalled()
-  })
-
-  it('limpia la sesión y avisa cuando el access venció y no hay refresh', () => {
-    const store = useAuthStore()
-    store.token = tokenExpiring(-60)
-    store.refreshToken = null
     const clearSession = vi.spyOn(store, 'clearSession')
     const next = vi.fn() as unknown as NavigationGuardNext
 
     authGuard(route(), route(), next)
 
-    expect(clearSession).toHaveBeenCalled()
-    expect(notify).toHaveBeenCalledWith('Sesión expirada, vuelve a iniciar sesión.', 'warning')
-    expect(next).toHaveBeenCalledWith({ name: ROUTE_NAMES.LOGIN })
+    expect(next).toHaveBeenCalledWith()
+    expect(clearSession).not.toHaveBeenCalled()
+    expect(notify).not.toHaveBeenCalled()
+  })
+
+  it('no expone el refresh token en el store', () => {
+    // Contrato del arreglo: si alguien vuelve a añadir el refresh al store, ya
+    // es legible desde la consola del navegador y desde cualquier script inyectado.
+    const store = useAuthStore() as unknown as Record<string, unknown>
+
+    expect(store.refreshToken).toBeUndefined()
   })
 })
