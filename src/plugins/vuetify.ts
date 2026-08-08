@@ -2,9 +2,19 @@ import 'vuetify/styles'
 import { h } from 'vue'
 import { createVuetify, type IconSet, type IconProps } from 'vuetify'
 import { Icon, addCollection } from '@iconify/vue'
-import tablerCollection from '@iconify-json/tabler/icons.json'
+// Subconjunto generado con solo los iconos que el código usa. La colección
+// completa de Tabler pesa 2.087.955 bytes y trae 6.140 iconos; este archivo
+// ronda los 15 KB. Como este módulo lo importa main.ts, la diferencia iba entera
+// al chunk de entrada: todo usuario del panel se descargaba la colección antes
+// del primer píxel para usar unas decenas de iconos.
+//
+// Lo regenera scripts/build-icon-subset.mjs en cada dev y cada build, y falla si
+// un nombre no existe en la colección — un icono mal escrito no lanza error en
+// Iconify, simplemente deja un hueco.
+import tablerIcons from '@/generated/tabler-icons.json'
+import { tablerAliases } from './vuetify-icon-aliases'
 
-addCollection(tablerCollection as Parameters<typeof addCollection>[0])
+addCollection(tablerIcons as Parameters<typeof addCollection>[0])
 
 const iconify: IconSet = {
   component: (props: IconProps) => h(Icon, { icon: props.icon as string }),
@@ -31,6 +41,9 @@ export default createVuetify({
   },
   icons: {
     defaultSet: 'iconify',
+    // Sin este mapa, los iconos internos de Vuetify se resolvían contra la CDN
+    // pública de Iconify en tiempo de ejecución. Ver vuetify-icon-aliases.ts.
+    aliases: tablerAliases,
     sets: { iconify },
   },
   defaults: {

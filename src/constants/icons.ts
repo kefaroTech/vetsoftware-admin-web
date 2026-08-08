@@ -19,7 +19,10 @@ export const ICONS = {
   CLINICAL_CATALOGS: 'tabler:clipboard-heart',
   CONSULTATION_TYPE: 'tabler:stethoscope',
   VACCINATION_TYPE: 'tabler:vaccine',
-  SURGERY_TYPE: 'tabler:scalpel',
+  // Antes apuntaba a un nombre que no existe en la colección, así que el ítem de
+  // cirugía del sidebar llevaba un hueco donde debía ir el icono. 'blade' es el
+  // bisturí de Tabler.
+  SURGERY_TYPE: 'tabler:blade',
   LABORATORY_TEST_TYPE: 'tabler:test-pipe',
   DIAGNOSTIC_IMAGING_TYPE: 'tabler:photo-scan',
   SPA_TYPE: 'tabler:bath',
