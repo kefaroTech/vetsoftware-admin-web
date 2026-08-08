@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "npm run dev:local",
-    "dev:local": "cross-env NODE_OPTIONS=--max-http-header-size=65536 vite --mode localdev",
-    "dev:dev": "cross-env NODE_OPTIONS=--max-http-header-size=65536 vite --mode dev",
-    "dev:prod": "cross-env NODE_OPTIONS=--max-http-header-size=65536 vite --mode prod",
+    "dev:local": "node scripts/build-icon-subset.mjs && cross-env NODE_OPTIONS=--max-http-header-size=65536 vite --mode localdev",
+    "dev:dev": "node scripts/build-icon-subset.mjs && cross-env NODE_OPTIONS=--max-http-header-size=65536 vite --mode dev",
+    "dev:prod": "node scripts/build-icon-subset.mjs && cross-env NODE_OPTIONS=--max-http-header-size=65536 vite --mode prod",
     "build": "npm run build:prod",
-    "build:local": "vue-tsc -b && vite build --mode localdev",
-    "build:dev": "vue-tsc -b && vite build --mode dev",
-    "build:prod": "vue-tsc -b && vite build --mode prod",
+    "build:local": "node scripts/build-icon-subset.mjs && vue-tsc -b && vite build --mode localdev",
+    "build:dev": "node scripts/build-icon-subset.mjs && vue-tsc -b && vite build --mode dev",
+    "build:prod": "node scripts/build-icon-subset.mjs && vue-tsc -b && vite build --mode prod",
     "preview": "vite preview",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -25,7 +25,8 @@
     "format:check": "prettier --check .",
     "quality": "npm run lint:strict && npm run stylelint:strict && npm run format:check",
     "quality:staged": "lint-staged",
-    "prepare": "husky"
+    "prepare": "husky",
+    "icons:sync": "node scripts/build-icon-subset.mjs"
   },
   "engines": {
     "node": ">=24.0.0",
