@@ -40,8 +40,7 @@ export default defineConfig({
       // En su lugar se exige 100 % en lo que YA está cubierto, de modo que esas
       // rutas no puedan regresar. La lista crece a medida que se cubren módulos:
       // añadir uno aquí es la forma de declarar "esto ya está probado y no se
-      // rompe". El objetivo siguiente es el interceptor 401/refresh con su
-      // single-flight, que es la lógica sin cubrir de mayor riesgo.
+      // rompe".
       thresholds: {
         'src/services/http/api-base-url.ts': {
           statements: 100,
@@ -58,6 +57,17 @@ export default defineConfig({
         'src/router/guards/**': {
           statements: 100,
           branches: 100,
+          functions: 100,
+          lines: 100,
+        },
+        // Única entrada por debajo de 100 %, y a propósito. Lo que queda sin
+        // cubrir son ramas defensivas que axios no produce en la práctica: un
+        // error sin `config`, una request sin `url`, un AxiosError sin `message`.
+        // Forzarlas exigiría fabricar objetos que el runtime nunca construye, y
+        // esas pruebas solo servirían para mover un número.
+        'src/services/http/http.client.ts': {
+          statements: 98,
+          branches: 92,
           functions: 100,
           lines: 100,
         },
