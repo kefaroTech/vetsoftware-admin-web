@@ -60,6 +60,14 @@ export default defineConfig({
           functions: 100,
           lines: 100,
         },
+        // La fachada de sesión. El bug que tenía —un booleano congelado en vez
+        // de un ref— no lanzaba ni avisaba, así que solo una prueba lo detecta.
+        'src/features/auth/composables/useAuth.ts': {
+          statements: 100,
+          branches: 100,
+          functions: 100,
+          lines: 100,
+        },
         'src/composables/usePagination.ts': {
           statements: 100,
           branches: 100,
