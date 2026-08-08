@@ -26,7 +26,8 @@
     "quality": "npm run lint:strict && npm run stylelint:strict && npm run format:check",
     "quality:staged": "lint-staged",
     "prepare": "husky",
-    "icons:sync": "node scripts/build-icon-subset.mjs"
+    "icons:sync": "node scripts/build-icon-subset.mjs",
+    "budget": "node scripts/check-bundle-budget.mjs"
   },
   "engines": {
     "node": ">=24.0.0",

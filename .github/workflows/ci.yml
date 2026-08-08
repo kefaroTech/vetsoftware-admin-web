@@ -54,6 +54,12 @@ jobs:
       - name: Build
         run: npm run build
 
+      # El build no falla nunca por tamaño: Vite avisa por consola y sigue. Este
+      # paso es lo que convierte ese aviso en una puerta, y es el único punto del
+      # pipeline que impide que la ruta crítica vuelva a inflarse.
+      - name: Enforce bundle budget
+        run: npm run budget
+
   container-image:
     name: Build production container image
     needs: frontend-quality-gate

@@ -23,6 +23,40 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(import.meta.dirname, './src'),
       },
     },
+    build: {
+      // Pinado: el objetivo por defecto de Vite cambia entre versiones mayores, y
+      // un salto silencioso mueve el tamaño del bundle sin que nadie lo pida.
+      target: 'es2022',
+
+      // Nunca se publican mapas de código, tampoco en dev: el entorno de dev es
+      // accesible desde internet y un mapa entrega el fuente completo a quien
+      // abra las herramientas del navegador. Para depurar, se construye en local.
+      sourcemap: false,
+
+      // Por defecto son 500 kB. El chunk más grande hoy es el de iconos (182 kB),
+      // así que 200 avisa cuando algo empieza a engordar, no cuando ya es tarde.
+      chunkSizeWarningLimit: 200,
+
+      // Sin `manualChunks`, y es una decisión medida, no un olvido.
+      //
+      // Se probaron tres configuraciones sobre este mismo proyecto (gzip, ruta
+      // crítica = entry + modulepreloads):
+      //
+      //   automático de Vite (esto)        121,3 KB   ← el mejor
+      //   vendor por familias              124,9 KB   (+3,6 KB, y +1,5 KB de CSS)
+      //   solo vue/router/pinia aparte     122,0 KB   (+0,7 KB, sin aligerar el entry)
+      //
+      // El argumento habitual a favor de `manualChunks` es la caché: que un
+      // cambio de código de aplicación no invalide el vendor. Aquí ya no aplica.
+      // Medido cambiando una línea de `App.vue` y reconstruyendo, de los 72
+      // chunks emitidos cambia de hash EXACTAMENTE UNO: `index-*.js`, 19,7 KB
+      // gzip. Los 71 restantes —incluido el de iconos, que es el más pesado— se
+      // quedan cacheados. Rollup ya separa por sí solo lo que se comparte entre
+      // rutas, y forzarlo a mano solo rompe esa optimización.
+      //
+      // Si alguien vuelve a plantearlo: mídelo con `npm run budget -- --report`
+      // antes y después. La cifra manda.
+    },
     server: {
       port: 5173,
       strictPort: true,
