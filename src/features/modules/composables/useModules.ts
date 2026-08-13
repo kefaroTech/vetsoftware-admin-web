@@ -6,14 +6,14 @@ import type { CreateModuleCommand, UpdateModuleCommand } from '../types/modules.
 
 export function useModules() {
   const store = useModulesStore()
-  const { modules, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await modulesApi.list()
-      store.setModules(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar los módulos', 'error')
     } finally {
@@ -35,26 +35,26 @@ export function useModules() {
 
   async function create(payload: CreateModuleCommand) {
     const { data } = await modulesApi.create(payload)
-    store.setModules([...store.modules, data])
+    store.setItems([...store.items, data])
     notify('Módulo creado exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateModuleCommand) {
     const { data } = await modulesApi.update(id, payload)
-    store.setModules(store.modules.map((m) => (m.id === id ? data : m)))
+    store.setItems(store.items.map((m) => (m.id === id ? data : m)))
     notify('Módulo actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await modulesApi.remove(id)
-    store.setModules(store.modules.filter((m) => m.id !== id))
+    store.setItems(store.items.filter((m) => m.id !== id))
     notify('Módulo eliminado', 'success')
   }
 
   return {
-    modules,
+    modules: items,
     selected,
     loading,
     fetchAll,

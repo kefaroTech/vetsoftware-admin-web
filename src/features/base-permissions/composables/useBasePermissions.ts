@@ -9,14 +9,14 @@ import type {
 
 export function useBasePermissions() {
   const store = useBasePermissionsStore()
-  const { permissions, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await basePermissionsApi.list()
-      store.setPermissions(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar los permisos base', 'error')
     } finally {
@@ -38,26 +38,26 @@ export function useBasePermissions() {
 
   async function create(payload: CreateBasePermissionCommand) {
     const { data } = await basePermissionsApi.create(payload)
-    store.setPermissions([...store.permissions, data])
+    store.setItems([...store.items, data])
     notify('Permiso base creado exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateBasePermissionCommand) {
     const { data } = await basePermissionsApi.update(id, payload)
-    store.setPermissions(store.permissions.map((p) => (p.id === id ? data : p)))
+    store.setItems(store.items.map((p) => (p.id === id ? data : p)))
     notify('Permiso base actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await basePermissionsApi.remove(id)
-    store.setPermissions(store.permissions.filter((p) => p.id !== id))
+    store.setItems(store.items.filter((p) => p.id !== id))
     notify('Permiso base eliminado', 'success')
   }
 
   return {
-    permissions,
+    permissions: items,
     selected,
     loading,
     fetchAll,

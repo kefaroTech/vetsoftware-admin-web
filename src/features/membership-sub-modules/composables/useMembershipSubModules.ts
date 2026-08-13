@@ -9,14 +9,14 @@ import type {
 
 export function useMembershipSubModules() {
   const store = useMembershipSubModulesStore()
-  const { membershipSubModules, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await membershipSubModulesApi.list()
-      store.setMembershipSubModules(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar las asociaciones membresía-submódulo', 'error')
     } finally {
@@ -38,26 +38,26 @@ export function useMembershipSubModules() {
 
   async function create(payload: CreateMembershipSubModuleCommand) {
     const { data } = await membershipSubModulesApi.create(payload)
-    store.setMembershipSubModules([...store.membershipSubModules, data])
+    store.setItems([...store.items, data])
     notify('Asociación creada exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateMembershipSubModuleCommand) {
     const { data } = await membershipSubModulesApi.update(id, payload)
-    store.setMembershipSubModules(store.membershipSubModules.map((m) => (m.id === id ? data : m)))
+    store.setItems(store.items.map((m) => (m.id === id ? data : m)))
     notify('Asociación actualizada', 'success')
     return data
   }
 
   async function remove(id: number) {
     await membershipSubModulesApi.remove(id)
-    store.setMembershipSubModules(store.membershipSubModules.filter((m) => m.id !== id))
+    store.setItems(store.items.filter((m) => m.id !== id))
     notify('Asociación eliminada', 'success')
   }
 
   return {
-    membershipSubModules,
+    membershipSubModules: items,
     selected,
     loading,
     fetchAll,

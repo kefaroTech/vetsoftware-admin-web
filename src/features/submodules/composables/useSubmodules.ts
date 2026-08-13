@@ -6,14 +6,14 @@ import type { CreateSubmoduleCommand, UpdateSubmoduleCommand } from '../types/su
 
 export function useSubmodules() {
   const store = useSubmodulesStore()
-  const { submodules, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await submodulesApi.list()
-      store.setSubmodules(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar los submódulos', 'error')
     } finally {
@@ -35,26 +35,26 @@ export function useSubmodules() {
 
   async function create(payload: CreateSubmoduleCommand) {
     const { data } = await submodulesApi.create(payload)
-    store.setSubmodules([...store.submodules, data])
+    store.setItems([...store.items, data])
     notify('Submódulo creado exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateSubmoduleCommand) {
     const { data } = await submodulesApi.update(id, payload)
-    store.setSubmodules(store.submodules.map((s) => (s.id === id ? data : s)))
+    store.setItems(store.items.map((s) => (s.id === id ? data : s)))
     notify('Submódulo actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await submodulesApi.remove(id)
-    store.setSubmodules(store.submodules.filter((s) => s.id !== id))
+    store.setItems(store.items.filter((s) => s.id !== id))
     notify('Submódulo eliminado', 'success')
   }
 
   return {
-    submodules,
+    submodules: items,
     selected,
     loading,
     fetchAll,

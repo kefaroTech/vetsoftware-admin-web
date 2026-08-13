@@ -9,14 +9,14 @@ import type {
 
 export function useAnimalColors() {
   const store = useAnimalColorsStore()
-  const { colors, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await animalColorsApi.list()
-      store.setColors(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar los colores', 'error')
     } finally {
@@ -28,7 +28,7 @@ export function useAnimalColors() {
     store.setLoading(true)
     try {
       const { data } = await animalColorsApi.listBySpecie(specieId)
-      store.setColors(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar los colores', 'error')
     } finally {
@@ -50,26 +50,26 @@ export function useAnimalColors() {
 
   async function create(payload: CreateAnimalColorCommand) {
     const { data } = await animalColorsApi.create(payload)
-    store.setColors([...store.colors, data])
+    store.setItems([...store.items, data])
     notify('Color creado exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateAnimalColorCommand) {
     const { data } = await animalColorsApi.update(id, payload)
-    store.setColors(store.colors.map((c) => (c.id === id ? data : c)))
+    store.setItems(store.items.map((c) => (c.id === id ? data : c)))
     notify('Color actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await animalColorsApi.remove(id)
-    store.setColors(store.colors.filter((c) => c.id !== id))
+    store.setItems(store.items.filter((c) => c.id !== id))
     notify('Color eliminado', 'success')
   }
 
   return {
-    colors,
+    colors: items,
     selected,
     loading,
     fetchAll,

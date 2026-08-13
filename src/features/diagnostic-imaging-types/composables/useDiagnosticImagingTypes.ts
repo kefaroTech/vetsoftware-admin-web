@@ -11,14 +11,14 @@ export interface DiagnosticImagingTypeFormData {
 
 export function useDiagnosticImagingTypes() {
   const store = useDiagnosticImagingTypesStore()
-  const { diagnosticImagingTypes, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await diagnosticImagingTypesApi.list()
-      store.setDiagnosticImagingTypes(data.filter((t) => t.general))
+      store.setItems(data.filter((t) => t.general))
     } catch {
       notify('Error al cargar los tipos de imagen diagnóstica', 'error')
     } finally {
@@ -46,7 +46,7 @@ export function useDiagnosticImagingTypes() {
       general: true,
     }
     const { data } = await diagnosticImagingTypesApi.create(payload)
-    store.setDiagnosticImagingTypes([...store.diagnosticImagingTypes, data])
+    store.setItems([...store.items, data])
     notify('Tipo de imagen diagnóstica creado exitosamente', 'success')
     return data
   }
@@ -59,21 +59,19 @@ export function useDiagnosticImagingTypes() {
       general: true,
     }
     const { data } = await diagnosticImagingTypesApi.update(id, payload)
-    store.setDiagnosticImagingTypes(
-      store.diagnosticImagingTypes.map((t) => (t.id === id ? data : t)),
-    )
+    store.setItems(store.items.map((t) => (t.id === id ? data : t)))
     notify('Tipo de imagen diagnóstica actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await diagnosticImagingTypesApi.remove(id)
-    store.setDiagnosticImagingTypes(store.diagnosticImagingTypes.filter((t) => t.id !== id))
+    store.setItems(store.items.filter((t) => t.id !== id))
     notify('Tipo de imagen diagnóstica eliminado', 'success')
   }
 
   return {
-    diagnosticImagingTypes,
+    diagnosticImagingTypes: items,
     selected,
     loading,
     fetchAll,

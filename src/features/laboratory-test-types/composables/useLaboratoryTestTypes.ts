@@ -11,14 +11,14 @@ export interface LaboratoryTestTypeFormData {
 
 export function useLaboratoryTestTypes() {
   const store = useLaboratoryTestTypesStore()
-  const { laboratoryTestTypes, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await laboratoryTestTypesApi.list()
-      store.setLaboratoryTestTypes(data.filter((t) => t.general))
+      store.setItems(data.filter((t) => t.general))
     } catch {
       notify('Error al cargar los tipos de laboratorio', 'error')
     } finally {
@@ -46,7 +46,7 @@ export function useLaboratoryTestTypes() {
       general: true,
     }
     const { data } = await laboratoryTestTypesApi.create(payload)
-    store.setLaboratoryTestTypes([...store.laboratoryTestTypes, data])
+    store.setItems([...store.items, data])
     notify('Tipo de laboratorio creado exitosamente', 'success')
     return data
   }
@@ -59,19 +59,19 @@ export function useLaboratoryTestTypes() {
       general: true,
     }
     const { data } = await laboratoryTestTypesApi.update(id, payload)
-    store.setLaboratoryTestTypes(store.laboratoryTestTypes.map((t) => (t.id === id ? data : t)))
+    store.setItems(store.items.map((t) => (t.id === id ? data : t)))
     notify('Tipo de laboratorio actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await laboratoryTestTypesApi.remove(id)
-    store.setLaboratoryTestTypes(store.laboratoryTestTypes.filter((t) => t.id !== id))
+    store.setItems(store.items.filter((t) => t.id !== id))
     notify('Tipo de laboratorio eliminado', 'success')
   }
 
   return {
-    laboratoryTestTypes,
+    laboratoryTestTypes: items,
     selected,
     loading,
     fetchAll,
