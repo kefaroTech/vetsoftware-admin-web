@@ -30,6 +30,7 @@
  * y esa diferencia no dice nada sobre el backend.
  */
 import type { components } from './api.generated'
+import type { SystemConfiguration } from '../features/config/types/config.types'
 import type {
   AnimalColor,
   CreateAnimalColorCommand,
@@ -200,6 +201,7 @@ type Expect<T extends true> = T
  * que esta lista envejezca en silencio.
  */
 export type ContractAssertions = [
+  Expect<MatchesContract<SystemConfiguration, 'SystemConfigurationDto'>>,
   Expect<MatchesContract<AnimalColor, 'AnimalColorResponse'>>,
   Expect<MatchesContract<AppModule, 'ModuleResponse'>>,
   Expect<MatchesContract<BasePermission, 'BasePermissionResponse'>>,
