@@ -5787,15 +5787,15 @@ export interface components {
         };
         AnimalSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
             code?: string;
         };
         CompanySummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            identifier?: string;
+            id: number;
+            name: string;
+            identifier: string;
         };
         ConsultationSummary: {
             /** Format: int64 */
@@ -5805,27 +5805,27 @@ export interface components {
         };
         VaccinationResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: date */
-            date?: string;
-            vaccinationType?: components["schemas"]["VaccinationTypeSummary"];
-            lot?: string;
-            notes?: string;
+            date: string;
+            vaccinationType: components["schemas"]["VaccinationTypeSummary"];
+            lot: string;
+            notes: string;
             route?: string;
             applicationSite?: string;
             /** Format: date */
             nextVaccination?: string;
-            animal?: components["schemas"]["AnimalSummary"];
+            animal: components["schemas"]["AnimalSummary"];
             consultation?: components["schemas"]["ConsultationSummary"];
-            company?: components["schemas"]["CompanySummary"];
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         VaccinationTypeSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         UpdateVaccinationTypeRequest: {
             name: string;
@@ -5834,13 +5834,13 @@ export interface components {
         };
         VaccinationTypeResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            description?: string;
+            id: number;
+            name: string;
+            description: string;
             company?: components["schemas"]["CompanySummary"];
-            general?: boolean;
+            general: boolean;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateTaxRequest: {
@@ -5858,16 +5858,16 @@ export interface components {
             percentage?: number;
             /** @enum {string} */
             taxScheme?: "IVA" | "INC";
-            company?: components["schemas"]["CompanySummary"];
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             /** Format: date-time */
             updatedDate?: string;
             /** Format: int64 */
             updatedBy?: number;
             /** Format: int64 */
-            version?: number;
-            enabled?: boolean;
+            version: number;
+            enabled: boolean;
         };
         UpdateSystemUserRequest: {
             code: string;
@@ -5939,13 +5939,13 @@ export interface components {
         };
         SurgeryTypeResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            description?: string;
+            id: number;
+            name: string;
+            description: string;
             company?: components["schemas"]["CompanySummary"];
-            general?: boolean;
+            general: boolean;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateSurgeryRequest: {
@@ -5964,26 +5964,26 @@ export interface components {
         };
         SurgeryResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: date */
-            date?: string;
-            surgeryType?: components["schemas"]["SurgeryTypeSummary"];
-            description?: string;
-            medicament?: string;
-            observations?: string;
-            complications?: string;
+            date: string;
+            surgeryType: components["schemas"]["SurgeryTypeSummary"];
+            description: string;
+            medicament: string;
+            observations: string;
+            complications: string;
             status?: string;
-            animal?: components["schemas"]["AnimalSummary"];
+            animal: components["schemas"]["AnimalSummary"];
             consultation?: components["schemas"]["ConsultationSummary"];
-            company?: components["schemas"]["CompanySummary"];
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         SurgeryTypeSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         UpdateSupplierRequest: {
             name: string;
@@ -6044,8 +6044,8 @@ export interface components {
         };
         BranchSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         SupplierInvoicePaymentResponse: {
             /** Format: int64 */
@@ -6102,8 +6102,8 @@ export interface components {
         };
         SupplierSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
             taxId?: string;
         };
         UpdateSubModuleRequest: {
@@ -6120,12 +6120,12 @@ export interface components {
         };
         SubModuleResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
-            module?: components["schemas"]["ModuleSummary"];
+            id: number;
+            name: string;
+            code: string;
+            module: components["schemas"]["ModuleSummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateStateRequest: {
@@ -6136,17 +6136,17 @@ export interface components {
         };
         CountrySummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         StateResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            country?: components["schemas"]["CountrySummary"];
+            id: number;
+            name: string;
+            country: components["schemas"]["CountrySummary"];
             daneCode?: string;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateSpecieRequest: {
@@ -6154,10 +6154,10 @@ export interface components {
         };
         SpecieResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateSpaRequest: {
@@ -6173,24 +6173,24 @@ export interface components {
         };
         SpaResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: date */
-            date?: string;
-            spaType?: components["schemas"]["SpaTypeSummary"];
-            reason?: string;
-            details?: string;
-            observations?: string;
+            date: string;
+            spaType: components["schemas"]["SpaTypeSummary"];
+            reason: string;
+            details: string;
+            observations: string;
             status?: string;
-            animal?: components["schemas"]["AnimalSummary"];
-            company?: components["schemas"]["CompanySummary"];
+            animal: components["schemas"]["AnimalSummary"];
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         SpaTypeSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         UpdateSpaTypeRequest: {
             name: string;
@@ -6198,11 +6198,11 @@ export interface components {
         };
         SpaTypeResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            description?: string;
+            id: number;
+            name: string;
+            description: string;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateServiceRequest: {
@@ -6225,30 +6225,30 @@ export interface components {
         };
         ServiceResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            price?: number;
+            id: number;
+            name: string;
+            price: number;
             /** @enum {string} */
-            taxTreatment?: "GRAVADO" | "EXENTO" | "EXCLUIDO" | "INC";
+            taxTreatment: "GRAVADO" | "EXENTO" | "EXCLUIDO" | "INC";
             notes?: string;
-            serviceCategory?: components["schemas"]["ServiceCategorySummary"];
+            serviceCategory: components["schemas"]["ServiceCategorySummary"];
             tax?: components["schemas"]["TaxSummary"];
-            company?: components["schemas"]["CompanySummary"];
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             /** Format: date-time */
             updatedDate?: string;
             /** Format: int64 */
             updatedBy?: number;
             /** Format: int64 */
-            version?: number;
-            enabled?: boolean;
+            version: number;
+            enabled: boolean;
         };
         TaxSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            percentage?: number;
+            id: number;
+            name: string;
+            percentage: number;
         };
         UpdateServiceChargeOpenAccountRequest: {
             /** Format: int64 */
@@ -6262,8 +6262,8 @@ export interface components {
         };
         EmployeeSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         OpenAccountSummary: {
             /** Format: int64 */
@@ -6336,14 +6336,14 @@ export interface components {
         };
         RoleResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
-            company?: components["schemas"]["CompanySummary"];
+            id: number;
+            name: string;
+            code: string;
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
             createdDate?: string;
-            permissions?: components["schemas"]["PermissionSummary"][];
-            enabled?: boolean;
+            permissions: components["schemas"]["PermissionSummary"][];
+            enabled: boolean;
         };
         UpdateRolePermissionRequest: {
             /** Format: int64 */
@@ -6353,9 +6353,9 @@ export interface components {
         };
         RolePermissionResponse: {
             /** Format: int64 */
-            id?: number;
-            role?: components["schemas"]["RoleSummary"];
-            permission?: components["schemas"]["PermissionSummary"];
+            id: number;
+            role: components["schemas"]["RoleSummary"];
+            permission: components["schemas"]["PermissionSummary"];
             /** Format: date-time */
             createdDate?: string;
             enabled?: boolean;
@@ -6392,9 +6392,9 @@ export interface components {
         };
         ProductSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
+            id: number;
+            name: string;
+            code: string;
         };
         PurchaseOrderLineResponse: {
             /** Format: int64 */
@@ -6451,23 +6451,23 @@ export interface components {
         };
         PromotionResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            promotionType?: string;
-            applicationType?: string;
+            id: number;
+            name: string;
+            promotionType: string;
+            applicationType: string;
             /** Format: int64 */
-            applicationItem?: number;
-            valueType?: string;
-            value?: number;
+            applicationItem: number;
+            valueType: string;
+            value: number;
             /** Format: date-time */
-            startDate?: string;
+            startDate: string;
             /** Format: date-time */
-            endDate?: string;
-            promotionStatus?: string;
-            company?: components["schemas"]["CompanySummary"];
+            endDate: string;
+            promotionStatus: string;
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
         };
         UpdateProductRequest: {
             name: string;
@@ -6494,28 +6494,28 @@ export interface components {
         };
         ProductResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
-            salePrice?: number;
+            id: number;
+            name: string;
+            code: string;
+            salePrice: number;
             baseUnitMeasureCode?: string;
             provider?: string;
             supplier?: components["schemas"]["SupplierSummary"];
             /** @enum {string} */
-            taxTreatment?: "GRAVADO" | "EXENTO" | "EXCLUIDO" | "INC";
+            taxTreatment: "GRAVADO" | "EXENTO" | "EXCLUIDO" | "INC";
             notes?: string;
-            productCategory?: components["schemas"]["ProductCategorySummary"];
+            productCategory: components["schemas"]["ProductCategorySummary"];
             tax?: components["schemas"]["TaxSummary"];
-            company?: components["schemas"]["CompanySummary"];
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             /** Format: date-time */
             updatedDate?: string;
             /** Format: int64 */
             updatedBy?: number;
             /** Format: int64 */
-            version?: number;
-            enabled?: boolean;
+            version: number;
+            enabled: boolean;
         };
         UpdateProductChargeOpenAccountRequest: {
             /** Format: int64 */
@@ -6624,17 +6624,17 @@ export interface components {
         };
         PrescriptionResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: date */
-            date?: string;
+            date: string;
             diagnosis?: string;
-            observations?: string;
-            animal?: components["schemas"]["AnimalSummary"];
-            consultation?: components["schemas"]["ConsultationSummary"];
-            company?: components["schemas"]["CompanySummary"];
-            medicaments?: components["schemas"]["MedicamentSummary"][];
+            observations: string;
+            animal: components["schemas"]["AnimalSummary"];
+            consultation: components["schemas"]["ConsultationSummary"];
+            company: components["schemas"]["CompanySummary"];
+            medicaments: components["schemas"]["MedicamentSummary"][];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         PresentationRequest: {
@@ -6714,11 +6714,11 @@ export interface components {
         };
         PermissionResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
-            company?: components["schemas"]["CompanySummary"];
-            subModule?: components["schemas"]["SubModuleSummary"];
+            id: number;
+            name: string;
+            code: string;
+            company: components["schemas"]["CompanySummary"];
+            subModule: components["schemas"]["SubModuleSummary"];
             /** Format: date-time */
             createdDate?: string;
             enabled?: boolean;
@@ -6752,32 +6752,32 @@ export interface components {
         };
         CitySummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         OwnerResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            email?: string;
-            document?: string;
+            id: number;
+            name: string;
+            email: string;
+            document: string;
             /** @enum {string} */
             documentType?: "CEDULA_CIUDADANIA" | "NIT" | "CEDULA_EXTRANJERIA" | "PASAPORTE" | "PEP";
             /** @enum {string} */
             personType?: "NATURAL" | "JURIDICA";
             verificationDigit?: string;
             legalName?: string;
-            address?: string;
-            phone?: string;
-            city?: components["schemas"]["CitySummary"];
-            company?: components["schemas"]["CompanySummary"];
+            address: string;
+            phone: string;
+            city: components["schemas"]["CitySummary"];
+            company: components["schemas"]["CompanySummary"];
             withholdingAgent?: boolean;
             /** @enum {string} */
             taxRegime?: "RESPONSABLE_IVA" | "NO_RESPONSABLE_IVA";
             /** @enum {string} */
             fiscalResponsibility?: "NO_APLICA" | "GRAN_CONTRIBUYENTE" | "AUTORRETENEDOR" | "AGENTE_RETENCION_IVA" | "REGIMEN_SIMPLE";
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateOpenAccountRequest: {
@@ -6788,19 +6788,19 @@ export interface components {
         };
         OpenAccountResponse: {
             /** Format: int64 */
-            id?: number;
-            owner?: components["schemas"]["OwnerSummary"];
-            totalAmount?: number;
-            paidAmount?: number;
-            outstandingAmount?: number;
-            company?: components["schemas"]["CompanySummary"];
-            branch?: components["schemas"]["BranchSummary"];
+            id: number;
+            owner: components["schemas"]["OwnerSummary"];
+            totalAmount: number;
+            paidAmount: number;
+            outstandingAmount: number;
+            company: components["schemas"]["CompanySummary"];
+            branch: components["schemas"]["BranchSummary"];
             /** @enum {string} */
-            status?: "OPEN" | "CLOSE" | "CANCEL";
-            createdBy?: components["schemas"]["EmployeeSummary"];
+            status: "OPEN" | "CLOSE" | "CANCEL";
+            createdBy: components["schemas"]["EmployeeSummary"];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
             closedBy?: components["schemas"]["EmployeeSummary"];
             /** Format: date-time */
             closedAt?: string;
@@ -6809,12 +6809,12 @@ export interface components {
             /** Format: date-time */
             reversedAt?: string;
             /** Format: int64 */
-            version?: number;
+            version: number;
         };
         OwnerSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
             document?: string;
         };
         UpdateNumberingResolutionRequest: {
@@ -6838,30 +6838,30 @@ export interface components {
         };
         NumberingResolutionResponse: {
             /** Format: int64 */
-            id?: number;
-            company?: components["schemas"]["CompanySummary"];
+            id: number;
+            company: components["schemas"]["CompanySummary"];
             /** Format: int64 */
             branchId?: number;
             /** @enum {string} */
-            documentType?: "FE_VENTA" | "DOC_EQUIV_POS" | "NOTA_CREDITO" | "NOTA_DEBITO";
-            resolutionNumber?: string;
+            documentType: "FE_VENTA" | "DOC_EQUIV_POS" | "NOTA_CREDITO" | "NOTA_DEBITO";
+            resolutionNumber: string;
             /** Format: date */
-            resolutionDate?: string;
+            resolutionDate: string;
             prefix?: string;
             /** Format: int64 */
-            rangeFrom?: number;
+            rangeFrom: number;
             /** Format: int64 */
-            rangeTo?: number;
+            rangeTo: number;
             /** Format: date */
-            validFrom?: string;
+            validFrom: string;
             /** Format: date */
-            validTo?: string;
+            validTo: string;
             technicalKey?: string;
             /** Format: int64 */
-            currentNumber?: number;
+            currentNumber: number;
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
         };
         UpdateModuleRequest: {
             name: string;
@@ -6869,11 +6869,11 @@ export interface components {
         };
         ModuleResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
+            id: number;
+            name: string;
+            code: string;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateMembershipRequest: {
@@ -6883,13 +6883,13 @@ export interface components {
         };
         MembershipResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
             /** @enum {string} */
-            status?: "ACTIVE" | "INACTIVE" | "DEPRECATED";
+            status: "ACTIVE" | "INACTIVE" | "DEPRECATED";
             mandatory?: boolean;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateMembershipSubModuleRequest: {
@@ -6900,17 +6900,17 @@ export interface components {
         };
         MembershipSubModuleResponse: {
             /** Format: int64 */
-            id?: number;
-            membership?: components["schemas"]["MembershipSummary"];
-            subModule?: components["schemas"]["SubModuleSummary"];
+            id: number;
+            membership: components["schemas"]["MembershipSummary"];
+            subModule: components["schemas"]["SubModuleSummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         MembershipSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         UpdateMedicamentRequest: {
             name: string;
@@ -6918,14 +6918,14 @@ export interface components {
         };
         MedicamentResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
             description?: string;
             company?: components["schemas"]["CompanySummary"];
-            general?: boolean;
+            general: boolean;
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
         };
         UpdateMedicamentPrescriptionRequest: {
             /** Format: int64 */
@@ -6940,18 +6940,18 @@ export interface components {
         };
         MedicamentPrescriptionResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: int64 */
-            medicamentId?: number;
-            name?: string;
-            presentation?: string;
+            medicamentId: number;
+            name: string;
+            presentation: string;
             /** Format: double */
-            quantity?: number;
-            posology?: string;
+            quantity: number;
+            posology: string;
             observation?: string;
             prescription?: components["schemas"]["PrescriptionSummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         PrescriptionSummary: {
@@ -6980,29 +6980,29 @@ export interface components {
         };
         LaboratoryTestResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: date */
-            date?: string;
-            testType?: components["schemas"]["LaboratoryTestTypeSummary"];
+            date: string;
+            testType: components["schemas"]["LaboratoryTestTypeSummary"];
             /** Format: int32 */
-            quantity?: number;
-            diagnosis?: string;
-            status?: string;
-            prioridad?: string;
-            animal?: components["schemas"]["AnimalSummary"];
+            quantity: number;
+            diagnosis: string;
+            status: string;
+            prioridad: string;
+            animal: components["schemas"]["AnimalSummary"];
             consultation?: components["schemas"]["ConsultationSummary"];
-            company?: components["schemas"]["CompanySummary"];
+            company: components["schemas"]["CompanySummary"];
             processedBy?: components["schemas"]["EmployeeSummary"];
             /** Format: date-time */
             processedDate?: string;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         LaboratoryTestTypeSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         UpdateLaboratoryTestTypeRequest: {
             name: string;
@@ -7011,13 +7011,13 @@ export interface components {
         };
         LaboratoryTestTypeResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            description?: string;
+            id: number;
+            name: string;
+            description: string;
             company?: components["schemas"]["CompanySummary"];
-            general?: boolean;
+            general: boolean;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         SetMinStockRequest: {
@@ -7046,38 +7046,38 @@ export interface components {
         };
         HospitalizationResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: date */
-            date?: string;
+            date: string;
             /** Format: date */
-            startDate?: string;
+            startDate: string;
             /** Format: date */
             endDate?: string;
             /** @enum {string} */
-            type?: "OUTPATIENT" | "HOSPITALIZATION";
+            type: "OUTPATIENT" | "HOSPITALIZATION";
             /** @enum {string} */
             reasonLeaving?: "MEDICAL_DISCHARGE" | "HOME_TREATMENT" | "TRANSFER" | "TUTOR_WISH" | "ADMIN" | "DEATH" | "EUTHANASIA";
-            reason?: string;
-            observations?: string;
-            animal?: components["schemas"]["AnimalSummary"];
+            reason: string;
+            observations: string;
+            animal: components["schemas"]["AnimalSummary"];
             consultation?: components["schemas"]["ConsultationSummary"];
-            company?: components["schemas"]["CompanySummary"];
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
         };
         UpdateHospitalizationProgressNoteRequest: {
             description: string;
         };
         HospitalizationProgressNoteResponse: {
             /** Format: int64 */
-            id?: number;
-            description?: string;
-            hospitalization?: components["schemas"]["HospitalizationSummary"];
-            createdBy?: components["schemas"]["EmployeeSummary"];
+            id: number;
+            description: string;
+            hospitalization: components["schemas"]["HospitalizationSummary"];
+            createdBy: components["schemas"]["EmployeeSummary"];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
         };
         HospitalizationSummary: {
             /** Format: int64 */
@@ -7100,8 +7100,8 @@ export interface components {
         };
         HospitalizationProcedureResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
             dose?: string;
             frequency?: string;
             guidelineType?: string;
@@ -7112,11 +7112,11 @@ export interface components {
             startDate?: string;
             startTime?: string;
             notes?: string;
-            hospitalization?: components["schemas"]["HospitalizationSummary"];
-            createdBy?: components["schemas"]["EmployeeSummary"];
+            hospitalization: components["schemas"]["HospitalizationSummary"];
+            createdBy: components["schemas"]["EmployeeSummary"];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
             /** Format: date-time */
             suspensionDate?: string;
             suspensionBy?: components["schemas"]["EmployeeSummary"];
@@ -7126,13 +7126,13 @@ export interface components {
         };
         HospitalizationObservationResponse: {
             /** Format: int64 */
-            id?: number;
-            description?: string;
-            hospitalization?: components["schemas"]["HospitalizationSummary"];
-            createdBy?: components["schemas"]["EmployeeSummary"];
+            id: number;
+            description: string;
+            hospitalization: components["schemas"]["HospitalizationSummary"];
+            createdBy: components["schemas"]["EmployeeSummary"];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
         };
         UpdateHospitalizationMedicationRequest: {
             name: string;
@@ -7149,8 +7149,8 @@ export interface components {
         };
         HospitalizationMedicationResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
             dose?: string;
             frequency?: string;
             guidelineType?: string;
@@ -7161,11 +7161,11 @@ export interface components {
             startDate?: string;
             startTime?: string;
             notes?: string;
-            hospitalization?: components["schemas"]["HospitalizationSummary"];
-            createdBy?: components["schemas"]["EmployeeSummary"];
+            hospitalization: components["schemas"]["HospitalizationSummary"];
+            createdBy: components["schemas"]["EmployeeSummary"];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
             /** Format: date-time */
             suspensionDate?: string;
             suspensionBy?: components["schemas"]["EmployeeSummary"];
@@ -7280,18 +7280,18 @@ export interface components {
         };
         EmployeeResponse: {
             /** Format: int64 */
-            id?: number;
-            employeeCode?: string;
-            name?: string;
-            email?: string;
-            company?: components["schemas"]["CompanySummary"];
-            roles?: components["schemas"]["RoleSummary"][];
-            branches?: components["schemas"]["BranchSummary"][];
+            id: number;
+            employeeCode: string;
+            name: string;
+            email: string;
+            company: components["schemas"]["CompanySummary"];
+            roles: components["schemas"]["RoleSummary"][];
+            branches: components["schemas"]["BranchSummary"][];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
-            mustChangePassword?: boolean;
-            status?: string;
+            createdDate: string;
+            enabled: boolean;
+            mustChangePassword: boolean;
+            status: string;
         };
         SetEmployeeBranchesRequest: {
             allBranches?: boolean;
@@ -7299,8 +7299,8 @@ export interface components {
         };
         EmployeeBranchesResponse: {
             /** Format: int64 */
-            employeeId?: number;
-            branchIds?: number[];
+            employeeId: number;
+            branchIds: number[];
         };
         UpdateEmployeeRoleRequest: {
             /** Format: int64 */
@@ -7310,11 +7310,11 @@ export interface components {
         };
         EmployeeRoleResponse: {
             /** Format: int64 */
-            id?: number;
-            employee?: components["schemas"]["EmployeeSummary"];
-            role?: components["schemas"]["RoleSummary"];
+            id: number;
+            employee: components["schemas"]["EmployeeSummary"];
+            role: components["schemas"]["RoleSummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateEconomicActivityRequest: {
@@ -7377,26 +7377,26 @@ export interface components {
         };
         DiagnosticImagingResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: date */
-            date?: string;
-            diagnosticImagingType?: components["schemas"]["DiagnosticImagingTypeSummary"];
-            clinicalSigns?: string;
-            studyType?: string;
-            diagnosis?: string;
-            observations?: string;
+            date: string;
+            diagnosticImagingType: components["schemas"]["DiagnosticImagingTypeSummary"];
+            clinicalSigns: string;
+            studyType: string;
+            diagnosis: string;
+            observations: string;
             status?: string;
-            animal?: components["schemas"]["AnimalSummary"];
+            animal: components["schemas"]["AnimalSummary"];
             consultation?: components["schemas"]["ConsultationSummary"];
-            company?: components["schemas"]["CompanySummary"];
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         DiagnosticImagingTypeSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         UpdateDiagnosticImagingTypeRequest: {
             name: string;
@@ -7405,13 +7405,13 @@ export interface components {
         };
         DiagnosticImagingTypeResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            description?: string;
+            id: number;
+            name: string;
+            description: string;
             company?: components["schemas"]["CompanySummary"];
-            general?: boolean;
+            general: boolean;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateDewormingRequest: {
@@ -7433,23 +7433,23 @@ export interface components {
         };
         DewormingResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: date */
-            date?: string;
+            date: string;
             /** Format: date */
             lastDeworming?: string;
             /** @enum {string} */
-            type?: "INTERNAL" | "EXTERNAL" | "MIX" | "OTHER";
-            product?: string;
-            dosage?: string;
+            type: "INTERNAL" | "EXTERNAL" | "MIX" | "OTHER";
+            product: string;
+            dosage: string;
             /** Format: date */
             nextControl?: string;
-            observations?: string;
-            animal?: components["schemas"]["AnimalSummary"];
+            observations: string;
+            animal: components["schemas"]["AnimalSummary"];
             consultation?: components["schemas"]["ConsultationSummary"];
-            company?: components["schemas"]["CompanySummary"];
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateDebtOpenAccountRequest: {
@@ -7515,10 +7515,10 @@ export interface components {
         };
         CountryResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateConsultationRequest: {
@@ -7550,19 +7550,19 @@ export interface components {
         };
         ConsultationResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: date */
-            date?: string;
-            consultationType?: components["schemas"]["ConsultationTypeSummary"];
-            anamnesis?: string;
+            date: string;
+            consultationType: components["schemas"]["ConsultationTypeSummary"];
+            anamnesis: string;
             diagnosis?: string;
             prognosis?: string;
             /** Format: date */
             nextControl?: string;
-            animal?: components["schemas"]["AnimalSummary"];
-            company?: components["schemas"]["CompanySummary"];
+            animal: components["schemas"]["AnimalSummary"];
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
             temperature?: number;
             /** Format: int32 */
@@ -7581,8 +7581,8 @@ export interface components {
         };
         ConsultationTypeSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         UpdateConsultationTypeRequest: {
             name: string;
@@ -7590,11 +7590,11 @@ export interface components {
         };
         ConsultationTypeResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            description?: string;
+            id: number;
+            name: string;
+            description: string;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateCompanyTaxProfileRequest: {
@@ -7613,22 +7613,22 @@ export interface components {
         };
         CompanyTaxProfileResponse: {
             /** Format: int64 */
-            id?: number;
-            company?: components["schemas"]["CompanySummary"];
+            id: number;
+            company: components["schemas"]["CompanySummary"];
             /** @enum {string} */
-            companyDocumentType?: "NIT" | "CEDULA_CIUDADANIA" | "CEDULA_EXTRANJERIA" | "PASAPORTE";
-            companyDocumentId?: string;
+            companyDocumentType: "NIT" | "CEDULA_CIUDADANIA" | "CEDULA_EXTRANJERIA" | "PASAPORTE";
+            companyDocumentId: string;
             companyDocumentVerificationDigit?: string;
-            legalName?: string;
+            legalName: string;
             /** @enum {string} */
-            taxRegime?: "RESPONSABLE_IVA" | "NO_RESPONSABLE_IVA";
-            fiscalEmail?: string;
+            taxRegime: "RESPONSABLE_IVA" | "NO_RESPONSABLE_IVA";
+            fiscalEmail: string;
             commercialName?: string;
             economicActivity?: components["schemas"]["EconomicActivitySummary"];
-            responsibilities?: string[];
+            responsibilities: string[];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
         };
         EconomicActivitySummary: {
             /** Format: int64 */
@@ -7656,16 +7656,16 @@ export interface components {
         };
         CompanyResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            identifier?: string;
+            id: number;
+            name: string;
+            identifier: string;
             address?: string;
             contactNumber?: string;
-            city?: components["schemas"]["CitySummary"];
-            membership?: components["schemas"]["MembershipSummary"];
+            city: components["schemas"]["CitySummary"];
+            membership: components["schemas"]["MembershipSummary"];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
         };
         UpdateCityRequest: {
             name: string;
@@ -7675,18 +7675,18 @@ export interface components {
         };
         CityResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            state?: components["schemas"]["StateSummary"];
+            id: number;
+            name: string;
+            state: components["schemas"]["StateSummary"];
             daneCode?: string;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         StateSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         UpdateTerminalRequest: {
             name: string;
@@ -7710,17 +7710,17 @@ export interface components {
         };
         BreedResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            specie?: components["schemas"]["SpecieSummary"];
+            id: number;
+            name: string;
+            specie: components["schemas"]["SpecieSummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         SpecieSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         UpdateBranchRequest: {
             name: string;
@@ -7732,16 +7732,16 @@ export interface components {
         };
         BranchResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
+            id: number;
+            name: string;
+            code: string;
             address?: string;
             phone?: string;
-            city?: components["schemas"]["CitySummary"];
+            city: components["schemas"]["CitySummary"];
             company?: components["schemas"]["CompanySummary"];
             /** Format: date-time */
             createdDate?: string;
-            active?: boolean;
+            active: boolean;
         };
         UpdateBaseRoleRequest: {
             name: string;
@@ -7750,12 +7750,12 @@ export interface components {
         };
         BaseRoleResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
-            mandatory?: boolean;
+            id: number;
+            name: string;
+            code: string;
+            mandatory: boolean;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateBaseRolePermissionRequest: {
@@ -7766,24 +7766,24 @@ export interface components {
         };
         BasePermissionSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
+            id: number;
+            name: string;
+            code: string;
         };
         BaseRolePermissionResponse: {
             /** Format: int64 */
-            id?: number;
-            baseRole?: components["schemas"]["BaseRoleSummary"];
-            basePermission?: components["schemas"]["BasePermissionSummary"];
+            id: number;
+            baseRole: components["schemas"]["BaseRoleSummary"];
+            basePermission: components["schemas"]["BasePermissionSummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         BaseRoleSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
+            id: number;
+            name: string;
+            code: string;
         };
         UpdateBasePermissionRequest: {
             name: string;
@@ -7793,12 +7793,12 @@ export interface components {
         };
         BasePermissionResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
-            subModule?: components["schemas"]["SubModuleSummary"];
+            id: number;
+            name: string;
+            code: string;
+            subModule: components["schemas"]["SubModuleSummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateAppointmentRequest: {
@@ -7820,13 +7820,13 @@ export interface components {
         };
         AppointmentResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: date-time */
-            startAt?: string;
+            startAt: string;
             /** @enum {string} */
-            type?: "CONSULTATION" | "CONTROL" | "VACCINATION" | "DEWORMING" | "SURGERY" | "IMAGING" | "LABORATORY" | "GROOMING" | "OTHER";
+            type: "CONSULTATION" | "CONTROL" | "VACCINATION" | "DEWORMING" | "SURGERY" | "IMAGING" | "LABORATORY" | "GROOMING" | "OTHER";
             /** @enum {string} */
-            status?: "REQUESTED" | "CONFIRMED" | "ARRIVED" | "IN_PROGRESS" | "COMPLETED" | "NO_SHOW" | "CANCELLED";
+            status: "REQUESTED" | "CONFIRMED" | "ARRIVED" | "IN_PROGRESS" | "COMPLETED" | "NO_SHOW" | "CANCELLED";
             notes?: string;
             cancellationReason?: string;
             animal?: components["schemas"]["AnimalSummary"];
@@ -7834,18 +7834,18 @@ export interface components {
             clientName?: string;
             clientPhone?: string;
             clientEmail?: string;
-            employee?: components["schemas"]["EmployeeSummary"];
+            employee: components["schemas"]["EmployeeSummary"];
             branch?: components["schemas"]["BranchSummary"];
             /** Format: int64 */
-            version?: number;
-            enabled?: boolean;
+            version: number;
+            enabled: boolean;
             /** Format: date-time */
-            createdDate?: string;
-            overlappingAppointmentIds?: number[];
+            createdDate: string;
+            overlappingAppointmentIds: number[];
         };
         UpdateAnimalRequest: {
             name: string;
-            code: string;
+            code?: string;
             /** Format: int64 */
             specieId: number;
             /** Format: int64 */
@@ -7873,39 +7873,39 @@ export interface components {
         };
         AnimalColorSummary: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
         };
         AnimalResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
+            id: number;
+            name: string;
             code?: string;
-            specie?: components["schemas"]["SpecieSummary"];
-            breed?: components["schemas"]["BreedSummary"];
-            owner?: components["schemas"]["OwnerSummary"];
+            specie: components["schemas"]["SpecieSummary"];
+            breed: components["schemas"]["BreedSummary"];
+            owner: components["schemas"]["OwnerSummary"];
             /** @enum {string} */
-            gender?: "MALE" | "FEMALE";
+            gender: "MALE" | "FEMALE";
             /** @enum {string} */
-            weightType?: "GRAMS" | "POUNDS" | "KILOGRAMS";
+            weightType: "GRAMS" | "POUNDS" | "KILOGRAMS";
             /** @enum {string} */
-            animalType?: "SERVICE" | "SUPPORT" | "NONE";
+            animalType: "SERVICE" | "SUPPORT" | "NONE";
             /** @enum {string} */
-            reproductiveState?: "STERILIZED" | "NO_STERILIZED" | "UNKNOWN";
-            color?: components["schemas"]["AnimalColorSummary"];
+            reproductiveState: "STERILIZED" | "NO_STERILIZED" | "UNKNOWN";
+            color: components["schemas"]["AnimalColorSummary"];
             /** Format: date */
-            bod?: string;
+            bod: string;
             weight?: number;
             /** Format: date */
             weightMeasuredAt?: string;
             /** Format: int32 */
             size?: number;
-            deceased?: boolean;
+            deceased: boolean;
             /** Format: date */
             deceasedDate?: string;
-            company?: components["schemas"]["CompanySummary"];
+            company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         BreedSummary: {
@@ -7920,11 +7920,11 @@ export interface components {
         };
         AnimalColorResponse: {
             /** Format: int64 */
-            id?: number;
-            name?: string;
-            specie?: components["schemas"]["SpecieSummary"];
+            id: number;
+            name: string;
+            specie: components["schemas"]["SpecieSummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
             enabled?: boolean;
         };
         UpdateAnimalAlertRequest: {
@@ -8135,11 +8135,11 @@ export interface components {
         };
         RegistrationResponse: {
             /** Format: int64 */
-            companyId?: number;
+            companyId: number;
             /** Format: int64 */
-            employeeId?: number;
-            email?: string;
-            status?: string;
+            employeeId: number;
+            email: string;
+            status: string;
         };
         VerifyEmailRequest: {
             token: string;
@@ -8212,20 +8212,20 @@ export interface components {
         };
         ProcedureScheduleResponse: {
             /** Format: int64 */
-            id?: number;
-            hospitalizationProcedure?: components["schemas"]["HospitalizationProcedureSummary"];
+            id: number;
+            hospitalizationProcedure: components["schemas"]["HospitalizationProcedureSummary"];
             /** Format: date-time */
-            originalDateTime?: string;
+            originalDateTime: string;
             /** Format: date-time */
-            currentDateTime?: string;
+            currentDateTime: string;
             /** Format: date-time */
             realDateTime?: string;
             appliedStatus?: string;
             rescheduled?: boolean;
-            createdBy?: components["schemas"]["EmployeeSummary"];
+            createdBy: components["schemas"]["EmployeeSummary"];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
         };
         CreateProblemRequest: {
             /** Format: int64 */
@@ -8323,20 +8323,20 @@ export interface components {
         };
         MedicationScheduleResponse: {
             /** Format: int64 */
-            id?: number;
-            hospitalizationMedication?: components["schemas"]["HospitalizationMedicationSummary"];
+            id: number;
+            hospitalizationMedication: components["schemas"]["HospitalizationMedicationSummary"];
             /** Format: date-time */
-            originalDateTime?: string;
+            originalDateTime: string;
             /** Format: date-time */
-            currentDateTime?: string;
+            currentDateTime: string;
             /** Format: date-time */
             realDateTime?: string;
             appliedStatus?: string;
             rescheduled?: boolean;
-            createdBy?: components["schemas"]["EmployeeSummary"];
+            createdBy: components["schemas"]["EmployeeSummary"];
             /** Format: date-time */
-            createdDate?: string;
-            enabled?: boolean;
+            createdDate: string;
+            enabled: boolean;
         };
         CreateMedicamentRequest: {
             name: string;
@@ -8381,18 +8381,18 @@ export interface components {
         };
         LaboratoryTestFileResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             storageKey?: string;
             bucket?: string;
-            originalFileName?: string;
-            contentType?: string;
+            originalFileName: string;
+            contentType: string;
             /** Format: int64 */
-            sizeBytes?: number;
-            eTag?: string;
-            uploadedBy?: components["schemas"]["EmployeeSummary"];
-            laboratoryTest?: components["schemas"]["LaboratoryTestSummary"];
+            sizeBytes: number;
+            eTag: string;
+            uploadedBy: components["schemas"]["EmployeeSummary"];
+            laboratoryTest: components["schemas"]["LaboratoryTestSummary"];
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
         };
         LaboratoryTestSummary: {
             /** Format: int64 */
@@ -9005,8 +9005,8 @@ export interface components {
             refreshToken?: string;
         };
         TokenResponse: {
-            token?: string;
-            type?: string;
+            token: string;
+            type: string;
             refreshToken?: string;
         };
         RecoverCodeRequest: {
@@ -9081,23 +9081,23 @@ export interface components {
         };
         WeightRecordResponse: {
             /** Format: int64 */
-            id?: number;
+            id: number;
             /** Format: int64 */
-            animalId?: number;
-            animalName?: string;
-            animalCode?: string;
-            value?: number;
+            animalId: number;
+            animalName: string;
+            animalCode: string;
+            value: number;
             /** @enum {string} */
-            unit?: "GRAMS" | "POUNDS" | "KILOGRAMS";
+            unit: "GRAMS" | "POUNDS" | "KILOGRAMS";
             /** Format: date */
-            measuredAt?: string;
+            measuredAt: string;
             /** @enum {string} */
-            source?: "MANUAL" | "CONSULTATION" | "HOSPITALIZATION";
+            source: "MANUAL" | "CONSULTATION" | "HOSPITALIZATION";
             /** Format: int64 */
             sourceId?: number;
             note?: string;
             /** Format: date-time */
-            createdDate?: string;
+            createdDate: string;
         };
         CreateAnimalColorRequest: {
             name: string;
@@ -9818,13 +9818,13 @@ export interface components {
         };
         ClinicalEventResponse: {
             /** Format: int64 */
-            sourceId?: number;
+            sourceId: number;
             /** Format: int64 */
-            animalId?: number;
+            animalId: number;
             /** @enum {string} */
-            eventType?: "CONSULTATION" | "SURGERY" | "VACCINATION" | "DEWORMING" | "HOSPITALIZATION" | "LABORATORY_TEST" | "DIAGNOSTIC_IMAGING" | "PRESCRIPTION" | "SPA";
+            eventType: "CONSULTATION" | "SURGERY" | "VACCINATION" | "DEWORMING" | "HOSPITALIZATION" | "LABORATORY_TEST" | "DIAGNOSTIC_IMAGING" | "PRESCRIPTION" | "SPA";
             /** Format: date */
-            eventDate?: string;
+            eventDate: string;
             /** Format: date */
             endDate?: string;
             /** Format: int64 */
@@ -9847,15 +9847,15 @@ export interface components {
         };
         MeResponse: {
             /** Format: int64 */
-            id?: number;
-            type?: string;
+            id: number;
+            type: string;
             /** Format: int64 */
             companyId?: number;
-            name?: string;
+            name: string;
             employeeCode?: string;
-            mustChangePassword?: boolean;
-            permissions?: string[];
-            branchIds?: number[];
+            mustChangePassword: boolean;
+            permissions: string[];
+            branchIds: number[];
         };
         PageResponseAnimalResponse: {
             content?: components["schemas"]["AnimalResponse"][];
