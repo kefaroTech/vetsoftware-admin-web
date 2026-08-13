@@ -15,7 +15,6 @@ export interface DiagnosticImagingType {
 export interface CreateDiagnosticImagingTypeCommand {
   name: string
   description: string
-  companyId: number | null
   general: boolean
 }
 

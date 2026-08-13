@@ -15,7 +15,6 @@ export interface SurgeryType {
 export interface CreateSurgeryTypeCommand {
   name: string
   description: string
-  companyId: number | null
   general: boolean
 }
 

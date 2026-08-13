@@ -42,7 +42,6 @@ export function useVaccinationTypes() {
     const payload: CreateVaccinationTypeCommand = {
       name: form.name,
       description: form.description,
-      companyId: null,
       general: true,
     }
     const { data } = await vaccinationTypesApi.create(payload)
@@ -55,7 +54,6 @@ export function useVaccinationTypes() {
     const payload: CreateVaccinationTypeCommand = {
       name: form.name,
       description: form.description,
-      companyId: null,
       general: true,
     }
     const { data } = await vaccinationTypesApi.update(id, payload)

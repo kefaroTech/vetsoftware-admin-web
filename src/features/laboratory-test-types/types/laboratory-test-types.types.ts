@@ -15,7 +15,6 @@ export interface LaboratoryTestType {
 export interface CreateLaboratoryTestTypeCommand {
   name: string
   description: string
-  companyId: number | null
   general: boolean
 }
 

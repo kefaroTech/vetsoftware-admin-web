@@ -15,7 +15,6 @@ export interface VaccinationType {
 export interface CreateVaccinationTypeCommand {
   name: string
   description: string
-  companyId: number | null
   general: boolean
 }
 

@@ -42,7 +42,6 @@ export function useLaboratoryTestTypes() {
     const payload: CreateLaboratoryTestTypeCommand = {
       name: form.name,
       description: form.description,
-      companyId: null,
       general: true,
     }
     const { data } = await laboratoryTestTypesApi.create(payload)
@@ -55,7 +54,6 @@ export function useLaboratoryTestTypes() {
     const payload: CreateLaboratoryTestTypeCommand = {
       name: form.name,
       description: form.description,
-      companyId: null,
       general: true,
     }
     const { data } = await laboratoryTestTypesApi.update(id, payload)
