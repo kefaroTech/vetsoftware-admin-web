@@ -146,7 +146,10 @@ function onKeydown(e: KeyboardEvent) {
     case ' ':
       e.preventDefault()
       if (!open.value) openPanel()
-      else if (props.options[highlighted.value]) pick(props.options[highlighted.value])
+      else {
+        const highlightedOption = props.options[highlighted.value]
+        if (highlightedOption) pick(highlightedOption)
+      }
       break
     case 'Escape':
       if (open.value) {

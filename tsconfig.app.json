@@ -13,7 +13,16 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Todo `arr[i]` y `record[k]` se tipa `T | undefined`. El equipo ya escribía
+       esas guardas a mano; ahora el compilador las exige. Mismo ajuste y mismo
+       criterio que en el front operativo, para que los dos repos no diverjan. */
+    "noUncheckedIndexedAccess": true,
+
+    /* Una función que retorna valor en una rama debe retornarlo en todas. Salió
+       a cero en los dos repos: trinquete gratis, puesto para que siga en cero. */
+    "noImplicitReturns": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

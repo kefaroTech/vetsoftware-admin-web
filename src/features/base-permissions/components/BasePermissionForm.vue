@@ -32,7 +32,8 @@ const errors = computed(() => ({
 onMounted(async () => {
   const { data } = await submodulesApi.list()
   availableSubmodules.value = data
-  if (!props.initial && data.length > 0) form.value.subModuleId = data[0].id
+  const first = data[0]
+  if (!props.initial && first) form.value.subModuleId = first.id
 })
 
 watch(

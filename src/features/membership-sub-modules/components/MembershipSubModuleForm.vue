@@ -44,8 +44,10 @@ onMounted(async () => {
   memberships.value = membershipsRes.data
   submodules.value = submodulesRes.data
   if (!props.initial) {
-    if (membershipsRes.data.length > 0) form.value.membershipId = membershipsRes.data[0].id
-    if (submodulesRes.data.length > 0) form.value.subModuleId = submodulesRes.data[0].id
+    const firstMembership = membershipsRes.data[0]
+    const firstSubmodule = submodulesRes.data[0]
+    if (firstMembership) form.value.membershipId = firstMembership.id
+    if (firstSubmodule) form.value.subModuleId = firstSubmodule.id
   }
 })
 
