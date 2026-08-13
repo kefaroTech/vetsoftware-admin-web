@@ -34,4 +34,11 @@ export interface MeResponse {
   name: string
   employeeCode: string | null
   permissions: string[]
+  /**
+   * TR-01: el backend los devuelve siempre y este repositorio no los declaraba, asi que el
+   * front operativo y este describian el mismo /auth/me de forma distinta. Para un usuario de
+   * plataforma `branchIds` llega vacio, que es informacion, no ausencia.
+   */
+  mustChangePassword: boolean
+  branchIds: number[]
 }
