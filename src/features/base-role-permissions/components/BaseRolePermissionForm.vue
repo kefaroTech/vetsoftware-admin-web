@@ -41,8 +41,10 @@ onMounted(async () => {
   baseRoles.value = rolesRes.data
   basePermissions.value = permsRes.data
   if (!props.initial) {
-    if (rolesRes.data.length > 0) form.value.baseRoleId = rolesRes.data[0].id
-    if (permsRes.data.length > 0) form.value.basePermissionId = permsRes.data[0].id
+    const firstRole = rolesRes.data[0]
+    const firstPerm = permsRes.data[0]
+    if (firstRole) form.value.baseRoleId = firstRole.id
+    if (firstPerm) form.value.basePermissionId = firstPerm.id
   }
 })
 

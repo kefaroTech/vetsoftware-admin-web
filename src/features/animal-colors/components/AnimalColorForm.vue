@@ -31,7 +31,10 @@ const errors = computed(() => ({
 onMounted(async () => {
   const { data } = await speciesApi.list()
   availableSpecies.value = data
-  if (!props.initial && data.length > 0) form.value.specieId = data[0].id
+  const first = data[0]
+  // La condición pasa a ser que el primer elemento exista, que es lo que de
+  // verdad se necesita para leer su id.
+  if (!props.initial && first) form.value.specieId = first.id
 })
 
 watch(
