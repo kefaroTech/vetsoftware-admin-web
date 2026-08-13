@@ -7,15 +7,15 @@ import type { CreateBreedCommand, UpdateBreedCommand } from '../types/breeds.typ
 export function useBreeds() {
   const store = useBreedsStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await breedsApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar las razas', 'error')
+    } catch (e) {
+      notifyError('Error al cargar las razas', e)
     } finally {
       store.setLoading(false)
     }
@@ -26,8 +26,8 @@ export function useBreeds() {
     try {
       const { data } = await breedsApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Raza no encontrada', 'error')
+    } catch (e) {
+      notifyError('Raza no encontrada', e)
     } finally {
       store.setLoading(false)
     }

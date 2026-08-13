@@ -7,15 +7,15 @@ import type { CreateSpecieCommand, UpdateSpecieCommand } from '../types/species.
 export function useSpecies() {
   const store = useSpeciesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await speciesApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar las especies', 'error')
+    } catch (e) {
+      notifyError('Error al cargar las especies', e)
     } finally {
       store.setLoading(false)
     }
@@ -26,8 +26,8 @@ export function useSpecies() {
     try {
       const { data } = await speciesApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Especie no encontrada', 'error')
+    } catch (e) {
+      notifyError('Especie no encontrada', e)
     } finally {
       store.setLoading(false)
     }

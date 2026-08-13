@@ -10,15 +10,15 @@ import type {
 export function useAnimalColors() {
   const store = useAnimalColorsStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await animalColorsApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar los colores', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los colores', e)
     } finally {
       store.setLoading(false)
     }
@@ -29,8 +29,8 @@ export function useAnimalColors() {
     try {
       const { data } = await animalColorsApi.listBySpecie(specieId)
       store.setItems(data)
-    } catch {
-      notify('Error al cargar los colores', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los colores', e)
     } finally {
       store.setLoading(false)
     }
@@ -41,8 +41,8 @@ export function useAnimalColors() {
     try {
       const { data } = await animalColorsApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Color no encontrado', 'error')
+    } catch (e) {
+      notifyError('Color no encontrado', e)
     } finally {
       store.setLoading(false)
     }

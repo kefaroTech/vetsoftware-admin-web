@@ -7,15 +7,15 @@ import type { CreateCompanyCommand, UpdateCompanyCommand } from '../types/compan
 export function useCompanies() {
   const store = useCompaniesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await companiesApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar las empresas', 'error')
+    } catch (e) {
+      notifyError('Error al cargar las empresas', e)
     } finally {
       store.setLoading(false)
     }
@@ -26,8 +26,8 @@ export function useCompanies() {
     try {
       const { data } = await companiesApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Empresa no encontrada', 'error')
+    } catch (e) {
+      notifyError('Empresa no encontrada', e)
     } finally {
       store.setLoading(false)
     }

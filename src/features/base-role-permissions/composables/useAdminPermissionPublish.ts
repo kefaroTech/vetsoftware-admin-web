@@ -6,7 +6,7 @@ import type { PublishAdminPermissionsResult } from '../types/admin-permission-pu
 export function useAdminPermissionPublish() {
   const isPublishing = ref(false)
   const lastResult = ref<PublishAdminPermissionsResult | null>(null)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function publish() {
     isPublishing.value = true
@@ -19,8 +19,8 @@ export function useAdminPermissionPublish() {
         'success',
       )
       return data
-    } catch {
-      notify('Error al publicar los permisos a los ADMIN', 'error')
+    } catch (e) {
+      notifyError('Error al publicar los permisos a los ADMIN', e)
       return null
     } finally {
       isPublishing.value = false

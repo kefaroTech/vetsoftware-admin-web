@@ -10,15 +10,15 @@ import type {
 export function useMembershipSubModules() {
   const store = useMembershipSubModulesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await membershipSubModulesApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar las asociaciones membresía-submódulo', 'error')
+    } catch (e) {
+      notifyError('Error al cargar las asociaciones membresía-submódulo', e)
     } finally {
       store.setLoading(false)
     }
@@ -29,8 +29,8 @@ export function useMembershipSubModules() {
     try {
       const { data } = await membershipSubModulesApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Asociación no encontrada', 'error')
+    } catch (e) {
+      notifyError('Asociación no encontrada', e)
     } finally {
       store.setLoading(false)
     }

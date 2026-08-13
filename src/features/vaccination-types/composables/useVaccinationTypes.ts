@@ -12,15 +12,15 @@ export interface VaccinationTypeFormData {
 export function useVaccinationTypes() {
   const store = useVaccinationTypesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await vaccinationTypesApi.list()
       store.setItems(data.filter((t) => t.general))
-    } catch {
-      notify('Error al cargar los tipos de vacuna', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los tipos de vacuna', e)
     } finally {
       store.setLoading(false)
     }
@@ -31,8 +31,8 @@ export function useVaccinationTypes() {
     try {
       const { data } = await vaccinationTypesApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Tipo de vacuna no encontrado', 'error')
+    } catch (e) {
+      notifyError('Tipo de vacuna no encontrado', e)
     } finally {
       store.setLoading(false)
     }

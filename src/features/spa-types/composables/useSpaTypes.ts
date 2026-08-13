@@ -7,15 +7,15 @@ import type { CreateSpaTypeCommand, UpdateSpaTypeCommand } from '../types/spa-ty
 export function useSpaTypes() {
   const store = useSpaTypesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await spaTypesApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar los tipos de spa', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los tipos de spa', e)
     } finally {
       store.setLoading(false)
     }
@@ -26,8 +26,8 @@ export function useSpaTypes() {
     try {
       const { data } = await spaTypesApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Tipo de spa no encontrado', 'error')
+    } catch (e) {
+      notifyError('Tipo de spa no encontrado', e)
     } finally {
       store.setLoading(false)
     }

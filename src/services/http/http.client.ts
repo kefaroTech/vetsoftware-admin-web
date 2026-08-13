@@ -139,6 +139,23 @@ http.interceptors.response.use(
   },
 )
 
+/**
+ * Identificador de la traza distribuida de esta peticion fallida (TR-05).
+ *
+ * <p>El backend emite `X-Trace-Id` en cada respuesta y la declara en `exposedHeaders` del CORS
+ * precisamente para que este código la lea. Nadie la leía, así que ante un «se quedó cargando»
+ * soporte no tenía forma de encontrar la traza. Se prefiere la cabecera al `traceId` del cuerpo
+ * porque existe también en respuestas sin `ProblemDetail` —un 502, un timeout—, que son las que
+ * peor se diagnostican.
+ */
+export function getTraceId(error: unknown): string | undefined {
+  if (!(error instanceof AxiosError)) return undefined
+  const header = error.response?.headers?.['x-trace-id']
+  if (typeof header === 'string' && header.trim()) return header.trim()
+  const pd = error.response?.data as ProblemDetail | undefined
+  return pd?.traceId?.trim() || undefined
+}
+
 export function getProblemDetailMessage(error: unknown, fallback = 'Error inesperado'): string {
   if (error instanceof AxiosError) {
     const pd = error.response?.data as ProblemDetail | undefined

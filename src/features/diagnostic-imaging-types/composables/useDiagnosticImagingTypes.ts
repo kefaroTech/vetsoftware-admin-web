@@ -12,15 +12,15 @@ export interface DiagnosticImagingTypeFormData {
 export function useDiagnosticImagingTypes() {
   const store = useDiagnosticImagingTypesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await diagnosticImagingTypesApi.list()
       store.setItems(data.filter((t) => t.general))
-    } catch {
-      notify('Error al cargar los tipos de imagen diagnóstica', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los tipos de imagen diagnóstica', e)
     } finally {
       store.setLoading(false)
     }
@@ -31,8 +31,8 @@ export function useDiagnosticImagingTypes() {
     try {
       const { data } = await diagnosticImagingTypesApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Tipo de imagen diagnóstica no encontrado', 'error')
+    } catch (e) {
+      notifyError('Tipo de imagen diagnóstica no encontrado', e)
     } finally {
       store.setLoading(false)
     }

@@ -7,15 +7,15 @@ import type { CreateSubmoduleCommand, UpdateSubmoduleCommand } from '../types/su
 export function useSubmodules() {
   const store = useSubmodulesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await submodulesApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar los submódulos', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los submódulos', e)
     } finally {
       store.setLoading(false)
     }
@@ -26,8 +26,8 @@ export function useSubmodules() {
     try {
       const { data } = await submodulesApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Submódulo no encontrado', 'error')
+    } catch (e) {
+      notifyError('Submódulo no encontrado', e)
     } finally {
       store.setLoading(false)
     }

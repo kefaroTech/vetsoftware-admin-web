@@ -6,7 +6,7 @@ import { useNotification } from '@/composables/useNotification'
 import { ICONS } from '@/constants/icons'
 
 const { login } = useAuth()
-const { notify } = useNotification()
+const { notifyError } = useNotification()
 
 const code = ref('')
 const password = ref('')
@@ -23,9 +23,9 @@ async function handleSubmit() {
   loading.value = true
   try {
     await login({ code: code.value.trim(), password: password.value })
-  } catch {
+  } catch (e) {
     errorMessage.value = 'Credenciales inválidas. Verifica e intenta de nuevo.'
-    notify('Código o contraseña incorrectos', 'error')
+    notifyError('Código o contraseña incorrectos', e)
   } finally {
     loading.value = false
   }
