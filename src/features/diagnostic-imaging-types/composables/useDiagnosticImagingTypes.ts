@@ -42,7 +42,6 @@ export function useDiagnosticImagingTypes() {
     const payload: CreateDiagnosticImagingTypeCommand = {
       name: form.name,
       description: form.description,
-      companyId: null,
       general: true,
     }
     const { data } = await diagnosticImagingTypesApi.create(payload)
@@ -55,7 +54,6 @@ export function useDiagnosticImagingTypes() {
     const payload: CreateDiagnosticImagingTypeCommand = {
       name: form.name,
       description: form.description,
-      companyId: null,
       general: true,
     }
     const { data } = await diagnosticImagingTypesApi.update(id, payload)

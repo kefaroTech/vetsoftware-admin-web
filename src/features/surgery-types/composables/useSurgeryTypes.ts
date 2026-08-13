@@ -42,7 +42,6 @@ export function useSurgeryTypes() {
     const payload: CreateSurgeryTypeCommand = {
       name: form.name,
       description: form.description,
-      companyId: null,
       general: true,
     }
     const { data } = await surgeryTypesApi.create(payload)
@@ -55,7 +54,6 @@ export function useSurgeryTypes() {
     const payload: CreateSurgeryTypeCommand = {
       name: form.name,
       description: form.description,
-      companyId: null,
       general: true,
     }
     const { data } = await surgeryTypesApi.update(id, payload)
