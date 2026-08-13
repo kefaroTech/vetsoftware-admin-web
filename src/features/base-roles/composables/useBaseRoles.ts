@@ -6,14 +6,14 @@ import type { CreateBaseRoleCommand, UpdateBaseRoleCommand } from '../types/base
 
 export function useBaseRoles() {
   const store = useBaseRolesStore()
-  const { baseRoles, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await baseRolesApi.list()
-      store.setBaseRoles(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar los roles base', 'error')
     } finally {
@@ -35,26 +35,26 @@ export function useBaseRoles() {
 
   async function create(payload: CreateBaseRoleCommand) {
     const { data } = await baseRolesApi.create(payload)
-    store.setBaseRoles([...store.baseRoles, data])
+    store.setItems([...store.items, data])
     notify('Rol base creado exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateBaseRoleCommand) {
     const { data } = await baseRolesApi.update(id, payload)
-    store.setBaseRoles(store.baseRoles.map((r) => (r.id === id ? data : r)))
+    store.setItems(store.items.map((r) => (r.id === id ? data : r)))
     notify('Rol base actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await baseRolesApi.remove(id)
-    store.setBaseRoles(store.baseRoles.filter((r) => r.id !== id))
+    store.setItems(store.items.filter((r) => r.id !== id))
     notify('Rol base eliminado', 'success')
   }
 
   return {
-    baseRoles,
+    baseRoles: items,
     selected,
     loading,
     fetchAll,

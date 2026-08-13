@@ -6,14 +6,14 @@ import type { CreateCompanyCommand, UpdateCompanyCommand } from '../types/compan
 
 export function useCompanies() {
   const store = useCompaniesStore()
-  const { companies, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await companiesApi.list()
-      store.setCompanies(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar las empresas', 'error')
     } finally {
@@ -35,26 +35,26 @@ export function useCompanies() {
 
   async function create(payload: CreateCompanyCommand) {
     const { data } = await companiesApi.create(payload)
-    store.setCompanies([...store.companies, data])
+    store.setItems([...store.items, data])
     notify('Empresa creada exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateCompanyCommand) {
     const { data } = await companiesApi.update(id, payload)
-    store.setCompanies(store.companies.map((c) => (c.id === id ? data : c)))
+    store.setItems(store.items.map((c) => (c.id === id ? data : c)))
     notify('Empresa actualizada', 'success')
     return data
   }
 
   async function remove(id: number) {
     await companiesApi.remove(id)
-    store.setCompanies(store.companies.filter((c) => c.id !== id))
+    store.setItems(store.items.filter((c) => c.id !== id))
     notify('Empresa eliminada', 'success')
   }
 
   return {
-    companies,
+    companies: items,
     selected,
     loading,
     fetchAll,

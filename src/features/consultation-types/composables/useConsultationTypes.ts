@@ -9,14 +9,14 @@ import type {
 
 export function useConsultationTypes() {
   const store = useConsultationTypesStore()
-  const { consultationTypes, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await consultationTypesApi.list()
-      store.setConsultationTypes(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar los tipos de consulta', 'error')
     } finally {
@@ -38,26 +38,26 @@ export function useConsultationTypes() {
 
   async function create(payload: CreateConsultationTypeCommand) {
     const { data } = await consultationTypesApi.create(payload)
-    store.setConsultationTypes([...store.consultationTypes, data])
+    store.setItems([...store.items, data])
     notify('Tipo de consulta creado exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateConsultationTypeCommand) {
     const { data } = await consultationTypesApi.update(id, payload)
-    store.setConsultationTypes(store.consultationTypes.map((t) => (t.id === id ? data : t)))
+    store.setItems(store.items.map((t) => (t.id === id ? data : t)))
     notify('Tipo de consulta actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await consultationTypesApi.remove(id)
-    store.setConsultationTypes(store.consultationTypes.filter((t) => t.id !== id))
+    store.setItems(store.items.filter((t) => t.id !== id))
     notify('Tipo de consulta eliminado', 'success')
   }
 
   return {
-    consultationTypes,
+    consultationTypes: items,
     selected,
     loading,
     fetchAll,

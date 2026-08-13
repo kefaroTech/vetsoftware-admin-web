@@ -11,14 +11,14 @@ export interface SurgeryTypeFormData {
 
 export function useSurgeryTypes() {
   const store = useSurgeryTypesStore()
-  const { surgeryTypes, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await surgeryTypesApi.list()
-      store.setSurgeryTypes(data.filter((t) => t.general))
+      store.setItems(data.filter((t) => t.general))
     } catch {
       notify('Error al cargar los tipos de cirugía', 'error')
     } finally {
@@ -46,7 +46,7 @@ export function useSurgeryTypes() {
       general: true,
     }
     const { data } = await surgeryTypesApi.create(payload)
-    store.setSurgeryTypes([...store.surgeryTypes, data])
+    store.setItems([...store.items, data])
     notify('Tipo de cirugía creado exitosamente', 'success')
     return data
   }
@@ -59,19 +59,19 @@ export function useSurgeryTypes() {
       general: true,
     }
     const { data } = await surgeryTypesApi.update(id, payload)
-    store.setSurgeryTypes(store.surgeryTypes.map((t) => (t.id === id ? data : t)))
+    store.setItems(store.items.map((t) => (t.id === id ? data : t)))
     notify('Tipo de cirugía actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await surgeryTypesApi.remove(id)
-    store.setSurgeryTypes(store.surgeryTypes.filter((t) => t.id !== id))
+    store.setItems(store.items.filter((t) => t.id !== id))
     notify('Tipo de cirugía eliminado', 'success')
   }
 
   return {
-    surgeryTypes,
+    surgeryTypes: items,
     selected,
     loading,
     fetchAll,

@@ -9,14 +9,14 @@ import type {
 
 export function useBaseRolePermissions() {
   const store = useBaseRolePermissionsStore()
-  const { baseRolePermissions, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await baseRolePermissionsApi.list()
-      store.setBaseRolePermissions(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar los permisos de roles base', 'error')
     } finally {
@@ -38,26 +38,26 @@ export function useBaseRolePermissions() {
 
   async function create(payload: CreateBaseRolePermissionCommand) {
     const { data } = await baseRolePermissionsApi.create(payload)
-    store.setBaseRolePermissions([...store.baseRolePermissions, data])
+    store.setItems([...store.items, data])
     notify('Permiso de rol base creado exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateBaseRolePermissionCommand) {
     const { data } = await baseRolePermissionsApi.update(id, payload)
-    store.setBaseRolePermissions(store.baseRolePermissions.map((p) => (p.id === id ? data : p)))
+    store.setItems(store.items.map((p) => (p.id === id ? data : p)))
     notify('Permiso de rol base actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await baseRolePermissionsApi.remove(id)
-    store.setBaseRolePermissions(store.baseRolePermissions.filter((p) => p.id !== id))
+    store.setItems(store.items.filter((p) => p.id !== id))
     notify('Permiso de rol base eliminado', 'success')
   }
 
   return {
-    baseRolePermissions,
+    baseRolePermissions: items,
     selected,
     loading,
     fetchAll,

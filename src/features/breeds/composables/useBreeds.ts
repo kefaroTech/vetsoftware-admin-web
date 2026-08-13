@@ -6,14 +6,14 @@ import type { CreateBreedCommand, UpdateBreedCommand } from '../types/breeds.typ
 
 export function useBreeds() {
   const store = useBreedsStore()
-  const { breeds, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await breedsApi.list()
-      store.setBreeds(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar las razas', 'error')
     } finally {
@@ -35,26 +35,26 @@ export function useBreeds() {
 
   async function create(payload: CreateBreedCommand) {
     const { data } = await breedsApi.create(payload)
-    store.setBreeds([...store.breeds, data])
+    store.setItems([...store.items, data])
     notify('Raza creada exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateBreedCommand) {
     const { data } = await breedsApi.update(id, payload)
-    store.setBreeds(store.breeds.map((b) => (b.id === id ? data : b)))
+    store.setItems(store.items.map((b) => (b.id === id ? data : b)))
     notify('Raza actualizada', 'success')
     return data
   }
 
   async function remove(id: number) {
     await breedsApi.remove(id)
-    store.setBreeds(store.breeds.filter((b) => b.id !== id))
+    store.setItems(store.items.filter((b) => b.id !== id))
     notify('Raza eliminada', 'success')
   }
 
   return {
-    breeds,
+    breeds: items,
     selected,
     loading,
     fetchAll,

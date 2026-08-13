@@ -6,14 +6,14 @@ import type { CreateSpaTypeCommand, UpdateSpaTypeCommand } from '../types/spa-ty
 
 export function useSpaTypes() {
   const store = useSpaTypesStore()
-  const { spaTypes, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await spaTypesApi.list()
-      store.setSpaTypes(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar los tipos de spa', 'error')
     } finally {
@@ -35,26 +35,26 @@ export function useSpaTypes() {
 
   async function create(payload: CreateSpaTypeCommand) {
     const { data } = await spaTypesApi.create(payload)
-    store.setSpaTypes([...store.spaTypes, data])
+    store.setItems([...store.items, data])
     notify('Tipo de spa creado exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateSpaTypeCommand) {
     const { data } = await spaTypesApi.update(id, payload)
-    store.setSpaTypes(store.spaTypes.map((t) => (t.id === id ? data : t)))
+    store.setItems(store.items.map((t) => (t.id === id ? data : t)))
     notify('Tipo de spa actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await spaTypesApi.remove(id)
-    store.setSpaTypes(store.spaTypes.filter((t) => t.id !== id))
+    store.setItems(store.items.filter((t) => t.id !== id))
     notify('Tipo de spa eliminado', 'success')
   }
 
   return {
-    spaTypes,
+    spaTypes: items,
     selected,
     loading,
     fetchAll,

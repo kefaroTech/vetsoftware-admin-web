@@ -6,14 +6,14 @@ import type { CreateSpecieCommand, UpdateSpecieCommand } from '../types/species.
 
 export function useSpecies() {
   const store = useSpeciesStore()
-  const { species, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await speciesApi.list()
-      store.setSpecies(data)
+      store.setItems(data)
     } catch {
       notify('Error al cargar las especies', 'error')
     } finally {
@@ -35,26 +35,26 @@ export function useSpecies() {
 
   async function create(payload: CreateSpecieCommand) {
     const { data } = await speciesApi.create(payload)
-    store.setSpecies([...store.species, data])
+    store.setItems([...store.items, data])
     notify('Especie creada exitosamente', 'success')
     return data
   }
 
   async function update(id: number, payload: UpdateSpecieCommand) {
     const { data } = await speciesApi.update(id, payload)
-    store.setSpecies(store.species.map((s) => (s.id === id ? data : s)))
+    store.setItems(store.items.map((s) => (s.id === id ? data : s)))
     notify('Especie actualizada', 'success')
     return data
   }
 
   async function remove(id: number) {
     await speciesApi.remove(id)
-    store.setSpecies(store.species.filter((s) => s.id !== id))
+    store.setItems(store.items.filter((s) => s.id !== id))
     notify('Especie eliminada', 'success')
   }
 
   return {
-    species,
+    species: items,
     selected,
     loading,
     fetchAll,

@@ -11,14 +11,14 @@ export interface VaccinationTypeFormData {
 
 export function useVaccinationTypes() {
   const store = useVaccinationTypesStore()
-  const { vaccinationTypes, selected, loading } = storeToRefs(store)
+  const { items, selected, loading } = storeToRefs(store)
   const { notify } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await vaccinationTypesApi.list()
-      store.setVaccinationTypes(data.filter((t) => t.general))
+      store.setItems(data.filter((t) => t.general))
     } catch {
       notify('Error al cargar los tipos de vacuna', 'error')
     } finally {
@@ -46,7 +46,7 @@ export function useVaccinationTypes() {
       general: true,
     }
     const { data } = await vaccinationTypesApi.create(payload)
-    store.setVaccinationTypes([...store.vaccinationTypes, data])
+    store.setItems([...store.items, data])
     notify('Tipo de vacuna creado exitosamente', 'success')
     return data
   }
@@ -59,19 +59,19 @@ export function useVaccinationTypes() {
       general: true,
     }
     const { data } = await vaccinationTypesApi.update(id, payload)
-    store.setVaccinationTypes(store.vaccinationTypes.map((t) => (t.id === id ? data : t)))
+    store.setItems(store.items.map((t) => (t.id === id ? data : t)))
     notify('Tipo de vacuna actualizado', 'success')
     return data
   }
 
   async function remove(id: number) {
     await vaccinationTypesApi.remove(id)
-    store.setVaccinationTypes(store.vaccinationTypes.filter((t) => t.id !== id))
+    store.setItems(store.items.filter((t) => t.id !== id))
     notify('Tipo de vacuna eliminado', 'success')
   }
 
   return {
-    vaccinationTypes,
+    vaccinationTypes: items,
     selected,
     loading,
     fetchAll,
