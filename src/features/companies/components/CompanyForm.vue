@@ -32,8 +32,9 @@ watch(
       form.value = {
         name: val.name,
         identifier: val.identifier,
-        address: val.address,
-        contactNumber: val.contactNumber,
+        // TR-01: el backend puede devolverlos nulos y el formulario los edita como texto.
+        address: val.address ?? '',
+        contactNumber: val.contactNumber ?? '',
       }
     }
   },

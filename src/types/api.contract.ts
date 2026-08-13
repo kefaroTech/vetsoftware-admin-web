@@ -30,6 +30,7 @@
  * y esa diferencia no dice nada sobre el backend.
  */
 import type { components } from './api.generated'
+import type { SystemConfiguration } from '../features/config/types/config.types'
 import type {
   AnimalColor,
   CreateAnimalColorCommand,
@@ -163,15 +164,33 @@ type MissingRequiredFields<Local, Name extends keyof Schemas> = Exclude<
 >
 
 /**
+ * Campos que el contrato garantiza y este repositorio declara nulables.
+ *
+ * <p>Desde que los DTO de salida llevan requiredMode, el contrato sí dice qué garantiza devolver
+ * el servidor. Declarar nulable aquí un campo garantizado obliga a comprobaciones
+ * que nunca se cumplen y, peor, esconde que los dos fronts describían el mismo endpoint de forma
+ * distinta.
+ */
+type NullableWhereRequired<Local, Name extends keyof Schemas> = {
+  [K in RequiredKeys<Schemas[Name]> & keyof Local]: null extends Local[K] ? K : never
+}[RequiredKeys<Schemas[Name]> & keyof Local]
+
+/**
  * `true` si el tipo local encaja con el esquema; si no, **los nombres de los campos que fallan**.
  * Es a propósito: el error de compilación los nombra uno a uno en vez de decir «no asignable»,
  * que obligaría a comparar cuarenta campos a ojo.
  */
 export type MatchesContract<Local, Name extends keyof Schemas> = [
-  UnknownFields<Local, Name> | MismatchedFields<Local, Name> | MissingRequiredFields<Local, Name>,
+  | UnknownFields<Local, Name>
+  | MismatchedFields<Local, Name>
+  | MissingRequiredFields<Local, Name>
+  | NullableWhereRequired<Local, Name>,
 ] extends [never]
   ? true
-  : UnknownFields<Local, Name> | MismatchedFields<Local, Name> | MissingRequiredFields<Local, Name>
+  : | UnknownFields<Local, Name>
+    | MismatchedFields<Local, Name>
+    | MissingRequiredFields<Local, Name>
+    | NullableWhereRequired<Local, Name>
 
 /** Rompe la compilación si el tipo no encaja; el error nombra los campos culpables. */
 type Expect<T extends true> = T
@@ -182,6 +201,7 @@ type Expect<T extends true> = T
  * que esta lista envejezca en silencio.
  */
 export type ContractAssertions = [
+  Expect<MatchesContract<SystemConfiguration, 'SystemConfigurationDto'>>,
   Expect<MatchesContract<AnimalColor, 'AnimalColorResponse'>>,
   Expect<MatchesContract<AppModule, 'ModuleResponse'>>,
   Expect<MatchesContract<BasePermission, 'BasePermissionResponse'>>,
