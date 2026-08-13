@@ -144,16 +144,34 @@ type MismatchedFields<Local, Name extends keyof Schemas> = {
     : never
 }[Extract<keyof Local, keyof Schemas[Name]>]
 
+/** Claves que un tipo declara sin `?`. */
+type RequiredKeys<T> = { [K in keyof T]-?: object extends Pick<T, K> ? never : K }[keyof T]
+
+/**
+ * Campos que el contrato exige y este repositorio declara opcionales.
+ *
+ * <p>Solo aplica a las peticiones: springdoc deriva `required` de las anotaciones de validación
+ * (`@NotNull`, `@NotBlank`) de los DTO de entrada, y hoy lo hace en 187 esquemas. Declarar
+ * opcional aquí un campo que el servidor exige deja construir una petición incompleta que
+ * compila y se rechaza con un 400 en producción. Los DTO de salida no traen esta información
+ * —un `record` de Java no dice qué garantiza devolver—, así que ahí este conjunto siempre está
+ * vacío y no afirma nada de más.
+ */
+type MissingRequiredFields<Local, Name extends keyof Schemas> = Exclude<
+  RequiredKeys<Schemas[Name]> & keyof Local,
+  RequiredKeys<Local>
+>
+
 /**
  * `true` si el tipo local encaja con el esquema; si no, **los nombres de los campos que fallan**.
  * Es a propósito: el error de compilación los nombra uno a uno en vez de decir «no asignable»,
  * que obligaría a comparar cuarenta campos a ojo.
  */
 export type MatchesContract<Local, Name extends keyof Schemas> = [
-  UnknownFields<Local, Name> | MismatchedFields<Local, Name>,
+  UnknownFields<Local, Name> | MismatchedFields<Local, Name> | MissingRequiredFields<Local, Name>,
 ] extends [never]
   ? true
-  : UnknownFields<Local, Name> | MismatchedFields<Local, Name>
+  : UnknownFields<Local, Name> | MismatchedFields<Local, Name> | MissingRequiredFields<Local, Name>
 
 /** Rompe la compilación si el tipo no encaja; el error nombra los campos culpables. */
 type Expect<T extends true> = T
