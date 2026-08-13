@@ -9006,7 +9006,8 @@ export interface components {
         };
         TokenResponse: {
             token: string;
-            type: string;
+            /** @enum {string} */
+            type: "EMPLOYEE" | "SYSTEM_USER";
             refreshToken?: string;
         };
         RecoverCodeRequest: {
@@ -9848,7 +9849,8 @@ export interface components {
         MeResponse: {
             /** Format: int64 */
             id: number;
-            type: string;
+            /** @enum {string} */
+            type: "EMPLOYEE" | "SYSTEM_USER";
             /** Format: int64 */
             companyId?: number;
             name: string;

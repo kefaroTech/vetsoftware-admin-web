@@ -1,3 +1,10 @@
+/**
+ * Quien esta autenticado. TR-01: aqui era `string` y en el front operativo una union cerrada,
+ * porque el backend lo publicaba como texto libre. Ahora es un enum del contrato y los dos lo
+ * declaran igual.
+ */
+export type AuthSubjectType = 'EMPLOYEE' | 'SYSTEM_USER'
+
 export interface LoginSystemUserCommand {
   code: string
   password: string
@@ -17,12 +24,12 @@ export type LoginCommand = LoginSystemUserCommand
  */
 export interface TokenResponse {
   token: string
-  type: string
+  type: AuthSubjectType
 }
 
 export interface MeResponse {
   id: number
-  type: string
+  type: AuthSubjectType
   companyId: number | null
   name: string
   employeeCode: string | null
