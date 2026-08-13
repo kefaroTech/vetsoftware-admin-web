@@ -50,3 +50,30 @@ describe('getTraceId', () => {
     expect(getTraceId(null)).toBeUndefined()
   })
 })
+
+describe('traceparent', () => {
+  it('tiene el formato del estándar W3C', async () => {
+    const { nextTraceparent } = await import('@/services/telemetry/trace')
+    const { traceId, traceparent } = nextTraceparent()
+    expect(traceparent).toMatch(/^00-[0-9a-f]{32}-[0-9a-f]{16}-01$/)
+    expect(traceparent).toContain(traceId)
+  })
+
+  it('genera uno distinto por petición', async () => {
+    const { nextTraceparent } = await import('@/services/telemetry/trace')
+    expect(nextTraceparent().traceId).not.toBe(nextTraceparent().traceId)
+  })
+
+  it('prefiere el id generado por el cliente al de la respuesta', () => {
+    const error = errorCon({ 'x-trace-id': 'del-servidor' })
+    error.config = { headers: new AxiosHeaders(), _traceId: 'del-cliente' }
+    expect(getTraceId(error)).toBe('del-cliente')
+  })
+
+  it('sirve el id aunque la petición muriera sin respuesta', () => {
+    // El caso que dio nombre al hallazgo: «se quedó cargando» y no hay cabecera que leer.
+    const error = new AxiosError('timeout')
+    error.config = { headers: new AxiosHeaders(), _traceId: 'sin-respuesta' }
+    expect(getTraceId(error)).toBe('sin-respuesta')
+  })
+})

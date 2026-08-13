@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
+import { startTelemetry } from '@/services/telemetry/telemetry'
 import vuetify from './plugins/vuetify'
 import { useAuthStore } from '@/features/auth/stores/auth.store'
 import './assets/styles/main.css'
@@ -18,3 +19,7 @@ if (authStore.isAuthenticated) {
 } else {
   app.mount('#app')
 }
+
+// TR-05: despues de montar y en un chunk aparte, para no entrar en la ruta critica que mide
+// el presupuesto de bundle. Si no hay colector configurado, no descarga nada.
+void startTelemetry()
