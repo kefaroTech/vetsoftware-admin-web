@@ -5204,6 +5204,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/hospitalizations/by-company": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_9"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/hospitalizations/by-animal/{animalId}": {
         parameters: {
             query?: never;
@@ -5371,7 +5387,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_9"];
+        get: operations["listByCompany_10"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5531,7 +5547,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_10"];
+        get: operations["listByCompany_11"];
         put?: never;
         post?: never;
         delete?: never;
@@ -21994,6 +22010,26 @@ export interface operations {
             };
         };
     };
+    listByCompany_9: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["HospitalizationResponse"][];
+                };
+            };
+        };
+    };
     listByAnimal_6: {
         parameters: {
             query?: {
@@ -22238,7 +22274,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_9: {
+    listByCompany_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -22470,7 +22506,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_10: {
+    listByCompany_11: {
         parameters: {
             query?: {
                 types?: ("CONSULTATION" | "SURGERY" | "VACCINATION" | "DEWORMING" | "HOSPITALIZATION" | "LABORATORY_TEST" | "DIAGNOSTIC_IMAGING" | "PRESCRIPTION" | "SPA")[];
