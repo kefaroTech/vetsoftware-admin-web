@@ -40,7 +40,15 @@ const DIST = path.resolve(import.meta.dirname, '../dist')
 const BUDGET_GZIP = {
   criticalJs: 150 * 1024,
   criticalCss: 45 * 1024,
-  totalJs: 240 * 1024,
+  // 240 → 310 KB al entrar la telemetría del navegador (TR-05). Faro y OTel web pesan ~60 KB
+  // gzip y solo se emiten cuando `VITE_TELEMETRY_URL` tiene valor: sin colector configurado
+  // Vite elimina el `import()` y el bundle no crece ni un byte.
+  //
+  // Se sube el techo en vez de excluir esos chunks del cómputo porque el coste es real —lo paga
+  // el navegador del usuario cuando la telemetría está activa— y este presupuesto existe para
+  // que ese tipo de coste sea una decisión y no un accidente. La ruta crítica NO se toca: el
+  // chunk se pide después de pintar, así que sigue midiendo lo mismo que antes.
+  totalJs: 310 * 1024,
 }
 
 const KB = (bytes) => `${(bytes / 1024).toFixed(1)} KB`

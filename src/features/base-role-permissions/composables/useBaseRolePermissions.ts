@@ -10,15 +10,15 @@ import type {
 export function useBaseRolePermissions() {
   const store = useBaseRolePermissionsStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await baseRolePermissionsApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar los permisos de roles base', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los permisos de roles base', e)
     } finally {
       store.setLoading(false)
     }
@@ -29,8 +29,8 @@ export function useBaseRolePermissions() {
     try {
       const { data } = await baseRolePermissionsApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Permiso de rol base no encontrado', 'error')
+    } catch (e) {
+      notifyError('Permiso de rol base no encontrado', e)
     } finally {
       store.setLoading(false)
     }

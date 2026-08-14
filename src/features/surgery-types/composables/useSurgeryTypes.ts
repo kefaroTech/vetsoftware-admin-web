@@ -12,15 +12,15 @@ export interface SurgeryTypeFormData {
 export function useSurgeryTypes() {
   const store = useSurgeryTypesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await surgeryTypesApi.list()
       store.setItems(data.filter((t) => t.general))
-    } catch {
-      notify('Error al cargar los tipos de cirugía', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los tipos de cirugía', e)
     } finally {
       store.setLoading(false)
     }
@@ -31,8 +31,8 @@ export function useSurgeryTypes() {
     try {
       const { data } = await surgeryTypesApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Tipo de cirugía no encontrado', 'error')
+    } catch (e) {
+      notifyError('Tipo de cirugía no encontrado', e)
     } finally {
       store.setLoading(false)
     }

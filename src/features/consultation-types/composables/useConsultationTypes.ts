@@ -10,15 +10,15 @@ import type {
 export function useConsultationTypes() {
   const store = useConsultationTypesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await consultationTypesApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar los tipos de consulta', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los tipos de consulta', e)
     } finally {
       store.setLoading(false)
     }
@@ -29,8 +29,8 @@ export function useConsultationTypes() {
     try {
       const { data } = await consultationTypesApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Tipo de consulta no encontrado', 'error')
+    } catch (e) {
+      notifyError('Tipo de consulta no encontrado', e)
     } finally {
       store.setLoading(false)
     }

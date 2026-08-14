@@ -7,15 +7,15 @@ import type { CreateBaseRoleCommand, UpdateBaseRoleCommand } from '../types/base
 export function useBaseRoles() {
   const store = useBaseRolesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await baseRolesApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar los roles base', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los roles base', e)
     } finally {
       store.setLoading(false)
     }
@@ -26,8 +26,8 @@ export function useBaseRoles() {
     try {
       const { data } = await baseRolesApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Rol base no encontrado', 'error')
+    } catch (e) {
+      notifyError('Rol base no encontrado', e)
     } finally {
       store.setLoading(false)
     }

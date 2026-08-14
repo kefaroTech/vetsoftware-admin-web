@@ -31,6 +31,7 @@ export const ICONS = {
   EDIT: 'tabler:pencil',
   DELETE: 'tabler:trash',
   CLOSE: 'tabler:x',
+  COPY: 'tabler:copy',
   BACK: 'tabler:arrow-left',
   LOGOUT: 'tabler:logout',
   CHECK: 'tabler:check',

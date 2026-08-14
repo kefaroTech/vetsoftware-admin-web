@@ -7,15 +7,15 @@ import type { CreateModuleCommand, UpdateModuleCommand } from '../types/modules.
 export function useModules() {
   const store = useModulesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await modulesApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar los módulos', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los módulos', e)
     } finally {
       store.setLoading(false)
     }
@@ -26,8 +26,8 @@ export function useModules() {
     try {
       const { data } = await modulesApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Módulo no encontrado', 'error')
+    } catch (e) {
+      notifyError('Módulo no encontrado', e)
     } finally {
       store.setLoading(false)
     }

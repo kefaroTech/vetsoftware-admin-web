@@ -10,15 +10,15 @@ import type {
 export function useBasePermissions() {
   const store = useBasePermissionsStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await basePermissionsApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar los permisos base', 'error')
+    } catch (e) {
+      notifyError('Error al cargar los permisos base', e)
     } finally {
       store.setLoading(false)
     }
@@ -29,8 +29,8 @@ export function useBasePermissions() {
     try {
       const { data } = await basePermissionsApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Permiso base no encontrado', 'error')
+    } catch (e) {
+      notifyError('Permiso base no encontrado', e)
     } finally {
       store.setLoading(false)
     }

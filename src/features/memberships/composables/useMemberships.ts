@@ -7,15 +7,15 @@ import type { CreateMembershipCommand, UpdateMembershipCommand } from '../types/
 export function useMemberships() {
   const store = useMembershipsStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { notify, notifyError } = useNotification()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
       const { data } = await membershipsApi.list()
       store.setItems(data)
-    } catch {
-      notify('Error al cargar las membresías', 'error')
+    } catch (e) {
+      notifyError('Error al cargar las membresías', e)
     } finally {
       store.setLoading(false)
     }
@@ -26,8 +26,8 @@ export function useMemberships() {
     try {
       const { data } = await membershipsApi.getById(id)
       store.setSelected(data)
-    } catch {
-      notify('Membresía no encontrada', 'error')
+    } catch (e) {
+      notifyError('Membresía no encontrada', e)
     } finally {
       store.setLoading(false)
     }

@@ -6,7 +6,7 @@ import { useNotification } from '@/composables/useNotification'
 import { useSystemConfig } from '../composables/useSystemConfig'
 
 const { uvtConfig, uvtValue, fetch, saveUvt } = useSystemConfig()
-const { notify } = useNotification()
+const { notifyError } = useNotification()
 
 const currentYear = new Date().getFullYear()
 const editing = ref(false)
@@ -49,8 +49,8 @@ async function onSave() {
   try {
     await saveUvt(n)
     editing.value = false
-  } catch {
-    notify('No se pudo guardar el valor de la UVT', 'error')
+  } catch (e) {
+    notifyError('No se pudo guardar el valor de la UVT', e)
   } finally {
     saving.value = false
   }

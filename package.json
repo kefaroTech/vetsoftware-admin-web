@@ -37,6 +37,8 @@
     "npm": ">=11.0.0"
   },
   "dependencies": {
+    "@grafana/faro-web-sdk": "^2.9.0",
+    "@grafana/faro-web-tracing": "^2.9.0",
     "@iconify-json/tabler": "^1.2.33",
     "@iconify/vue": "^5.0.0",
     "axios": "^1.15.2",
