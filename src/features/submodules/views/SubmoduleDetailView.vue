@@ -23,12 +23,22 @@ async function handleSave(data: CreateSubModuleRequest) {
 <template>
   <AppLayout>
     <div class="d-flex align-center ga-3 mb-6">
-      <v-btn variant="text" :prepend-icon="ICONS.BACK" @click="router.back()">Volver</v-btn>
-      <h1 class="text-h4 font-weight-bold">Editar submódulo</h1>
+      <button type="button" class="ds-btn ds-btn--ghost" @click="router.back()">
+        <component :is="ICONS.BACK" :size="15" />
+        Volver
+      </button>
+      <h1 class="ds-title">Editar submódulo</h1>
     </div>
 
-    <v-card v-if="selected" max-width="640" class="pa-6">
+    <section v-if="selected" class="ds-card ds-detail-card">
       <SubmoduleForm :initial="selected" @submit="handleSave" @cancel="router.back()" />
-    </v-card>
+    </section>
   </AppLayout>
 </template>
+
+<style scoped>
+/* El ancho lo fijaba `max-width` de v-card; con la primitiva vive aquí. */
+.ds-detail-card {
+  max-width: 640px;
+}
+</style>
