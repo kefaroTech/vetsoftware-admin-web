@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Icon } from '@iconify/vue'
 import { useAuth } from '../composables/useAuth'
-import { useNotification } from '@/composables/useNotification'
+import { useToast } from '@/composables/useToast'
 import { storageService } from '@/services/storage/storage.service'
 import { ICONS } from '@/constants/icons'
 
 const { login } = useAuth()
-const { notifyError } = useNotification()
+const { errorFrom } = useToast()
 
 const code = ref('')
 const password = ref('')
@@ -35,7 +34,7 @@ async function handleSubmit() {
     await login({ code: code.value.trim(), password: password.value })
   } catch (e) {
     errorMessage.value = 'Credenciales inválidas. Verifica e intenta de nuevo.'
-    notifyError('Código o contraseña incorrectos', e)
+    errorFrom('Código o contraseña incorrectos', e)
   } finally {
     loading.value = false
   }
@@ -50,7 +49,7 @@ async function handleSubmit() {
     <header class="topbar">
       <div class="brand">
         <div class="brand-mark">
-          <Icon :icon="ICONS.PAW" width="16" height="16" />
+          <component :is="ICONS.PAW" :size="16" />
         </div>
         <span class="brand-name">VetSoftware</span>
       </div>
@@ -75,13 +74,7 @@ async function handleSubmit() {
           <div class="field">
             <label for="login-code">Código de usuario</label>
             <div class="input-box" :class="{ 'has-error': !!errorMessage }">
-              <Icon
-                :icon="ICONS.USER"
-                width="15"
-                height="15"
-                class="leading-icon"
-                aria-hidden="true"
-              />
+              <component :is="ICONS.USER" :size="15" class="leading-icon" aria-hidden="true" />
               <input
                 id="login-code"
                 v-model="code"
@@ -96,13 +89,7 @@ async function handleSubmit() {
           <div class="field">
             <label for="login-password">Contraseña</label>
             <div class="input-box" :class="{ 'has-error': !!errorMessage }">
-              <Icon
-                :icon="ICONS.LOCK"
-                width="15"
-                height="15"
-                class="leading-icon"
-                aria-hidden="true"
-              />
+              <component :is="ICONS.LOCK" :size="15" class="leading-icon" aria-hidden="true" />
               <input
                 id="login-password"
                 v-model="password"
@@ -118,7 +105,7 @@ async function handleSubmit() {
                 :disabled="loading"
                 @click="showPassword = !showPassword"
               >
-                <Icon :icon="showPassword ? ICONS.EYE_OFF : ICONS.EYE" width="15" height="15" />
+                <component :is="showPassword ? ICONS.EYE_OFF : ICONS.EYE" :size="15" />
               </button>
             </div>
           </div>
@@ -127,7 +114,7 @@ async function handleSubmit() {
             <template v-if="loading">Iniciando…</template>
             <template v-else>
               Iniciar sesión
-              <Icon :icon="ICONS.ARROW_RIGHT" width="14" height="14" aria-hidden="true" />
+              <component :is="ICONS.ARROW_RIGHT" :size="14" aria-hidden="true" />
             </template>
           </button>
         </form>

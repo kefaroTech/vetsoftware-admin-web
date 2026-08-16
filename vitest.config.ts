@@ -86,7 +86,7 @@ export default defineConfig({
           functions: 100,
           lines: 100,
         },
-        'src/stores/notification.store.ts': {
+        'src/stores/toast.store.ts': {
           statements: 100,
           branches: 100,
           functions: 100,

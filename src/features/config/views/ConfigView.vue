@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Icon } from '@iconify/vue'
+import { ref, type Component } from 'vue'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import { ICONS } from '@/constants/icons'
 import UvtEditor from '../components/UvtEditor.vue'
 
 type TabKey = 'facturacion' | 'general' | 'seguridad'
 
-const tabs: { k: TabKey; label: string; icon: string }[] = [
+const tabs: { k: TabKey; label: string; icon: Component }[] = [
   { k: 'facturacion', label: 'Facturación electrónica', icon: ICONS.RECEIPT },
   { k: 'general', label: 'General', icon: ICONS.SETTINGS },
   { k: 'seguridad', label: 'Seguridad', icon: ICONS.BASE_ROLE_PERMISSION },
@@ -31,7 +30,7 @@ const tab = ref<TabKey>('facturacion')
         :class="{ active: tab === t.k }"
         @click="tab = t.k"
       >
-        <Icon :icon="t.icon" width="15" height="15" />{{ t.label }}
+        <component :is="t.icon" :size="15" />{{ t.label }}
       </button>
     </div>
 

@@ -1,13 +1,13 @@
 import { storeToRefs } from 'pinia'
 import { useSpeciesStore } from '../stores/species.store'
 import { speciesApi } from '../api/species.api'
-import { useNotification } from '@/composables/useNotification'
+import { useToast } from '@/composables/useToast'
 import type { CreateSpecieRequest, UpdateSpecieRequest } from '../types/species.types'
 
 export function useSpecies() {
   const store = useSpeciesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify, notifyError } = useNotification()
+  const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
@@ -15,7 +15,7 @@ export function useSpecies() {
       const data = await speciesApi.listAll()
       store.setItems(data)
     } catch (e) {
-      notifyError('Error al cargar las especies', e)
+      errorFrom('Error al cargar las especies', e)
     } finally {
       store.setLoading(false)
     }
@@ -27,7 +27,7 @@ export function useSpecies() {
       const data = await speciesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
-      notifyError('Especie no encontrada', e)
+      errorFrom('Especie no encontrada', e)
     } finally {
       store.setLoading(false)
     }
@@ -36,21 +36,21 @@ export function useSpecies() {
   async function create(payload: CreateSpecieRequest) {
     const data = await speciesApi.create(payload)
     store.setItems([...store.items, data])
-    notify('Especie creada exitosamente', 'success')
+    success('Especie creada exitosamente')
     return data
   }
 
   async function update(id: number, payload: UpdateSpecieRequest) {
     const data = await speciesApi.update(id, payload)
     store.setItems(store.items.map((s) => (s.id === id ? data : s)))
-    notify('Especie actualizada', 'success')
+    success('Especie actualizada')
     return data
   }
 
   async function remove(id: number) {
     await speciesApi.remove(id)
     store.setItems(store.items.filter((s) => s.id !== id))
-    notify('Especie eliminada', 'success')
+    success('Especie eliminada')
   }
 
   return {

@@ -1,7 +1,7 @@
 import { storeToRefs } from 'pinia'
 import { useSurgeryTypesStore } from '../stores/surgery-types.store'
 import { surgeryTypesApi } from '../api/surgery-types.api'
-import { useNotification } from '@/composables/useNotification'
+import { useToast } from '@/composables/useToast'
 import type { CreateSurgeryTypeRequest } from '../types/surgery-types.types'
 
 export interface SurgeryTypeFormData {
@@ -12,7 +12,7 @@ export interface SurgeryTypeFormData {
 export function useSurgeryTypes() {
   const store = useSurgeryTypesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify, notifyError } = useNotification()
+  const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
@@ -20,7 +20,7 @@ export function useSurgeryTypes() {
       const data = await surgeryTypesApi.listAll()
       store.setItems(data.filter((t) => t.general))
     } catch (e) {
-      notifyError('Error al cargar los tipos de cirugía', e)
+      errorFrom('Error al cargar los tipos de cirugía', e)
     } finally {
       store.setLoading(false)
     }
@@ -32,7 +32,7 @@ export function useSurgeryTypes() {
       const data = await surgeryTypesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
-      notifyError('Tipo de cirugía no encontrado', e)
+      errorFrom('Tipo de cirugía no encontrado', e)
     } finally {
       store.setLoading(false)
     }
@@ -46,7 +46,7 @@ export function useSurgeryTypes() {
     }
     const data = await surgeryTypesApi.create(payload)
     store.setItems([...store.items, data])
-    notify('Tipo de cirugía creado exitosamente', 'success')
+    success('Tipo de cirugía creado exitosamente')
     return data
   }
 
@@ -58,14 +58,14 @@ export function useSurgeryTypes() {
     }
     const data = await surgeryTypesApi.update(id, payload)
     store.setItems(store.items.map((t) => (t.id === id ? data : t)))
-    notify('Tipo de cirugía actualizado', 'success')
+    success('Tipo de cirugía actualizado')
     return data
   }
 
   async function remove(id: number) {
     await surgeryTypesApi.remove(id)
     store.setItems(store.items.filter((t) => t.id !== id))
-    notify('Tipo de cirugía eliminado', 'success')
+    success('Tipo de cirugía eliminado')
   }
 
   return {

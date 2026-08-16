@@ -3,12 +3,12 @@ import { storeToRefs } from 'pinia'
 import { useConfigStore } from '../stores/config.store'
 import { configApi } from '../api/config.api'
 import { UVT_PROPERTY } from '../types/config.types'
-import { useNotification } from '@/composables/useNotification'
+import { useToast } from '@/composables/useToast'
 
 export function useSystemConfig() {
   const store = useConfigStore()
   const { configs, loading } = storeToRefs(store)
-  const { notify } = useNotification()
+  const { success } = useToast()
 
   /** Fila de configuración del UVT (o null si aún no existe). */
   const uvtConfig = computed(
@@ -33,7 +33,7 @@ export function useSystemConfig() {
   async function saveUvt(value: number) {
     const data = await configApi.set({ propertyName: UVT_PROPERTY, value: String(value) })
     store.upsertConfig(data)
-    notify('Valor de la UVT actualizado', 'success')
+    success('Valor de la UVT actualizado')
     return data
   }
 

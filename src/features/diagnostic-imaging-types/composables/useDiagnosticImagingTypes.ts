@@ -1,7 +1,7 @@
 import { storeToRefs } from 'pinia'
 import { useDiagnosticImagingTypesStore } from '../stores/diagnostic-imaging-types.store'
 import { diagnosticImagingTypesApi } from '../api/diagnostic-imaging-types.api'
-import { useNotification } from '@/composables/useNotification'
+import { useToast } from '@/composables/useToast'
 import type { CreateDiagnosticImagingTypeRequest } from '../types/diagnostic-imaging-types.types'
 
 export interface DiagnosticImagingTypeFormData {
@@ -12,7 +12,7 @@ export interface DiagnosticImagingTypeFormData {
 export function useDiagnosticImagingTypes() {
   const store = useDiagnosticImagingTypesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify, notifyError } = useNotification()
+  const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
@@ -20,7 +20,7 @@ export function useDiagnosticImagingTypes() {
       const data = await diagnosticImagingTypesApi.listAll()
       store.setItems(data.filter((t) => t.general))
     } catch (e) {
-      notifyError('Error al cargar los tipos de imagen diagnóstica', e)
+      errorFrom('Error al cargar los tipos de imagen diagnóstica', e)
     } finally {
       store.setLoading(false)
     }
@@ -32,7 +32,7 @@ export function useDiagnosticImagingTypes() {
       const data = await diagnosticImagingTypesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
-      notifyError('Tipo de imagen diagnóstica no encontrado', e)
+      errorFrom('Tipo de imagen diagnóstica no encontrado', e)
     } finally {
       store.setLoading(false)
     }
@@ -46,7 +46,7 @@ export function useDiagnosticImagingTypes() {
     }
     const data = await diagnosticImagingTypesApi.create(payload)
     store.setItems([...store.items, data])
-    notify('Tipo de imagen diagnóstica creado exitosamente', 'success')
+    success('Tipo de imagen diagnóstica creado exitosamente')
     return data
   }
 
@@ -58,14 +58,14 @@ export function useDiagnosticImagingTypes() {
     }
     const data = await diagnosticImagingTypesApi.update(id, payload)
     store.setItems(store.items.map((t) => (t.id === id ? data : t)))
-    notify('Tipo de imagen diagnóstica actualizado', 'success')
+    success('Tipo de imagen diagnóstica actualizado')
     return data
   }
 
   async function remove(id: number) {
     await diagnosticImagingTypesApi.remove(id)
     store.setItems(store.items.filter((t) => t.id !== id))
-    notify('Tipo de imagen diagnóstica eliminado', 'success')
+    success('Tipo de imagen diagnóstica eliminado')
   }
 
   return {

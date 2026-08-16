@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import AppToast from '@/components/feedback/AppToast.vue'
+import ToastStack from '@/components/feedback/ToastStack.vue'
 import AppConfirmDialog from '@/components/feedback/AppConfirmDialog.vue'
 import PageLoader from '@/components/feedback/PageLoader.vue'
 </script>
@@ -8,7 +8,7 @@ import PageLoader from '@/components/feedback/PageLoader.vue'
 <template>
   <v-app>
     <RouterView />
-    <AppToast />
+    <ToastStack />
     <AppConfirmDialog />
     <PageLoader />
   </v-app>

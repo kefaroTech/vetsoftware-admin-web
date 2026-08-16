@@ -1,0 +1,485 @@
+/**
+ * PRIMITIVES — capa 2 del design system.
+ *
+ * Reemplaza los patrones que hoy están copiados en el CSS scoped de los SFC:
+ *   .btn-ghost   → 63 copias      .banner.error → 41 copias
+ *   .btn-primary → 57 copias      .empty        → 26 copias
+ *   .card        → 18 copias      .page         → 20 copias
+ *
+ * ── Por qué el prefijo `ds-` ──────────────────────────────────────────────
+ * Las clases sin prefijo (.btn, .card, .empty…) YA existen en 260 SFC con
+ * cuerpos distintos entre sí. Definirlas globalmente sería peligroso: un
+ * componente cuyo `.btn` scoped sólo declara `background` heredaría de golpe
+ * el `display:inline-flex`, `padding` y `gap` de la primitiva y cambiaría de
+ * layout sin que nadie lo tocara.
+ *
+ * Con prefijo no hay colisión posible: este archivo es INERTE hasta que un
+ * componente cambia su markup a `ds-*` y borra sus reglas scoped. Eso hace la
+ * migración incremental, auditable (grep `ds-`) y reversible archivo a archivo.
+ *
+ * Los valores replican la variante DOMINANTE de cada patrón, así que migrar no
+ * cambia el aspecto. Donde había dos variantes legítimas conviviendo (botón
+ * compacto vs. grande, primario plano vs. degradado) hay un modificador.
+ */
+
+/* ========================================================================== *
+ * BOTONES
+ * Base = variante compacta (la más repetida: 13px / padding 9px 16px).
+ * ========================================================================== */
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  padding: var(--space-9) var(--space-16);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  font-family: inherit;
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+
+  /* Sin `line-height` ni `white-space` a propósito: fijarlos cambiaría la
+     altura y el salto de línea de los ~120 botones que hoy heredan `normal`.
+     Verificado con el harness (ds-audit): con ellos, los botones encogían
+     1.4px de alto. */
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    filter var(--transition-fast);
+}
+
+/* Tamaños. La escala real del código, de menor a mayor:
+   --sm (7/12) · --snug (8/14) · base (9/16) · --lg (10/18). */
+.ds-btn--sm {
+  padding: var(--space-7) var(--space-12);
+  border-radius: var(--radius-field);
+  font-size: var(--text-sm);
+}
+
+.ds-btn--snug {
+  padding: var(--space-8) var(--space-14);
+}
+
+.ds-btn--lg {
+  padding: var(--space-10) var(--space-18);
+  font-size: var(--text-md);
+}
+
+/* Variante fantasma — el `.btn-ghost` de los SFC */
+.ds-btn--ghost {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--warm-700);
+}
+
+/* Variante primaria con degradado — el `.btn-primary` dominante */
+.ds-btn--primary {
+  border-color: transparent;
+  background: var(--gradient-primary);
+  color: #fff;
+}
+
+/* Variante primaria plana — el otro `.btn-primary`/`.btn.primary` del código.
+   El tono se puede ajustar por contexto sin duplicar la regla: las features
+   `caja` y `compras` usan --amatista-600, el resto --amatista-700.
+
+   OJO: `ModalShell` hace `<Teleport to="body">`, así que un botón dentro de un
+   modal NO hereda la variable del contenedor de la vista. Para esos casos,
+   declara `--ds-btn-solid-bg` en el propio componente del modal. */
+.ds-btn--solid {
+  border-color: transparent;
+  background: var(--ds-btn-solid-bg, var(--amatista-700));
+  color: #fff;
+}
+
+/* Variante neutra RELLENA — el `.btn.ghost` de las features `caja`/`compras`
+   (10 archivos). No es lo mismo que `--ghost`, que va con contorno. */
+.ds-btn--neutral {
+  border-color: transparent;
+  background: var(--surface-muted);
+  color: var(--warm-700);
+}
+
+/* Modificador de peso — esas mismas features usan 600 en vez de 500. */
+.ds-btn--strong {
+  font-weight: var(--weight-semibold);
+}
+
+/* CTA elevado — la sombra que llevan los botones primarios de cabecera. */
+.ds-btn--elevated {
+  box-shadow: var(--shadow-primary);
+}
+
+/* Para etiquetas largas que no deben partirse (CTAs de cabecera). */
+.ds-btn--nowrap {
+  white-space: nowrap;
+}
+
+/* Variante destructiva suave — el botón "Cancelar cita" y equivalentes.
+   Los valores son los de su único uso real en el código (AppointmentDetailModal):
+   un rojo más apagado que el del banner de error. */
+.ds-btn--danger {
+  border-color: var(--danger-250);
+  background: var(--danger-50);
+  color: var(--danger-700);
+}
+
+/* Variante destructiva sólida — el botón que confirma una anulación. */
+.ds-btn--danger-solid {
+  border-color: transparent;
+  background: var(--gradient-danger);
+  color: #fff;
+}
+
+/* Variante sin caja, para acciones terciarias dentro de filas */
+.ds-btn--plain {
+  padding: var(--space-4) var(--space-6);
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-muted);
+}
+
+/* --- Estados. Ordenados de menor a mayor especificidad (stylelint). ------ */
+
+.ds-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.ds-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.ds-btn--ghost:hover:not(:disabled) {
+  background: var(--surface-muted);
+}
+
+.ds-btn--neutral:hover:not(:disabled) {
+  background: var(--surface-sunken);
+}
+
+.ds-btn--primary:hover:not(:disabled),
+.ds-btn--solid:hover:not(:disabled),
+.ds-btn--danger-solid:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.ds-btn--danger:hover:not(:disabled) {
+  background: var(--danger-200);
+}
+
+.ds-btn--plain:hover:not(:disabled) {
+  background: var(--surface-muted);
+  color: var(--text);
+}
+
+.ds-btn--danger:focus-visible {
+  box-shadow: var(--ring-danger);
+}
+
+/* ========================================================================== *
+ * BANNERS — el `.banner.error` repetido 41 veces
+ * ========================================================================== */
+
+/* Ojo con el `margin-bottom`: viene de las 41 copias que reemplaza, pero en un
+   contenedor flex con `gap` se suma al hueco. Ahí, anúlalo con `--flush`. */
+.ds-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-bottom: var(--space-14);
+  padding: var(--space-10) var(--space-14);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--text-body);
+}
+
+.ds-banner--flush {
+  margin-bottom: 0;
+}
+
+.ds-banner--sm {
+  margin-bottom: var(--space-12);
+  padding: var(--space-8) var(--space-12);
+  font-size: var(--text-sm);
+}
+
+.ds-banner--error {
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
+  color: var(--danger-fg);
+}
+
+.ds-banner--warning {
+  border-color: var(--warning-border);
+  background: var(--warning-bg);
+  color: var(--warning-fg);
+}
+
+.ds-banner--success {
+  border-color: var(--success-border);
+  background: var(--success-bg);
+  color: var(--success-fg);
+}
+
+.ds-banner--info {
+  border-color: var(--amatista-200);
+  background: var(--amatista-50);
+  color: var(--amatista-800);
+}
+
+/* ========================================================================== *
+ * SUPERFICIES
+ * ========================================================================== */
+
+.ds-card {
+  padding: var(--space-20) var(--space-22);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.ds-card--tight {
+  padding: var(--space-14) var(--space-16);
+  border-radius: var(--radius-panel-lg);
+}
+
+.ds-card--flat {
+  border-color: transparent;
+  background: var(--surface-muted);
+}
+
+.ds-panel {
+  padding: var(--space-12) var(--space-14);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  background: var(--surface-muted);
+}
+
+/* ========================================================================== *
+ * ESTADO VACÍO — el `.empty` repetido 26 veces
+ * ========================================================================== */
+
+.ds-empty {
+  padding: var(--space-32);
+  color: var(--text-subtle);
+  text-align: center;
+}
+
+/* El `font-size` vive en el modificador, no en la base: los `.empty` grandes
+   del código heredan el tamaño del contenedor y forzarlo los cambiaría. */
+.ds-empty--tight {
+  padding: var(--space-16);
+  font-size: var(--text-body);
+}
+
+.ds-empty--lg {
+  padding: var(--space-40);
+}
+
+/* Caja punteada con un mensaje: va alineada a la izquierda, no centrada como
+   el estado vacío suelto. Replica el `.empty` de los detalles de historia. */
+.ds-empty--boxed {
+  padding: var(--space-14) var(--space-16);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  font-size: var(--text-body);
+  text-align: start;
+}
+
+/* ========================================================================== *
+ * LAYOUT DE PÁGINA — el `.page` repetido 20 veces
+ * ========================================================================== */
+
+/* Base = la variante dominante (13 copias): sólo fuente y color. Añadir aquí
+   el ancho o el padding rompería las vistas que se maquetan a sangre. */
+.ds-page {
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+/* La variante con caja centrada (3 copias). */
+.ds-page--contained {
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: var(--space-24) var(--space-28);
+}
+
+.ds-page--wide {
+  max-width: 1240px;
+}
+
+.ds-page--stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-18);
+}
+
+.ds-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-16);
+  margin-bottom: var(--space-16);
+}
+
+.ds-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-6);
+}
+
+.ds-actions--start {
+  justify-content: flex-start;
+}
+
+/* ========================================================================== *
+ * TIPOGRAFÍA
+ * ========================================================================== */
+
+.ds-display {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: var(--text-display);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Mismo titular, un escalón por debajo (32px). Aparece en 7 archivos. */
+.ds-display--sm {
+  font-size: var(--text-h1);
+}
+
+.ds-title {
+  margin: 0 0 var(--space-6);
+  color: var(--text);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-snug);
+}
+
+.ds-subtitle {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--text-body);
+}
+
+.ds-label {
+  color: var(--text-subtle);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ========================================================================== *
+ * REJILLAS — el `.detail-grid` / `.grid` repetidos
+ * ========================================================================== */
+
+.ds-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-14) var(--space-16);
+}
+
+.ds-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-10) var(--space-24);
+}
+
+.ds-grid-span {
+  grid-column: 1 / -1;
+}
+
+/* Cada rejilla colapsa en su propio punto, que es el que ya usaba el código:
+   las de detalle a 560px (11 archivos) y las de formulario a 640px. */
+@media (width <= 640px) {
+  .ds-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width <= 560px) {
+  .ds-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================================================== *
+ * UTILIDADES — sólo las que aparecían literalmente decenas de veces
+ * ========================================================================== */
+
+.ds-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ds-flex-fill {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ========================================================================== *
+ * BOTÓN DE ICONO — la acción por fila de tabla
+ * ========================================================================== */
+
+/* Copiado en 17 SFC, en dos familias visuales que NO se unifican aquí porque
+ * no son la misma pieza: ésta es la de contorno (12 copias, cuadrada de 28px)
+ * y la de compras es rellena y se dimensiona por padding. Unificarlas habría
+ * cambiado el aspecto de cinco pantallas, que es justo lo que esta capa evita.
+ *
+ * El estado deshabilitado se declara aquí aunque sólo dos de las copias lo
+ * tuvieran: el `:hover` va con `:not(:disabled)` porque un botón apagado que
+ * reacciona al ratón es un defecto en todas ellas, no una variante. */
+.ds-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  border: 1px solid var(--warm-200);
+  background: transparent;
+  color: var(--warm-700);
+  cursor: pointer;
+}
+
+.ds-icon-btn:hover:not(:disabled) {
+  background: var(--warm-100);
+}
+
+.ds-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Acción destructiva: sólo se tiñe al pasar por encima, para que una fila con
+ * varias acciones no grite en rojo en reposo. */
+.ds-icon-btn--danger:hover:not(:disabled) {
+  background: var(--danger-100);
+  color: var(--danger-900);
+  border-color: var(--danger-400);
+}
+
+/* ========================================================================== *
+ * ERROR DEL SERVIDOR — el aviso al pie de un formulario
+ * ========================================================================== */
+
+/* 12 copias, y las 12 byte a byte idénticas: no hubo ninguna variante que
+ * conciliar. Es el mensaje que devuelve el backend cuando el envío falla. */
+.ds-server-error {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--danger-150);
+  color: oklch(45% 0.18 25deg);
+  font-size: 13px;
+}

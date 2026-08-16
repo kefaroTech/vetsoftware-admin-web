@@ -5,6 +5,8 @@ import router from './router'
 import { startTelemetry } from '@/services/telemetry/telemetry'
 import vuetify from './plugins/vuetify'
 import { useAuthStore } from '@/features/auth/stores/auth.store'
+import './assets/styles/tokens.css'
+import './assets/styles/primitives.css'
 import './assets/styles/main.css'
 
 const app = createApp(App)

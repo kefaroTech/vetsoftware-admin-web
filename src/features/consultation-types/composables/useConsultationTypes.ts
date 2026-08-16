@@ -1,7 +1,7 @@
 import { storeToRefs } from 'pinia'
 import { useConsultationTypesStore } from '../stores/consultation-types.store'
 import { consultationTypesApi } from '../api/consultation-types.api'
-import { useNotification } from '@/composables/useNotification'
+import { useToast } from '@/composables/useToast'
 import type {
   CreateConsultationTypeRequest,
   UpdateConsultationTypeRequest,
@@ -10,7 +10,7 @@ import type {
 export function useConsultationTypes() {
   const store = useConsultationTypesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify, notifyError } = useNotification()
+  const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
@@ -18,7 +18,7 @@ export function useConsultationTypes() {
       const data = await consultationTypesApi.listAll()
       store.setItems(data)
     } catch (e) {
-      notifyError('Error al cargar los tipos de consulta', e)
+      errorFrom('Error al cargar los tipos de consulta', e)
     } finally {
       store.setLoading(false)
     }
@@ -30,7 +30,7 @@ export function useConsultationTypes() {
       const data = await consultationTypesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
-      notifyError('Tipo de consulta no encontrado', e)
+      errorFrom('Tipo de consulta no encontrado', e)
     } finally {
       store.setLoading(false)
     }
@@ -39,21 +39,21 @@ export function useConsultationTypes() {
   async function create(payload: CreateConsultationTypeRequest) {
     const data = await consultationTypesApi.create(payload)
     store.setItems([...store.items, data])
-    notify('Tipo de consulta creado exitosamente', 'success')
+    success('Tipo de consulta creado exitosamente')
     return data
   }
 
   async function update(id: number, payload: UpdateConsultationTypeRequest) {
     const data = await consultationTypesApi.update(id, payload)
     store.setItems(store.items.map((t) => (t.id === id ? data : t)))
-    notify('Tipo de consulta actualizado', 'success')
+    success('Tipo de consulta actualizado')
     return data
   }
 
   async function remove(id: number) {
     await consultationTypesApi.remove(id)
     store.setItems(store.items.filter((t) => t.id !== id))
-    notify('Tipo de consulta eliminado', 'success')
+    success('Tipo de consulta eliminado')
   }
 
   return {

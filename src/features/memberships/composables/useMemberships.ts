@@ -1,13 +1,13 @@
 import { storeToRefs } from 'pinia'
 import { useMembershipsStore } from '../stores/memberships.store'
 import { membershipsApi } from '../api/memberships.api'
-import { useNotification } from '@/composables/useNotification'
+import { useToast } from '@/composables/useToast'
 import type { CreateMembershipRequest, UpdateMembershipRequest } from '../types/memberships.types'
 
 export function useMemberships() {
   const store = useMembershipsStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify, notifyError } = useNotification()
+  const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
@@ -15,7 +15,7 @@ export function useMemberships() {
       const data = await membershipsApi.listAll()
       store.setItems(data)
     } catch (e) {
-      notifyError('Error al cargar las membresías', e)
+      errorFrom('Error al cargar las membresías', e)
     } finally {
       store.setLoading(false)
     }
@@ -27,7 +27,7 @@ export function useMemberships() {
       const data = await membershipsApi.findById(id)
       store.setSelected(data)
     } catch (e) {
-      notifyError('Membresía no encontrada', e)
+      errorFrom('Membresía no encontrada', e)
     } finally {
       store.setLoading(false)
     }
@@ -36,21 +36,21 @@ export function useMemberships() {
   async function create(payload: CreateMembershipRequest) {
     const data = await membershipsApi.create(payload)
     store.setItems([...store.items, data])
-    notify('Membresía creada exitosamente', 'success')
+    success('Membresía creada exitosamente')
     return data
   }
 
   async function update(id: number, payload: UpdateMembershipRequest) {
     const data = await membershipsApi.update(id, payload)
     store.setItems(store.items.map((m) => (m.id === id ? data : m)))
-    notify('Membresía actualizada', 'success')
+    success('Membresía actualizada')
     return data
   }
 
   async function remove(id: number) {
     await membershipsApi.remove(id)
     store.setItems(store.items.filter((m) => m.id !== id))
-    notify('Membresía eliminada', 'success')
+    success('Membresía eliminada')
   }
 
   return {
