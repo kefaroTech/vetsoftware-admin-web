@@ -1,15 +1,19 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { storageService } from '@/services/storage/storage.service'
+import { AUTH_STORAGE_KEY, storageService } from '@/services/storage/storage.service'
 
 /**
- * El almacén de credenciales del panel. Es la última pieza que se toca al cerrar
- * sesión, y la que decide si un equipo compartido —la recepción de una clínica—
- * queda con la sesión del turno anterior abierta.
+ * El almacén de credenciales. Es la última pieza que se toca al cerrar sesión, y
+ * la que decide si un equipo compartido —la recepción de una clínica— queda con
+ * la sesión del turno anterior abierta.
  *
- * Lo que se fija aquí no es que sepa escribir en `localStorage`, sino que
- * limpiar NUNCA falle: `clearAll` corre en el camino de logout y de expulsión
- * por 401, y un throw ahí aborta la limpieza a medias y deja el token puesto.
+ * Lo que se fija aquí no es que sepa escribir en `localStorage`, sino que limpiar
+ * NUNCA falle: `clearAll` corre en el camino de logout y de expulsión por 401, y
+ * un throw ahí aborta la limpieza a medias y deja el token puesto.
+ *
+ * Este archivo se mantiene idéntico en los dos fronts.
  */
+
+const SESION = { token: 'abc', type: 'EMPLOYEE' } as const
 
 beforeEach(() => {
   localStorage.clear()
@@ -20,60 +24,73 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-describe('access token', () => {
+describe('sesión', () => {
   it('sin sesión no hay token', () => {
+    expect(storageService.getSession()).toBeNull()
     expect(storageService.getToken()).toBeNull()
   })
 
   it('guarda y recupera', () => {
-    storageService.setToken('abc')
+    storageService.setSession(SESION)
 
+    expect(storageService.getSession()).toEqual(SESION)
     expect(storageService.getToken()).toBe('abc')
-  })
-
-  it('borra', () => {
-    storageService.setToken('abc')
-
-    storageService.removeToken()
-
-    expect(storageService.getToken()).toBeNull()
   })
 
   it('sobrescribe en vez de acumular', () => {
     // Tras un refresco conviven el token viejo y el nuevo si no se sobrescribe;
     // el interceptor leería el primero que encuentre.
-    storageService.setToken('viejo')
-    storageService.setToken('nuevo')
+    storageService.setSession({ token: 'viejo', type: 'EMPLOYEE' })
+    storageService.setSession({ token: 'nuevo', type: 'EMPLOYEE' })
 
     expect(storageService.getToken()).toBe('nuevo')
+    expect(Object.keys(localStorage)).toEqual([AUTH_STORAGE_KEY])
+  })
+
+  it('descarta una entrada corrupta en vez de arrastrarla', () => {
+    // Si sobreviviera, cada petición intentaría parsearla otra vez y el usuario
+    // se quedaría en un limbo: ni autenticado ni enviado al login.
+    localStorage.setItem(AUTH_STORAGE_KEY, '{roto')
+
+    expect(storageService.getSession()).toBeNull()
+    expect(localStorage.getItem(AUTH_STORAGE_KEY)).toBeNull()
+  })
+
+  it('una sesión sin token no cuenta como sesión', () => {
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ type: 'EMPLOYEE' }))
+
+    expect(storageService.getSession()).toBeNull()
   })
 })
 
 describe('el refresh token ya no vive aquí', () => {
   it('el almacén no expone ninguna operación de refresh token', () => {
-    // FE-03: el refresh dura 30 días y en `localStorage` lo podía leer
-    // cualquier script. Ahora lo emite el backend en una cookie HttpOnly. Si
-    // alguien reintrodujera un getter/setter aquí, estaría devolviendo la
-    // credencial de un mes al alcance de un XSS.
+    // FE-03: el refresh dura 30 días y en `localStorage` lo podía leer cualquier
+    // script. Ahora lo emite el backend en una cookie HttpOnly. Si alguien
+    // reintrodujera un getter/setter aquí, estaría devolviendo la credencial de
+    // un mes al alcance de un XSS.
     expect(Object.keys(storageService)).toEqual([
+      'getSession',
       'getToken',
-      'setToken',
-      'removeToken',
-      'clear',
+      'setSession',
+      'clearSession',
       'clearAll',
+      'takeSessionReplacedNotice',
+      'setSessionReplacedNotice',
     ])
   })
 
   it('no queda rastro del refresh token en localStorage tras usar el almacén', () => {
-    storageService.setToken('access')
+    storageService.setSession(SESION)
 
-    expect(Object.keys(localStorage)).toEqual(['vet_token'])
+    expect(Object.keys(localStorage)).toEqual([AUTH_STORAGE_KEY])
+    expect(JSON.stringify(localStorage)).not.toContain('refresh')
   })
 })
 
 describe('limpieza de sesión', () => {
   it('clearAll deja localStorage y sessionStorage vacíos', () => {
-    storageService.setToken('access')
+    storageService.setSession(SESION)
     sessionStorage.setItem('aviso', 'algo')
 
     storageService.clearAll()
@@ -108,17 +125,50 @@ describe('limpieza de sesión', () => {
     expect(storageService.getToken()).toBeNull()
   })
 
-  it('clear vacía localStorage pero NO sessionStorage', () => {
-    // Son dos operaciones distintas: `clear` es la limpieza de credenciales y
-    // `clearAll` la de cierre de sesión completo. Confundirlas borraría avisos
-    // de sesión —como el de "tu cuenta se inició en otro dispositivo"— que
-    // viven en sessionStorage y tienen que sobrevivir a la redirección al login.
-    storageService.setToken('access')
+  it('clearSession vacía las credenciales pero NO sessionStorage', () => {
+    // Son dos operaciones distintas: `clearSession` es la limpieza de
+    // credenciales y `clearAll` la de cierre de sesión completo. Confundirlas
+    // borraría el aviso de «tu cuenta se inició en otro dispositivo», que vive en
+    // sessionStorage y tiene que sobrevivir a la redirección al login.
+    storageService.setSession(SESION)
     sessionStorage.setItem('aviso', 'algo')
 
-    storageService.clear()
+    storageService.clearSession()
 
     expect(storageService.getToken()).toBeNull()
     expect(sessionStorage.getItem('aviso')).toBe('algo')
+  })
+
+  it('clearSession no falla si localStorage lanza', () => {
+    storageService.setSession(SESION)
+    vi.spyOn(Storage.prototype, 'removeItem').mockImplementationOnce(() => {
+      throw new Error('acceso denegado')
+    })
+
+    expect(() => storageService.clearSession()).not.toThrow()
+  })
+})
+
+describe('aviso de sesión desplazada', () => {
+  it('se consume de una vez: leerlo lo borra', () => {
+    // Si no se borrara al leerlo, el aviso reaparecería en cada visita al login
+    // durante toda la pestaña, mucho después de haber dejado de ser cierto.
+    storageService.setSessionReplacedNotice('Tu cuenta se inició en otro dispositivo.')
+
+    expect(storageService.takeSessionReplacedNotice()).toBe(
+      'Tu cuenta se inició en otro dispositivo.',
+    )
+    expect(storageService.takeSessionReplacedNotice()).toBeNull()
+  })
+
+  it('sobrevive a clearSession, que es lo que corre justo antes del redirect', () => {
+    storageService.setSession(SESION)
+    storageService.setSessionReplacedNotice('Tu cuenta se inició en otro dispositivo.')
+
+    storageService.clearSession()
+
+    expect(storageService.takeSessionReplacedNotice()).toBe(
+      'Tu cuenta se inició en otro dispositivo.',
+    )
   })
 })

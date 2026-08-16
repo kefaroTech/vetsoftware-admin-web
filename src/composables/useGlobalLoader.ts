@@ -1,6 +1,10 @@
 import { storeToRefs } from 'pinia'
 import { useLoaderStore } from '@/stores/loader.store'
 
+/**
+ * Uso programático del loader global (también lo disparan los interceptores de
+ * axios en request/response). Respaldado por el store de Pinia `loader`.
+ */
 export function pushLoader() {
   useLoaderStore().push()
 }

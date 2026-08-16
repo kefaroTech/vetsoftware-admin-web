@@ -170,6 +170,20 @@ describe('notificaciones', () => {
     expect(store.notifications).toHaveLength(0)
   })
 
+  it('un aviso con traza dura más: alguien puede querer copiarla', () => {
+    // TR-05. Los 4 s de un aviso normal no alcanzan para leer un identificador de
+    // 32 caracteres y copiarlo, que es justo para lo que se emite.
+    const store = useNotificationStore()
+
+    store.notify('Falló el guardado', 'error', 'abc123')
+    vi.advanceTimersByTime(8_999)
+    expect(store.notifications).toHaveLength(1)
+    expect(store.notifications[0].traceId).toBe('abc123')
+
+    vi.advanceTimersByTime(1)
+    expect(store.notifications).toHaveLength(0)
+  })
+
   it('cada aviso cuenta su propio tiempo', () => {
     // Con un solo temporizador compartido, el segundo aviso se iría antes de
     // que al usuario le diera tiempo a leerlo.

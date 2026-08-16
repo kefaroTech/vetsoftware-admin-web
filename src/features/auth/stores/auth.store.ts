@@ -1,36 +1,37 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { storageService } from '@/services/storage/storage.service'
+import { storageService, type AuthSession } from '@/services/storage/storage.service'
 import { setRefreshHandler } from '@/services/http/http.client'
 import { authApi } from '../api/auth.api'
 import { decodeJwt } from '../utils/jwt'
-
-export type UserType = 'EMPLOYEE' | 'SYSTEM_USER'
+import type { AuthSubjectType } from '../types/auth.types'
 
 export const useAuthStore = defineStore('auth', () => {
-  const token = ref<string | null>(storageService.getToken())
+  const session = ref<AuthSession | null>(storageService.getSession())
   const permissions = ref<string[]>([])
 
-  const payload = computed(() => (token.value ? decodeJwt(token.value) : null))
+  const token = computed<string | null>(() => session.value?.token ?? null)
+  const claims = computed(() => (session.value ? decodeJwt(session.value.token) : null))
   const userId = computed<number | null>(() => {
-    const sub = payload.value?.sub
+    const sub = claims.value?.sub
     if (!sub) return null
     const id = Number(sub)
     return Number.isFinite(id) ? id : null
   })
-  const userType = computed<UserType | null>(() => payload.value?.type ?? null)
-  const isAuthenticated = computed(() => !!token.value)
+  // La sesión persistida manda sobre el JWT: el backend la declara en `TokenResponse.type`.
+  const userType = computed<AuthSubjectType | null>(
+    () => session.value?.type ?? claims.value?.type ?? null,
+  )
+  const isAuthenticated = computed(() => session.value !== null)
 
-  // Expiración proactiva en cliente: el `exp` del JWT viene en segundos epoch.
-  const isExpired = computed<boolean>(() => {
-    const exp = payload.value?.exp
-    return typeof exp === 'number' && Date.now() >= exp * 1000
-  })
-
-  function setToken(newToken: string) {
-    token.value = newToken
-    storageService.setToken(newToken)
-  }
+  // `exp` del JWT en milisegundos (el claim viene en segundos epoch).
+  const expiresAt = computed<number | null>(() =>
+    claims.value?.exp ? claims.value.exp * 1000 : null,
+  )
+  // Expiración proactiva en cliente: permite expulsar/refrescar sin esperar al 401.
+  const isExpired = computed<boolean>(
+    () => expiresAt.value !== null && Date.now() >= expiresAt.value,
+  )
 
   /**
    * Persiste la sesión tras un login o una rotación.
@@ -38,15 +39,17 @@ export const useAuthStore = defineStore('auth', () => {
    * Ya no recibe el refresh token: el backend lo emite en una cookie HttpOnly
    * que este código no puede leer ni necesita. Aquí solo queda el access token.
    */
-  function setSession(newToken: string) {
-    token.value = newToken
-    storageService.setToken(newToken)
+  function setSession(next: AuthSession) {
+    storageService.setSession(next)
+    session.value = next
   }
 
+  /** Limpia sesión y storage sin redirigir (útil para expiración proactiva vía router). */
   function clearSession() {
-    token.value = null
+    // Conserva preferencias y el aviso SESSION_REPLACED; solo elimina credenciales de auth.
+    storageService.clearSession()
+    session.value = null
     permissions.value = []
-    storageService.clearAll()
   }
 
   /** Hidrata los permisos del usuario actual desde `GET /auth/me` (SYSTEM_USER o EMPLOYEE). */
@@ -82,7 +85,7 @@ export const useAuthStore = defineStore('auth', () => {
     refreshInFlight = authApi
       .refresh()
       .then(({ data }) => {
-        setSession(data.token)
+        setSession({ token: data.token, type: data.type })
         return data.token
       })
       .catch(() => {
@@ -105,17 +108,21 @@ export const useAuthStore = defineStore('auth', () => {
     } catch {
       /* ignore */
     }
+    // Vaciado total solo en el logout explícito: una expiración no debe llevarse
+    // las preferencias ni el aviso de sesión desplazada.
     clearSession()
+    storageService.clearAll()
   }
 
   return {
+    session,
     token,
     permissions,
     userId,
     userType,
     isAuthenticated,
+    expiresAt,
     isExpired,
-    setToken,
     setSession,
     fetchMe,
     hasPermission,

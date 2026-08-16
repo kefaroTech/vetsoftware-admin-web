@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useAuth } from '../composables/useAuth'
 import { useNotification } from '@/composables/useNotification'
+import { storageService } from '@/services/storage/storage.service'
 import { ICONS } from '@/constants/icons'
 
 const { login } = useAuth()
@@ -13,6 +14,15 @@ const password = ref('')
 const showPassword = ref(false)
 const loading = ref(false)
 const errorMessage = ref<string | null>(null)
+const sessionNotice = ref('')
+
+// El interceptor deja este aviso justo antes del redirect duro cuando el backend
+// responde SESSION_REPLACED. Sin mostrarlo, el usuario aparece en el login sin
+// explicación y lo lee como un fallo de la aplicación.
+// Se consume de una vez: leerlo lo borra, para que no reaparezca en el siguiente login.
+onMounted(() => {
+  sessionNotice.value = storageService.takeSessionReplacedNotice() ?? ''
+})
 
 async function handleSubmit() {
   if (!code.value.trim() || !password.value) {
@@ -52,6 +62,10 @@ async function handleSubmit() {
         <div class="eyebrow">Panel administrativo</div>
         <h1 class="title">Inicia sesión</h1>
         <p class="subtitle">Accede al panel para administrar VetSoftware.</p>
+
+        <div v-if="sessionNotice" class="notice-banner" role="status">
+          {{ sessionNotice }}
+        </div>
 
         <form class="form" novalidate @submit.prevent="handleSubmit">
           <div v-if="errorMessage" class="error-banner" role="alert">
@@ -280,6 +294,17 @@ async function handleSubmit() {
   font-size: 12px;
   padding: 10px 12px;
   border-radius: 8px;
+}
+
+/* Aviso, no error: la sesión se cerró por una razón legítima. */
+.notice-banner {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92600a;
+  font-size: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
 .field {

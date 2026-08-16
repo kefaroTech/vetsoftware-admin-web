@@ -57,7 +57,7 @@ describe('authGuard', () => {
 
   it('deja pasar con un token vigente', () => {
     const store = useAuthStore()
-    store.token = tokenExpiring(3600)
+    store.session = { token: tokenExpiring(3600), type: 'EMPLOYEE' }
     const next = vi.fn() as unknown as NavigationGuardNext
 
     authGuard(route(), route(), next)
@@ -74,7 +74,7 @@ describe('authGuard', () => {
     // Antes esta decisión se tomaba leyendo el refresh token de localStorage.
     // Ese era exactamente el valor que un XSS podía llevarse.
     const store = useAuthStore()
-    store.token = tokenExpiring(-60)
+    store.session = { token: tokenExpiring(-60), type: 'EMPLOYEE' }
     const clearSession = vi.spyOn(store, 'clearSession')
     const next = vi.fn() as unknown as NavigationGuardNext
 
