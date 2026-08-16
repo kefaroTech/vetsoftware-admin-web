@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import BasePermissionForm from '../components/BasePermissionForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateBasePermissionCommand } from '../types/base-permissions.types'
+import type { CreateBasePermissionRequest } from '../types/base-permissions.types'
 
 const { permissions, fetchAll, create, remove } = useBasePermissions()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateBasePermissionCommand) {
+async function handleCreate(data: CreateBasePermissionRequest) {
   await create(data)
   showModal.value = false
 }

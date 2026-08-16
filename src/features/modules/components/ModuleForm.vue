@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
-import type { AppModule, CreateModuleCommand } from '../types/modules.types'
+import type { ModuleResponse, CreateModuleRequest } from '../types/modules.types'
 
 const props = defineProps<{
-  initial?: AppModule | null
+  initial?: ModuleResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateModuleCommand]
+  submit: [data: CreateModuleRequest]
   cancel: []
 }>()
 
-const form = ref<CreateModuleCommand>({ name: '', code: '' })
+const form = ref<CreateModuleRequest>({ name: '', code: '' })
 const submitted = ref(false)
 
 const errors = computed(() => ({

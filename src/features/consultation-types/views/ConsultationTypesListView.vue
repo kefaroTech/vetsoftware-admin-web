@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import ConsultationTypeForm from '../components/ConsultationTypeForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateConsultationTypeCommand } from '../types/consultation-types.types'
+import type { CreateConsultationTypeRequest } from '../types/consultation-types.types'
 
 const { consultationTypes, fetchAll, create, remove } = useConsultationTypes()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateConsultationTypeCommand) {
+async function handleCreate(data: CreateConsultationTypeRequest) {
   await create(data)
   showModal.value = false
 }

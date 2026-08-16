@@ -2,11 +2,11 @@
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
-import type { DiagnosticImagingType } from '../types/diagnostic-imaging-types.types'
+import type { DiagnosticImagingTypeResponse } from '../types/diagnostic-imaging-types.types'
 import type { DiagnosticImagingTypeFormData } from '../composables/useDiagnosticImagingTypes'
 
 const props = defineProps<{
-  initial?: DiagnosticImagingType | null
+  initial?: DiagnosticImagingTypeResponse | null
 }>()
 
 const emit = defineEmits<{

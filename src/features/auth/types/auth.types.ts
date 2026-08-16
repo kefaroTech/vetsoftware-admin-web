@@ -5,17 +5,17 @@
  */
 export type AuthSubjectType = 'EMPLOYEE' | 'SYSTEM_USER'
 
-export interface LoginSystemUserCommand {
+export interface LoginSystemUserRequest {
   code: string
   password: string
 }
 
-export interface LoginEmployeeCommand {
+export interface LoginEmployeeRequest {
   employeeCode: string
   password: string
 }
 
-export type LoginCommand = LoginSystemUserCommand
+export type LoginCommand = LoginSystemUserRequest
 
 /**
  * El backend ya no entrega el refresh token en el cuerpo: lo emite en una cookie

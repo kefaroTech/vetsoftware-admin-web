@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import BaseRolePermissionForm from '../components/BaseRolePermissionForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateBaseRolePermissionCommand } from '../types/base-role-permissions.types'
+import type { CreateBaseRolePermissionRequest } from '../types/base-role-permissions.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useBaseRolePermissions()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleSave(data: CreateBaseRolePermissionCommand) {
+async function handleSave(data: CreateBaseRolePermissionRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.BASE_ROLE_PERMISSIONS_LIST })
 }

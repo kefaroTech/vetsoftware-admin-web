@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import MembershipSubModuleForm from '../components/MembershipSubModuleForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateMembershipSubModuleCommand } from '../types/membership-sub-modules.types'
+import type { CreateMembershipSubModuleRequest } from '../types/membership-sub-modules.types'
 
 const { membershipSubModules, fetchAll, create, remove } = useMembershipSubModules()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateMembershipSubModuleCommand) {
+async function handleCreate(data: CreateMembershipSubModuleRequest) {
   await create(data)
   showModal.value = false
 }

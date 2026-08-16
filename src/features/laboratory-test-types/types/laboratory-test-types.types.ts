@@ -3,7 +3,7 @@ export interface LaboratoryTestTypeCompanySummary {
   name: string
 }
 
-export interface LaboratoryTestType {
+export interface LaboratoryTestTypeResponse {
   id: number
   name: string
   description: string
@@ -12,10 +12,10 @@ export interface LaboratoryTestType {
   createdDate: string
 }
 
-export interface CreateLaboratoryTestTypeCommand {
+export interface CreateLaboratoryTestTypeRequest {
   name: string
   description: string
   general: boolean
 }
 
-export type UpdateLaboratoryTestTypeCommand = CreateLaboratoryTestTypeCommand
+export type UpdateLaboratoryTestTypeRequest = CreateLaboratoryTestTypeRequest

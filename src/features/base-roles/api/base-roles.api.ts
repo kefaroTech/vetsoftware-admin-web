@@ -1,15 +1,28 @@
 import { http } from '@/services/http/http.client'
 import type {
-  BaseRole,
-  CreateBaseRoleCommand,
-  UpdateBaseRoleCommand,
+  BaseRoleResponse,
+  CreateBaseRoleRequest,
+  UpdateBaseRoleRequest,
 } from '../types/base-roles.types'
 
 export const baseRolesApi = {
-  list: () => http.get<BaseRole[]>('/base-roles'),
-  getById: (id: number) => http.get<BaseRole>(`/base-roles/${id}`),
-  create: (payload: CreateBaseRoleCommand) => http.post<BaseRole>('/base-roles', payload),
-  update: (id: number, payload: UpdateBaseRoleCommand) =>
-    http.put<BaseRole>(`/base-roles/${id}`, payload),
-  remove: (id: number) => http.delete(`/base-roles/${id}`),
+  async listAll(): Promise<BaseRoleResponse[]> {
+    const { data } = await http.get<BaseRoleResponse[]>('/base-roles')
+    return data
+  },
+  async findById(id: number): Promise<BaseRoleResponse> {
+    const { data } = await http.get<BaseRoleResponse>(`/base-roles/${id}`)
+    return data
+  },
+  async create(payload: CreateBaseRoleRequest): Promise<BaseRoleResponse> {
+    const { data } = await http.post<BaseRoleResponse>('/base-roles', payload)
+    return data
+  },
+  async update(id: number, payload: UpdateBaseRoleRequest): Promise<BaseRoleResponse> {
+    const { data } = await http.put<BaseRoleResponse>(`/base-roles/${id}`, payload)
+    return data
+  },
+  async remove(id: number): Promise<void> {
+    await http.delete(`/base-roles/${id}`)
+  },
 }

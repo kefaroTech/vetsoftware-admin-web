@@ -20,7 +20,7 @@ export function useSystemConfig() {
   async function fetch() {
     store.setLoading(true)
     try {
-      const { data } = await configApi.get()
+      const data = await configApi.listAll()
       store.setConfigs(data ?? [])
     } catch {
       // 404/red: sin configuración; se permite crearla con el primer guardado (upsert).
@@ -31,7 +31,7 @@ export function useSystemConfig() {
   }
 
   async function saveUvt(value: number) {
-    const { data } = await configApi.set({ propertyName: UVT_PROPERTY, value: String(value) })
+    const data = await configApi.set({ propertyName: UVT_PROPERTY, value: String(value) })
     store.upsertConfig(data)
     notify('Valor de la UVT actualizado', 'success')
     return data

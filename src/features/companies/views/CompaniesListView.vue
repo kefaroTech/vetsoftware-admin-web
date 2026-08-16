@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import CompanyForm from '../components/CompanyForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateCompanyCommand } from '../types/companies.types'
+import type { CreateCompanyRequest } from '../types/companies.types'
 
 const { companies, fetchAll, create, remove } = useCompanies()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateCompanyCommand) {
+async function handleCreate(data: CreateCompanyRequest) {
   await create(data)
   showModal.value = false
 }

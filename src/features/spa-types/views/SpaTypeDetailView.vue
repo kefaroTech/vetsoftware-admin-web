@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import SpaTypeForm from '../components/SpaTypeForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateSpaTypeCommand } from '../types/spa-types.types'
+import type { CreateSpaTypeRequest } from '../types/spa-types.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useSpaTypes()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleSave(data: CreateSpaTypeCommand) {
+async function handleSave(data: CreateSpaTypeRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.SPA_TYPES_LIST })
 }

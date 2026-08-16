@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import SpecieForm from '../components/SpecieForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateSpecieCommand } from '../types/species.types'
+import type { CreateSpecieRequest } from '../types/species.types'
 
 const { species, fetchAll, create, remove } = useSpecies()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateSpecieCommand) {
+async function handleCreate(data: CreateSpecieRequest) {
   await create(data)
   showModal.value = false
 }

@@ -2,7 +2,7 @@ import { storeToRefs } from 'pinia'
 import { useSpaTypesStore } from '../stores/spa-types.store'
 import { spaTypesApi } from '../api/spa-types.api'
 import { useNotification } from '@/composables/useNotification'
-import type { CreateSpaTypeCommand, UpdateSpaTypeCommand } from '../types/spa-types.types'
+import type { CreateSpaTypeRequest, UpdateSpaTypeRequest } from '../types/spa-types.types'
 
 export function useSpaTypes() {
   const store = useSpaTypesStore()
@@ -12,7 +12,7 @@ export function useSpaTypes() {
   async function fetchAll() {
     store.setLoading(true)
     try {
-      const { data } = await spaTypesApi.list()
+      const data = await spaTypesApi.listAll()
       store.setItems(data)
     } catch (e) {
       notifyError('Error al cargar los tipos de spa', e)
@@ -24,7 +24,7 @@ export function useSpaTypes() {
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
-      const { data } = await spaTypesApi.getById(id)
+      const data = await spaTypesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
       notifyError('Tipo de spa no encontrado', e)
@@ -33,15 +33,15 @@ export function useSpaTypes() {
     }
   }
 
-  async function create(payload: CreateSpaTypeCommand) {
-    const { data } = await spaTypesApi.create(payload)
+  async function create(payload: CreateSpaTypeRequest) {
+    const data = await spaTypesApi.create(payload)
     store.setItems([...store.items, data])
     notify('Tipo de spa creado exitosamente', 'success')
     return data
   }
 
-  async function update(id: number, payload: UpdateSpaTypeCommand) {
-    const { data } = await spaTypesApi.update(id, payload)
+  async function update(id: number, payload: UpdateSpaTypeRequest) {
+    const data = await spaTypesApi.update(id, payload)
     store.setItems(store.items.map((t) => (t.id === id ? data : t)))
     notify('Tipo de spa actualizado', 'success')
     return data

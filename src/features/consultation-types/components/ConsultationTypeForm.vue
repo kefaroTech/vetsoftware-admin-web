@@ -3,20 +3,20 @@ import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
 import type {
-  ConsultationType,
-  CreateConsultationTypeCommand,
+  ConsultationTypeResponse,
+  CreateConsultationTypeRequest,
 } from '../types/consultation-types.types'
 
 const props = defineProps<{
-  initial?: ConsultationType | null
+  initial?: ConsultationTypeResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateConsultationTypeCommand]
+  submit: [data: CreateConsultationTypeRequest]
   cancel: []
 }>()
 
-const form = ref<CreateConsultationTypeCommand>({ name: '', description: '' })
+const form = ref<CreateConsultationTypeRequest>({ name: '', description: '' })
 const submitted = ref(false)
 
 const errors = computed(() => ({

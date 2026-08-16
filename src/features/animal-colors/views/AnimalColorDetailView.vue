@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import AnimalColorForm from '../components/AnimalColorForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateAnimalColorCommand } from '../types/animal-colors.types'
+import type { CreateAnimalColorRequest } from '../types/animal-colors.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useAnimalColors()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleSave(data: CreateAnimalColorCommand) {
+async function handleSave(data: CreateAnimalColorRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.ANIMAL_COLORS_LIST })
 }

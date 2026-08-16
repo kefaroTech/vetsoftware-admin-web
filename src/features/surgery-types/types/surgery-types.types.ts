@@ -3,7 +3,7 @@ export interface SurgeryTypeCompanySummary {
   name: string
 }
 
-export interface SurgeryType {
+export interface SurgeryTypeResponse {
   id: number
   name: string
   description: string
@@ -12,10 +12,10 @@ export interface SurgeryType {
   createdDate: string
 }
 
-export interface CreateSurgeryTypeCommand {
+export interface CreateSurgeryTypeRequest {
   name: string
   description: string
   general: boolean
 }
 
-export type UpdateSurgeryTypeCommand = CreateSurgeryTypeCommand
+export type UpdateSurgeryTypeRequest = CreateSurgeryTypeRequest

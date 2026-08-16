@@ -9,7 +9,7 @@ export interface CompanyMembershipSummary {
   name: string
 }
 
-export interface Company {
+export interface CompanyResponse {
   id: number
   name: string
   identifier: string
@@ -24,11 +24,11 @@ export interface Company {
   enabled: boolean
 }
 
-export interface CreateCompanyCommand {
+export interface CreateCompanyRequest {
   name: string
   identifier: string
   address: string
   contactNumber: string
 }
 
-export type UpdateCompanyCommand = CreateCompanyCommand
+export type UpdateCompanyRequest = CreateCompanyRequest

@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import SubmoduleForm from '../components/SubmoduleForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateSubmoduleCommand } from '../types/submodules.types'
+import type { CreateSubModuleRequest } from '../types/submodules.types'
 
 const { submodules, fetchAll, create, remove } = useSubmodules()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateSubmoduleCommand) {
+async function handleCreate(data: CreateSubModuleRequest) {
   await create(data)
   showModal.value = false
 }

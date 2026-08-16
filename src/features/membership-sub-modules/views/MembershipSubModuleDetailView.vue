@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import MembershipSubModuleForm from '../components/MembershipSubModuleForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateMembershipSubModuleCommand } from '../types/membership-sub-modules.types'
+import type { CreateMembershipSubModuleRequest } from '../types/membership-sub-modules.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useMembershipSubModules()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleSave(data: CreateMembershipSubModuleCommand) {
+async function handleSave(data: CreateMembershipSubModuleRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.MEMBERSHIP_SUB_MODULES_LIST })
 }

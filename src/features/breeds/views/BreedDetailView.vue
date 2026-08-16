@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import BreedForm from '../components/BreedForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateBreedCommand } from '../types/breeds.types'
+import type { CreateBreedRequest } from '../types/breeds.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useBreeds()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleSave(data: CreateBreedCommand) {
+async function handleSave(data: CreateBreedRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.BREEDS_LIST })
 }

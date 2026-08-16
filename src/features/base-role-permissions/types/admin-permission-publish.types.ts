@@ -1,4 +1,4 @@
-export interface PublishAdminPermissionsResult {
+export interface PublishAdminPermissionsResponse {
   companiesProcessed: number
   companiesUpdated: number
   permissionsCreated: number

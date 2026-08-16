@@ -2,18 +2,18 @@
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
-import type { SpaType, CreateSpaTypeCommand } from '../types/spa-types.types'
+import type { SpaTypeResponse, CreateSpaTypeRequest } from '../types/spa-types.types'
 
 const props = defineProps<{
-  initial?: SpaType | null
+  initial?: SpaTypeResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateSpaTypeCommand]
+  submit: [data: CreateSpaTypeRequest]
   cancel: []
 }>()
 
-const form = ref<CreateSpaTypeCommand>({ name: '', description: '' })
+const form = ref<CreateSpaTypeRequest>({ name: '', description: '' })
 const submitted = ref(false)
 
 const errors = computed(() => ({

@@ -2,11 +2,11 @@
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
-import type { VaccinationType } from '../types/vaccination-types.types'
+import type { VaccinationTypeResponse } from '../types/vaccination-types.types'
 import type { VaccinationTypeFormData } from '../composables/useVaccinationTypes'
 
 const props = defineProps<{
-  initial?: VaccinationType | null
+  initial?: VaccinationTypeResponse | null
 }>()
 
 const emit = defineEmits<{

@@ -2,21 +2,21 @@
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
-import type { Membership, CreateMembershipCommand } from '../types/memberships.types'
+import type { MembershipResponse, CreateMembershipRequest } from '../types/memberships.types'
 
 const props = defineProps<{
-  initial?: Membership | null
+  initial?: MembershipResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateMembershipCommand]
+  submit: [data: CreateMembershipRequest]
   cancel: []
 }>()
 
-const form = ref<CreateMembershipCommand>({ name: '', status: 'ACTIVE' })
+const form = ref<CreateMembershipRequest>({ name: '', status: 'ACTIVE' })
 const submitted = ref(false)
 
-const statusOptions: { value: CreateMembershipCommand['status']; label: string }[] = [
+const statusOptions: { value: CreateMembershipRequest['status']; label: string }[] = [
   { value: 'ACTIVE', label: 'Activa' },
   { value: 'INACTIVE', label: 'Inactiva' },
   { value: 'DEPRECATED', label: 'Deprecada' },

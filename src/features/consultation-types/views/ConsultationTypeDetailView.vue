@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import ConsultationTypeForm from '../components/ConsultationTypeForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateConsultationTypeCommand } from '../types/consultation-types.types'
+import type { CreateConsultationTypeRequest } from '../types/consultation-types.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useConsultationTypes()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleSave(data: CreateConsultationTypeCommand) {
+async function handleSave(data: CreateConsultationTypeRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.CONSULTATION_TYPES_LIST })
 }

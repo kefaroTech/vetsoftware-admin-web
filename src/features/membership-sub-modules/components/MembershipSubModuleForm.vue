@@ -3,26 +3,26 @@ import { computed, ref, watch, onMounted } from 'vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import { membershipsApi } from '@/features/memberships/api/memberships.api'
 import { submodulesApi } from '@/features/submodules/api/submodules.api'
-import type { Membership } from '@/features/memberships/types/memberships.types'
-import type { Submodule } from '@/features/submodules/types/submodules.types'
+import type { MembershipResponse } from '@/features/memberships/types/memberships.types'
+import type { SubModuleResponse } from '@/features/submodules/types/submodules.types'
 import type {
-  MembershipSubModule,
-  CreateMembershipSubModuleCommand,
+  MembershipSubModuleResponse,
+  CreateMembershipSubModuleRequest,
 } from '../types/membership-sub-modules.types'
 
 const props = defineProps<{
-  initial?: MembershipSubModule | null
+  initial?: MembershipSubModuleResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateMembershipSubModuleCommand]
+  submit: [data: CreateMembershipSubModuleRequest]
   cancel: []
 }>()
 
-const form = ref<CreateMembershipSubModuleCommand>({ membershipId: 0, subModuleId: 0 })
+const form = ref<CreateMembershipSubModuleRequest>({ membershipId: 0, subModuleId: 0 })
 const submitted = ref(false)
-const memberships = ref<Membership[]>([])
-const submodules = ref<Submodule[]>([])
+const memberships = ref<MembershipResponse[]>([])
+const submodules = ref<SubModuleResponse[]>([])
 
 const membershipOptions = computed(() =>
   memberships.value.map((m) => ({ value: m.id, label: m.name })),
@@ -37,15 +37,15 @@ const errors = computed(() => ({
 }))
 
 onMounted(async () => {
-  const [membershipsRes, submodulesRes] = await Promise.all([
-    membershipsApi.list(),
-    submodulesApi.list(),
+  const [membresias, submodulos] = await Promise.all([
+    membershipsApi.listAll(),
+    submodulesApi.listAll(),
   ])
-  memberships.value = membershipsRes.data
-  submodules.value = submodulesRes.data
+  memberships.value = membresias
+  submodules.value = submodulos
   if (!props.initial) {
-    const firstMembership = membershipsRes.data[0]
-    const firstSubmodule = submodulesRes.data[0]
+    const firstMembership = membresias[0]
+    const firstSubmodule = submodulos[0]
     if (firstMembership) form.value.membershipId = firstMembership.id
     if (firstSubmodule) form.value.subModuleId = firstSubmodule.id
   }

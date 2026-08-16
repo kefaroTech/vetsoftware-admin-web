@@ -1,13 +1,13 @@
-export interface ConsultationType {
+export interface ConsultationTypeResponse {
   id: number
   name: string
   description: string
   createdDate: string
 }
 
-export interface CreateConsultationTypeCommand {
+export interface CreateConsultationTypeRequest {
   name: string
   description: string
 }
 
-export type UpdateConsultationTypeCommand = CreateConsultationTypeCommand
+export type UpdateConsultationTypeRequest = CreateConsultationTypeRequest

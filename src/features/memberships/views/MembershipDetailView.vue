@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import MembershipForm from '../components/MembershipForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateMembershipCommand } from '../types/memberships.types'
+import type { CreateMembershipRequest } from '../types/memberships.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useMemberships()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleSave(data: CreateMembershipCommand) {
+async function handleSave(data: CreateMembershipRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.MEMBERSHIPS_LIST })
 }

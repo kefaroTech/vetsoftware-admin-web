@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
-import type { Company, CreateCompanyCommand } from '../types/companies.types'
+import type { CompanyResponse, CreateCompanyRequest } from '../types/companies.types'
 
 const props = defineProps<{
-  initial?: Company | null
+  initial?: CompanyResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateCompanyCommand]
+  submit: [data: CreateCompanyRequest]
   cancel: []
 }>()
 
-const form = ref<CreateCompanyCommand>({
+const form = ref<CreateCompanyRequest>({
   name: '',
   identifier: '',
   address: '',

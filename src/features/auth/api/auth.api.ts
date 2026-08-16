@@ -1,18 +1,30 @@
 import { http } from '@/services/http/http.client'
 import type {
-  LoginEmployeeCommand,
-  LoginSystemUserCommand,
+  LoginEmployeeRequest,
+  LoginSystemUserRequest,
   MeResponse,
   TokenResponse,
 } from '../types/auth.types'
 
 export const authApi = {
-  login: (payload: LoginSystemUserCommand) =>
-    http.post<TokenResponse>('/auth/login/system', payload),
-  loginEmployee: (payload: LoginEmployeeCommand) =>
-    http.post<TokenResponse>('/auth/login/employee', payload),
-  me: () => http.get<MeResponse>('/auth/me'),
+  async login(payload: LoginSystemUserRequest): Promise<TokenResponse> {
+    const { data } = await http.post<TokenResponse>('/auth/login/system', payload)
+    return data
+  },
+  async loginEmployee(payload: LoginEmployeeRequest): Promise<TokenResponse> {
+    const { data } = await http.post<TokenResponse>('/auth/login/employee', payload)
+    return data
+  },
+  async me(): Promise<MeResponse> {
+    const { data } = await http.get<MeResponse>('/auth/me')
+    return data
+  },
   // Sin cuerpo: el refresh token va en la cookie HttpOnly que adjunta el navegador.
-  refresh: () => http.post<TokenResponse>('/auth/refresh'),
-  logout: () => http.post('/auth/logout'),
+  async refresh(): Promise<TokenResponse> {
+    const { data } = await http.post<TokenResponse>('/auth/refresh')
+    return data
+  },
+  async logout(): Promise<void> {
+    await http.post('/auth/logout')
+  },
 }

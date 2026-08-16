@@ -1,11 +1,11 @@
-export interface Specie {
+export interface SpecieResponse {
   id: number
   name: string
   createdDate: string
 }
 
-export interface CreateSpecieCommand {
+export interface CreateSpecieRequest {
   name: string
 }
 
-export type UpdateSpecieCommand = CreateSpecieCommand
+export type UpdateSpecieRequest = CreateSpecieRequest

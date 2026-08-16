@@ -1,13 +1,13 @@
-export interface SpaType {
+export interface SpaTypeResponse {
   id: number
   name: string
   description: string
   createdDate: string
 }
 
-export interface CreateSpaTypeCommand {
+export interface CreateSpaTypeRequest {
   name: string
   description: string
 }
 
-export type UpdateSpaTypeCommand = CreateSpaTypeCommand
+export type UpdateSpaTypeRequest = CreateSpaTypeRequest

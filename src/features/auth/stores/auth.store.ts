@@ -56,7 +56,7 @@ export const useAuthStore = defineStore('auth', () => {
   async function fetchMe() {
     if (!token.value) return
     try {
-      const { data } = await authApi.me()
+      const data = await authApi.me()
       permissions.value = data.permissions ?? []
     } catch {
       // token inválido/expirado → el interceptor 401 (o el guard) hará el redirect.
@@ -84,9 +84,9 @@ export const useAuthStore = defineStore('auth', () => {
     if (refreshInFlight) return refreshInFlight
     refreshInFlight = authApi
       .refresh()
-      .then(({ data }) => {
-        setSession({ token: data.token, type: data.type })
-        return data.token
+      .then((tokens) => {
+        setSession({ token: tokens.token, type: tokens.type })
+        return tokens.token
       })
       .catch(() => {
         clearSession()

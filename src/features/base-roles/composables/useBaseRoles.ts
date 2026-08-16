@@ -2,7 +2,7 @@ import { storeToRefs } from 'pinia'
 import { useBaseRolesStore } from '../stores/base-roles.store'
 import { baseRolesApi } from '../api/base-roles.api'
 import { useNotification } from '@/composables/useNotification'
-import type { CreateBaseRoleCommand, UpdateBaseRoleCommand } from '../types/base-roles.types'
+import type { CreateBaseRoleRequest, UpdateBaseRoleRequest } from '../types/base-roles.types'
 
 export function useBaseRoles() {
   const store = useBaseRolesStore()
@@ -12,7 +12,7 @@ export function useBaseRoles() {
   async function fetchAll() {
     store.setLoading(true)
     try {
-      const { data } = await baseRolesApi.list()
+      const data = await baseRolesApi.listAll()
       store.setItems(data)
     } catch (e) {
       notifyError('Error al cargar los roles base', e)
@@ -24,7 +24,7 @@ export function useBaseRoles() {
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
-      const { data } = await baseRolesApi.getById(id)
+      const data = await baseRolesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
       notifyError('Rol base no encontrado', e)
@@ -33,15 +33,15 @@ export function useBaseRoles() {
     }
   }
 
-  async function create(payload: CreateBaseRoleCommand) {
-    const { data } = await baseRolesApi.create(payload)
+  async function create(payload: CreateBaseRoleRequest) {
+    const data = await baseRolesApi.create(payload)
     store.setItems([...store.items, data])
     notify('Rol base creado exitosamente', 'success')
     return data
   }
 
-  async function update(id: number, payload: UpdateBaseRoleCommand) {
-    const { data } = await baseRolesApi.update(id, payload)
+  async function update(id: number, payload: UpdateBaseRoleRequest) {
+    const data = await baseRolesApi.update(id, payload)
     store.setItems(store.items.map((r) => (r.id === id ? data : r)))
     notify('Rol base actualizado', 'success')
     return data

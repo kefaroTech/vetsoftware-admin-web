@@ -8,7 +8,7 @@ import AppModal from '@/components/ui/AppModal.vue'
 import MembershipStatusBadge from '../components/MembershipStatusBadge.vue'
 import MembershipForm from '../components/MembershipForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateMembershipCommand } from '../types/memberships.types'
+import type { CreateMembershipRequest } from '../types/memberships.types'
 
 const { memberships, fetchAll, create, remove } = useMemberships()
 const { confirm } = useConfirmDialog()
@@ -16,7 +16,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateMembershipCommand) {
+async function handleCreate(data: CreateMembershipRequest) {
   await create(data)
   showModal.value = false
 }

@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import ModuleForm from '../components/ModuleForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateModuleCommand } from '../types/modules.types'
+import type { CreateModuleRequest } from '../types/modules.types'
 
 const { modules, fetchAll, create, remove } = useModules()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateModuleCommand) {
+async function handleCreate(data: CreateModuleRequest) {
   await create(data)
   showModal.value = false
 }

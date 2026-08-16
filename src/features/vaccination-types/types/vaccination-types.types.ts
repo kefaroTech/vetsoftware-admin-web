@@ -3,7 +3,7 @@ export interface VaccinationTypeCompanySummary {
   name: string
 }
 
-export interface VaccinationType {
+export interface VaccinationTypeResponse {
   id: number
   name: string
   description: string
@@ -12,10 +12,10 @@ export interface VaccinationType {
   createdDate: string
 }
 
-export interface CreateVaccinationTypeCommand {
+export interface CreateVaccinationTypeRequest {
   name: string
   description: string
   general: boolean
 }
 
-export type UpdateVaccinationTypeCommand = CreateVaccinationTypeCommand
+export type UpdateVaccinationTypeRequest = CreateVaccinationTypeRequest

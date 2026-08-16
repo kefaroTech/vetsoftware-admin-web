@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import BaseRoleForm from '../components/BaseRoleForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateBaseRoleCommand } from '../types/base-roles.types'
+import type { CreateBaseRoleRequest } from '../types/base-roles.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useBaseRoles()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleSave(data: CreateBaseRoleCommand) {
+async function handleSave(data: CreateBaseRoleRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.BASE_ROLES_LIST })
 }

@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import SpaTypeForm from '../components/SpaTypeForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateSpaTypeCommand } from '../types/spa-types.types'
+import type { CreateSpaTypeRequest } from '../types/spa-types.types'
 
 const { spaTypes, fetchAll, create, remove } = useSpaTypes()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateSpaTypeCommand) {
+async function handleCreate(data: CreateSpaTypeRequest) {
   await create(data)
   showModal.value = false
 }

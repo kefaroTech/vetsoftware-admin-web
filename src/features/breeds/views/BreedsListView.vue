@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import BreedForm from '../components/BreedForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateBreedCommand } from '../types/breeds.types'
+import type { CreateBreedRequest } from '../types/breeds.types'
 
 const { breeds, fetchAll, create, remove } = useBreeds()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateBreedCommand) {
+async function handleCreate(data: CreateBreedRequest) {
   await create(data)
   showModal.value = false
 }

@@ -1,10 +1,28 @@
 import { http } from '@/services/http/http.client'
-import type { Specie, CreateSpecieCommand, UpdateSpecieCommand } from '../types/species.types'
+import type {
+  SpecieResponse,
+  CreateSpecieRequest,
+  UpdateSpecieRequest,
+} from '../types/species.types'
 
 export const speciesApi = {
-  list: () => http.get<Specie[]>('/species'),
-  getById: (id: number) => http.get<Specie>(`/species/${id}`),
-  create: (payload: CreateSpecieCommand) => http.post<Specie>('/species', payload),
-  update: (id: number, payload: UpdateSpecieCommand) => http.put<Specie>(`/species/${id}`, payload),
-  remove: (id: number) => http.delete(`/species/${id}`),
+  async listAll(): Promise<SpecieResponse[]> {
+    const { data } = await http.get<SpecieResponse[]>('/species')
+    return data
+  },
+  async findById(id: number): Promise<SpecieResponse> {
+    const { data } = await http.get<SpecieResponse>(`/species/${id}`)
+    return data
+  },
+  async create(payload: CreateSpecieRequest): Promise<SpecieResponse> {
+    const { data } = await http.post<SpecieResponse>('/species', payload)
+    return data
+  },
+  async update(id: number, payload: UpdateSpecieRequest): Promise<SpecieResponse> {
+    const { data } = await http.put<SpecieResponse>(`/species/${id}`, payload)
+    return data
+  },
+  async remove(id: number): Promise<void> {
+    await http.delete(`/species/${id}`)
+  },
 }

@@ -2,11 +2,11 @@
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
-import type { LaboratoryTestType } from '../types/laboratory-test-types.types'
+import type { LaboratoryTestTypeResponse } from '../types/laboratory-test-types.types'
 import type { LaboratoryTestTypeFormData } from '../composables/useLaboratoryTestTypes'
 
 const props = defineProps<{
-  initial?: LaboratoryTestType | null
+  initial?: LaboratoryTestTypeResponse | null
 }>()
 
 const emit = defineEmits<{

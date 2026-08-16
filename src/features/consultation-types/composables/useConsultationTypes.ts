@@ -3,8 +3,8 @@ import { useConsultationTypesStore } from '../stores/consultation-types.store'
 import { consultationTypesApi } from '../api/consultation-types.api'
 import { useNotification } from '@/composables/useNotification'
 import type {
-  CreateConsultationTypeCommand,
-  UpdateConsultationTypeCommand,
+  CreateConsultationTypeRequest,
+  UpdateConsultationTypeRequest,
 } from '../types/consultation-types.types'
 
 export function useConsultationTypes() {
@@ -15,7 +15,7 @@ export function useConsultationTypes() {
   async function fetchAll() {
     store.setLoading(true)
     try {
-      const { data } = await consultationTypesApi.list()
+      const data = await consultationTypesApi.listAll()
       store.setItems(data)
     } catch (e) {
       notifyError('Error al cargar los tipos de consulta', e)
@@ -27,7 +27,7 @@ export function useConsultationTypes() {
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
-      const { data } = await consultationTypesApi.getById(id)
+      const data = await consultationTypesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
       notifyError('Tipo de consulta no encontrado', e)
@@ -36,15 +36,15 @@ export function useConsultationTypes() {
     }
   }
 
-  async function create(payload: CreateConsultationTypeCommand) {
-    const { data } = await consultationTypesApi.create(payload)
+  async function create(payload: CreateConsultationTypeRequest) {
+    const data = await consultationTypesApi.create(payload)
     store.setItems([...store.items, data])
     notify('Tipo de consulta creado exitosamente', 'success')
     return data
   }
 
-  async function update(id: number, payload: UpdateConsultationTypeCommand) {
-    const { data } = await consultationTypesApi.update(id, payload)
+  async function update(id: number, payload: UpdateConsultationTypeRequest) {
+    const data = await consultationTypesApi.update(id, payload)
     store.setItems(store.items.map((t) => (t.id === id ? data : t)))
     notify('Tipo de consulta actualizado', 'success')
     return data

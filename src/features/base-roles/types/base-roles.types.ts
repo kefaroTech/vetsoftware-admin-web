@@ -1,4 +1,4 @@
-export interface BaseRole {
+export interface BaseRoleResponse {
   id: number
   name: string
   code: string
@@ -6,10 +6,10 @@ export interface BaseRole {
   createdDate: string
 }
 
-export interface CreateBaseRoleCommand {
+export interface CreateBaseRoleRequest {
   name: string
   code: string
   mandatory: boolean
 }
 
-export type UpdateBaseRoleCommand = CreateBaseRoleCommand
+export type UpdateBaseRoleRequest = CreateBaseRoleRequest

@@ -1,4 +1,5 @@
 import { createCatalogStore } from '@/stores/createCatalogStore'
-import type { VaccinationType } from '../types/vaccination-types.types'
+import type { VaccinationTypeResponse } from '../types/vaccination-types.types'
 
-export const useVaccinationTypesStore = createCatalogStore<VaccinationType>('vaccinationTypes')
+export const useVaccinationTypesStore =
+  createCatalogStore<VaccinationTypeResponse>('vaccinationTypes')

@@ -1,5 +1,5 @@
 /** Configuración general del sistema (global, clave-valor). Espejo del SystemConfigurationDto del backend. */
-export interface SystemConfiguration {
+export interface SystemConfigurationDto {
   id: number
   /** Clave de la propiedad (p.ej. `uvt`). */
   propertyName: string
@@ -9,7 +9,7 @@ export interface SystemConfiguration {
   enabled: boolean
 }
 
-export interface SetSystemConfigurationCommand {
+export interface SetSystemConfigurationRequest {
   propertyName: string
   value: string
 }

@@ -2,11 +2,11 @@
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
-import type { SurgeryType } from '../types/surgery-types.types'
+import type { SurgeryTypeResponse } from '../types/surgery-types.types'
 import type { SurgeryTypeFormData } from '../composables/useSurgeryTypes'
 
 const props = defineProps<{
-  initial?: SurgeryType | null
+  initial?: SurgeryTypeResponse | null
 }>()
 
 const emit = defineEmits<{

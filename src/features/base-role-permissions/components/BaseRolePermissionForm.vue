@@ -3,26 +3,26 @@ import { computed, ref, watch, onMounted } from 'vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import { baseRolesApi } from '@/features/base-roles/api/base-roles.api'
 import { basePermissionsApi } from '@/features/base-permissions/api/base-permissions.api'
-import type { BaseRole } from '@/features/base-roles/types/base-roles.types'
-import type { BasePermission } from '@/features/base-permissions/types/base-permissions.types'
+import type { BaseRoleResponse } from '@/features/base-roles/types/base-roles.types'
+import type { BasePermissionResponse } from '@/features/base-permissions/types/base-permissions.types'
 import type {
-  BaseRolePermission,
-  CreateBaseRolePermissionCommand,
+  BaseRolePermissionResponse,
+  CreateBaseRolePermissionRequest,
 } from '../types/base-role-permissions.types'
 
 const props = defineProps<{
-  initial?: BaseRolePermission | null
+  initial?: BaseRolePermissionResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateBaseRolePermissionCommand]
+  submit: [data: CreateBaseRolePermissionRequest]
   cancel: []
 }>()
 
-const form = ref<CreateBaseRolePermissionCommand>({ baseRoleId: 0, basePermissionId: 0 })
+const form = ref<CreateBaseRolePermissionRequest>({ baseRoleId: 0, basePermissionId: 0 })
 const submitted = ref(false)
-const baseRoles = ref<BaseRole[]>([])
-const basePermissions = ref<BasePermission[]>([])
+const baseRoles = ref<BaseRoleResponse[]>([])
+const basePermissions = ref<BasePermissionResponse[]>([])
 
 const roleOptions = computed(() =>
   baseRoles.value.map((r) => ({ value: r.id, label: `${r.name} (${r.code})` })),
@@ -37,12 +37,15 @@ const errors = computed(() => ({
 }))
 
 onMounted(async () => {
-  const [rolesRes, permsRes] = await Promise.all([baseRolesApi.list(), basePermissionsApi.list()])
-  baseRoles.value = rolesRes.data
-  basePermissions.value = permsRes.data
+  const [roles, permisos] = await Promise.all([
+    baseRolesApi.listAll(),
+    basePermissionsApi.listAll(),
+  ])
+  baseRoles.value = roles
+  basePermissions.value = permisos
   if (!props.initial) {
-    const firstRole = rolesRes.data[0]
-    const firstPerm = permsRes.data[0]
+    const firstRole = roles[0]
+    const firstPerm = permisos[0]
     if (firstRole) form.value.baseRoleId = firstRole.id
     if (firstPerm) form.value.basePermissionId = firstPerm.id
   }

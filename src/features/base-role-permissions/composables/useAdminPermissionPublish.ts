@@ -1,17 +1,17 @@
 import { ref } from 'vue'
 import { adminPermissionPublishApi } from '../api/admin-permission-publish.api'
 import { useNotification } from '@/composables/useNotification'
-import type { PublishAdminPermissionsResult } from '../types/admin-permission-publish.types'
+import type { PublishAdminPermissionsResponse } from '../types/admin-permission-publish.types'
 
 export function useAdminPermissionPublish() {
   const isPublishing = ref(false)
-  const lastResult = ref<PublishAdminPermissionsResult | null>(null)
+  const lastResult = ref<PublishAdminPermissionsResponse | null>(null)
   const { notify, notifyError } = useNotification()
 
   async function publish() {
     isPublishing.value = true
     try {
-      const { data } = await adminPermissionPublishApi.publish()
+      const data = await adminPermissionPublishApi.publish()
       lastResult.value = data
       notify(
         `Publicado: ${data.companiesUpdated} de ${data.companiesProcessed} companies actualizadas, ` +

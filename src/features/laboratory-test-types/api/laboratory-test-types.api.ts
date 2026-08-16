@@ -1,16 +1,34 @@
 import { http } from '@/services/http/http.client'
 import type {
-  LaboratoryTestType,
-  CreateLaboratoryTestTypeCommand,
-  UpdateLaboratoryTestTypeCommand,
+  LaboratoryTestTypeResponse,
+  CreateLaboratoryTestTypeRequest,
+  UpdateLaboratoryTestTypeRequest,
 } from '../types/laboratory-test-types.types'
 
 export const laboratoryTestTypesApi = {
-  list: () => http.get<LaboratoryTestType[]>('/laboratory-test-types'),
-  getById: (id: number) => http.get<LaboratoryTestType>(`/laboratory-test-types/${id}`),
-  create: (payload: CreateLaboratoryTestTypeCommand) =>
-    http.post<LaboratoryTestType>('/laboratory-test-types', payload),
-  update: (id: number, payload: UpdateLaboratoryTestTypeCommand) =>
-    http.put<LaboratoryTestType>(`/laboratory-test-types/${id}`, payload),
-  remove: (id: number) => http.delete(`/laboratory-test-types/${id}`),
+  async listAll(): Promise<LaboratoryTestTypeResponse[]> {
+    const { data } = await http.get<LaboratoryTestTypeResponse[]>('/laboratory-test-types')
+    return data
+  },
+  async findById(id: number): Promise<LaboratoryTestTypeResponse> {
+    const { data } = await http.get<LaboratoryTestTypeResponse>(`/laboratory-test-types/${id}`)
+    return data
+  },
+  async create(payload: CreateLaboratoryTestTypeRequest): Promise<LaboratoryTestTypeResponse> {
+    const { data } = await http.post<LaboratoryTestTypeResponse>('/laboratory-test-types', payload)
+    return data
+  },
+  async update(
+    id: number,
+    payload: UpdateLaboratoryTestTypeRequest,
+  ): Promise<LaboratoryTestTypeResponse> {
+    const { data } = await http.put<LaboratoryTestTypeResponse>(
+      `/laboratory-test-types/${id}`,
+      payload,
+    )
+    return data
+  },
+  async remove(id: number): Promise<void> {
+    await http.delete(`/laboratory-test-types/${id}`)
+  },
 }

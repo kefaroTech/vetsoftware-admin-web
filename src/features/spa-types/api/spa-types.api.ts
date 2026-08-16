@@ -1,11 +1,28 @@
 import { http } from '@/services/http/http.client'
-import type { SpaType, CreateSpaTypeCommand, UpdateSpaTypeCommand } from '../types/spa-types.types'
+import type {
+  SpaTypeResponse,
+  CreateSpaTypeRequest,
+  UpdateSpaTypeRequest,
+} from '../types/spa-types.types'
 
 export const spaTypesApi = {
-  list: () => http.get<SpaType[]>('/spa-types'),
-  getById: (id: number) => http.get<SpaType>(`/spa-types/${id}`),
-  create: (payload: CreateSpaTypeCommand) => http.post<SpaType>('/spa-types', payload),
-  update: (id: number, payload: UpdateSpaTypeCommand) =>
-    http.put<SpaType>(`/spa-types/${id}`, payload),
-  remove: (id: number) => http.delete(`/spa-types/${id}`),
+  async listAll(): Promise<SpaTypeResponse[]> {
+    const { data } = await http.get<SpaTypeResponse[]>('/spa-types')
+    return data
+  },
+  async findById(id: number): Promise<SpaTypeResponse> {
+    const { data } = await http.get<SpaTypeResponse>(`/spa-types/${id}`)
+    return data
+  },
+  async create(payload: CreateSpaTypeRequest): Promise<SpaTypeResponse> {
+    const { data } = await http.post<SpaTypeResponse>('/spa-types', payload)
+    return data
+  },
+  async update(id: number, payload: UpdateSpaTypeRequest): Promise<SpaTypeResponse> {
+    const { data } = await http.put<SpaTypeResponse>(`/spa-types/${id}`, payload)
+    return data
+  },
+  async remove(id: number): Promise<void> {
+    await http.delete(`/spa-types/${id}`)
+  },
 }

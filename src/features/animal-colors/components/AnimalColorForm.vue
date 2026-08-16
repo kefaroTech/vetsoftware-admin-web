@@ -3,21 +3,21 @@ import { computed, ref, watch, onMounted } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import { speciesApi } from '@/features/species/api/species.api'
-import type { Specie } from '@/features/species/types/species.types'
-import type { AnimalColor, CreateAnimalColorCommand } from '../types/animal-colors.types'
+import type { SpecieResponse } from '@/features/species/types/species.types'
+import type { AnimalColorResponse, CreateAnimalColorRequest } from '../types/animal-colors.types'
 
 const props = defineProps<{
-  initial?: AnimalColor | null
+  initial?: AnimalColorResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateAnimalColorCommand]
+  submit: [data: CreateAnimalColorRequest]
   cancel: []
 }>()
 
-const form = ref<CreateAnimalColorCommand>({ name: '', specieId: 0 })
+const form = ref<CreateAnimalColorRequest>({ name: '', specieId: 0 })
 const submitted = ref(false)
-const availableSpecies = ref<Specie[]>([])
+const availableSpecies = ref<SpecieResponse[]>([])
 
 const specieOptions = computed(() =>
   availableSpecies.value.map((s) => ({ value: s.id, label: s.name })),
@@ -29,7 +29,7 @@ const errors = computed(() => ({
 }))
 
 onMounted(async () => {
-  const { data } = await speciesApi.list()
+  const data = await speciesApi.listAll()
   availableSpecies.value = data
   const first = data[0]
   // La condición pasa a ser que el primer elemento exista, que es lo que de

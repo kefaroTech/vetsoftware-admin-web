@@ -2,7 +2,7 @@ import { storeToRefs } from 'pinia'
 import { useModulesStore } from '../stores/modules.store'
 import { modulesApi } from '../api/modules.api'
 import { useNotification } from '@/composables/useNotification'
-import type { CreateModuleCommand, UpdateModuleCommand } from '../types/modules.types'
+import type { CreateModuleRequest, UpdateModuleRequest } from '../types/modules.types'
 
 export function useModules() {
   const store = useModulesStore()
@@ -12,7 +12,7 @@ export function useModules() {
   async function fetchAll() {
     store.setLoading(true)
     try {
-      const { data } = await modulesApi.list()
+      const data = await modulesApi.listAll()
       store.setItems(data)
     } catch (e) {
       notifyError('Error al cargar los módulos', e)
@@ -24,7 +24,7 @@ export function useModules() {
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
-      const { data } = await modulesApi.getById(id)
+      const data = await modulesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
       notifyError('Módulo no encontrado', e)
@@ -33,15 +33,15 @@ export function useModules() {
     }
   }
 
-  async function create(payload: CreateModuleCommand) {
-    const { data } = await modulesApi.create(payload)
+  async function create(payload: CreateModuleRequest) {
+    const data = await modulesApi.create(payload)
     store.setItems([...store.items, data])
     notify('Módulo creado exitosamente', 'success')
     return data
   }
 
-  async function update(id: number, payload: UpdateModuleCommand) {
-    const { data } = await modulesApi.update(id, payload)
+  async function update(id: number, payload: UpdateModuleRequest) {
+    const data = await modulesApi.update(id, payload)
     store.setItems(store.items.map((m) => (m.id === id ? data : m)))
     notify('Módulo actualizado', 'success')
     return data

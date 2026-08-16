@@ -3,8 +3,8 @@ import { useBasePermissionsStore } from '../stores/base-permissions.store'
 import { basePermissionsApi } from '../api/base-permissions.api'
 import { useNotification } from '@/composables/useNotification'
 import type {
-  CreateBasePermissionCommand,
-  UpdateBasePermissionCommand,
+  CreateBasePermissionRequest,
+  UpdateBasePermissionRequest,
 } from '../types/base-permissions.types'
 
 export function useBasePermissions() {
@@ -15,7 +15,7 @@ export function useBasePermissions() {
   async function fetchAll() {
     store.setLoading(true)
     try {
-      const { data } = await basePermissionsApi.list()
+      const data = await basePermissionsApi.listAll()
       store.setItems(data)
     } catch (e) {
       notifyError('Error al cargar los permisos base', e)
@@ -27,7 +27,7 @@ export function useBasePermissions() {
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
-      const { data } = await basePermissionsApi.getById(id)
+      const data = await basePermissionsApi.findById(id)
       store.setSelected(data)
     } catch (e) {
       notifyError('Permiso base no encontrado', e)
@@ -36,15 +36,15 @@ export function useBasePermissions() {
     }
   }
 
-  async function create(payload: CreateBasePermissionCommand) {
-    const { data } = await basePermissionsApi.create(payload)
+  async function create(payload: CreateBasePermissionRequest) {
+    const data = await basePermissionsApi.create(payload)
     store.setItems([...store.items, data])
     notify('Permiso base creado exitosamente', 'success')
     return data
   }
 
-  async function update(id: number, payload: UpdateBasePermissionCommand) {
-    const { data } = await basePermissionsApi.update(id, payload)
+  async function update(id: number, payload: UpdateBasePermissionRequest) {
+    const data = await basePermissionsApi.update(id, payload)
     store.setItems(store.items.map((p) => (p.id === id ? data : p)))
     notify('Permiso base actualizado', 'success')
     return data

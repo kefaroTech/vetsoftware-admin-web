@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import ModuleForm from '../components/ModuleForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateModuleCommand } from '../types/modules.types'
+import type { CreateModuleRequest } from '../types/modules.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useModules()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleSave(data: CreateModuleCommand) {
+async function handleSave(data: CreateModuleRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.MODULES_LIST })
 }

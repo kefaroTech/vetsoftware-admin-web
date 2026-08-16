@@ -3,21 +3,21 @@ import { computed, ref, watch, onMounted } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import { speciesApi } from '@/features/species/api/species.api'
-import type { Specie } from '@/features/species/types/species.types'
-import type { Breed, CreateBreedCommand } from '../types/breeds.types'
+import type { SpecieResponse } from '@/features/species/types/species.types'
+import type { BreedResponse, CreateBreedRequest } from '../types/breeds.types'
 
 const props = defineProps<{
-  initial?: Breed | null
+  initial?: BreedResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateBreedCommand]
+  submit: [data: CreateBreedRequest]
   cancel: []
 }>()
 
-const form = ref<CreateBreedCommand>({ name: '', specieId: 0 })
+const form = ref<CreateBreedRequest>({ name: '', specieId: 0 })
 const submitted = ref(false)
-const availableSpecies = ref<Specie[]>([])
+const availableSpecies = ref<SpecieResponse[]>([])
 
 const specieOptions = computed(() =>
   availableSpecies.value.map((s) => ({ value: s.id, label: s.name })),
@@ -29,7 +29,7 @@ const errors = computed(() => ({
 }))
 
 onMounted(async () => {
-  const { data } = await speciesApi.list()
+  const data = await speciesApi.listAll()
   availableSpecies.value = data
   const first = data[0]
   if (!props.initial && first) form.value.specieId = first.id

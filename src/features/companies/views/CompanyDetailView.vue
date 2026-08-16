@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import CompanyForm from '../components/CompanyForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateCompanyCommand } from '../types/companies.types'
+import type { CreateCompanyRequest } from '../types/companies.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useCompanies()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleUpdate(data: CreateCompanyCommand) {
+async function handleUpdate(data: CreateCompanyRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.COMPANIES_LIST })
 }

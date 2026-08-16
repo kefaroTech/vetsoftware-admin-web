@@ -8,15 +8,15 @@ import AppModal from '@/components/ui/AppModal.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import AnimalColorForm from '../components/AnimalColorForm.vue'
 import { speciesApi } from '@/features/species/api/species.api'
-import type { Specie } from '@/features/species/types/species.types'
+import type { SpecieResponse } from '@/features/species/types/species.types'
 import { ICONS } from '@/constants/icons'
-import type { CreateAnimalColorCommand } from '../types/animal-colors.types'
+import type { CreateAnimalColorRequest } from '../types/animal-colors.types'
 
 const { colors, fetchAll, fetchBySpecie, create, remove } = useAnimalColors()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
 
-const availableSpecies = ref<Specie[]>([])
+const availableSpecies = ref<SpecieResponse[]>([])
 const specieFilter = ref(0)
 
 const specieFilterOptions = computed(() => [
@@ -29,14 +29,14 @@ function reload() {
 }
 
 onMounted(async () => {
-  const { data } = await speciesApi.list()
+  const data = await speciesApi.listAll()
   availableSpecies.value = data
   await reload()
 })
 
 watch(specieFilter, reload)
 
-async function handleCreate(data: CreateAnimalColorCommand) {
+async function handleCreate(data: CreateAnimalColorRequest) {
   await create(data)
   showModal.value = false
   // El color creado puede no pertenecer a la especie filtrada; releemos para no mostrarlo fuera.

@@ -4,7 +4,7 @@ export interface SubmoduleModuleSummary {
   code: string
 }
 
-export interface Submodule {
+export interface SubModuleResponse {
   id: number
   name: string
   code: string
@@ -12,10 +12,10 @@ export interface Submodule {
   createdDate: string
 }
 
-export interface CreateSubmoduleCommand {
+export interface CreateSubModuleRequest {
   name: string
   code: string
   moduleId: number
 }
 
-export type UpdateSubmoduleCommand = CreateSubmoduleCommand
+export type UpdateSubModuleRequest = CreateSubModuleRequest

@@ -2,7 +2,7 @@ import { storeToRefs } from 'pinia'
 import { useVaccinationTypesStore } from '../stores/vaccination-types.store'
 import { vaccinationTypesApi } from '../api/vaccination-types.api'
 import { useNotification } from '@/composables/useNotification'
-import type { CreateVaccinationTypeCommand } from '../types/vaccination-types.types'
+import type { CreateVaccinationTypeRequest } from '../types/vaccination-types.types'
 
 export interface VaccinationTypeFormData {
   name: string
@@ -17,7 +17,7 @@ export function useVaccinationTypes() {
   async function fetchAll() {
     store.setLoading(true)
     try {
-      const { data } = await vaccinationTypesApi.list()
+      const data = await vaccinationTypesApi.listAll()
       store.setItems(data.filter((t) => t.general))
     } catch (e) {
       notifyError('Error al cargar los tipos de vacuna', e)
@@ -29,7 +29,7 @@ export function useVaccinationTypes() {
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
-      const { data } = await vaccinationTypesApi.getById(id)
+      const data = await vaccinationTypesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
       notifyError('Tipo de vacuna no encontrado', e)
@@ -39,24 +39,24 @@ export function useVaccinationTypes() {
   }
 
   async function create(form: VaccinationTypeFormData) {
-    const payload: CreateVaccinationTypeCommand = {
+    const payload: CreateVaccinationTypeRequest = {
       name: form.name,
       description: form.description,
       general: true,
     }
-    const { data } = await vaccinationTypesApi.create(payload)
+    const data = await vaccinationTypesApi.create(payload)
     store.setItems([...store.items, data])
     notify('Tipo de vacuna creado exitosamente', 'success')
     return data
   }
 
   async function update(id: number, form: VaccinationTypeFormData) {
-    const payload: CreateVaccinationTypeCommand = {
+    const payload: CreateVaccinationTypeRequest = {
       name: form.name,
       description: form.description,
       general: true,
     }
-    const { data } = await vaccinationTypesApi.update(id, payload)
+    const data = await vaccinationTypesApi.update(id, payload)
     store.setItems(store.items.map((t) => (t.id === id ? data : t)))
     notify('Tipo de vacuna actualizado', 'success')
     return data

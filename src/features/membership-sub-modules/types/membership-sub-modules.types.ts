@@ -9,16 +9,16 @@ export interface MembershipSubModuleSubModuleSummary {
   code: string
 }
 
-export interface MembershipSubModule {
+export interface MembershipSubModuleResponse {
   id: number
   membership: MembershipSummary
   subModule: MembershipSubModuleSubModuleSummary
   createdDate: string
 }
 
-export interface CreateMembershipSubModuleCommand {
+export interface CreateMembershipSubModuleRequest {
   membershipId: number
   subModuleId: number
 }
 
-export type UpdateMembershipSubModuleCommand = CreateMembershipSubModuleCommand
+export type UpdateMembershipSubModuleRequest = CreateMembershipSubModuleRequest

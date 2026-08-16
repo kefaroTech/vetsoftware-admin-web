@@ -1,4 +1,4 @@
 import { createCatalogStore } from '@/stores/createCatalogStore'
-import type { Specie } from '../types/species.types'
+import type { SpecieResponse } from '../types/species.types'
 
-export const useSpeciesStore = createCatalogStore<Specie>('species')
+export const useSpeciesStore = createCatalogStore<SpecieResponse>('species')

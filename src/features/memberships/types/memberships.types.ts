@@ -1,15 +1,15 @@
 import type { MembershipStatus } from '@/types/common.types'
 
-export interface Membership {
+export interface MembershipResponse {
   id: number
   name: string
   status: MembershipStatus
   createdDate: string
 }
 
-export interface CreateMembershipCommand {
+export interface CreateMembershipRequest {
   name: string
   status: MembershipStatus
 }
 
-export type UpdateMembershipCommand = CreateMembershipCommand
+export type UpdateMembershipRequest = CreateMembershipRequest

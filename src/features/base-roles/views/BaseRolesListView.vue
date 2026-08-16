@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import BaseRoleForm from '../components/BaseRoleForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateBaseRoleCommand } from '../types/base-roles.types'
+import type { CreateBaseRoleRequest } from '../types/base-roles.types'
 
 const { baseRoles, fetchAll, create, remove } = useBaseRoles()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateBaseRoleCommand) {
+async function handleCreate(data: CreateBaseRoleRequest) {
   await create(data)
   showModal.value = false
 }

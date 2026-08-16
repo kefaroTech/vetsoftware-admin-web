@@ -3,8 +3,8 @@ import { useAnimalColorsStore } from '../stores/animal-colors.store'
 import { animalColorsApi } from '../api/animal-colors.api'
 import { useNotification } from '@/composables/useNotification'
 import type {
-  CreateAnimalColorCommand,
-  UpdateAnimalColorCommand,
+  CreateAnimalColorRequest,
+  UpdateAnimalColorRequest,
 } from '../types/animal-colors.types'
 
 export function useAnimalColors() {
@@ -15,7 +15,7 @@ export function useAnimalColors() {
   async function fetchAll() {
     store.setLoading(true)
     try {
-      const { data } = await animalColorsApi.list()
+      const data = await animalColorsApi.listAll()
       store.setItems(data)
     } catch (e) {
       notifyError('Error al cargar los colores', e)
@@ -27,7 +27,7 @@ export function useAnimalColors() {
   async function fetchBySpecie(specieId: number) {
     store.setLoading(true)
     try {
-      const { data } = await animalColorsApi.listBySpecie(specieId)
+      const data = await animalColorsApi.listBySpecie(specieId)
       store.setItems(data)
     } catch (e) {
       notifyError('Error al cargar los colores', e)
@@ -39,7 +39,7 @@ export function useAnimalColors() {
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
-      const { data } = await animalColorsApi.getById(id)
+      const data = await animalColorsApi.findById(id)
       store.setSelected(data)
     } catch (e) {
       notifyError('Color no encontrado', e)
@@ -48,15 +48,15 @@ export function useAnimalColors() {
     }
   }
 
-  async function create(payload: CreateAnimalColorCommand) {
-    const { data } = await animalColorsApi.create(payload)
+  async function create(payload: CreateAnimalColorRequest) {
+    const data = await animalColorsApi.create(payload)
     store.setItems([...store.items, data])
     notify('Color creado exitosamente', 'success')
     return data
   }
 
-  async function update(id: number, payload: UpdateAnimalColorCommand) {
-    const { data } = await animalColorsApi.update(id, payload)
+  async function update(id: number, payload: UpdateAnimalColorRequest) {
+    const data = await animalColorsApi.update(id, payload)
     store.setItems(store.items.map((c) => (c.id === id ? data : c)))
     notify('Color actualizado', 'success')
     return data

@@ -3,16 +3,16 @@ export interface SpecieSummary {
   name: string
 }
 
-export interface AnimalColor {
+export interface AnimalColorResponse {
   id: number
   name: string
   specie: SpecieSummary
   createdDate: string
 }
 
-export interface CreateAnimalColorCommand {
+export interface CreateAnimalColorRequest {
   name: string
   specieId: number
 }
 
-export type UpdateAnimalColorCommand = CreateAnimalColorCommand
+export type UpdateAnimalColorRequest = CreateAnimalColorRequest

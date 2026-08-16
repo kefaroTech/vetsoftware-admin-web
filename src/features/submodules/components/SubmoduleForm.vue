@@ -3,21 +3,21 @@ import { computed, ref, watch, onMounted } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import { modulesApi } from '@/features/modules/api/modules.api'
-import type { AppModule } from '@/features/modules/types/modules.types'
-import type { Submodule, CreateSubmoduleCommand } from '../types/submodules.types'
+import type { ModuleResponse } from '@/features/modules/types/modules.types'
+import type { SubModuleResponse, CreateSubModuleRequest } from '../types/submodules.types'
 
 const props = defineProps<{
-  initial?: Submodule | null
+  initial?: SubModuleResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateSubmoduleCommand]
+  submit: [data: CreateSubModuleRequest]
   cancel: []
 }>()
 
-const form = ref<CreateSubmoduleCommand>({ name: '', code: '', moduleId: 0 })
+const form = ref<CreateSubModuleRequest>({ name: '', code: '', moduleId: 0 })
 const submitted = ref(false)
-const availableModules = ref<AppModule[]>([])
+const availableModules = ref<ModuleResponse[]>([])
 
 const moduleOptions = computed(() =>
   availableModules.value.map((m) => ({ value: m.id, label: `${m.name} (${m.code})` })),
@@ -30,7 +30,7 @@ const errors = computed(() => ({
 }))
 
 onMounted(async () => {
-  const { data } = await modulesApi.list()
+  const data = await modulesApi.listAll()
   availableModules.value = data
   const first = data[0]
   if (!props.initial && first) form.value.moduleId = first.id

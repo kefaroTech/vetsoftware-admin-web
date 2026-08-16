@@ -10,14 +10,14 @@ import { createCatalogStore } from '@/stores/createCatalogStore'
  * Ese es el precio de no repetirse, y esta es la red que lo compensa.
  */
 
-interface Specie {
+interface SpecieResponse {
   id: number
   name: string
 }
 
 describe('createCatalogStore', () => {
   it('arranca vacío, sin seleccionado y sin cargar', () => {
-    const store = createCatalogStore<Specie>('test-inicial')()
+    const store = createCatalogStore<SpecieResponse>('test-inicial')()
 
     expect(store.items).toEqual([])
     expect(store.selected).toBeNull()
@@ -27,8 +27,8 @@ describe('createCatalogStore', () => {
   it('cada catálogo es un store independiente, no uno compartido', () => {
     // Es el riesgo real de una factoría: si el `defineStore` se evaluara una
     // sola vez, las especies y las razas acabarían leyendo la misma lista.
-    const especies = createCatalogStore<Specie>('test-especies')()
-    const razas = createCatalogStore<Specie>('test-razas')()
+    const especies = createCatalogStore<SpecieResponse>('test-especies')()
+    const razas = createCatalogStore<SpecieResponse>('test-razas')()
 
     especies.setItems([{ id: 1, name: 'Canino' }])
 
@@ -39,8 +39,8 @@ describe('createCatalogStore', () => {
   it('el mismo nombre devuelve el MISMO store, que es lo que permite compartirlo', () => {
     // Dos componentes que piden el catálogo de especies deben ver una sola
     // lista; si no, cada uno cargaría la suya y se desincronizarían.
-    const a = createCatalogStore<Specie>('test-compartido')()
-    const b = createCatalogStore<Specie>('test-compartido')()
+    const a = createCatalogStore<SpecieResponse>('test-compartido')()
+    const b = createCatalogStore<SpecieResponse>('test-compartido')()
 
     a.setItems([{ id: 7, name: 'Felino' }])
 
@@ -50,7 +50,7 @@ describe('createCatalogStore', () => {
   it('reemplaza la lista en vez de acumularla', () => {
     // Los composables llaman `setItems` tras cada alta, baja y recarga: si esto
     // concatenara, la lista crecería con duplicados en cada `fetchAll`.
-    const store = createCatalogStore<Specie>('test-reemplazo')()
+    const store = createCatalogStore<SpecieResponse>('test-reemplazo')()
 
     store.setItems([{ id: 1, name: 'Canino' }])
     store.setItems([{ id: 2, name: 'Felino' }])
@@ -61,7 +61,7 @@ describe('createCatalogStore', () => {
   it('permite limpiar el seleccionado con null', () => {
     // Al cerrar un detalle hay que poder soltar la referencia; si `setSelected`
     // no aceptara null, la pantalla siguiente abriría con el registro anterior.
-    const store = createCatalogStore<Specie>('test-seleccion')()
+    const store = createCatalogStore<SpecieResponse>('test-seleccion')()
 
     store.setSelected({ id: 3, name: 'Equino' })
     expect(store.selected).toEqual({ id: 3, name: 'Equino' })
@@ -71,7 +71,7 @@ describe('createCatalogStore', () => {
   })
 
   it('el loading sube y baja', () => {
-    const store = createCatalogStore<Specie>('test-loading')()
+    const store = createCatalogStore<SpecieResponse>('test-loading')()
 
     store.setLoading(true)
     expect(store.loading).toBe(true)

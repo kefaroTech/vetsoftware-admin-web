@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import SubmoduleForm from '../components/SubmoduleForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateSubmoduleCommand } from '../types/submodules.types'
+import type { CreateSubModuleRequest } from '../types/submodules.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useSubmodules()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleSave(data: CreateSubmoduleCommand) {
+async function handleSave(data: CreateSubModuleRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.SUBMODULES_LIST })
 }

@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
-import type { Specie, CreateSpecieCommand } from '../types/species.types'
+import type { SpecieResponse, CreateSpecieRequest } from '../types/species.types'
 
 const props = defineProps<{
-  initial?: Specie | null
+  initial?: SpecieResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateSpecieCommand]
+  submit: [data: CreateSpecieRequest]
   cancel: []
 }>()
 
-const form = ref<CreateSpecieCommand>({ name: '' })
+const form = ref<CreateSpecieRequest>({ name: '' })
 const submitted = ref(false)
 
 const errors = computed(() => ({

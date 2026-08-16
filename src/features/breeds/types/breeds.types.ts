@@ -3,16 +3,16 @@ export interface SpecieSummary {
   name: string
 }
 
-export interface Breed {
+export interface BreedResponse {
   id: number
   name: string
   specie: SpecieSummary
   createdDate: string
 }
 
-export interface CreateBreedCommand {
+export interface CreateBreedRequest {
   name: string
   specieId: number
 }
 
-export type UpdateBreedCommand = CreateBreedCommand
+export type UpdateBreedRequest = CreateBreedRequest

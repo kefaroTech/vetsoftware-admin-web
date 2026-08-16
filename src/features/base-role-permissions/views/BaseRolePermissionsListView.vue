@@ -8,7 +8,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import BaseRolePermissionForm from '../components/BaseRolePermissionForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateBaseRolePermissionCommand } from '../types/base-role-permissions.types'
+import type { CreateBaseRolePermissionRequest } from '../types/base-role-permissions.types'
 
 const { baseRolePermissions, fetchAll, create, remove } = useBaseRolePermissions()
 const { publish, isPublishing } = useAdminPermissionPublish()
@@ -17,7 +17,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateBaseRolePermissionCommand) {
+async function handleCreate(data: CreateBaseRolePermissionRequest) {
   await create(data)
   showModal.value = false
 }

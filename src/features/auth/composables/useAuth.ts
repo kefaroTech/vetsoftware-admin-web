@@ -15,7 +15,7 @@ export function useAuth() {
   const { isAuthenticated } = storeToRefs(authStore)
 
   async function login(payload: LoginCommand) {
-    const { data } = await authApi.login(payload)
+    const data = await authApi.login(payload)
     authStore.setSession({ token: data.token, type: data.type })
     // Hidrata permisos antes de navegar para que el permissionGuard tenga datos frescos.
     await authStore.fetchMe()
