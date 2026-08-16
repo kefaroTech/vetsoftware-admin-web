@@ -20,24 +20,24 @@ defineEmits<{
       Página {{ page + 1 }} de {{ totalPages }}
     </span>
     <div class="d-flex ga-2">
-      <v-btn
-        variant="outlined"
-        size="small"
+      <button
+        type="button"
+        class="ds-btn ds-btn--ghost ds-btn--sm"
         :disabled="!hasPrev"
-        :prepend-icon="ICONS.CHEVRON_LEFT"
         @click="$emit('prev')"
       >
+        <component :is="ICONS.CHEVRON_LEFT" :size="14" />
         Anterior
-      </v-btn>
-      <v-btn
-        variant="outlined"
-        size="small"
+      </button>
+      <button
+        type="button"
+        class="ds-btn ds-btn--ghost ds-btn--sm"
         :disabled="!hasNext"
-        :append-icon="ICONS.CHEVRON_RIGHT"
         @click="$emit('next')"
       >
         Siguiente
-      </v-btn>
+        <component :is="ICONS.CHEVRON_RIGHT" :size="14" />
+      </button>
     </div>
   </div>
 </template>

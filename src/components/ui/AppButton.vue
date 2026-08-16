@@ -8,23 +8,20 @@ const props = defineProps<{
   block?: boolean
 }>()
 
-const color = computed(() => {
-  if (props.variant === 'danger') return 'error'
-  if (props.variant === 'secondary') return undefined
-  return 'primary'
-})
-
-const btnVariant = computed(() => (props.variant === 'secondary' ? 'outlined' : 'elevated'))
+/** Las tres variantes de esta consola, en primitivas del sistema de diseño. */
+const clases = computed(() => [
+  'ds-btn',
+  props.variant === 'danger'
+    ? 'ds-btn--danger-solid'
+    : props.variant === 'secondary'
+      ? 'ds-btn--ghost'
+      : 'ds-btn--primary',
+  props.block ? 'ds-flex-fill' : '',
+])
 </script>
 
 <template>
-  <v-btn
-    :type="type ?? 'button'"
-    :color="color"
-    :variant="btnVariant"
-    :disabled="disabled"
-    :block="block"
-  >
+  <button :type="type ?? 'button'" :class="clases" :disabled="disabled">
     <slot />
-  </v-btn>
+  </button>
 </template>
