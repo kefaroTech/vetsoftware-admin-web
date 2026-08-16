@@ -28,11 +28,12 @@ async function handleDelete(id: number, name: string) {
 
 <template>
   <AppLayout>
-    <div class="d-flex align-center justify-space-between mb-6">
-      <h1 class="text-h4 font-weight-bold">Roles base</h1>
-      <v-btn color="primary" :prepend-icon="ICONS.ADD" @click="showModal = true">
+    <div class="ds-head">
+      <h1 class="ds-title">Roles base</h1>
+      <button type="button" class="ds-btn ds-btn--primary" @click="showModal = true">
+        <component :is="ICONS.ADD" :size="15" />
         Nuevo rol base
-      </v-btn>
+      </button>
     </div>
 
     <AppTable
@@ -43,29 +44,26 @@ async function handleDelete(id: number, name: string) {
         <td class="font-weight-medium">{{ r.name }}</td>
         <td class="text-body-2 font-mono">{{ r.code }}</td>
         <td>
-          <v-icon
-            :icon="r.mandatory ? ICONS.CHECKED : ICONS.UNCHECKED"
-            :color="r.mandatory ? 'success' : 'grey-lighten-1'"
-            size="small"
+          <component
+            :is="r.mandatory ? ICONS.CHECKED : ICONS.UNCHECKED"
+            :size="16"
+            :class="r.mandatory ? 'marca marca--si' : 'marca'"
           />
         </td>
         <td class="text-caption text-medium-emphasis">{{ r.createdDate }}</td>
         <td>
           <div class="d-flex ga-1">
-            <v-btn
-              :to="`/roles-base/${r.id}`"
-              size="small"
-              variant="text"
-              color="primary"
-              :icon="ICONS.EDIT"
-            />
-            <v-btn
-              size="small"
-              variant="text"
-              color="error"
-              :icon="ICONS.DELETE"
+            <RouterLink :to="`/roles-base/${r.id}`" class="ds-icon-btn" aria-label="Editar">
+              <component :is="ICONS.EDIT" :size="15" />
+            </RouterLink>
+            <button
+              type="button"
+              class="ds-icon-btn ds-icon-btn--danger"
+              aria-label="Eliminar"
               @click="handleDelete(r.id, r.name)"
-            />
+            >
+              <component :is="ICONS.DELETE" :size="15" />
+            </button>
           </div>
         </td>
       </tr>
@@ -76,3 +74,12 @@ async function handleDelete(id: number, name: string) {
     </AppModal>
   </AppLayout>
 </template>
+
+<style scoped>
+.marca {
+  color: var(--warm-400);
+}
+.marca--si {
+  color: oklch(55% 0.16 145deg);
+}
+</style>
