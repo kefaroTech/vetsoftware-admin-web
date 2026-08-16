@@ -39,3 +39,10 @@ secrets.*
 
 # Claude Code runtime
 .claude/scheduled_tasks.lock
+
+# Playwright E2E artifacts
+/test-results/
+/playwright-report/
+/playwright-report-visual/
+/blob-report/
+/playwright/.cache/

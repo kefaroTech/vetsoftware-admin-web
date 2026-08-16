@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import SpecieForm from '../components/SpecieForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateSpecieCommand } from '../types/species.types'
+import type { CreateSpecieRequest } from '../types/species.types'
 
 const { species, fetchAll, create, remove } = useSpecies()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateSpecieCommand) {
+async function handleCreate(data: CreateSpecieRequest) {
   await create(data)
   showModal.value = false
 }
@@ -28,11 +28,12 @@ async function handleDelete(id: number, name: string) {
 
 <template>
   <AppLayout>
-    <div class="d-flex align-center justify-space-between mb-6">
-      <h1 class="text-h4 font-weight-bold">Especies</h1>
-      <v-btn color="primary" :prepend-icon="ICONS.ADD" @click="showModal = true">
+    <div class="ds-head">
+      <h1 class="ds-title">Especies</h1>
+      <button type="button" class="ds-btn ds-btn--primary" @click="showModal = true">
+        <component :is="ICONS.ADD" :size="15" />
         Nueva especie
-      </v-btn>
+      </button>
     </div>
 
     <AppTable :headers="['Nombre', 'Fecha creación', 'Acciones']" :empty="species.length === 0">
@@ -41,20 +42,17 @@ async function handleDelete(id: number, name: string) {
         <td class="text-caption text-medium-emphasis">{{ s.createdDate }}</td>
         <td>
           <div class="d-flex ga-1">
-            <v-btn
-              :to="`/animales/especies/${s.id}`"
-              size="small"
-              variant="text"
-              color="primary"
-              :icon="ICONS.EDIT"
-            />
-            <v-btn
-              size="small"
-              variant="text"
-              color="error"
-              :icon="ICONS.DELETE"
+            <RouterLink :to="`/animales/especies/${s.id}`" class="ds-icon-btn" aria-label="Editar">
+              <component :is="ICONS.EDIT" :size="15" />
+            </RouterLink>
+            <button
+              type="button"
+              class="ds-icon-btn ds-icon-btn--danger"
+              aria-label="Eliminar"
               @click="handleDelete(s.id, s.name)"
-            />
+            >
+              <component :is="ICONS.DELETE" :size="15" />
+            </button>
           </div>
         </td>
       </tr>

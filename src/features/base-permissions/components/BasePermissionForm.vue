@@ -3,21 +3,24 @@ import { computed, ref, watch, onMounted } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import { submodulesApi } from '@/features/submodules/api/submodules.api'
-import type { Submodule } from '@/features/submodules/types/submodules.types'
-import type { BasePermission, CreateBasePermissionCommand } from '../types/base-permissions.types'
+import type { SubModuleResponse } from '@/features/submodules/types/submodules.types'
+import type {
+  BasePermissionResponse,
+  CreateBasePermissionRequest,
+} from '../types/base-permissions.types'
 
 const props = defineProps<{
-  initial?: BasePermission | null
+  initial?: BasePermissionResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateBasePermissionCommand]
+  submit: [data: CreateBasePermissionRequest]
   cancel: []
 }>()
 
-const form = ref<CreateBasePermissionCommand>({ name: '', code: '', subModuleId: 0 })
+const form = ref<CreateBasePermissionRequest>({ name: '', code: '', subModuleId: 0 })
 const submitted = ref(false)
-const availableSubmodules = ref<Submodule[]>([])
+const availableSubmodules = ref<SubModuleResponse[]>([])
 
 const submoduleOptions = computed(() =>
   availableSubmodules.value.map((s) => ({ value: s.id, label: `${s.name} (${s.code})` })),
@@ -30,7 +33,7 @@ const errors = computed(() => ({
 }))
 
 onMounted(async () => {
-  const { data } = await submodulesApi.list()
+  const data = await submodulesApi.listAll()
   availableSubmodules.value = data
   const first = data[0]
   if (!props.initial && first) form.value.subModuleId = first.id
@@ -73,11 +76,11 @@ function submit() {
       :options="submoduleOptions"
       :error="submitted ? errors.subModuleId : ''"
     />
-    <div class="app-form__actions">
-      <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-      <v-btn type="submit" color="primary">
+    <div class="ds-actions">
+      <button type="button" class="ds-btn ds-btn--ghost" @click="emit('cancel')">Cancelar</button>
+      <button type="submit" class="ds-btn ds-btn--primary">
         {{ initial ? 'Guardar' : 'Crear' }}
-      </v-btn>
+      </button>
     </div>
   </form>
 </template>

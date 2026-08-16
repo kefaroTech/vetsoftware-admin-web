@@ -6,7 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import MembershipSubModuleForm from '../components/MembershipSubModuleForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import type { CreateMembershipSubModuleCommand } from '../types/membership-sub-modules.types'
+import type { CreateMembershipSubModuleRequest } from '../types/membership-sub-modules.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
@@ -14,7 +14,7 @@ const { selected, fetchById, update } = useMembershipSubModules()
 
 onMounted(() => fetchById(Number(props.id)))
 
-async function handleSave(data: CreateMembershipSubModuleCommand) {
+async function handleSave(data: CreateMembershipSubModuleRequest) {
   await update(Number(props.id), data)
   router.push({ name: ROUTE_NAMES.MEMBERSHIP_SUB_MODULES_LIST })
 }
@@ -23,12 +23,22 @@ async function handleSave(data: CreateMembershipSubModuleCommand) {
 <template>
   <AppLayout>
     <div class="d-flex align-center ga-3 mb-6">
-      <v-btn variant="text" :prepend-icon="ICONS.BACK" @click="router.back()">Volver</v-btn>
-      <h1 class="text-h4 font-weight-bold">Editar asociación membresía-submódulo</h1>
+      <button type="button" class="ds-btn ds-btn--ghost" @click="router.back()">
+        <component :is="ICONS.BACK" :size="15" />
+        Volver
+      </button>
+      <h1 class="ds-title">Editar asociación membresía-submódulo</h1>
     </div>
 
-    <v-card v-if="selected" max-width="640" class="pa-6">
+    <section v-if="selected" class="ds-card ds-detail-card">
       <MembershipSubModuleForm :initial="selected" @submit="handleSave" @cancel="router.back()" />
-    </v-card>
+    </section>
   </AppLayout>
 </template>
+
+<style scoped>
+/* El ancho lo fijaba `max-width` de v-card; con la primitiva vive aquí. */
+.ds-detail-card {
+  max-width: 640px;
+}
+</style>

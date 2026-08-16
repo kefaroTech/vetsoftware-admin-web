@@ -1,24 +1,24 @@
 import { storeToRefs } from 'pinia'
 import { useAnimalColorsStore } from '../stores/animal-colors.store'
 import { animalColorsApi } from '../api/animal-colors.api'
-import { useNotification } from '@/composables/useNotification'
+import { useToast } from '@/composables/useToast'
 import type {
-  CreateAnimalColorCommand,
-  UpdateAnimalColorCommand,
+  CreateAnimalColorRequest,
+  UpdateAnimalColorRequest,
 } from '../types/animal-colors.types'
 
 export function useAnimalColors() {
   const store = useAnimalColorsStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify, notifyError } = useNotification()
+  const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
-      const { data } = await animalColorsApi.list()
+      const data = await animalColorsApi.listAll()
       store.setItems(data)
     } catch (e) {
-      notifyError('Error al cargar los colores', e)
+      errorFrom('Error al cargar los colores', e)
     } finally {
       store.setLoading(false)
     }
@@ -27,10 +27,10 @@ export function useAnimalColors() {
   async function fetchBySpecie(specieId: number) {
     store.setLoading(true)
     try {
-      const { data } = await animalColorsApi.listBySpecie(specieId)
+      const data = await animalColorsApi.listBySpecie(specieId)
       store.setItems(data)
     } catch (e) {
-      notifyError('Error al cargar los colores', e)
+      errorFrom('Error al cargar los colores', e)
     } finally {
       store.setLoading(false)
     }
@@ -39,33 +39,33 @@ export function useAnimalColors() {
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
-      const { data } = await animalColorsApi.getById(id)
+      const data = await animalColorsApi.findById(id)
       store.setSelected(data)
     } catch (e) {
-      notifyError('Color no encontrado', e)
+      errorFrom('Color no encontrado', e)
     } finally {
       store.setLoading(false)
     }
   }
 
-  async function create(payload: CreateAnimalColorCommand) {
-    const { data } = await animalColorsApi.create(payload)
+  async function create(payload: CreateAnimalColorRequest) {
+    const data = await animalColorsApi.create(payload)
     store.setItems([...store.items, data])
-    notify('Color creado exitosamente', 'success')
+    success('Color creado exitosamente')
     return data
   }
 
-  async function update(id: number, payload: UpdateAnimalColorCommand) {
-    const { data } = await animalColorsApi.update(id, payload)
+  async function update(id: number, payload: UpdateAnimalColorRequest) {
+    const data = await animalColorsApi.update(id, payload)
     store.setItems(store.items.map((c) => (c.id === id ? data : c)))
-    notify('Color actualizado', 'success')
+    success('Color actualizado')
     return data
   }
 
   async function remove(id: number) {
     await animalColorsApi.remove(id)
     store.setItems(store.items.filter((c) => c.id !== id))
-    notify('Color eliminado', 'success')
+    success('Color eliminado')
   }
 
   return {

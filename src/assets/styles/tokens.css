@@ -1,0 +1,213 @@
+/**
+ * TOKENS — capa 1 del design system.
+ *
+ * Regla: aquí SOLO viven valores primitivos. Ningún selector de componente.
+ * Las clases reutilizables viven en `primitives.css` (capa 2).
+ *
+ * Todos los valores de este archivo fueron EXTRAÍDOS del CSS scoped existente
+ * (no se inventó ninguno): son las variantes ya dominantes en los SFC, para que
+ * migrar un componente a tokens sea un cambio visualmente nulo.
+ */
+
+:root {
+  --hue: 300;
+  --amatista-50: oklch(97% 0.015 var(--hue));
+  --amatista-100: oklch(94% 0.035 var(--hue));
+  --amatista-200: oklch(88% 0.07 var(--hue));
+  --amatista-300: oklch(78% 0.12 var(--hue));
+  --amatista-400: oklch(68% 0.16 var(--hue));
+  --amatista-500: oklch(58% 0.18 var(--hue));
+  --amatista-600: oklch(50% 0.18 var(--hue));
+  --amatista-700: oklch(42% 0.16 var(--hue));
+  --amatista-800: oklch(32% 0.12 var(--hue));
+  --amatista-900: oklch(22% 0.08 var(--hue));
+  --warm-50: oklch(99% 0.005 60deg);
+  --warm-100: oklch(97% 0.008 60deg);
+  --warm-150: oklch(95% 0.01 60deg);
+  --warm-200: oklch(92% 0.012 60deg);
+  --warm-300: oklch(86% 0.015 60deg);
+  --warm-400: oklch(72% 0.015 60deg);
+  --warm-500: oklch(58% 0.012 60deg);
+  --warm-600: oklch(45% 0.012 60deg);
+  --warm-700: oklch(35% 0.012 60deg);
+  --warm-800: oklch(25% 0.012 60deg);
+  --warm-900: oklch(16% 0.012 60deg);
+  --success-bg: oklch(94% 0.04 145deg);
+  --success-fg: oklch(40% 0.1 145deg);
+  --success-dot: oklch(55% 0.15 145deg);
+  --font-sans: 'Geist', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif;
+  --font-serif: 'Instrument Serif', georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Vuetify theme refs (login/signup) */
+  --v-bg: #f9fafb;
+  --v-surface: #fff;
+  --v-primary: #4f46e5;
+  --v-secondary: #6b7280;
+  --v-success: #10b981;
+  --v-error: #ef4444;
+  --v-warning: #f59e0b;
+  --v-info: #3b82f6;
+
+  /* ------------------------------------------------------------------ *
+   * ESCALA SEMÁNTICA — danger (hue 25deg)
+   * Los 3 primeros son el banner de error repetido 41 veces en los SFC.
+   * ------------------------------------------------------------------ */
+  --danger-50: oklch(95% 0.05 25deg);
+  --danger-100: oklch(95% 0.06 25deg);
+  --danger-150: oklch(94% 0.06 25deg);
+  --danger-200: oklch(92% 0.06 25deg);
+  --danger-250: oklch(85% 0.08 25deg);
+  --danger-300: oklch(85% 0.1 25deg);
+  --danger-400: oklch(85% 0.12 25deg);
+  --danger-500: oklch(55% 0.18 25deg);
+  --danger-600: oklch(50% 0.18 25deg);
+  --danger-700: oklch(48% 0.18 25deg);
+  --danger-800: oklch(45% 0.18 25deg);
+  --danger-900: oklch(40% 0.18 25deg);
+  --danger-950: oklch(35% 0.15 25deg);
+
+  /* Alias de intención para el banner/estado de error */
+  --danger-bg: var(--danger-100);
+  --danger-border: var(--danger-400);
+  --danger-fg: var(--danger-900);
+
+  /* ESCALA SEMÁNTICA — warning (hue 80deg) */
+  --warning-50: oklch(95% 0.06 80deg);
+  --warning-200: oklch(88% 0.09 80deg);
+  --warning-900: oklch(40% 0.12 80deg);
+  --warning-bg: var(--warning-50);
+  --warning-border: var(--warning-200);
+  --warning-fg: var(--warning-900);
+
+  /* ESCALA SEMÁNTICA — success (extiende los 3 tokens que ya existían) */
+  --success-50: oklch(94% 0.06 150deg);
+  --success-border: oklch(85% 0.1 150deg);
+
+  /* Alias neutrales de superficie/texto (los usos más repetidos) */
+  --surface: var(--warm-50);
+  --surface-muted: var(--warm-100);
+  --surface-sunken: var(--warm-150);
+  --border: var(--warm-200);
+  --border-strong: var(--warm-300);
+  --text: var(--warm-900);
+  --text-muted: var(--warm-600);
+  --text-subtle: var(--warm-500);
+
+  /* ------------------------------------------------------------------ *
+   * TIPOGRAFÍA — escala real del código (13px es el cuerpo, 358 usos)
+   * ------------------------------------------------------------------ */
+  --text-micro: 10px;
+  --text-2xs: 10.5px;
+  --text-caption: 11px;
+  --text-label: 11.5px;
+  --text-xs: 12px;
+  --text-sm: 12.5px;
+  --text-body: 13px;
+  --text-md: 13.5px;
+  --text-lg: 14px;
+  --text-xl: 14.5px;
+  --text-2xl: 15px;
+  --text-h3: 18px;
+  --text-h2: 22px;
+  --text-h1: 32px;
+  --text-display: 36px;
+
+  /* Pesos y tracking usados */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --tracking-tight: -0.015em;
+  --tracking-snug: -0.01em;
+  --leading-display: 1.05;
+
+  /* ------------------------------------------------------------------ *
+   * ESPACIADO — nombrado por su valor: la migración es mecánica y no
+   * introduce ambigüedad sobre "cuánto es md".
+   * ------------------------------------------------------------------ */
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-5: 5px;
+  --space-6: 6px;
+  --space-7: 7px;
+  --space-8: 8px;
+  --space-9: 9px;
+  --space-10: 10px;
+  --space-11: 11px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-18: 18px;
+  --space-20: 20px;
+  --space-22: 22px;
+  --space-24: 24px;
+  --space-26: 26px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-40: 40px;
+
+  /* ------------------------------------------------------------------ *
+   * RADIOS — los 4 t-shirt de arriba se conservan intactos; estos son los
+   * valores que dominan el código y no tenían token.
+   * ------------------------------------------------------------------ */
+  --radius-xs: 5px;
+  --radius-field: 7px;
+  --radius-control: 9px;
+  --radius-panel: 10px;
+  --radius-panel-lg: 11px;
+  --radius-card: 14px;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+
+  /* ------------------------------------------------------------------ *
+   * SOMBRAS
+   * ------------------------------------------------------------------ */
+  --shadow-xs: 0 1px 2px rgb(50 20 80 / 8%);
+  --shadow-sm: 0 4px 14px -8px rgb(20 15 30 / 18%);
+  --shadow-primary: 0 1px 2px rgb(50 20 80 / 8%), 0 6px 16px -6px oklch(40% 0.18 var(--hue) / 50%);
+  --shadow-primary-soft:
+    0 1px 2px rgb(50 20 80 / 8%), 0 6px 16px -6px oklch(40% 0.18 var(--hue) / 45%);
+  --shadow-modal: 0 20px 60px rgb(40 20 80 / 30%);
+
+  /* Anillos de foco */
+  --ring: 0 0 0 3px var(--amatista-50);
+  --ring-danger: 0 0 0 3px var(--danger-200);
+
+  /* ------------------------------------------------------------------ *
+   * MOVIMIENTO
+   * ------------------------------------------------------------------ */
+  --transition-fast: 0.12s ease;
+  --transition-base: 0.15s ease;
+  --transition-slow: 0.18s ease;
+
+  /* ------------------------------------------------------------------ *
+   * GRADIENTE PRIMARIO — el fondo de .btn-primary (16 copias en los SFC)
+   * ------------------------------------------------------------------ */
+  --gradient-primary: linear-gradient(
+    135deg,
+    oklch(45% 0.18 var(--hue)),
+    oklch(38% 0.18 calc(var(--hue) - 5))
+  );
+
+  /* Fondo de los botones destructivos de confirmación (modales de anulación). */
+  --gradient-danger: linear-gradient(135deg, oklch(52% 0.18 25deg), oklch(45% 0.18 22deg));
+
+  /* ------------------------------------------------------------------ *
+   * Z-INDEX — reemplaza los enteros sueltos (incluido un `2100 !important`)
+   * ------------------------------------------------------------------ */
+  --z-raised: 1;
+  --z-sticky: 100;
+  --z-dropdown: 1000;
+  --z-modal: 1500;
+  --z-modal-content: 1600;
+  --z-toast: 2000;
+  --z-tooltip: 2100;
+}
+
+* {
+  box-sizing: border-box;
+}

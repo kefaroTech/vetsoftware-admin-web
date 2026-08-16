@@ -1,4 +1,4 @@
 import { createCatalogStore } from '@/stores/createCatalogStore'
-import type { Submodule } from '../types/submodules.types'
+import type { SubModuleResponse } from '../types/submodules.types'
 
-export const useSubmodulesStore = createCatalogStore<Submodule>('submodules')
+export const useSubmodulesStore = createCatalogStore<SubModuleResponse>('submodules')

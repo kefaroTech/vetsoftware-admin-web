@@ -3,7 +3,7 @@ export interface DiagnosticImagingTypeCompanySummary {
   name: string
 }
 
-export interface DiagnosticImagingType {
+export interface DiagnosticImagingTypeResponse {
   id: number
   name: string
   description: string
@@ -12,10 +12,10 @@ export interface DiagnosticImagingType {
   createdDate: string
 }
 
-export interface CreateDiagnosticImagingTypeCommand {
+export interface CreateDiagnosticImagingTypeRequest {
   name: string
   description: string
   general: boolean
 }
 
-export type UpdateDiagnosticImagingTypeCommand = CreateDiagnosticImagingTypeCommand
+export type UpdateDiagnosticImagingTypeRequest = CreateDiagnosticImagingTypeRequest

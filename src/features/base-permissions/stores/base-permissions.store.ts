@@ -1,4 +1,5 @@
 import { createCatalogStore } from '@/stores/createCatalogStore'
-import type { BasePermission } from '../types/base-permissions.types'
+import type { BasePermissionResponse } from '../types/base-permissions.types'
 
-export const useBasePermissionsStore = createCatalogStore<BasePermission>('base-permissions')
+export const useBasePermissionsStore =
+  createCatalogStore<BasePermissionResponse>('base-permissions')

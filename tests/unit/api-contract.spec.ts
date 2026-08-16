@@ -10,7 +10,7 @@ import { join, resolve } from 'node:path'
  * <p>Esta prueba lo impide. Comprueba la cobertura, no la forma — de la forma se encarga el
  * compilador con las aserciones del propio `api.contract.ts`.
  *
- * <p>Este repositorio nombra sus tipos con el dominio (`Specie`) o con `Command`, mientras que el
+ * <p>Este repositorio nombra sus tipos con el dominio (`SpecieResponse`) o con `Command`, mientras que el
  * backend usa `Response` y `Request`. `CANDIDATOS` es esa traducción, y es la razón de que aquí
  * haya reglas donde el front operativo no las necesita.
  */
@@ -22,8 +22,8 @@ const candidatos = (nombre: string): string[] => [
   `${nombre}Response`,
   nombre.replace(/Command$/, 'Request'),
   nombre.replace(/^App/, '') + 'Response',
-  nombre.replace(/Submodule/, 'SubModule') + 'Response',
-  nombre.replace(/Submodule/, 'SubModule').replace(/Command$/, 'Request'),
+  nombre.replace(/SubModuleResponse/, 'SubModule') + 'Response',
+  nombre.replace(/SubModuleResponse/, 'SubModule').replace(/Command$/, 'Request'),
   nombre.replace(/Result$/, 'Response'),
 ]
 

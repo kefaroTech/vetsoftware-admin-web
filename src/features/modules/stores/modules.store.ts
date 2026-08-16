@@ -1,4 +1,4 @@
 import { createCatalogStore } from '@/stores/createCatalogStore'
-import type { AppModule } from '../types/modules.types'
+import type { ModuleResponse } from '../types/modules.types'
 
-export const useModulesStore = createCatalogStore<AppModule>('modules')
+export const useModulesStore = createCatalogStore<ModuleResponse>('modules')

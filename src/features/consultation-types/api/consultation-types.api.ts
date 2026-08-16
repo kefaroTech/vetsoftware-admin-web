@@ -1,16 +1,31 @@
 import { http } from '@/services/http/http.client'
 import type {
-  ConsultationType,
-  CreateConsultationTypeCommand,
-  UpdateConsultationTypeCommand,
+  ConsultationTypeResponse,
+  CreateConsultationTypeRequest,
+  UpdateConsultationTypeRequest,
 } from '../types/consultation-types.types'
 
 export const consultationTypesApi = {
-  list: () => http.get<ConsultationType[]>('/consultation-types'),
-  getById: (id: number) => http.get<ConsultationType>(`/consultation-types/${id}`),
-  create: (payload: CreateConsultationTypeCommand) =>
-    http.post<ConsultationType>('/consultation-types', payload),
-  update: (id: number, payload: UpdateConsultationTypeCommand) =>
-    http.put<ConsultationType>(`/consultation-types/${id}`, payload),
-  remove: (id: number) => http.delete(`/consultation-types/${id}`),
+  async listAll(): Promise<ConsultationTypeResponse[]> {
+    const { data } = await http.get<ConsultationTypeResponse[]>('/consultation-types')
+    return data
+  },
+  async findById(id: number): Promise<ConsultationTypeResponse> {
+    const { data } = await http.get<ConsultationTypeResponse>(`/consultation-types/${id}`)
+    return data
+  },
+  async create(payload: CreateConsultationTypeRequest): Promise<ConsultationTypeResponse> {
+    const { data } = await http.post<ConsultationTypeResponse>('/consultation-types', payload)
+    return data
+  },
+  async update(
+    id: number,
+    payload: UpdateConsultationTypeRequest,
+  ): Promise<ConsultationTypeResponse> {
+    const { data } = await http.put<ConsultationTypeResponse>(`/consultation-types/${id}`, payload)
+    return data
+  },
+  async remove(id: number): Promise<void> {
+    await http.delete(`/consultation-types/${id}`)
+  },
 }

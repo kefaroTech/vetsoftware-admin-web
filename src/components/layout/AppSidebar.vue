@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, type Component } from 'vue'
 import { useRoute } from 'vue-router'
-import { Icon } from '@iconify/vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
 import { useAuth } from '@/features/auth/composables/useAuth'
@@ -13,13 +12,13 @@ interface NavLeaf {
   name?: (typeof ROUTE_NAMES)[keyof typeof ROUTE_NAMES]
   label: string
   path: string
-  icon: string
+  icon: Component
   count?: string
 }
 
 interface NavParent {
   label: string
-  icon: string
+  icon: Component
   children: NavLeaf[]
 }
 
@@ -204,7 +203,7 @@ const toggle = (parent: NavParent) => {
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="logo">
-        <Icon :icon="ICONS.PAW" width="16" height="16" />
+        <component :is="ICONS.PAW" :size="16" />
       </div>
       <div>
         <div class="brand">VetSoftware</div>
@@ -223,7 +222,7 @@ const toggle = (parent: NavParent) => {
               class="nav-item"
               active-class="is-active"
             >
-              <Icon :icon="item.icon" width="15" height="15" class="nav-icon" />
+              <component :is="item.icon" :size="15" class="nav-icon" />
               <span class="nav-label">{{ item.label }}</span>
               <span v-if="item.count" class="nav-count">{{ item.count }}</span>
             </RouterLink>
@@ -236,12 +235,11 @@ const toggle = (parent: NavParent) => {
                 :aria-expanded="isExpanded(item)"
                 @click="toggle(item)"
               >
-                <Icon :icon="item.icon" width="15" height="15" class="nav-icon" />
+                <component :is="item.icon" :size="15" class="nav-icon" />
                 <span class="nav-label">{{ item.label }}</span>
-                <Icon
-                  :icon="ICONS.CHEVRON_DOWN"
-                  width="13"
-                  height="13"
+                <component
+                  :is="ICONS.CHEVRON_DOWN"
+                  :size="13"
                   class="nav-chevron"
                   :class="{ 'is-open': isExpanded(item) }"
                 />
@@ -255,7 +253,7 @@ const toggle = (parent: NavParent) => {
                   class="nav-item nav-subitem"
                   active-class="is-active"
                 >
-                  <Icon :icon="child.icon" width="13" height="13" class="nav-icon" />
+                  <component :is="child.icon" :size="13" class="nav-icon" />
                   <span class="nav-label">{{ child.label }}</span>
                 </RouterLink>
               </div>
@@ -272,7 +270,7 @@ const toggle = (parent: NavParent) => {
         <div class="user-role">Super administrador</div>
       </div>
       <button class="logout-btn" aria-label="Cerrar sesión" @click="logout">
-        <Icon :icon="ICONS.LOGOUT" width="14" height="14" />
+        <component :is="ICONS.LOGOUT" :size="14" />
       </button>
     </div>
   </aside>

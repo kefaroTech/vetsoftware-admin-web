@@ -1,43 +1,34 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { ICONS } from '@/constants/icons'
+import ModalShell from './ModalShell.vue'
 
-const props = defineProps<{
-  open: boolean
-  title: string
-  maxWidth?: number | string
-}>()
+/**
+ * Modal de esta consola. Es una fachada delgada sobre `ModalShell`, el mismo
+ * componente que el front operativo: TR-02 deja una sola implementación de
+ * overlay, foco inicial, cierre con Escape y clic fuera.
+ *
+ * Se usa siempre en modo `compact` —dimensionado por contenido— porque aquí los
+ * modales son formularios de catálogo, no las pantallas de trabajo a 90 % del
+ * viewport para las que existe el modo normal.
+ */
+withDefaults(
+  defineProps<{
+    open: boolean
+    title: string
+    maxWidth?: number
+  }>(),
+  { maxWidth: 560 },
+)
 
-const emit = defineEmits<{
-  close: []
-}>()
-
-const dialogModel = computed({
-  get: () => props.open,
-  set: (val) => {
-    if (!val) emit('close')
-  },
-})
+const emit = defineEmits<{ close: [] }>()
 </script>
 
 <template>
-  <v-dialog v-model="dialogModel" :max-width="maxWidth ?? 560" scrollable>
-    <v-card rounded="lg">
-      <v-card-title class="d-flex align-center justify-space-between pa-4">
-        <span class="text-h6">{{ title }}</span>
-        <v-btn :icon="ICONS.CLOSE" variant="text" size="small" @click="emit('close')" />
-      </v-card-title>
-      <v-divider />
-      <v-card-text class="pa-4">
-        <slot />
-      </v-card-text>
-      <template v-if="$slots.footer">
-        <v-divider />
-        <v-card-actions class="pa-4">
-          <v-spacer />
-          <slot name="footer" />
-        </v-card-actions>
-      </template>
-    </v-card>
-  </v-dialog>
+  <ModalShell :open="open" :title="title" compact :width="maxWidth" @close="emit('close')">
+    <template #body>
+      <slot />
+    </template>
+    <template v-if="$slots.footer" #footer-actions>
+      <slot name="footer" />
+    </template>
+  </ModalShell>
 </template>

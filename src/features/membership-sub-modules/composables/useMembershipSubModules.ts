@@ -1,24 +1,24 @@
 import { storeToRefs } from 'pinia'
 import { useMembershipSubModulesStore } from '../stores/membership-sub-modules.store'
 import { membershipSubModulesApi } from '../api/membership-sub-modules.api'
-import { useNotification } from '@/composables/useNotification'
+import { useToast } from '@/composables/useToast'
 import type {
-  CreateMembershipSubModuleCommand,
-  UpdateMembershipSubModuleCommand,
+  CreateMembershipSubModuleRequest,
+  UpdateMembershipSubModuleRequest,
 } from '../types/membership-sub-modules.types'
 
 export function useMembershipSubModules() {
   const store = useMembershipSubModulesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify, notifyError } = useNotification()
+  const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
-      const { data } = await membershipSubModulesApi.list()
+      const data = await membershipSubModulesApi.listAll()
       store.setItems(data)
     } catch (e) {
-      notifyError('Error al cargar las asociaciones membresía-submódulo', e)
+      errorFrom('Error al cargar las asociaciones membresía-submódulo', e)
     } finally {
       store.setLoading(false)
     }
@@ -27,33 +27,33 @@ export function useMembershipSubModules() {
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
-      const { data } = await membershipSubModulesApi.getById(id)
+      const data = await membershipSubModulesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
-      notifyError('Asociación no encontrada', e)
+      errorFrom('Asociación no encontrada', e)
     } finally {
       store.setLoading(false)
     }
   }
 
-  async function create(payload: CreateMembershipSubModuleCommand) {
-    const { data } = await membershipSubModulesApi.create(payload)
+  async function create(payload: CreateMembershipSubModuleRequest) {
+    const data = await membershipSubModulesApi.create(payload)
     store.setItems([...store.items, data])
-    notify('Asociación creada exitosamente', 'success')
+    success('Asociación creada exitosamente')
     return data
   }
 
-  async function update(id: number, payload: UpdateMembershipSubModuleCommand) {
-    const { data } = await membershipSubModulesApi.update(id, payload)
+  async function update(id: number, payload: UpdateMembershipSubModuleRequest) {
+    const data = await membershipSubModulesApi.update(id, payload)
     store.setItems(store.items.map((m) => (m.id === id ? data : m)))
-    notify('Asociación actualizada', 'success')
+    success('Asociación actualizada')
     return data
   }
 
   async function remove(id: number) {
     await membershipSubModulesApi.remove(id)
     store.setItems(store.items.filter((m) => m.id !== id))
-    notify('Asociación eliminada', 'success')
+    success('Asociación eliminada')
   }
 
   return {

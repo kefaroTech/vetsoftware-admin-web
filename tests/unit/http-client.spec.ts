@@ -8,7 +8,10 @@ import {
 import {
   http,
   DEFAULT_TIMEOUT_MS,
+  getProblemDetailCode,
+  getProblemDetailFieldErrors,
   getProblemDetailMessage,
+  isConcurrencyConflict,
   setRefreshHandler,
 } from '@/services/http/http.client'
 import { storageService } from '@/services/storage/storage.service'
@@ -121,6 +124,20 @@ describe('loader global', () => {
     expect(loader.pending).toBe(0)
   })
 
+  it('no lo toca cuando la petición pidió no mostrarlo', async () => {
+    // `skipGlobalLoader` (búsqueda con debounce) no incrementa; si el camino de
+    // error decrementara igualmente, retiraría el velo de otra petición en vuelo.
+    useAdapter(async (config) => {
+      throw networkError(config)
+    })
+    loader.push()
+
+    await expect(http.post('/pacientes/search', {}, { skipGlobalLoader: true })).rejects.toThrow()
+
+    expect(loader.pending).toBe(1)
+    loader.pop()
+  })
+
   it('queda balanceado tras varias peticiones concurrentes con distinto desenlace', async () => {
     useAdapter(async (config) => {
       if (config.url === '/falla') throw networkError(config)
@@ -209,7 +226,7 @@ describe('401 y renovación de sesión', () => {
     // El redirect es una navegación dura; jsdom no la implementa, así que se
     // observa sobre un doble en vez de dejar que reviente.
     vi.stubGlobal('location', { pathname: '/pacientes', href: '' })
-    storageService.setToken('access-viejo')
+    storageService.setSession({ token: 'access-viejo', type: 'EMPLOYEE' })
   })
 
   afterEach(() => {
@@ -224,7 +241,7 @@ describe('401 y renovación de sesión', () => {
     // relee el token del storage. Un doble que no persistiera reintentaría con el
     // token viejo — y la prueba pasaría por el motivo equivocado.
     const refresh = vi.fn(async () => {
-      storageService.setToken('access-nuevo')
+      storageService.setSession({ token: 'access-nuevo', type: 'EMPLOYEE' })
       return 'access-nuevo'
     })
     setRefreshHandler(refresh)
@@ -283,6 +300,22 @@ describe('401 y renovación de sesión', () => {
     expect(location.href).toBe('')
   })
 
+  it('deja dicho por qué se cerró la sesión cuando la desplazó otro dispositivo', async () => {
+    // Sin este aviso el usuario aparece en el login sin explicación y lo lee como
+    // un fallo de la aplicación. El texto va a sessionStorage porque lo que sigue
+    // es una navegación dura que destruye el store.
+    useAdapter(async (config) => {
+      throw httpError(config, 401, { code: 'SESSION_REPLACED' })
+    })
+
+    await expect(http.get('/pacientes')).rejects.toThrow()
+
+    expect(storageService.takeSessionReplacedNotice()).toBe(
+      'Tu cuenta se inició en otro dispositivo.',
+    )
+    expect(location.href).toBe('/login')
+  })
+
   it('deja pasar el 401 de las llamadas de auth sin tocar la sesión', async () => {
     // Un login con credenciales malas responde 401: refrescar o redirigir ahí
     // sería recursión y pérdida del mensaje de error del formulario.
@@ -322,5 +355,74 @@ describe('getProblemDetailMessage', () => {
 
   it('usa el texto de respaldo ante algo que no es un error de axios', () => {
     expect(getProblemDetailMessage(new Error('vaya'), 'Algo salió mal')).toBe('Algo salió mal')
+  })
+})
+
+/**
+ * Los tres lectores del `ProblemDetail` que el backend ya emitía y que nadie
+ * leía. Existían solo en el front operativo, así que el admin trataba un 409 de
+ * bloqueo optimista igual que un 500 y descartaba los errores por campo.
+ *
+ * Este bloque se mantiene idéntico en los dos fronts (TR-02).
+ */
+describe('lectores del ProblemDetail', () => {
+  const config = { headers: {} } as InternalAxiosRequestConfig
+
+  describe('getProblemDetailCode', () => {
+    it('devuelve el código de negocio', () => {
+      const error = httpError(config, 409, { code: 'CONCURRENT_MODIFICATION' })
+
+      expect(getProblemDetailCode(error)).toBe('CONCURRENT_MODIFICATION')
+    })
+
+    it('devuelve null cuando el cuerpo no trae código', () => {
+      expect(getProblemDetailCode(httpError(config, 500, {}))).toBeNull()
+    })
+
+    it('devuelve null ante algo que no es un error de axios', () => {
+      expect(getProblemDetailCode(new Error('vaya'))).toBeNull()
+      expect(getProblemDetailCode(null)).toBeNull()
+    })
+  })
+
+  describe('isConcurrencyConflict', () => {
+    it('reconoce el 409 de bloqueo optimista', () => {
+      // Es la señal de "recarga y vuelve a intentarlo", no la de "algo se rompió".
+      // Confundirla hace que el usuario reintente sobre datos ya obsoletos.
+      const error = httpError(config, 409, { code: 'CONCURRENT_MODIFICATION' })
+
+      expect(isConcurrencyConflict(error)).toBe(true)
+    })
+
+    it('no confunde otro 409 con un conflicto de versión', () => {
+      const error = httpError(config, 409, { code: 'DUPLICATED_CODE' })
+
+      expect(isConcurrencyConflict(error)).toBe(false)
+    })
+  })
+
+  describe('getProblemDetailFieldErrors', () => {
+    it('indexa por campo los errores de validación', () => {
+      const error = httpError(config, 400, {
+        code: 'VALIDATION_ERROR',
+        errors: [
+          { field: 'name', message: 'no puede estar vacío' },
+          { field: 'email', message: 'formato inválido' },
+        ],
+      })
+
+      expect(getProblemDetailFieldErrors(error)).toEqual({
+        name: 'no puede estar vacío',
+        email: 'formato inválido',
+      })
+    })
+
+    it('devuelve un objeto vacío cuando no hay errores por campo', () => {
+      expect(getProblemDetailFieldErrors(httpError(config, 400, {}))).toEqual({})
+    })
+
+    it('devuelve un objeto vacío ante algo que no es un error de axios', () => {
+      expect(getProblemDetailFieldErrors(new Error('vaya'))).toEqual({})
+    })
   })
 })

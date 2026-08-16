@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
-import type { Specie, CreateSpecieCommand } from '../types/species.types'
+import type { SpecieResponse, CreateSpecieRequest } from '../types/species.types'
 
 const props = defineProps<{
-  initial?: Specie | null
+  initial?: SpecieResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateSpecieCommand]
+  submit: [data: CreateSpecieRequest]
   cancel: []
 }>()
 
-const form = ref<CreateSpecieCommand>({ name: '' })
+const form = ref<CreateSpecieRequest>({ name: '' })
 const submitted = ref(false)
 
 const errors = computed(() => ({
@@ -42,11 +42,11 @@ function submit() {
       placeholder="Canino"
       :error="submitted ? errors.name : ''"
     />
-    <div class="app-form__actions">
-      <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-      <v-btn type="submit" color="primary">
+    <div class="ds-actions">
+      <button type="button" class="ds-btn ds-btn--ghost" @click="emit('cancel')">Cancelar</button>
+      <button type="submit" class="ds-btn ds-btn--primary">
         {{ initial ? 'Guardar' : 'Crear' }}
-      </v-btn>
+      </button>
     </div>
   </form>
 </template>

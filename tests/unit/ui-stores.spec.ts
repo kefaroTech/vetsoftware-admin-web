@@ -1,17 +1,14 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { useLoaderStore } from '@/stores/loader.store'
-import { useNotificationStore } from '@/stores/notification.store'
-import { useConfirmDialogStore } from '@/stores/confirmDialog.store'
+import { useToastStore } from '@/stores/toast.store'
 
 /**
- * Los tres stores transversales de la interfaz. Ninguno tiene lógica de negocio
- * y por eso nadie los mira, pero los tres pueden dejar la aplicación
- * inutilizable sin lanzar un solo error:
+ * Los dos stores transversales de la interfaz. Ninguno tiene lógica de negocio
+ * y por eso nadie los mira, pero los dos pueden dejar la aplicación inutilizable
+ * sin lanzar un solo error: el loader, con el velo puesto para siempre (es la
+ * mitad de FE-04); los avisos, acumulándose sin irse nunca.
  *
- *  - el loader, con el velo puesto para siempre (es la mitad de FE-04);
- *  - el diálogo de confirmación, con una promesa que no resuelve nunca y una
- *    acción del usuario que se queda a medias sin decir nada;
- *  - las notificaciones, acumulando avisos que no se van.
+ * Este archivo se mantiene idéntico en los dos fronts (TR-02).
  */
 
 beforeEach(() => {
@@ -129,164 +126,106 @@ describe('loader global', () => {
   })
 })
 
-describe('notificaciones', () => {
-  it('apila el aviso con su tipo', () => {
-    const store = useNotificationStore()
+describe('avisos', () => {
+  it('apila el aviso con su tipo y su título', () => {
+    const store = useToastStore()
 
-    store.notify('Guardado', 'success')
+    store.push('success', 'Guardado')
 
-    expect(store.notifications).toHaveLength(1)
-    expect(store.notifications[0]).toMatchObject({ message: 'Guardado', type: 'success' })
+    expect(store.toasts).toHaveLength(1)
+    expect(store.toasts[0]).toMatchObject({ kind: 'success', title: 'Guardado' })
   })
 
-  it('el tipo por defecto es informativo', () => {
-    const store = useNotificationStore()
+  it('el mensaje es opcional: el título solo ya dice algo', () => {
+    const store = useToastStore()
 
-    store.notify('Algo pasó')
+    store.push('info', 'Sincronizando')
 
-    expect(store.notifications[0].type).toBe('info')
+    expect(store.toasts[0].message).toBeUndefined()
   })
 
   it('cada aviso lleva un id distinto', () => {
     // El id es lo que identifica al aviso para cerrarlo. Dos iguales harían que
     // cerrar uno cerrase el otro.
-    const store = useNotificationStore()
+    const store = useToastStore()
 
-    store.notify('Uno')
-    store.notify('Dos')
-    store.notify('Tres')
+    store.push('info', 'Uno')
+    store.push('info', 'Dos')
+    store.push('info', 'Tres')
 
-    expect(new Set(store.notifications.map((n) => n.id)).size).toBe(3)
+    expect(new Set(store.toasts.map((t) => t.id)).size).toBe(3)
   })
 
-  it('se retira solo a los 4 segundos', () => {
-    const store = useNotificationStore()
+  it('se retira solo a los 3 segundos', () => {
+    const store = useToastStore()
 
-    store.notify('Guardado')
-    vi.advanceTimersByTime(3_999)
-    expect(store.notifications).toHaveLength(1)
+    store.push('success', 'Guardado')
+    vi.advanceTimersByTime(2_999)
+    expect(store.toasts).toHaveLength(1)
 
     vi.advanceTimersByTime(1)
-    expect(store.notifications).toHaveLength(0)
+    expect(store.toasts).toHaveLength(0)
+  })
+
+  it('una duración explícita manda sobre la de por defecto', () => {
+    // TR-05: un aviso con traza dura 9 s porque alguien puede querer copiarla, y
+    // tres segundos no dan para leer un identificador de 32 caracteres.
+    const store = useToastStore()
+
+    store.push('error', 'Falló el guardado', 'Detalle', 9_000, 'abc123')
+    vi.advanceTimersByTime(8_999)
+    expect(store.toasts).toHaveLength(1)
+    expect(store.toasts[0].traceId).toBe('abc123')
+
+    vi.advanceTimersByTime(1)
+    expect(store.toasts).toHaveLength(0)
+  })
+
+  it('duración cero deja el aviso hasta que alguien lo cierre', () => {
+    const store = useToastStore()
+
+    store.push('error', 'Requiere tu atención', undefined, 0)
+    vi.advanceTimersByTime(60_000)
+
+    expect(store.toasts).toHaveLength(1)
   })
 
   it('cada aviso cuenta su propio tiempo', () => {
-    // Con un solo temporizador compartido, el segundo aviso se iría antes de
-    // que al usuario le diera tiempo a leerlo.
-    const store = useNotificationStore()
+    // Con un solo temporizador compartido, el segundo aviso se iría antes de que
+    // al usuario le diera tiempo a leerlo.
+    const store = useToastStore()
 
-    store.notify('Primero')
+    store.push('info', 'Primero')
     vi.advanceTimersByTime(2_000)
-    store.notify('Segundo')
-
-    vi.advanceTimersByTime(2_000)
-    expect(store.notifications.map((n) => n.message)).toEqual(['Segundo'])
+    store.push('info', 'Segundo')
 
     vi.advanceTimersByTime(2_000)
-    expect(store.notifications).toHaveLength(0)
+    expect(store.toasts.map((t) => t.title)).toEqual(['Segundo'])
+
+    vi.advanceTimersByTime(2_000)
+    expect(store.toasts).toHaveLength(0)
   })
 
   it('cerrarlo a mano lo quita sin tocar los demás', () => {
-    const store = useNotificationStore()
-    store.notify('Uno')
-    store.notify('Dos')
-    const idPrimero = store.notifications[0].id
+    const store = useToastStore()
+    store.push('info', 'Uno')
+    store.push('info', 'Dos')
+    const idPrimero = store.toasts[0].id
 
     store.dismiss(idPrimero)
 
-    expect(store.notifications.map((n) => n.message)).toEqual(['Dos'])
+    expect(store.toasts.map((t) => t.title)).toEqual(['Dos'])
   })
 
   it('cerrar dos veces el mismo aviso no arrastra a otro', () => {
-    // El temporizador dispara `dismiss` sobre un id ya cerrado a mano. Si el
-    // borrado fuera por posición en vez de por id, se llevaría por delante el
-    // aviso siguiente.
-    const store = useNotificationStore()
-    store.notify('Uno')
-    store.notify('Dos')
-    const idPrimero = store.notifications[0].id
+    const store = useToastStore()
+    store.push('info', 'Uno')
+    store.push('info', 'Dos')
+    const idPrimero = store.toasts[0].id
 
     store.dismiss(idPrimero)
     store.dismiss(idPrimero)
 
-    expect(store.notifications.map((n) => n.message)).toEqual(['Dos'])
-  })
-
-  it('cerrar un id inexistente no rompe nada', () => {
-    const store = useNotificationStore()
-    store.notify('Uno')
-
-    expect(() => store.dismiss(9_999)).not.toThrow()
-    expect(store.notifications).toHaveLength(1)
-  })
-})
-
-describe('diálogo de confirmación', () => {
-  it('aceptar resuelve a verdadero', async () => {
-    const store = useConfirmDialogStore()
-
-    const respuesta = store.confirm('¿Eliminar la especie?')
-    expect(store.isOpen).toBe(true)
-    expect(store.message).toBe('¿Eliminar la especie?')
-    store.accept()
-
-    await expect(respuesta).resolves.toBe(true)
-    expect(store.isOpen).toBe(false)
-  })
-
-  it('cancelar resuelve a falso', async () => {
-    const store = useConfirmDialogStore()
-
-    const respuesta = store.confirm('¿Eliminar?')
-    store.cancel()
-
-    await expect(respuesta).resolves.toBe(false)
-    expect(store.isOpen).toBe(false)
-  })
-
-  it('aceptar dos veces no vuelve a resolver', async () => {
-    // Un doble clic en "Aceptar" no debe ejecutar la acción destructiva dos
-    // veces: el segundo `accept` ya no tiene a quién resolver.
-    const store = useConfirmDialogStore()
-    const respuesta = store.confirm('¿Eliminar?')
-
-    store.accept()
-    expect(() => store.accept()).not.toThrow()
-
-    await expect(respuesta).resolves.toBe(true)
-  })
-
-  it('cancelar después de aceptar no cambia la respuesta ya dada', async () => {
-    const store = useConfirmDialogStore()
-    const respuesta = store.confirm('¿Eliminar?')
-
-    store.accept()
-    store.cancel()
-
-    await expect(respuesta).resolves.toBe(true)
-  })
-
-  it('DEFECTO: un segundo confirm deja la primera promesa sin resolver nunca', async () => {
-    // `confirm` pisa el resolver anterior. Quien esperaba la primera respuesta
-    // se queda esperando para siempre: si ese `await` estaba dentro de un
-    // `try/finally` que apaga un spinner o libera un bloqueo, no se ejecuta
-    // nunca y no hay ningún error que lo delate.
-    const store = useConfirmDialogStore()
-    let primeraResuelta = false
-    const primera = store.confirm('¿Eliminar la especie?')
-    primera.then(() => {
-      primeraResuelta = true
-    })
-    const segunda = store.confirm('¿Eliminar la raza?')
-
-    store.accept()
-
-    await expect(segunda).resolves.toBe(true)
-    // Esperarla colgaría la prueba, así que se comprueba que su `then` no llegó
-    // a correr después de vaciar la cola de microtareas.
-    await Promise.resolve()
-    await Promise.resolve()
-
-    expect(primeraResuelta).toBe(false)
+    expect(store.toasts.map((t) => t.title)).toEqual(['Dos'])
   })
 })

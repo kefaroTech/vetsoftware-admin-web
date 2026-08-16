@@ -33,9 +33,19 @@ const DIST = path.resolve(import.meta.dirname, '../dist')
  *   JS total          190,3 KB gzip   → presupuesto 240 KB   (+26 %)
  *
  * Subir un presupuesto es una decisión consciente que queda en el historial.
- * Eso es justo lo que faltaba: hasta ahora nada impedía que la ruta crítica
- * volviera a los 2 MB que tenía antes del subset de iconos, sin que nadie se
+ * Eso es justo lo que faltaba: nada impedía que el peso creciera sin que nadie se
  * enterara hasta que un usuario se quejara de la carga.
+ *
+ * ── El subset de Iconify ya no existe (TR-02) ───────────────────────────────
+ *
+ * Estos números se midieron cuando los iconos venían de una colección Tabler
+ * recortada por `scripts/build-icon-subset.mjs`. Ese script, el JSON generado y
+ * su prueba se retiraron al unificar los dos fronts: ahora los iconos son
+ * componentes de Lucide, tanto los de la aplicación como los que Vuetify pide
+ * para sí. El bundler se lleva solo los que se usan, un nombre inexistente deja
+ * de compilar en vez de dejar un hueco, y no hay paso de generación que
+ * recordar. El JS total bajó de 190,3 a 186,2 KB pese a entrar tokens y
+ * primitivas del sistema de diseño.
  */
 const BUDGET_GZIP = {
   criticalJs: 150 * 1024,

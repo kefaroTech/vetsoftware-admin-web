@@ -1,18 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Icon } from '@iconify/vue'
+import { onMounted, ref } from 'vue'
 import { useAuth } from '../composables/useAuth'
-import { useNotification } from '@/composables/useNotification'
+import { useToast } from '@/composables/useToast'
+import { storageService } from '@/services/storage/storage.service'
 import { ICONS } from '@/constants/icons'
 
 const { login } = useAuth()
-const { notifyError } = useNotification()
+const { errorFrom } = useToast()
 
 const code = ref('')
 const password = ref('')
 const showPassword = ref(false)
 const loading = ref(false)
 const errorMessage = ref<string | null>(null)
+const sessionNotice = ref('')
+
+// El interceptor deja este aviso justo antes del redirect duro cuando el backend
+// responde SESSION_REPLACED. Sin mostrarlo, el usuario aparece en el login sin
+// explicación y lo lee como un fallo de la aplicación.
+// Se consume de una vez: leerlo lo borra, para que no reaparezca en el siguiente login.
+onMounted(() => {
+  sessionNotice.value = storageService.takeSessionReplacedNotice() ?? ''
+})
 
 async function handleSubmit() {
   if (!code.value.trim() || !password.value) {
@@ -25,7 +34,7 @@ async function handleSubmit() {
     await login({ code: code.value.trim(), password: password.value })
   } catch (e) {
     errorMessage.value = 'Credenciales inválidas. Verifica e intenta de nuevo.'
-    notifyError('Código o contraseña incorrectos', e)
+    errorFrom('Código o contraseña incorrectos', e)
   } finally {
     loading.value = false
   }
@@ -40,7 +49,7 @@ async function handleSubmit() {
     <header class="topbar">
       <div class="brand">
         <div class="brand-mark">
-          <Icon :icon="ICONS.PAW" width="16" height="16" />
+          <component :is="ICONS.PAW" :size="16" />
         </div>
         <span class="brand-name">VetSoftware</span>
       </div>
@@ -53,6 +62,10 @@ async function handleSubmit() {
         <h1 class="title">Inicia sesión</h1>
         <p class="subtitle">Accede al panel para administrar VetSoftware.</p>
 
+        <div v-if="sessionNotice" class="notice-banner" role="status">
+          {{ sessionNotice }}
+        </div>
+
         <form class="form" novalidate @submit.prevent="handleSubmit">
           <div v-if="errorMessage" class="error-banner" role="alert">
             {{ errorMessage }}
@@ -61,13 +74,7 @@ async function handleSubmit() {
           <div class="field">
             <label for="login-code">Código de usuario</label>
             <div class="input-box" :class="{ 'has-error': !!errorMessage }">
-              <Icon
-                :icon="ICONS.USER"
-                width="15"
-                height="15"
-                class="leading-icon"
-                aria-hidden="true"
-              />
+              <component :is="ICONS.USER" :size="15" class="leading-icon" aria-hidden="true" />
               <input
                 id="login-code"
                 v-model="code"
@@ -82,13 +89,7 @@ async function handleSubmit() {
           <div class="field">
             <label for="login-password">Contraseña</label>
             <div class="input-box" :class="{ 'has-error': !!errorMessage }">
-              <Icon
-                :icon="ICONS.LOCK"
-                width="15"
-                height="15"
-                class="leading-icon"
-                aria-hidden="true"
-              />
+              <component :is="ICONS.LOCK" :size="15" class="leading-icon" aria-hidden="true" />
               <input
                 id="login-password"
                 v-model="password"
@@ -104,7 +105,7 @@ async function handleSubmit() {
                 :disabled="loading"
                 @click="showPassword = !showPassword"
               >
-                <Icon :icon="showPassword ? ICONS.EYE_OFF : ICONS.EYE" width="15" height="15" />
+                <component :is="showPassword ? ICONS.EYE_OFF : ICONS.EYE" :size="15" />
               </button>
             </div>
           </div>
@@ -113,7 +114,7 @@ async function handleSubmit() {
             <template v-if="loading">Iniciando…</template>
             <template v-else>
               Iniciar sesión
-              <Icon :icon="ICONS.ARROW_RIGHT" width="14" height="14" aria-hidden="true" />
+              <component :is="ICONS.ARROW_RIGHT" :size="14" aria-hidden="true" />
             </template>
           </button>
         </form>
@@ -280,6 +281,17 @@ async function handleSubmit() {
   font-size: 12px;
   padding: 10px 12px;
   border-radius: 8px;
+}
+
+/* Aviso, no error: la sesión se cerró por una razón legítima. */
+.notice-banner {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92600a;
+  font-size: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
 .field {

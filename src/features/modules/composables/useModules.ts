@@ -1,21 +1,21 @@
 import { storeToRefs } from 'pinia'
 import { useModulesStore } from '../stores/modules.store'
 import { modulesApi } from '../api/modules.api'
-import { useNotification } from '@/composables/useNotification'
-import type { CreateModuleCommand, UpdateModuleCommand } from '../types/modules.types'
+import { useToast } from '@/composables/useToast'
+import type { CreateModuleRequest, UpdateModuleRequest } from '../types/modules.types'
 
 export function useModules() {
   const store = useModulesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify, notifyError } = useNotification()
+  const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
-      const { data } = await modulesApi.list()
+      const data = await modulesApi.listAll()
       store.setItems(data)
     } catch (e) {
-      notifyError('Error al cargar los módulos', e)
+      errorFrom('Error al cargar los módulos', e)
     } finally {
       store.setLoading(false)
     }
@@ -24,33 +24,33 @@ export function useModules() {
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
-      const { data } = await modulesApi.getById(id)
+      const data = await modulesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
-      notifyError('Módulo no encontrado', e)
+      errorFrom('Módulo no encontrado', e)
     } finally {
       store.setLoading(false)
     }
   }
 
-  async function create(payload: CreateModuleCommand) {
-    const { data } = await modulesApi.create(payload)
+  async function create(payload: CreateModuleRequest) {
+    const data = await modulesApi.create(payload)
     store.setItems([...store.items, data])
-    notify('Módulo creado exitosamente', 'success')
+    success('Módulo creado exitosamente')
     return data
   }
 
-  async function update(id: number, payload: UpdateModuleCommand) {
-    const { data } = await modulesApi.update(id, payload)
+  async function update(id: number, payload: UpdateModuleRequest) {
+    const data = await modulesApi.update(id, payload)
     store.setItems(store.items.map((m) => (m.id === id ? data : m)))
-    notify('Módulo actualizado', 'success')
+    success('Módulo actualizado')
     return data
   }
 
   async function remove(id: number) {
     await modulesApi.remove(id)
     store.setItems(store.items.filter((m) => m.id !== id))
-    notify('Módulo eliminado', 'success')
+    success('Módulo eliminado')
   }
 
   return {

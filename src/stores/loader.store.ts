@@ -1,6 +1,17 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
+/**
+ * Debounce anti-parpadeo del velo de carga. Los dos valores son plataforma, no
+ * gusto de cada aplicación: una petición más rápida que `SHOW_DELAY_MS` no llega
+ * a mostrar nada, y una vez visible el velo dura al menos `MIN_VISIBLE_MS` para
+ * que no aparezca y desaparezca en el mismo parpadeo.
+ *
+ * Este archivo se mantiene idéntico en los dos fronts. Divergieron (200/300 aquí,
+ * 120/420 allá) porque alguien tocó dos números en un repositorio y no en el otro,
+ * y durante semanas la misma aplicación se sintió distinta según por dónde se
+ * entrara. Si hay que cambiarlos, se cambian en ambos.
+ */
 const SHOW_DELAY_MS = 200
 const MIN_VISIBLE_MS = 300
 

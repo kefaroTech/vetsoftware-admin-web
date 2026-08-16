@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DS audit — original vs primitivas</title>
+    <link rel="stylesheet" href="/src/assets/styles/tokens.css" />
+    <link rel="stylesheet" href="/src/assets/styles/primitives.css" />
+    <!-- main.css importa `button { font-family: inherit }`; sin él las medidas
+         del harness usarían Arial y no reflejarían la app real. -->
+    <link rel="stylesheet" href="/src/assets/styles/main.css" />
+    <style>
+      /* ================================================================= *
+       * LADO IZQUIERDO — copia LITERAL de la variante dominante que hoy
+       * vive en el CSS scoped de los SFC. No se tocó ni un valor.
+       * ================================================================= */
+
+      /* .btn-ghost dominante (20 copias) */
+      .o-btn-ghost-lg {
+        background: transparent;
+        border-radius: 9px;
+        border: 1px solid var(--warm-200);
+        color: var(--warm-700);
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 13.5px;
+        font-weight: 500;
+        padding: 10px 18px;
+      }
+      .o-btn-ghost-lg:hover {
+        background: var(--warm-100);
+      }
+
+      /* .btn-primary dominante (12 copias) */
+      .o-btn-primary-lg {
+        background: linear-gradient(
+          135deg,
+          oklch(45% 0.18 var(--hue)),
+          oklch(38% 0.18 calc(var(--hue) - 5))
+        );
+        border-radius: 9px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 13.5px;
+        font-weight: 500;
+        padding: 10px 18px;
+      }
+      .o-btn-primary-lg:hover:not(:disabled) {
+        filter: brightness(1.05);
+      }
+      .o-btn-primary-lg:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+
+      /* base compartida `.btn-ghost, .btn-primary` (13 copias) — compacta */
+      .o-btn-compact {
+        border-radius: 9px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 9px 16px;
+      }
+      .o-btn-compact-ghost {
+        background: transparent;
+        border-color: var(--warm-200);
+        color: var(--warm-700);
+      }
+      .o-btn-compact-solid {
+        background: var(--amatista-700);
+        color: white;
+      }
+
+      /* .banner.error dominante (21 copias) */
+      .o-banner-error {
+        background: oklch(95% 0.06 25deg);
+        border-radius: 8px;
+        border: 1px solid oklch(85% 0.12 25deg);
+        color: oklch(40% 0.18 25deg);
+        font-size: 13px;
+        margin-bottom: 14px;
+        padding: 10px 14px;
+      }
+      /* .banner.error variante sm (8 copias) */
+      .o-banner-error-sm {
+        background: oklch(95% 0.06 25deg);
+        border-radius: 8px;
+        border: 1px solid oklch(85% 0.12 25deg);
+        color: oklch(40% 0.18 25deg);
+        font-size: 12.5px;
+        margin-bottom: 12px;
+        padding: 8px 12px;
+      }
+
+      /* .empty dominante (3 copias del padding 32) */
+      .o-empty {
+        color: var(--warm-500);
+        padding: 32px;
+        text-align: center;
+      }
+      .o-empty-tight {
+        color: var(--warm-500);
+        font-size: 13px;
+        padding: 16px;
+        text-align: center;
+      }
+
+      /* .page dominante (3 copias) */
+      .o-page {
+        font-family: var(--font-sans);
+        margin: 0 auto;
+        max-width: 1180px;
+        padding: 24px 28px;
+      }
+
+      /* .head dominante (3 copias) */
+      .o-head {
+        align-items: flex-end;
+        display: flex;
+        gap: 16px;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+
+      /* .actions dominante (9 copias) */
+      .o-actions {
+        display: flex;
+        gap: 6px;
+        justify-content: flex-end;
+      }
+
+      /* .detail-grid dominante (9 copias) */
+      .o-detail-grid {
+        display: grid;
+        gap: 10px 24px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      /* .title serif dominante (5 copias) */
+      .o-display {
+        color: var(--warm-900);
+        font-family: var(--font-serif);
+        font-size: 36px;
+        font-weight: 400;
+        letter-spacing: -0.015em;
+        line-height: 1.05;
+        margin: 0;
+      }
+      /* .title compacto (3 copias) */
+      .o-title {
+        color: var(--warm-900);
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        margin: 0 0 6px;
+      }
+
+      /* .card dominante (2 copias) */
+      .o-card {
+        background: var(--warm-50);
+        border-radius: 14px;
+        border: 1px solid var(--warm-200);
+        padding: 20px 22px;
+      }
+
+      /* .cta de CuentasView (9 copias) */
+      .o-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        font-size: 13.5px;
+        font-weight: 500;
+        background: linear-gradient(
+          135deg,
+          oklch(45% 0.18 var(--hue)),
+          oklch(38% 0.18 calc(var(--hue) - 5))
+        );
+        color: white;
+        border: none;
+        border-radius: 9px;
+        cursor: pointer;
+        font-family: inherit;
+        white-space: nowrap;
+        box-shadow:
+          0 1px 2px rgb(50 20 80 / 8%),
+          0 6px 16px -6px oklch(40% 0.18 var(--hue) / 50%);
+      }
+
+      /* .ghost-cta de CuentasView */
+      .o-ghost-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        font-size: 13.5px;
+        font-weight: 500;
+        background: transparent;
+        border: 1px solid var(--warm-200);
+        color: var(--warm-700);
+        border-radius: 9px;
+        cursor: pointer;
+        font-family: inherit;
+        white-space: nowrap;
+      }
+
+      /* .btn de CajaView (familia caja/compras) */
+      .o-caja-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        border-radius: 9px;
+        padding: 9px 15px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .o-caja-ghost {
+        background: var(--warm-100);
+        color: var(--warm-700);
+      }
+      .o-caja-primary {
+        background: var(--amatista-600, #5c2d8c);
+        color: #fff;
+      }
+
+      /* .btn-danger de los modales de anulación (2 copias) */
+      .o-btn-danger {
+        font-family: inherit;
+        font-size: 13.5px;
+        font-weight: 500;
+        padding: 10px 18px;
+        border-radius: 9px;
+        cursor: pointer;
+        border: none;
+        color: white;
+        background: linear-gradient(135deg, oklch(52% 0.18 25deg), oklch(45% 0.18 22deg));
+      }
+
+      /* .btn-primary tamaño "snug" de CategoryManagerModal (11 copias en el repo) */
+      .o-btn-snug {
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 8px 14px;
+        border-radius: 9px;
+        cursor: pointer;
+        border: none;
+        color: white;
+        background: linear-gradient(
+          135deg,
+          oklch(45% 0.18 var(--hue)),
+          oklch(38% 0.18 calc(var(--hue) - 5))
+        );
+      }
+
+      /* .cta de Impuestos/Inventario/Servicios (3 copias) — tamaño base, no lg */
+      .o-cta-base {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        background: linear-gradient(
+          135deg,
+          oklch(45% 0.18 var(--hue)),
+          oklch(38% 0.18 calc(var(--hue) - 5))
+        );
+        color: #fff;
+        border: none;
+        border-radius: 9px;
+        cursor: pointer;
+        font-family: inherit;
+        white-space: nowrap;
+        box-shadow:
+          0 1px 2px rgb(50 20 80 / 8%),
+          0 6px 16px -6px oklch(40% 0.18 var(--hue) / 45%);
+      }
+
+      /* .ghost-cta de Inventario/Servicios (2 copias) */
+      .o-ghost-cta-base {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 14px;
+        font-size: 13px;
+        font-weight: 500;
+        background: transparent;
+        border: 1px solid var(--warm-200);
+        color: var(--warm-700);
+        border-radius: 9px;
+        cursor: pointer;
+        font-family: inherit;
+        white-space: nowrap;
+      }
+
+      /* .empty de 40px (Impuestos/Inventario) */
+      .o-empty-lg {
+        color: var(--warm-500);
+        padding: 40px;
+        text-align: center;
+      }
+
+      /* .btn de los MODALES de caja/compras (8 archivos): fs 13.5, padding 9/16 */
+      .o-modal-btn {
+        border-radius: 9px;
+        border: none;
+        cursor: pointer;
+        font-size: 13.5px;
+        font-weight: 600;
+        padding: 9px 16px;
+      }
+      .o-modal-ghost {
+        background: var(--warm-100);
+        color: var(--warm-700);
+      }
+      .o-modal-primary {
+        background: var(--amatista-600, #5c2d8c);
+        color: #fff;
+      }
+      /* .btn.sm de GoodsReceipt/PurchaseOrder */
+      .o-modal-sm {
+        font-size: 12.5px;
+        padding: 6px 11px;
+      }
+
+      /* Dialecto de dashboard/consulta (7 modales + 4 diálogos + wizard):
+         radio 8px y fantasma con texto --warm-900 en vez de --warm-700. */
+      .o-consulta-btn {
+        border-radius: 8px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 9px 16px;
+      }
+      .o-consulta-ghost {
+        background: transparent;
+        border-color: var(--warm-200);
+        color: var(--warm-900);
+      }
+      .o-consulta-primary {
+        background: var(--amatista-700);
+        border: none;
+        color: white;
+        padding: 9px 18px;
+      }
+
+      /* .empty punteado de los detalles de historia (2 archivos) */
+      .o-empty-boxed {
+        padding: 14px 16px;
+        font-size: 13px;
+        color: var(--warm-500);
+        background: var(--warm-50);
+        border: 1px dashed var(--warm-200);
+        border-radius: 10px;
+      }
+
+      /* .btn-danger suave de AppointmentDetailModal */
+      .o-danger-soft-base {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        font-family: var(--font-sans);
+        font-size: 13px;
+        font-weight: 500;
+        padding: 9px 14px;
+        border-radius: 9px;
+        cursor: pointer;
+        border: 1px solid transparent;
+      }
+      .o-danger-soft {
+        background: oklch(95% 0.05 25deg);
+        border-color: oklch(85% 0.08 25deg);
+        color: oklch(48% 0.18 25deg);
+      }
+
+      /* .title serif de 32px (7 archivos) */
+      .o-display-sm {
+        color: var(--warm-900);
+        font-family: var(--font-serif);
+        font-size: 32px;
+        font-weight: 400;
+        letter-spacing: -0.015em;
+        line-height: 1.05;
+        margin: 0;
+      }
+
+      /* Base de los 8 modales de acciones (tamaño --snug) */
+      .o-acc-btn {
+        border-radius: 9px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 8px 14px;
+      }
+      .o-acc-ghost {
+        background: transparent;
+        border-color: var(--warm-200);
+        color: var(--warm-700);
+      }
+
+      /* Fantasma de los modales de facturación: fondo --warm-50, no transparente */
+      .o-fe-ghost {
+        padding: 9px 16px;
+        border-radius: 9px;
+        border: 1px solid var(--warm-200);
+        background: var(--warm-50);
+        color: var(--warm-700);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        font-family: inherit;
+      }
+
+      /* .cta de EmpresaView: peso 600 y padding horizontal 15 */
+      .o-empresa-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 15px;
+        font-size: 13.5px;
+        font-weight: 600;
+        background: linear-gradient(
+          135deg,
+          oklch(45% 0.18 var(--hue)),
+          oklch(38% 0.18 calc(var(--hue) - 5))
+        );
+        color: #fff;
+        border: none;
+        border-radius: 9px;
+        cursor: pointer;
+        font-family: inherit;
+        box-shadow:
+          0 1px 2px rgb(50 20 80 / 8%),
+          0 6px 16px -6px oklch(40% 0.18 var(--hue) / 50%);
+      }
+
+      /* .ghost del diálogo de roles: radio 7, no 9 */
+      .o-roles-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        font-size: 13px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 500;
+        border: 1px solid var(--warm-200);
+        background: var(--warm-50);
+        color: var(--warm-700);
+      }
+
+      /* Primario de employees: radio 7 y hover que OSCURECE (--amatista-800),
+         al revés que el resto de la app, que aclara con brightness(1.05). */
+      .o-emp-btn-primary {
+        border-radius: 7px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 8px 14px;
+        background: var(--amatista-700);
+        color: white;
+      }
+      .o-emp-btn-primary:hover:not(:disabled) {
+        background: var(--amatista-800);
+      }
+
+      /* --- chrome del harness (no participa en la comparación) --- */
+      body {
+        margin: 0;
+        padding: 24px;
+        font-family: var(--font-sans);
+        background: #fff;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        align-items: start;
+        padding: 14px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .row > div {
+        min-width: 0;
+      }
+      h4 {
+        margin: 0 0 8px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #999;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Cada par comparte el MISMO markup. Izquierda: clases `o-*` (el CSS que hoy
+      está copiado en los SFC). Derecha: clases `ds-*` (las primitivas nuevas).
+      El script de Playwright compara getComputedStyle entre ambos lados.
+    -->
+
+    <div class="row" data-pair="btn-ghost-lg">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-btn-ghost-lg">Cancelar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--ghost ds-btn--lg">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="btn-primary-lg">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-btn-primary-lg">Guardar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--primary ds-btn--lg">Guardar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="btn-primary-lg-disabled">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-btn-primary-lg" disabled>Guardar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--primary ds-btn--lg" disabled>Guardar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="btn-ghost-compact">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-btn-compact o-btn-compact-ghost">Ver</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--ghost">Ver</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="btn-solid-compact">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-btn-compact o-btn-compact-solid">Cobrar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--solid">Cobrar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="banner-error">
+      <div>
+        <h4>original</h4>
+        <div data-side="a" class="o-banner-error">No se pudo cargar la caja.</div>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <div data-side="b" class="ds-banner ds-banner--error">No se pudo cargar la caja.</div>
+      </div>
+    </div>
+
+    <div class="row" data-pair="banner-error-sm">
+      <div>
+        <h4>original</h4>
+        <div data-side="a" class="o-banner-error-sm">No se pudo cargar la caja.</div>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <div data-side="b" class="ds-banner ds-banner--sm ds-banner--error">
+          No se pudo cargar la caja.
+        </div>
+      </div>
+    </div>
+
+    <div class="row" data-pair="empty">
+      <div>
+        <h4>original</h4>
+        <div data-side="a" class="o-empty">Sin movimientos</div>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <div data-side="b" class="ds-empty">Sin movimientos</div>
+      </div>
+    </div>
+
+    <div class="row" data-pair="empty-tight">
+      <div>
+        <h4>original</h4>
+        <div data-side="a" class="o-empty-tight">Sin movimientos</div>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <div data-side="b" class="ds-empty ds-empty--tight">Sin movimientos</div>
+      </div>
+    </div>
+
+    <div class="row" data-pair="page">
+      <div>
+        <h4>original</h4>
+        <div data-side="a" class="o-page">Contenido</div>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <div data-side="b" class="ds-page ds-page--contained">Contenido</div>
+      </div>
+    </div>
+
+    <div class="row" data-pair="head">
+      <div>
+        <h4>original</h4>
+        <div data-side="a" class="o-head"><span>Caja</span><span>Acciones</span></div>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <div data-side="b" class="ds-head"><span>Caja</span><span>Acciones</span></div>
+      </div>
+    </div>
+
+    <div class="row" data-pair="actions">
+      <div>
+        <h4>original</h4>
+        <div data-side="a" class="o-actions"><button>A</button><button>B</button></div>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <div data-side="b" class="ds-actions"><button>A</button><button>B</button></div>
+      </div>
+    </div>
+
+    <div class="row" data-pair="detail-grid">
+      <div>
+        <h4>original</h4>
+        <div data-side="a" class="o-detail-grid"><span>a</span><span>b</span></div>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <div data-side="b" class="ds-detail-grid"><span>a</span><span>b</span></div>
+      </div>
+    </div>
+
+    <div class="row" data-pair="display">
+      <div>
+        <h4>original</h4>
+        <h1 data-side="a" class="o-display">Caja</h1>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <h1 data-side="b" class="ds-display">Caja</h1>
+      </div>
+    </div>
+
+    <div class="row" data-pair="title">
+      <div>
+        <h4>original</h4>
+        <h3 data-side="a" class="o-title">Resumen</h3>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <h3 data-side="b" class="ds-title">Resumen</h3>
+      </div>
+    </div>
+
+    <div class="row" data-pair="cta">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-cta">Abrir cuenta</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button
+          data-side="b"
+          class="ds-btn ds-btn--primary ds-btn--lg ds-btn--elevated ds-btn--nowrap"
+        >
+          Abrir cuenta
+        </button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="ghost-cta">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-ghost-cta">Ver historial</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--ghost ds-btn--lg ds-btn--nowrap">
+          Ver historial
+        </button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="caja-ghost">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-caja-btn o-caja-ghost">Ingreso / Retiro</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--neutral ds-btn--strong">
+          Ingreso / Retiro
+        </button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="caja-primary" style="--ds-btn-solid-bg: var(--amatista-600)">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-caja-btn o-caja-primary">Abrir caja</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--solid ds-btn--strong">Abrir caja</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="btn-danger">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-btn-danger">Anular cargo</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--danger-solid ds-btn--lg">Anular cargo</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="btn-snug">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-btn-snug">Guardar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--primary ds-btn--snug">Guardar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="cta-base">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-cta-base">Nuevo producto</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--primary ds-btn--elevated ds-btn--nowrap">
+          Nuevo producto
+        </button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="ghost-cta-base">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-ghost-cta-base">Categorías</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--ghost ds-btn--nowrap">Categorías</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="empty-lg">
+      <div>
+        <h4>original</h4>
+        <div data-side="a" class="o-empty-lg">Sin productos</div>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <div data-side="b" class="ds-empty ds-empty--lg">Sin productos</div>
+      </div>
+    </div>
+
+    <div class="row" data-pair="modal-ghost">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-modal-btn o-modal-ghost">Cancelar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--neutral ds-btn--strong">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="modal-primary">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-modal-btn o-modal-primary">Crear proveedor</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button
+          data-side="b"
+          class="ds-btn ds-btn--solid ds-btn--strong"
+          style="--ds-btn-solid-bg: var(--amatista-600)"
+        >
+          Crear proveedor
+        </button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="modal-sm">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-modal-btn o-modal-ghost o-modal-sm">Añadir línea</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--neutral ds-btn--strong ds-btn--sm">
+          Añadir línea
+        </button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="consulta-ghost">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-consulta-btn o-consulta-ghost">Cancelar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--ghost">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="consulta-primary">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-consulta-btn o-consulta-primary">Guardar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--solid">Guardar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="empty-boxed">
+      <div>
+        <h4>original</h4>
+        <div data-side="a" class="o-empty-boxed">Sin medicamentos registrados.</div>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <div data-side="b" class="ds-empty ds-empty--boxed">Sin medicamentos registrados.</div>
+      </div>
+    </div>
+
+    <div class="row" data-pair="danger-soft">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-danger-soft-base o-danger-soft">Cancelar cita</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--danger">Cancelar cita</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="display-sm">
+      <div>
+        <h4>original</h4>
+        <h1 data-side="a" class="o-display-sm">Historia clínica</h1>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <h1 data-side="b" class="ds-display ds-display--sm">Historia clínica</h1>
+      </div>
+    </div>
+
+    <div class="row" data-pair="acciones-ghost">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-acc-btn o-acc-ghost">Cancelar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--ghost ds-btn--snug">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="fe-ghost">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-fe-ghost">Cancelar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--ghost">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="empresa-cta">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-empresa-cta">Añadir sede</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button
+          data-side="b"
+          class="ds-btn ds-btn--primary ds-btn--strong ds-btn--elevated"
+        >
+          Añadir sede
+        </button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="roles-ghost">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-roles-ghost">Cancelar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--ghost ds-btn--snug">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="emp-btn-primary">
+      <div>
+        <h4>original</h4>
+        <button data-side="a" class="o-emp-btn-primary">Guardar</button>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <button data-side="b" class="ds-btn ds-btn--solid ds-btn--snug">Guardar</button>
+      </div>
+    </div>
+
+    <div class="row" data-pair="card">
+      <div>
+        <h4>original</h4>
+        <div data-side="a" class="o-card">Tarjeta</div>
+      </div>
+      <div>
+        <h4>primitiva</h4>
+        <div data-side="b" class="ds-card">Tarjeta</div>
+      </div>
+    </div>
+  </body>
+</html>

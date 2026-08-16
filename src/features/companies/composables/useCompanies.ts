@@ -1,21 +1,21 @@
 import { storeToRefs } from 'pinia'
 import { useCompaniesStore } from '../stores/companies.store'
 import { companiesApi } from '../api/companies.api'
-import { useNotification } from '@/composables/useNotification'
-import type { CreateCompanyCommand, UpdateCompanyCommand } from '../types/companies.types'
+import { useToast } from '@/composables/useToast'
+import type { CreateCompanyRequest, UpdateCompanyRequest } from '../types/companies.types'
 
 export function useCompanies() {
   const store = useCompaniesStore()
   const { items, selected, loading } = storeToRefs(store)
-  const { notify, notifyError } = useNotification()
+  const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
     try {
-      const { data } = await companiesApi.list()
+      const data = await companiesApi.listAll()
       store.setItems(data)
     } catch (e) {
-      notifyError('Error al cargar las empresas', e)
+      errorFrom('Error al cargar las empresas', e)
     } finally {
       store.setLoading(false)
     }
@@ -24,33 +24,33 @@ export function useCompanies() {
   async function fetchById(id: number) {
     store.setLoading(true)
     try {
-      const { data } = await companiesApi.getById(id)
+      const data = await companiesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
-      notifyError('Empresa no encontrada', e)
+      errorFrom('Empresa no encontrada', e)
     } finally {
       store.setLoading(false)
     }
   }
 
-  async function create(payload: CreateCompanyCommand) {
-    const { data } = await companiesApi.create(payload)
+  async function create(payload: CreateCompanyRequest) {
+    const data = await companiesApi.create(payload)
     store.setItems([...store.items, data])
-    notify('Empresa creada exitosamente', 'success')
+    success('Empresa creada exitosamente')
     return data
   }
 
-  async function update(id: number, payload: UpdateCompanyCommand) {
-    const { data } = await companiesApi.update(id, payload)
+  async function update(id: number, payload: UpdateCompanyRequest) {
+    const data = await companiesApi.update(id, payload)
     store.setItems(store.items.map((c) => (c.id === id ? data : c)))
-    notify('Empresa actualizada', 'success')
+    success('Empresa actualizada')
     return data
   }
 
   async function remove(id: number) {
     await companiesApi.remove(id)
     store.setItems(store.items.filter((c) => c.id !== id))
-    notify('Empresa eliminada', 'success')
+    success('Empresa eliminada')
   }
 
   return {

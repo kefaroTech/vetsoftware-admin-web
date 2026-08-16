@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, type Component } from 'vue'
 import { useRouter } from 'vue-router'
-import { Icon } from '@iconify/vue'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import { ICONS } from '@/constants/icons'
 import { ROUTE_NAMES } from '@/constants/routes'
@@ -23,7 +22,7 @@ interface Tile {
   title: string
   count: string
   desc: string
-  icon: string
+  icon: Component
   path: string
 }
 
@@ -112,7 +111,7 @@ function goTo(path: string) {
         <div class="hero-actions">
           <button class="cta-primary" @click="goTo('/empresas')">
             Ver empresas
-            <Icon :icon="ICONS.ARROW_RIGHT" width="13" height="13" />
+            <component :is="ICONS.ARROW_RIGHT" :size="13" />
           </button>
           <button class="cta-secondary" @click="goTo('/membresias')">Configurar membresías</button>
         </div>
@@ -120,7 +119,7 @@ function goTo(path: string) {
     </section>
 
     <button class="uvt-strip" type="button" @click="goTo('/configuracion')">
-      <div class="uvt-strip-ic"><Icon :icon="ICONS.RECEIPT" width="20" height="20" /></div>
+      <div class="uvt-strip-ic"><component :is="ICONS.RECEIPT" :size="20" /></div>
       <div class="uvt-strip-text">
         <div class="uvt-strip-kicker">Facturación electrónica</div>
         <div class="uvt-strip-desc">
@@ -129,9 +128,7 @@ function goTo(path: string) {
       </div>
       <div class="uvt-strip-right">
         <div class="uvt-strip-value">{{ formatCOP(uvtValue) }}</div>
-        <div class="uvt-strip-cta">
-          Configurar <Icon :icon="ICONS.ARROW_RIGHT" width="11" height="11" />
-        </div>
+        <div class="uvt-strip-cta">Configurar <component :is="ICONS.ARROW_RIGHT" :size="11" /></div>
       </div>
     </button>
 
@@ -146,10 +143,10 @@ function goTo(path: string) {
       <button v-for="tile in tiles" :key="tile.path" class="tile" @click="goTo(tile.path)">
         <div class="tile-row">
           <div class="tile-icon">
-            <Icon :icon="tile.icon" width="16" height="16" />
+            <component :is="tile.icon" :size="16" />
           </div>
           <div class="tile-arrow">
-            <Icon :icon="ICONS.ARROW_UP_RIGHT" width="14" height="14" />
+            <component :is="ICONS.ARROW_UP_RIGHT" :size="14" />
           </div>
         </div>
         <div>

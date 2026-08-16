@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import CompanyForm from '../components/CompanyForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateCompanyCommand } from '../types/companies.types'
+import type { CreateCompanyRequest } from '../types/companies.types'
 
 const { companies, fetchAll, create, remove } = useCompanies()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateCompanyCommand) {
+async function handleCreate(data: CreateCompanyRequest) {
   await create(data)
   showModal.value = false
 }
@@ -28,11 +28,12 @@ async function handleDelete(id: number, name: string) {
 
 <template>
   <AppLayout>
-    <div class="d-flex align-center justify-space-between mb-6">
-      <h1 class="text-h4 font-weight-bold">Empresas</h1>
-      <v-btn color="primary" :prepend-icon="ICONS.ADD" @click="showModal = true">
+    <div class="ds-head">
+      <h1 class="ds-title">Empresas</h1>
+      <button type="button" class="ds-btn ds-btn--primary" @click="showModal = true">
+        <component :is="ICONS.ADD" :size="15" />
         Nueva empresa
-      </v-btn>
+      </button>
     </div>
 
     <AppTable
@@ -46,20 +47,17 @@ async function handleDelete(id: number, name: string) {
         <td class="text-caption text-medium-emphasis">{{ company.createdDate }}</td>
         <td>
           <div class="d-flex ga-1">
-            <v-btn
-              :to="`/empresas/${company.id}`"
-              size="small"
-              variant="text"
-              color="primary"
-              :icon="ICONS.EDIT"
-            />
-            <v-btn
-              size="small"
-              variant="text"
-              color="error"
-              :icon="ICONS.DELETE"
+            <RouterLink :to="`/empresas/${company.id}`" class="ds-icon-btn" aria-label="Editar">
+              <component :is="ICONS.EDIT" :size="15" />
+            </RouterLink>
+            <button
+              type="button"
+              class="ds-icon-btn ds-icon-btn--danger"
+              aria-label="Eliminar"
               @click="handleDelete(company.id, company.name)"
-            />
+            >
+              <component :is="ICONS.DELETE" :size="15" />
+            </button>
           </div>
         </td>
       </tr>

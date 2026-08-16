@@ -8,15 +8,15 @@ import AppModal from '@/components/ui/AppModal.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import AnimalColorForm from '../components/AnimalColorForm.vue'
 import { speciesApi } from '@/features/species/api/species.api'
-import type { Specie } from '@/features/species/types/species.types'
+import type { SpecieResponse } from '@/features/species/types/species.types'
 import { ICONS } from '@/constants/icons'
-import type { CreateAnimalColorCommand } from '../types/animal-colors.types'
+import type { CreateAnimalColorRequest } from '../types/animal-colors.types'
 
 const { colors, fetchAll, fetchBySpecie, create, remove } = useAnimalColors()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
 
-const availableSpecies = ref<Specie[]>([])
+const availableSpecies = ref<SpecieResponse[]>([])
 const specieFilter = ref(0)
 
 const specieFilterOptions = computed(() => [
@@ -29,14 +29,14 @@ function reload() {
 }
 
 onMounted(async () => {
-  const { data } = await speciesApi.list()
+  const data = await speciesApi.listAll()
   availableSpecies.value = data
   await reload()
 })
 
 watch(specieFilter, reload)
 
-async function handleCreate(data: CreateAnimalColorCommand) {
+async function handleCreate(data: CreateAnimalColorRequest) {
   await create(data)
   showModal.value = false
   // El color creado puede no pertenecer a la especie filtrada; releemos para no mostrarlo fuera.
@@ -51,11 +51,12 @@ async function handleDelete(id: number, name: string) {
 
 <template>
   <AppLayout>
-    <div class="d-flex align-center justify-space-between mb-6">
-      <h1 class="text-h4 font-weight-bold">Colores</h1>
-      <v-btn color="primary" :prepend-icon="ICONS.ADD" @click="showModal = true">
+    <div class="ds-head">
+      <h1 class="ds-title">Colores</h1>
+      <button type="button" class="ds-btn ds-btn--primary" @click="showModal = true">
+        <component :is="ICONS.ADD" :size="15" />
         Nuevo color
-      </v-btn>
+      </button>
     </div>
 
     <div class="mb-4" style="max-width: 280px">
@@ -72,20 +73,17 @@ async function handleDelete(id: number, name: string) {
         <td class="text-caption text-medium-emphasis">{{ c.createdDate }}</td>
         <td>
           <div class="d-flex ga-1">
-            <v-btn
-              :to="`/animales/colores/${c.id}`"
-              size="small"
-              variant="text"
-              color="primary"
-              :icon="ICONS.EDIT"
-            />
-            <v-btn
-              size="small"
-              variant="text"
-              color="error"
-              :icon="ICONS.DELETE"
+            <RouterLink :to="`/animales/colores/${c.id}`" class="ds-icon-btn" aria-label="Editar">
+              <component :is="ICONS.EDIT" :size="15" />
+            </RouterLink>
+            <button
+              type="button"
+              class="ds-icon-btn ds-icon-btn--danger"
+              aria-label="Eliminar"
               @click="handleDelete(c.id, c.name)"
-            />
+            >
+              <component :is="ICONS.DELETE" :size="15" />
+            </button>
           </div>
         </td>
       </tr>

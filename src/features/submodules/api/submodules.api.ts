@@ -1,15 +1,28 @@
 import { http } from '@/services/http/http.client'
 import type {
-  Submodule,
-  CreateSubmoduleCommand,
-  UpdateSubmoduleCommand,
+  SubModuleResponse,
+  CreateSubModuleRequest,
+  UpdateSubModuleRequest,
 } from '../types/submodules.types'
 
 export const submodulesApi = {
-  list: () => http.get<Submodule[]>('/sub-modules'),
-  getById: (id: number) => http.get<Submodule>(`/sub-modules/${id}`),
-  create: (payload: CreateSubmoduleCommand) => http.post<Submodule>('/sub-modules', payload),
-  update: (id: number, payload: UpdateSubmoduleCommand) =>
-    http.put<Submodule>(`/sub-modules/${id}`, payload),
-  remove: (id: number) => http.delete(`/sub-modules/${id}`),
+  async listAll(): Promise<SubModuleResponse[]> {
+    const { data } = await http.get<SubModuleResponse[]>('/sub-modules')
+    return data
+  },
+  async findById(id: number): Promise<SubModuleResponse> {
+    const { data } = await http.get<SubModuleResponse>(`/sub-modules/${id}`)
+    return data
+  },
+  async create(payload: CreateSubModuleRequest): Promise<SubModuleResponse> {
+    const { data } = await http.post<SubModuleResponse>('/sub-modules', payload)
+    return data
+  },
+  async update(id: number, payload: UpdateSubModuleRequest): Promise<SubModuleResponse> {
+    const { data } = await http.put<SubModuleResponse>(`/sub-modules/${id}`, payload)
+    return data
+  },
+  async remove(id: number): Promise<void> {
+    await http.delete(`/sub-modules/${id}`)
+  },
 }

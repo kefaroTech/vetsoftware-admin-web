@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
-import type { Company, CreateCompanyCommand } from '../types/companies.types'
+import type { CompanyResponse, CreateCompanyRequest } from '../types/companies.types'
 
 const props = defineProps<{
-  initial?: Company | null
+  initial?: CompanyResponse | null
 }>()
 
 const emit = defineEmits<{
-  submit: [data: CreateCompanyCommand]
+  submit: [data: CreateCompanyRequest]
   cancel: []
 }>()
 
-const form = ref<CreateCompanyCommand>({
+const form = ref<CreateCompanyRequest>({
   name: '',
   identifier: '',
   address: '',
@@ -75,11 +75,11 @@ function submit() {
       inputmode="tel"
       @update:model-value="onContact"
     />
-    <div class="app-form__actions">
-      <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-      <v-btn type="submit" color="primary">
+    <div class="ds-actions">
+      <button type="button" class="ds-btn ds-btn--ghost" @click="emit('cancel')">Cancelar</button>
+      <button type="submit" class="ds-btn ds-btn--primary">
         {{ initial ? 'Guardar' : 'Crear' }}
-      </v-btn>
+      </button>
     </div>
   </form>
 </template>

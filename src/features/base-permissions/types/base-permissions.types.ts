@@ -4,7 +4,7 @@ export interface BasePermissionSubModuleSummary {
   code: string
 }
 
-export interface BasePermission {
+export interface BasePermissionResponse {
   id: number
   name: string
   code: string
@@ -12,10 +12,10 @@ export interface BasePermission {
   createdDate: string
 }
 
-export interface CreateBasePermissionCommand {
+export interface CreateBasePermissionRequest {
   name: string
   code: string
   subModuleId: number
 }
 
-export type UpdateBasePermissionCommand = CreateBasePermissionCommand
+export type UpdateBasePermissionRequest = CreateBasePermissionRequest

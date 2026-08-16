@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
+import { Check } from 'lucide-vue-next'
 
 defineProps<{
   modelValue?: boolean
@@ -22,7 +22,7 @@ defineEmits<{
       @change="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
     />
     <span class="app-check__box">
-      <Icon v-if="modelValue" icon="tabler:check" width="12" height="12" />
+      <Check v-if="modelValue" :size="12" />
     </span>
     <span v-if="label" class="app-check__label">{{ label }}</span>
   </label>

@@ -1,5 +1,5 @@
 import { createCatalogStore } from '@/stores/createCatalogStore'
-import type { DiagnosticImagingType } from '../types/diagnostic-imaging-types.types'
+import type { DiagnosticImagingTypeResponse } from '../types/diagnostic-imaging-types.types'
 
 export const useDiagnosticImagingTypesStore =
-  createCatalogStore<DiagnosticImagingType>('diagnosticImagingTypes')
+  createCatalogStore<DiagnosticImagingTypeResponse>('diagnosticImagingTypes')

@@ -2,11 +2,11 @@
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
-import type { VaccinationType } from '../types/vaccination-types.types'
+import type { VaccinationTypeResponse } from '../types/vaccination-types.types'
 import type { VaccinationTypeFormData } from '../composables/useVaccinationTypes'
 
 const props = defineProps<{
-  initial?: VaccinationType | null
+  initial?: VaccinationTypeResponse | null
 }>()
 
 const emit = defineEmits<{
@@ -56,11 +56,11 @@ function submit() {
     <div class="app-note">
       Este catálogo crea tipos globales disponibles para todas las empresas.
     </div>
-    <div class="app-form__actions">
-      <v-btn variant="text" @click="emit('cancel')">Cancelar</v-btn>
-      <v-btn type="submit" color="primary">
+    <div class="ds-actions">
+      <button type="button" class="ds-btn ds-btn--ghost" @click="emit('cancel')">Cancelar</button>
+      <button type="submit" class="ds-btn ds-btn--primary">
         {{ initial ? 'Guardar' : 'Crear' }}
-      </v-btn>
+      </button>
     </div>
   </form>
 </template>

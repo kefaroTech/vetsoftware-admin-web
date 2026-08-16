@@ -30,6 +30,6 @@ export default {
     'stylelint --cache --cache-strategy content --cache-location node_modules/.cache/stylelint/ --max-warnings=0',
   ],
   './*.{js,mjs,cjs,ts,tsx,vue,json,md,yml,yaml,html,css,scss,sass}': prettier,
-  '{src,public,tests,e2e,emails,scripts,docker,.github}/**/*.{js,mjs,cjs,ts,tsx,vue,json,md,yml,yaml,html,css,scss,sass}':
+  '{src,public,tests,e2e,visual,emails,scripts,docker,.github}/**/*.{js,mjs,cjs,ts,tsx,vue,json,md,yml,yaml,html,css,scss,sass}':
     prettier,
 }

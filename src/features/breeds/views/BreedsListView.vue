@@ -7,7 +7,7 @@ import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import BreedForm from '../components/BreedForm.vue'
 import { ICONS } from '@/constants/icons'
-import type { CreateBreedCommand } from '../types/breeds.types'
+import type { CreateBreedRequest } from '../types/breeds.types'
 
 const { breeds, fetchAll, create, remove } = useBreeds()
 const { confirm } = useConfirmDialog()
@@ -15,7 +15,7 @@ const showModal = ref(false)
 
 onMounted(fetchAll)
 
-async function handleCreate(data: CreateBreedCommand) {
+async function handleCreate(data: CreateBreedRequest) {
   await create(data)
   showModal.value = false
 }
@@ -28,11 +28,12 @@ async function handleDelete(id: number, name: string) {
 
 <template>
   <AppLayout>
-    <div class="d-flex align-center justify-space-between mb-6">
-      <h1 class="text-h4 font-weight-bold">Razas</h1>
-      <v-btn color="primary" :prepend-icon="ICONS.ADD" @click="showModal = true">
+    <div class="ds-head">
+      <h1 class="ds-title">Razas</h1>
+      <button type="button" class="ds-btn ds-btn--primary" @click="showModal = true">
+        <component :is="ICONS.ADD" :size="15" />
         Nueva raza
-      </v-btn>
+      </button>
     </div>
 
     <AppTable
@@ -45,20 +46,17 @@ async function handleDelete(id: number, name: string) {
         <td class="text-caption text-medium-emphasis">{{ b.createdDate }}</td>
         <td>
           <div class="d-flex ga-1">
-            <v-btn
-              :to="`/animales/razas/${b.id}`"
-              size="small"
-              variant="text"
-              color="primary"
-              :icon="ICONS.EDIT"
-            />
-            <v-btn
-              size="small"
-              variant="text"
-              color="error"
-              :icon="ICONS.DELETE"
+            <RouterLink :to="`/animales/razas/${b.id}`" class="ds-icon-btn" aria-label="Editar">
+              <component :is="ICONS.EDIT" :size="15" />
+            </RouterLink>
+            <button
+              type="button"
+              class="ds-icon-btn ds-icon-btn--danger"
+              aria-label="Eliminar"
               @click="handleDelete(b.id, b.name)"
-            />
+            >
+              <component :is="ICONS.DELETE" :size="15" />
+            </button>
           </div>
         </td>
       </tr>

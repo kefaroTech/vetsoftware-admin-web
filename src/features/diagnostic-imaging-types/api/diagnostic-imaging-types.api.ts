@@ -1,16 +1,41 @@
 import { http } from '@/services/http/http.client'
 import type {
-  DiagnosticImagingType,
-  CreateDiagnosticImagingTypeCommand,
-  UpdateDiagnosticImagingTypeCommand,
+  DiagnosticImagingTypeResponse,
+  CreateDiagnosticImagingTypeRequest,
+  UpdateDiagnosticImagingTypeRequest,
 } from '../types/diagnostic-imaging-types.types'
 
 export const diagnosticImagingTypesApi = {
-  list: () => http.get<DiagnosticImagingType[]>('/diagnostic-imaging-types'),
-  getById: (id: number) => http.get<DiagnosticImagingType>(`/diagnostic-imaging-types/${id}`),
-  create: (payload: CreateDiagnosticImagingTypeCommand) =>
-    http.post<DiagnosticImagingType>('/diagnostic-imaging-types', payload),
-  update: (id: number, payload: UpdateDiagnosticImagingTypeCommand) =>
-    http.put<DiagnosticImagingType>(`/diagnostic-imaging-types/${id}`, payload),
-  remove: (id: number) => http.delete(`/diagnostic-imaging-types/${id}`),
+  async listAll(): Promise<DiagnosticImagingTypeResponse[]> {
+    const { data } = await http.get<DiagnosticImagingTypeResponse[]>('/diagnostic-imaging-types')
+    return data
+  },
+  async findById(id: number): Promise<DiagnosticImagingTypeResponse> {
+    const { data } = await http.get<DiagnosticImagingTypeResponse>(
+      `/diagnostic-imaging-types/${id}`,
+    )
+    return data
+  },
+  async create(
+    payload: CreateDiagnosticImagingTypeRequest,
+  ): Promise<DiagnosticImagingTypeResponse> {
+    const { data } = await http.post<DiagnosticImagingTypeResponse>(
+      '/diagnostic-imaging-types',
+      payload,
+    )
+    return data
+  },
+  async update(
+    id: number,
+    payload: UpdateDiagnosticImagingTypeRequest,
+  ): Promise<DiagnosticImagingTypeResponse> {
+    const { data } = await http.put<DiagnosticImagingTypeResponse>(
+      `/diagnostic-imaging-types/${id}`,
+      payload,
+    )
+    return data
+  },
+  async remove(id: number): Promise<void> {
+    await http.delete(`/diagnostic-imaging-types/${id}`)
+  },
 }

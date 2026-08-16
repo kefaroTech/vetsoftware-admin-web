@@ -10,16 +10,16 @@ export interface BasePermissionSummary {
   code: string
 }
 
-export interface BaseRolePermission {
+export interface BaseRolePermissionResponse {
   id: number
   baseRole: BaseRoleSummary
   basePermission: BasePermissionSummary
   createdDate: string
 }
 
-export interface CreateBaseRolePermissionCommand {
+export interface CreateBaseRolePermissionRequest {
   baseRoleId: number
   basePermissionId: number
 }
 
-export type UpdateBaseRolePermissionCommand = CreateBaseRolePermissionCommand
+export type UpdateBaseRolePermissionRequest = CreateBaseRolePermissionRequest

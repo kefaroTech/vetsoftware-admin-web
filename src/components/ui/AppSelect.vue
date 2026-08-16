@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends string | number">
+import { Check, ChevronDown } from 'lucide-vue-next'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
-import { Icon } from '@iconify/vue'
 
 interface Option {
   value: T
@@ -222,7 +222,7 @@ onBeforeUnmount(() => {
         <span :class="['app-select__value', { placeholder: !selected }]">
           {{ selected?.label ?? placeholder }}
         </span>
-        <Icon icon="tabler:chevron-down" class="app-select__chev" width="16" height="16" />
+        <ChevronDown class="app-select__chev" :size="16" />
       </button>
 
       <Teleport to="body">
@@ -241,13 +241,7 @@ onBeforeUnmount(() => {
             @mousemove="highlighted = i"
           >
             <span class="app-select-panel__label">{{ o.label }}</span>
-            <Icon
-              v-if="o.value === modelValue"
-              icon="tabler:check"
-              class="app-select-panel__check"
-              width="15"
-              height="15"
-            />
+            <Check v-if="o.value === modelValue" class="app-select-panel__check" :size="15" />
           </li>
         </ul>
       </Teleport>

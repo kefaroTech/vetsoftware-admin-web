@@ -54,6 +54,12 @@ export default defineConfig(({ mode }) => {
       // quedan cacheados. Rollup ya separa por sí solo lo que se comparte entre
       // rutas, y forzarlo a mano solo rompe esa optimización.
       //
+      // TR-02 movió las cifras a la baja: al salir Iconify y los componentes de
+      // Vuetify de las vistas, la ruta crítica pasó de 121,3 a 86,0 KB gzip y el
+      // total de 190,3 a 152,8. `chunkSizeWarningLimit` avisa sobre bytes SIN
+      // comprimir, así que sigue ladrando por el entry de 238 KB en crudo; lo que
+      // manda es `npm run budget`, que mide lo que de verdad viaja por el cable.
+      //
       // Si alguien vuelve a plantearlo: mídelo con `npm run budget -- --report`
       // antes y después. La cifra manda.
     },

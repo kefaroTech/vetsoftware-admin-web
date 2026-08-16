@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { Icon } from '@iconify/vue'
 import { ICONS } from '@/constants/icons'
-import { useNotification } from '@/composables/useNotification'
+import { useToast } from '@/composables/useToast'
 import { useSystemConfig } from '../composables/useSystemConfig'
 
 const { uvtConfig, uvtValue, fetch, saveUvt } = useSystemConfig()
-const { notifyError } = useNotification()
+const { errorFrom } = useToast()
 
 const currentYear = new Date().getFullYear()
 const editing = ref(false)
@@ -50,7 +49,7 @@ async function onSave() {
     await saveUvt(n)
     editing.value = false
   } catch (e) {
-    notifyError('No se pudo guardar el valor de la UVT', e)
+    errorFrom('No se pudo guardar el valor de la UVT', e)
   } finally {
     saving.value = false
   }
@@ -66,7 +65,7 @@ function onKey(e: KeyboardEvent) {
     <!-- Card principal -->
     <div class="card">
       <div class="card-head">
-        <div class="head-ic"><Icon :icon="ICONS.RECEIPT" width="18" height="18" /></div>
+        <div class="head-ic"><component :is="ICONS.RECEIPT" :size="18" /></div>
         <div class="head-text">
           <div class="head-title">Valor UVT — {{ currentYear }}</div>
           <div class="head-sub">
@@ -93,7 +92,7 @@ function onKey(e: KeyboardEvent) {
             </div>
             <div class="spacer" />
             <button class="btn-edit" @click="startEdit">
-              <Icon :icon="ICONS.EDIT" width="14" height="14" />Modificar valor
+              <component :is="ICONS.EDIT" :size="14" />Modificar valor
             </button>
           </div>
         </template>
@@ -112,12 +111,10 @@ function onKey(e: KeyboardEvent) {
             />
             <span class="edit-suffix">COP</span>
           </div>
-          <div v-if="err" class="edit-err">
-            <Icon :icon="ICONS.INFO" width="13" height="13" />{{ err }}
-          </div>
+          <div v-if="err" class="edit-err"><component :is="ICONS.INFO" :size="13" />{{ err }}</div>
           <div class="edit-actions">
             <button class="btn-save" :disabled="saving" @click="onSave">
-              <Icon :icon="ICONS.CHECK" width="14" height="14" />{{
+              <component :is="ICONS.CHECK" :size="14" />{{
                 saving ? 'Guardando…' : 'Guardar cambios'
               }}
             </button>
@@ -131,7 +128,7 @@ function onKey(e: KeyboardEvent) {
       <!-- Histórico -->
       <div class="history">
         <div class="history-head">
-          <Icon :icon="ICONS.HISTORY" width="14" height="14" />
+          <component :is="ICONS.HISTORY" :size="14" />
           <span>Histórico de vigencias</span>
         </div>
         <div class="history-empty">
@@ -155,7 +152,7 @@ function onKey(e: KeyboardEvent) {
         </div>
       </div>
       <div class="note">
-        <div class="note-ic"><Icon :icon="ICONS.INFO" width="16" height="16" /></div>
+        <div class="note-ic"><component :is="ICONS.INFO" :size="16" /></div>
         <div>
           <div class="note-title">Importante</div>
           <p>

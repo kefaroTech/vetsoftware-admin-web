@@ -1,13 +1,13 @@
-export interface AppModule {
+export interface ModuleResponse {
   id: number
   name: string
   code: string
   createdDate: string
 }
 
-export interface CreateModuleCommand {
+export interface CreateModuleRequest {
   name: string
   code: string
 }
 
-export type UpdateModuleCommand = CreateModuleCommand
+export type UpdateModuleRequest = CreateModuleRequest
