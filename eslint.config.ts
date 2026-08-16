@@ -4,6 +4,8 @@ import tseslint from 'typescript-eslint'
 import prettierConfig from 'eslint-config-prettier'
 
 export default tseslint.config(
+  // `api.generated.d.ts` lo escribe openapi-typescript desde el contrato del backend. No se edita
+  // a mano, así que aplicarle reglas de estilo solo produce ruido que nadie puede arreglar.
   { ignores: ['dist/**', 'node_modules/**', 'coverage/**', 'src/types/api.generated.d.ts'] },
   js.configs.recommended,
   ...tseslint.configs.strict,
