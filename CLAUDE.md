@@ -113,6 +113,16 @@ dentro del cliente, y **se llaman como el esquema del contrato**:
 igual en los dos repositorios y una deriva del contrato falla con el nombre a la
 vista.
 
+**Paginación.** Esta consola no consume hoy ningún endpoint paginado: sus
+catálogos devuelven arrays planos. Cuando empiece a paginar, `PageResponse<T>` se
+declara **una sola vez** en `src/types/pagination.ts` —nunca por feature— y se
+ata al contrato con un centinela sobre una instanciación concreta
+(`MatchesContract<PageResponse<XxxResponse>, 'PageResponseXxxResponse'>`), como hace el
+operativo. Sin esa atadura, renombrar un campo en el backend no rompe la
+compilación: devuelve `undefined` en la pantalla. El vocabulario del servidor es
+`page` (base 0) + `pageSize` y el tope de filas por página es **200**; ojo, que
+`usePagination` expone `size` y habrá que alinearlo.
+
 **Estructura de un feature.** `src/features/<recurso-en-kebab>/` con `api/`,
 `types/`, `stores/`, `composables/`, `components/`, `views/`. Lo transversal va
 en `src/components/{feedback,layout,ui}/`, `src/composables/`, `src/stores/`.
