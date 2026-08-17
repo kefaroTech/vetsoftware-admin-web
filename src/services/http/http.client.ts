@@ -230,6 +230,16 @@ export function isConcurrencyConflict(error: unknown): boolean {
   return getProblemDetailCode(error) === 'CONCURRENT_MODIFICATION'
 }
 
+/**
+ * `true` si el backend respondió 409 porque la cita se solapa con otra
+ * (BE-17): la duración ahora bloquea el hueco, y dos agendamientos lo
+ * disputaron a la vez. El llamador puede reintentar marcando un flag de
+ * forzado para agendar igualmente pese al solape.
+ */
+export function isAppointmentOverlap(error: unknown): boolean {
+  return getProblemDetailCode(error) === 'APPOINTMENT_OVERLAP'
+}
+
 /** Errores de validación por campo del `ProblemDetail`, indexados por nombre de campo. */
 export function getProblemDetailFieldErrors(error: unknown): Record<string, string> {
   if (!(error instanceof AxiosError)) return {}
