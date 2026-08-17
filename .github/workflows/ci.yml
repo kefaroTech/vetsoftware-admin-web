@@ -5,10 +5,11 @@ on:
     branches:
       - develop
       - main
-  push:
-    branches:
-      - develop
-      - main
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - '.gitignore'
+      - 'LICENSE'
   workflow_dispatch:
 
 permissions:
@@ -60,11 +61,27 @@ jobs:
       - name: Enforce bundle budget
         run: npm run budget
 
-  container-image:
-    name: Build production container image
+  visual-regression:
+    name: Visual regression
     needs: frontend-quality-gate
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    # Corre DENTRO de la imagen oficial de Playwright, no en el runner pelado, y
+    # esa es la condicion que hace util a esta suite: las lineas base se generan
+    # con esta misma imagen (`npm run visual:docker:update`), asi que el
+    # antialiasing y las metricas de fuente son identicos. Sobre el runner
+    # desnudo bastaria un cambio de fuentes del sistema para dejar la suite en
+    # rojo sin que nadie haya tocado una linea de CSS.
+    #
+    # La etiqueta va al mismo paso que `@playwright/test` en package.json
+    # (^1.61.1) y que la constante IMAGE de `scripts/visual-docker.mjs`. Si se
+    # sube una, se suben las tres: la imagen trae los navegadores de esa version
+    # exacta, y un Chromium distinto del que genero las bases las invalida todas.
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+    timeout-minutes: 20
+    env:
+      CI: true
+      HUSKY: 0
 
     steps:
       - name: Check out repository
@@ -72,15 +89,55 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4
-
-      - name: Build production image ephemerally (no ECR)
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          context: .
-          platforms: linux/amd64
-          push: false
-          tags: vetsoftware/private-front:ci
-          cache-from: type=gha,scope=private-front
-          cache-to: type=gha,mode=max,scope=private-front
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      # La galeria se sirve con `npm run dev`, que es `vite --mode localdev`, y
+      # `vite.config.ts` lanza "Missing or mismatched environment file" si ningun
+      # fichero de entorno declara ese perfil. `.env.local` esta en `.gitignore`
+      # --lleva la URL del backend de cada quien-- asi que el runner nunca lo
+      # tuvo. El ejemplo versionado basta: la galeria no llama al backend, solo
+      # pinta primitivas de CSS.
+      - name: Provide the localdev environment file
+        run: cp .env.local.example .env.local
+
+      # `npm run visual`, no `visual:docker`: los scripts `:docker` existen para
+      # que un portatil Windows o macOS genere capturas de Linux levantando este
+      # mismo contenedor, y aqui ya estamos dentro de el. Invocarlos pediria un
+      # `docker run` sin demonio al que hablar.
+      #
+      # Si no hay lineas base --repositorio recien clonado, o alguien anadio un
+      # bloque nuevo a la galeria-- las genera y FALLA a proposito, dejandolas en
+      # el artefacto. Generarlas y pasar en silencio seria peor: nadie las
+      # commitearia y la suite viviria para siempre sin nada contra que comparar.
+      #
+      # Esto es ademas la via recomendada para crearlas: se hacen aqui, con la
+      # imagen del CI, sin que nadie tenga que bajarse 2 GB en su portatil.
+      - name: Compare against the visual baseline
+        run: |
+          if [ -z "$(ls -A visual/__screenshots__ 2>/dev/null)" ]; then
+            echo "::error::No hay lineas base. Se generan ahora y se suben como artefacto 'visual-baseline'; descargalo y commitea visual/__screenshots__."
+            npm run visual:update
+            exit 1
+          fi
+          npm run visual
+
+      # Sin esto, un fallo solo dice "las imagenes no coinciden". El artefacto
+      # lleva el esperado, el obtenido y el diff resaltado, que es lo unico que
+      # permite decidir en la revision si el cambio era el que se buscaba.
+      - name: Upload the visual diff or the freshly generated baseline
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: visual-baseline
+          path: |
+            visual/__screenshots__/
+            test-results/
+            playwright-report-visual/
+          retention-days: 7
