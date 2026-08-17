@@ -32,8 +32,6 @@
     "api:check": "node scripts/api-types.mjs --check",
     "ds:audit": "node scripts/ds-audit.mjs",
     "test:unit": "vitest run",
-    "e2e": "playwright test",
-    "e2e:ui": "playwright test --ui",
     "visual": "playwright test --config=playwright.visual.config.ts",
     "visual:update": "playwright test --config=playwright.visual.config.ts --update-snapshots",
     "visual:docker": "node scripts/visual-docker.mjs",
