@@ -130,6 +130,7 @@
    * introduce ambigüedad sobre "cuánto es md".
    * ------------------------------------------------------------------ */
   --space-2: 2px;
+  --space-3: 3px;
   --space-4: 4px;
   --space-5: 5px;
   --space-6: 6px;
@@ -176,6 +177,16 @@
   /* Anillos de foco */
   --ring: 0 0 0 3px var(--amatista-50);
   --ring-danger: 0 0 0 3px var(--danger-200);
+
+  /* ------------------------------------------------------------------ *
+   * SIGNO DEL IMPORTE — auditoría FE-08 (2ª pasada, `caja`): hex crudo sin
+   * token repetido en 4 sitios (CashMovementsTable, CloseCashModal,
+   * CashSessionDetailModal, FacturasProveedorView-negativo). No son el verde/
+   * rojo semántico de `--success-fg`/`--danger-900` — son un matiz propio del
+   * importe, así que se extraen aparte para no cambiar el tono al migrar.
+   * ------------------------------------------------------------------ */
+  --amount-pos: #2f7d4f;
+  --amount-neg: #b4453a;
 
   /* ------------------------------------------------------------------ *
    * MOVIMIENTO
