@@ -114,6 +114,11 @@
   --text-2xl: 15px;
   --text-h3: 18px;
   --text-h2: 22px;
+
+  /* Título serif de página (FE-08): `.title-wrap h1` repetido en 5 vistas
+     (caja, compras) con 26px — un escalón entre --text-h2 y --text-h1 que no
+     tenía token propio. */
+  --text-h2-lg: 26px;
   --text-h1: 32px;
   --text-display: 36px;
 
@@ -121,6 +126,10 @@
   --weight-normal: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
+
+  /* 33 usos en 22 archivos (auditoría FE-08, 2ª vuelta) — el único peso de
+     la escala tipográfica de Figma que no tenía token todavía. */
+  --weight-bold: 700;
   --tracking-tight: -0.015em;
   --tracking-snug: -0.01em;
   --leading-display: 1.05;

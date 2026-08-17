@@ -232,6 +232,13 @@
   color: var(--amatista-800);
 }
 
+/* Icono de banner anclado arriba (no centrado con un texto multilínea) — 5
+   copias. */
+.ds-banner-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
 /* ========================================================================== *
  * SUPERFICIES
  * ========================================================================== */
@@ -258,6 +265,90 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-panel);
   background: var(--surface-muted);
+}
+
+/* Panel/marco que recorta su contenido (una tabla, normalmente) — 4 copias.
+   Distinto de `.ds-panel`: sin padding propio y con `--surface` (no
+   `--surface-muted`) de fondo. */
+.ds-frame {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+/* ========================================================================== *
+ * TONOS — el patrón más repetido del repo: un par `background`+`color` (o
+ * `background`+`border-color`) que tiñe una insignia/etiqueta/fila/botón,
+ * copiado a mano en decenas de SFC (auditoría FE-08, 2ª vuelta). Es una sola
+ * familia de modificadores SIN base compartida: cada consumidor ya trae su
+ * propia forma (padding, radio, layout) desde su clase local; esta familia
+ * sólo aporta el color, igual que `.ds-hover-accent`/`.ds-icon-btn--accent`
+ * más abajo.
+ * ========================================================================== */
+
+/* Insignia/etiqueta de acento — 9 copias. */
+.ds-tone--accent {
+  background: var(--amatista-100);
+  color: var(--amatista-700);
+}
+
+/* Mismo texto, fondo más claro — 5 copias. */
+.ds-tone--accent-soft {
+  background: var(--amatista-50);
+  color: var(--amatista-700);
+}
+
+.ds-tone--neutral {
+  background: var(--warm-200);
+  color: var(--warm-600);
+}
+
+.ds-tone--success {
+  background: var(--success-bg);
+  color: var(--success-fg);
+}
+
+.ds-tone--danger {
+  background: var(--danger-200);
+  color: oklch(50% 0.2 25deg);
+}
+
+/* Seleccionado (fondo suave + borde, no fondo sólido) — 9 copias. */
+.ds-tone--accent-selected {
+  background: var(--amatista-50);
+  border-color: var(--amatista-300);
+}
+
+/* Contorno más marcado que `--accent-selected` — 5 copias. */
+.ds-tone--accent-outline {
+  background: var(--amatista-50);
+  border-color: var(--amatista-500);
+}
+
+/* Sólido activo — 8 copias. El color de texto NO entra: ninguna de las 8
+   copias lo fija en el mismo bloque (normalmente es blanco, puesto aparte
+   por el propio consumidor). */
+.ds-tone--accent-solid {
+  background: var(--amatista-600);
+  border-color: var(--amatista-600);
+}
+
+.ds-tone--neutral-soft {
+  background: var(--warm-100);
+  border-color: var(--warm-300);
+}
+
+/* Sin fondo, sólo borde+texto — 4 copias. */
+.ds-tone--accent-border {
+  border-color: var(--amatista-300);
+  color: var(--amatista-700);
+}
+
+/* Hover neutro de botón cerrar/fantasma — 9 copias, siempre en `:hover`. */
+.ds-hover-neutral:hover:not(:disabled) {
+  background: var(--warm-100);
+  color: var(--warm-900);
 }
 
 /* ========================================================================== *
@@ -292,6 +383,15 @@
 
 .ds-empty--lg {
   padding: var(--space-40);
+}
+
+/* Fila vacía de las tablas de `compras` (ProveedoresView,
+   OrdenesRecepcionesView, FacturasProveedorView; LibroComprasView usa
+   12,5px de fuente en su tabla, residuo local aparte) — 4 copias byte a
+   byte. Va con `.ds-table--bare` más abajo. */
+.ds-empty--md {
+  padding: var(--space-26);
+  color: var(--warm-400);
 }
 
 /* Caja punteada con un mensaje: va alineada a la izquierda, no centrada como
@@ -370,6 +470,13 @@
   font-size: var(--text-h1);
 }
 
+/* Dos escalones por debajo (26px) — el `.title-wrap h1` de las 5 vistas de
+   caja/compras (auditoría FE-08, 3ª pasada). Va junto al `.title-wrap` que
+   lo envuelve, cubierto por `.ds-flex-row--12`/`--accent` más arriba. */
+.ds-display--xs {
+  font-size: var(--text-h2-lg);
+}
+
 .ds-title {
   margin: 0 0 var(--space-6);
   color: var(--text);
@@ -381,6 +488,16 @@
 .ds-subtitle {
   margin: 0;
   color: var(--text-muted);
+  font-size: var(--text-body);
+}
+
+/* Subtítulo bajo el título serif de una vista — 5 copias. NO es un
+   modificador de `.ds-subtitle`: color (warm-500, no `--text-muted`) y
+   margin (`2px 0 0`, no `0`) difieren, así que combinarlas habría cambiado
+   una de las dos. */
+.ds-view-subtitle {
+  margin: var(--space-2) 0 0;
+  color: var(--warm-500);
   font-size: var(--text-body);
 }
 
@@ -427,6 +544,96 @@
 }
 
 /* ========================================================================== *
+ * REJILLA AUTO-FIT — RETIRADA (auditoría FE-08, 2ª vuelta de la 3ª pasada).
+ * Vivió aquí como `.ds-grid-auto` (+ `--gap-12` / `--spaced`): una rejilla
+ * `auto-fit`/240px pensada para sustituir 52 pares regla+media-query. En la
+ * práctica quedó con UN solo consumidor real (`HospDetail.vue`) y 25+
+ * comentarios en el resto del código explicando por qué NO aplicaba —
+ * `ModalShell` ignora la prop `width` salvo en modo `compact`, así que
+ * `auto-fit` a 240px repartía 5-6 columnas dentro de los modales en vez de 2,
+ * y las rejillas que sí colapsan a 2/1 casi siempre lo hacen a un breakpoint
+ * medido a mano, no al espacio intrínseco. Cero adopción real en varias
+ * pasadas de la auditoría es la señal de que el diseño no encajaba con el
+ * código, no de que faltara tiempo para migrar — se retira en vez de
+ * insistir. `HospDetail.vue` volvió a declarar su rejilla en CSS local.
+ * ========================================================================== */
+
+/* ========================================================================== *
+ * FILA HORIZONTAL — auditoría FE-08 (3ª pasada): `align-items:center;
+ * display:flex; gap` suelto, sin envolver un formulario (eso es `.ds-stack`).
+ * Base = gap 8px (7 archivos); `--12` es la variante de `.title-wrap` (5
+ * vistas de caja/compras) y de otras 7 filas con más aire.
+ * ========================================================================== */
+
+.ds-flex-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.ds-flex-row--12 {
+  gap: var(--space-12);
+}
+
+/* Acento de marca del `.title-wrap` (icono junto al `<h1>` de página, 5
+   vistas): mismo amatista-700 que `.ds-icon-btn--accent`/`.ds-hover-accent`,
+   aquí como color de texto/icono en reposo, no en hover. Se combina con
+   `.ds-flex-row--12` — nunca aparece sola en el código auditado. */
+.ds-flex-row--accent {
+  color: var(--amatista-700);
+}
+
+/* Dos gaps más de la misma familia (auditoría FE-08, 2ª vuelta) — 4 copias
+   cada uno, siempre con `display:flex; align-items:center` iguales a la
+   base. */
+.ds-flex-row--6 {
+  gap: var(--space-6);
+}
+
+.ds-flex-row--11 {
+  gap: var(--space-11);
+}
+
+/* Fila que envuelve (chips, filtros sueltos) — 6 copias. NO es un
+   modificador de `.ds-flex-row`: sus copias no fijan `align-items`, así que
+   convertirla en `--wrap` habría añadido `align-items:center` sin verificar
+   si las 6 dependían de otra cosa (por defecto `stretch`). */
+.ds-wrap-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+}
+
+/* Cabecera de bloque dentro de una tarjeta/sección — más compacta que
+   `.ds-head` (que es de página, `align-items:flex-end` y gap propio). 4
+   copias; la fuente es el `.block-head` que tenía `HospDetail.vue`. */
+.ds-block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-10);
+}
+
+/* Contenedor de tabla con scroll horizontal en móvil — el `.tbl-scroll` que
+   pidió el agente de facturación. 6 copias. */
+.ds-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ========================================================================== *
+ * LISTA SIN VIÑETAS — el `list-style:none; margin:0; padding:0` que envuelve
+ * una `.ds-stack` cuando el contenedor es un `<ul>`/`<ol>` en vez de un
+ * `<div>`. 4 archivos, siempre junto a `.ds-stack--8`.
+ * ========================================================================== */
+
+.ds-list-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ========================================================================== *
  * UTILIDADES — sólo las que aparecían literalmente decenas de veces
  * ========================================================================== */
 
@@ -439,6 +646,71 @@
 .ds-flex-fill {
   flex: 1;
   min-width: 0;
+}
+
+/* ========================================================================== *
+ * ESTADOS DE CAMPO DE FORMULARIO — la familia BaseInput/BaseSelect/
+ * BaseTextarea/SearchableSelect/DateInput/OwnerSearchAutocomplete (auditoría
+ * FE-08, 2ª vuelta): cada uno declaraba a mano, en su propio SFC, los mismos
+ * tres estados con los mismos valores byte a byte.
+ * ========================================================================== */
+
+/* Inválido: fondo+borde+temblor. 5 copias (BaseInput, BaseSelect,
+   BaseTextarea, SearchableSelect, OwnerSearchAutocomplete). DateInput NO
+   entra aquí: su borde/fondo van en `.mx-input`, un nodo del datepicker
+   teletransportado a `<body>` que esta clase no puede alcanzar sin acoplarse
+   a su markup interno — se queda con `.ds-field-shake` suelta (abajo). */
+.ds-field-invalid {
+  border-color: oklch(60% 0.2 25deg);
+  background: oklch(98.5% 0.02 25deg);
+  animation: shake 0.32s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+/* La animación sola, para quien no pueda llevar el resto de `.ds-field-
+   invalid` (el caso de DateInput). Comparte el `@keyframes shake` de abajo
+   con la primitiva anterior — no se declara dos veces. */
+.ds-field-shake {
+  animation: shake 0.32s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translateX(-3px);
+  }
+
+  40%,
+  60% {
+    transform: translateX(3px);
+  }
+}
+
+/* Foco sobre un campo inválido — 5 copias (BaseInput, BaseSelect,
+   BaseTextarea, OwnerSearchAutocomplete, DateInput; ésta sí la alcanza
+   DateInput porque se declara sobre `.mx-input:focus`, no sobre el
+   wrapper). */
+.ds-field-invalid-focus {
+  border-color: oklch(55% 0.22 25deg);
+  box-shadow: 0 0 0 3px var(--danger-200);
+}
+
+/* Deshabilitado — 4 copias (BaseInput, BaseSelect, BaseTextarea,
+   SearchableSelect). */
+.ds-field-disabled {
+  background: var(--warm-100);
+  color: var(--warm-500);
+  cursor: not-allowed;
 }
 
 /* ========================================================================== *
@@ -466,12 +738,55 @@
   margin-top: var(--space-2);
 }
 
+/* Modificadores de tamaño de `.ds-meta` (mismo warm-500) — auditoría FE-08,
+   2ª vuelta: 5 copias a 12,5px, 4 a 11px. */
+.ds-meta--sm {
+  font-size: var(--text-sm);
+}
+
+.ds-meta--caption {
+  font-size: var(--text-caption);
+}
+
+/* Mismo patrón que `.ds-meta` pero un tono más oscuro (warm-600) — 6 copias
+   a 13px (base), 5 a 12,5px (`--sm`, comparte nombre de modificador con
+   `.ds-meta--sm` por consistencia pero es OTRA base: no se combinan entre
+   sí). */
+.ds-meta-dark {
+  color: var(--warm-600);
+  font-size: var(--text-body);
+}
+
+.ds-meta-dark--sm {
+  font-size: var(--text-sm);
+}
+
+/* Texto fuerte de warm-900/peso medio sin tamaño fijo (7 copias, heredan el
+   tamaño del contexto) + modificador a 13,5px (4 copias). Mismo tono que
+   `.ds-item-label` pero sin forzar el `font-size` en la base — por eso es
+   una clase aparte y no un modificador suyo. */
+.ds-text-strong {
+  color: var(--warm-900);
+  font-weight: var(--weight-medium);
+}
+
+.ds-text-strong--md {
+  font-size: var(--text-md);
+}
+
 /* Etiqueta de fila/ítem — el nombre de mascota, medicamento o línea de
    ticket que encabeza una tarjeta o fila de lista. 14 copias. */
 .ds-item-label {
   color: var(--warm-900);
   font-size: var(--text-body);
   font-weight: var(--weight-medium);
+}
+
+/* Mismo par color+peso, un escalón más grande (14px) — el nombre de rol,
+   identidad o servicio que encabeza una fila fuera de tabla (auditoría FE-08,
+   3ª pasada). 8 archivos. */
+.ds-item-label--lg {
+  font-size: var(--text-lg);
 }
 
 /* Énfasis fuerte sin cambiar de tamaño — totales, valores calculados,
@@ -488,6 +803,12 @@
   flex-shrink: 0;
 }
 
+/* Variante más tenue (warm-400 en vez de warm-500) — "icono apagado", 5
+   copias, siempre con el mismo `flex-shrink:0` de la base. */
+.ds-icon-muted--dim {
+  color: var(--warm-400);
+}
+
 /* ========================================================================== *
  * COLUMNA CON SEPARACIÓN — el `display:flex;flex-direction:column;gap` que
  * envuelve casi cualquier cuerpo de formulario o de modal.
@@ -498,11 +819,23 @@
   flex-direction: column;
 }
 
-/* Los dos únicos gaps con volumen suficiente para ser catálogo: 14px en
-   cuerpos de modal compactos (12 copias) y 18px en formularios (10 copias).
-   Cualquier otro valor de gap sigue siendo local: no hay un tercero repetido. */
+/* Catálogo de gaps con volumen suficiente (auditoría FE-08, 3ª pasada: 5
+   valores en 40 archivos — 8/10/14/16/18px). Cualquier otro valor de gap
+   sigue siendo local: no hay un sexto repetido. */
+.ds-stack--8 {
+  gap: var(--space-8);
+}
+
+.ds-stack--10 {
+  gap: var(--space-10);
+}
+
 .ds-stack--14 {
   gap: var(--space-14);
+}
+
+.ds-stack--16 {
+  gap: var(--space-16);
 }
 
 .ds-stack--18 {
@@ -528,6 +861,27 @@
   opacity: 0.5;
 }
 
+/* Dos opacidades más del mismo patrón (auditoría FE-08, 2ª vuelta) — 6
+   copias a 0.6, 4 a 0.4; la base (0.5) cubre otras 4. Mismo contrato que la
+   base: BORRA la regla local al adoptar, no la dejes compitiendo.
+
+   Aviso de migración (reportado por un agente de la 1ª vuelta): `.ds-is-
+   disabled` pesa (0,1,0) y pierde contra cualquier regla de contenedor con
+   un selector de atributo de scope que fije las mismas propiedades — p. ej.
+   una que declare `cursor: pointer` a (0,2,0). No se sube la especificidad
+   aquí por el mismo motivo que el resto de esta sección (ver "REVISIÓN" al
+   final del archivo): haría gastar contra un override deliberado en algún
+   otro sitio. Si un consumidor choca así, el defecto está en la regla que
+   compite, no en el peso de esta clase — bórrala en vez de perseguirla con
+   más especificidad. */
+.ds-is-disabled--60 {
+  opacity: 0.6;
+}
+
+.ds-is-disabled--40 {
+  opacity: 0.4;
+}
+
 /* ========================================================================== *
  * ANILLO DE FOCO — el par `border-color` + `box-shadow` que 14 inputs y
  * buscadores repetían a mano, en `:focus` o `:focus-within` según si el
@@ -547,6 +901,18 @@
 .ds-focus-ring:focus-within {
   border-color: var(--amatista-500);
   box-shadow: var(--ring);
+}
+
+/* Modificador para los consumidores que además anulan el outline nativo
+   (BaseSelect, FilterSelect, CountSheetModal ×2, LabHistory — auditoría
+   FE-08, 2ª vuelta: `border-color` + `box-shadow` + `outline: none`, es
+   decir `.ds-focus-ring` con este extra). No se añade a la base: los
+   consumidores YA migrados de `.ds-focus-ring` no declaraban `outline: none`
+   y no se auditó si dependían de conservarlo — tocar la base habría sido
+   cambiar su comportamiento sin evidencia. */
+.ds-focus-ring--no-outline:focus,
+.ds-focus-ring--no-outline:focus-within {
+  outline: none;
 }
 
 /* ========================================================================== *
@@ -615,6 +981,25 @@
 }
 
 /* ========================================================================== *
+ * AVISO DE ERROR DE CATÁLOGO — el `.catalog-error` de los 5 modales de
+ * acciones rápidas de consulta (auditoría FE-08, 3ª pasada). NO es
+ * `.ds-server-error`: además del fondo comparten sólo el `background`; el
+ * borde, el radio, el color de texto y el tamaño de fuente son distintos
+ * (variante visual real, no una copia con deriva). El color reutiliza
+ * `--danger-950`, que ya existía en la escala pero no tenía consumidor.
+ * ========================================================================== */
+
+.ds-catalog-error {
+  margin-bottom: var(--space-14);
+  padding: var(--space-10) var(--space-14);
+  border: 1px solid var(--danger-300);
+  border-radius: var(--radius-panel);
+  background: var(--danger-150);
+  color: var(--danger-950);
+  font-size: var(--text-sm);
+}
+
+/* ========================================================================== *
  * TABLA — el `.table`/`.table th`/`.table td` repetido en 7 copias con dos
  * firmas limpias (auditoría FE-08, 2ª pasada): "pantalla" (13px, radio 12,
  * celda 11/14 — ImpuestosView, InventoryProductsTable, InventoryPausedTable,
@@ -679,6 +1064,17 @@
   padding: var(--space-9) var(--space-12);
 }
 
+/* Variante "desnuda" — sin borde/radio/fondo propios porque la tabla vive
+   dentro de un `.ds-frame` que ya los pone (las tablas de las vistas de
+   `compras`: ProveedoresView, OrdenesRecepcionesView, FacturasProveedorView
+   — 3 copias exactas a 13px; LibroComprasView es la 4ª pero a 12,5px, así
+   que se queda con un `font-size` local encima). */
+.ds-table--bare {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
 /* Migrar a `.ds-table` cambia de rival, no lo elimina. `.ds-table td`/`.ds-table
    th` (0,1,1: una clase + un tipo) le siguen ganando a cualquier primitiva de
    una sola clase (0,1,0) que fije la MISMA propiedad — confirmado en
@@ -724,6 +1120,10 @@
   border: 1px dashed var(--border);
 }
 
+.ds-table td.ds-empty--md {
+  padding: var(--space-26);
+}
+
 .ds-table th.ds-num {
   text-align: right;
 }
@@ -751,9 +1151,18 @@
  * negativo de `FacturasProveedorView` (compras). Ver `--amount-pos`/
  * `--amount-neg` en tokens.css: no reutiliza success/danger porque el matiz
  * es distinto y reutilizarlo habría cambiado el color al migrar. El peso
- * semibold sólo va en el positivo: es lo que declaran las dos copias reales
- * que lo fijan (`CloseCashModal`, `CashMovementsTable`); el negativo, en las
- * cuatro copias, es sólo color.
+ * semibold del positivo lo declaran sus dos copias reales (`CloseCashModal`,
+ * `CashMovementsTable`).
+ *
+ * CORRECCIÓN (FE-08, 2ª vuelta): este comentario decía que el negativo, "en
+ * las cuatro copias, es sólo color" — falso, y las dos copias afectadas ya
+ * lo habían dejado documentado como residuo a la espera de esto. De los 3
+ * consumidores reales de `.ds-amount--neg` (no 4: `CashSessionDetailModal`
+ * sólo usa el positivo), `CashMovementsTable` y `CloseCashModal` SÍ declaran
+ * `font-weight: 600` encima porque en el arqueo de caja ambos signos van con
+ * el mismo peso; sólo `FacturasProveedorView` (compras) es color puro. No se
+ * sube a la base porque cambiaría el aspecto de `compras` sin verificarlo —
+ * se añade como modificador, `.ds-amount--neg-strong`.
  * ========================================================================== */
 
 .ds-amount--pos {
@@ -763,6 +1172,13 @@
 
 .ds-amount--neg {
   color: var(--amount-neg);
+}
+
+/* Semibold para los dos consumidores de `caja` que igualan el peso del
+   negativo al del positivo. Al migrar, BORRA su `.ds-amount--neg {
+   font-weight: 600 }` local y añade esta clase junto a la base. */
+.ds-amount--neg-strong {
+  font-weight: var(--weight-semibold);
 }
 
 /* ========================================================================== *
@@ -787,6 +1203,18 @@
   font-size: var(--text-label);
   font-weight: var(--weight-medium);
   white-space: nowrap;
+}
+
+/* El punto de estado de esas píldoras (auditoría FE-08, 2ª vuelta) — 8
+   copias, 4 con `flex-shrink:0`. Se incluye siempre: es inerte fuera de un
+   contenedor flex, así que no cambia nada en las 4 copias que no lo
+   declaraban. El color lo pone cada consumidor (ver el propio comentario de
+   arriba: el tono NO sube). */
+.ds-status-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
 }
 
 /* ========================================================================== *
@@ -825,6 +1253,24 @@
   background: var(--amatista-50);
 }
 
+/* Hover de fila GRIS neutro — distinto de `.ds-row-clickable` (que tiñe
+   amatista y actúa sobre el `td`, necesario por cómo pinta
+   `border-collapse`): éste pinta el propio `tr` con gris neutro, sin cursor
+   ni transición. 4 copias exactas (ImpuestosView, MedicamentosView,
+   InventoryProductsTable, CountsHistoryModal), todas `.trow:hover`. */
+.ds-row-hover:hover {
+  background: var(--warm-100);
+}
+
+/* Pestaña activa — 4 copias (OrdenesRecepcionesView, FacturasProveedorView,
+   CuentasView, ReportesView), siempre sobre `.tab.active`/`.tabs
+   button.active` local (que aporta el `border-bottom-width`/layout de la
+   pestaña; esta clase sólo pinta el estado activo). */
+.ds-tab--active {
+  border-bottom-color: var(--amatista-600);
+  color: var(--amatista-700);
+}
+
 /* ========================================================================== *
  * RÓTULO EN VERSALITAS — dos piezas, no una con dos tamaños (ver informe de
  * la auditoría): difieren en tres propiedades a la vez (tamaño, tracking Y
@@ -837,7 +1283,8 @@
    PageHeader, ReportesView, HabilitacionView, DocumentosView, ServiciosView,
    ImpuestosView, InventarioView, EditPermissionsModal, MedicamentosView,
    TreatmentScreen (EmpresaView usa un acento de marca aparte — no entra en
-   la firma). */
+   la firma; ver `.ds-kicker-accent` más abajo, y la corrección sobre por qué
+   EmpresaView tampoco entra ahí). */
 .ds-kicker {
   color: var(--text-subtle);
   font-size: var(--text-label);
@@ -848,6 +1295,33 @@
 
 .ds-kicker--spaced {
   margin-bottom: var(--space-6);
+}
+
+/* KICKER DE ACENTO DE MARCA — `.cash-gate-kicker` de `PosCashGate.vue` y
+   `.detail-eyebrow` de `MyCashPanel.vue`: mismo amatista-700 / 11px / peso
+   700 / uppercase, sólo difieren en el tracking. NO es `.ds-kicker` de
+   arriba (firma text-subtle / 11,5px / peso medio) — `MyCashPanel.vue` ya
+   documentaba esta familia en su propio comentario local.
+   CORRECCIÓN: ese comentario incluía también a `EmpresaView.vue` como
+   tercer consumidor de la misma firma "sólo difieren en el tracking" — no
+   es cierto: su `.kicker` usa amatista-600 / peso 600 (no 700/700). Queda
+   fuera de esta primitiva; no se sabe si es un defecto de EmpresaView o una
+   variante deliberada (ver el informe FE-08, 2ª vuelta). */
+.ds-kicker-accent {
+  color: var(--amatista-700);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+}
+
+/* `PosCashGate.vue` (`.cash-gate-kicker`). */
+.ds-kicker-accent--wide {
+  letter-spacing: 0.12em;
+}
+
+/* `MyCashPanel.vue` (`.detail-eyebrow`). */
+.ds-kicker-accent--snug {
+  letter-spacing: 0.08em;
 }
 
 /* LABEL COMPACTO — rótulo de columna/filtro denso de `caja` (tabla de
@@ -879,6 +1353,68 @@
   border-color: var(--amatista-300);
   color: var(--amatista-700);
 }
+
+/* ========================================================================== *
+ * DIÁLOGO DE CONFIRMACIÓN — overlay+card+icono repetidos ~120 líneas en los 4
+ * diálogos del asistente de consulta (auditoría FE-08, 2ª vuelta):
+ * `SaveConsultaConfirmDialog`, `DeceasedConfirmDialog`,
+ * `DiscardConsultaDialog`, `ResumeOrNewConsultaDialog`.
+ * ========================================================================== */
+
+.ds-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(30 20 50 / 45%);
+  backdrop-filter: blur(2px);
+}
+
+/* El `z-index` NO entra en la base: 3 de los 4 usan 100,
+   `ResumeOrNewConsultaDialog` usa 1500 (necesita ganarle a otros modales) —
+   residuo real, no deriva, cada diálogo lo sigue declarando localmente. Lo
+   mismo con `animation: fade` + `@keyframes fade`: sólo 2 de los 4 la llevan
+   (`DeceasedConfirmDialog` no anima nada, `ResumeOrNewConsultaDialog` usa una
+   `<transition>` de Vue), así que se queda fuera de esta primitiva. */
+
+.ds-dialog-card {
+  width: 440px;
+  max-width: calc(100vw - 32px);
+  padding: var(--space-28);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow-modal);
+  font-family: var(--font-sans);
+}
+
+/* `ResumeOrNewConsultaDialog` es la única variante ancha (480px). */
+.ds-dialog-card--wide {
+  width: 480px;
+}
+
+.ds-dialog-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: var(--space-14);
+  border-radius: var(--radius-lg);
+}
+
+/* El tono (bg+color) del icono NO entra aquí: cada diálogo tiñe distinto
+   (amatista en Save/Resume — usar `.ds-tone--accent`; danger en Discard —
+   `.ds-tone--danger`; un ámbar a medida en Deceased que no coincide byte a
+   byte con ningún token de warning existente, se queda local). */
+
+.ds-dialog-body {
+  color: var(--warm-600);
+  font-size: var(--text-md);
+  line-height: 1.55;
+}
+
+/* El `margin` del párrafo queda fuera a propósito: 3 de los 4 usan
+   `0 0 22px`, `ResumeOrNewConsultaDialog` usa `0 0 14px` — residuo real que
+   cada diálogo sigue declarando local. */
 
 /* ========================================================================== *
  * VISUALMENTE OCULTO — el clip de accesibilidad que `LabFormModal` copiaba
