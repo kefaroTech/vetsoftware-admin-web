@@ -264,6 +264,19 @@
  * ESTADO VACÍO — el `.empty` repetido 26 veces
  * ========================================================================== */
 
+/* NO reforzar la especificidad de esta familia (revertido tras la 2ª pasada
+   de la auditoría — ver "REVISIÓN" al final del archivo). Repetir la clase
+   para ganarle a `.table td`/`.state` también le gana a un override
+   deliberado escrito por su propio nombre (`ReportesView`, `DocumentosView`
+   usan `.ds-empty { padding: … }` a propósito; `ServiciosView` usa
+   `.state`/`.ds-empty` en el mismo elemento con el comentario ".state es
+   .ds-empty con más aire"). La especificidad no distingue "regla de
+   contenedor ajena que no debería ganar" de "override intencionado de esta
+   misma primitiva" — un solo número no expresa las dos cosas, así que aquí
+   se deja SIEMPRE en (0,1,0) y el problema se resuelve donde nace: los
+   consumidores que hoy dejan que `.table td` les gane por accidente deben
+   migrar su tabla a `.ds-table`/`.ds-table--dense`, que sustituye esa regla
+   por completo en vez de competir con ella. */
 .ds-empty {
   padding: var(--space-32);
   color: var(--text-subtle);
@@ -429,6 +442,114 @@
 }
 
 /* ========================================================================== *
+ * TEXTO SECUNDARIO — auditoría FE-08: los pares color+tamaño que se repetían
+ * sueltos, a mano, en decenas de SFC como estilo scoped de un `<span>`.
+ * ========================================================================== */
+
+/* El dato de apoyo bajo un título/nombre (13px → 12px, mismo warm-500) —
+   13 copias idénticas. */
+.ds-meta {
+  color: var(--warm-500);
+  font-size: var(--text-xs);
+}
+
+/* Texto auxiliar más pequeño que `.ds-meta` (nota de ayuda, contador,
+   nombre de archivo) — 9 copias. El modificador es el `margin-top` de las
+   otras 9 copias que van pegadas justo debajo de un `.ds-item-label`; sin
+   él, el hint queda suelto (p. ej. los contadores de encabezado). */
+.ds-hint {
+  color: var(--warm-500);
+  font-size: var(--text-label);
+}
+
+.ds-hint--spaced {
+  margin-top: var(--space-2);
+}
+
+/* Etiqueta de fila/ítem — el nombre de mascota, medicamento o línea de
+   ticket que encabeza una tarjeta o fila de lista. 14 copias. */
+.ds-item-label {
+  color: var(--warm-900);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+}
+
+/* Énfasis fuerte sin cambiar de tamaño — totales, valores calculados,
+   subtítulos de tabla. 10 copias. */
+.ds-strong {
+  color: var(--warm-900);
+  font-weight: var(--weight-semibold);
+}
+
+/* Icono Lucide secundario dentro de una fila flex, que no debe encogerse
+   al competir por espacio con el texto. 13 copias. */
+.ds-icon-muted {
+  color: var(--warm-500);
+  flex-shrink: 0;
+}
+
+/* ========================================================================== *
+ * COLUMNA CON SEPARACIÓN — el `display:flex;flex-direction:column;gap` que
+ * envuelve casi cualquier cuerpo de formulario o de modal.
+ * ========================================================================== */
+
+.ds-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Los dos únicos gaps con volumen suficiente para ser catálogo: 14px en
+   cuerpos de modal compactos (12 copias) y 18px en formularios (10 copias).
+   Cualquier otro valor de gap sigue siendo local: no hay un tercero repetido. */
+.ds-stack--14 {
+  gap: var(--space-14);
+}
+
+.ds-stack--18 {
+  gap: var(--space-18);
+}
+
+/* ========================================================================== *
+ * ESTADO DESHABILITADO — para elementos que no son `.ds-btn`/`.ds-icon-btn`
+ * (filas, casillas, controles a medida) y por eso no heredan el `:disabled`
+ * que ya llevan esas dos primitivas. 12 copias, todas en `:disabled` o
+ * `.disabled`. Se aplica con `:class`; no sustituye al atributo nativo.
+ * ========================================================================== */
+
+/* NO reforzar la especificidad (revertido — ver "REVISIÓN" al final del
+   archivo). Como con `.ds-empty`, subir el peso le ganaría también a un
+   `:disabled { cursor: wait; … }` legítimo que un control quisiera declarar
+   para un matiz distinto (p. ej. "cargando" en vez de "deshabilitado" —
+   variante real en `CajaHistoryPanel.vue`). El contrato correcto es: al
+   adoptar esta clase, BORRA la regla `.disabled`/`:disabled` local que
+   reemplaza; no la dejes coexistiendo. */
+.ds-is-disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ========================================================================== *
+ * ANILLO DE FOCO — el par `border-color` + `box-shadow` que 14 inputs y
+ * buscadores repetían a mano, en `:focus` o `:focus-within` según si el
+ * borde vive en el propio control o en el `div` que lo envuelve.
+ * ========================================================================== */
+
+/* NO reforzar la especificidad (revertido — ver "REVISIÓN" al final del
+   archivo). `SearchField.vue` documenta por qué NO usa esta clase hoy: su
+   propio `.search:focus-within[data-v]` pesa (0,3,0) y le gana. Esa nota
+   sigue siendo cierta y no requiere corrección — subir el peso de la
+   primitiva sólo para ganarle ahí habría bloqueado el mismo tipo de
+   override deliberado que rompió `.ds-empty`. El contrato correcto sigue
+   siendo: al adoptar esta clase, BORRA el `:focus`/`:focus-within` local que
+   reemplaza (como haría `SearchField.vue` si migrara) en vez de dejarla
+   competir con él. */
+.ds-focus-ring:focus,
+.ds-focus-ring:focus-within {
+  border-color: var(--amatista-500);
+  box-shadow: var(--ring);
+}
+
+/* ========================================================================== *
  * BOTÓN DE ICONO — la acción por fila de tabla
  * ========================================================================== */
 
@@ -469,6 +590,15 @@
   border-color: var(--danger-400);
 }
 
+/* Acción de acento — "ir/editar/descargar/reponer" de la familia de
+ * contorno. Es la hermana de `--danger`: mismo patrón de hover, otro tono.
+ * 10 copias, todas coincidiendo en los tres mismos valores. */
+.ds-icon-btn--accent:hover:not(:disabled) {
+  background: var(--amatista-50);
+  border-color: var(--amatista-300);
+  color: var(--amatista-700);
+}
+
 /* ========================================================================== *
  * ERROR DEL SERVIDOR — el aviso al pie de un formulario
  * ========================================================================== */
@@ -483,3 +613,325 @@
   color: oklch(45% 0.18 25deg);
   font-size: 13px;
 }
+
+/* ========================================================================== *
+ * TABLA — el `.table`/`.table th`/`.table td` repetido en 7 copias con dos
+ * firmas limpias (auditoría FE-08, 2ª pasada): "pantalla" (13px, radio 12,
+ * celda 11/14 — ImpuestosView, InventoryProductsTable, InventoryPausedTable,
+ * MedicamentosView) y "modal" (12,5px, radio 10, celda 9/12 —
+ * StockDetailModal, CountsHistoryModal, CountSheetModal). `caja` extrajo
+ * `CashTable.vue` y `acciones` tiene otra copia en `ListBody.vue` para el
+ * mismo patrón. Como con `.ds-btn`/`.ds-card`, esta primitiva REEMPLAZA por
+ * completo las reglas `.table`/`.table th`/`.table td` del SFC migrado (no
+ * queda una clase local compitiendo), así que las reglas de abajo no
+ * necesitan el refuerzo de especificidad de la Parte 1. OJO: eso no
+ * significa que `.ds-table th`/`td` sean inofensivas para OTRAS primitivas
+ * de una sola clase colocadas dentro — ver las excepciones justo después de
+ * `.ds-table--dense td`, más abajo.
+ * ========================================================================== */
+
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-body);
+}
+
+.ds-table th {
+  padding: var(--space-11) var(--space-14);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text-subtle);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.ds-table td {
+  padding: var(--space-11) var(--space-14);
+  border-bottom: 1px solid var(--surface-sunken);
+  color: var(--warm-800);
+  vertical-align: middle;
+}
+
+.ds-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Variante de modal (12,5px / radio 10 / celda 9×12). 3 copias:
+   StockDetailModal, CountsHistoryModal, CountSheetModal. */
+.ds-table--dense {
+  border-radius: var(--radius-panel);
+  font-size: var(--text-sm);
+}
+
+.ds-table--dense th {
+  padding: var(--space-9) var(--space-12);
+  font-size: var(--text-micro);
+}
+
+.ds-table--dense td {
+  padding: var(--space-9) var(--space-12);
+}
+
+/* Migrar a `.ds-table` cambia de rival, no lo elimina. `.ds-table td`/`.ds-table
+   th` (0,1,1: una clase + un tipo) le siguen ganando a cualquier primitiva de
+   una sola clase (0,1,0) que fije la MISMA propiedad — confirmado en
+   `MedicamentosView.vue`, ya migrado: su `<td class="ds-empty ds-empty--lg">`
+   sigue pintando `padding`/`color` de `.ds-table td`, no los suyos. No es un
+   caso nuevo, es la misma familia de defecto que la 2ª pasada de esta
+   auditoría encontró y revirtió — aquí no se revierte nada porque no hay
+   ningún override deliberado que romper: es una excepción por nombre, sólo
+   activa dentro de `.ds-table` (no toca `.ds-empty`/`.ds-num`/`.ds-col-actions`
+   sueltas en el resto del código, que siguen en su peso natural).
+   `(0,1,1)+1 clase = (0,2,1)`, que gana a `.ds-table td`/`th` (0,1,1) y a
+   `.ds-table--dense td`/`th` (0,1,1, misma columna): la excepción no
+   necesita repetirse para la variante `--dense` porque ésta siempre viaja
+   junto a la clase base `.ds-table` en el mismo elemento.
+
+   Cubre los tres consumidores reales de esta familia: el estado vacío en
+   celda (8 archivos migrando a `.ds-table`/`--dense`), la cabecera numérica
+   (el `.table th.num` que `StockDetailModal.vue` documenta que ya no hace
+   falta si se usara `.ds-num`) y la cabecera de la columna de acciones
+   (`.actions-col`/`.ds-col-actions`, mismo patrón que `.table th`).
+
+   OJO para quien añada texto a una celda: cualquier primitiva de una sola
+   clase que fije `color` (`.ds-strong`, `.ds-item-label`, `.ds-meta`,
+   `.ds-icon-muted`) tiene el mismo problema si se usa alguna vez dentro de
+   un `<td>` de `.ds-table` — hoy no hay excepción para ellas porque no hay
+   ningún consumidor real que las combine con `.ds-table`; si aparece uno,
+   repite este mismo patrón (`.ds-table td.<clase>`). */
+.ds-table td.ds-empty {
+  padding: var(--space-32);
+  color: var(--text-subtle);
+}
+
+.ds-table td.ds-empty--tight {
+  padding: var(--space-16);
+}
+
+.ds-table td.ds-empty--lg {
+  padding: var(--space-40);
+}
+
+.ds-table td.ds-empty--boxed {
+  padding: var(--space-14) var(--space-16);
+  border: 1px dashed var(--border);
+}
+
+.ds-table th.ds-num {
+  text-align: right;
+}
+
+.ds-table th.ds-col-actions {
+  text-align: right;
+}
+
+/* ========================================================================== *
+ * CIFRA — auditoría FE-08 (2ª pasada): `.num { text-align: right;
+ * font-variant-numeric: tabular-nums }` repetido byte a byte en 9 archivos
+ * de `compras` (4), `tienda` (4) y `caja` (`CloseCashModal` + el `:deep(.num)`
+ * de `CashTable`). Ninguna propiedad choca con `.ds-table td` (que no fija
+ * `text-align` ni `font-variant-numeric`), así que no necesita refuerzo.
+ * ========================================================================== */
+
+.ds-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========================================================================== *
+ * SIGNO DEL IMPORTE — el par de hex crudo (`#2f7d4f`/`#b4453a`) de `caja` en
+ * `CashMovementsTable`, `CloseCashModal`, `CashSessionDetailModal` y el
+ * negativo de `FacturasProveedorView` (compras). Ver `--amount-pos`/
+ * `--amount-neg` en tokens.css: no reutiliza success/danger porque el matiz
+ * es distinto y reutilizarlo habría cambiado el color al migrar. El peso
+ * semibold sólo va en el positivo: es lo que declaran las dos copias reales
+ * que lo fijan (`CloseCashModal`, `CashMovementsTable`); el negativo, en las
+ * cuatro copias, es sólo color.
+ * ========================================================================== */
+
+.ds-amount--pos {
+  color: var(--amount-pos);
+  font-weight: var(--weight-semibold);
+}
+
+.ds-amount--neg {
+  color: var(--amount-neg);
+}
+
+/* ========================================================================== *
+ * PÍLDORA — el `border-radius: var(--radius-pill)` aparece en 57+ archivos;
+ * `acciones` lo contó en 62. Sólo se sube la CAJA (inline-flex, gap 6,
+ * padding 3/9, 11,5px, peso 500), verificada byte a byte igual entre
+ * `StatusPill` (acciones) y `LabStatusPill` (laboratorio): mismo
+ * `display/gap/padding/border-radius/font-size/font-weight/white-space/
+ * font-family`. Los COLORES y el punto de estado NO suben: `StatusPill` y
+ * `LabStatusPill` tiñen cada tono distinto (una además añade
+ * `letter-spacing`, la otra un `.dot`), y eso es variante legítima, no
+ * deriva — cada sitio sigue poniendo su propio tono encima.
+ * ========================================================================== */
+
+.ds-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-9);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+}
+
+/* ========================================================================== *
+ * COLUMNA DE ACCIONES — `width: 88px; text-align: right` en la última
+ * columna de una tabla de listado. 7 copias en `acciones`
+ * (Spa/Lab/Surgery/Imaging/Hosp/Vaccine/DewormListView), 8ª en
+ * `PromocionesView` (tienda).
+ *
+ * NO reforzar la especificidad (revertido — ver "REVISIÓN" al final del
+ * archivo): 0 consumidores hoy, así que subir el peso no arregla nada real
+ * y sólo deja la misma trampa que `.ds-empty` para el día en que alguien
+ * quiera sobrescribirla por nombre. Se adopta junto con `.ds-table` (que
+ * sustituye `.table th` por completo) — ahí no hay nada que competir. */
+.ds-col-actions {
+  width: 88px;
+  text-align: right;
+}
+
+/* ========================================================================== *
+ * FILA CLICABLE — `cursor: pointer` + `transition: background` en la fila y
+ * `background: var(--amatista-50)` en sus `td` al pasar el ratón. 7 copias
+ * en `acciones` (las mismas seis ListView + `LabHistory.vue`), 8 archivos en
+ * el repo.
+ *
+ * NO reforzar la especificidad (mismo motivo que `.ds-col-actions`: 0
+ * consumidores, se adopta junto con `.ds-table`, que quita a `.table td` de
+ * en medio).
+ * ========================================================================== */
+
+.ds-row-clickable {
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.ds-row-clickable:hover td {
+  background: var(--amatista-50);
+}
+
+/* ========================================================================== *
+ * RÓTULO EN VERSALITAS — dos piezas, no una con dos tamaños (ver informe de
+ * la auditoría): difieren en tres propiedades a la vez (tamaño, tracking Y
+ * peso), no sólo en tamaño, y su contexto de uso es distinto.
+ * ========================================================================== */
+
+/* KICKER — antecede a un titular (`.ds-display`/`.ds-title`) o encabeza una
+   sección. 11,5px / tracking .08em / peso 500, sin margen en la mayoría (6 de
+   11 copias); las que sí llevan margen inferior usan `--spaced`. 11 archivos:
+   PageHeader, ReportesView, HabilitacionView, DocumentosView, ServiciosView,
+   ImpuestosView, InventarioView, EditPermissionsModal, MedicamentosView,
+   TreatmentScreen (EmpresaView usa un acento de marca aparte — no entra en
+   la firma). */
+.ds-kicker {
+  color: var(--text-subtle);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ds-kicker--spaced {
+  margin-bottom: var(--space-6);
+}
+
+/* LABEL COMPACTO — rótulo de columna/filtro denso de `caja` (tabla de
+   arqueo, panel de historial): 10,5px / peso 600, mismo tracking .04em que
+   `.ds-label`. Se queda como modificador de tamaño de `.ds-label`, no como
+   pieza aparte: comparten color, tracking y transform; sólo cambia tamaño y
+   peso. 3 copias (CajaHistoryPanel, CashTable, CashSessionDetailModal;
+   CloseCashModal es 11px, variante cercana no exacta). */
+.ds-label--xs {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+}
+
+/* ========================================================================== *
+ * ACENTO EN HOVER (BOTÓN DE TEXTO) — el mismo trío de `.ds-icon-btn--accent`
+ * (amatista-50/300/700) pero para un botón de TEXTO, que no debe heredar la
+ * geometría cuadrada de 28×28 del botón de icono. `ExportBar.vue` documenta
+ * explícitamente por qué no usa la primitiva de icono aquí. 8 archivos con
+ * el mismo trío; de ésos, `ExportBar` y `BranchCard` son botones de texto,
+ * el resto ya son botones de icono cubiertos por `.ds-icon-btn--accent`.
+ *
+ * NO reforzar la especificidad (revertido — ver "REVISIÓN" al final del
+ * archivo): 0 consumidores hoy. Se adopta borrando el `:hover` local que
+ * reemplaza (como haría `ExportBar.vue` si migrara), no dejándolo competir.
+ * ========================================================================== */
+
+.ds-hover-accent:hover:not(:disabled) {
+  background: var(--amatista-50);
+  border-color: var(--amatista-300);
+  color: var(--amatista-700);
+}
+
+/* ========================================================================== *
+ * VISUALMENTE OCULTO — el clip de accesibilidad que `LabFormModal` copiaba
+ * a mano para esconder un `<input type="checkbox">` nativo detrás de un
+ * control a medida (ficha FE-14). Patrón estándar, sin variantes que
+ * conciliar.
+ * ========================================================================== */
+
+.ds-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ========================================================================== *
+ * REVISIÓN — auditoría de especificidad, 3ª pasada TR-02
+ *
+ * La 2ª pasada repitió el selector de `.ds-empty`(+modificadores),
+ * `.ds-is-disabled`, `.ds-focus-ring`, `.ds-col-actions`, `.ds-row-clickable`
+ * y `.ds-hover-accent` para ganarle a reglas scoped ajenas (`.table td`,
+ * `.state`, `.btn`…). La suite visual (15/15) confirmó que eso reactivó 8
+ * estados vacíos que de verdad estaban rotos por accidente — pero también
+ * mató 3 overrides ESCRITOS A PROPÓSITO por su propio nombre
+ * (`ReportesView.vue`, `DocumentosView.vue`, `ServiciosView.vue`, todos
+ * `.ds-empty { padding: … }` o `.state`/`.ds-empty` en el mismo elemento).
+ *
+ * La especificidad no distingue esos dos casos — "un contenedor ajeno gana
+ * por accidente" y "este mismo componente me está sobrescribiendo a
+ * propósito" pesan exactamente igual si son del mismo tamaño. Subir el peso
+ * arregla el primero y rompe el segundo a la vez. Por eso esta pasada
+ * REVIRTIÓ las seis primitivas de vuelta a su peso natural (una sola
+ * clase, sin repetir) en vez de parchear caso a caso.
+ *
+ * El contrato para las seis, de aquí en adelante: se diseñaron para
+ * REEMPLAZAR una regla local, no para competir con ella. Adoptarlas
+ * significa BORRAR la regla scoped que sustituyen (`.table td`/`.state` →
+ * migrar a `.ds-table`; `.btn`/`.disabled` → borrar el `:disabled` local;
+ * `.search:focus-within` → borrar el `border-color`/`box-shadow` local).
+ * Si una primitiva necesita ganarle a algo que sigue vivo, esa regla viva es
+ * el defecto, no el peso de la primitiva.
+ *
+ * CORRECCIÓN (3ª pasada): "migrar a `.ds-table` resuelve `.ds-empty` en
+ * origen" —el párrafo de arriba— era incompleto. `.ds-table td`/`th` (0,1,1)
+ * es una regla de contenedor tan real como lo era `.table td`, sólo que más
+ * ligera; confirmado en `MedicamentosView.vue` ya migrado, donde
+ * `.ds-empty`/`--lg` seguían perdiendo `padding`/`color`. Aquí SÍ hay
+ * excepción por nombre (ver el bloque `.ds-table td.ds-empty…` más arriba)
+ * porque, a diferencia de la 2ª pasada, está acotada a `.ds-table` — no
+ * puede pisar los tres overrides deliberados porque ésos no usan `.ds-table`.
+ * ========================================================================== */
