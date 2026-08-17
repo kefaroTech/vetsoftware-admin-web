@@ -219,7 +219,10 @@ onBeforeUnmount(() => {
         @click="toggle"
         @keydown="onKeydown"
       >
-        <span :class="['app-select__value', { placeholder: !selected }]">
+        <span
+          class="app-select__value ds-flex-fill ds-truncate"
+          :class="{ placeholder: !selected }"
+        >
           {{ selected?.label ?? placeholder }}
         </span>
         <ChevronDown class="app-select__chev" :size="16" />
@@ -240,7 +243,7 @@ onBeforeUnmount(() => {
             @mousedown.prevent="pick(o)"
             @mousemove="highlighted = i"
           >
-            <span class="app-select-panel__label">{{ o.label }}</span>
+            <span class="ds-flex-fill ds-truncate">{{ o.label }}</span>
             <Check v-if="o.value === modelValue" class="app-select-panel__check" :size="15" />
           </li>
         </ul>
@@ -256,12 +259,7 @@ onBeforeUnmount(() => {
 }
 
 .app-select__value {
-  flex: 1;
-  min-width: 0;
   text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .app-select__value.placeholder {
@@ -329,14 +327,6 @@ onBeforeUnmount(() => {
 
 .app-select-panel__item + .app-select-panel__item {
   margin-top: 2px;
-}
-
-.app-select-panel__label {
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .app-select-panel__check {

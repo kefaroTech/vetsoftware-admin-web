@@ -120,7 +120,7 @@ function goTo(path: string) {
 
     <button class="uvt-strip" type="button" @click="goTo('/configuracion')">
       <div class="uvt-strip-ic"><component :is="ICONS.RECEIPT" :size="20" /></div>
-      <div class="uvt-strip-text">
+      <div class="ds-flex-fill">
         <div class="uvt-strip-kicker">Facturación electrónica</div>
         <div class="uvt-strip-desc">
           Valor UVT vigente {{ currentYear }} para cálculos de facturación
@@ -132,7 +132,7 @@ function goTo(path: string) {
       </div>
     </button>
 
-    <header class="modules-header">
+    <header class="modules-header ds-flex-row ds-flex-row--12">
       <h2 class="modules-title">Módulos del sistema</h2>
       <span class="modules-count">{{ tiles.length }} disponibles</span>
       <div class="spacer" />
@@ -140,7 +140,7 @@ function goTo(path: string) {
     </header>
 
     <div class="tiles-grid">
-      <button v-for="tile in tiles" :key="tile.path" class="tile" @click="goTo(tile.path)">
+      <button v-for="tile in tiles" :key="tile.path" class="tile ds-stack" @click="goTo(tile.path)">
         <div class="tile-row">
           <div class="tile-icon">
             <component :is="tile.icon" :size="16" />
@@ -293,11 +293,6 @@ function goTo(path: string) {
   flex-shrink: 0;
 }
 
-.uvt-strip-text {
-  flex: 1;
-  min-width: 0;
-}
-
 .uvt-strip-kicker {
   font-size: 11px;
   font-weight: 600;
@@ -336,9 +331,6 @@ function goTo(path: string) {
 }
 
 .modules-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
   margin-bottom: 14px;
 }
 
@@ -386,8 +378,6 @@ function goTo(path: string) {
   background: #fbfaff;
   border: 1px solid #ece5f4;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
   gap: 12px;
   text-align: left;
   font-family: inherit;

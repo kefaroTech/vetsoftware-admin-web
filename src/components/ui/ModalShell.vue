@@ -114,10 +114,10 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
           :style="{ width: cardWidth, maxHeight: cardMaxHeight }"
         >
           <header class="head">
-            <div v-if="icon" class="icon-box">
+            <div v-if="icon" class="icon-box" :class="{ 'ds-tone--accent': accent === 'amatista' }">
               <component :is="icon" :size="20" :stroke-width="1.7" />
             </div>
-            <div class="head-text">
+            <div class="head-text ds-flex-fill">
               <h2 :id="titleId" class="title">{{ title }}</h2>
               <p v-if="subtitle" class="subtitle">{{ subtitle }}</p>
             </div>
@@ -125,7 +125,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
               v-if="closable"
               ref="closeBtn"
               type="button"
-              class="close"
+              class="close ds-hover-neutral"
               aria-label="Cerrar"
               @click="emit('close')"
             >
@@ -209,11 +209,11 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
   flex-shrink: 0;
 }
 
-.accent-amatista .icon-box {
-  background: var(--amatista-100);
-  color: var(--amatista-700);
-}
-
+/* El tono amatista migró a `.ds-tone--accent` (primitives.css), aplicado
+   directamente sobre `.icon-box` cuando `accent === 'amatista'`. Los otros
+   dos acentos se quedan locales: no coinciden byte a byte con ninguna
+   `.ds-tone--*` (`--danger` es `danger-200`/`oklch(50% 0.2 25deg)`, no
+   `danger-150`/`danger-600`). */
 .accent-danger .icon-box {
   background: var(--danger-150);
   color: var(--danger-600);
@@ -222,11 +222,6 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 .accent-warn .icon-box {
   background: var(--warning-50);
   color: oklch(45% 0.13 80deg);
-}
-
-.head-text {
-  flex: 1;
-  min-width: 0;
 }
 
 .title {
@@ -258,11 +253,6 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.12s ease;
-}
-
-.close:hover {
-  background: var(--warm-100);
-  color: var(--warm-900);
 }
 
 .body {

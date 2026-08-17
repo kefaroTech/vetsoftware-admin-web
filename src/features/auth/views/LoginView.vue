@@ -42,7 +42,7 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="login-shell">
+  <div class="login-shell ds-stack">
     <div class="blob blob-tr" aria-hidden="true" />
     <div class="blob blob-bl" aria-hidden="true" />
 
@@ -66,12 +66,12 @@ async function handleSubmit() {
           {{ sessionNotice }}
         </div>
 
-        <form class="form" novalidate @submit.prevent="handleSubmit">
+        <form class="ds-stack ds-stack--14" novalidate @submit.prevent="handleSubmit">
           <div v-if="errorMessage" class="error-banner" role="alert">
             {{ errorMessage }}
           </div>
 
-          <div class="field">
+          <div class="field ds-stack">
             <label for="login-code">Código de usuario</label>
             <div class="input-box" :class="{ 'has-error': !!errorMessage }">
               <component :is="ICONS.USER" :size="15" class="leading-icon" aria-hidden="true" />
@@ -86,7 +86,7 @@ async function handleSubmit() {
             </div>
           </div>
 
-          <div class="field">
+          <div class="field ds-stack">
             <label for="login-password">Contraseña</label>
             <div class="input-box" :class="{ 'has-error': !!errorMessage }">
               <component :is="ICONS.LOCK" :size="15" class="leading-icon" aria-hidden="true" />
@@ -136,8 +136,6 @@ async function handleSubmit() {
 .login-shell {
   position: relative;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   background: radial-gradient(ellipse at top, #f3e8ff 0%, #f5f1fa 50%, #ede8f4 100%);
   font-family:
     Inter,
@@ -268,12 +266,6 @@ async function handleSubmit() {
   line-height: 1.5;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
 .error-banner {
   background: #fee2e2;
   border: 1px solid #fca5a5;
@@ -292,11 +284,6 @@ async function handleSubmit() {
   padding: 10px 12px;
   border-radius: 8px;
   margin-bottom: 20px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
 }
 
 .field label {

@@ -26,7 +26,7 @@ const tab = ref<TabKey>('facturacion')
         v-for="t in tabs"
         :key="t.k"
         type="button"
-        class="tab"
+        class="tab ds-flex-row"
         :class="{ active: tab === t.k }"
         @click="tab = t.k"
       >
@@ -35,7 +35,7 @@ const tab = ref<TabKey>('facturacion')
     </div>
 
     <UvtEditor v-if="tab === 'facturacion'" />
-    <div v-else class="placeholder">
+    <div v-else class="placeholder ds-empty ds-empty--lg">
       Ajustes {{ tab === 'general' ? 'generales' : 'de seguridad' }} — en construcción.
     </div>
   </AppLayout>
@@ -73,9 +73,6 @@ const tab = ref<TabKey>('facturacion')
 }
 
 .tab {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   padding: 10px 14px;
   background: transparent;
   border: none;
@@ -103,9 +100,9 @@ const tab = ref<TabKey>('facturacion')
   border-radius: 2px;
 }
 
+/* El color y el tamaño se quedan: son el matiz de esta consola, no el de
+   `.ds-empty` (que tiñe con --text-subtle). */
 .placeholder {
-  padding: 40px;
-  text-align: center;
   color: #a89bbd;
   font-size: 13px;
 }

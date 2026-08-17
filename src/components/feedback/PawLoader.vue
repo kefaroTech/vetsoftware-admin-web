@@ -74,7 +74,7 @@ const filterId = `paw-glow-${useId()}`
         />
       </g>
     </svg>
-    <span class="sr-only">{{ props.label }}</span>
+    <span class="ds-sr-only">{{ props.label }}</span>
   </span>
 </template>
 
@@ -114,17 +114,8 @@ const filterId = `paw-glow-${useId()}`
   }
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
+/* El `.sr-only` local migró a `.ds-sr-only` (primitives.css): coincidencia
+   exacta con el clip de accesibilidad. */
 
 @media (prefers-reduced-motion: reduce) {
   .paw-pivot {

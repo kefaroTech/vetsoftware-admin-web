@@ -41,7 +41,7 @@ const iconFor = computed(() => (kind: ToastKind) => {
       <div class="toast-icon">
         <component :is="iconFor(t.kind)" :size="16" :stroke-width="2" />
       </div>
-      <div class="toast-body">
+      <div class="toast-body ds-flex-fill">
         <div class="toast-title">{{ t.title }}</div>
         <div v-if="t.message" class="toast-message">{{ t.message }}</div>
         <!-- TR-05: el identificador de la traza. Es lo único que permite a soporte encontrar
@@ -59,7 +59,7 @@ const iconFor = computed(() => (kind: ToastKind) => {
       </div>
       <button
         type="button"
-        class="toast-close"
+        class="toast-close ds-hover-neutral"
         aria-label="Cerrar notificación"
         @click="dismiss(t.id)"
       >
@@ -144,11 +144,6 @@ const iconFor = computed(() => (kind: ToastKind) => {
   border-left: 3px solid var(--danger-500);
 }
 
-.toast-body {
-  flex: 1;
-  min-width: 0;
-}
-
 .toast-title {
   font-size: 13.5px;
   font-weight: 500;
@@ -203,10 +198,5 @@ const iconFor = computed(() => (kind: ToastKind) => {
   place-items: center;
   cursor: pointer;
   flex-shrink: 0;
-}
-
-.toast-close:hover {
-  background: var(--warm-100);
-  color: var(--warm-900);
 }
 </style>
