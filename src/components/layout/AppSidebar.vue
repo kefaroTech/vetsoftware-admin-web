@@ -3,9 +3,8 @@ import { ref, type Component } from 'vue'
 import { useRoute } from 'vue-router'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
-import { useAuth } from '@/features/auth/composables/useAuth'
+import SidebarUserCard from './SidebarUserCard.vue'
 
-const { logout } = useAuth()
 const route = useRoute()
 
 interface NavLeaf {
@@ -200,7 +199,7 @@ const toggle = (parent: NavParent) => {
 </script>
 
 <template>
-  <aside class="sidebar">
+  <aside class="sidebar ds-stack">
     <div class="sidebar-header">
       <div class="logo">
         <component :is="ICONS.PAW" :size="16" />
@@ -211,10 +210,10 @@ const toggle = (parent: NavParent) => {
       </div>
     </div>
 
-    <nav class="nav-groups">
+    <nav class="nav-groups ds-stack">
       <div v-for="group in navGroups" :key="group.title" class="nav-group">
         <div class="nav-group-title">{{ group.title }}</div>
-        <div class="nav-list">
+        <div class="nav-list ds-stack">
           <template v-for="item in group.items" :key="item.label">
             <RouterLink
               v-if="!isParent(item)"
@@ -223,11 +222,11 @@ const toggle = (parent: NavParent) => {
               active-class="is-active"
             >
               <component :is="item.icon" :size="15" class="nav-icon" />
-              <span class="nav-label">{{ item.label }}</span>
+              <span class="nav-label ds-truncate">{{ item.label }}</span>
               <span v-if="item.count" class="nav-count">{{ item.count }}</span>
             </RouterLink>
 
-            <div v-else class="nav-parent">
+            <div v-else class="ds-stack">
               <button
                 type="button"
                 class="nav-item nav-item-parent"
@@ -236,7 +235,7 @@ const toggle = (parent: NavParent) => {
                 @click="toggle(item)"
               >
                 <component :is="item.icon" :size="15" class="nav-icon" />
-                <span class="nav-label">{{ item.label }}</span>
+                <span class="nav-label ds-truncate">{{ item.label }}</span>
                 <component
                   :is="ICONS.CHEVRON_DOWN"
                   :size="13"
@@ -245,7 +244,7 @@ const toggle = (parent: NavParent) => {
                 />
               </button>
 
-              <div v-show="isExpanded(item)" class="nav-sublist">
+              <div v-show="isExpanded(item)" class="nav-sublist ds-stack">
                 <RouterLink
                   v-for="child in item.children"
                   :key="child.path"
@@ -254,7 +253,7 @@ const toggle = (parent: NavParent) => {
                   active-class="is-active"
                 >
                   <component :is="child.icon" :size="13" class="nav-icon" />
-                  <span class="nav-label">{{ child.label }}</span>
+                  <span class="nav-label ds-truncate">{{ child.label }}</span>
                 </RouterLink>
               </div>
             </div>
@@ -263,16 +262,7 @@ const toggle = (parent: NavParent) => {
       </div>
     </nav>
 
-    <div class="sidebar-footer">
-      <div class="avatar">AD</div>
-      <div class="user-info">
-        <div class="user-name">Admin</div>
-        <div class="user-role">Super administrador</div>
-      </div>
-      <button class="logout-btn" aria-label="Cerrar sesión" @click="logout">
-        <component :is="ICONS.LOGOUT" :size="14" />
-      </button>
-    </div>
+    <SidebarUserCard />
   </aside>
 </template>
 
@@ -281,8 +271,6 @@ const toggle = (parent: NavParent) => {
   background: #fff;
   border-right: 1px solid #ece5f4;
   padding: 20px 16px;
-  display: flex;
-  flex-direction: column;
   height: 100vh;
   position: sticky;
   top: 0;
@@ -325,8 +313,6 @@ const toggle = (parent: NavParent) => {
 
 .nav-groups {
   margin-top: 18px;
-  display: flex;
-  flex-direction: column;
 }
 
 .nav-group {
@@ -343,8 +329,6 @@ const toggle = (parent: NavParent) => {
 }
 
 .nav-list {
-  display: flex;
-  flex-direction: column;
   gap: 1px;
 }
 
@@ -389,9 +373,6 @@ const toggle = (parent: NavParent) => {
 
 .nav-label {
   flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .nav-count {
@@ -403,11 +384,6 @@ const toggle = (parent: NavParent) => {
 
 .nav-item.is-active .nav-count {
   color: #7e22ce;
-}
-
-.nav-parent {
-  display: flex;
-  flex-direction: column;
 }
 
 .nav-item-parent {
@@ -430,8 +406,6 @@ const toggle = (parent: NavParent) => {
 }
 
 .nav-sublist {
-  display: flex;
-  flex-direction: column;
   gap: 1px;
   margin: 2px 0 4px 18px;
   padding-left: 10px;
@@ -457,65 +431,5 @@ const toggle = (parent: NavParent) => {
   left: -11px;
   top: 6px;
   bottom: 6px;
-}
-
-.sidebar-footer {
-  margin-top: auto;
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border: 1px solid #ece5f4;
-  border-radius: 8px;
-}
-
-.avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #3d2e57;
-  color: #fff;
-  display: grid;
-  place-items: center;
-  font-size: 11px;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-.user-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.user-name {
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.1;
-  color: #1a1325;
-}
-
-.user-role {
-  font-size: 10px;
-  color: #6b5b80;
-  margin-top: 2px;
-}
-
-.logout-btn {
-  background: transparent;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  color: #6b5b80;
-  display: grid;
-  place-items: center;
-  border-radius: 4px;
-  transition:
-    color 0.12s,
-    background 0.12s;
-}
-
-.logout-btn:hover {
-  color: #7e22ce;
-  background: #faf5ff;
 }
 </style>

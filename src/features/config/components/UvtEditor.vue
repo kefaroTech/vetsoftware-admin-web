@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { ICONS } from '@/constants/icons'
 import { useToast } from '@/composables/useToast'
 import { useSystemConfig } from '../composables/useSystemConfig'
+import UvtHelpAside from './UvtHelpAside.vue'
 
 const { uvtConfig, uvtValue, fetch, saveUvt } = useSystemConfig()
 const { errorFrom } = useToast()
@@ -66,7 +67,7 @@ function onKey(e: KeyboardEvent) {
     <div class="card">
       <div class="card-head">
         <div class="head-ic"><component :is="ICONS.RECEIPT" :size="18" /></div>
-        <div class="head-text">
+        <div class="head-text ds-flex-fill">
           <div class="head-title">Valor UVT — {{ currentYear }}</div>
           <div class="head-sub">
             Unidad de Valor Tributario vigente para facturación electrónica
@@ -112,7 +113,7 @@ function onKey(e: KeyboardEvent) {
             <span class="edit-suffix">COP</span>
           </div>
           <div v-if="err" class="edit-err"><component :is="ICONS.INFO" :size="13" />{{ err }}</div>
-          <div class="edit-actions">
+          <div class="edit-actions ds-flex-row">
             <button class="btn-save" :disabled="saving" @click="onSave">
               <component :is="ICONS.CHECK" :size="14" />{{
                 saving ? 'Guardando…' : 'Guardar cambios'
@@ -127,7 +128,7 @@ function onKey(e: KeyboardEvent) {
 
       <!-- Histórico -->
       <div class="history">
-        <div class="history-head">
+        <div class="history-head ds-flex-row">
           <component :is="ICONS.HISTORY" :size="14" />
           <span>Histórico de vigencias</span>
         </div>
@@ -139,29 +140,7 @@ function onKey(e: KeyboardEvent) {
     </div>
 
     <!-- Lateral explicativo -->
-    <div class="aside">
-      <div class="explain">
-        <div class="explain-glow" />
-        <div class="explain-body">
-          <div class="explain-kicker">// ¿QUÉ ES LA UVT?</div>
-          <p>
-            La <strong>Unidad de Valor Tributario</strong> es la medida que la DIAN actualiza cada
-            año para estandarizar valores tributarios. VetSoftware la usa para calcular topes y
-            referencias en la <strong>facturación electrónica</strong>.
-          </p>
-        </div>
-      </div>
-      <div class="note">
-        <div class="note-ic"><component :is="ICONS.INFO" :size="16" /></div>
-        <div>
-          <div class="note-title">Importante</div>
-          <p>
-            Actualiza este valor cada inicio de año con la cifra oficial publicada por la DIAN. Un
-            valor incorrecto afecta directamente los cálculos de facturación.
-          </p>
-        </div>
-      </div>
-    </div>
+    <UvtHelpAside />
   </div>
 </template>
 
@@ -203,11 +182,6 @@ function onKey(e: KeyboardEvent) {
   display: grid;
   place-items: center;
   flex-shrink: 0;
-}
-
-.head-text {
-  flex: 1;
-  min-width: 0;
 }
 
 .head-title {
@@ -371,10 +345,7 @@ function onKey(e: KeyboardEvent) {
 }
 
 .edit-actions {
-  display: flex;
-  gap: 8px;
   margin-top: 18px;
-  align-items: center;
 }
 
 .btn-save {
@@ -421,9 +392,6 @@ function onKey(e: KeyboardEvent) {
 }
 
 .history-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   margin-bottom: 14px;
   color: #7e22ce;
 }
@@ -440,88 +408,5 @@ function onKey(e: KeyboardEvent) {
   font-size: 12px;
   color: #a89bbd;
   line-height: 1.5;
-}
-
-.aside {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.explain {
-  background: linear-gradient(135deg, #581c87, #3b0764);
-  border-radius: 14px;
-  padding: 22px 24px;
-  color: #fff;
-  position: relative;
-  overflow: hidden;
-}
-
-.explain-glow {
-  position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgb(216 180 254 / 25%), transparent 70%);
-}
-
-.explain-body {
-  position: relative;
-}
-
-.explain-kicker {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: #d8b4fe;
-  letter-spacing: 0.08em;
-  margin-bottom: 10px;
-}
-
-.explain p {
-  font-size: 13px;
-  color: #e9d5ff;
-  line-height: 1.55;
-  margin: 0;
-}
-
-.explain strong {
-  color: #fff;
-}
-
-.note {
-  background: #fff;
-  border: 1px solid #ece5f4;
-  border-radius: 12px;
-  padding: 18px 20px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.note-ic {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: #f3e8ff;
-  color: #7e22ce;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-}
-
-.note-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1a1325;
-  margin-bottom: 4px;
-}
-
-.note p {
-  font-size: 12px;
-  color: #6b5b80;
-  line-height: 1.5;
-  margin: 0;
 }
 </style>

@@ -20,14 +20,14 @@ function goToCompanies() {
   <header class="topbar">
     <div class="search">
       <component :is="ICONS.SEARCH" :size="14" class="search-icon" />
-      <span class="search-placeholder">Buscar empresas, módulos, permisos…</span>
+      <span class="search-placeholder ds-truncate">Buscar empresas, módulos, permisos…</span>
     </div>
     <div class="spacer" />
     <button class="bell-btn" aria-label="Notificaciones">
       <component :is="ICONS.BELL" :size="15" />
       <span class="bell-dot" />
     </button>
-    <button v-if="!onCompaniesList" class="primary-btn" @click="goToCompanies">
+    <button v-if="!onCompaniesList" class="primary-btn ds-flex-row" @click="goToCompanies">
       <component :is="ICONS.ADD" :size="14" />
       Nueva empresa
     </button>
@@ -65,9 +65,6 @@ function goToCompanies() {
   font-size: 13px;
   color: #a89bbd;
   flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .spacer {
@@ -107,9 +104,6 @@ function goToCompanies() {
 }
 
 .primary-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   padding: 8px 14px;
   border-radius: 8px;
   border: none;

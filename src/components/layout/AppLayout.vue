@@ -6,7 +6,7 @@ import AppHeader from './AppHeader.vue'
 <template>
   <div class="app-shell">
     <AppSidebar />
-    <main class="app-main">
+    <main class="app-main ds-stack">
       <AppHeader />
       <div class="app-content">
         <slot />
@@ -25,8 +25,6 @@ import AppHeader from './AppHeader.vue'
 }
 
 .app-main {
-  display: flex;
-  flex-direction: column;
   min-width: 0;
   min-height: 100vh;
   overflow: hidden;
