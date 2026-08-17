@@ -52,18 +52,24 @@ Patrón uniforme por feature: `api/*.api.ts`, `stores/*.store.ts`, `composables/
 
 `src/services/http/http.client.ts`:
 
-- `baseURL = ${VITE_API_URL ?? ''}/api/v1` (dev: `http://localhost:8080/api/v1`)
-- Request interceptor: añade `Authorization: Bearer <token>` desde `storageService.getToken()` y dispara `pushLoader()`.
-- Response interceptor: `popLoader()` siempre. En **401** (URL distinta a `/auth/login`) borra token y hace `window.location.href = '/login'`.
-- Helper `getProblemDetailMessage(error, fallback)` extrae `detail`/`title` de `ProblemDetail`.
+- `baseURL = createApiBaseUrl(import.meta.env.VITE_API_URL)` (dev: `http://localhost:8080/api/v1`)
+- Request interceptor: añade `Authorization: Bearer <token>`, y dispara `pushLoader()` salvo que la petición lleve `skipGlobalLoader`. Marca `config._loaderPushed = true`.
+- Response interceptor: `releaseLoader(config)` —**no** `popLoader()` a secas—, tanto en éxito como en error. El guard `_loaderPushed` garantiza exactamente un `pop` por `push`: el reintento vuelve a pasar por el interceptor de request y re-incrementa, y un rechazo sin `config` no decrementa lo que nunca subió.
+- Reintento de red: solo **GET**, ante fallo sin respuesta o 5xx, hasta `MAX_NETWORK_RETRIES = 2` con backoff lineal de `RETRY_BACKOFF_MS = 300` ms.
+- En **401** ya no se borra el token a ciegas. El flujo depende del código de `ProblemDetail`:
+  - `TOKEN_EXPIRED` → un único intento de refresh (`_retry`) vía el `refreshHandler` que registra el store de auth; si devuelve token, se reintenta la petición original.
+  - `SESSION_REPLACED` → deja aviso en `sessionStorage` para mostrarlo tras el redirect.
+  - Cualquier otro 401, o refresh fallido → `redirectToLogin()`, que hace `clearSession()` y navega a `/login` solo si no estamos ya ahí.
+  - Las llamadas a `/auth/login`, `/auth/refresh` y `/auth/logout` quedan fuera del flujo de refresh, para evitar recursión.
+- Helper `getProblemDetailMessage(error, fallback)` extrae `detail`/`title` de `ProblemDetail`; `getProblemDetailCode(error)` extrae el `code` que decide el flujo de 401.
 
 ## Autenticación
 
-- **Storage**: `localStorage['vet_token']` como **string plano** (no JSON). `TOKEN_KEY` en `src/services/storage/storage.service.ts`.
+- **Storage**: `localStorage['vetsoft.auth']` con la sesión serializada en **JSON** (no un token en string plano). La clave es `AUTH_STORAGE_KEY` en `src/services/storage/storage.service.ts`, que además expone `SESSION_REPLACED_NOTICE_KEY` (`'vetsoft.auth.session-replaced'`) sobre `sessionStorage` para el aviso de sesión desplazada.
 - **Login**: `POST /auth/login/system` con `LoginSystemUserCommand = { code, password }`.
 - **Response**: `TokenResponse = { token, type }`.
-- **Store** (`src/features/auth/stores/auth.store.ts`): decodifica JWT en cliente (`decodeJwt`), expone `userId`, `userType` (`EMPLOYEE | SYSTEM_USER`), `permissions: ref<string[]>` (vacío, no se popula).
-- **Logout**: `storageService.clearAll()` (limpia ambos localStorage y sessionStorage) + `window.location.href = '/login'`.
+- **Store** (`src/features/auth/stores/auth.store.ts`): decodifica JWT en cliente (`decodeJwt`), expone `userId`, `userType` (`EMPLOYEE | SYSTEM_USER`), `permissions: ref<string[]>`, que **sí se popula** desde la respuesta de `me` y respalda el helper `hasPermission(p)` (un `SYSTEM_USER` la cumple siempre).
+- **Logout**: `storageService.clearAll()` (limpia `localStorage` y `sessionStorage`) + `window.location.href = '/login'`. Ojo, no confundir con el 401 del interceptor, que usa `clearSession()` —más acotado— para no borrar el aviso de sesión desplazada que acaba de dejar.
 
 ## Tipos
 
