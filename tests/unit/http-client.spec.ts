@@ -12,6 +12,7 @@ import {
   getProblemDetailFieldErrors,
   getProblemDetailMessage,
   isConcurrencyConflict,
+  isAppointmentOverlap,
   setRefreshHandler,
 } from '@/services/http/http.client'
 import { storageService } from '@/services/storage/storage.service'
@@ -398,6 +399,22 @@ describe('lectores del ProblemDetail', () => {
       const error = httpError(config, 409, { code: 'DUPLICATED_CODE' })
 
       expect(isConcurrencyConflict(error)).toBe(false)
+    })
+  })
+
+  describe('isAppointmentOverlap', () => {
+    it('reconoce el 409 de solape de cita', () => {
+      // BE-17: la duración de la cita ahora bloquea el hueco. El llamador puede
+      // reintentar marcando un flag de forzado para agendar igualmente.
+      const error = httpError(config, 409, { code: 'APPOINTMENT_OVERLAP' })
+
+      expect(isAppointmentOverlap(error)).toBe(true)
+    })
+
+    it('no confunde otro 409 con un solape de cita', () => {
+      const error = httpError(config, 409, { code: 'CONCURRENT_MODIFICATION' })
+
+      expect(isAppointmentOverlap(error)).toBe(false)
     })
   })
 

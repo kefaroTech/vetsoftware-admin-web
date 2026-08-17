@@ -7820,6 +7820,8 @@ export interface components {
         UpdateAppointmentRequest: {
             /** Format: date-time */
             startAt: string;
+            /** Format: int32 */
+            durationMinutes?: number;
             /** @enum {string} */
             type: "CONSULTATION" | "CONTROL" | "VACCINATION" | "DEWORMING" | "SURGERY" | "IMAGING" | "LABORATORY" | "GROOMING" | "OTHER";
             /** Format: int64 */
@@ -7833,12 +7835,19 @@ export interface components {
             /** Format: email */
             clientEmail?: string;
             notes?: string;
+            forceOverlap?: boolean;
         };
         AppointmentResponse: {
             /** Format: int64 */
             id: number;
             /** Format: date-time */
             startAt: string;
+            /**
+             * Format: int32
+             * @description Duración propia de la cita en minutos. null = hereda la duración por defecto de la empresa (ajuste appointment.default_duration_minutes; 30 si no está configurado). El fin es derivado: startAt + duración.
+             * @example 30
+             */
+            durationMinutes?: number;
             /** @enum {string} */
             type: "CONSULTATION" | "CONTROL" | "VACCINATION" | "DEWORMING" | "SURGERY" | "IMAGING" | "LABORATORY" | "GROOMING" | "OTHER";
             /** @enum {string} */
@@ -7857,6 +7866,7 @@ export interface components {
             enabled: boolean;
             /** Format: date-time */
             createdDate: string;
+            /** @description Citas del mismo veterinario con las que esta se cruza. Desde BE-17 el cruce bloquea con 409 APPOINTMENT_OVERLAP, así que este array solo llega no vacío cuando la operación se guardó con forceOverlap=true. Incluye únicamente las citas de las sedes que el usuario tiene asignadas: los cruces en otras sedes bloquean o se fuerzan igual, pero no se identifican. Nunca es null. */
             overlappingAppointmentIds: number[];
         };
         UpdateAnimalRequest: {
@@ -9044,6 +9054,8 @@ export interface components {
         CreateAppointmentRequest: {
             /** Format: date-time */
             startAt: string;
+            /** Format: int32 */
+            durationMinutes?: number;
             /** @enum {string} */
             type: "CONSULTATION" | "CONTROL" | "VACCINATION" | "DEWORMING" | "SURGERY" | "IMAGING" | "LABORATORY" | "GROOMING" | "OTHER";
             /** Format: int64 */
@@ -9059,6 +9071,7 @@ export interface components {
             notes?: string;
             /** Format: int64 */
             branchId?: number;
+            forceOverlap?: boolean;
         };
         CreateAnimalRequest: {
             name: string;
@@ -9197,8 +9210,11 @@ export interface components {
         RescheduleAppointmentRequest: {
             /** Format: date-time */
             startAt: string;
+            /** Format: int32 */
+            durationMinutes?: number;
             /** Format: int64 */
             employeeId: number;
+            forceOverlap?: boolean;
         };
         CancelAppointmentRequest: {
             reason?: string;
