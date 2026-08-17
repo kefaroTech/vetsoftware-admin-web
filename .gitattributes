@@ -1,2 +1,6 @@
 * text=auto eol=lf
 *.bat text eol=crlf
+
+# Las lineas base de regresion visual son binarias: ninguna normalizacion de
+# fin de linea debe tocarlas, o la comparacion pixel a pixel deja de valer.
+*.png binary

@@ -1,0 +1,8 @@
+{
+  "_comentario": "Techos del presupuesto de CSS (FE-08) de la consola de plataforma. Trinquete: se bajan cuando una tanda de retirada los mejora, NUNCA se suben. El script que los lee, css-budget.mjs, es gemelo TR-02 entre los dos fronts; solo estos numeros difieren. Este repo cumple ya el objetivo del hallazgo en su ajuste mas estricto (17 de agosto de 2026: distancia -467, cero cuerpos duplicados, cero SFC grandes), asi que aqui los techos SON la meta y no una concesion.",
+  "maxStyleMinusScript": 0,
+  "maxDuplicateBodies": 3,
+  "maxDuplicateGroups": 0,
+  "maxSfcLines": 500,
+  "maxOversizedSfc": 0
+}
