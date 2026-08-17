@@ -1,45 +1,47 @@
 import { defineConfig, devices } from '@playwright/test'
 
 /**
- * Playwright E2E — casos de prueba escritos en código (alternativa local a
- * TestSprite). La app debe estar corriendo en http://localhost:5173
- * (`npm run dev`), que ya proxya /api al backend sin CORS.
+ * Playwright E2E de flujo — configuración de la consola de plataforma.
  *
- * Credenciales por variable de entorno (nunca hardcodeadas):
- *   E2E_EMPLOYEE_CODE (default "O")
- *   E2E_PASSWORD      (requerida para los casos que hacen login)
+ * ── Hoy este repositorio NO tiene E2E de flujo ─────────────────────────────
+ * `testDir` apunta a `./e2e`, y ese directorio no existe: la cobertura de la
+ * consola es hoy Vitest (`tests/unit/`) y regresión visual
+ * (`playwright.visual.config.ts`). Los E2E de flujo viven en el otro front,
+ * VetSoftwarePublicFront, que es donde están los recorridos de usuario.
  *
- * Ejecutar:  npm run e2e        (headless)
- *            npm run e2e:ui     (modo interactivo)
+ * ── Entonces, ¿por qué sigue existiendo este fichero? ──────────────────────
+ * Porque es lo que impide que un `npx playwright test` a secas se lleve por
+ * delante las pruebas de Vitest. Sin él, Playwright no encuentra configuración,
+ * escanea el directorio de trabajo, hace match con `tests/unit/*.spec.ts` e
+ * intenta ejecutarlas como si fueran suyas: revientan con
+ * `Cannot read properties of undefined (reading 'VITE_API_URL')` y el error no
+ * se parece en nada a la causa. Con este fichero delante, el mismo comando dice
+ * «No tests found», que es la verdad.
+ *
+ * Es además el sitio donde aterrizarían los E2E de la consola si algún día se
+ * escriben: crea `e2e/`, deja los specs ahí y esto ya funciona.
+ *
+ * ── No se ejecuta en CI, y es deliberado ───────────────────────────────────
+ * Los E2E de flujo del proyecto se corren a mano, en local. Ver el apartado de
+ * pruebas del README.
+ *
+ * Credenciales por variable de entorno, nunca escritas en el código:
+ *   E2E_EMPLOYEE_CODE
+ *   E2E_PASSWORD
  */
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
+  retries: 0,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: process.env.E2E_BASE_URL ?? 'http://localhost:5173',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
-  projects: [
-    // Proyecto de SEMBRADO: crea una sola vez (contra el backend real) el
-    // paciente con historia clínica + el propietario sin mascotas y los persiste
-    // a un JSON. Usa el contexto managed de Playwright (el login del wizard solo
-    // funciona ahí). Se auto-salta si el run no incluye historia (ver el archivo).
-    { name: 'setup', testMatch: /historia\.setup\.ts/, use: { ...devices['Desktop Chrome'] } },
-    // TODAS las specs (auth, consulta, acciones, historia) corren bajo ESTE único
-    // proyecto → en `--ui` se ven juntas en un solo nodo. Depende de `setup` para
-    // que el sembrado esté listo antes de los casos de historia.
-    {
-      name: 'chromium',
-      testIgnore: /historia\.setup\.ts/,
-      dependencies: ['setup'],
-      use: { ...devices['Desktop Chrome'] },
-    },
-  ],
-  // Reusa el server si ya está arriba; si no, lo levanta.
+  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  // Reusa el servidor si ya está arriba; si no, lo levanta.
   webServer: {
     command: 'npm run dev',
     url: 'http://localhost:5173',
