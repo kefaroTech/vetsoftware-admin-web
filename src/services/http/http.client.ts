@@ -1,7 +1,6 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios'
 import { popLoader, pushLoader } from '@/composables/useGlobalLoader'
 import { storageService } from '@/services/storage/storage.service'
-import { nextTraceparent } from '@/services/telemetry/trace'
 import type { ProblemDetail } from '@/types/api.types'
 import { createApiBaseUrl } from './api-base-url'
 
@@ -19,14 +18,11 @@ declare module 'axios' {
     _loaderPushed?: boolean
     /** Marca interna: reintentos ya consumidos ante fallo de red o 5xx. */
     _networkRetries?: number
-    /** Marca interna: trace-id que este cliente generó para la petición (TR-05). */
-    _traceId?: string
   }
   export interface InternalAxiosRequestConfig {
     _retry?: boolean
     _loaderPushed?: boolean
     _networkRetries?: number
-    _traceId?: string
   }
 }
 
@@ -91,12 +87,6 @@ export function setRefreshHandler(handler: RefreshHandler) {
 http.interceptors.request.use((config) => {
   const token = storageService.getToken()
   if (token) config.headers.set('Authorization', `Bearer ${token}`)
-
-  // TR-05: el backend adopta este trace-id, así que el navegador y el servidor comparten uno.
-  // El reintento pasa otra vez por aquí y genera uno nuevo, que es lo correcto: es otra petición.
-  const { traceId, traceparent } = nextTraceparent()
-  config.headers.set('traceparent', traceparent)
-  config._traceId = traceId
 
   if (!config.skipGlobalLoader) {
     pushLoader()
@@ -182,15 +172,19 @@ http.interceptors.response.use(
  * la leía, así que cuando un veterinario reportaba «se quedó cargando», soporte no tenía forma de
  * encontrar la traza: el dato estaba a un acceso de distancia.
  *
- * <p>El orden importa. Se prefiere el id que generó este cliente porque desde TR-05 el backend
- * **adopta** el `traceparent` entrante: es el mismo identificador, y además existe cuando la
- * petición murió sin respuesta —un timeout, la red caída— que es justo el caso que peor se
- * diagnostica y el que dio nombre al hallazgo. Después la cabecera, y solo al final el `traceId`
- * del cuerpo, que falta en las respuestas sin `ProblemDetail`.
+ * <p><b>Este cliente ya no genera `traceparent`.</b> Lo hizo durante un tiempo (ver historial):
+ * fabricaba también un span-id de padre al azar para completar la cabecera W3C, y ese span-id no
+ * correspondía a ningún span real —no hay OpenTelemetry en el navegador, solo cuatro líneas de
+ * `crypto.randomUUID()`. El backend, fiel al estándar, adoptaba esa traza y colgaba su propio
+ * span de un padre que no existía en ningún proceso. Resultado verificado en Tempo: el 100 % de
+ * las trazas del sistema quedaban sin raíz (`rootTraceName: null`). Se decidió revertirlo:
+ * ahora el backend es quien origina la traza. La contrapartida, aceptada a sabiendas, es que una
+ * petición que muere sin respuesta —timeout, red caída— vuelve a no tener ningún identificador
+ * que mostrar, porque no hay `X-Trace-Id` ni `ProblemDetail` de los que sacarlo. Antes de
+ * reintroducir la generación en el cliente, resolver primero cómo evitar el span huérfano.
  */
 export function getTraceId(error: unknown): string | undefined {
   if (!(error instanceof AxiosError)) return undefined
-  if (error.config?._traceId) return error.config._traceId
   const header = error.response?.headers?.['x-trace-id']
   if (typeof header === 'string' && header.trim()) return header.trim()
   const pd = error.response?.data as ProblemDetail | undefined

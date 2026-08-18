@@ -10,6 +10,10 @@ import { getTraceId } from '@/services/http/http.client'
  * <p>Lo que se protege aquí es la precedencia: la cabecera manda sobre el `traceId` del cuerpo,
  * porque existe también en las respuestas que no traen `ProblemDetail` —un 502 del proxy, un
  * timeout—, que son justo las peores de diagnosticar.
+ *
+ * <p>El cliente ya no genera `traceparent` (ver el comentario de `getTraceId`): el backend es
+ * quien origina la traza ahora. Por eso solo quedan estas dos fuentes; una petición que muere sin
+ * respuesta vuelve a no tener identificador que mostrar, y eso es lo que documenta ese comentario.
  */
 function errorCon(headers: Record<string, string>, data?: unknown): AxiosError {
   const error = new AxiosError('fallo')
@@ -49,31 +53,12 @@ describe('getTraceId', () => {
     expect(getTraceId(new Error('cualquiera'))).toBeUndefined()
     expect(getTraceId(null)).toBeUndefined()
   })
-})
 
-describe('traceparent', () => {
-  it('tiene el formato del estándar W3C', async () => {
-    const { nextTraceparent } = await import('@/services/telemetry/trace')
-    const { traceId, traceparent } = nextTraceparent()
-    expect(traceparent).toMatch(/^00-[0-9a-f]{32}-[0-9a-f]{16}-01$/)
-    expect(traceparent).toContain(traceId)
-  })
-
-  it('genera uno distinto por petición', async () => {
-    const { nextTraceparent } = await import('@/services/telemetry/trace')
-    expect(nextTraceparent().traceId).not.toBe(nextTraceparent().traceId)
-  })
-
-  it('prefiere el id generado por el cliente al de la respuesta', () => {
-    const error = errorCon({ 'x-trace-id': 'del-servidor' })
-    error.config = { headers: new AxiosHeaders(), _traceId: 'del-cliente' }
-    expect(getTraceId(error)).toBe('del-cliente')
-  })
-
-  it('sirve el id aunque la petición muriera sin respuesta', () => {
-    // El caso que dio nombre al hallazgo: «se quedó cargando» y no hay cabecera que leer.
+  it('no tiene identificador que mostrar si la petición muere sin respuesta', () => {
+    // Contrapartida deliberada de haber quitado el `traceparent` generado por el cliente: sin
+    // `X-Trace-Id` ni `ProblemDetail`, ya no hay ninguna fuente de la que sacar el identificador.
     const error = new AxiosError('timeout')
-    error.config = { headers: new AxiosHeaders(), _traceId: 'sin-respuesta' }
-    expect(getTraceId(error)).toBe('sin-respuesta')
+    error.config = { headers: new AxiosHeaders() }
+    expect(getTraceId(error)).toBeUndefined()
   })
 })
