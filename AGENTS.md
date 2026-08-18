@@ -82,3 +82,41 @@ No se permiten ramas de trabajo creadas desde otra rama temporal ni ramas con fl
 - No mezclar una feature directamente en `main`.
 - No saltarse ramas, validaciones, commits, merges o etiquetas obligatorias aunque el repositorio todavía no tenga remoto configurado.
 - Si una petición contradice esta política, detener la operación y explicar el flujo GitFlow correcto antes de continuar.
+
+## CSS: consumir el design system, no reescribirlo (FE-08)
+
+El CSS de un SFC se escribe **consumiendo** `src/assets/styles/primitives.css`
+(capa 2) y `tokens.css` (capa 1) desde el `template`, nunca reescribiendo sus
+declaraciones dentro del `<style>` scoped del componente. Dos puertas lo
+comprueban, en dos momentos distintos:
+
+- **`vetsoftware/no-duplicate-primitive`** (stylelint, regla propia en
+  `stylelint-plugins/`) — al escribir el código. Rechaza cualquier bloque CSS
+  de un SFC cuyo cuerpo normalizado (dos declaraciones o más) sea idéntico al
+  de una clase ya definida en `primitives.css`, aunque sólo ocurra una vez:
+  es más estricta que el presupuesto, que exige repetición.
+- **`scripts/css-budget.mjs`** (`npm run css:budget`) — sobre el agregado del
+  repo. Falla cuando el `<style>` de todos los SFC pesa más que el `<script>`,
+  cuando un cuerpo de regla se repite en varios componentes, o cuando un SFC
+  pasa de 500 líneas.
+
+**La trampa que costó tres tandas descubrir**: una primitiva global de una
+sola clase pesa (0,1,0). La regla base de un componente en CSS _scoped_ de
+Vue lleva el atributo `[data-v-…]` que añade la compilación y pesa (0,2,0) —
+le gana siempre a la primitiva, sin importar el orden en el bundle. Por eso
+la base de un componente se queda SÓLO con la geometría (tamaño, padding,
+layout); el color viaja SIEMPRE en una clase de tono (`ds-tone--*`,
+`ds-field-*`…) aplicada desde el marcado — incluido el estado por defecto,
+no sólo los condicionales.
+
+Para reglas de **estado** (`:hover`, `:focus-visible`) una clase de tono
+plana no sirve: aplicada siempre desde el marcado, tiñe también el reposo.
+Las salidas que ya usa el repo:
+
+- Una primitiva de estado dedicada, con el pseudo-selector en su propio
+  nombre (`.ds-hover-accent:hover:not(:disabled)`,
+  `.ds-icon-btn--accent:hover:not(:disabled)`, `.ds-btn:focus-visible`).
+- Una variable CSS de escape cuando el color depende de más de un estado
+  excluyente sobre el mismo elemento (`--ds-btn-solid-bg` en
+  `.ds-btn--solid`): el componente fija la variable en cada estado y una
+  única declaración de base la lee con `var(--x, fallback)`.
