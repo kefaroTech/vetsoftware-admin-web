@@ -72,9 +72,10 @@ a byte idénticos**; si tocas uno, tocas el otro en el mismo PR:
 | `src/plugins/vuetify.ts` · `vuetify-icon-aliases.ts`                                                          | tema e iconos de Vuetify                                            |
 | `src/assets/styles/tokens.css` · `primitives.css`                                                             | capas 1 y 2 del sistema de diseño                                   |
 | `src/components/feedback/{PawLoader,PageLoader,ToastStack}.vue`                                               | primitivas de feedback                                              |
-| `scripts/check-bundle-budget.mjs` · `ds-audit.mjs`                                                            | verificadores                                                       |
+| `scripts/check-bundle-budget.mjs` · `ds-audit.mjs` · `css-budget.mjs`                                         | verificadores                                                       |
 | `tests/unit/{setup,storage-service,ui-stores}.spec.ts`                                                        | sus pruebas                                                         |
 | `eslint.config.ts` · `stylelint.config.mjs` · `lint-staged.config.mjs` · `commitlint.config.js` · `AGENTS.md` | tooling                                                             |
+| `stylelint-plugins/no-duplicate-primitive.mjs`                                                                | regla stylelint FE-08: rechaza CSS que reescribe una primitiva      |
 
 **Divergencias permitidas, y solo estas.** Van siempre con un comentario que
 diga por qué:
@@ -88,6 +89,13 @@ diga por qué:
 Cualquier otra diferencia entre esos archivos es deriva, no diseño. Fue
 exactamente así como el velo de carga acabó durando 300 ms en un front y 420 en
 el otro durante semanas.
+
+El patrón para escribir CSS nuevo sin volver a acumular ese tipo de deriva
+—consumir `primitives.css` en vez de reescribirlo, qué mide cada una de las
+dos puertas (`vetsoftware/no-duplicate-primitive` al escribir, `css:budget`
+en el agregado) y la trampa de especificidad `(0,1,0)` vs. `(0,2,0)`— está
+documentado en `AGENTS.md` (gemelo TR-02), sección "CSS: consumir el design
+system, no reescribirlo".
 
 ## Convenciones que valen en los dos
 

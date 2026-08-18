@@ -314,6 +314,17 @@
   color: oklch(50% 0.2 25deg);
 }
 
+/* "Acción positiva" de `compras`/`caja` — no es `--success`: comparte familia
+   pero es otro matiz (`--compras-ok-*`, tokens.css). 4 copias byte a byte
+   (auditoría FE-08, fase final): `CashStatusPill.open`, el hover
+   `tone="success"` de `ComprasIconButton`, `.pill.paid`
+   (`FacturasProveedorView`) y `.pill.received`/`.confirmed`
+   (`OrdenesRecepcionesView`). */
+.ds-tone--compras-ok {
+  background: var(--compras-ok-bg);
+  color: var(--compras-ok-fg);
+}
+
 /* Seleccionado (fondo suave + borde, no fondo sólido) — 9 copias. */
 .ds-tone--accent-selected {
   background: var(--amatista-50);
@@ -322,6 +333,19 @@
 
 /* Contorno más marcado que `--accent-selected` — 5 copias. */
 .ds-tone--accent-outline {
+  background: var(--amatista-50);
+  border-color: var(--amatista-500);
+}
+
+/* Forma `:hover` del mismo tono (FE-08, flip de la regla): cierra el hueco
+   que dejaban `AddRoleCard` (`.add`), `LabFormModal` (`.add-row`) y
+   `PatientCascadePicker` (`.create-link`) — el mismo botón "añadir"
+   transparente con borde discontinuo que se tiñe sólo en `:hover`. Los tres
+   migraron a esta clase; `:not(:disabled)` es inerte en los tres (ninguno
+   liga `disabled` a este botón) y su especificidad, (0,3,0), gana a la base
+   scoped `.add`/`.add-row`/`.create-link` ((0,2,0)) sin depender del orden
+   del bundle. */
+.ds-tone--accent-outline:hover:not(:disabled) {
   background: var(--amatista-50);
   border-color: var(--amatista-500);
 }
@@ -339,8 +363,29 @@
   border-color: var(--warm-300);
 }
 
+/* Forma `:hover` del mismo tono (auditoría FE-08, fase final): 3 componentes
+   (`Pagination`, `AgendaFilters`, `BranchCard`) declaran a mano, cada uno con
+   su propio guardián de exclusión (`:not(:disabled)`, `:not(.active)`, o
+   ninguno), el mismo par exacto sólo en `:hover`. El guardián no se
+   generaliza aquí —cada consumidor conserva el suyo, que no es intercambiable
+   sin auditar su estado— así que esto NO sustituye esas tres reglas; sólo
+   documenta el hueco para el consumidor que sí pueda adoptarla tal cual. */
+.ds-tone--neutral-soft:hover:not(:disabled) {
+  background: var(--warm-100);
+  border-color: var(--warm-300);
+}
+
 /* Sin fondo, sólo borde+texto — 4 copias. */
 .ds-tone--accent-border {
+  border-color: var(--amatista-300);
+  color: var(--amatista-700);
+}
+
+/* Forma `:hover` del mismo tono (auditoría FE-08, fase final) — el hueco que
+   documenta `HistoryStep.vue` (`.weight-toggle`): sin ella, tiñe el borde y el
+   texto de acento sólo en `:hover` por variable CSS local
+   (`--wt-border`/`--wt-fg`), el mismo mecanismo que `.ds-btn--solid`. */
+.ds-tone--accent-border:hover:not(:disabled) {
   border-color: var(--amatista-300);
   color: var(--amatista-700);
 }
@@ -557,6 +602,26 @@
  * código, no de que faltara tiempo para migrar — se retira en vez de
  * insistir. `HospDetail.vue` volvió a declarar su rejilla en CSS local.
  * ========================================================================== */
+
+/* ========================================================================== *
+ * APILADO MÓVIL — auditoría FE-08 (fase final): `align-items: stretch;
+ * flex-direction: column; width: 100%` repetido byte a byte, siempre dentro
+ * de `@media (width <= 760px)`, en `InventarioView`/`ServiciosView`
+ * (`.head-actions`/`.filters`) e `InventoryProductsTable` (`.filters`) — el
+ * cuerpo que el presupuesto de CSS ya contaba a 3 componentes en `tienda`.
+ * Sólo cubre el CONTENEDOR que pasa a columna; el reseteo de `max-width` de
+ * sus hijos (`.seg`/`.fsel`/`.search`, raíces de componente con su propio
+ * `data-v`) es un problema distinto —no es un contenedor que se apila, es un
+ * hijo que deja de estar acotado— y se queda fuera a propósito.
+ * ========================================================================== */
+
+@media (width <= 760px) {
+  .ds-stack-mobile {
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+  }
+}
 
 /* ========================================================================== *
  * FILA HORIZONTAL — auditoría FE-08 (3ª pasada): `align-items:center;
@@ -896,9 +961,18 @@
    override deliberado que rompió `.ds-empty`. El contrato correcto sigue
    siendo: al adoptar esta clase, BORRA el `:focus`/`:focus-within` local que
    reemplaza (como haría `SearchField.vue` si migrara) en vez de dejarla
-   competir con él. */
+   competir con él.
+
+   `:focus-visible` se suma aquí (auditoría FE-08, fase final) al mismo par de
+   declaraciones, no como regla nueva: `BaseSelect.vue` documenta ―en su
+   propio comentario de cabecera― que su disparador usa `:focus-visible` (para
+   no marcar el anillo en un click de ratón) y que "las primitivas
+   `.ds-focus-ring*` no distinguen" ese caso. Añadir el pseudo-selector a la
+   lista no cambia nada en los consumidores que ya usan `:focus`/
+   `:focus-within`: es el mismo cuerpo, sólo alcanza a un tercer estado. */
 .ds-focus-ring:focus,
-.ds-focus-ring:focus-within {
+.ds-focus-ring:focus-within,
+.ds-focus-ring:focus-visible {
   border-color: var(--amatista-500);
   box-shadow: var(--ring);
 }
@@ -909,9 +983,11 @@
    decir `.ds-focus-ring` con este extra). No se añade a la base: los
    consumidores YA migrados de `.ds-focus-ring` no declaraban `outline: none`
    y no se auditó si dependían de conservarlo — tocar la base habría sido
-   cambiar su comportamiento sin evidencia. */
+   cambiar su comportamiento sin evidencia. Mismo `:focus-visible` que arriba
+   y por el mismo motivo (`BaseSelect.vue`). */
 .ds-focus-ring--no-outline:focus,
-.ds-focus-ring--no-outline:focus-within {
+.ds-focus-ring--no-outline:focus-within,
+.ds-focus-ring--no-outline:focus-visible {
   outline: none;
 }
 
@@ -1101,7 +1177,19 @@
    `.ds-icon-muted`) tiene el mismo problema si se usa alguna vez dentro de
    un `<td>` de `.ds-table` — hoy no hay excepción para ellas porque no hay
    ningún consumidor real que las combine con `.ds-table`; si aparece uno,
-   repite este mismo patrón (`.ds-table td.<clase>`). */
+   repite este mismo patrón (`.ds-table td.<clase>`).
+
+   `.ds-text-strong` SÍ tiene consumidor real (auditoría FE-08, fase final):
+   6 tablas (`MedicamentosView`, `CountSheetModal`, `CountsHistoryModal`,
+   `InventoryPausedTable`, `InventoryProductsTable`, `ImpuestosView`) migraron
+   su `.tname` a medias, a propósito, documentando en cada una este mismo
+   hueco — la primitiva aporta el `font-weight` sobre el `<td>`, pero el
+   `color` (siempre `--warm-900`, igual que la base de `.ds-text-strong`) se
+   queda local porque `.ds-table td` (0,1,1) le gana. */
+.ds-table td.ds-text-strong {
+  color: var(--warm-900);
+}
+
 .ds-table td.ds-empty {
   padding: var(--space-32);
   color: var(--text-subtle);
