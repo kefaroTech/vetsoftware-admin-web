@@ -198,6 +198,20 @@
   --amount-neg: #b4453a;
 
   /* ------------------------------------------------------------------ *
+   * "ACCIÓN POSITIVA" DE COMPRAS — auditoría FE-08 (fase final): el par
+   * quedó suelto, con el mismo valor byte a byte, en tres sitios —
+   * `CashStatusPill` (caja, literal) y `FacturasProveedorView`/
+   * `OrdenesRecepcionesView` (compras, cada una lo nombraba a mano como
+   * `--compras-ok-bg`/`-fg` en su propio `.ds-page`). No es el verde
+   * semántico de `--success-bg`/`-fg` (145deg, otro chroma/lightness) — es
+   * un matiz propio de "pagado/recibido/abierta", así que se extrae aparte
+   * para no cambiar el tono al migrar. Se conserva el nombre que ya usaban
+   * los consumidores de `compras`.
+   * ------------------------------------------------------------------ */
+  --compras-ok-bg: oklch(92% 0.08 150deg);
+  --compras-ok-fg: oklch(40% 0.12 150deg);
+
+  /* ------------------------------------------------------------------ *
    * MOVIMIENTO
    * ------------------------------------------------------------------ */
   --transition-fast: 0.12s ease;
