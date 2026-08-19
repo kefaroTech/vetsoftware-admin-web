@@ -129,8 +129,11 @@ jobs:
             exit 1
           fi
 
+      # Sin condicion a proposito. Ademas de autenticar el push, este paso es el
+      # que produce `steps.ecr.outputs.registry`, y la extraccion del SBOM
+      # necesita ese registro tambien cuando la imagen ya existia y no se
+      # reconstruye (re-ejecucion idempotente del workflow).
       - name: Log in to Amazon ECR
-        if: steps.image.outputs.push == 'true'
         id: ecr
         uses: aws-actions/amazon-ecr-login@d539f0932e70871a027e9d5a9d8fc38589180a64 # v2
 
@@ -162,6 +165,61 @@ jobs:
           cache-from: type=gha,scope=private-front
           cache-to: type=gha,mode=max,scope=private-front
 
+      # BE-27, «SBOM producido y tirado». `sbom: true` y `provenance: mode=max`
+      # de arriba si generan las dos atestaciones y buildx las empuja a ECR como
+      # manifiestos referidos del indice -- pero ahi solo son alcanzables por
+      # quien tenga credenciales del registro y sepa que existen. Para cruzar un
+      # CVE nuevo contra lo que hay desplegado, hace falta el fichero.
+      #
+      # ALCANCE, para no leer de mas en el documento: BuildKit escanea por
+      # defecto SOLO la etapa final, que aqui es nginx sobre Alpine con `dist/`
+      # ya compilado dentro. Es decir, el SBOM inventaria el sistema base y NO
+      # el arbol npm de la etapa `build` -- no dice que version de axios se
+      # empaqueto. Extenderlo requiere `BUILDKIT_SBOM_SCAN_STAGE` mas un `ARG`
+      # en el Dockerfile, y va en incidencia aparte.
+      #
+      # `imagetools inspect` lee las atestaciones del indice ya publicado, asi
+      # que esto funciona igual en una re-ejecucion en la que no se reconstruyo
+      # nada. `buildx` viene preinstalado en el runner: no depende de que se
+      # hayan ejecutado los pasos condicionales de QEMU/Buildx.
+      - name: Retain the SBOM and the provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${{ steps.release.outputs.version }}"
+          image="${{ steps.ecr.outputs.registry }}/${ECR_REPOSITORY}:${version}"
+
+          mkdir -p release-attestations
+          docker buildx imagetools inspect "$image" --format '{{ json .SBOM }}' \
+            > release-attestations/sbom.json
+          docker buildx imagetools inspect "$image" --format '{{ json .Provenance }}' \
+            > release-attestations/provenance.json
+
+          # Guardar un fichero con 'null' dentro seria repetir el defecto con
+          # mas pasos: si la atestacion no viaja, esto tiene que romperse aqui y
+          # no descubrirse durante una auditoria.
+          for fichero in sbom provenance; do
+            if [[ ! -s "release-attestations/${fichero}.json" ]] \
+              || [[ "$(jq -r 'if . == null or . == {} then "vacio" else "ok" end' "release-attestations/${fichero}.json")" != "ok" ]]; then
+              echo "::error::La atestacion '${fichero}' no viajo con $image. Revisar 'provenance: mode=max' y 'sbom: true' del paso de build." >&2
+              exit 1
+            fi
+          done
+
+          echo "SBOM: $(wc -c < release-attestations/sbom.json) bytes"
+          echo "Provenance: $(wc -c < release-attestations/provenance.json) bytes"
+
+      - name: Upload the SBOM and the provenance as a workflow artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-attestations-${{ steps.release.outputs.version }}
+          path: release-attestations/
+          if-no-files-found: error
+          # Una release vive mucho mas que los 90 dias por defecto de un
+          # artefacto; el activo de la release es la copia permanente y esto es
+          # solo el acceso comodo mientras el despliegue esta caliente.
+          retention-days: 90
+
       - name: Create immutable version tag
         shell: bash
         run: |
@@ -189,3 +247,18 @@ jobs:
             --verify-tag \
             --generate-notes \
             --title "VetSoftware Front ${{ steps.release.outputs.version }}"
+
+      # La copia permanente y consultable sin credenciales de ECR. `--clobber`
+      # para que una re-ejecucion sobre una release ya creada actualice los
+      # activos en vez de fallar.
+      - name: Attach the SBOM and the provenance to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="v${{ steps.release.outputs.version }}"
+          gh release upload "$tag" \
+            release-attestations/sbom.json \
+            release-attestations/provenance.json \
+            --clobber

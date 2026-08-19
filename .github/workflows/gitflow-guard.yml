@@ -1,14 +1,16 @@
 name: GitFlow guard
 
-# INF-26. El plan Free con repositorios privados no permite branch protection ni
-# rulesets: la API responde 403 "Upgrade to GitHub Pro or make this repository
-# public". Sin ese control, nada impide empujar directamente a develop o a main,
-# ni abrir un PR desde una rama que no sigue GitFlow.
+# INF-26. La organizacion esta en plan GitHub Team: branch protection y
+# rulesets estan disponibles en la API, pero hoy no hay ninguno configurado en
+# este repositorio (verificado contra la API; no es una limitacion de plan).
+# Mientras siga sin configurar, nada impide empujar directamente a develop o a
+# main, ni abrir un PR desde una rama que no sigue GitFlow.
 #
-# Este workflow es el sustituto disponible. No PUEDE impedir el push -para eso
-# hace falta el plan de pago-, pero lo detecta y deja el commit en rojo, que es
-# la diferencia entre una convencion y un control. Cuando se contrate GitHub
-# Team, esto pasa a ser un required status check y ya no hay que tocarlo.
+# Este workflow es el sustituto mientras tanto. No PUEDE impedir el push -para
+# eso hace falta configurar branch protection-, pero lo detecta y deja el
+# commit en rojo, que es la diferencia entre una convencion y un control.
+# Cuando se configure branch protection, esto pasa a ser un required status
+# check y ya no hay que tocarlo.
 
 on:
   push:
@@ -101,13 +103,39 @@ jobs:
         env:
           HEAD_REF: ${{ github.head_ref }}
           BASE_REF: ${{ github.base_ref }}
+          # BE-27. Se mira el AUTOR del pull request, no `github.actor`. En un
+          # evento 'synchronize' el actor es quien empujo el ultimo commit, asi
+          # que un humano que corrige un bump de Dependabot dejaria el check en
+          # rojo sin haber hecho nada malo. El autor, en cambio, no es
+          # falsificable: nadie que no sea la app puede abrir un PR firmado
+          # como dependabot[bot].
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
         run: |
           set -euo pipefail
-          echo "PR: $HEAD_REF -> $BASE_REF"
+          echo "PR: $HEAD_REF -> $BASE_REF (autor: ${PR_AUTHOR:-desconocido})"
 
           fallo=0
 
           case "$HEAD_REF" in
+            dependabot/*)
+              # Dependabot nombra sus ramas 'dependabot/<ecosistema>/<paquete>-<version>'
+              # y ese formato no es configurable. Sin esta rama del case, cada
+              # actualizacion de seguridad naceria con el check en rojo y la
+              # senal dejaria de significar nada.
+              #
+              # La excepcion es solo para el bot: una rama 'dependabot/...'
+              # abierta por una persona sigue siendo un nombre fuera de GitFlow.
+              if [ "$PR_AUTHOR" != "dependabot[bot]" ]; then
+                echo "::error title=Rama de Dependabot con autor humano::'$HEAD_REF' solo se admite en pull requests abiertos por dependabot[bot], no por '${PR_AUTHOR:-desconocido}'."
+                fallo=1
+              elif [ "$BASE_REF" != "develop" ]; then
+                # `.github/dependabot.yml` declara 'target-branch: develop'. Si
+                # esto salta, alguien lo quito y las actualizaciones estan
+                # apuntando a main, que solo recibe releases.
+                echo "::error::'$HEAD_REF' debe integrarse en develop, no en '$BASE_REF'. Revisar 'target-branch' en .github/dependabot.yml."
+                fallo=1
+              fi
+              ;;
             release/*|hotfix/*)
               # Una release o un hotfix cierran contra main. La reintegracion a
               # develop es un PR aparte, y por eso develop tambien es valido.
@@ -138,6 +166,7 @@ jobs:
               feature/  fix/  perf/  refactor/  docs/  test/
               chore/    build/ ci/   sec/       style/     -> integran en develop
               release/  hotfix/                            -> cierran contra main
+              dependabot/                                  -> solo dependabot[bot], a develop
 
           Renombrar la rama:
 
