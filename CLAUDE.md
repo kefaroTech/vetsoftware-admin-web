@@ -3,6 +3,53 @@
 Convenciones del front **admin de plataforma** (VetSoftwareFront) que Claude
 Code debe respetar.
 
+## Cierre obligatorio — nada abierto sin issue
+
+**Regla dura del proyecto, sin excepciones y sin pedir permiso.** Todo lo que quede abierto al
+terminar un trabajo en este repo —un hallazgo que no arreglas, deuda que descubres de paso, un
+gate que no pudiste ejecutar, una decisión que necesita a un humano, un `TODO` que plantas, un
+límite con el que topaste— **se crea como issue de GitHub antes de dar la respuesta final**.
+Aplica igual a la sesión principal y a cualquier subagente. La sesión se cierra y se lleva el
+contexto por delante; el issue no. Lo que solo vive en el informe se pierde: **si no está en
+GitHub, no existe.**
+
+Este repo es **`kefaroTech/vetsoftware-admin-web`**. Si la causa está en el backend —un tipo, un
+endpoint, un contrato desincronizado— el issue va a `kefaroTech/vetsoftware-backend`, no al front
+que lo sufre. Los otros dos: `kefaroTech/vetsoftware-public-web` (app del tenant) y
+`kefaroTech/vetsoftware-infrastructure` (infraestructura).
+
+1. **Busca antes de crear**, para no duplicar:
+   `gh issue list --repo <owner/repo> --state all --search "<palabras clave>"`.
+   Si ya existe uno equivalente, añade lo nuevo con `gh issue comment <n>` y reporta ese número.
+2. **Crea pasando el cuerpo por stdin.** Las comillas de PowerShell destrozan los cuerpos largos;
+   `--body-file -` no:
+
+```bash
+gh issue create --repo kefaroTech/vetsoftware-admin-web --title "<el problema, en una frase>" --body-file - <<'EOF'
+<cuerpo en markdown>
+EOF
+```
+
+3. **El título nombra el problema, no la tarea**, en español, como el resto de issues del repo:
+   «El interceptor de errores trata 401 y 403 igual y cierra la sesión en los dos», no «Arreglar
+   el interceptor».
+4. **El cuerpo lleva siempre**: qué encontraste · la evidencia en `archivo:línea` · por qué
+   importa, con el escenario concreto de fallo (si no sabes decir qué se rompe y a quién, es una
+   preferencia de estilo y no merece issue) · qué haría falta para cerrarlo · qué **no**
+   comprobaste. Cierra el cuerpo con la línea
+   `🤖 Generated with [Claude Code](https://claude.com/claude-code)`.
+5. **Un hallazgo, un issue.** Nada de issues paraguas que mezclan cosas sin relación.
+6. Lo que **sí** dejaste arreglado y verificado en esta misma sesión no lleva issue. Esto es para
+   lo que queda vivo.
+
+**Abrir un issue no es un commit ni un push**: no entra en la aprobación humana escrita que exige
+`AGENTS.md` antes de tocar una rama. Créalo sin preguntar. Después enumera en tu salida cada
+issue con su número y su URL.
+
+Caso concreto de este repo: una **deriva TR-02** que detectas y no puedes igualar tú, o un cambio
+que obliga a tocar el gemelo del otro front, lleva issue en los **dos** repos, enlazados entre sí
+— es la única deuda que se duplica a propósito, porque se paga en dos sitios.
+
 ## Stack
 
 - Vue 3 + `<script setup lang="ts">` + Composition API
