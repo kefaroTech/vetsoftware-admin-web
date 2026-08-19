@@ -37,23 +37,38 @@ export function useMembershipSubModules() {
   }
 
   async function create(payload: CreateMembershipSubModuleRequest) {
-    const data = await membershipSubModulesApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Asociación creada exitosamente')
-    return data
+    try {
+      const data = await membershipSubModulesApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Asociación creada exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear la asociación', e, 'No se pudo crear la asociación.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateMembershipSubModuleRequest) {
-    const data = await membershipSubModulesApi.update(id, payload)
-    store.setItems(store.items.map((m) => (m.id === id ? data : m)))
-    success('Asociación actualizada')
-    return data
+    try {
+      const data = await membershipSubModulesApi.update(id, payload)
+      store.setItems(store.items.map((m) => (m.id === id ? data : m)))
+      success('Asociación actualizada')
+      return data
+    } catch (e) {
+      errorFrom('Error al actualizar la asociación', e, 'No se pudo actualizar la asociación.')
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await membershipSubModulesApi.remove(id)
-    store.setItems(store.items.filter((m) => m.id !== id))
-    success('Asociación eliminada')
+    try {
+      await membershipSubModulesApi.remove(id)
+      store.setItems(store.items.filter((m) => m.id !== id))
+      success('Asociación eliminada')
+    } catch (e) {
+      errorFrom('Error al eliminar la asociación', e, 'No se pudo eliminar la asociación.')
+      throw e
+    }
   }
 
   return {

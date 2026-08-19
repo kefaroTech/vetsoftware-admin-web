@@ -34,23 +34,38 @@ export function useMemberships() {
   }
 
   async function create(payload: CreateMembershipRequest) {
-    const data = await membershipsApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Membresía creada exitosamente')
-    return data
+    try {
+      const data = await membershipsApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Membresía creada exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear la membresía', e, 'No se pudo crear la membresía.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateMembershipRequest) {
-    const data = await membershipsApi.update(id, payload)
-    store.setItems(store.items.map((m) => (m.id === id ? data : m)))
-    success('Membresía actualizada')
-    return data
+    try {
+      const data = await membershipsApi.update(id, payload)
+      store.setItems(store.items.map((m) => (m.id === id ? data : m)))
+      success('Membresía actualizada')
+      return data
+    } catch (e) {
+      errorFrom('Error al actualizar la membresía', e, 'No se pudo actualizar la membresía.')
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await membershipsApi.remove(id)
-    store.setItems(store.items.filter((m) => m.id !== id))
-    success('Membresía eliminada')
+    try {
+      await membershipsApi.remove(id)
+      store.setItems(store.items.filter((m) => m.id !== id))
+      success('Membresía eliminada')
+    } catch (e) {
+      errorFrom('Error al eliminar la membresía', e, 'No se pudo eliminar la membresía.')
+      throw e
+    }
   }
 
   return {

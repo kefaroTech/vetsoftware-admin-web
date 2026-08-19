@@ -34,23 +34,38 @@ export function useModules() {
   }
 
   async function create(payload: CreateModuleRequest) {
-    const data = await modulesApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Módulo creado exitosamente')
-    return data
+    try {
+      const data = await modulesApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Módulo creado exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear el módulo', e, 'No se pudo crear el módulo.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateModuleRequest) {
-    const data = await modulesApi.update(id, payload)
-    store.setItems(store.items.map((m) => (m.id === id ? data : m)))
-    success('Módulo actualizado')
-    return data
+    try {
+      const data = await modulesApi.update(id, payload)
+      store.setItems(store.items.map((m) => (m.id === id ? data : m)))
+      success('Módulo actualizado')
+      return data
+    } catch (e) {
+      errorFrom('Error al actualizar el módulo', e, 'No se pudo actualizar el módulo.')
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await modulesApi.remove(id)
-    store.setItems(store.items.filter((m) => m.id !== id))
-    success('Módulo eliminado')
+    try {
+      await modulesApi.remove(id)
+      store.setItems(store.items.filter((m) => m.id !== id))
+      success('Módulo eliminado')
+    } catch (e) {
+      errorFrom('Error al eliminar el módulo', e, 'No se pudo eliminar el módulo.')
+      throw e
+    }
   }
 
   return {

@@ -37,7 +37,12 @@ onMounted(async () => {
 watch(specieFilter, reload)
 
 async function handleCreate(data: CreateAnimalColorRequest) {
-  await create(data)
+  try {
+    await create(data)
+  } catch {
+    // El composable ya avisó del fallo; el modal sigue abierto con lo escrito.
+    return
+  }
   showModal.value = false
   // El color creado puede no pertenecer a la especie filtrada; releemos para no mostrarlo fuera.
   await reload()
@@ -45,7 +50,12 @@ async function handleCreate(data: CreateAnimalColorRequest) {
 
 async function handleDelete(id: number, name: string) {
   const ok = await confirm(`¿Eliminar el color "${name}"?`)
-  if (ok) await remove(id)
+  if (!ok) return
+  try {
+    await remove(id)
+  } catch {
+    // El composable ya avisó del fallo; la fila se queda como estaba.
+  }
 }
 </script>
 

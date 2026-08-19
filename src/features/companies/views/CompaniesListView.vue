@@ -16,13 +16,23 @@ const showModal = ref(false)
 onMounted(fetchAll)
 
 async function handleCreate(data: CreateCompanyRequest) {
-  await create(data)
+  try {
+    await create(data)
+  } catch {
+    // El composable ya avisó del fallo; el modal sigue abierto con lo escrito.
+    return
+  }
   showModal.value = false
 }
 
 async function handleDelete(id: number, name: string) {
   const confirmed = await confirm(`¿Eliminar la empresa "${name}"?`)
-  if (confirmed) await remove(id)
+  if (!confirmed) return
+  try {
+    await remove(id)
+  } catch {
+    // El composable ya avisó del fallo; la fila se queda como estaba.
+  }
 }
 </script>
 

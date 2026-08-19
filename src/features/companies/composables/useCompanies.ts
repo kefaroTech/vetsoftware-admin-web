@@ -34,23 +34,38 @@ export function useCompanies() {
   }
 
   async function create(payload: CreateCompanyRequest) {
-    const data = await companiesApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Empresa creada exitosamente')
-    return data
+    try {
+      const data = await companiesApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Empresa creada exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear la empresa', e, 'No se pudo crear la empresa.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateCompanyRequest) {
-    const data = await companiesApi.update(id, payload)
-    store.setItems(store.items.map((c) => (c.id === id ? data : c)))
-    success('Empresa actualizada')
-    return data
+    try {
+      const data = await companiesApi.update(id, payload)
+      store.setItems(store.items.map((c) => (c.id === id ? data : c)))
+      success('Empresa actualizada')
+      return data
+    } catch (e) {
+      errorFrom('Error al actualizar la empresa', e, 'No se pudo actualizar la empresa.')
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await companiesApi.remove(id)
-    store.setItems(store.items.filter((c) => c.id !== id))
-    success('Empresa eliminada')
+    try {
+      await companiesApi.remove(id)
+      store.setItems(store.items.filter((c) => c.id !== id))
+      success('Empresa eliminada')
+    } catch (e) {
+      errorFrom('Error al eliminar la empresa', e, 'No se pudo eliminar la empresa.')
+      throw e
+    }
   }
 
   return {

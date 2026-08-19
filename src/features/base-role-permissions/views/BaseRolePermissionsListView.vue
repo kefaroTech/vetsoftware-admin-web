@@ -18,13 +18,23 @@ const showModal = ref(false)
 onMounted(fetchAll)
 
 async function handleCreate(data: CreateBaseRolePermissionRequest) {
-  await create(data)
+  try {
+    await create(data)
+  } catch {
+    // El composable ya avisó del fallo; el modal sigue abierto con lo escrito.
+    return
+  }
   showModal.value = false
 }
 
 async function handleDelete(id: number) {
   const ok = await confirm('¿Eliminar esta asociación rol-permiso?')
-  if (ok) await remove(id)
+  if (!ok) return
+  try {
+    await remove(id)
+  } catch {
+    // El composable ya avisó del fallo; la fila se queda como estaba.
+  }
 }
 
 async function handlePublish() {

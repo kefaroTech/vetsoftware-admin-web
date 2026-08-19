@@ -34,23 +34,38 @@ export function useSpaTypes() {
   }
 
   async function create(payload: CreateSpaTypeRequest) {
-    const data = await spaTypesApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Tipo de spa creado exitosamente')
-    return data
+    try {
+      const data = await spaTypesApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Tipo de spa creado exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear el tipo de spa', e, 'No se pudo crear el tipo de spa.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateSpaTypeRequest) {
-    const data = await spaTypesApi.update(id, payload)
-    store.setItems(store.items.map((t) => (t.id === id ? data : t)))
-    success('Tipo de spa actualizado')
-    return data
+    try {
+      const data = await spaTypesApi.update(id, payload)
+      store.setItems(store.items.map((t) => (t.id === id ? data : t)))
+      success('Tipo de spa actualizado')
+      return data
+    } catch (e) {
+      errorFrom('Error al actualizar el tipo de spa', e, 'No se pudo actualizar el tipo de spa.')
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await spaTypesApi.remove(id)
-    store.setItems(store.items.filter((t) => t.id !== id))
-    success('Tipo de spa eliminado')
+    try {
+      await spaTypesApi.remove(id)
+      store.setItems(store.items.filter((t) => t.id !== id))
+      success('Tipo de spa eliminado')
+    } catch (e) {
+      errorFrom('Error al eliminar el tipo de spa', e, 'No se pudo eliminar el tipo de spa.')
+      throw e
+    }
   }
 
   return {

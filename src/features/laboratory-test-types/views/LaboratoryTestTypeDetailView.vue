@@ -15,7 +15,12 @@ const { selected, fetchById, update } = useLaboratoryTestTypes()
 onMounted(() => fetchById(Number(props.id)))
 
 async function handleSave(data: LaboratoryTestTypeFormData) {
-  await update(Number(props.id), data)
+  try {
+    await update(Number(props.id), data)
+  } catch {
+    // El composable ya avisó del fallo; no navegamos para no perder lo editado.
+    return
+  }
   router.push({ name: ROUTE_NAMES.LABORATORY_TEST_TYPES_LIST })
 }
 </script>
