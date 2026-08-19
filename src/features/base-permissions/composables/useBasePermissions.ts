@@ -37,23 +37,38 @@ export function useBasePermissions() {
   }
 
   async function create(payload: CreateBasePermissionRequest) {
-    const data = await basePermissionsApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Permiso base creado exitosamente')
-    return data
+    try {
+      const data = await basePermissionsApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Permiso base creado exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear el permiso base', e, 'No se pudo crear el permiso base.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateBasePermissionRequest) {
-    const data = await basePermissionsApi.update(id, payload)
-    store.setItems(store.items.map((p) => (p.id === id ? data : p)))
-    success('Permiso base actualizado')
-    return data
+    try {
+      const data = await basePermissionsApi.update(id, payload)
+      store.setItems(store.items.map((p) => (p.id === id ? data : p)))
+      success('Permiso base actualizado')
+      return data
+    } catch (e) {
+      errorFrom('Error al actualizar el permiso base', e, 'No se pudo actualizar el permiso base.')
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await basePermissionsApi.remove(id)
-    store.setItems(store.items.filter((p) => p.id !== id))
-    success('Permiso base eliminado')
+    try {
+      await basePermissionsApi.remove(id)
+      store.setItems(store.items.filter((p) => p.id !== id))
+      success('Permiso base eliminado')
+    } catch (e) {
+      errorFrom('Error al eliminar el permiso base', e, 'No se pudo eliminar el permiso base.')
+      throw e
+    }
   }
 
   return {

@@ -15,7 +15,12 @@ const { selected, fetchById, update } = useBaseRoles()
 onMounted(() => fetchById(Number(props.id)))
 
 async function handleSave(data: CreateBaseRoleRequest) {
-  await update(Number(props.id), data)
+  try {
+    await update(Number(props.id), data)
+  } catch {
+    // El composable ya avisó del fallo; no navegamos para no perder lo editado.
+    return
+  }
   router.push({ name: ROUTE_NAMES.BASE_ROLES_LIST })
 }
 </script>

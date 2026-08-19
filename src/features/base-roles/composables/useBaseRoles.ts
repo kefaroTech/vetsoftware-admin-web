@@ -34,23 +34,38 @@ export function useBaseRoles() {
   }
 
   async function create(payload: CreateBaseRoleRequest) {
-    const data = await baseRolesApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Rol base creado exitosamente')
-    return data
+    try {
+      const data = await baseRolesApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Rol base creado exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear el rol base', e, 'No se pudo crear el rol base.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateBaseRoleRequest) {
-    const data = await baseRolesApi.update(id, payload)
-    store.setItems(store.items.map((r) => (r.id === id ? data : r)))
-    success('Rol base actualizado')
-    return data
+    try {
+      const data = await baseRolesApi.update(id, payload)
+      store.setItems(store.items.map((r) => (r.id === id ? data : r)))
+      success('Rol base actualizado')
+      return data
+    } catch (e) {
+      errorFrom('Error al actualizar el rol base', e, 'No se pudo actualizar el rol base.')
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await baseRolesApi.remove(id)
-    store.setItems(store.items.filter((r) => r.id !== id))
-    success('Rol base eliminado')
+    try {
+      await baseRolesApi.remove(id)
+      store.setItems(store.items.filter((r) => r.id !== id))
+      success('Rol base eliminado')
+    } catch (e) {
+      errorFrom('Error al eliminar el rol base', e, 'No se pudo eliminar el rol base.')
+      throw e
+    }
   }
 
   return {

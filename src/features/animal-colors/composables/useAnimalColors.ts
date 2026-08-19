@@ -49,23 +49,38 @@ export function useAnimalColors() {
   }
 
   async function create(payload: CreateAnimalColorRequest) {
-    const data = await animalColorsApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Color creado exitosamente')
-    return data
+    try {
+      const data = await animalColorsApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Color creado exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear el color', e, 'No se pudo crear el color.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateAnimalColorRequest) {
-    const data = await animalColorsApi.update(id, payload)
-    store.setItems(store.items.map((c) => (c.id === id ? data : c)))
-    success('Color actualizado')
-    return data
+    try {
+      const data = await animalColorsApi.update(id, payload)
+      store.setItems(store.items.map((c) => (c.id === id ? data : c)))
+      success('Color actualizado')
+      return data
+    } catch (e) {
+      errorFrom('Error al actualizar el color', e, 'No se pudo actualizar el color.')
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await animalColorsApi.remove(id)
-    store.setItems(store.items.filter((c) => c.id !== id))
-    success('Color eliminado')
+    try {
+      await animalColorsApi.remove(id)
+      store.setItems(store.items.filter((c) => c.id !== id))
+      success('Color eliminado')
+    } catch (e) {
+      errorFrom('Error al eliminar el color', e, 'No se pudo eliminar el color.')
+      throw e
+    }
   }
 
   return {

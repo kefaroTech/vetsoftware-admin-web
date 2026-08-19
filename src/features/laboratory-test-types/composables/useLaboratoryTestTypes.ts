@@ -44,10 +44,19 @@ export function useLaboratoryTestTypes() {
       description: form.description,
       general: true,
     }
-    const data = await laboratoryTestTypesApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Tipo de laboratorio creado exitosamente')
-    return data
+    try {
+      const data = await laboratoryTestTypesApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Tipo de laboratorio creado exitosamente')
+      return data
+    } catch (e) {
+      errorFrom(
+        'Error al crear el tipo de laboratorio',
+        e,
+        'No se pudo crear el tipo de laboratorio.',
+      )
+      throw e
+    }
   }
 
   async function update(id: number, form: LaboratoryTestTypeFormData) {
@@ -56,16 +65,34 @@ export function useLaboratoryTestTypes() {
       description: form.description,
       general: true,
     }
-    const data = await laboratoryTestTypesApi.update(id, payload)
-    store.setItems(store.items.map((t) => (t.id === id ? data : t)))
-    success('Tipo de laboratorio actualizado')
-    return data
+    try {
+      const data = await laboratoryTestTypesApi.update(id, payload)
+      store.setItems(store.items.map((t) => (t.id === id ? data : t)))
+      success('Tipo de laboratorio actualizado')
+      return data
+    } catch (e) {
+      errorFrom(
+        'Error al actualizar el tipo de laboratorio',
+        e,
+        'No se pudo actualizar el tipo de laboratorio.',
+      )
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await laboratoryTestTypesApi.remove(id)
-    store.setItems(store.items.filter((t) => t.id !== id))
-    success('Tipo de laboratorio eliminado')
+    try {
+      await laboratoryTestTypesApi.remove(id)
+      store.setItems(store.items.filter((t) => t.id !== id))
+      success('Tipo de laboratorio eliminado')
+    } catch (e) {
+      errorFrom(
+        'Error al eliminar el tipo de laboratorio',
+        e,
+        'No se pudo eliminar el tipo de laboratorio.',
+      )
+      throw e
+    }
   }
 
   return {

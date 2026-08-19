@@ -15,7 +15,12 @@ const { selected, fetchById, update } = useMembershipSubModules()
 onMounted(() => fetchById(Number(props.id)))
 
 async function handleSave(data: CreateMembershipSubModuleRequest) {
-  await update(Number(props.id), data)
+  try {
+    await update(Number(props.id), data)
+  } catch {
+    // El composable ya avisó del fallo; no navegamos para no perder lo editado.
+    return
+  }
   router.push({ name: ROUTE_NAMES.MEMBERSHIP_SUB_MODULES_LIST })
 }
 </script>

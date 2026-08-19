@@ -34,23 +34,38 @@ export function useBreeds() {
   }
 
   async function create(payload: CreateBreedRequest) {
-    const data = await breedsApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Raza creada exitosamente')
-    return data
+    try {
+      const data = await breedsApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Raza creada exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear la raza', e, 'No se pudo crear la raza.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateBreedRequest) {
-    const data = await breedsApi.update(id, payload)
-    store.setItems(store.items.map((b) => (b.id === id ? data : b)))
-    success('Raza actualizada')
-    return data
+    try {
+      const data = await breedsApi.update(id, payload)
+      store.setItems(store.items.map((b) => (b.id === id ? data : b)))
+      success('Raza actualizada')
+      return data
+    } catch (e) {
+      errorFrom('Error al actualizar la raza', e, 'No se pudo actualizar la raza.')
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await breedsApi.remove(id)
-    store.setItems(store.items.filter((b) => b.id !== id))
-    success('Raza eliminada')
+    try {
+      await breedsApi.remove(id)
+      store.setItems(store.items.filter((b) => b.id !== id))
+      success('Raza eliminada')
+    } catch (e) {
+      errorFrom('Error al eliminar la raza', e, 'No se pudo eliminar la raza.')
+      throw e
+    }
   }
 
   return {

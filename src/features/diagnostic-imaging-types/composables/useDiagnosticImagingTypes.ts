@@ -44,10 +44,19 @@ export function useDiagnosticImagingTypes() {
       description: form.description,
       general: true,
     }
-    const data = await diagnosticImagingTypesApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Tipo de imagen diagnóstica creado exitosamente')
-    return data
+    try {
+      const data = await diagnosticImagingTypesApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Tipo de imagen diagnóstica creado exitosamente')
+      return data
+    } catch (e) {
+      errorFrom(
+        'Error al crear el tipo de imagen diagnóstica',
+        e,
+        'No se pudo crear el tipo de imagen diagnóstica.',
+      )
+      throw e
+    }
   }
 
   async function update(id: number, form: DiagnosticImagingTypeFormData) {
@@ -56,16 +65,34 @@ export function useDiagnosticImagingTypes() {
       description: form.description,
       general: true,
     }
-    const data = await diagnosticImagingTypesApi.update(id, payload)
-    store.setItems(store.items.map((t) => (t.id === id ? data : t)))
-    success('Tipo de imagen diagnóstica actualizado')
-    return data
+    try {
+      const data = await diagnosticImagingTypesApi.update(id, payload)
+      store.setItems(store.items.map((t) => (t.id === id ? data : t)))
+      success('Tipo de imagen diagnóstica actualizado')
+      return data
+    } catch (e) {
+      errorFrom(
+        'Error al actualizar el tipo de imagen diagnóstica',
+        e,
+        'No se pudo actualizar el tipo de imagen diagnóstica.',
+      )
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await diagnosticImagingTypesApi.remove(id)
-    store.setItems(store.items.filter((t) => t.id !== id))
-    success('Tipo de imagen diagnóstica eliminado')
+    try {
+      await diagnosticImagingTypesApi.remove(id)
+      store.setItems(store.items.filter((t) => t.id !== id))
+      success('Tipo de imagen diagnóstica eliminado')
+    } catch (e) {
+      errorFrom(
+        'Error al eliminar el tipo de imagen diagnóstica',
+        e,
+        'No se pudo eliminar el tipo de imagen diagnóstica.',
+      )
+      throw e
+    }
   }
 
   return {

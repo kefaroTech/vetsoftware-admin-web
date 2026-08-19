@@ -37,23 +37,46 @@ export function useConsultationTypes() {
   }
 
   async function create(payload: CreateConsultationTypeRequest) {
-    const data = await consultationTypesApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Tipo de consulta creado exitosamente')
-    return data
+    try {
+      const data = await consultationTypesApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Tipo de consulta creado exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear el tipo de consulta', e, 'No se pudo crear el tipo de consulta.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateConsultationTypeRequest) {
-    const data = await consultationTypesApi.update(id, payload)
-    store.setItems(store.items.map((t) => (t.id === id ? data : t)))
-    success('Tipo de consulta actualizado')
-    return data
+    try {
+      const data = await consultationTypesApi.update(id, payload)
+      store.setItems(store.items.map((t) => (t.id === id ? data : t)))
+      success('Tipo de consulta actualizado')
+      return data
+    } catch (e) {
+      errorFrom(
+        'Error al actualizar el tipo de consulta',
+        e,
+        'No se pudo actualizar el tipo de consulta.',
+      )
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await consultationTypesApi.remove(id)
-    store.setItems(store.items.filter((t) => t.id !== id))
-    success('Tipo de consulta eliminado')
+    try {
+      await consultationTypesApi.remove(id)
+      store.setItems(store.items.filter((t) => t.id !== id))
+      success('Tipo de consulta eliminado')
+    } catch (e) {
+      errorFrom(
+        'Error al eliminar el tipo de consulta',
+        e,
+        'No se pudo eliminar el tipo de consulta.',
+      )
+      throw e
+    }
   }
 
   return {

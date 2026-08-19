@@ -34,23 +34,38 @@ export function useSubmodules() {
   }
 
   async function create(payload: CreateSubModuleRequest) {
-    const data = await submodulesApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Submódulo creado exitosamente')
-    return data
+    try {
+      const data = await submodulesApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Submódulo creado exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear el submódulo', e, 'No se pudo crear el submódulo.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateSubModuleRequest) {
-    const data = await submodulesApi.update(id, payload)
-    store.setItems(store.items.map((s) => (s.id === id ? data : s)))
-    success('Submódulo actualizado')
-    return data
+    try {
+      const data = await submodulesApi.update(id, payload)
+      store.setItems(store.items.map((s) => (s.id === id ? data : s)))
+      success('Submódulo actualizado')
+      return data
+    } catch (e) {
+      errorFrom('Error al actualizar el submódulo', e, 'No se pudo actualizar el submódulo.')
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await submodulesApi.remove(id)
-    store.setItems(store.items.filter((s) => s.id !== id))
-    success('Submódulo eliminado')
+    try {
+      await submodulesApi.remove(id)
+      store.setItems(store.items.filter((s) => s.id !== id))
+      success('Submódulo eliminado')
+    } catch (e) {
+      errorFrom('Error al eliminar el submódulo', e, 'No se pudo eliminar el submódulo.')
+      throw e
+    }
   }
 
   return {

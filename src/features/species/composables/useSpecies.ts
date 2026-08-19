@@ -34,23 +34,38 @@ export function useSpecies() {
   }
 
   async function create(payload: CreateSpecieRequest) {
-    const data = await speciesApi.create(payload)
-    store.setItems([...store.items, data])
-    success('Especie creada exitosamente')
-    return data
+    try {
+      const data = await speciesApi.create(payload)
+      store.setItems([...store.items, data])
+      success('Especie creada exitosamente')
+      return data
+    } catch (e) {
+      errorFrom('Error al crear la especie', e, 'No se pudo crear la especie.')
+      throw e
+    }
   }
 
   async function update(id: number, payload: UpdateSpecieRequest) {
-    const data = await speciesApi.update(id, payload)
-    store.setItems(store.items.map((s) => (s.id === id ? data : s)))
-    success('Especie actualizada')
-    return data
+    try {
+      const data = await speciesApi.update(id, payload)
+      store.setItems(store.items.map((s) => (s.id === id ? data : s)))
+      success('Especie actualizada')
+      return data
+    } catch (e) {
+      errorFrom('Error al actualizar la especie', e, 'No se pudo actualizar la especie.')
+      throw e
+    }
   }
 
   async function remove(id: number) {
-    await speciesApi.remove(id)
-    store.setItems(store.items.filter((s) => s.id !== id))
-    success('Especie eliminada')
+    try {
+      await speciesApi.remove(id)
+      store.setItems(store.items.filter((s) => s.id !== id))
+      success('Especie eliminada')
+    } catch (e) {
+      errorFrom('Error al eliminar la especie', e, 'No se pudo eliminar la especie.')
+      throw e
+    }
   }
 
   return {
