@@ -220,6 +220,146 @@ jobs:
           # solo el acceso comodo mientras el despliegue esta caliente.
           retention-days: 90
 
+      # INF-30. La imagen llegaba a ECR, ECR la escaneaba al subirla y la
+      # release se publicaba sin que nadie leyera el resultado: una imagen con
+      # criticas se etiquetaba en verde igual que una limpia. Este paso lee ese
+      # veredicto, que ya estaba calculado y guardado, y corta la publicacion.
+      #
+      # NO es el bloque del backend copiado tal cual, y la diferencia es la
+      # razon de que no lo sea. El backend publica UNA sola plataforma y
+      # desactiva `provenance`/`sbom` a proposito (ver el comentario de su paso
+      # de build), asi que su tag apunta a un manifiesto de plataforma y le
+      # basta con esperar sobre el digest del tag. Aqui el tag apunta a un
+      # INDICE OCI -- amd64 y arm64, mas las dos atestaciones -- y el escaneo
+      # basico de ECR no escanea indices, solo manifiestos de plataforma.
+      # Esperar sobre el digest del indice se habria colgado hasta agotar el
+      # waiter y habria bloqueado todas las releases: es el mismo bloqueo que
+      # el backend ya sufrio en el despliegue de desarrollo. Por eso aqui se
+      # bajan los hijos del indice y se exige veredicto de cada uno.
+      #
+      # Va despues de subir el SBOM como artefacto y antes del tag: si el gate
+      # rechaza, el SBOM sigue disponible para averiguar que trae el CVE, pero
+      # no existe ni la etiqueta inmutable ni la GitHub Release.
+      #
+      # Sin `if:` a proposito, y no por rescaneo: el escaneo del registro es
+      # BASIC (VetSoftwareIaC/modules/ecr/main.tf:50-61), que escanea una sola
+      # vez al subir la imagen y no reevalua lo ya almacenado -- eso es cosa
+      # del escaneo ENHANCED. El motivo es otro: en una re-ejecucion sobre una
+      # imagen que ya existia no se reconstruye nada, y sin este paso esa
+      # segunda pasada crearia el tag y la Release saltandose el veredicto que
+      # la primera nunca llego a consultar.
+      #
+      # RIESGO RESIDUAL ACEPTADO: cuando este gate rechaza, la imagen ya esta
+      # en ECR con sus dos etiquetas inmutables -- el escaneo basico solo
+      # existe despues del push, asi que no hay forma de mirarlo antes. Lo que
+      # se evita aqui es que esa imagen se anuncie como release. Cortarlo antes
+      # del push exige escanear en local (Trivy/Grype), que es REM-23 y hoy
+      # esta bloqueado por la allowlist de actions.
+      - name: Enforce the ECR vulnerability scan gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${{ steps.release.outputs.version }}"
+
+          index_digest="$(aws ecr describe-images \
+            --repository-name "$ECR_REPOSITORY" \
+            --image-ids "imageTag=$version" \
+            --query 'imageDetails[0].imageDigest' \
+            --output text)"
+
+          [[ "$index_digest" =~ ^sha256:[0-9a-f]{64}$ ]] || {
+            echo "::error::ECR no devolvio un digest valido para ${ECR_REPOSITORY}:${version}." >&2
+            exit 1
+          }
+
+          # Las atestaciones de buildx viajan dentro del indice como entradas
+          # con `platform.architecture == "unknown"`. No son imagenes, ECR no
+          # las escana y se descartan aqui a proposito: esperar un escaneo que
+          # nunca va a existir es exactamente como se cuelga este gate.
+          # Sin `|| true`: un fallo de esta llamada NO puede confundirse con
+          # «no es un indice». Si se silenciara, un throttling o un corte de
+          # red haria creer que la imagen es de una sola plataforma, el gate
+          # esperaria sobre el digest del indice -- que ECR nunca escanea -- y
+          # agotaria el waiter bloqueando una release limpia.
+          if ! manifest="$(aws ecr batch-get-image \
+            --repository-name "$ECR_REPOSITORY" \
+            --image-ids "imageDigest=$index_digest" \
+            --accepted-media-types \
+              "application/vnd.oci.image.index.v1+json" \
+              "application/vnd.docker.distribution.manifest.list.v2+json" \
+            --query 'images[0].imageManifest' \
+            --output text)"; then
+            echo "::error::No se pudo leer el manifiesto de $index_digest en ECR. Sin el no se sabe que hay que escanear, y este paso no publica a ciegas." >&2
+            exit 1
+          fi
+
+          if [[ -z "$manifest" || "$manifest" == "None" ]]; then
+            # Respuesta valida que no es un indice: la imagen es de una sola
+            # plataforma y sin atestaciones (como la del backend), asi que el
+            # digest del tag ya ES el manifiesto que hay que escanear.
+            platform_digests="$index_digest"
+          else
+            platform_digests="$(jq -r '
+              (.manifests // [])
+              | map(select((.platform.architecture // "unknown") != "unknown"))
+              | .[].digest
+            ' <<<"$manifest")"
+
+            # Es un indice, pero no declara ninguna plataforma: solo podrian
+            # ser atestaciones. Aqui no se cae al digest del indice, que es la
+            # via rapida para colgar el waiter cinco minutos; se corta.
+            [[ -n "$platform_digests" ]] || {
+              echo "::error::El indice $index_digest no declara ningun manifiesto de plataforma escaneable." >&2
+              exit 1
+            }
+          fi
+
+          echo "Indice: $index_digest"
+          echo "Manifiestos de plataforma a verificar:"
+          sed 's/^/  - /' <<<"$platform_digests"
+
+          rechazados=0
+          while read -r digest; do
+            [[ -n "$digest" ]] || continue
+
+            # El waiter sondea hasta 60 veces cada 5 s. Se envuelve para poder
+            # decir cual de los dos fallos es, porque tienen arreglos
+            # distintos: "sigue escaneando" se reintenta, "aqui no hay escaneo
+            # ninguno" es que la configuracion del registro dejo de aplicar.
+            if ! aws ecr wait image-scan-complete \
+              --repository-name "$ECR_REPOSITORY" \
+              --image-id "imageDigest=$digest"; then
+              echo "::error::El escaneo de $digest no llego a COMPLETE. Si ECR nunca lo empezo, comprobar que la configuracion de escaneo del registro sigue en pie (VetSoftwareIaC/modules/ecr/main.tf)." >&2
+              exit 1
+            fi
+
+            findings="$(aws ecr describe-image-scan-findings \
+              --repository-name "$ECR_REPOSITORY" \
+              --image-id "imageDigest=$digest" \
+              --query '{status: imageScanStatus.status, counts: imageScanFindings.findingSeverityCounts}' \
+              --output json)"
+
+            scan_status="$(jq -r '.status // "UNKNOWN"' <<<"$findings")"
+            critical="$(jq -r '.counts.CRITICAL // 0' <<<"$findings")"
+            high="$(jq -r '.counts.HIGH // 0' <<<"$findings")"
+
+            if [[ "$scan_status" != "COMPLETE" ]]; then
+              echo "::error::El escaneo de $digest quedo en estado $scan_status. No se publica una release sin veredicto." >&2
+              exit 1
+            fi
+
+            echo "$digest -> status=$scan_status critical=$critical high=$high"
+
+            if [[ "$critical" != "0" || "$high" != "0" ]]; then
+              echo "::error::$digest trae $critical criticas y $high altas. Revisar los hallazgos en ECR y actualizar la imagen base antes de reintentar la release." >&2
+              rechazados=$((rechazados + 1))
+            fi
+          done <<<"$platform_digests"
+
+          [[ "$rechazados" -eq 0 ]] || exit 1
+
+          echo "Escaneo de ECR superado en todos los manifiestos de plataforma."
+
       - name: Create immutable version tag
         shell: bash
         run: |
