@@ -131,12 +131,12 @@ solo vive en tu informe se pierde: si no está en GitHub, no existe.
 
 Los cuatro repos y su destino en GitHub:
 
-| Directorio | Repositorio |
-|---|---|
-| `VetSoftware/` | `kefaroTech/vetsoftware-backend` |
-| `VetSoftwareFront/` | `kefaroTech/vetsoftware-admin-web` |
-| `VetSoftwarePublicFront/` | `kefaroTech/vetsoftware-public-web` |
-| `VetSoftwareIaC/` | `kefaroTech/vetsoftware-infrastructure` |
+| Directorio                | Repositorio                             |
+| ------------------------- | --------------------------------------- |
+| `VetSoftware/`            | `kefaroTech/vetsoftware-backend`        |
+| `VetSoftwareFront/`       | `kefaroTech/vetsoftware-admin-web`      |
+| `VetSoftwarePublicFront/` | `kefaroTech/vetsoftware-public-web`     |
+| `VetSoftwareIaC/`         | `kefaroTech/vetsoftware-infrastructure` |
 
 **Estás en una sesión abierta dentro de este repo**, no en la raíz del monorepo: pasa **siempre**
 `--repo <owner/repo>` explícito. Sin él, `gh` usa el remoto del directorio actual y un hallazgo
@@ -149,14 +149,15 @@ Procedimiento:
 1. **Busca antes de crear**, para no duplicar:
    `gh issue list --repo <owner/repo> --state all --search "<palabras clave>"`.
    Si ya existe uno equivalente, añade lo nuevo con `gh issue comment <n>` y reporta ese número.
-2. **Crea pasando el cuerpo por stdin.** Las comillas de PowerShell destrozan los cuerpos largos;
-   `--body-file -` no:
+2. **Crea escribiendo el cuerpo en un fichero.** Las comillas de PowerShell destrozan los
+   cuerpos largos; `--body-file` no:
 
-```bash
-gh issue create --repo kefaroTech/<repo> --title "<el problema, en una frase>" --body-file - <<'EOF'
-<cuerpo en markdown>
-EOF
-```
+   ```bash
+   # escribe el cuerpo en un archivo temporal: las comillas de PowerShell
+   # destrozan los cuerpos largos y --body-file lo evita
+   gh issue create --repo kefaroTech/<repo> --title "<el problema, en una frase>" --body-file cuerpo.md
+   ```
+
 3. **El título nombra el problema, no la tarea**: «El gate de calidad lleva días rojo en develop
    y no hay nada registrado», no «Arreglar el gate». En español, como el resto de issues del
    repo.
