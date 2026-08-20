@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { storageService, type AuthSession } from '@/services/storage/storage.service'
-import { setRefreshHandler } from '@/services/http/http.client'
+import { setRefreshHandler, setSessionClearHandler } from '@/services/http/http.client'
 import { authApi } from '../api/auth.api'
 import { decodeJwt } from '../utils/jwt'
 import type { AuthSubjectType } from '../types/auth.types'
@@ -100,6 +100,10 @@ export const useAuthStore = defineStore('auth', () => {
 
   // El interceptor de axios usa este handler para refrescar ante un 401 TOKEN_EXPIRED.
   setRefreshHandler(refreshSession)
+  // Y este otro para limpiar el store cuando el refresh no fue posible y hay que
+  // forzar el logout: sin él, `session` y `permissions` sobreviven al redirect
+  // duro y `isAuthenticated` sigue en `true` con un token que el backend ya rechazó.
+  setSessionClearHandler(clearSession)
 
   async function logout() {
     // Logout server-side (best-effort): revoca los refresh tokens. Limpiamos local igual.
