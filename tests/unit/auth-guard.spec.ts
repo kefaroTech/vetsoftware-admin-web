@@ -17,8 +17,8 @@ vi.mock('@/composables/useNotification', () => ({
  * condición cierra la sesión de todo el mundo en cada recarga.
  */
 
-function route(meta: Record<string, unknown> = {}): RouteLocationNormalized {
-  return { meta } as unknown as RouteLocationNormalized
+function route(meta: Record<string, unknown> = {}, fullPath = '/'): RouteLocationNormalized {
+  return { meta, fullPath } as unknown as RouteLocationNormalized
 }
 
 /** Token cuyo `exp` cae antes o después de ahora, según se pida. */
@@ -52,7 +52,20 @@ describe('authGuard', () => {
 
     authGuard(route(), route(), next)
 
-    expect(next).toHaveBeenCalledWith({ name: ROUTE_NAMES.LOGIN })
+    expect(next).toHaveBeenCalledWith({ name: ROUTE_NAMES.LOGIN, query: { redirect: '/' } })
+  })
+
+  it('recuerda la ruta protegida a la que el usuario quería llegar', () => {
+    // La razón de ser del arreglo: sin esto, tras autenticar el usuario aterriza
+    // siempre en el home aunque hubiera abierto un enlace profundo.
+    const next = vi.fn() as unknown as NavigationGuardNext
+
+    authGuard(route({}, '/companies/42?tab=facturacion'), route(), next)
+
+    expect(next).toHaveBeenCalledWith({
+      name: ROUTE_NAMES.LOGIN,
+      query: { redirect: '/companies/42?tab=facturacion' },
+    })
   })
 
   it('deja pasar con un token vigente', () => {

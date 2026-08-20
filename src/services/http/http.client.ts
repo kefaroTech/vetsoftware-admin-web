@@ -63,11 +63,26 @@ export const http = axios.create({
   withCredentials: true,
 })
 
-/** Limpia la sesión y fuerza el ir a login (hard redirect). Usado cuando el refresh no es posible. */
+/**
+ * Limpia la sesión y fuerza el ir a login (hard redirect). Usado cuando el
+ * refresh no es posible.
+ *
+ * El store se limpia ANTES que el storage y de forma incondicional —igual que
+ * `storageService.clearVolatile()` de la línea siguiente—, no solo cuando hay
+ * recarga dura: si dependiera del `if` de abajo, un 401 llegando mientras el
+ * usuario ya está en `/login` dejaría los refs del store de auth reportando
+ * `isAuthenticated === true` con un token que el backend acaba de rechazar,
+ * sin ninguna recarga que lo corrigiera.
+ *
+ * Conserva el destino en la URL de login (`?redirect=`) para que, tras
+ * autenticar de nuevo, el usuario vuelva a donde iba y no siempre al home.
+ */
 function redirectToLogin() {
+  sessionClearHandler?.()
   storageService.clearVolatile()
   if (window.location.pathname !== '/login') {
-    window.location.href = '/login'
+    const target = window.location.pathname + (window.location.search || '')
+    window.location.href = `/login?redirect=${encodeURIComponent(target)}`
   }
 }
 
@@ -82,6 +97,18 @@ type RefreshHandler = () => Promise<string | null>
 let refreshHandler: RefreshHandler | null = null
 export function setRefreshHandler(handler: RefreshHandler) {
   refreshHandler = handler
+}
+
+// Handler de limpieza de sesión registrado por el store de auth, con el mismo
+// motivo y el mismo patrón que `refreshHandler`: este módulo no puede importar
+// el store sin crear un ciclo http.client ↔ store, así que el store se inyecta
+// a sí mismo aquí. Se invoca cuando el refresh no es posible y hay que forzar
+// el logout — debe dejar los refs del store (`session`, `permissions`) tal como
+// los deja `clearSession()`.
+type SessionClearHandler = () => void
+let sessionClearHandler: SessionClearHandler | null = null
+export function setSessionClearHandler(handler: SessionClearHandler) {
+  sessionClearHandler = handler
 }
 
 http.interceptors.request.use((config) => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useAuth } from '@/features/auth/composables/useAuth'
+import { useAuth, sanitizeRedirect } from '@/features/auth/composables/useAuth'
 import { useAuthStore } from '@/features/auth/stores/auth.store'
 import { ROUTE_NAMES } from '@/constants/routes'
 
@@ -20,7 +20,11 @@ import { ROUTE_NAMES } from '@/constants/routes'
  */
 
 const push = vi.fn()
-vi.mock('vue-router', () => ({ useRouter: () => ({ push }) }))
+const currentRoute = { query: {} as Record<string, unknown> }
+vi.mock('vue-router', () => ({
+  useRouter: () => ({ push }),
+  useRoute: () => currentRoute,
+}))
 
 const login = vi.fn()
 const logoutApi = vi.fn()
@@ -51,6 +55,7 @@ beforeEach(() => {
   logoutApi.mockResolvedValue(undefined)
   localStorage.clear()
   vi.stubGlobal('location', { assign: vi.fn() })
+  currentRoute.query = {}
 })
 
 describe('isAuthenticated', () => {
@@ -127,6 +132,47 @@ describe('login', () => {
 
     expect(isAuthenticated.value).toBe(false)
     expect(push).not.toHaveBeenCalled()
+  })
+
+  it('tras autenticar, vuelve a la ruta que el guard recordó en ?redirect=', async () => {
+    // Es la razón de ser del arreglo: sin esto, un enlace profundo aterriza
+    // siempre en el home tras el login.
+    currentRoute.query = { redirect: '/companies/42?tab=facturacion' }
+
+    await useAuth().login({ code: 'admin', password: 'x' } as never)
+
+    expect(push).toHaveBeenCalledWith('/companies/42?tab=facturacion')
+  })
+
+  it('ignora un ?redirect= que no sea una ruta interna y cae al dashboard', async () => {
+    // Sin este filtro, `?redirect=` sería un open redirect: el atacante manda el
+    // enlace de login legítimo y el usuario, tras autenticarse, aterriza fuera.
+    currentRoute.query = { redirect: 'https://evil.example.com' }
+
+    await useAuth().login({ code: 'admin', password: 'x' } as never)
+
+    expect(push).toHaveBeenCalledWith({ name: ROUTE_NAMES.DASHBOARD })
+  })
+})
+
+describe('sanitizeRedirect', () => {
+  it.each([['/companies/42'], ['/companies/42?tab=facturacion']])(
+    'acepta la ruta interna %s',
+    (value) => {
+      expect(sanitizeRedirect(value)).toBe(value)
+    },
+  )
+
+  it.each([
+    ['no es un string', 42],
+    ['no es un string', null],
+    ['no es un string', undefined],
+    ['no empieza por "/"', 'evil.example.com'],
+    ['URL absoluta', 'https://evil.example.com'],
+    ['protocol-relative: el navegador la resuelve contra otro host', '//evil.example.com'],
+    ['esquema disfrazado de ruta', '/x:javascript:alert(1)'],
+  ])('rechaza cuando %s (%j)', (_motivo, value) => {
+    expect(sanitizeRedirect(value)).toBeNull()
   })
 })
 
