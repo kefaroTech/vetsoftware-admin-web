@@ -74,6 +74,8 @@ describe('el refresh token ya no vive aquí', () => {
       'getToken',
       'setSession',
       'clearSession',
+      'registerVolatileKey',
+      'clearVolatile',
       'clearAll',
       'takeSessionReplacedNotice',
       'setSessionReplacedNotice',
@@ -146,6 +148,62 @@ describe('limpieza de sesión', () => {
     })
 
     expect(() => storageService.clearSession()).not.toThrow()
+  })
+})
+
+describe('claves volátiles (TR-02, issue #68)', () => {
+  it('registerVolatileKey es idempotente: registrar dos veces no duplica el borrado', () => {
+    storageService.registerVolatileKey('vetsoft.branch')
+    storageService.registerVolatileKey('vetsoft.branch')
+    localStorage.setItem('vetsoft.branch', 'norte')
+
+    expect(() => storageService.clearVolatile()).not.toThrow()
+    expect(localStorage.getItem('vetsoft.branch')).toBeNull()
+  })
+
+  it('clearVolatile borra las credenciales y toda clave registrada', () => {
+    // Caso del issue: el borrador de "Nueva consulta" (`vetrina:nueva-consulta-draft`)
+    // sobrevivía al logout porque `redirectToLogin` solo llamaba a `clearSession`,
+    // que a propósito no toca nada fuera de `AUTH_STORAGE_KEY`.
+    const DRAFT_KEY = 'vetrina:nueva-consulta-draft'
+    storageService.registerVolatileKey(DRAFT_KEY)
+    storageService.setSession(SESION)
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ paso: 2 }))
+
+    storageService.clearVolatile()
+
+    expect(storageService.getToken()).toBeNull()
+    expect(localStorage.getItem(DRAFT_KEY)).toBeNull()
+  })
+
+  it('clearVolatile conserva SESSION_REPLACED_NOTICE_KEY', () => {
+    // Es el aviso que lee la pantalla de login justo después del redirect duro
+    // que hace `redirectToLogin`. Si `clearVolatile` lo borrara, el usuario
+    // dejaría de saber por qué se le echó de la sesión.
+    storageService.setSessionReplacedNotice('Tu cuenta se inició en otro dispositivo.')
+
+    storageService.clearVolatile()
+
+    expect(storageService.takeSessionReplacedNotice()).toBe(
+      'Tu cuenta se inició en otro dispositivo.',
+    )
+  })
+
+  it('clearVolatile no toca una clave que nadie registró', () => {
+    localStorage.setItem('otra.app.preferencia', 'valor')
+
+    storageService.clearVolatile()
+
+    expect(localStorage.getItem('otra.app.preferencia')).toBe('valor')
+  })
+
+  it('clearVolatile no falla si localStorage lanza al borrar una clave registrada', () => {
+    storageService.registerVolatileKey('vetsoft.branch')
+    vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
+      throw new Error('acceso denegado')
+    })
+
+    expect(() => storageService.clearVolatile()).not.toThrow()
   })
 })
 

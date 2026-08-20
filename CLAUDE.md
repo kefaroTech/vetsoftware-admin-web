@@ -137,6 +137,20 @@ Cualquier otra diferencia entre esos archivos es deriva, no diseño. Fue
 exactamente así como el velo de carga acabó durando 300 ms en un front y 420 en
 el otro durante semanas.
 
+**Registro de claves volátiles (issue #68 del front tenant).** `storageService.clearSession()`
+—la que corre en cada expulsión por token expirado— solo borra
+`AUTH_STORAGE_KEY` a propósito: no conoce las claves de cada app. En el front
+tenant eso dejaba sobrevivir a un logout el borrador de "Nueva consulta"
+(`vetrina:nueva-consulta-draft`) y la sede activa (`vetsoft.branch`), visibles
+para el siguiente usuario del mismo equipo; esta consola hoy no declara
+ninguna clave propia fuera del servicio, pero el contrato es TR-02 y vive
+igual aquí. `storageService` expone `registerVolatileKey(key)` (idempotente) y
+`clearVolatile()` (borra `AUTH_STORAGE_KEY` + todo lo registrado, conserva
+`SESSION_REPLACED_NOTICE_KEY`); `redirectToLogin()` en `http.client.ts` llama a
+`clearVolatile()` en vez de `clearSession()`. Cada app registra sus propias
+claves volátiles en su arranque (`main.ts` / el store dueño de la clave) — eso
+no es TR-02, cada front declara las suyas.
+
 El patrón para escribir CSS nuevo sin volver a acumular ese tipo de deriva
 —consumir `primitives.css` en vez de reescribirlo, qué mide cada una de las
 dos puertas (`vetsoftware/no-duplicate-primitive` al escribir, `css:budget`

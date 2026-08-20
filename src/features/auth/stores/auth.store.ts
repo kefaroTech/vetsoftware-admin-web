@@ -110,6 +110,20 @@ export const useAuthStore = defineStore('auth', () => {
     }
     // Vaciado total solo en el logout explícito: una expiración no debe llevarse
     // las preferencias ni el aviso de sesión desplazada.
+    //
+    // Aquí `clearAll()` y no `clearVolatile()`, y la asimetría con el front del
+    // tenant es deliberada: la consola no tiene ninguna preferencia de
+    // dispositivo que conservar —solo existen `AUTH_STORAGE_KEY` y
+    // `SESSION_REPLACED_NOTICE_KEY`, las dos dentro de `storageService`—, así que
+    // puede permitirse la limpieza más fuerte, que además se lleva
+    // `sessionStorage` (donde vive el identificador de sesión de Faro) en un
+    // puesto compartido. El tenant usa `clearVolatile()` porque debe preservar
+    // `vetrina:receipt-width`, que es del equipo y no del usuario. Cada front usa
+    // la limpieza más fuerte que puede permitirse; esto NO es deriva TR-02.
+    //
+    // Este logout es hoy el ÚNICO llamador de `clearAll()` en los dos fronts: si
+    // alguien lo da por muerto y lo retira del servicio gemelo, se lleva por
+    // delante esta limpieza.
     clearSession()
     storageService.clearAll()
   }
