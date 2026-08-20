@@ -9185,7 +9185,19 @@ export interface components {
         RescheduleMedicationScheduleRequest: {
             /** Format: date-time */
             newDateTime: string;
-            mode?: string;
+            /** @enum {string} */
+            mode: "ONE" | "CASCADE";
+        };
+        RescheduleMedicationScheduleResponse: {
+            /** @description Plan completo de la medicacion, ordenado por hora vigente */
+            schedules: components["schemas"]["MedicationScheduleResponse"][];
+            /** @description true si se pidio cascada y se aplico a las tomas siguientes */
+            cascadeApplied: boolean;
+            /**
+             * @description Por que la cascada pedida no se aplico; nulo si no se pidio o si se aplico
+             * @enum {string}
+             */
+            cascadeSkippedReason?: "MEDICATION_ORDER_NOT_FOUND" | "GUIDELINE_NOT_INTERVAL" | "FREQUENCY_NOT_DISCRETE";
         };
         ChangeLaboratoryTestStatusRequest: {
             status: string;
@@ -9918,6 +9930,11 @@ export interface components {
             eventType?: "CONSULTATION" | "SURGERY" | "VACCINATION" | "DEWORMING" | "HOSPITALIZATION" | "LABORATORY_TEST" | "DIAGNOSTIC_IMAGING" | "PRESCRIPTION" | "SPA";
             /** Format: int64 */
             count?: number;
+        };
+        DeleteDebtOpenAccountRequest: {
+            reason: string;
+            /** Format: int64 */
+            expectedVersion?: number;
         };
     };
     responses: never;
@@ -13721,7 +13738,11 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeleteDebtOpenAccountRequest"];
+            };
+        };
         responses: {
             /** @description No Content */
             204: {
@@ -19773,7 +19794,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["MedicationScheduleResponse"][];
+                    "*/*": components["schemas"]["RescheduleMedicationScheduleResponse"];
                 };
             };
         };
