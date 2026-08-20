@@ -29,7 +29,11 @@ export default {
   'src/**/*.{css,scss,sass,vue}': [
     'stylelint --cache --cache-strategy content --cache-location node_modules/.cache/stylelint/ --max-warnings=0',
   ],
-  './*.{js,mjs,cjs,ts,tsx,vue,json,md,yml,yaml,html,css,scss,sass}': prettier,
-  '{src,public,tests,e2e,visual,emails,scripts,docker,.github}/**/*.{js,mjs,cjs,ts,tsx,vue,json,md,yml,yaml,html,css,scss,sass}':
-    prettier,
+  // Deliberadamente `**/*` y no una lista de directorios: `format:check` (el gate de CI) corre
+  // `prettier --check .` sobre todo el árbol versionado, y enumerar carpetas aquí obliga a
+  // acordarse de ampliar la lista cada vez que aparece una nueva — ya falló una vez con
+  // `.claude/`, que no estaba en la enumeración y hacía que el gancho local diera verde sobre
+  // ficheros que CI rechazaba (issue #51). `.prettierignore` (compartido con CI) sigue aplicando,
+  // así que lo generado queda fuera igual.
+  '**/*.{js,mjs,cjs,ts,tsx,vue,json,md,yml,yaml,html,css,scss,sass}': prettier,
 }

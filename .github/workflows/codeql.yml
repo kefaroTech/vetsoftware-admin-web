@@ -27,6 +27,17 @@ name: CodeQL
 #   2. Crear la variable de repositorio CODE_SECURITY_ENABLED = true
 #      (Settings > Secrets and variables > Actions > Variables).
 # Ese dia, este workflow entra en servicio tal cual esta.
+#
+# ALINEACION DE LOS TRES REPOSITORIOS. Este fichero se mantiene funcionalmente
+# equivalente al `codeql.yml` de vetsoftware-backend y vetsoftware-public-web:
+# mismos disparadores (pull_request a develop/main con el mismo paths-ignore,
+# barrido semanal los lunes a las 08:00 UTC y workflow_dispatch), misma condicion
+# (`vars.CODE_SECURITY_ENABLED == 'true'`), mismos permisos y mismos pasos.
+# Las unicas divergencias son deliberadas:
+#   - `languages:` y `category:`, que nombran el lenguaje real de cada repositorio.
+#   - el paso `Set up Java`, que solo existe en el backend.
+#   - el prefijo de `concurrency.group`, que sigue la convencion de cada repo.
+#   - el texto de los comentarios, que nombra el repositorio.
 
 on:
   pull_request:
@@ -38,42 +49,43 @@ on:
       - 'docs/**'
       - '.gitignore'
       - 'LICENSE'
-  push:
-    branches:
-      - develop
-  # Un analisis solo en PR nunca vuelve a mirar el codigo ya mezclado. La base
-  # de consultas de CodeQL se actualiza sola; el barrido semanal es lo que
-  # encuentra el patron que la semana pasada todavia no era una regla. Mismo
-  # hueco que `secret-scan.yml`.
+  # NO hay disparador `push`: lo que se mezcla a develop llega siempre por un pull
+  # request que este mismo workflow ya analizo, asi que un segundo analisis del
+  # mismo arbol es pagar dos veces por el mismo resultado.
+  #
+  # El barrido semanal si hace falta, y por otro motivo: la base de consultas de
+  # CodeQL se actualiza sola, y es lo que encuentra el patron que la semana pasada
+  # todavia no era una regla. A las 08:00 UTC para no solaparse con
+  # `secret-scan.yml` (06:00), y a la misma hora que los otros dos repositorios.
   schedule:
-    - cron: '0 6 * * 1'
+    - cron: '0 8 * * 1'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: codeql-${{ github.workflow }}-${{ github.ref }}
+  group: frontend-codeql-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   analyze:
     name: Analyze (javascript-typescript)
-    # Los PR abiertos por Dependabot reciben un GITHUB_TOKEN de solo lectura,
-    # independientemente del bloque `permissions:` de abajo. `analyze` no podria
-    # subir el SARIF y el check naceria en rojo por una razon que no es el
-    # codigo. El analisis de esas ramas ya ocurre en el push a develop tras el
-    # merge.
-    #
     # El interruptor descrito arriba. Mientras no exista la variable, el trabajo no
     # arranca; el dia que exista, corre completo sin tocar este fichero.
-    if: github.actor != 'dependabot[bot]' && vars.CODE_SECURITY_ENABLED == 'true'
+    #
+    # Aqui hubo ademas un `github.actor != 'dependabot[bot]'`, que era codigo muerto:
+    # Dependabot se retiro de los tres repositorios y ya no existe `.github/dependabot.yml`.
+    if: vars.CODE_SECURITY_ENABLED == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
       contents: read
-      actions: read
+      # Publicar las alertas en la pestana Security.
       security-events: write
+      # CodeQL consulta la API de Actions para correlacionar el analisis con su
+      # ejecucion; en repositorio privado es obligatorio.
+      actions: read
 
     steps:
       - name: Check out repository
