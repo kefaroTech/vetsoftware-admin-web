@@ -34,17 +34,20 @@ dos fronts.
 
 1. Cambia el `record` de `infrastructure/web/request` o `web/response` en el backend.
 2. Regenera el contrato — **no se edita a mano**, requiere Docker (Testcontainers):
+
 ```bash
    mvn verify -Dit.test=OpenApiContractIT -Dopenapi.write=true
-   ```
-   `OpenApiContractIT` levanta la aplicación entera y compara: `mvn verify` falla si
-   `api/openapi.json` se quedó atrás.
-3. En **cada** front, en paralelo:
+```
+
+`OpenApiContractIT` levanta la aplicación entera y compara: `mvn verify` falla si
+`api/openapi.json` se quedó atrás. 3. En **cada** front, en paralelo:
+
 ```bash
    npm run api:sync    # copia el contrato desde el backend
    npm run api:types   # openapi-typescript
    npm run api:check   # forma parte de `npm run quality`, y por tanto del CI
-   ```
+```
+
 4. Ajusta `src/features/<recurso>/types/<recurso>.types.ts`. Los tipos se llaman **como el
    esquema del contrato** (`SpecieResponse`, `CreateSpecieRequest`) para que
    `MatchesContract<X, 'X'>` se lea igual en los dos repos y una deriva falle con el nombre a
@@ -76,10 +79,10 @@ solo vive en tu informe se pierde: si no está en GitHub, no existe.
 
 Tus tres repos y su destino en GitHub:
 
-| Directorio | Repositorio |
-|---|---|
-| `VetSoftware/` | `kefaroTech/vetsoftware-backend` |
-| `VetSoftwareFront/` | `kefaroTech/vetsoftware-admin-web` |
+| Directorio                | Repositorio                         |
+| ------------------------- | ----------------------------------- |
+| `VetSoftware/`            | `kefaroTech/vetsoftware-backend`    |
+| `VetSoftwareFront/`       | `kefaroTech/vetsoftware-admin-web`  |
 | `VetSoftwarePublicFront/` | `kefaroTech/vetsoftware-public-web` |
 
 Una deriva de contrato tiene **una** causa: el issue va al repo que se salió del contrato
@@ -96,14 +99,15 @@ Procedimiento:
 1. **Busca antes de crear**, para no duplicar:
    `gh issue list --repo <owner/repo> --state all --search "<palabras clave>"`.
    Si ya existe uno equivalente, añade lo nuevo con `gh issue comment <n>` y reporta ese número.
-2. **Crea pasando el cuerpo por stdin.** Las comillas de PowerShell destrozan los cuerpos largos;
-   `--body-file -` no:
+2. **Crea escribiendo el cuerpo en un fichero.** Las comillas de PowerShell destrozan los
+   cuerpos largos; `--body-file` no:
 
-```bash
-gh issue create --repo kefaroTech/<repo> --title "<el problema, en una frase>" --body-file - <<'EOF'
-<cuerpo en markdown>
-EOF
-```
+   ```bash
+   # escribe el cuerpo en un archivo temporal: las comillas de PowerShell
+   # destrozan los cuerpos largos y --body-file lo evita
+   gh issue create --repo kefaroTech/<repo> --title "<el problema, en una frase>" --body-file cuerpo.md
+   ```
+
 3. **El título nombra el problema, no la tarea**: «El front tipa a mano una respuesta que el
    contrato ya no declara así», no «Actualizar los tipos». En español, como el resto de issues
    del repo.
