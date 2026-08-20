@@ -56,27 +56,21 @@ describe('diálogo de confirmación', () => {
     await expect(respuesta).resolves.toBe(true)
   })
 
-  it('DEFECTO: un segundo confirm deja la primera promesa sin resolver nunca', async () => {
-    // `confirm` pisa el resolver anterior. Quien esperaba la primera respuesta
-    // se queda esperando para siempre: si ese `await` estaba dentro de un
-    // `try/finally` que apaga un spinner o libera un bloqueo, no se ejecuta
-    // nunca y no hay ningún error que lo delate.
+  it('un segundo confirm cancela el primero', async () => {
+    // Abrir una pregunta nueva con otra pendiente resuelve la anterior con
+    // `false`: el usuario nunca la respondió, así que la respuesta segura es
+    // «no». Quien la esperaba continúa —y ejecuta su `finally`— en vez de
+    // quedarse colgado para siempre sin ningún error que lo delate.
     const store = useConfirmDialogStore()
-    let primeraResuelta = false
     const primera = store.confirm('¿Eliminar la especie?')
-    primera.then(() => {
-      primeraResuelta = true
-    })
     const segunda = store.confirm('¿Eliminar la raza?')
+
+    expect(store.message).toBe('¿Eliminar la raza?')
+    await expect(primera).resolves.toBe(false)
 
     store.accept()
 
     await expect(segunda).resolves.toBe(true)
-    // Esperarla colgaría la prueba, así que se comprueba que su `then` no llegó
-    // a correr después de vaciar la cola de microtareas.
-    await Promise.resolve()
-    await Promise.resolve()
-
-    expect(primeraResuelta).toBe(false)
+    expect(store.isOpen).toBe(false)
   })
 })
