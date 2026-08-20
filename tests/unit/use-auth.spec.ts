@@ -142,6 +142,31 @@ describe('logout', () => {
     expect(location.assign).toHaveBeenCalledWith('/login')
   })
 
+  it('vacía también sessionStorage, no solo la credencial de localStorage', async () => {
+    // El logout de la consola hace un vaciado TOTAL, y esa propiedad no la
+    // protegía ningún test. Importa por `sessionStorage`: ahí vive el
+    // identificador de sesión de Faro, y el logout recarga la MISMA pestaña
+    // (`location.assign('/login')`), que no lo limpia por sí sola. Si el vaciado
+    // se degradara a borrar solo la credencial, en un puesto compartido la
+    // telemetría del siguiente administrador seguiría emitiéndose con la sesión
+    // del anterior: no falla nada, no avisa nada, y en Grafana las dos personas
+    // quedan fundidas en una.
+    //
+    // La consola puede permitirse el vaciado total porque no tiene ninguna
+    // preferencia de dispositivo que conservar. El front del tenant NO puede
+    // —debe preservar `vetrina:receipt-width`— y por eso usa `clearVolatile()`.
+    // La asimetría entre los dos fronts es deliberada, no deriva TR-02.
+    sessionStorage.setItem('com.grafana.faro.session', '{"id":"sesion-de-A"}')
+    localStorage.setItem('vetsoft.lo-que-sea', 'contexto del usuario que sale')
+    const store = useAuthStore()
+    store.setSession(TOKEN)
+
+    await useAuth().logout()
+
+    expect(sessionStorage.length).toBe(0)
+    expect(localStorage.length).toBe(0)
+  })
+
   it('sale igualmente aunque el backend no responda', async () => {
     // La revocación server-side es best-effort. Quedarse dentro porque el
     // servidor falló dejaría la sesión abierta en un equipo compartido.

@@ -65,7 +65,7 @@ export const http = axios.create({
 
 /** Limpia la sesión y fuerza el ir a login (hard redirect). Usado cuando el refresh no es posible. */
 function redirectToLogin() {
-  storageService.clearSession()
+  storageService.clearVolatile()
   if (window.location.pathname !== '/login') {
     window.location.href = '/login'
   }

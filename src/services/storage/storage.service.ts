@@ -43,6 +43,17 @@ function readSession(): AuthSession | null {
 }
 
 /**
+ * Claves que cada app registra en su arranque como propias de la sesión pero
+ * ajenas a la autenticación (p.ej. el borrador de un wizard, la sede activa).
+ * Vive en memoria del módulo, no en el storage: un `logout` en una pestaña no
+ * necesita propagarse a las demás por esta vía, y no hay nada que releer al
+ * recargar. `clearSession()` (llamada en cada expiración de token) no toca
+ * este registro a propósito — solo `clearVolatile()`, reservada al logout
+ * explícito, lo recorre.
+ */
+const volatileKeys = new Set<string>()
+
+/**
  * Único punto de acceso al almacenamiento del navegador. Los dos fronts lo
  * comparten byte a byte: la capa HTTP llama a `getSession()` en cada petición y
  * a `clearSession()` cuando el refresh ya no es posible, y ninguna de las dos
@@ -63,6 +74,30 @@ export const storageService = {
       localStorage.removeItem(AUTH_STORAGE_KEY)
     } catch {
       /* ignore */
+    }
+  },
+
+  /** Registra una clave que debe borrarse al cerrar sesión. Idempotente. */
+  registerVolatileKey(key: string): void {
+    volatileKeys.add(key)
+  },
+
+  /**
+   * Borra la sesión y todo lo registrado como volátil.
+   * Conserva las preferencias de dispositivo y el aviso de sesión reemplazada.
+   */
+  clearVolatile(): void {
+    try {
+      localStorage.removeItem(AUTH_STORAGE_KEY)
+    } catch {
+      /* ignore */
+    }
+    for (const key of volatileKeys) {
+      try {
+        localStorage.removeItem(key)
+      } catch {
+        /* ignore */
+      }
     }
   },
 
