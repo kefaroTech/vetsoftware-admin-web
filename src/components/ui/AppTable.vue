@@ -7,27 +7,38 @@ defineProps<{
 
 <template>
   <div class="ds-card ds-card--flat tabla-caja">
-    <table class="tabla">
-      <thead>
-        <tr>
-          <th v-for="header in headers" :key="header">{{ header }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-if="empty">
-          <td :colspan="headers.length" class="ds-empty ds-empty--tight">Sin resultados</td>
-        </tr>
-        <slot v-else />
-      </tbody>
-    </table>
+    <div class="ds-table-scroll tabla-scroll">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th v-for="header in headers" :key="header">{{ header }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="empty">
+            <td :colspan="headers.length" class="ds-empty ds-empty--tight">Sin resultados</td>
+          </tr>
+          <slot v-else />
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <style scoped>
-/* La caja recorta las esquinas de la tabla, que no las hereda del borde. */
+/* La caja ya NO recorta: un `overflow:hidden` aquí dejaba las últimas columnas
+   inalcanzables cuando la tabla es más ancha que el contenedor (WCAG 1.4.10
+   Reflow). Quien recorta ahora es el envoltorio `.ds-table-scroll`, que además
+   deja desplazarla en horizontal. */
 .tabla-caja {
   padding: 0;
-  overflow: hidden;
+}
+
+/* `.ds-table-scroll` aporta el `overflow-x:auto`; eso ya establece un contexto
+   de recorte, así que basta con heredar el radio de la caja para conservar las
+   esquinas redondeadas que antes recortaba el `overflow:hidden`. */
+.tabla-scroll {
+  border-radius: inherit;
 }
 
 .tabla {
