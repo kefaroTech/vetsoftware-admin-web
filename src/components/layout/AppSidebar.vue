@@ -12,7 +12,6 @@ interface NavLeaf {
   label: string
   path: string
   icon: Component
-  count?: string
 }
 
 interface NavParent {
@@ -45,9 +44,8 @@ const navGroups: NavGroup[] = [
         label: 'Empresas',
         path: '/empresas',
         icon: ICONS.COMPANY,
-        count: '128',
       },
-      { label: 'Empleados', path: '/empleados', icon: ICONS.EMPLOYEE, count: '1.8k' },
+      { label: 'Empleados', path: '/empleados', icon: ICONS.EMPLOYEE },
     ],
   },
   {
@@ -58,7 +56,6 @@ const navGroups: NavGroup[] = [
         label: 'Membresías',
         path: '/membresias',
         icon: ICONS.MEMBERSHIP,
-        count: '6',
       },
       {
         name: ROUTE_NAMES.MEMBERSHIP_SUB_MODULES_LIST,
@@ -76,28 +73,24 @@ const navGroups: NavGroup[] = [
         label: 'Módulos',
         path: '/modulos',
         icon: ICONS.MODULE,
-        count: '14',
       },
       {
         name: ROUTE_NAMES.SUBMODULES_LIST,
         label: 'Submódulos',
         path: '/submodulos',
         icon: ICONS.SUBMODULE,
-        count: '52',
       },
       {
         name: ROUTE_NAMES.BASE_PERMISSIONS_LIST,
         label: 'Permisos base',
         path: '/permisos-base',
         icon: ICONS.BASE_PERMISSION,
-        count: '38',
       },
       {
         name: ROUTE_NAMES.BASE_ROLES_LIST,
         label: 'Roles base',
         path: '/roles-base',
         icon: ICONS.BASE_ROLE,
-        count: '9',
       },
       {
         name: ROUTE_NAMES.BASE_ROLE_PERMISSIONS_LIST,
@@ -223,7 +216,6 @@ const toggle = (parent: NavParent) => {
             >
               <component :is="item.icon" :size="15" class="nav-icon" />
               <span class="nav-label ds-truncate">{{ item.label }}</span>
-              <span v-if="item.count" class="nav-count">{{ item.count }}</span>
             </RouterLink>
 
             <div v-else class="ds-stack">
@@ -373,17 +365,6 @@ const toggle = (parent: NavParent) => {
 
 .nav-label {
   flex: 1;
-}
-
-.nav-count {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 500;
-  color: #a89bbd;
-}
-
-.nav-item.is-active .nav-count {
-  color: #7e22ce;
 }
 
 .nav-item-parent {
