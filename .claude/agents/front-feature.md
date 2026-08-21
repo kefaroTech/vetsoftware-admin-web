@@ -28,8 +28,69 @@ están en el otro.
 - **Puntos de serialización**: `router/`, `main.ts`, `plugins/vuetify.ts`, `types/domain.ts`,
   `src/stores/` transversales y cualquier archivo de la tabla TR-02. Una sola instancia los
   toca, y al final.
-- Los gates (`quality`, `test:unit`, `build`, `budget`) son caros: una sola pasada por repo,
-  al terminar, no por archivo.
+- Los gates (`quality`, `test:unit`, `build`, `budget`) son caros: una sola pasada por repo, no
+  por archivo — en segundo plano, arrancada en cuanto el árbol esté consistente (ver «Esperas
+  largas»), nunca repetida.
+
+## Esperas largas — prohibido quedarse mirando la barra
+
+**Regla dura, sin excepciones.** Todo comando que tarde más de ~30 s —`mvn verify`, `mvn test`,
+cualquier cosa con Testcontainers, `npm run build`, `npm run test:coverage`, Playwright,
+`terraform init`/`plan`, un `docker` que baje imágenes, un `gh run watch`— **se lanza en segundo
+plano** (`run_in_background`) y **en el mismo mensaje** declaras qué vas a adelantar mientras
+corre. Lanzar una tarea larga en primer plano y quedarte esperando su salida sin hacer nada más
+es el desperdicio más caro que puedes cometer: ese turno muerto se paga entero y no produce nada.
+
+**El orden importa tanto como el paralelismo.** Coloca la tarea larga lo más temprano que el
+trabajo permita: en cuanto el árbol de archivos esté en un estado consistente, arráncala.
+Guardarte el `verify` para el final convierte toda su duración en tiempo muerto; arrancarlo
+pronto la solapa con el resto de tu trabajo.
+
+**Mientras corre, lo que SIEMPRE adelantas** (nada de esto toca lo que el comando está leyendo):
+
+- **Todo lo de solo lectura**: `codegraph_explore` primero, luego `Read`/`Grep`/`Glob` e IntelliJ
+  MCP. No interfieren con nada y son lo más barato que tienes.
+- **Tu contrato de salida y tu informe**, redactados ya, con los huecos del resultado por rellenar.
+- **El cierre obligatorio**: busca duplicados con `gh issue list --repo <owner/repo> --state all
+--search "<palabras clave>"` y deja escritos los cuerpos de los issues en archivos, listos para
+  disparar `gh issue create --body-file` en cuanto termine la espera.
+- **El siguiente eslabón, servido a `gitflow-release`** —como texto, sin ejecutar git—: nombre de
+  rama conforme a GitFlow, mensaje de commit propuesto, lista de archivos tocados, cuerpo del PR
+  y qué debe verificar quien lo revise. Adelantar eso adelanta una tarea entera.
+- **Revisión de tu propio cambio en lectura pura**: `git status`, `git diff`, `git log` no escriben
+  nada y son seguros durante un build.
+- **Los comandos siguientes ya escritos**, para dispararlos en el mismo turno en que llegue el
+  resultado, sin un viaje extra.
+- **Redacta lo que sigue**: mientras corre la pasada final (`npm run quality` + `test:unit` +
+  `build`), escribe la especificación de la siguiente feature o del otro front — texto listo,
+  sin tocar código.
+- **Deja lista la información que pedirá `front-e2e-visual`** —como texto, no como archivos de
+  spec: qué flujo cubre cada pantalla, qué `data-testid` y roles usar, para que arranque sin
+  preguntarte nada. Los ficheros de specs son suyos: redactas la especificación, no la escribes
+  tú en `e2e/`/`tests/`.
+- **Verifica consumidores con CodeGraph**: `codegraph_explore` sobre los stores/composables
+  que tocaste, para confirmar el _blast radius_ antes de que el build te lo confirme (o no)
+  tres minutos después.
+- **Nunca edites `src/` del repo mientras corre su `vue-tsc -b`/`vite build`**: el resultado
+  dejaría de corresponder al árbol y tendrías que repetir la pasada entera.
+
+**Lo que NUNCA haces mientras una tarea larga corre:**
+
+- **Editar archivos que el comando está compilando, leyendo o sirviendo.** El resultado dejaría de
+  corresponder al árbol y no valdría nada: habría que repetir la espera entera. Si necesitas
+  editar, prepara la edición como texto y aplícala cuando termine.
+- **Pelear por el mismo recurso**: mismo `target/`, mismo repositorio local de Maven, mismo
+  `node_modules`, mismo puerto de dev, mismo navegador de Playwright, mismo `.terraform` o lock de
+  estado, mismo índice de git, o dos comandos que levanten contenedores Docker a la vez.
+- **Cualquier escritura de git** (`commit`, `checkout`, `switch`, `stash`, `rebase`, `merge`,
+  `push`): es competencia exclusiva de `gitflow-release`, y además mover la rama bajo un build en
+  curso invalida su resultado.
+- **Dormir o encuestar en bucle.** Nada de `sleep`, nada de repetir el mismo `status` cada pocos
+  segundos. Se espera a la notificación de fin o se lee la salida cuando ya está.
+
+**Al terminar la espera, reconcilia.** Contrasta lo adelantado contra el resultado real: si el
+comando falló y lo que redactaste asumía que pasaba, dilo y rehazlo. Reporta siempre la salida
+real, nunca la que esperabas, y cierra con una línea de qué adelantaste mientras esperabas.
 
 ## Stack
 
