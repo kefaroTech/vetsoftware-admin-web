@@ -90,6 +90,28 @@ describe('cabeceras de seguridad', () => {
   })
 })
 
+describe('idioma de la página', () => {
+  // Auditoría EST-03 / WCAG 2.2 §3.1.1. `index.html` declaraba `lang="en"` en
+  // una aplicación íntegramente en español. No es un detalle cosmético: el
+  // lector de pantalla elige la voz y las reglas de pronunciación por este
+  // atributo, así que leía "Configuración" con fonética inglesa — inteligible
+  // para nadie. Es una línea que se copia entre plantillas y vuelve sola.
+  const html = readFileSync(path.join(ROOT, 'index.html'), 'utf8')
+
+  it('declara español en el elemento raíz', () => {
+    // Regex sobre el atributo, no `toContain('<html lang="es">')`: añadir un
+    // `class` o un `data-theme` al `<html>` no debe romper esta prueba.
+    expect(html).toMatch(/<html[^>]*\slang="es"/)
+  })
+
+  it('no deja ningún resto de inglés declarado', () => {
+    // El fallo real fue una plantilla en inglés. Si `lang="en"` reaparece en
+    // cualquier parte del archivo —el `<html>`, un `<span lang>` copiado— es
+    // la misma regresión aunque el aserto de arriba siga pasando.
+    expect(html).not.toMatch(/\slang="en"/)
+  })
+})
+
 describe('Content-Security-Policy', () => {
   it('no permite scripts en línea ni eval', () => {
     // Es la directiva que convierte un XSS reflejado en nada. El build de Vite no
