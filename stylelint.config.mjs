@@ -32,5 +32,27 @@ export default {
     // limitación estructural: nodo de terceros sin gancho de clase, guardián
     // de exclusión no intercambiable, o forma que sólo existe plana).
     'vetsoftware/no-duplicate-primitive': true,
+    // DS-08: prohíbe `!important` por defecto. `EmployeeFormModal.vue` tenía
+    // tres sin motivo escrito, resueltos por especificidad (`:not()`) en vez
+    // de por fuerza bruta — ver `overrides` abajo para las excepciones que sí
+    // resisten el criterio de FE-08 (nodo de terceros sin gancho propio,
+    // guardián de exclusión no intercambiable, forma que sólo existe plana),
+    // cada una por fichero concreto y con su motivo.
+    'declaration-no-important': true,
   },
+  overrides: [
+    {
+      // `.mx-datepicker-main` la teletransporta `vue-datepicker-next` a
+      // `<body>` (`append-to-body`): sale del árbol scoped del componente y
+      // aterriza como hermano de overlays globales (modales de Vuetify), así
+      // que no hay clase propia a la que colgarle una especificidad mayor —
+      // es el caso "nodo de terceros sin gancho propio" de FE-08. El
+      // `!important` es lo único que garantiza que el panel del calendario
+      // gane siempre al z-index del modal que lo contiene.
+      files: ['src/components/ui/DateInput.vue'],
+      rules: {
+        'declaration-no-important': null,
+      },
+    },
+  ],
 }
