@@ -183,9 +183,20 @@
     0 1px 2px rgb(50 20 80 / 8%), 0 6px 16px -6px oklch(40% 0.18 var(--hue) / 45%);
   --shadow-modal: 0 20px 60px rgb(40 20 80 / 30%);
 
-  /* Anillos de foco */
-  --ring: 0 0 0 3px var(--amatista-50);
-  --ring-danger: 0 0 0 3px var(--danger-200);
+  /* Anillos de foco — auditoría A11Y-01: `--amatista-50`/`--danger-200` daban
+   * 1,06:1 y 1,29:1 sobre `--warm-50` (el único indicador de foco de
+   * `.ds-btn`, que hace `outline: none`). WCAG 2.2 §1.4.11 Non-text Contrast
+   * (AA) exige 3:1 contra la superficie; §2.4.7 Focus Visible (AA) exige que
+   * el indicador exista (no fija ratio) — no confundir con §2.4.11 Focus Not
+   * Obscured (AA, contenido superpuesto) ni §2.4.13 Focus Appearance (AAA,
+   * aspiracional). Anillo de dos capas: la primera repite la superficie
+   * (`--warm-50`) para separar el color del borde del control, y la segunda
+   * es el color con contraste real. `--amatista-500` da 4,50:1 sobre
+   * `--warm-50` (4,64:1 sobre blanco) y `--danger-500` da 5,16:1 (5,32:1
+   * sobre blanco) — verificado OKLCH → sRGB → luminancia relativa WCAG 2.x,
+   * no de memoria. */
+  --ring: 0 0 0 2px var(--warm-50), 0 0 0 4px var(--amatista-500);
+  --ring-danger: 0 0 0 2px var(--warm-50), 0 0 0 4px var(--danger-500);
 
   /* ------------------------------------------------------------------ *
    * SIGNO DEL IMPORTE — auditoría FE-08 (2ª pasada, `caja`): hex crudo sin
