@@ -292,22 +292,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/service-charge-open-accounts/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_16"];
-        put: operations["update_16"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/service-categories/{id}": {
         parameters: {
             query?: never;
@@ -315,8 +299,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_17"];
-        put: operations["update_17"];
+        get?: never;
+        put: operations["update_16"];
         post?: never;
         delete: operations["delete_16"];
         options?: never;
@@ -331,26 +315,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_18"];
-        put: operations["update_18"];
+        get: operations["findById_16"];
+        put: operations["update_17"];
         post?: never;
         delete: operations["delete_17"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/role-permissions/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_19"];
-        put: operations["update_19"];
-        post?: never;
-        delete: operations["delete_18"];
         options?: never;
         head?: never;
         patch?: never;
@@ -379,10 +347,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_20"];
-        put: operations["update_20"];
+        get: operations["findById_17"];
+        put: operations["update_18"];
         post?: never;
-        delete: operations["delete_19"];
+        delete: operations["delete_18"];
         options?: never;
         head?: never;
         patch?: never;
@@ -395,10 +363,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_21"];
-        put: operations["update_21"];
+        get: operations["findById_18"];
+        put: operations["update_19"];
         post?: never;
-        delete: operations["delete_20"];
+        delete: operations["delete_19"];
         options?: never;
         head?: never;
         patch?: never;
@@ -411,26 +379,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_22"];
-        put: operations["update_22"];
+        get: operations["findById_19"];
+        put: operations["update_20"];
         post?: never;
-        delete: operations["delete_21"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/product-charge-open-accounts/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_23"];
-        put: operations["update_23"];
-        post?: never;
-        delete?: never;
+        delete: operations["delete_20"];
         options?: never;
         head?: never;
         patch?: never;
@@ -443,74 +395,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_24"];
-        put: operations["update_24"];
-        post?: never;
-        delete: operations["delete_22"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/problems/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
         get?: never;
-        put: operations["update_25"];
+        put: operations["update_21"];
         post?: never;
-        delete: operations["delete_23"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/prescriptions/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_25"];
-        put: operations["update_26"];
-        post?: never;
-        delete: operations["delete_24"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/petshop-catalog/presentations/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["updatePresentation"];
-        post?: never;
-        delete: operations["deletePresentation"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/petshop-catalog/bundles/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["updateBundle"];
-        post?: never;
-        delete: operations["deleteBundle"];
+        delete: operations["delete_21"];
         options?: never;
         head?: never;
         patch?: never;
@@ -523,10 +411,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_26"];
-        put: operations["update_27"];
+        get: operations["findById_20"];
+        put: operations["update_22"];
         post?: never;
-        delete: operations["delete_25"];
+        delete: operations["delete_22"];
         options?: never;
         head?: never;
         patch?: never;
@@ -539,26 +427,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_27"];
-        put: operations["update_28"];
+        get: operations["findById_21"];
+        put: operations["update_23"];
         post?: never;
-        delete: operations["delete_26"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/open-accounts/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_28"];
-        put: operations["update_29"];
-        post?: never;
-        delete: operations["delete_27"];
+        delete: operations["delete_23"];
         options?: never;
         head?: never;
         patch?: never;
@@ -571,10 +443,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_29"];
-        put: operations["update_30"];
+        get: operations["findById_22"];
+        put: operations["update_24"];
         post?: never;
-        delete: operations["delete_28"];
+        delete: operations["delete_24"];
         options?: never;
         head?: never;
         patch?: never;
@@ -587,10 +459,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_30"];
-        put: operations["update_31"];
+        get: operations["findById_23"];
+        put: operations["update_25"];
         post?: never;
-        delete: operations["delete_29"];
+        delete: operations["delete_25"];
         options?: never;
         head?: never;
         patch?: never;
@@ -603,10 +475,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_31"];
-        put: operations["update_32"];
+        get: operations["findById_24"];
+        put: operations["update_26"];
         post?: never;
-        delete: operations["delete_30"];
+        delete: operations["delete_26"];
         options?: never;
         head?: never;
         patch?: never;
@@ -619,10 +491,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_32"];
-        put: operations["update_33"];
+        get: operations["findById_25"];
+        put: operations["update_27"];
         post?: never;
-        delete: operations["delete_31"];
+        delete: operations["delete_27"];
         options?: never;
         head?: never;
         patch?: never;
@@ -635,26 +507,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_33"];
-        put: operations["update_34"];
+        get: operations["findById_26"];
+        put: operations["update_28"];
         post?: never;
-        delete: operations["delete_32"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/medicament-prescriptions/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_34"];
-        put: operations["update_35"];
-        post?: never;
-        delete: operations["delete_33"];
+        delete: operations["delete_28"];
         options?: never;
         head?: never;
         patch?: never;
@@ -667,10 +523,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_35"];
-        put: operations["update_36"];
+        get: operations["findById_27"];
+        put: operations["update_29"];
         post?: never;
-        delete: operations["delete_34"];
+        delete: operations["delete_29"];
         options?: never;
         head?: never;
         patch?: never;
@@ -683,10 +539,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_36"];
-        put: operations["update_37"];
+        get: operations["findById_28"];
+        put: operations["update_30"];
         post?: never;
-        delete: operations["delete_35"];
+        delete: operations["delete_30"];
         options?: never;
         head?: never;
         patch?: never;
@@ -715,26 +571,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_37"];
-        put: operations["update_38"];
+        get: operations["findById_29"];
+        put: operations["update_31"];
         post?: never;
-        delete: operations["delete_36"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/hospitalization-progress-notes/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_38"];
-        put: operations["update_39"];
-        post?: never;
-        delete: operations["delete_37"];
+        delete: operations["delete_31"];
         options?: never;
         head?: never;
         patch?: never;
@@ -747,26 +587,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_39"];
-        put: operations["update_40"];
+        get?: never;
+        put: operations["update_32"];
         post?: never;
-        delete: operations["delete_38"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/hospitalization-observations/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_40"];
-        put: operations["update_41"];
-        post?: never;
-        delete: operations["delete_39"];
+        delete: operations["delete_32"];
         options?: never;
         head?: never;
         patch?: never;
@@ -779,42 +603,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_41"];
-        put: operations["update_42"];
+        get?: never;
+        put: operations["update_33"];
         post?: never;
-        delete: operations["delete_40"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/goods-receipts/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_42"];
-        put: operations["update_43"];
-        post?: never;
-        delete: operations["delete_41"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/general-charge-open-accounts/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_43"];
-        put: operations["update_44"];
-        post?: never;
-        delete?: never;
+        delete: operations["delete_33"];
         options?: never;
         head?: never;
         patch?: never;
@@ -827,10 +619,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_44"];
-        put: operations["update_45"];
+        get: operations["findById_30"];
+        put: operations["update_34"];
         post?: never;
-        delete: operations["delete_42"];
+        delete: operations["delete_34"];
         options?: never;
         head?: never;
         patch?: never;
@@ -859,10 +651,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_45"];
-        put: operations["update_46"];
+        get: operations["findById_31"];
+        put: operations["update_35"];
         post?: never;
-        delete: operations["delete_43"];
+        delete: operations["delete_35"];
         options?: never;
         head?: never;
         patch?: never;
@@ -875,10 +667,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_46"];
-        put: operations["update_47"];
+        get: operations["findById_32"];
+        put: operations["update_36"];
         post?: never;
-        delete: operations["delete_44"];
+        delete: operations["delete_36"];
         options?: never;
         head?: never;
         patch?: never;
@@ -892,7 +684,7 @@ export interface paths {
             cookie?: never;
         };
         get: operations["find_1"];
-        put: operations["update_48"];
+        put: operations["update_37"];
         post: operations["create"];
         delete?: never;
         options?: never;
@@ -907,10 +699,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_47"];
-        put: operations["update_49"];
+        get: operations["findById_33"];
+        put: operations["update_38"];
         post?: never;
-        delete: operations["delete_45"];
+        delete: operations["delete_37"];
         options?: never;
         head?: never;
         patch?: never;
@@ -923,10 +715,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_48"];
-        put: operations["update_50"];
+        get: operations["findById_34"];
+        put: operations["update_39"];
         post?: never;
-        delete: operations["delete_46"];
+        delete: operations["delete_38"];
         options?: never;
         head?: never;
         patch?: never;
@@ -939,42 +731,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_49"];
-        put: operations["update_51"];
+        get: operations["findById_35"];
+        put: operations["update_40"];
         post?: never;
-        delete: operations["delete_47"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/debt-open-accounts/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_50"];
-        put: operations["update_52"];
-        post?: never;
-        delete: operations["delete_48"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/daycares/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_51"];
-        put: operations["update_53"];
-        post?: never;
-        delete: operations["delete_49"];
+        delete: operations["delete_39"];
         options?: never;
         head?: never;
         patch?: never;
@@ -987,26 +747,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_52"];
-        put: operations["update_54"];
+        get: operations["findById_36"];
+        put: operations["update_41"];
         post?: never;
-        delete: operations["delete_50"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/consultations/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_53"];
-        put: operations["update_55"];
-        post?: never;
-        delete: operations["delete_51"];
+        delete: operations["delete_40"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1019,10 +763,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_54"];
-        put: operations["update_56"];
+        get: operations["findById_37"];
+        put: operations["update_42"];
         post?: never;
-        delete: operations["delete_52"];
+        delete: operations["delete_41"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1036,9 +780,9 @@ export interface paths {
             cookie?: never;
         };
         get: operations["find_2"];
-        put: operations["update_57"];
+        put: operations["update_43"];
         post: operations["create_1"];
-        delete: operations["delete_53"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -1067,10 +811,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_55"];
-        put: operations["update_58"];
+        get: operations["findById_38"];
+        put: operations["update_44"];
         post?: never;
-        delete: operations["delete_54"];
+        delete: operations["delete_42"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1083,10 +827,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_56"];
-        put: operations["update_59"];
+        get: operations["findById_39"];
+        put: operations["update_45"];
         post?: never;
-        delete: operations["delete_55"];
+        delete: operations["delete_43"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1100,7 +844,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_60"];
+        put: operations["update_46"];
         post?: never;
         delete: operations["deactivate"];
         options?: never;
@@ -1115,10 +859,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_57"];
-        put: operations["update_61"];
+        get: operations["findById_40"];
+        put: operations["update_47"];
         post?: never;
-        delete: operations["delete_56"];
+        delete: operations["delete_44"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1131,8 +875,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_58"];
-        put: operations["update_62"];
+        get?: never;
+        put: operations["update_48"];
         post?: never;
         delete?: never;
         options?: never;
@@ -1147,10 +891,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_59"];
-        put: operations["update_63"];
+        get: operations["findById_41"];
+        put: operations["update_49"];
         post?: never;
-        delete: operations["delete_57"];
+        delete: operations["delete_45"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1163,10 +907,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_60"];
-        put: operations["update_64"];
+        get: operations["findById_42"];
+        put: operations["update_50"];
         post?: never;
-        delete: operations["delete_58"];
+        delete: operations["delete_46"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1179,10 +923,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_61"];
-        put: operations["update_65"];
+        get: operations["findById_43"];
+        put: operations["update_51"];
         post?: never;
-        delete: operations["delete_59"];
+        delete: operations["delete_47"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1195,26 +939,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_62"];
-        put: operations["update_66"];
+        get: operations["findById_44"];
+        put: operations["update_52"];
         post?: never;
-        delete: operations["delete_60"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/animals/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_63"];
-        put: operations["update_67"];
-        post?: never;
-        delete: operations["delete_61"];
+        delete: operations["delete_48"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1227,26 +955,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_64"];
-        put: operations["update_68"];
+        get: operations["findById_45"];
+        put: operations["update_53"];
         post?: never;
-        delete: operations["delete_62"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/animal-alerts/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["update_69"];
-        post?: never;
-        delete: operations["delete_63"];
+        delete: operations["delete_49"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1643,7 +1355,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_3"];
+        get?: never;
         put?: never;
         post: operations["create_22"];
         delete?: never;
@@ -1707,7 +1419,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_4"];
+        get: operations["listByCompany_3"];
         put?: never;
         post: operations["create_24"];
         delete?: never;
@@ -1764,22 +1476,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/problems": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["create_27"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/prescriptions": {
         parameters: {
             query?: never;
@@ -1789,39 +1485,7 @@ export interface paths {
         };
         get: operations["listAll_18"];
         put?: never;
-        post: operations["create_28"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/petshop-catalog/presentations": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listPresentations"];
-        put?: never;
-        post: operations["createPresentation"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/petshop-catalog/bundles": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listBundles"];
-        put?: never;
-        post: operations["createBundle"];
+        post: operations["create_27"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1837,7 +1501,7 @@ export interface paths {
         };
         get: operations["listAll_19"];
         put?: never;
-        post: operations["create_29"];
+        post: operations["create_28"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1853,7 +1517,7 @@ export interface paths {
         };
         get: operations["listAll_20"];
         put?: never;
-        post: operations["create_30"];
+        post: operations["create_29"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1869,7 +1533,7 @@ export interface paths {
         };
         get: operations["list_3"];
         put?: never;
-        post: operations["create_31"];
+        post: operations["create_30"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1885,7 +1549,7 @@ export interface paths {
         };
         get: operations["listAll_21"];
         put?: never;
-        post: operations["create_32"];
+        post: operations["create_31"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1901,7 +1565,7 @@ export interface paths {
         };
         get: operations["listAll_22"];
         put?: never;
-        post: operations["create_33"];
+        post: operations["create_32"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1917,7 +1581,7 @@ export interface paths {
         };
         get: operations["listAll_23"];
         put?: never;
-        post: operations["create_34"];
+        post: operations["create_33"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1933,7 +1597,7 @@ export interface paths {
         };
         get: operations["listAll_24"];
         put?: never;
-        post: operations["create_35"];
+        post: operations["create_34"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1965,7 +1629,7 @@ export interface paths {
         };
         get: operations["listAll_25"];
         put?: never;
-        post: operations["create_36"];
+        post: operations["create_35"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1981,7 +1645,7 @@ export interface paths {
         };
         get: operations["listAll_26"];
         put?: never;
-        post: operations["create_37"];
+        post: operations["create_36"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1997,7 +1661,7 @@ export interface paths {
         };
         get: operations["listAll_27"];
         put?: never;
-        post: operations["create_38"];
+        post: operations["create_37"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2013,7 +1677,7 @@ export interface paths {
         };
         get: operations["listAll_28"];
         put?: never;
-        post: operations["create_39"];
+        post: operations["create_38"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2125,7 +1789,7 @@ export interface paths {
         };
         get: operations["listAll_29"];
         put?: never;
-        post: operations["create_40"];
+        post: operations["create_39"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2141,7 +1805,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_41"];
+        post: operations["create_40"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2157,7 +1821,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_42"];
+        post: operations["create_41"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2173,7 +1837,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_43"];
+        post: operations["create_42"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2189,7 +1853,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_44"];
+        post: operations["create_43"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2203,9 +1867,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_5"];
+        get?: never;
         put?: never;
-        post: operations["create_45"];
+        post: operations["create_44"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2253,7 +1917,7 @@ export interface paths {
         };
         get: operations["listAll_30"];
         put?: never;
-        post: operations["create_46"];
+        post: operations["create_45"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2269,7 +1933,7 @@ export interface paths {
         };
         get: operations["listAll_31"];
         put?: never;
-        post: operations["create_47"];
+        post: operations["create_46"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2317,7 +1981,7 @@ export interface paths {
         };
         get: operations["listAll_32"];
         put?: never;
-        post: operations["create_48"];
+        post: operations["create_47"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2404,22 +2068,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/electronic-documents/from-account": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["buildFromAccount"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/electronic-documents/emit": {
         parameters: {
             query?: never;
@@ -2445,7 +2093,7 @@ export interface paths {
         };
         get: operations["listAll_33"];
         put?: never;
-        post: operations["create_49"];
+        post: operations["create_48"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2477,7 +2125,7 @@ export interface paths {
         };
         get: operations["listAll_34"];
         put?: never;
-        post: operations["create_50"];
+        post: operations["create_49"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2493,7 +2141,7 @@ export interface paths {
         };
         get: operations["listAll_35"];
         put?: never;
-        post: operations["create_51"];
+        post: operations["create_50"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2509,7 +2157,7 @@ export interface paths {
         };
         get: operations["listAll_36"];
         put?: never;
-        post: operations["create_52"];
+        post: operations["create_51"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2525,23 +2173,7 @@ export interface paths {
         };
         get: operations["listAll_37"];
         put?: never;
-        post: operations["create_53"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/daycares": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listAll_38"];
-        put?: never;
-        post: operations["create_54"];
+        post: operations["create_52"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2555,9 +2187,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_39"];
+        get: operations["listAll_38"];
         put?: never;
-        post: operations["create_55"];
+        post: operations["create_53"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2571,9 +2203,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_40"];
+        get: operations["listAll_39"];
         put?: never;
-        post: operations["create_56"];
+        post: operations["create_54"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2587,25 +2219,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_41"];
+        get: operations["listAll_40"];
         put?: never;
-        post: operations["create_57"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/company-tax-profile/reactivate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["reactivate"];
+        post: operations["create_55"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2619,9 +2235,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_42"];
+        get: operations["listAll_41"];
         put?: never;
-        post: operations["create_58"];
+        post: operations["create_56"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2635,9 +2251,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_43"];
+        get: operations["listAll_42"];
         put?: never;
-        post: operations["create_59"];
+        post: operations["create_57"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2653,7 +2269,7 @@ export interface paths {
         };
         get: operations["list_4"];
         put?: never;
-        post: operations["create_60"];
+        post: operations["create_58"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2715,9 +2331,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_44"];
+        get: operations["listAll_43"];
         put?: never;
-        post: operations["create_61"];
+        post: operations["create_59"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2731,9 +2347,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_45"];
+        get: operations["listAll_44"];
         put?: never;
-        post: operations["create_62"];
+        post: operations["create_60"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2747,9 +2363,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_46"];
+        get: operations["listAll_45"];
         put?: never;
-        post: operations["create_63"];
+        post: operations["create_61"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2763,9 +2379,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_47"];
+        get: operations["listAll_46"];
         put?: never;
-        post: operations["create_64"];
+        post: operations["create_62"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2779,9 +2395,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_48"];
+        get: operations["listAll_47"];
         put?: never;
-        post: operations["create_65"];
+        post: operations["create_63"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2909,7 +2525,7 @@ export interface paths {
         };
         get: operations["list_5"];
         put?: never;
-        post: operations["create_66"];
+        post: operations["create_64"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2923,9 +2539,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_49"];
+        get: operations["listAll_48"];
         put?: never;
-        post: operations["create_67"];
+        post: operations["create_65"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2941,7 +2557,7 @@ export interface paths {
         };
         get: operations["listByAnimal"];
         put?: never;
-        post: operations["create_68"];
+        post: operations["create_66"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2955,25 +2571,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_50"];
+        get: operations["listAll_49"];
         put?: never;
-        post: operations["create_69"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/animal-alerts": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["create_70"];
+        post: operations["create_67"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2996,7 +2596,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/vaccinations/{id}/enable": {
+    "/taxes/{id}/enable": {
         parameters: {
             query?: never;
             header?: never;
@@ -3012,38 +2612,6 @@ export interface paths {
         patch: operations["enable"];
         trace?: never;
     };
-    "/vaccination-types/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_1"];
-        trace?: never;
-    };
-    "/taxes/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_2"];
-        trace?: never;
-    };
     "/system-users/{id}/enable": {
         parameters: {
             query?: never;
@@ -3057,7 +2625,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_1"];
+        patch: operations["reactivate"];
         trace?: never;
     };
     "/system-user-permissions/{id}/enable": {
@@ -3073,7 +2641,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_2"];
+        patch: operations["reactivate_1"];
         trace?: never;
     };
     "/system-permissions/{id}/enable": {
@@ -3089,71 +2657,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_3"];
-        trace?: never;
-    };
-    "/surgery-types/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_3"];
-        trace?: never;
-    };
-    "/surgeries/{id}/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["changeStatus"];
-        trace?: never;
-    };
-    "/surgeries/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_4"];
-        trace?: never;
-    };
-    "/suppliers/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_5"];
+        patch: operations["reactivate_2"];
         trace?: never;
     };
     "/sub-modules/{id}/enable": {
@@ -3169,7 +2673,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_6"];
+        patch: operations["enable_1"];
         trace?: never;
     };
     "/states/{id}/enable": {
@@ -3185,7 +2689,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_7"];
+        patch: operations["enable_2"];
         trace?: never;
     };
     "/species/{id}/enable": {
@@ -3201,39 +2705,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_8"];
-        trace?: never;
-    };
-    "/spas/{id}/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["changeStatus_1"];
-        trace?: never;
-    };
-    "/spas/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_4"];
+        patch: operations["enable_3"];
         trace?: never;
     };
     "/spa-types/{id}/enable": {
@@ -3249,7 +2721,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_5"];
+        patch: operations["reactivate_3"];
         trace?: never;
     };
     "/services/{id}/enable": {
@@ -3265,7 +2737,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_9"];
+        patch: operations["enable_4"];
         trace?: never;
     };
     "/service-charge-open-accounts/{id}/void": {
@@ -3284,38 +2756,6 @@ export interface paths {
         patch: operations["voidCharge"];
         trace?: never;
     };
-    "/service-charge-open-accounts/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_10"];
-        trace?: never;
-    };
-    "/service-categories/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_11"];
-        trace?: never;
-    };
     "/roles/{id}/enable": {
         parameters: {
             query?: never;
@@ -3329,55 +2769,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_6"];
-        trace?: never;
-    };
-    "/role-permissions/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_7"];
-        trace?: never;
-    };
-    "/purchase-orders/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_12"];
-        trace?: never;
-    };
-    "/promotions/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_13"];
+        patch: operations["reactivate_4"];
         trace?: never;
     };
     "/products/{id}/enable": {
@@ -3393,7 +2785,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_14"];
+        patch: operations["enable_5"];
         trace?: never;
     };
     "/product-charge-open-accounts/{id}/void": {
@@ -3410,38 +2802,6 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["voidCharge_1"];
-        trace?: never;
-    };
-    "/product-charge-open-accounts/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_15"];
-        trace?: never;
-    };
-    "/product-categories/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_16"];
         trace?: never;
     };
     "/procedure-schedules/{id}/reschedule": {
@@ -3492,22 +2852,6 @@ export interface paths {
         patch: operations["suspendPending"];
         trace?: never;
     };
-    "/prescriptions/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_8"];
-        trace?: never;
-    };
     "/permissions/{id}/enable": {
         parameters: {
             query?: never;
@@ -3521,23 +2865,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_9"];
-        trace?: never;
-    };
-    "/owners/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_17"];
+        patch: operations["reactivate_5"];
         trace?: never;
     };
     "/open-accounts/{id}/status": {
@@ -3553,23 +2881,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["changeStatus_2"];
-        trace?: never;
-    };
-    "/open-accounts/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_18"];
+        patch: operations["changeStatus"];
         trace?: never;
     };
     "/numbering-resolutions/{id}/enable": {
@@ -3585,7 +2897,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_19"];
+        patch: operations["enable_6"];
         trace?: never;
     };
     "/modules/{id}/enable": {
@@ -3601,7 +2913,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_20"];
+        patch: operations["enable_7"];
         trace?: never;
     };
     "/memberships/{id}/enable": {
@@ -3617,7 +2929,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_10"];
+        patch: operations["reactivate_6"];
         trace?: never;
     };
     "/membership-sub-modules/{id}/enable": {
@@ -3633,7 +2945,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_11"];
+        patch: operations["reactivate_7"];
         trace?: never;
     };
     "/medication-schedules/{id}/reschedule": {
@@ -3697,23 +3009,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_21"];
-        trace?: never;
-    };
-    "/medicament-prescriptions/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_12"];
+        patch: operations["enable_8"];
         trace?: never;
     };
     "/laboratory-tests/{id}/status": {
@@ -3729,71 +3025,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["changeStatus_3"];
-        trace?: never;
-    };
-    "/laboratory-tests/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_22"];
-        trace?: never;
-    };
-    "/laboratory-test-types/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_23"];
-        trace?: never;
-    };
-    "/hospitalizations/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_24"];
-        trace?: never;
-    };
-    "/hospitalization-progress-notes/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_13"];
+        patch: operations["changeStatus_1"];
         trace?: never;
     };
     "/hospitalization-procedures/{id}/suspend": {
@@ -3812,38 +3044,6 @@ export interface paths {
         patch: operations["suspend"];
         trace?: never;
     };
-    "/hospitalization-procedures/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_14"];
-        trace?: never;
-    };
-    "/hospitalization-observations/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_15"];
-        trace?: never;
-    };
     "/hospitalization-medications/{id}/suspend": {
         parameters: {
             query?: never;
@@ -3858,22 +3058,6 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["suspend_1"];
-        trace?: never;
-    };
-    "/hospitalization-medications/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_16"];
         trace?: never;
     };
     "/general-charge-open-accounts/{id}/void": {
@@ -3892,22 +3076,6 @@ export interface paths {
         patch: operations["voidCharge_2"];
         trace?: never;
     };
-    "/general-charge-open-accounts/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_25"];
-        trace?: never;
-    };
     "/employees/{id}/enable": {
         parameters: {
             query?: never;
@@ -3921,23 +3089,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_26"];
-        trace?: never;
-    };
-    "/employee-roles/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_17"];
+        patch: operations["enable_9"];
         trace?: never;
     };
     "/economic-activities/{id}/enable": {
@@ -3953,71 +3105,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_27"];
-        trace?: never;
-    };
-    "/diagnostic-imagings/{id}/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["changeStatus_4"];
-        trace?: never;
-    };
-    "/diagnostic-imagings/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_28"];
-        trace?: never;
-    };
-    "/diagnostic-imaging-types/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_29"];
-        trace?: never;
-    };
-    "/dewormings/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_30"];
+        patch: operations["enable_10"];
         trace?: never;
     };
     "/debt-open-accounts/{id}/void": {
@@ -4036,38 +3124,6 @@ export interface paths {
         patch: operations["voidPayment"];
         trace?: never;
     };
-    "/debt-open-accounts/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_18"];
-        trace?: never;
-    };
-    "/daycares/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_19"];
-        trace?: never;
-    };
     "/countries/{id}/enable": {
         parameters: {
             query?: never;
@@ -4081,23 +3137,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_31"];
-        trace?: never;
-    };
-    "/consultations/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_32"];
+        patch: operations["enable_11"];
         trace?: never;
     };
     "/consultation-types/{id}/enable": {
@@ -4113,23 +3153,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_33"];
-        trace?: never;
-    };
-    "/companies/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_34"];
+        patch: operations["enable_12"];
         trace?: never;
     };
     "/cities/{id}/enable": {
@@ -4145,7 +3169,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_35"];
+        patch: operations["enable_13"];
         trace?: never;
     };
     "/cash-terminals/{id}/activate": {
@@ -4177,7 +3201,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_36"];
+        patch: operations["enable_14"];
         trace?: never;
     };
     "/branches/{id}/deactivate": {
@@ -4225,7 +3249,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_20"];
+        patch: operations["reactivate_8"];
         trace?: never;
     };
     "/base-role-permissions/{id}/enable": {
@@ -4241,7 +3265,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_21"];
+        patch: operations["reactivate_9"];
         trace?: never;
     };
     "/base-permissions/{id}/enable": {
@@ -4257,7 +3281,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_22"];
+        patch: operations["reactivate_10"];
         trace?: never;
     };
     "/appointments/{id}/status": {
@@ -4273,7 +3297,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["changeStatus_5"];
+        patch: operations["changeStatus_2"];
         trace?: never;
     };
     "/appointments/{id}/reschedule": {
@@ -4308,22 +3332,6 @@ export interface paths {
         patch: operations["cancel_3"];
         trace?: never;
     };
-    "/animals/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["enable_37"];
-        trace?: never;
-    };
     "/animal-colors/{id}/enable": {
         parameters: {
             query?: never;
@@ -4337,7 +3345,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_38"];
+        patch: operations["enable_15"];
         trace?: never;
     };
     "/vaccinations/by-animal/{animalId}": {
@@ -4428,22 +3436,6 @@ export interface paths {
             cookie?: never;
         };
         get: operations["search"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/suppliers/disabled": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listDisabled_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4571,7 +3563,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listDisabled_2"];
+        get: operations["listDisabled_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4635,7 +3627,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_6"];
+        get: operations["listByCompany_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4644,17 +3636,17 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/role-permissions/by-company": {
+    "/role-permissions/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_7"];
+        get: operations["findById_46"];
         put?: never;
         post?: never;
-        delete?: never;
+        delete: operations["delete_50"];
         options?: never;
         head?: never;
         patch?: never;
@@ -4708,22 +3700,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/purchase-orders/disabled": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listDisabled_3"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/products/search": {
         parameters: {
             query?: never;
@@ -4747,7 +3723,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listDisabled_4"];
+        get: operations["listDisabled_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4788,14 +3764,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/problems/by-animal/{animalId}": {
+    "/prescriptions/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["listByAnimal_4"];
+        get: operations["findById_47"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4820,38 +3796,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/petshop-catalog/unit-measures": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listUnitMeasures"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/petshop-catalog/barcodes": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findByBarcode"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/permissions/by-company": {
         parameters: {
             query?: never;
@@ -4859,7 +3803,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_8"];
+        get: operations["listByCompany_5"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4879,6 +3823,22 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/open-accounts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_48"];
+        put?: never;
+        post?: never;
+        delete: operations["delete_51"];
         options?: never;
         head?: never;
         patch?: never;
@@ -4939,7 +3899,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listDisabled_5"];
+        get: operations["listDisabled_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4987,7 +3947,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByAnimal_5"];
+        get: operations["listByAnimal_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5007,22 +3967,6 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/laboratory-test-files/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_65"];
-        put?: never;
-        post?: never;
-        delete: operations["delete_64"];
         options?: never;
         head?: never;
         patch?: never;
@@ -5211,7 +4155,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_9"];
+        get: operations["listByCompany_6"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5227,7 +4171,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByAnimal_6"];
+        get: operations["listByAnimal_5"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5295,6 +4239,22 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/goods-receipts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_49"];
+        put?: never;
+        post?: never;
+        delete: operations["delete_52"];
         options?: never;
         head?: never;
         patch?: never;
@@ -5387,7 +4347,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_10"];
+        get: operations["listByCompany_7"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5403,7 +4363,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_51"];
+        get: operations["listAll_50"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5419,7 +4379,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_66"];
+        get: operations["findById_50"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5451,7 +4411,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByAnimal_7"];
+        get: operations["listByAnimal_6"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5483,7 +4443,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByAnimal_8"];
+        get: operations["listByAnimal_7"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5508,14 +4468,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/daycares/by-animal/{animalId}": {
+    "/daycares": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["listByAnimal_9"];
+        get: operations["listAll_51"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5540,6 +4500,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/consultations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_51"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/clinical-history": {
         parameters: {
             query?: never;
@@ -5547,7 +4523,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_11"];
+        get: operations["listByCompany_8"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5652,6 +4628,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/animals/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_52"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/animals/{animalId}/weight-records/latest": {
         parameters: {
             query?: never;
@@ -5732,17 +4724,49 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/animal-alerts/by-animal/{animalId}": {
+    "/laboratory-test-files/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["listByAnimal_10"];
+        get?: never;
         put?: never;
         post?: never;
-        delete?: never;
+        delete: operations["delete_53"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/hospitalization-progress-notes/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["delete_54"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/hospitalization-observations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["delete_55"];
         options?: never;
         head?: never;
         patch?: never;
@@ -5758,7 +4782,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete_65"];
+        delete: operations["delete_56"];
         options?: never;
         head?: never;
         patch?: never;
@@ -6083,7 +5107,7 @@ export interface components {
             id: number;
             company: components["schemas"]["CompanySummary"];
             branch: components["schemas"]["BranchSummary"];
-            supplier: components["schemas"]["SupplierSummary"];
+            supplier: components["schemas"]["SupplierInvoiceSupplierSummary"];
             /** Format: int64 */
             purchaseOrderId?: number;
             /** Format: int64 */
@@ -6116,7 +5140,7 @@ export interface components {
             version: number;
             enabled: boolean;
         };
-        SupplierSummary: {
+        SupplierInvoiceSupplierSummary: {
             /** Format: int64 */
             id: number;
             name: string;
@@ -6266,56 +5290,6 @@ export interface components {
             name: string;
             percentage: number;
         };
-        UpdateServiceChargeOpenAccountRequest: {
-            /** Format: int64 */
-            animalId: number;
-            /** Format: int64 */
-            serviceId: number;
-            /** Format: int64 */
-            openAccountId: number;
-            /** Format: int64 */
-            expectedVersion?: number;
-        };
-        EmployeeSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-        };
-        OpenAccountSummary: {
-            /** Format: int64 */
-            id: number;
-            /** Format: int64 */
-            companyId?: number;
-        };
-        ServiceChargeOpenAccountResponse: {
-            /** Format: int64 */
-            id: number;
-            animal: components["schemas"]["AnimalSummary"];
-            service: components["schemas"]["ServiceSummary"];
-            unitPrice: number;
-            hasTax: boolean;
-            taxPercentage?: number;
-            taxName?: string;
-            baseAmount: number;
-            taxAmount: number;
-            totalAmount: number;
-            openAccount: components["schemas"]["OpenAccountSummary"];
-            createdBy: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-            voided: boolean;
-            voidedBy?: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            voidedAt?: string;
-            voidReason?: string;
-        };
-        ServiceSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            price: number;
-        };
         UpdateServiceCategoryRequest: {
             name: string;
             description: string;
@@ -6342,7 +5316,7 @@ export interface components {
             name: string;
             code: string;
         };
-        PermissionSummary: {
+        RolePermissionSummary: {
             /** Format: int64 */
             rolePermissionId?: number;
             /** Format: int64 */
@@ -6358,14 +5332,17 @@ export interface components {
             company: components["schemas"]["CompanySummary"];
             /** Format: date-time */
             createdDate: string;
-            permissions: components["schemas"]["PermissionSummary"][];
+            permissions: components["schemas"]["RolePermissionSummary"][];
             enabled: boolean;
         };
-        UpdateRolePermissionRequest: {
+        SyncRolePermissionsRequest: {
+            permissionIds: number[];
+        };
+        PermissionSummary: {
             /** Format: int64 */
-            roleId: number;
-            /** Format: int64 */
-            permissionId: number;
+            id: number;
+            name: string;
+            code: string;
         };
         RolePermissionResponse: {
             /** Format: int64 */
@@ -6381,9 +5358,6 @@ export interface components {
             id: number;
             name: string;
             code: string;
-        };
-        SyncRolePermissionsRequest: {
-            permissionIds: number[];
         };
         PurchaseOrderLineRequest: {
             /** Format: int64 */
@@ -6450,6 +5424,11 @@ export interface components {
             /** Format: int64 */
             version: number;
             enabled: boolean;
+        };
+        SupplierSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
         };
         UpdatePromotionRequest: {
             name: string;
@@ -6533,41 +5512,6 @@ export interface components {
             version: number;
             enabled: boolean;
         };
-        UpdateProductChargeOpenAccountRequest: {
-            /** Format: int64 */
-            animalId: number;
-            /** Format: int64 */
-            productId: number;
-            /** Format: int64 */
-            openAccountId: number;
-            /** Format: int64 */
-            expectedVersion?: number;
-        };
-        ProductChargeOpenAccountResponse: {
-            /** Format: int64 */
-            id: number;
-            animal: components["schemas"]["AnimalSummary"];
-            product: components["schemas"]["ProductSummary"];
-            unitPrice: number;
-            /** Format: int32 */
-            quantity: number;
-            hasTax: boolean;
-            taxPercentage?: number;
-            taxName?: string;
-            baseAmount: number;
-            taxAmount: number;
-            totalAmount: number;
-            openAccount: components["schemas"]["OpenAccountSummary"];
-            createdBy: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-            voided: boolean;
-            voidedBy?: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            voidedAt?: string;
-            voidReason?: string;
-        };
         UpdateProductCategoryRequest: {
             name: string;
             description: string;
@@ -6589,138 +5533,6 @@ export interface components {
             /** Format: int64 */
             version: number;
             enabled: boolean;
-        };
-        UpdateProblemRequest: {
-            description: string;
-            /** @enum {string} */
-            status: "ACTIVE" | "RESOLVED" | "CHRONIC";
-            /** Format: date */
-            onsetDate?: string;
-            /** Format: date */
-            resolvedDate?: string;
-            notes?: string;
-        };
-        ProblemResponse: {
-            /** Format: int64 */
-            id: number;
-            /** Format: int64 */
-            animalId?: number;
-            animalName?: string;
-            description: string;
-            /** @enum {string} */
-            status: "ACTIVE" | "RESOLVED" | "CHRONIC";
-            /** Format: date */
-            onsetDate?: string;
-            /** Format: date */
-            resolvedDate?: string;
-            notes?: string;
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
-        UpdatePrescriptionRequest: {
-            /** Format: date */
-            date: string;
-            diagnosis?: string;
-            observations?: string;
-            /** Format: int64 */
-            animalId: number;
-            /** Format: int64 */
-            consultationId: number;
-        };
-        MedicamentSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            presentation?: string;
-            /** Format: double */
-            quantity?: number;
-            posology?: string;
-            observation?: string;
-        };
-        PrescriptionResponse: {
-            /** Format: int64 */
-            id: number;
-            /** Format: date */
-            date: string;
-            diagnosis?: string;
-            observations: string;
-            animal: components["schemas"]["AnimalSummary"];
-            consultation: components["schemas"]["ConsultationSummary"];
-            company: components["schemas"]["CompanySummary"];
-            medicaments: components["schemas"]["MedicamentSummary"][];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
-        PresentationRequest: {
-            /** Format: int64 */
-            productId: number;
-            name: string;
-            unitMeasureCode: string;
-            /** Format: int32 */
-            conversionFactor: number;
-            salePrice: number;
-            defaultPresentation: boolean;
-            barcodes?: string[];
-            /** Format: int64 */
-            expectedVersion?: number;
-        };
-        PresentationDto: {
-            /** Format: int64 */
-            id?: number;
-            /** Format: int64 */
-            productId?: number;
-            productName?: string;
-            name?: string;
-            unitMeasureCode?: string;
-            /** Format: int32 */
-            conversionFactor?: number;
-            salePrice?: number;
-            defaultPresentation?: boolean;
-            barcodes?: string[];
-            /** Format: int64 */
-            version?: number;
-        };
-        BundleItemRequest: {
-            /** Format: int64 */
-            presentationId: number;
-            /** Format: int32 */
-            quantity: number;
-            /** Format: int32 */
-            displayOrder: number;
-        };
-        BundleRequest: {
-            name: string;
-            code: string;
-            unitMeasureCode: string;
-            salePrice: number;
-            items: components["schemas"]["BundleItemRequest"][];
-            barcodes?: string[];
-            /** Format: int64 */
-            expectedVersion?: number;
-        };
-        BundleDto: {
-            /** Format: int64 */
-            id?: number;
-            name?: string;
-            code?: string;
-            unitMeasureCode?: string;
-            salePrice?: number;
-            items?: components["schemas"]["BundleItemDto"][];
-            barcodes?: string[];
-            /** Format: int64 */
-            version?: number;
-        };
-        BundleItemDto: {
-            /** Format: int64 */
-            presentationId?: number;
-            presentationName?: string;
-            productName?: string;
-            /** Format: int32 */
-            quantity?: number;
-            /** Format: int32 */
-            displayOrder?: number;
         };
         UpdatePermissionRequest: {
             name: string;
@@ -6795,43 +5607,6 @@ export interface components {
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
-        };
-        UpdateOpenAccountRequest: {
-            /** Format: int64 */
-            ownerId: number;
-            /** Format: int64 */
-            expectedVersion?: number;
-        };
-        OpenAccountResponse: {
-            /** Format: int64 */
-            id: number;
-            owner: components["schemas"]["OwnerSummary"];
-            totalAmount: number;
-            paidAmount: number;
-            outstandingAmount: number;
-            company: components["schemas"]["CompanySummary"];
-            branch: components["schemas"]["BranchSummary"];
-            /** @enum {string} */
-            status: "OPEN" | "CLOSE" | "CANCEL";
-            createdBy: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-            closedBy?: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            closedAt?: string;
-            closeReason?: string;
-            reversed: boolean;
-            /** Format: date-time */
-            reversedAt?: string;
-            /** Format: int64 */
-            version: number;
-        };
-        OwnerSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            document: string;
         };
         UpdateNumberingResolutionRequest: {
             /** @enum {string} */
@@ -6943,39 +5718,6 @@ export interface components {
             createdDate: string;
             enabled: boolean;
         };
-        UpdateMedicamentPrescriptionRequest: {
-            /** Format: int64 */
-            medicamentId: number;
-            presentation: string;
-            /** Format: double */
-            quantity: number;
-            posology: string;
-            observation?: string;
-            /** Format: int64 */
-            prescriptionId: number;
-        };
-        MedicamentPrescriptionResponse: {
-            /** Format: int64 */
-            id: number;
-            /** Format: int64 */
-            medicamentId: number;
-            name: string;
-            presentation: string;
-            /** Format: double */
-            quantity: number;
-            posology: string;
-            observation?: string;
-            prescription: components["schemas"]["PrescriptionSummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
-        PrescriptionSummary: {
-            /** Format: int64 */
-            id: number;
-            /** Format: date */
-            date: string;
-        };
         UpdateLaboratoryTestRequest: {
             /** Format: date */
             date: string;
@@ -6993,6 +5735,12 @@ export interface components {
             processedById?: number;
             /** Format: date-time */
             processedDate?: string;
+        };
+        EmployeeSummary: {
+            /** Format: int64 */
+            id: number;
+            employeeCode: string;
+            name: string;
         };
         LaboratoryTestResponse: {
             /** Format: int64 */
@@ -7082,25 +5830,6 @@ export interface components {
             createdDate: string;
             enabled: boolean;
         };
-        UpdateHospitalizationProgressNoteRequest: {
-            description: string;
-        };
-        HospitalizationProgressNoteResponse: {
-            /** Format: int64 */
-            id: number;
-            description: string;
-            hospitalization: components["schemas"]["HospitalizationSummary"];
-            createdBy: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
-        HospitalizationSummary: {
-            /** Format: int64 */
-            id: number;
-            /** Format: date */
-            date: string;
-        };
         UpdateHospitalizationProcedureRequest: {
             name: string;
             dose?: string;
@@ -7137,18 +5866,11 @@ export interface components {
             suspensionDate?: string;
             suspensionBy?: components["schemas"]["EmployeeSummary"];
         };
-        UpdateHospitalizationObservationRequest: {
-            description: string;
-        };
-        HospitalizationObservationResponse: {
+        HospitalizationSummary: {
             /** Format: int64 */
             id: number;
-            description: string;
-            hospitalization: components["schemas"]["HospitalizationSummary"];
-            createdBy: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
+            /** Format: date */
+            date: string;
         };
         UpdateHospitalizationMedicationRequest: {
             name: string;
@@ -7186,108 +5908,6 @@ export interface components {
             suspensionDate?: string;
             suspensionBy?: components["schemas"]["EmployeeSummary"];
         };
-        GoodsReceiptLineRequest: {
-            /** Format: int64 */
-            productId: number;
-            /** Format: int64 */
-            purchaseOrderLineId?: number;
-            lotNumber?: string;
-            /** Format: date */
-            expireDate?: string;
-            /** Format: int32 */
-            quantityReceived?: number;
-            unitCost: number;
-        };
-        UpdateGoodsReceiptRequest: {
-            /** Format: int64 */
-            branchId: number;
-            /** Format: int64 */
-            supplierId: number;
-            /** Format: int64 */
-            purchaseOrderId?: number;
-            /** Format: date */
-            receiptDate: string;
-            supplierInvoiceNumber?: string;
-            notes?: string;
-            lines: components["schemas"]["GoodsReceiptLineRequest"][];
-            /** Format: int64 */
-            version: number;
-        };
-        GoodsReceiptLineResponse: {
-            /** Format: int64 */
-            id: number;
-            product: components["schemas"]["ProductSummary"];
-            /** Format: int64 */
-            purchaseOrderLineId?: number;
-            lotNumber?: string;
-            /** Format: date */
-            expireDate?: string;
-            /** Format: int32 */
-            quantityReceived: number;
-            unitCost: number;
-        };
-        GoodsReceiptResponse: {
-            /** Format: int64 */
-            id: number;
-            company: components["schemas"]["CompanySummary"];
-            branch: components["schemas"]["BranchSummary"];
-            supplier: components["schemas"]["SupplierSummary"];
-            /** Format: int64 */
-            purchaseOrderId?: number;
-            /** Format: date */
-            receiptDate: string;
-            supplierInvoiceNumber?: string;
-            notes?: string;
-            /** @enum {string} */
-            status: "DRAFT" | "CONFIRMED" | "CANCELLED";
-            lines?: components["schemas"]["GoodsReceiptLineResponse"][];
-            /** Format: date-time */
-            createdDate: string;
-            /** Format: int64 */
-            createdBy?: number;
-            /** Format: date-time */
-            updatedDate?: string;
-            /** Format: int64 */
-            updatedBy?: number;
-            /** Format: int64 */
-            version: number;
-            enabled: boolean;
-        };
-        UpdateGeneralChargeOpenAccountRequest: {
-            name: string;
-            unitAmount: number;
-            quantity: number;
-            /** Format: int64 */
-            taxId?: number;
-            /** Format: int64 */
-            openAccountId: number;
-            /** Format: int64 */
-            expectedVersion?: number;
-        };
-        GeneralChargeOpenAccountResponse: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            unitAmount: number;
-            quantity: number;
-            tax?: components["schemas"]["TaxSummary"];
-            hasTax: boolean;
-            taxPercentage?: number;
-            taxName?: string;
-            baseAmount: number;
-            taxAmount: number;
-            totalAmount: number;
-            openAccount: components["schemas"]["OpenAccountSummary"];
-            createdBy: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-            voided: boolean;
-            voidedBy?: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            voidedAt?: string;
-            voidReason?: string;
-        };
         UpdateEmployeeRequest: {
             employeeCode: string;
             name: string;
@@ -7301,13 +5921,21 @@ export interface components {
             name: string;
             email: string;
             company: components["schemas"]["CompanySummary"];
-            roles: components["schemas"]["RoleSummary"][];
+            roles: components["schemas"]["EmployeeRoleSummary"][];
             branches: components["schemas"]["BranchSummary"][];
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
             mustChangePassword: boolean;
             status: string;
+        };
+        EmployeeRoleSummary: {
+            /** Format: int64 */
+            employeeRoleId?: number;
+            /** Format: int64 */
+            id: number;
+            name: string;
+            code: string;
         };
         SetEmployeeBranchesRequest: {
             allBranches?: boolean;
@@ -7468,64 +6096,6 @@ export interface components {
             createdDate: string;
             enabled: boolean;
         };
-        UpdateDebtOpenAccountRequest: {
-            amount: number;
-            paymentMethod: string;
-            /** Format: int64 */
-            openAccountId: number;
-            /** Format: int64 */
-            expectedVersion?: number;
-        };
-        DebtOpenAccountResponse: {
-            /** Format: int64 */
-            id: number;
-            amount: number;
-            /** @enum {string} */
-            paymentMethod: "CASH" | "CARD" | "BANK_TRANSFER";
-            openAccount: components["schemas"]["OpenAccountSummary"];
-            createdBy: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-            voided: boolean;
-            voidedBy?: components["schemas"]["EmployeeSummary"];
-            /** Format: date-time */
-            voidedAt?: string;
-            voidReason?: string;
-        };
-        UpdateDayCareRequest: {
-            /** Format: date */
-            date: string;
-            /** Format: date */
-            startDate: string;
-            /** Format: date */
-            endDate?: string;
-            /** @enum {string} */
-            type: "DAYCARE" | "HOTEL";
-            objects?: string;
-            observations?: string;
-            /** Format: int64 */
-            animalId: number;
-        };
-        DayCareResponse: {
-            /** Format: int64 */
-            id: number;
-            /** Format: date */
-            date: string;
-            /** Format: date */
-            startDate: string;
-            /** Format: date */
-            endDate?: string;
-            /** @enum {string} */
-            type: "DAYCARE" | "HOTEL";
-            objects?: string;
-            observations?: string;
-            animal: components["schemas"]["AnimalSummary"];
-            company: components["schemas"]["CompanySummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
         UpdateCountryRequest: {
             name: string;
         };
@@ -7536,69 +6106,6 @@ export interface components {
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
-        };
-        UpdateConsultationRequest: {
-            /** Format: date */
-            date: string;
-            /** Format: int64 */
-            consultationTypeId: number;
-            anamnesis: string;
-            diagnosis?: string;
-            prognosis?: string;
-            /** Format: date */
-            nextControl?: string;
-            /** Format: int64 */
-            animalId: number;
-            temperature?: number;
-            /** Format: int32 */
-            heartRate?: number;
-            /** Format: int32 */
-            respiratoryRate?: number;
-            mucousMembranes?: string;
-            capillaryRefill?: string;
-            hydration?: string;
-            /** Format: int32 */
-            bodyConditionScore?: number;
-            /** Format: int32 */
-            painScore?: number;
-            attitude?: string;
-            examFindings?: string;
-        };
-        ConsultationResponse: {
-            /** Format: int64 */
-            id: number;
-            /** Format: date */
-            date: string;
-            consultationType: components["schemas"]["ConsultationTypeSummary"];
-            anamnesis: string;
-            diagnosis?: string;
-            prognosis?: string;
-            /** Format: date */
-            nextControl?: string;
-            animal: components["schemas"]["AnimalSummary"];
-            company: components["schemas"]["CompanySummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-            temperature?: number;
-            /** Format: int32 */
-            heartRate?: number;
-            /** Format: int32 */
-            respiratoryRate?: number;
-            mucousMembranes?: string;
-            capillaryRefill?: string;
-            hydration?: string;
-            /** Format: int32 */
-            bodyConditionScore?: number;
-            /** Format: int32 */
-            painScore?: number;
-            attitude?: string;
-            examFindings?: string;
-        };
-        ConsultationTypeSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
         };
         UpdateConsultationTypeRequest: {
             name: string;
@@ -7670,6 +6177,12 @@ export interface components {
             /** Format: int64 */
             membershipId: number;
         };
+        CompanyMembershipSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            status: string;
+        };
         CompanyResponse: {
             /** Format: int64 */
             id: number;
@@ -7678,7 +6191,7 @@ export interface components {
             address?: string;
             contactNumber?: string;
             city: components["schemas"]["CitySummary"];
-            membership: components["schemas"]["MembershipSummary"];
+            membership: components["schemas"]["CompanyMembershipSummary"];
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
@@ -7837,6 +6350,22 @@ export interface components {
             notes?: string;
             forceOverlap?: boolean;
         };
+        AppointmentBranchSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            code: string;
+        };
+        AppointmentEmployeeSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
+        AppointmentOwnerSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
         AppointmentResponse: {
             /** Format: int64 */
             id: number;
@@ -7855,12 +6384,12 @@ export interface components {
             notes?: string;
             cancellationReason?: string;
             animal?: components["schemas"]["AnimalSummary"];
-            owner?: components["schemas"]["OwnerSummary"];
+            owner?: components["schemas"]["AppointmentOwnerSummary"];
             clientName?: string;
             clientPhone?: string;
             clientEmail?: string;
-            employee: components["schemas"]["EmployeeSummary"];
-            branch: components["schemas"]["BranchSummary"];
+            employee: components["schemas"]["AppointmentEmployeeSummary"];
+            branch: components["schemas"]["AppointmentBranchSummary"];
             /** Format: int64 */
             version: number;
             enabled: boolean;
@@ -7868,76 +6397,6 @@ export interface components {
             createdDate: string;
             /** @description Citas del mismo veterinario con las que esta se cruza. Desde BE-17 el cruce bloquea con 409 APPOINTMENT_OVERLAP, así que este array solo llega no vacío cuando la operación se guardó con forceOverlap=true. Incluye únicamente las citas de las sedes que el usuario tiene asignadas: los cruces en otras sedes bloquean o se fuerzan igual, pero no se identifican. Nunca es null. */
             overlappingAppointmentIds: number[];
-        };
-        UpdateAnimalRequest: {
-            name: string;
-            code?: string;
-            /** Format: int64 */
-            specieId: number;
-            /** Format: int64 */
-            breedId: number;
-            /** Format: int64 */
-            ownerId: number;
-            /** @enum {string} */
-            gender: "MALE" | "FEMALE";
-            /** @enum {string} */
-            weightType: "GRAMS" | "POUNDS" | "KILOGRAMS";
-            /** @enum {string} */
-            animalType: "SERVICE" | "SUPPORT" | "NONE";
-            /** @enum {string} */
-            reproductiveState: "STERILIZED" | "NO_STERILIZED" | "UNKNOWN";
-            /** Format: int64 */
-            colorId: number;
-            /** Format: date */
-            bod?: string;
-            weight?: number;
-            /** Format: int32 */
-            size?: number;
-            deceased?: boolean;
-            /** Format: date */
-            deceasedDate?: string;
-        };
-        AnimalColorSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-        };
-        AnimalResponse: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            code?: string;
-            specie: components["schemas"]["SpecieSummary"];
-            breed: components["schemas"]["BreedSummary"];
-            owner: components["schemas"]["OwnerSummary"];
-            /** @enum {string} */
-            gender: "MALE" | "FEMALE";
-            /** @enum {string} */
-            weightType: "GRAMS" | "POUNDS" | "KILOGRAMS";
-            /** @enum {string} */
-            animalType: "SERVICE" | "SUPPORT" | "NONE";
-            /** @enum {string} */
-            reproductiveState: "STERILIZED" | "NO_STERILIZED" | "UNKNOWN";
-            color: components["schemas"]["AnimalColorSummary"];
-            /** Format: date */
-            bod: string;
-            weight?: number;
-            /** Format: date */
-            weightMeasuredAt?: string;
-            /** Format: int32 */
-            size?: number;
-            deceased: boolean;
-            /** Format: date */
-            deceasedDate?: string;
-            company: components["schemas"]["CompanySummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
-        BreedSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
         };
         UpdateAnimalColorRequest: {
             name: string;
@@ -7949,28 +6408,6 @@ export interface components {
             id: number;
             name: string;
             specie: components["schemas"]["SpecieSummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
-        UpdateAnimalAlertRequest: {
-            /** @enum {string} */
-            type: "ALLERGY" | "DRUG_REACTION" | "CHRONIC_CONDITION" | "BEHAVIOR" | "OTHER";
-            description: string;
-            /** @enum {string} */
-            severity?: "LOW" | "MEDIUM" | "HIGH";
-        };
-        AnimalAlertResponse: {
-            /** Format: int64 */
-            id: number;
-            /** Format: int64 */
-            animalId?: number;
-            animalName?: string;
-            /** @enum {string} */
-            type: "ALLERGY" | "DRUG_REACTION" | "CHRONIC_CONDITION" | "BEHAVIOR" | "OTHER";
-            description: string;
-            /** @enum {string} */
-            severity?: "LOW" | "MEDIUM" | "HIGH";
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
@@ -8128,6 +6565,46 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
         };
+        OpenAccountSummary: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId?: number;
+        };
+        ServiceChargeOpenAccountEmployeeSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
+        ServiceChargeOpenAccountResponse: {
+            /** Format: int64 */
+            id: number;
+            animal: components["schemas"]["AnimalSummary"];
+            service: components["schemas"]["ServiceSummary"];
+            unitPrice: number;
+            hasTax: boolean;
+            taxPercentage?: number;
+            taxName?: string;
+            baseAmount: number;
+            taxAmount: number;
+            totalAmount: number;
+            openAccount: components["schemas"]["OpenAccountSummary"];
+            createdBy: components["schemas"]["ServiceChargeOpenAccountEmployeeSummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+            voided: boolean;
+            voidedBy?: components["schemas"]["ServiceChargeOpenAccountEmployeeSummary"];
+            /** Format: date-time */
+            voidedAt?: string;
+            voidReason?: string;
+        };
+        ServiceSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            price: number;
+        };
         CreateServiceCategoryRequest: {
             name: string;
             description: string;
@@ -8227,6 +6704,43 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
         };
+        ProductChargeOpenAccountEmployeeSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
+        ProductChargeOpenAccountProductSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            code: string;
+            salePrice: number;
+        };
+        ProductChargeOpenAccountResponse: {
+            /** Format: int64 */
+            id: number;
+            animal: components["schemas"]["AnimalSummary"];
+            product: components["schemas"]["ProductChargeOpenAccountProductSummary"];
+            unitPrice: number;
+            /** Format: int32 */
+            quantity: number;
+            hasTax: boolean;
+            taxPercentage?: number;
+            taxName?: string;
+            baseAmount: number;
+            taxAmount: number;
+            totalAmount: number;
+            openAccount: components["schemas"]["OpenAccountSummary"];
+            createdBy: components["schemas"]["ProductChargeOpenAccountEmployeeSummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+            voided: boolean;
+            voidedBy?: components["schemas"]["ProductChargeOpenAccountEmployeeSummary"];
+            /** Format: date-time */
+            voidedAt?: string;
+            voidReason?: string;
+        };
         CreateProductCategoryRequest: {
             name: string;
             description: string;
@@ -8253,18 +6767,6 @@ export interface components {
             createdDate: string;
             enabled: boolean;
         };
-        CreateProblemRequest: {
-            /** Format: int64 */
-            animalId: number;
-            description: string;
-            /** @enum {string} */
-            status: "ACTIVE" | "RESOLVED" | "CHRONIC";
-            /** Format: date */
-            onsetDate?: string;
-            /** Format: date */
-            resolvedDate?: string;
-            notes?: string;
-        };
         CreatePrescriptionRequest: {
             /** Format: date */
             date: string;
@@ -8274,6 +6776,31 @@ export interface components {
             animalId: number;
             /** Format: int64 */
             consultationId: number;
+        };
+        MedicamentSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            presentation?: string;
+            /** Format: double */
+            quantity?: number;
+            posology?: string;
+            observation?: string;
+        };
+        PrescriptionResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: date */
+            date: string;
+            diagnosis?: string;
+            observations: string;
+            animal: components["schemas"]["AnimalSummary"];
+            consultation: components["schemas"]["ConsultationSummary"];
+            company: components["schemas"]["CompanySummary"];
+            medicaments: components["schemas"]["MedicamentSummary"][];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
         };
         CreatePermissionRequest: {
             name: string;
@@ -8307,6 +6834,48 @@ export interface components {
             ownerId: number;
             /** Format: int64 */
             branchId?: number;
+        };
+        OpenAccountBranchSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            code: string;
+        };
+        OpenAccountEmployeeSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
+        OpenAccountResponse: {
+            /** Format: int64 */
+            id: number;
+            owner: components["schemas"]["OwnerSummary"];
+            totalAmount: number;
+            paidAmount: number;
+            outstandingAmount: number;
+            company: components["schemas"]["CompanySummary"];
+            branch: components["schemas"]["OpenAccountBranchSummary"];
+            /** @enum {string} */
+            status: "OPEN" | "CLOSE" | "CANCEL";
+            createdBy: components["schemas"]["OpenAccountEmployeeSummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+            closedBy?: components["schemas"]["OpenAccountEmployeeSummary"];
+            /** Format: date-time */
+            closedAt?: string;
+            closeReason?: string;
+            reversed: boolean;
+            /** Format: date-time */
+            reversedAt?: string;
+            /** Format: int64 */
+            version: number;
+        };
+        OwnerSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            document: string;
         };
         CreateNumberingResolutionRequest: {
             /** @enum {string} */
@@ -8378,6 +6947,28 @@ export interface components {
             observation?: string;
             /** Format: int64 */
             prescriptionId: number;
+        };
+        MedicamentPrescriptionResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            medicamentId: number;
+            name: string;
+            presentation: string;
+            /** Format: double */
+            quantity: number;
+            posology: string;
+            observation?: string;
+            prescription: components["schemas"]["PrescriptionSummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
+        PrescriptionSummary: {
+            /** Format: int64 */
+            id: number;
+            /** Format: date */
+            date: string;
         };
         CreateLaboratoryTestRequest: {
             /** Format: date */
@@ -8531,6 +7122,16 @@ export interface components {
             /** Format: int64 */
             hospitalizationId: number;
         };
+        HospitalizationProgressNoteResponse: {
+            /** Format: int64 */
+            id: number;
+            description: string;
+            hospitalization: components["schemas"]["HospitalizationSummary"];
+            createdBy: components["schemas"]["EmployeeSummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
         CreateHospitalizationProcedureRequest: {
             name: string;
             dose?: string;
@@ -8550,6 +7151,16 @@ export interface components {
             description: string;
             /** Format: int64 */
             hospitalizationId: number;
+        };
+        HospitalizationObservationResponse: {
+            /** Format: int64 */
+            id: number;
+            description: string;
+            hospitalization: components["schemas"]["HospitalizationSummary"];
+            createdBy: components["schemas"]["EmployeeSummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
         };
         CreateHospitalizationMedicationRequest: {
             name: string;
@@ -8579,6 +7190,58 @@ export interface components {
             notes?: string;
             lines: components["schemas"]["GoodsReceiptLineRequest"][];
         };
+        GoodsReceiptLineRequest: {
+            /** Format: int64 */
+            productId: number;
+            /** Format: int64 */
+            purchaseOrderLineId?: number;
+            lotNumber?: string;
+            /** Format: date */
+            expireDate?: string;
+            /** Format: int32 */
+            quantityReceived?: number;
+            unitCost: number;
+        };
+        GoodsReceiptLineResponse: {
+            /** Format: int64 */
+            id: number;
+            product: components["schemas"]["ProductSummary"];
+            /** Format: int64 */
+            purchaseOrderLineId?: number;
+            lotNumber?: string;
+            /** Format: date */
+            expireDate?: string;
+            /** Format: int32 */
+            quantityReceived: number;
+            unitCost: number;
+        };
+        GoodsReceiptResponse: {
+            /** Format: int64 */
+            id: number;
+            company: components["schemas"]["CompanySummary"];
+            branch: components["schemas"]["BranchSummary"];
+            supplier: components["schemas"]["SupplierSummary"];
+            /** Format: int64 */
+            purchaseOrderId?: number;
+            /** Format: date */
+            receiptDate: string;
+            supplierInvoiceNumber?: string;
+            notes?: string;
+            /** @enum {string} */
+            status: "DRAFT" | "CONFIRMED" | "CANCELLED";
+            lines?: components["schemas"]["GoodsReceiptLineResponse"][];
+            /** Format: date-time */
+            createdDate: string;
+            /** Format: int64 */
+            createdBy?: number;
+            /** Format: date-time */
+            updatedDate?: string;
+            /** Format: int64 */
+            updatedBy?: number;
+            /** Format: int64 */
+            version: number;
+            enabled: boolean;
+        };
         CreateGeneralChargeOpenAccountRequest: {
             name: string;
             unitAmount: number;
@@ -8590,6 +7253,35 @@ export interface components {
             clientRequestId?: string;
             /** Format: int64 */
             expectedVersion?: number;
+        };
+        GeneralChargeOpenAccountEmployeeSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
+        GeneralChargeOpenAccountResponse: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            unitAmount: number;
+            quantity: number;
+            tax?: components["schemas"]["TaxSummary"];
+            hasTax: boolean;
+            taxPercentage?: number;
+            taxName?: string;
+            baseAmount: number;
+            taxAmount: number;
+            totalAmount: number;
+            openAccount: components["schemas"]["OpenAccountSummary"];
+            createdBy: components["schemas"]["GeneralChargeOpenAccountEmployeeSummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+            voided: boolean;
+            voidedBy?: components["schemas"]["GeneralChargeOpenAccountEmployeeSummary"];
+            /** Format: date-time */
+            voidedAt?: string;
+            voidReason?: string;
         };
         CreateEmployeeRequest: {
             employeeCode: string;
@@ -8822,19 +7514,27 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
         };
-        CreateDayCareRequest: {
-            /** Format: date */
-            date: string;
-            /** Format: date */
-            startDate: string;
-            /** Format: date */
-            endDate?: string;
-            /** @enum {string} */
-            type: "DAYCARE" | "HOTEL";
-            objects?: string;
-            observations?: string;
+        DebtOpenAccountEmployeeSummary: {
             /** Format: int64 */
-            animalId: number;
+            id: number;
+            name: string;
+        };
+        DebtOpenAccountResponse: {
+            /** Format: int64 */
+            id: number;
+            amount: number;
+            /** @enum {string} */
+            paymentMethod: "CASH" | "CARD" | "BANK_TRANSFER";
+            openAccount: components["schemas"]["OpenAccountSummary"];
+            createdBy: components["schemas"]["DebtOpenAccountEmployeeSummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+            voided: boolean;
+            voidedBy?: components["schemas"]["DebtOpenAccountEmployeeSummary"];
+            /** Format: date-time */
+            voidedAt?: string;
+            voidReason?: string;
         };
         CreateCountryRequest: {
             name: string;
@@ -8867,6 +7567,42 @@ export interface components {
             painScore?: number;
             attitude?: string;
             examFindings?: string;
+        };
+        ConsultationResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: date */
+            date: string;
+            consultationType: components["schemas"]["ConsultationTypeSummary"];
+            anamnesis: string;
+            diagnosis?: string;
+            prognosis?: string;
+            /** Format: date */
+            nextControl?: string;
+            animal: components["schemas"]["AnimalSummary"];
+            company: components["schemas"]["CompanySummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+            temperature?: number;
+            /** Format: int32 */
+            heartRate?: number;
+            /** Format: int32 */
+            respiratoryRate?: number;
+            mucousMembranes?: string;
+            capillaryRefill?: string;
+            hydration?: string;
+            /** Format: int32 */
+            bodyConditionScore?: number;
+            /** Format: int32 */
+            painScore?: number;
+            attitude?: string;
+            examFindings?: string;
+        };
+        ConsultationTypeSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
         };
         CreateConsultationTypeRequest: {
             name: string;
@@ -9101,6 +7837,48 @@ export interface components {
             /** Format: date */
             deceasedDate?: string;
         };
+        AnimalColorSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
+        AnimalResponse: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            code?: string;
+            specie: components["schemas"]["SpecieSummary"];
+            breed: components["schemas"]["BreedSummary"];
+            owner: components["schemas"]["OwnerSummary"];
+            /** @enum {string} */
+            gender: "MALE" | "FEMALE";
+            /** @enum {string} */
+            weightType: "GRAMS" | "POUNDS" | "KILOGRAMS";
+            /** @enum {string} */
+            animalType: "SERVICE" | "SUPPORT" | "NONE";
+            /** @enum {string} */
+            reproductiveState: "STERILIZED" | "NO_STERILIZED" | "UNKNOWN";
+            color: components["schemas"]["AnimalColorSummary"];
+            /** Format: date */
+            bod: string;
+            weight?: number;
+            /** Format: date */
+            weightMeasuredAt?: string;
+            /** Format: int32 */
+            size?: number;
+            deceased: boolean;
+            /** Format: date */
+            deceasedDate?: string;
+            company: components["schemas"]["CompanySummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
+        BreedSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
         CreateWeightRecordRequest: {
             value: number;
             /** @enum {string} */
@@ -9134,15 +7912,6 @@ export interface components {
             /** Format: int64 */
             specieId: number;
         };
-        CreateAnimalAlertRequest: {
-            /** Format: int64 */
-            animalId: number;
-            /** @enum {string} */
-            type: "ALLERGY" | "DRUG_REACTION" | "CHRONIC_CONDITION" | "BEHAVIOR" | "OTHER";
-            description: string;
-            /** @enum {string} */
-            severity?: "LOW" | "MEDIUM" | "HIGH";
-        };
         PublishAdminPermissionsResponse: {
             /** Format: int32 */
             companiesProcessed: number;
@@ -9152,12 +7921,6 @@ export interface components {
             permissionsCreated: number;
             /** Format: int32 */
             rolePermissionsCreated: number;
-        };
-        ChangeSurgeryStatusRequest: {
-            status: string;
-        };
-        ChangeSpaStatusRequest: {
-            status: string;
         };
         VoidServiceChargeOpenAccountRequest: {
             reason: string;
@@ -9206,9 +7969,6 @@ export interface components {
             reason: string;
             /** Format: int64 */
             expectedVersion?: number;
-        };
-        ChangeDiagnosticImagingStatusRequest: {
-            status: string;
         };
         VoidDebtOpenAccountRequest: {
             reason: string;
@@ -9456,17 +8216,6 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
-        PageResponseProblemResponse: {
-            content?: components["schemas"]["ProblemResponse"][];
-            /** Format: int32 */
-            page?: number;
-            /** Format: int32 */
-            pageSize?: number;
-            /** Format: int64 */
-            totalElements?: number;
-            /** Format: int32 */
-            totalPages?: number;
-        };
         PageResponsePrescriptionResponse: {
             content?: components["schemas"]["PrescriptionResponse"][];
             /** Format: int32 */
@@ -9477,23 +8226,6 @@ export interface components {
             totalElements?: number;
             /** Format: int32 */
             totalPages?: number;
-        };
-        UnitMeasureDto: {
-            code?: string;
-            name?: string;
-            symbol?: string;
-        };
-        BarcodeLookupDto: {
-            barcode?: string;
-            /** @enum {string} */
-            itemType?: "PRESENTATION" | "BUNDLE";
-            /** Format: int64 */
-            itemId?: number;
-            name?: string;
-            unitMeasureCode?: string;
-            salePrice?: number;
-            /** Format: int32 */
-            conversionFactor?: number;
         };
         PageResponseOwnerResponse: {
             content?: components["schemas"]["OwnerResponse"][];
@@ -9839,16 +8571,24 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
-        PageResponseDayCareResponse: {
-            content?: components["schemas"]["DayCareResponse"][];
-            /** Format: int32 */
-            page?: number;
-            /** Format: int32 */
-            pageSize?: number;
+        DayCareResponse: {
             /** Format: int64 */
-            totalElements?: number;
-            /** Format: int32 */
-            totalPages?: number;
+            id: number;
+            /** Format: date */
+            date: string;
+            /** Format: date */
+            startDate: string;
+            /** Format: date */
+            endDate?: string;
+            /** @enum {string} */
+            type: "DAYCARE" | "HOTEL";
+            objects?: string;
+            observations?: string;
+            animal: components["schemas"]["AnimalSummary"];
+            company: components["schemas"]["CompanySummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
         };
         PageResponseConsultationResponse: {
             content?: components["schemas"]["ConsultationResponse"][];
@@ -9930,11 +8670,6 @@ export interface components {
             eventType?: "CONSULTATION" | "SURGERY" | "VACCINATION" | "DEWORMING" | "HOSPITALIZATION" | "LABORATORY_TEST" | "DIAGNOSTIC_IMAGING" | "PRESCRIPTION" | "SPA";
             /** Format: int64 */
             count?: number;
-        };
-        DeleteDebtOpenAccountRequest: {
-            reason: string;
-            /** Format: int64 */
-            expectedVersion?: number;
         };
     };
     responses: never;
@@ -11121,77 +9856,7 @@ export interface operations {
             };
         };
     };
-    findById_16: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ServiceChargeOpenAccountResponse"];
-                };
-            };
-        };
-    };
     update_16: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateServiceChargeOpenAccountRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ServiceChargeOpenAccountResponse"];
-                };
-            };
-        };
-    };
-    findById_17: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ServiceCategoryResponse"];
-                };
-            };
-        };
-    };
-    update_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -11237,7 +9902,7 @@ export interface operations {
             };
         };
     };
-    findById_18: {
+    findById_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -11259,7 +9924,7 @@ export interface operations {
             };
         };
     };
-    update_18: {
+    update_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -11305,74 +9970,6 @@ export interface operations {
             };
         };
     };
-    findById_19: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["RolePermissionResponse"];
-                };
-            };
-        };
-    };
-    update_19: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateRolePermissionRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["RolePermissionResponse"];
-                };
-            };
-        };
-    };
-    delete_18: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     syncByRole: {
         parameters: {
             query?: never;
@@ -11399,7 +9996,7 @@ export interface operations {
             };
         };
     };
-    findById_20: {
+    findById_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -11421,7 +10018,7 @@ export interface operations {
             };
         };
     };
-    update_20: {
+    update_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -11447,7 +10044,257 @@ export interface operations {
             };
         };
     };
+    delete_18: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_18: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PromotionResponse"];
+                };
+            };
+        };
+    };
+    update_19: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePromotionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PromotionResponse"];
+                };
+            };
+        };
+    };
     delete_19: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_19: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductResponse"];
+                };
+            };
+        };
+    };
+    update_20: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateProductRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductResponse"];
+                };
+            };
+        };
+    };
+    delete_20: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    update_21: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateProductCategoryRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductCategoryResponse"];
+                };
+            };
+        };
+    };
+    delete_21: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_20: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PermissionResponse"];
+                };
+            };
+        };
+    };
+    update_22: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePermissionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PermissionResponse"];
+                };
+            };
+        };
+    };
+    delete_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -11484,12 +10331,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PromotionResponse"];
+                    "*/*": components["schemas"]["OwnerResponse"];
                 };
             };
         };
     };
-    update_21: {
+    update_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -11500,7 +10347,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdatePromotionRequest"];
+                "application/json": components["schemas"]["UpdateOwnerRequest"];
             };
         };
         responses: {
@@ -11510,12 +10357,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PromotionResponse"];
+                    "*/*": components["schemas"]["OwnerResponse"];
                 };
             };
         };
     };
-    delete_20: {
+    delete_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -11552,12 +10399,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ProductResponse"];
+                    "*/*": components["schemas"]["NumberingResolutionResponse"];
                 };
             };
         };
     };
-    update_22: {
+    update_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -11568,7 +10415,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateProductRequest"];
+                "application/json": components["schemas"]["UpdateNumberingResolutionRequest"];
             };
         };
         responses: {
@@ -11578,12 +10425,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ProductResponse"];
+                    "*/*": components["schemas"]["NumberingResolutionResponse"];
                 };
             };
         };
     };
-    delete_21: {
+    delete_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -11620,12 +10467,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ProductChargeOpenAccountResponse"];
+                    "*/*": components["schemas"]["ModuleResponse"];
                 };
             };
         };
     };
-    update_23: {
+    update_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -11636,7 +10483,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateProductChargeOpenAccountRequest"];
+                "application/json": components["schemas"]["UpdateModuleRequest"];
             };
         };
         responses: {
@@ -11646,8 +10493,28 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ProductChargeOpenAccountResponse"];
+                    "*/*": components["schemas"]["ModuleResponse"];
                 };
+            };
+        };
+    };
+    delete_25: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -11668,12 +10535,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ProductCategoryResponse"];
+                    "*/*": components["schemas"]["MembershipResponse"];
                 };
             };
         };
     };
-    update_24: {
+    update_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -11684,7 +10551,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateProductCategoryRequest"];
+                "application/json": components["schemas"]["UpdateMembershipRequest"];
             };
         };
         responses: {
@@ -11694,58 +10561,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ProductCategoryResponse"];
+                    "*/*": components["schemas"]["MembershipResponse"];
                 };
             };
         };
     };
-    delete_22: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    update_25: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateProblemRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ProblemResponse"];
-                };
-            };
-        };
-    };
-    delete_23: {
+    delete_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -11782,12 +10603,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PrescriptionResponse"];
+                    "*/*": components["schemas"]["MembershipSubModuleResponse"];
                 };
             };
         };
     };
-    update_26: {
+    update_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -11798,7 +10619,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdatePrescriptionRequest"];
+                "application/json": components["schemas"]["UpdateMembershipSubModuleRequest"];
             };
         };
         responses: {
@@ -11808,110 +10629,14 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PrescriptionResponse"];
+                    "*/*": components["schemas"]["MembershipSubModuleResponse"];
                 };
             };
         };
     };
-    delete_24: {
+    delete_27: {
         parameters: {
             query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    updatePresentation: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PresentationRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PresentationDto"];
-                };
-            };
-        };
-    };
-    deletePresentation: {
-        parameters: {
-            query: {
-                expectedVersion: number;
-            };
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    updateBundle: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BundleRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BundleDto"];
-                };
-            };
-        };
-    };
-    deleteBundle: {
-        parameters: {
-            query: {
-                expectedVersion: number;
-            };
             header?: never;
             path: {
                 id: number;
@@ -11946,12 +10671,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PermissionResponse"];
+                    "*/*": components["schemas"]["MedicamentResponse"];
                 };
             };
         };
     };
-    update_27: {
+    update_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -11962,7 +10687,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdatePermissionRequest"];
+                "application/json": components["schemas"]["UpdateMedicamentRequest"];
             };
         };
         responses: {
@@ -11972,12 +10697,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PermissionResponse"];
+                    "*/*": components["schemas"]["MedicamentResponse"];
                 };
             };
         };
     };
-    delete_25: {
+    delete_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -12014,12 +10739,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["OwnerResponse"];
+                    "*/*": components["schemas"]["LaboratoryTestResponse"];
                 };
             };
         };
     };
-    update_28: {
+    update_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -12030,7 +10755,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateOwnerRequest"];
+                "application/json": components["schemas"]["UpdateLaboratoryTestRequest"];
             };
         };
         responses: {
@@ -12040,12 +10765,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["OwnerResponse"];
+                    "*/*": components["schemas"]["LaboratoryTestResponse"];
                 };
             };
         };
     };
-    delete_26: {
+    delete_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -12082,556 +10807,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["OpenAccountResponse"];
-                };
-            };
-        };
-    };
-    update_29: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateOpenAccountRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["OpenAccountResponse"];
-                };
-            };
-        };
-    };
-    delete_27: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_29: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["NumberingResolutionResponse"];
-                };
-            };
-        };
-    };
-    update_30: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateNumberingResolutionRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["NumberingResolutionResponse"];
-                };
-            };
-        };
-    };
-    delete_28: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_30: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ModuleResponse"];
-                };
-            };
-        };
-    };
-    update_31: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateModuleRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ModuleResponse"];
-                };
-            };
-        };
-    };
-    delete_29: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_31: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipResponse"];
-                };
-            };
-        };
-    };
-    update_32: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateMembershipRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipResponse"];
-                };
-            };
-        };
-    };
-    delete_30: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_32: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipSubModuleResponse"];
-                };
-            };
-        };
-    };
-    update_33: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateMembershipSubModuleRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipSubModuleResponse"];
-                };
-            };
-        };
-    };
-    delete_31: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_33: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MedicamentResponse"];
-                };
-            };
-        };
-    };
-    update_34: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateMedicamentRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MedicamentResponse"];
-                };
-            };
-        };
-    };
-    delete_32: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_34: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MedicamentPrescriptionResponse"];
-                };
-            };
-        };
-    };
-    update_35: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateMedicamentPrescriptionRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MedicamentPrescriptionResponse"];
-                };
-            };
-        };
-    };
-    delete_33: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_35: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LaboratoryTestResponse"];
-                };
-            };
-        };
-    };
-    update_36: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateLaboratoryTestRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LaboratoryTestResponse"];
-                };
-            };
-        };
-    };
-    delete_34: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_36: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
                     "*/*": components["schemas"]["LaboratoryTestTypeResponse"];
                 };
             };
         };
     };
-    update_37: {
+    update_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -12657,7 +10838,7 @@ export interface operations {
             };
         };
     };
-    delete_35: {
+    delete_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -12701,7 +10882,7 @@ export interface operations {
             };
         };
     };
-    findById_37: {
+    findById_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -12723,7 +10904,7 @@ export interface operations {
             };
         };
     };
-    update_38: {
+    update_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -12749,7 +10930,7 @@ export interface operations {
             };
         };
     };
-    delete_36: {
+    delete_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -12769,97 +10950,7 @@ export interface operations {
             };
         };
     };
-    findById_38: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["HospitalizationProgressNoteResponse"];
-                };
-            };
-        };
-    };
-    update_39: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateHospitalizationProgressNoteRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["HospitalizationProgressNoteResponse"];
-                };
-            };
-        };
-    };
-    delete_37: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_39: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["HospitalizationProcedureResponse"];
-                };
-            };
-        };
-    };
-    update_40: {
+    update_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -12885,7 +10976,7 @@ export interface operations {
             };
         };
     };
-    delete_38: {
+    delete_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -12905,97 +10996,7 @@ export interface operations {
             };
         };
     };
-    findById_40: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["HospitalizationObservationResponse"];
-                };
-            };
-        };
-    };
-    update_41: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateHospitalizationObservationRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["HospitalizationObservationResponse"];
-                };
-            };
-        };
-    };
-    delete_39: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_41: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["HospitalizationMedicationResponse"];
-                };
-            };
-        };
-    };
-    update_42: {
+    update_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -13021,7 +11022,7 @@ export interface operations {
             };
         };
     };
-    delete_40: {
+    delete_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -13041,123 +11042,7 @@ export interface operations {
             };
         };
     };
-    findById_42: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["GoodsReceiptResponse"];
-                };
-            };
-        };
-    };
-    update_43: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateGoodsReceiptRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["GoodsReceiptResponse"];
-                };
-            };
-        };
-    };
-    delete_41: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_43: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["GeneralChargeOpenAccountResponse"];
-                };
-            };
-        };
-    };
-    update_44: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateGeneralChargeOpenAccountRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["GeneralChargeOpenAccountResponse"];
-                };
-            };
-        };
-    };
-    findById_44: {
+    findById_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -13179,7 +11064,7 @@ export interface operations {
             };
         };
     };
-    update_45: {
+    update_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -13205,7 +11090,7 @@ export interface operations {
             };
         };
     };
-    delete_42: {
+    delete_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -13273,7 +11158,7 @@ export interface operations {
             };
         };
     };
-    findById_45: {
+    findById_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -13295,7 +11180,7 @@ export interface operations {
             };
         };
     };
-    update_46: {
+    update_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -13321,7 +11206,7 @@ export interface operations {
             };
         };
     };
-    delete_43: {
+    delete_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -13341,7 +11226,7 @@ export interface operations {
             };
         };
     };
-    findById_46: {
+    findById_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -13363,7 +11248,7 @@ export interface operations {
             };
         };
     };
-    update_47: {
+    update_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -13389,7 +11274,7 @@ export interface operations {
             };
         };
     };
-    delete_44: {
+    delete_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -13429,7 +11314,7 @@ export interface operations {
             };
         };
     };
-    update_48: {
+    update_37: {
         parameters: {
             query?: never;
             header?: never;
@@ -13477,7 +11362,7 @@ export interface operations {
             };
         };
     };
-    findById_47: {
+    findById_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -13499,7 +11384,7 @@ export interface operations {
             };
         };
     };
-    update_49: {
+    update_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -13525,7 +11410,7 @@ export interface operations {
             };
         };
     };
-    delete_45: {
+    delete_37: {
         parameters: {
             query?: never;
             header?: never;
@@ -13545,7 +11430,7 @@ export interface operations {
             };
         };
     };
-    findById_48: {
+    findById_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -13567,7 +11452,7 @@ export interface operations {
             };
         };
     };
-    update_50: {
+    update_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -13593,7 +11478,7 @@ export interface operations {
             };
         };
     };
-    delete_46: {
+    delete_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -13613,7 +11498,7 @@ export interface operations {
             };
         };
     };
-    findById_49: {
+    findById_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -13635,7 +11520,7 @@ export interface operations {
             };
         };
     };
-    update_51: {
+    update_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -13661,7 +11546,7 @@ export interface operations {
             };
         };
     };
-    delete_47: {
+    delete_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -13681,147 +11566,7 @@ export interface operations {
             };
         };
     };
-    findById_50: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DebtOpenAccountResponse"];
-                };
-            };
-        };
-    };
-    update_52: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateDebtOpenAccountRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DebtOpenAccountResponse"];
-                };
-            };
-        };
-    };
-    delete_48: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DeleteDebtOpenAccountRequest"];
-            };
-        };
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_51: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DayCareResponse"];
-                };
-            };
-        };
-    };
-    update_53: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateDayCareRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DayCareResponse"];
-                };
-            };
-        };
-    };
-    delete_49: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_52: {
+    findById_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -13843,7 +11588,7 @@ export interface operations {
             };
         };
     };
-    update_54: {
+    update_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -13869,7 +11614,7 @@ export interface operations {
             };
         };
     };
-    delete_50: {
+    delete_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -13889,75 +11634,7 @@ export interface operations {
             };
         };
     };
-    findById_53: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConsultationResponse"];
-                };
-            };
-        };
-    };
-    update_55: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateConsultationRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConsultationResponse"];
-                };
-            };
-        };
-    };
-    delete_51: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_54: {
+    findById_37: {
         parameters: {
             query?: never;
             header?: never;
@@ -13979,7 +11656,7 @@ export interface operations {
             };
         };
     };
-    update_56: {
+    update_42: {
         parameters: {
             query?: never;
             header?: never;
@@ -14005,7 +11682,7 @@ export interface operations {
             };
         };
     };
-    delete_52: {
+    delete_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -14045,7 +11722,7 @@ export interface operations {
             };
         };
     };
-    update_57: {
+    update_43: {
         parameters: {
             query?: never;
             header?: never;
@@ -14093,24 +11770,6 @@ export interface operations {
             };
         };
     };
-    delete_53: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     list_1: {
         parameters: {
             query?: never;
@@ -14155,7 +11814,7 @@ export interface operations {
             };
         };
     };
-    findById_55: {
+    findById_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -14177,7 +11836,7 @@ export interface operations {
             };
         };
     };
-    update_58: {
+    update_44: {
         parameters: {
             query?: never;
             header?: never;
@@ -14203,7 +11862,7 @@ export interface operations {
             };
         };
     };
-    delete_54: {
+    delete_42: {
         parameters: {
             query?: never;
             header?: never;
@@ -14223,7 +11882,7 @@ export interface operations {
             };
         };
     };
-    findById_56: {
+    findById_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -14245,7 +11904,7 @@ export interface operations {
             };
         };
     };
-    update_59: {
+    update_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -14271,7 +11930,7 @@ export interface operations {
             };
         };
     };
-    delete_55: {
+    delete_43: {
         parameters: {
             query?: never;
             header?: never;
@@ -14291,7 +11950,7 @@ export interface operations {
             };
         };
     };
-    update_60: {
+    update_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -14339,7 +11998,7 @@ export interface operations {
             };
         };
     };
-    findById_57: {
+    findById_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -14361,7 +12020,7 @@ export interface operations {
             };
         };
     };
-    update_61: {
+    update_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -14387,7 +12046,7 @@ export interface operations {
             };
         };
     };
-    delete_56: {
+    delete_44: {
         parameters: {
             query?: never;
             header?: never;
@@ -14407,29 +12066,7 @@ export interface operations {
             };
         };
     };
-    findById_58: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BranchResponse"];
-                };
-            };
-        };
-    };
-    update_62: {
+    update_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -14455,7 +12092,7 @@ export interface operations {
             };
         };
     };
-    findById_59: {
+    findById_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -14477,7 +12114,7 @@ export interface operations {
             };
         };
     };
-    update_63: {
+    update_49: {
         parameters: {
             query?: never;
             header?: never;
@@ -14503,7 +12140,7 @@ export interface operations {
             };
         };
     };
-    delete_57: {
+    delete_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -14523,7 +12160,7 @@ export interface operations {
             };
         };
     };
-    findById_60: {
+    findById_42: {
         parameters: {
             query?: never;
             header?: never;
@@ -14545,7 +12182,7 @@ export interface operations {
             };
         };
     };
-    update_64: {
+    update_50: {
         parameters: {
             query?: never;
             header?: never;
@@ -14571,7 +12208,7 @@ export interface operations {
             };
         };
     };
-    delete_58: {
+    delete_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -14591,7 +12228,7 @@ export interface operations {
             };
         };
     };
-    findById_61: {
+    findById_43: {
         parameters: {
             query?: never;
             header?: never;
@@ -14613,7 +12250,7 @@ export interface operations {
             };
         };
     };
-    update_65: {
+    update_51: {
         parameters: {
             query?: never;
             header?: never;
@@ -14639,7 +12276,7 @@ export interface operations {
             };
         };
     };
-    delete_59: {
+    delete_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -14659,7 +12296,7 @@ export interface operations {
             };
         };
     };
-    findById_62: {
+    findById_44: {
         parameters: {
             query?: never;
             header?: never;
@@ -14681,7 +12318,7 @@ export interface operations {
             };
         };
     };
-    update_66: {
+    update_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -14707,7 +12344,7 @@ export interface operations {
             };
         };
     };
-    delete_60: {
+    delete_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -14727,75 +12364,7 @@ export interface operations {
             };
         };
     };
-    findById_63: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AnimalResponse"];
-                };
-            };
-        };
-    };
-    update_67: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateAnimalRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AnimalResponse"];
-                };
-            };
-        };
-    };
-    delete_61: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_64: {
+    findById_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -14817,7 +12386,7 @@ export interface operations {
             };
         };
     };
-    update_68: {
+    update_53: {
         parameters: {
             query?: never;
             header?: never;
@@ -14843,53 +12412,7 @@ export interface operations {
             };
         };
     };
-    delete_62: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    update_69: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateAnimalAlertRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AnimalAlertResponse"];
-                };
-            };
-        };
-    };
-    delete_63: {
+    delete_49: {
         parameters: {
             query?: never;
             header?: never;
@@ -15866,26 +13389,6 @@ export interface operations {
             };
         };
     };
-    listByCompany_3: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PurchaseOrderResponse"][];
-                };
-            };
-        };
-    };
     create_22: {
         parameters: {
             query?: never;
@@ -15998,7 +13501,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_4: {
+    listByCompany_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -16155,30 +13658,6 @@ export interface operations {
             };
         };
     };
-    create_27: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateProblemRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ProblemResponse"];
-                };
-            };
-        };
-    };
     listAll_18: {
         parameters: {
             query?: {
@@ -16202,7 +13681,7 @@ export interface operations {
             };
         };
     };
-    create_28: {
+    create_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -16222,96 +13701,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PrescriptionResponse"];
-                };
-            };
-        };
-    };
-    listPresentations: {
-        parameters: {
-            query: {
-                productId: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PresentationDto"][];
-                };
-            };
-        };
-    };
-    createPresentation: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PresentationRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PresentationDto"];
-                };
-            };
-        };
-    };
-    listBundles: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BundleDto"][];
-                };
-            };
-        };
-    };
-    createBundle: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BundleRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BundleDto"];
                 };
             };
         };
@@ -16336,7 +13725,7 @@ export interface operations {
             };
         };
     };
-    create_29: {
+    create_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -16383,7 +13772,7 @@ export interface operations {
             };
         };
     };
-    create_30: {
+    create_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -16431,7 +13820,7 @@ export interface operations {
             };
         };
     };
-    create_31: {
+    create_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -16475,7 +13864,7 @@ export interface operations {
             };
         };
     };
-    create_32: {
+    create_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -16519,7 +13908,7 @@ export interface operations {
             };
         };
     };
-    create_33: {
+    create_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -16563,7 +13952,7 @@ export interface operations {
             };
         };
     };
-    create_34: {
+    create_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -16607,7 +13996,7 @@ export interface operations {
             };
         };
     };
-    create_35: {
+    create_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -16676,7 +14065,7 @@ export interface operations {
             };
         };
     };
-    create_36: {
+    create_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -16723,7 +14112,7 @@ export interface operations {
             };
         };
     };
-    create_37: {
+    create_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -16767,7 +14156,7 @@ export interface operations {
             };
         };
     };
-    create_38: {
+    create_37: {
         parameters: {
             query?: never;
             header?: never;
@@ -16811,7 +14200,7 @@ export interface operations {
             };
         };
     };
-    create_39: {
+    create_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -17020,7 +14409,7 @@ export interface operations {
             };
         };
     };
-    create_40: {
+    create_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -17044,7 +14433,7 @@ export interface operations {
             };
         };
     };
-    create_41: {
+    create_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -17068,7 +14457,7 @@ export interface operations {
             };
         };
     };
-    create_42: {
+    create_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -17092,7 +14481,7 @@ export interface operations {
             };
         };
     };
-    create_43: {
+    create_42: {
         parameters: {
             query?: never;
             header?: never;
@@ -17116,7 +14505,7 @@ export interface operations {
             };
         };
     };
-    create_44: {
+    create_43: {
         parameters: {
             query?: never;
             header?: never;
@@ -17140,27 +14529,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_5: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["GoodsReceiptResponse"][];
-                };
-            };
-        };
-    };
-    create_45: {
+    create_44: {
         parameters: {
             query?: never;
             header?: never;
@@ -17251,7 +14620,7 @@ export interface operations {
             };
         };
     };
-    create_46: {
+    create_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -17295,7 +14664,7 @@ export interface operations {
             };
         };
     };
-    create_47: {
+    create_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -17387,7 +14756,7 @@ export interface operations {
             };
         };
     };
-    create_48: {
+    create_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -17531,30 +14900,6 @@ export interface operations {
             };
         };
     };
-    buildFromAccount: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BuildElectronicDocumentRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ElectronicDocumentDto"];
-                };
-            };
-        };
-    };
     emit: {
         parameters: {
             query?: never;
@@ -17599,7 +14944,7 @@ export interface operations {
             };
         };
     };
-    create_49: {
+    create_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -17669,7 +15014,7 @@ export interface operations {
             };
         };
     };
-    create_50: {
+    create_49: {
         parameters: {
             query?: never;
             header?: never;
@@ -17713,7 +15058,7 @@ export interface operations {
             };
         };
     };
-    create_51: {
+    create_50: {
         parameters: {
             query?: never;
             header?: never;
@@ -17757,7 +15102,7 @@ export interface operations {
             };
         };
     };
-    create_52: {
+    create_51: {
         parameters: {
             query?: never;
             header?: never;
@@ -17804,7 +15149,7 @@ export interface operations {
             };
         };
     };
-    create_53: {
+    create_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -17843,56 +15188,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["DayCareResponse"][];
-                };
-            };
-        };
-    };
-    create_54: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateDayCareRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DayCareResponse"];
-                };
-            };
-        };
-    };
-    listAll_39: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
                     "*/*": components["schemas"]["CountryResponse"][];
                 };
             };
         };
     };
-    create_55: {
+    create_53: {
         parameters: {
             query?: never;
             header?: never;
@@ -17916,7 +15217,7 @@ export interface operations {
             };
         };
     };
-    listAll_40: {
+    listAll_39: {
         parameters: {
             query?: {
                 page?: number;
@@ -17939,7 +15240,7 @@ export interface operations {
             };
         };
     };
-    create_56: {
+    create_54: {
         parameters: {
             query?: never;
             header?: never;
@@ -17963,7 +15264,7 @@ export interface operations {
             };
         };
     };
-    listAll_41: {
+    listAll_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -17983,7 +15284,7 @@ export interface operations {
             };
         };
     };
-    create_57: {
+    create_55: {
         parameters: {
             query?: never;
             header?: never;
@@ -18007,27 +15308,7 @@ export interface operations {
             };
         };
     };
-    reactivate: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CompanyTaxProfileResponse"];
-                };
-            };
-        };
-    };
-    listAll_42: {
+    listAll_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -18047,7 +15328,7 @@ export interface operations {
             };
         };
     };
-    create_58: {
+    create_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -18071,7 +15352,7 @@ export interface operations {
             };
         };
     };
-    listAll_43: {
+    listAll_42: {
         parameters: {
             query?: never;
             header?: never;
@@ -18091,7 +15372,7 @@ export interface operations {
             };
         };
     };
-    create_59: {
+    create_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -18138,7 +15419,7 @@ export interface operations {
             };
         };
     };
-    create_60: {
+    create_58: {
         parameters: {
             query?: never;
             header?: never;
@@ -18258,7 +15539,7 @@ export interface operations {
             };
         };
     };
-    listAll_44: {
+    listAll_43: {
         parameters: {
             query?: never;
             header?: never;
@@ -18278,7 +15559,7 @@ export interface operations {
             };
         };
     };
-    create_61: {
+    create_59: {
         parameters: {
             query?: never;
             header?: never;
@@ -18302,7 +15583,7 @@ export interface operations {
             };
         };
     };
-    listAll_45: {
+    listAll_44: {
         parameters: {
             query?: never;
             header?: never;
@@ -18322,7 +15603,7 @@ export interface operations {
             };
         };
     };
-    create_62: {
+    create_60: {
         parameters: {
             query?: never;
             header?: never;
@@ -18346,7 +15627,7 @@ export interface operations {
             };
         };
     };
-    listAll_46: {
+    listAll_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -18366,7 +15647,7 @@ export interface operations {
             };
         };
     };
-    create_63: {
+    create_61: {
         parameters: {
             query?: never;
             header?: never;
@@ -18390,7 +15671,7 @@ export interface operations {
             };
         };
     };
-    listAll_47: {
+    listAll_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -18410,7 +15691,7 @@ export interface operations {
             };
         };
     };
-    create_64: {
+    create_62: {
         parameters: {
             query?: never;
             header?: never;
@@ -18434,7 +15715,7 @@ export interface operations {
             };
         };
     };
-    listAll_48: {
+    listAll_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -18454,7 +15735,7 @@ export interface operations {
             };
         };
     };
-    create_65: {
+    create_63: {
         parameters: {
             query?: never;
             header?: never;
@@ -18662,7 +15943,7 @@ export interface operations {
             };
         };
     };
-    create_66: {
+    create_64: {
         parameters: {
             query?: never;
             header?: never;
@@ -18686,7 +15967,7 @@ export interface operations {
             };
         };
     };
-    listAll_49: {
+    listAll_48: {
         parameters: {
             query?: {
                 page?: number;
@@ -18709,7 +15990,7 @@ export interface operations {
             };
         };
     };
-    create_67: {
+    create_65: {
         parameters: {
             query?: never;
             header?: never;
@@ -18755,7 +16036,7 @@ export interface operations {
             };
         };
     };
-    create_68: {
+    create_66: {
         parameters: {
             query?: never;
             header?: never;
@@ -18781,7 +16062,7 @@ export interface operations {
             };
         };
     };
-    listAll_50: {
+    listAll_49: {
         parameters: {
             query?: never;
             header?: never;
@@ -18801,7 +16082,7 @@ export interface operations {
             };
         };
     };
-    create_69: {
+    create_67: {
         parameters: {
             query?: never;
             header?: never;
@@ -18821,30 +16102,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["AnimalColorResponse"];
-                };
-            };
-        };
-    };
-    create_70: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateAnimalAlertRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AnimalAlertResponse"];
                 };
             };
         };
@@ -18886,56 +16143,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["VaccinationResponse"];
-                };
-            };
-        };
-    };
-    enable_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["VaccinationTypeResponse"];
-                };
-            };
-        };
-    };
-    enable_2: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
                     "*/*": components["schemas"]["TaxResponse"];
                 };
             };
         };
     };
-    reactivate_1: {
+    reactivate: {
         parameters: {
             query?: never;
             header?: never;
@@ -18957,7 +16170,7 @@ export interface operations {
             };
         };
     };
-    reactivate_2: {
+    reactivate_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -18979,7 +16192,7 @@ export interface operations {
             };
         };
     };
-    reactivate_3: {
+    reactivate_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -19001,99 +16214,7 @@ export interface operations {
             };
         };
     };
-    enable_3: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["SurgeryTypeResponse"];
-                };
-            };
-        };
-    };
-    changeStatus: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ChangeSurgeryStatusRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["SurgeryResponse"];
-                };
-            };
-        };
-    };
-    enable_4: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["SurgeryResponse"];
-                };
-            };
-        };
-    };
-    enable_5: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["SupplierResponse"];
-                };
-            };
-        };
-    };
-    enable_6: {
+    enable_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -19115,7 +16236,7 @@ export interface operations {
             };
         };
     };
-    enable_7: {
+    enable_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -19137,7 +16258,7 @@ export interface operations {
             };
         };
     };
-    enable_8: {
+    enable_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -19159,55 +16280,7 @@ export interface operations {
             };
         };
     };
-    changeStatus_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ChangeSpaStatusRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["SpaResponse"];
-                };
-            };
-        };
-    };
-    reactivate_4: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["SpaResponse"];
-                };
-            };
-        };
-    };
-    reactivate_5: {
+    reactivate_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -19229,7 +16302,7 @@ export interface operations {
             };
         };
     };
-    enable_9: {
+    enable_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -19277,51 +16350,7 @@ export interface operations {
             };
         };
     };
-    enable_10: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ServiceChargeOpenAccountResponse"];
-                };
-            };
-        };
-    };
-    enable_11: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ServiceCategoryResponse"];
-                };
-            };
-        };
-    };
-    reactivate_6: {
+    reactivate_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -19343,73 +16372,7 @@ export interface operations {
             };
         };
     };
-    reactivate_7: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["RolePermissionResponse"];
-                };
-            };
-        };
-    };
-    enable_12: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PurchaseOrderResponse"];
-                };
-            };
-        };
-    };
-    enable_13: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PromotionResponse"];
-                };
-            };
-        };
-    };
-    enable_14: {
+    enable_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -19453,50 +16416,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ProductChargeOpenAccountResponse"];
-                };
-            };
-        };
-    };
-    enable_15: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ProductChargeOpenAccountResponse"];
-                };
-            };
-        };
-    };
-    enable_16: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ProductCategoryResponse"];
                 };
             };
         };
@@ -19571,29 +16490,7 @@ export interface operations {
             };
         };
     };
-    reactivate_8: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PrescriptionResponse"];
-                };
-            };
-        };
-    };
-    reactivate_9: {
+    reactivate_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -19615,29 +16512,7 @@ export interface operations {
             };
         };
     };
-    enable_17: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["OwnerResponse"];
-                };
-            };
-        };
-    };
-    changeStatus_2: {
+    changeStatus: {
         parameters: {
             query?: never;
             header?: never;
@@ -19663,29 +16538,7 @@ export interface operations {
             };
         };
     };
-    enable_18: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["OpenAccountResponse"];
-                };
-            };
-        };
-    };
-    enable_19: {
+    enable_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -19707,7 +16560,7 @@ export interface operations {
             };
         };
     };
-    enable_20: {
+    enable_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -19729,7 +16582,7 @@ export interface operations {
             };
         };
     };
-    reactivate_10: {
+    reactivate_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -19751,7 +16604,7 @@ export interface operations {
             };
         };
     };
-    reactivate_11: {
+    reactivate_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -19843,7 +16696,7 @@ export interface operations {
             };
         };
     };
-    enable_21: {
+    enable_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -19865,29 +16718,7 @@ export interface operations {
             };
         };
     };
-    reactivate_12: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MedicamentPrescriptionResponse"];
-                };
-            };
-        };
-    };
-    changeStatus_3: {
+    changeStatus_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -19909,94 +16740,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["LaboratoryTestResponse"];
-                };
-            };
-        };
-    };
-    enable_22: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LaboratoryTestResponse"];
-                };
-            };
-        };
-    };
-    enable_23: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LaboratoryTestTypeResponse"];
-                };
-            };
-        };
-    };
-    enable_24: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["HospitalizationResponse"];
-                };
-            };
-        };
-    };
-    reactivate_13: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["HospitalizationProgressNoteResponse"];
                 };
             };
         };
@@ -20023,73 +16766,7 @@ export interface operations {
             };
         };
     };
-    reactivate_14: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["HospitalizationProcedureResponse"];
-                };
-            };
-        };
-    };
-    reactivate_15: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["HospitalizationObservationResponse"];
-                };
-            };
-        };
-    };
     suspend_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["HospitalizationMedicationResponse"];
-                };
-            };
-        };
-    };
-    reactivate_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -20137,29 +16814,7 @@ export interface operations {
             };
         };
     };
-    enable_25: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["GeneralChargeOpenAccountResponse"];
-                };
-            };
-        };
-    };
-    enable_26: {
+    enable_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -20181,29 +16836,7 @@ export interface operations {
             };
         };
     };
-    reactivate_17: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["EmployeeRoleResponse"];
-                };
-            };
-        };
-    };
-    enable_27: {
+    enable_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -20221,98 +16854,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["EconomicActivityResponse"];
-                };
-            };
-        };
-    };
-    changeStatus_4: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ChangeDiagnosticImagingStatusRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DiagnosticImagingResponse"];
-                };
-            };
-        };
-    };
-    enable_28: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DiagnosticImagingResponse"];
-                };
-            };
-        };
-    };
-    enable_29: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DiagnosticImagingTypeResponse"];
-                };
-            };
-        };
-    };
-    enable_30: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DewormingResponse"];
                 };
             };
         };
@@ -20343,51 +16884,7 @@ export interface operations {
             };
         };
     };
-    reactivate_18: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DebtOpenAccountResponse"];
-                };
-            };
-        };
-    };
-    reactivate_19: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DayCareResponse"];
-                };
-            };
-        };
-    };
-    enable_31: {
+    enable_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -20409,29 +16906,7 @@ export interface operations {
             };
         };
     };
-    enable_32: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConsultationResponse"];
-                };
-            };
-        };
-    };
-    enable_33: {
+    enable_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -20453,29 +16928,7 @@ export interface operations {
             };
         };
     };
-    enable_34: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CompanyResponse"];
-                };
-            };
-        };
-    };
-    enable_35: {
+    enable_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -20519,7 +16972,7 @@ export interface operations {
             };
         };
     };
-    enable_36: {
+    enable_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -20585,7 +17038,7 @@ export interface operations {
             };
         };
     };
-    reactivate_20: {
+    reactivate_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -20607,7 +17060,7 @@ export interface operations {
             };
         };
     };
-    reactivate_21: {
+    reactivate_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -20629,7 +17082,7 @@ export interface operations {
             };
         };
     };
-    reactivate_22: {
+    reactivate_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -20651,7 +17104,7 @@ export interface operations {
             };
         };
     };
-    changeStatus_5: {
+    changeStatus_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -20729,29 +17182,7 @@ export interface operations {
             };
         };
     };
-    enable_37: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AnimalResponse"];
-                };
-            };
-        };
-    };
-    enable_38: {
+    enable_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -20906,26 +17337,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PageResponseSupplierResponse"];
-                };
-            };
-        };
-    };
-    listDisabled_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["SupplierResponse"][];
                 };
             };
         };
@@ -21099,7 +17510,7 @@ export interface operations {
             };
         };
     };
-    listDisabled_2: {
+    listDisabled_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -21189,7 +17600,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_6: {
+    listByCompany_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -21209,11 +17620,13 @@ export interface operations {
             };
         };
     };
-    listByCompany_7: {
+    findById_46: {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: number;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -21224,8 +17637,28 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["RolePermissionResponse"][];
+                    "*/*": components["schemas"]["RolePermissionResponse"];
                 };
+            };
+        };
+    };
+    delete_50: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -21306,26 +17739,6 @@ export interface operations {
             };
         };
     };
-    listDisabled_3: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PurchaseOrderResponse"][];
-                };
-            };
-        };
-    };
     search_4: {
         parameters: {
             query?: {
@@ -21353,7 +17766,7 @@ export interface operations {
             };
         };
     };
-    listDisabled_4: {
+    listDisabled_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -21417,15 +17830,12 @@ export interface operations {
             };
         };
     };
-    listByAnimal_4: {
+    findById_47: {
         parameters: {
-            query?: {
-                page?: number;
-                pageSize?: number;
-            };
+            query?: never;
             header?: never;
             path: {
-                animalId: number;
+                id: number;
             };
             cookie?: never;
         };
@@ -21437,7 +17847,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PageResponseProblemResponse"];
+                    "*/*": components["schemas"]["PrescriptionResponse"];
                 };
             };
         };
@@ -21464,49 +17874,7 @@ export interface operations {
             };
         };
     };
-    listUnitMeasures: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["UnitMeasureDto"][];
-                };
-            };
-        };
-    };
-    findByBarcode: {
-        parameters: {
-            query: {
-                value: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BarcodeLookupDto"];
-                };
-            };
-        };
-    };
-    listByCompany_8: {
+    listByCompany_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -21547,6 +17915,48 @@ export interface operations {
                 content: {
                     "*/*": components["schemas"]["PageResponseOwnerResponse"];
                 };
+            };
+        };
+    };
+    findById_48: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OpenAccountResponse"];
+                };
+            };
+        };
+    };
+    delete_51: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -21622,7 +18032,7 @@ export interface operations {
             };
         };
     };
-    listDisabled_5: {
+    listDisabled_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -21692,7 +18102,7 @@ export interface operations {
             };
         };
     };
-    listByAnimal_5: {
+    listByAnimal_4: {
         parameters: {
             query?: {
                 q?: string;
@@ -21735,48 +18145,6 @@ export interface operations {
                 content: {
                     "*/*": components["schemas"]["LaboratoryTestTypeResponse"][];
                 };
-            };
-        };
-    };
-    findById_65: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LaboratoryTestFileResponse"];
-                };
-            };
-        };
-    };
-    delete_64: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
@@ -22047,7 +18415,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_9: {
+    listByCompany_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -22067,7 +18435,7 @@ export interface operations {
             };
         };
     };
-    listByAnimal_6: {
+    listByAnimal_5: {
         parameters: {
             query?: {
                 q?: string;
@@ -22193,6 +18561,48 @@ export interface operations {
             };
         };
     };
+    findById_49: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GoodsReceiptResponse"];
+                };
+            };
+        };
+    };
+    delete_52: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     search_8: {
         parameters: {
             query?: {
@@ -22311,7 +18721,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_10: {
+    listByCompany_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -22331,7 +18741,7 @@ export interface operations {
             };
         };
     };
-    listAll_51: {
+    listAll_50: {
         parameters: {
             query?: {
                 branchId?: number;
@@ -22357,7 +18767,7 @@ export interface operations {
             };
         };
     };
-    findById_66: {
+    findById_50: {
         parameters: {
             query?: never;
             header?: never;
@@ -22401,7 +18811,7 @@ export interface operations {
             };
         };
     };
-    listByAnimal_7: {
+    listByAnimal_6: {
         parameters: {
             query?: {
                 q?: string;
@@ -22447,7 +18857,7 @@ export interface operations {
             };
         };
     };
-    listByAnimal_8: {
+    listByAnimal_7: {
         parameters: {
             query?: {
                 q?: string;
@@ -22495,17 +18905,11 @@ export interface operations {
             };
         };
     };
-    listByAnimal_9: {
+    listAll_51: {
         parameters: {
-            query?: {
-                q?: string;
-                page?: number;
-                pageSize?: number;
-            };
+            query?: never;
             header?: never;
-            path: {
-                animalId: number;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -22516,7 +18920,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PageResponseDayCareResponse"];
+                    "*/*": components["schemas"]["DayCareResponse"][];
                 };
             };
         };
@@ -22543,7 +18947,29 @@ export interface operations {
             };
         };
     };
-    listByCompany_11: {
+    findById_51: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConsultationResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_8: {
         parameters: {
             query?: {
                 types?: ("CONSULTATION" | "SURGERY" | "VACCINATION" | "DEWORMING" | "HOSPITALIZATION" | "LABORATORY_TEST" | "DIAGNOSTIC_IMAGING" | "PRESCRIPTION" | "SPA")[];
@@ -22702,6 +19128,28 @@ export interface operations {
             };
         };
     };
+    findById_52: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AnimalResponse"];
+                };
+            };
+        };
+    };
     findLatest: {
         parameters: {
             query?: never;
@@ -22825,29 +19273,67 @@ export interface operations {
             };
         };
     };
-    listByAnimal_10: {
+    delete_53: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                animalId: number;
+                id: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
-            200: {
+            /** @description No Content */
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "*/*": components["schemas"]["AnimalAlertResponse"][];
-                };
+                content?: never;
             };
         };
     };
-    delete_65: {
+    delete_54: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_55: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_56: {
         parameters: {
             query?: never;
             header?: never;

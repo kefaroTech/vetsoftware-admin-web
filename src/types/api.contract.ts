@@ -67,6 +67,7 @@ import type {
   UpdateBreedRequest,
 } from '../features/breeds/types/breeds.types'
 import type {
+  CompanyMembershipSummary,
   CompanyResponse,
   CreateCompanyRequest,
   UpdateCompanyRequest,
@@ -210,6 +211,7 @@ export type ContractAssertions = [
   Expect<MatchesContract<BaseRolePermissionResponse, 'BaseRolePermissionResponse'>>,
   Expect<MatchesContract<BaseRoleSummary, 'BaseRoleSummary'>>,
   Expect<MatchesContract<BreedResponse, 'BreedResponse'>>,
+  Expect<MatchesContract<CompanyMembershipSummary, 'CompanyMembershipSummary'>>,
   Expect<MatchesContract<CompanyResponse, 'CompanyResponse'>>,
   Expect<MatchesContract<ConsultationTypeResponse, 'ConsultationTypeResponse'>>,
   Expect<MatchesContract<CreateAnimalColorRequest, 'CreateAnimalColorRequest'>>,
