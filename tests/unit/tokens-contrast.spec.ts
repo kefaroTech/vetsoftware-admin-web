@@ -27,8 +27,28 @@ import path from 'node:path'
 const ROOT = path.resolve(import.meta.dirname, '../..')
 const CSS = readFileSync(path.join(ROOT, 'src/assets/styles/tokens.css'), 'utf8')
 
+/**
+ * `primitives.css` sin comentarios. Se despoja a propósito: los comentarios de
+ * ese archivo citan literalmente los valores que la auditoría RETIRÓ —
+ * `var(--danger-200)` aparece escrito dentro de la explicación de
+ * `.ds-field-invalid-focus`—, así que buscar sobre el texto crudo daría por
+ * presente lo que solo está documentado como ausente.
+ */
+const PRIMITIVES = readFileSync(
+  path.join(ROOT, 'src/assets/styles/primitives.css'),
+  'utf8',
+).replace(/\/\*[\s\S]*?\*\//g, '')
+
 /** Umbral de WCAG 2.2 §1.4.11 Non-text Contrast (AA) para indicadores no textuales. */
 const MIN_CONTRAST = 3
+
+/**
+ * Umbral de WCAG 2.2 §1.4.3 Contrast (Minimum) (AA) para texto normal. El texto
+ * secundario del sistema mide 11,5–12px, así que no entra por ningún lado en la
+ * excepción de "texto grande" (18,5px, o 14px en negrita) que rebajaría la
+ * exigencia a 3:1. Le aplica éste.
+ */
+const MIN_TEXT_CONTRAST = 4.5
 
 // --------------------------------------------------------------------------
 // Lectura de tokens
@@ -50,6 +70,19 @@ function parseRootTokens(css: string): Map<string, string> {
 }
 
 const tokens = parseRootTokens(CSS)
+
+/**
+ * Cuerpo de una regla de primer nivel de `primitives.css`, por selector exacto.
+ * El anclaje a inicio de línea es lo que impide que `.ds-meta` se lleve por
+ * delante a `.ds-meta--sm` o a `.ds-meta-dark`, que comparten prefijo pero son
+ * OTRAS bases con otro color.
+ */
+function ruleBlock(selector: string): string {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const match = new RegExp(`(?:^|\\n)${escaped}\\s*\\{([^}]*)\\}`).exec(PRIMITIVES)
+  if (match === null) throw new Error(`primitives.css no declara la regla ${selector}`)
+  return match[1]
+}
 
 function tokenValue(name: string): string {
   const value = tokens.get(name)
@@ -139,10 +172,23 @@ function contrastRatio(a: number, b: number): number {
 
 const WHITE_LUMINANCE = 1
 
+/** Contraste de un valor CSS de color (con o sin `var()`) contra un fondo. */
+function contrastOfValue(value: string, backgroundLuminance: number): number {
+  return contrastRatio(relativeLuminance(parseOklch(resolveVars(value))), backgroundLuminance)
+}
+
 /** Contraste de un token de color contra una luminancia de fondo. */
 function contrastOf(tokenName: string, backgroundLuminance: number): number {
-  const color = parseOklch(resolveVars(tokenValue(tokenName)))
-  return contrastRatio(relativeLuminance(color), backgroundLuminance)
+  return contrastOfValue(tokenValue(tokenName), backgroundLuminance)
+}
+
+/** Valor de una declaración concreta dentro de una regla de `primitives.css`. */
+function declaration(selector: string, property: string): string {
+  const block = ruleBlock(selector)
+  // El `(?:^|;)` delante es lo que evita que `color` case con `border-color`.
+  const match = new RegExp(`(?:^|;)\\s*${property}\\s*:\\s*([^;]+)`).exec(block)
+  if (match === null) throw new Error(`${selector} no declara \`${property}\``)
+  return match[1].trim().replace(/\s+/g, ' ')
 }
 
 const surfaceLuminance = relativeLuminance(parseOklch(resolveVars(tokenValue('--warm-50'))))
@@ -199,6 +245,96 @@ describe('anillos de foco (A11Y-01 / WCAG 2.2 §2.4.7 + §1.4.11, AA)', () => {
   })
 })
 
+/**
+ * Las clases que pintan texto secundario con `--warm-500`. No se comprueba
+ * "usan el token X": se comprueba el color que REALMENTE declaran, se resuelva
+ * como se resuelva. Si mañana alguien las despega del token y les escribe un
+ * `oklch()` a mano, la guarda sigue midiendo lo que el usuario ve.
+ *
+ * `.ds-icon-muted` entra en la lista aun siendo un icono: no es decorativo —
+ * acompaña y clasifica el texto de una fila— y en cualquier caso queda por
+ * encima del 3:1 de §1.4.11 por el mismo margen.
+ */
+const TEXTO_SECUNDARIO = ['.ds-hint', '.ds-meta', '.ds-icon-muted'] as const
+
+describe('texto secundario (A11Y-02 / WCAG 2.2 §1.4.3, AA)', () => {
+  it('--warm-500 contrasta 4,5:1 o más con la superficie y con blanco', () => {
+    // El fondo real del texto secundario es uno de los dos: `--warm-50` en el
+    // lienzo de la aplicación, blanco puro dentro de una `.ds-card`. El peor de
+    // los dos es el que manda, y aquí se exigen los dos por separado.
+    const sobreSuperficie = contrastOf('--warm-500', surfaceLuminance)
+    const sobreBlanco = contrastOf('--warm-500', WHITE_LUMINANCE)
+
+    expect(
+      sobreSuperficie,
+      `--warm-500: ${sobreSuperficie.toFixed(2)}:1 sobre --warm-50`,
+    ).toBeGreaterThanOrEqual(MIN_TEXT_CONTRAST)
+    expect(
+      sobreBlanco,
+      `--warm-500: ${sobreBlanco.toFixed(2)}:1 sobre blanco`,
+    ).toBeGreaterThanOrEqual(MIN_TEXT_CONTRAST)
+  })
+
+  it('--text-subtle es --warm-500, no un tono suelto', () => {
+    // `--text-subtle` es el alias semántico por el que la mitad del producto
+    // llega a este color. Si se despega del token, la medida de arriba deja de
+    // describirlo y la guarda se queda vigilando algo que ya nadie usa.
+    expect(referencedTokens(tokenValue('--text-subtle'))).toEqual(['--warm-500'])
+  })
+
+  it.each(TEXTO_SECUNDARIO)('%s contrasta 4,5:1 o más con la superficie y con blanco', (clase) => {
+    const color = declaration(clase, 'color')
+    const sobreSuperficie = contrastOfValue(color, surfaceLuminance)
+    const sobreBlanco = contrastOfValue(color, WHITE_LUMINANCE)
+
+    expect(
+      sobreSuperficie,
+      `${clase} pinta ${color}: ${sobreSuperficie.toFixed(2)}:1 sobre --warm-50`,
+    ).toBeGreaterThanOrEqual(MIN_TEXT_CONTRAST)
+    expect(
+      sobreBlanco,
+      `${clase} pinta ${color}: ${sobreBlanco.toFixed(2)}:1 sobre blanco`,
+    ).toBeGreaterThanOrEqual(MIN_TEXT_CONTRAST)
+  })
+})
+
+/**
+ * Foco sobre un campo inválido. Es el gemelo por la puerta de al lado de
+ * A11Y-01: `--ring-danger` ya estaba arreglado y medido, pero `.ds-field-
+ * invalid-focus` seguía escribiendo su propio `0 0 0 3px var(--danger-200)`
+ * (1,29:1) sin enterarse. Ahora consume el token.
+ *
+ * En ESTA consola la clase está huérfana —ningún componente la aplica— y aun
+ * así la guarda se queda: `primitives.css` es un archivo de paridad TR-02, byte
+ * a byte idéntico al del front del tenant, donde sí la usan cinco componentes
+ * (BaseInput, BaseSelect, BaseTextarea, OwnerSearchAutocomplete, DateInput). La
+ * regresión se introduciría aquí y se sufriría allí.
+ */
+describe('foco sobre campo inválido (A11Y-02 / WCAG 2.2 §1.4.11, AA)', () => {
+  it('hereda el anillo de --ring-danger en vez de escribirlo a mano', () => {
+    expect(referencedTokens(declaration('.ds-field-invalid-focus', 'box-shadow'))).toEqual([
+      '--ring-danger',
+    ])
+  })
+
+  it('no vuelve a --danger-200', () => {
+    // El regreso probable no es inventar un color: es volver al suave de antes.
+    expect(referencedTokens(ruleBlock('.ds-field-invalid-focus'))).not.toContain('--danger-200')
+  })
+
+  it('el anillo que consume sigue en 3:1 o más', () => {
+    // Consumir el token no basta si el token se degrada. Se vuelve a medir por
+    // la vía que usa esta clase, no por la de `RINGS`.
+    const colorToken = referencedTokens(declaration('.ds-field-invalid-focus', 'box-shadow'))
+      .flatMap((ring) => referencedTokens(tokenValue(ring)))
+      .at(-1)
+    expect(colorToken, '.ds-field-invalid-focus no llega a ningún token de color').toBeDefined()
+
+    expect(contrastOf(colorToken as string, surfaceLuminance)).toBeGreaterThanOrEqual(MIN_CONTRAST)
+    expect(contrastOf(colorToken as string, WHITE_LUMINANCE)).toBeGreaterThanOrEqual(MIN_CONTRAST)
+  })
+})
+
 describe('la fórmula de contraste', () => {
   it.each(RINGS)(
     'reprueba $antes, el color que $ring tenía antes de la auditoría',
@@ -208,6 +344,14 @@ describe('la fórmula de contraste', () => {
       expect(medido).toBeCloseTo(contrasteAntes, 2)
     },
   )
+
+  it('reprueba el --warm-500 al 58 % que había antes de A11Y-02', () => {
+    // Contrapartida del test de arriba: sin esto, una fórmula rota que
+    // devolviera siempre un número alto daría por bueno cualquier gris.
+    const antes = contrastOfValue('oklch(58% 0.012 60deg)', surfaceLuminance)
+    expect(antes).toBeLessThan(MIN_TEXT_CONTRAST)
+    expect(antes).toBeCloseTo(4.17, 2)
+  })
 
   it('reproduce los pares de referencia de WCAG', () => {
     // Negro sobre blanco son exactamente 21:1; blanco sobre blanco, 1:1. Si la
