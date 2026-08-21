@@ -128,9 +128,10 @@ superficie donde cae (WCAG 2.2 §2.4.7 _Focus Visible_, AA, exige que exista
 indicador; §1.4.11 _Non-text Contrast_, AA, exige que ese indicador alcance
 3:1) es un defecto de nivel AA, no un detalle visual — así estuvo `--ring`
 (`0 0 0 3px var(--amatista-50)`) dando 1,06:1 sobre `--warm-50`, invisible en
-los 985 usos de `.ds-btn` sin que ningún gate lo detectara, porque hoy no hay
-puerta de contraste automática (ver "Puertas de accesibilidad hoy: 0" en la
-auditoría). No confundir con §2.4.11 _Focus Not Obscured (Minimum)_ (AA, el
+los 985 usos de `.ds-btn` sumando los dos fronts (152 en la consola de
+plataforma + 833 en el front tenant) sin que ningún gate lo detectara, porque
+hoy no hay puerta de contraste automática (ver "Puertas de accesibilidad hoy:
+0" en la auditoría). No confundir con §2.4.11 _Focus Not Obscured (Minimum)_ (AA, el
 foco no debe quedar tapado por contenido superpuesto — no trata contraste) ni
 con §2.4.13 _Focus Appearance_ (AAA, aspiracional, no exigible aquí): los tres
 mencionan "foco" pero solo §2.4.7 + §1.4.11 sustentan esta regla.

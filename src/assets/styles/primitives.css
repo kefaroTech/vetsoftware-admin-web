@@ -767,7 +767,12 @@
    wrapper). */
 .ds-field-invalid-focus {
   border-color: oklch(55% 0.22 25deg);
-  box-shadow: 0 0 0 3px var(--danger-200);
+
+  /* A11Y-02: `0 0 0 3px var(--danger-200)` a mano daba 1,29:1 — el mismo
+     defecto que A11Y-01 corrigió en `--ring-danger` (5,16:1, sujeto por
+     `tests/unit/tokens-contrast.spec.ts`) pero por la puerta de al lado.
+     Hereda el token en vez de mantener su propia guarda. */
+  box-shadow: var(--ring-danger);
 }
 
 /* Deshabilitado — 4 copias (BaseInput, BaseSelect, BaseTextarea,

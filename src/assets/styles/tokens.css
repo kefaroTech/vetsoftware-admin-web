@@ -27,7 +27,13 @@
   --warm-200: oklch(92% 0.012 60deg);
   --warm-300: oklch(86% 0.015 60deg);
   --warm-400: oklch(72% 0.015 60deg);
-  --warm-500: oklch(58% 0.012 60deg);
+
+  /* A11Y-02: 58% daba 4,17:1 sobre `--warm-50`, por debajo del 4,5:1 que exige
+     WCAG 2.2 §1.4.3 para texto normal — es el color real detrás de
+     `--text-subtle`/`.ds-hint`/`.ds-meta`/`.ds-icon-muted`. 55% da 4,73:1
+     contra `--warm-50` y 4,87:1 contra blanco: margen deliberado sobre el
+     umbral, no el mínimo que raspaba en 56% (~4,53:1). */
+  --warm-500: oklch(55% 0.012 60deg);
   --warm-600: oklch(45% 0.012 60deg);
   --warm-700: oklch(35% 0.012 60deg);
   --warm-800: oklch(25% 0.012 60deg);
