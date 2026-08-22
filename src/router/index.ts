@@ -3,6 +3,7 @@ import { popLoader, pushLoader } from '@/composables/useGlobalLoader'
 import { authGuard } from './guards/auth.guard'
 import { permissionGuard } from './guards/permission.guard'
 import { authRoutes } from './routes/auth.routes'
+import { platformAccessRoutes } from './routes/platform-access.routes'
 import { companiesRoutes } from './routes/companies.routes'
 import { membershipsRoutes } from './routes/memberships.routes'
 import { modulesRoutes } from './routes/modules.routes'
@@ -36,6 +37,7 @@ const router = createRouter({
       component: () => import('@/features/dashboard/views/DashboardView.vue'),
     },
     ...authRoutes,
+    ...platformAccessRoutes,
     ...companiesRoutes,
     ...membershipsRoutes,
     ...modulesRoutes,
