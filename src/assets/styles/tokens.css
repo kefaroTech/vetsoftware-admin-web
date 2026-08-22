@@ -11,11 +11,32 @@
 
 :root {
   --hue: 300;
+
+  /* INVARIANTE de esta rampa (y de `--warm-*`): el número mayor SIEMPRE
+     oscurece. Nadie lo escribe porque parece obvio — y por eso se rompió en
+     silencio una vez: `--amatista-350` (62% L) se coló entre `--amatista-300`
+     (78%) y `--amatista-400` (68%) siendo más oscuro que los dos, hasta que
+     se renombró a `--amatista-450` y se colocó en su sitio real, entre 400 y
+     500. Un escalón fuera de este orden es una regresión de contraste
+     esperando a ocurrir: quien lo use confía en que el número mayor oscurece,
+     no lo comprueba. */
   --amatista-50: oklch(97% 0.015 var(--hue));
   --amatista-100: oklch(94% 0.035 var(--hue));
   --amatista-200: oklch(88% 0.07 var(--hue));
   --amatista-300: oklch(78% 0.12 var(--hue));
   --amatista-400: oklch(68% 0.16 var(--hue));
+
+  /* A11Y-09 · WCAG 2.2 §1.4.11 Non-text Contrast (AA). `--amatista-300` (78%)
+     mide 2,02:1 sobre `--warm-50` y 1,90:1 sobre `--amatista-50` — su fondo
+     real en `.ds-tone--accent-selected`. Escalón nuevo SOLO para uso de
+     borde; `--amatista-300` se conserva para fondos y textos, donde
+     §1.4.11 no aplica. 62% da 3,55:1 sobre `--amatista-50` y 3,77:1 sobre
+     `--warm-50`. Guard-rail: es paramétrico sobre `--hue`; a 180deg cae a
+     2,92:1 e incumple — cambiar `--hue` puede tumbar la conformidad sin que
+     ningún gate lo mida. Nombrado `--amatista-450` (no `-350`): por su valor
+     (62%) va entre `--amatista-400` (68%) y `--amatista-500` (58%), igual que
+     su gemelo de grises `--warm-450`. */
+  --amatista-450: oklch(62% 0.16 var(--hue));
   --amatista-500: oklch(58% 0.18 var(--hue));
   --amatista-600: oklch(50% 0.18 var(--hue));
   --amatista-700: oklch(42% 0.16 var(--hue));
@@ -28,12 +49,24 @@
   --warm-300: oklch(86% 0.015 60deg);
   --warm-400: oklch(72% 0.015 60deg);
 
-  /* A11Y-02: 58% daba 4,17:1 sobre `--warm-50`, por debajo del 4,5:1 que exige
-     WCAG 2.2 §1.4.3 para texto normal — es el color real detrás de
-     `--text-subtle`/`.ds-hint`/`.ds-meta`/`.ds-icon-muted`. 55% da 4,73:1
-     contra `--warm-50` y 4,87:1 contra blanco: margen deliberado sobre el
-     umbral, no el mínimo que raspaba en 56% (~4,53:1). */
-  --warm-500: oklch(55% 0.012 60deg);
+  /* A11Y-09 · WCAG 2.2 §1.4.11 Non-text Contrast (AA). `--warm-200` (el
+     borde de todo control) mide 1,23:1 sobre `--warm-50` y 1,27:1 sobre
+     blanco: el límite de un campo es invisible con poca luz. Este escalón
+     es SOLO para bordes de control e iconos; `--warm-200`/`--warm-300` se
+     quedan para separadores y divisores, que §1.4.11 exime por decorativos.
+     62% da 3,55:1: mismo criterio de margen que se aplicó a `--warm-500`
+     en A11Y-02. */
+  --warm-450: oklch(62% 0.015 60deg);
+
+  /* A11Y-02 / A11Y-09: 58% daba 4,17:1 sobre `--warm-50`, por debajo del
+     4,5:1 que exige WCAG 2.2 §1.4.3 para texto normal — es el color real
+     detrás de `--text-subtle`/`.ds-hint`/`.ds-meta`/`.ds-icon-muted`. 55%
+     daba 4,72:1 SOLO sobre `--warm-50`; sobre `--warm-100`
+     (`.ds-panel`/`.ds-card--flat`) medía 4,46:1, sobre `--warm-150`
+     4,20:1 y sobre `--amatista-50` 4,45:1 — los tres por debajo del
+     mínimo. 52% da 5,36:1 / 5,06:1 / 4,77:1 / 5,05:1 respectivamente:
+     margen real sobre las cuatro superficies donde este color aparece. */
+  --warm-500: oklch(52% 0.012 60deg);
   --warm-600: oklch(45% 0.012 60deg);
   --warm-700: oklch(35% 0.012 60deg);
   --warm-800: oklch(25% 0.012 60deg);
@@ -79,7 +112,13 @@
 
   /* Alias de intención para el banner/estado de error */
   --danger-bg: var(--danger-100);
-  --danger-border: var(--danger-400);
+
+  /* A11Y-09 · el borde de banner anterior (`--danger-400`) medía 1,42:1
+     sobre su propio fondo — WCAG 2.2 §1.4.11 exige 3:1. 60% da 3,43:1
+     sobre `--danger-100`/`--danger-50` y 4,14:1 sobre `--warm-50`.
+     `--danger-400` NO se retira: lo siguen consumiendo `.ds-tone--danger`
+     y 11 usos directos en SFC del tenant, donde es fondo, no borde. */
+  --danger-border: oklch(60% 0.16 25deg);
   --danger-fg: var(--danger-900);
 
   /* ESCALA SEMÁNTICA — warning (hue 80deg) */
@@ -87,12 +126,27 @@
   --warning-200: oklch(88% 0.09 80deg);
   --warning-900: oklch(40% 0.12 80deg);
   --warning-bg: var(--warning-50);
-  --warning-border: var(--warning-200);
+
+  /* A11Y-09 · `--warning-200` medía 1,23:1 sobre su fondo. 60% 0.12 da
+     3,41:1 sobre `--warning-50` y 3,89:1 sobre `--warm-50`. `58% 0.13` daba
+     más margen pero cae fuera de sRGB y el navegador lo recorta de forma
+     impredecible; `60% 0.12` sí está en gamut. `--warning-200` NO se
+     retira: sigue de fondo en `.ds-icon-btn--danger:hover` y otros usos. */
+  --warning-border: oklch(60% 0.12 80deg);
   --warning-fg: var(--warning-900);
 
   /* ESCALA SEMÁNTICA — success (extiende los 3 tokens que ya existían) */
   --success-50: oklch(94% 0.06 150deg);
-  --success-border: oklch(85% 0.1 150deg);
+
+  /* A11Y-09 · el borde anterior (85% 0.1) medía 1,30:1. 58% 0.12 da
+     3,47:1 sobre `--success-50` y 3,94:1 sobre `--warm-50`. */
+  --success-border: oklch(58% 0.12 150deg);
+
+  /* A11Y-09 · `.ds-banner--info` (primitives.css) usaba `--amatista-200`:
+     1,34:1 sobre `--amatista-50`, el peor borde de banner del sistema.
+     62% 0.15 da 3,53:1 sobre `--amatista-50` y 3,75:1 sobre `--warm-50`.
+     `--amatista-200` NO se retira: sigue de fondo en otros usos. */
+  --info-border: oklch(62% 0.15 300deg);
 
   /* Alias neutrales de superficie/texto (los usos más repetidos) */
   --surface: var(--warm-50);
@@ -104,29 +158,57 @@
   --text-muted: var(--warm-600);
   --text-subtle: var(--warm-500);
 
-  /* ------------------------------------------------------------------ *
-   * TIPOGRAFÍA — escala real del código (13px es el cuerpo, 358 usos)
-   * ------------------------------------------------------------------ */
-  --text-micro: 10px;
-  --text-2xs: 10.5px;
-  --text-caption: 11px;
-  --text-label: 11.5px;
-  --text-xs: 12px;
-  --text-sm: 12.5px;
-  --text-body: 13px;
-  --text-md: 13.5px;
-  --text-lg: 14px;
-  --text-xl: 14.5px;
-  --text-2xl: 15px;
-  --text-h3: 18px;
-  --text-h2: 22px;
+  /* A11Y-10 · WCAG 2.2 §1.4.3 (AA). El marcador de posición de `BaseSelect`,
+     `SearchableSelect` y `BaseInput` usaba `--warm-400`: 2,42:1. Token
+     propio y no alias de `--text-subtle` para que la jerarquía visual
+     «marcador más claro que texto» quede fijada y no dependa de retocar la
+     rampa. CONTRATO: solo sobre `--warm-50`/`--surface`/blanco (4,93:1 /
+     5,08:1). NO usar sobre `--warm-150` (4,38:1, incumple). */
+  --text-placeholder: oklch(54% 0.012 60deg);
 
-  /* Título serif de página (FE-08): `.title-wrap h1` repetido en 5 vistas
-     (caja, compras) con 26px — un escalón entre --text-h2 y --text-h1 que no
-     tenía token propio. */
-  --text-h2-lg: 26px;
-  --text-h1: 32px;
-  --text-display: 36px;
+  /* ------------------------------------------------------------------ *
+   * TIPOGRAFÍA — DS-05. En `rem` y no en `px`: `px` absoluto ignora el
+   * tamaño de fuente del navegador y quien sube el zoom del sistema no ve
+   * nada más grande (WCAG 2.2 §1.4.4 Resize Text, AA). Raíz 16px (no se
+   * declara `font-size` en `html`, así que el `rem` sigue al ajuste del
+   * navegador — declararlo ahí rompería el motivo de esta escala).
+   * Los escalones de medio píxel (10,5 · 11,5 · 12,5 · 13,5 · 14,5) se
+   * retiran: cuatro tamaños dentro de un rango de 1,5px son indistinguibles
+   * a la vista e imposibles de mantener. Cada uno redondea SIEMPRE hacia
+   * arriba — redondear hacia abajo reduciría legibilidad.
+   * ------------------------------------------------------------------ */
+  --text-micro: 0.625rem; /* 10px — sin cambio */
+  --text-caption: 0.6875rem; /* 11px — sin cambio */
+  --text-xs: 0.75rem; /* 12px — sin cambio */
+  --text-body: 0.8125rem; /* 13px — sin cambio */
+  --text-lg: 0.875rem; /* 14px — sin cambio */
+  --text-2xl: 0.9375rem; /* 15px — sin cambio */
+  --text-base: 1rem; /* 16px — NUEVO */
+  --text-h3: 1.125rem; /* 18px — sin cambio */
+  --text-h2: 1.375rem; /* 22px — sin cambio */
+  --text-h2-lg: 1.625rem; /* 26px — sin cambio */
+  --text-h1: 2rem; /* 32px — sin cambio */
+  --text-display: 2.25rem; /* 36px — sin cambio */
+  --text-display-lg: 2.75rem; /* 44px — NUEVO */
+  --text-hero: 3.5rem; /* 56px — NUEVO, LoginView */
+
+  /* Escalones intermedios que la app usa de verdad y no tenían token */
+  --text-h3-lg: 1.1875rem; /* 19px — NUEVO */
+  --text-xl2: 1.25rem; /* 20px — NUEVO */
+  --text-2xl2: 1.3125rem; /* 21px — NUEVO */
+  --text-h2-md: 1.5rem; /* 24px — NUEVO */
+  --text-h2-xl: 1.5625rem; /* 25px — NUEVO */
+  --text-h1-sm: 1.75rem; /* 28px — NUEVO */
+  --text-h1-lg: 1.875rem; /* 30px — NUEVO */
+  --text-display-sm: 2.125rem; /* 34px — NUEVO */
+  --text-md-alt: 1.0625rem; /* 17px — NUEVO */
+
+  /* --- RETIRADOS (los 5 escalones de medio píxel) ---
+     --text-2xs   10,5px → usar --text-caption (11px)
+     --text-label 11,5px → usar --text-xs      (12px)
+     --text-sm    12,5px → usar --text-body    (13px)
+     --text-md    13,5px → usar --text-lg      (14px)
+     --text-xl    14,5px → usar --text-2xl     (15px) */
 
   /* Pesos y tracking usados */
   --weight-normal: 400;
@@ -249,16 +331,43 @@
 
   /* ------------------------------------------------------------------ *
    * Z-INDEX — reemplaza los enteros sueltos (incluido un `2100 !important`)
+   *
+   * Orden de fondo, de abajo arriba, y por qué NO es negociable capa a
+   * capa: el velo global (`--z-loader`) tiene que ganarle a CUALQUIER panel
+   * teletransportado (`--z-popover`), o miente — un panel abierto que el
+   * velo dice haber bloqueado sigue siendo clicable por debajo. Caso real
+   * que lo prueba: `SearchableSelect.confirmCreate` dispara el velo con
+   * `await props.onCreate(...)` y el panel sigue abierto hasta que la
+   * promesa resuelve. Si algún día se baja `--z-loader` por debajo de
+   * `--z-popover` "porque total no se solapan", ese hueco reaparece.
+   * Y el aviso (`--z-toast`) es SIEMPRE la última capa: es el único
+   * elemento cuyo trabajo es explicar por qué falló todo lo demás, así que
+   * nada —ni el propio velo— puede taparlo.
    * ------------------------------------------------------------------ */
   --z-raised: 1;
   --z-sticky: 100;
   --z-dropdown: 1000;
-  --z-modal: 1500;
-  --z-modal-content: 1600;
-  --z-toast: 2000;
-  --z-tooltip: 2100;
-}
+  --z-drawer: 1400; /* cajón lateral, por debajo del modal */
+  --z-modal: 1500; /* velo del modal */
 
-* {
-  box-sizing: border-box;
+  /* Renombrado desde `--z-modal-content`: el nombre anterior sugería una
+     capa "contenido de modal" que no existe — la tarjeta del modal no lleva
+     `z-index` propio. Esto es el velo de un modal ANIDADO (`ModalShell`
+     con `elevated`), no su contenido. */
+  --z-modal-nested: 1600;
+
+  /* Panel que se teletransporta a <body> y tiene que ganarle a la tarjeta de
+     cualquier modal. El suelo de 2100 es duro: `vue-datepicker-next/index.css`
+     declara `.mx-datepicker-popup{z-index:2001}` en su propia hoja, así que
+     cualquier valor por debajo de 2002 deja el calendario por detrás. */
+  --z-popover: 2100;
+
+  /* Por encima del popover a propósito (ver el bloque de arriba): el velo
+     global tiene que cubrir TODO lo interactivo, incluidos los paneles
+     teletransportados que quedaran abiertos al dispararse. */
+  --z-loader: 2200;
+
+  /* Por encima del velo a propósito: el aviso es la última capa, siempre. */
+  --z-toast: 2300;
+  --z-tooltip: 2400;
 }

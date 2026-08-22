@@ -1,0 +1,29 @@
+/**
+ * APP — propio de este repo (DS-06). NO es gemelo TR-02: `base.css`,
+ * `tokens.css` y `primitives.css` sí lo son; esto es lo que le queda a esta
+ * consola después de sacar lo común.
+ *
+ * DS-01 (migración total, sin trinquete) vació este fichero: se retiraron los
+ * seis `--vs-field-*` en hexadecimal —que no pasaban por `tokens.css` y hacían
+ * inerte cualquier arreglo de contraste en la escala, issue #100— y las once
+ * clases globales `.app-*` que pintaban los cuatro controles de formulario.
+ * La superficie de campo vive ahora en `.ds-field` + `.ds-field-rest`
+ * (`primitives.css`, gemelo) y la geometría propia de cada control en el
+ * `<style scoped>` de su primitiva, siguiendo el patrón de dos capas de
+ * `BaseInput.vue` del front del tenant.
+ *
+ * Queda SOLO el puente de Vuetify. Cuando `<v-app>` desaparezca de `App.vue`,
+ * este fichero desaparece con él.
+ */
+
+/* Puente de Vuetify: `<v-app>` sigue en `App.vue` y pinta su propio fondo y su
+   propia familia tipográfica sobre un contenedor que envuelve toda la app. Sin
+   esto, la app se ve con los valores por defecto de Vuetify en vez de con los
+   de `base.css`. Los tres valores son ahora tokens: eran `Inter`, `#fbfaff` y
+   `#1a1325` literales, un cuarto origen de verdad para la tipografía y el fondo
+   de la consola. */
+.v-application {
+  font-family: var(--font-sans);
+  background: var(--surface);
+  color: var(--text);
+}
