@@ -17,11 +17,17 @@ function goToCompanies() {
 </script>
 
 <template>
+  <!--
+    Retirado el buscador global. NO era un campo: era un `<div>` con una lupa y
+    un `<span class="search-placeholder">Buscar empresas, módulos, permisos…
+    </span>`. No se podía enfocar, no se podía escribir en él y no hacía nada,
+    pero ocupaba 400 px del sitio más visible de la consola y era lo primero que
+    veía todo el que la abría. Un control muerto que aparenta estar vivo
+    incumple la heurística 1 de Nielsen (visibilidad del estado del sistema) y
+    §4.1.2 Name, Role, Value: o se implementa, o se retira. Implementarlo es una
+    feature con backend detrás —hay issue abierto—, así que aquí se retira.
+  -->
   <header class="topbar">
-    <div class="search">
-      <component :is="ICONS.SEARCH" :size="14" class="search-icon" />
-      <span class="search-placeholder ds-truncate">Buscar empresas, módulos, permisos…</span>
-    </div>
     <div class="spacer" />
     <button class="bell-btn" aria-label="Notificaciones">
       <component :is="ICONS.BELL" :size="15" />
@@ -36,35 +42,13 @@ function goToCompanies() {
 
 <style scoped>
 .topbar {
-  padding: 16px 32px;
-  border-bottom: 1px solid #ece5f4;
-  background: #fff;
+  padding: var(--space-16) var(--space-32);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: var(--space-14);
   flex-shrink: 0;
-}
-
-.search {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: #f5f1fa;
-  flex: 1;
-  max-width: 400px;
-}
-
-.search-icon {
-  color: #6b5b80;
-  flex-shrink: 0;
-}
-
-.search-placeholder {
-  font-size: 13px;
-  color: #a89bbd;
-  flex: 1;
 }
 
 .spacer {
@@ -74,22 +58,22 @@ function goToCompanies() {
 .bell-btn {
   width: 34px;
   height: 34px;
-  border-radius: 8px;
-  border: 1px solid #ece5f4;
-  background: #fff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--warm-450);
+  background: var(--surface);
   display: grid;
   place-items: center;
   cursor: pointer;
   position: relative;
-  color: #3d2e57;
+  color: var(--warm-800);
   transition:
-    background 0.12s,
-    border-color 0.12s;
+    background var(--transition-base),
+    border-color var(--transition-base);
 }
 
 .bell-btn:hover {
-  background: #faf5ff;
-  border-color: #d8b4fe;
+  background: var(--amatista-50);
+  border-color: var(--amatista-300);
 }
 
 .bell-dot {
@@ -99,24 +83,32 @@ function goToCompanies() {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #7e22ce;
-  border: 2px solid #fff;
+  background: var(--amatista-700);
+  border: 2px solid var(--surface);
 }
 
 .primary-btn {
-  padding: 8px 14px;
-  border-radius: 8px;
+  padding: var(--space-8) var(--space-14);
+  border-radius: var(--radius-md);
   border: none;
-  background: #1a1325;
-  font-size: 13px;
-  font-weight: 600;
-  color: #fff;
+  background: var(--warm-900);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  color: var(--warm-50);
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.12s;
+  transition: background var(--transition-base);
 }
 
 .primary-btn:hover {
-  background: #3d2e57;
+  background: var(--warm-800);
+}
+
+/* EST-10 · A 768 px la barra superior tenía 32 px de padding a cada lado y
+   competía por el ancho con el contenido. */
+@media (width <= 1024px) {
+  .topbar {
+    padding: var(--space-14) var(--space-18);
+  }
 }
 </style>

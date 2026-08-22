@@ -74,7 +74,7 @@ const iconFor = computed(() => (kind: ToastKind) => {
   position: fixed;
   top: 18px;
   right: 18px;
-  z-index: 2000;
+  z-index: var(--z-toast);
   display: flex;
   flex-direction: column;
   gap: 10px;

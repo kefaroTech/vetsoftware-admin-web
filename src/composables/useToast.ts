@@ -4,10 +4,11 @@ import { useToastStore, type Toast, type ToastKind } from '@/stores/toast.store'
 export type { Toast, ToastKind }
 
 /**
- * Un fallo de red se queda más tiempo en pantalla que un «guardado correctamente»: lleva un
- * identificador de traza que alguien puede querer copiar, y tres segundos no dan para leerlo.
+ * Un aviso nacido de un error se queda más tiempo en pantalla que un «guardado correctamente»:
+ * lleva un identificador de traza que alguien puede querer copiar, y tres segundos no dan para
+ * leerlo. Vale igual para `errorFrom` y para `warnFrom`: los dos conservan la traza.
  */
-const ERROR_DURATION = 9000
+const TRACE_DURATION = 9000
 
 /**
  * Wrapper sobre el store de Pinia `toast`. Mantiene la API previa
@@ -43,7 +44,24 @@ export function useToast() {
         'error',
         title,
         getProblemDetailMessage(error, fallback),
-        ERROR_DURATION,
+        TRACE_DURATION,
+        getTraceId(error),
+      )
+    },
+    /**
+     * Issue #202 (tenant) · admin-web#122 — misma forma que `errorFrom`, pero en tono `warn`: un
+     * conflicto de concurrencia (409 optimistic locking) no es un fallo, es que alguien más
+     * editó primero. Antes de este método, ese aviso se armaba con `warn(title,
+     * getProblemDetailMessage(e))` a mano y tiraba el `X-Trace-Id` — soporte no podía
+     * correlacionarlo con el backend. Conserva el objeto de error igual que `errorFrom`, solo
+     * cambia el tono.
+     */
+    warnFrom(title: string, error: unknown, fallback?: string) {
+      return store.push(
+        'warn',
+        title,
+        getProblemDetailMessage(error, fallback),
+        TRACE_DURATION,
         getTraceId(error),
       )
     },

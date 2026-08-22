@@ -1,23 +1,63 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
-defineProps<{
-  title: string
-  description?: string
-  icon?: Component
-}>()
+import { ICONS } from '@/constants/icons'
+
+/**
+ * Estado vacío accionable de la consola.
+ *
+ * DS-03b / EST-06: tenía cero consumidores y estaba escrito con utilidades de
+ * Vuetify (`pa-12`, `text-h6`, `text-medium-emphasis`), un sistema de diseño que
+ * en esta consola solo sobrevive de forma vestigial. Se reescribe sobre
+ * `.ds-empty` —la primitiva que la consola ya usa en cinco sitios— en vez de
+ * retirarse, porque es la pieza que da la SALIDA que al estado vacío le falta:
+ * hoy las 17 vistas dicen «Sin resultados» y no ofrecen nada que pulsar.
+ *
+ * El `slot` por defecto es esa salida: se le pasa el mismo botón que ya vive en
+ * la cabecera de la vista (NN/g, *Empty State Interface Design*).
+ */
+withDefaults(
+  defineProps<{
+    title: string
+    description?: string
+    icon?: Component
+  }>(),
+  { icon: () => ICONS.EMPTY },
+)
 </script>
 
 <template>
-  <div class="d-flex flex-column align-center justify-center pa-12 text-center">
-    <component :is="icon" v-if="icon" :size="48" class="mb-3 empty-icon" />
-    <p class="text-h6 text-medium-emphasis">{{ title }}</p>
-    <p v-if="description" class="text-body-2 text-disabled mt-1">{{ description }}</p>
-    <slot />
+  <div class="ds-empty ds-stack ds-stack--8 vacio">
+    <component :is="icon" v-if="icon" :size="40" :stroke-width="1.5" class="icono" />
+    <p class="titulo">{{ title }}</p>
+    <p v-if="description" class="ds-meta descripcion">{{ description }}</p>
+    <div v-if="$slots.default" class="accion">
+      <slot />
+    </div>
   </div>
 </template>
 
 <style scoped>
-.empty-icon {
+.vacio {
+  align-items: center;
+}
+
+.icono {
   color: var(--warm-400);
+}
+
+.titulo {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+}
+
+.descripcion {
+  margin: 0;
+  max-width: 42ch;
+}
+
+.accion {
+  margin-top: var(--space-4);
 }
 </style>

@@ -30,6 +30,7 @@
  * y esa diferencia no dice nada sobre el backend.
  */
 import type { components } from './api.generated'
+import type { PageResponse } from './pagination'
 import type { SystemConfigurationDto } from '../features/config/types/config.types'
 import type {
   AnimalColorResponse,
@@ -177,6 +178,52 @@ type NullableWhereRequired<Local, Name extends keyof Schemas> = {
 }[RequiredKeys<Schemas[Name]> & keyof Local]
 
 /**
+ * Campos que el contrato declara y este repositorio no declara **en absoluto**.
+ *
+ * <p>Este era el agujero del propio guardián. Los cuatro conjuntos de arriba cruzan todos por
+ * `keyof Local`, así que solo saben hablar de campos que este repositorio ya nombra: **omitir**
+ * un campo entero les resultaba invisible. `CreateMembershipRequest` declaraba `name` y
+ * `status`, el contrato traía además `mandatory`, y
+ * `MatchesContract<CreateMembershipRequest, 'CreateMembershipRequest'>` pasaba en verde mientras
+ * cada membresía creada o editada desde la consola se guardaba con `mandatory = false` sin que
+ * nadie lo eligiera ni lo viera.
+ *
+ * <p>Y no basta con mirar los `required` del contrato, que es lo que hace `MissingRequiredFields`:
+ * `mandatory` **no** es `required` allí —springdoc solo marca lo que lleva `@NotNull` o
+ * `@NotBlank`—, pero en el `record` de Java es un `boolean` primitivo. Un cuerpo JSON sin ese
+ * campo no significa «déjalo como está»: significa `false`. Por eso este conjunto mira **todos**
+ * los campos del esquema y no solo los exigidos.
+ *
+ * <p>`ToleratedGaps` descuenta la deuda que ya existía el día que esto se encendió: ver
+ * `ContractGaps`.
+ */
+type UndeclaredFields<Local, Name extends keyof Schemas> = Exclude<
+  keyof Schemas[Name],
+  keyof Local | ToleratedGaps<Name>
+>
+
+/** El techo de deuda resuelto para un esquema concreto; `never` si el esquema no figura. */
+type ToleratedGaps<Name extends keyof Schemas> = Name extends keyof ContractGaps
+  ? ContractGaps[Name]
+  : never
+
+/**
+ * Entradas del techo que este tipo ya no necesita, porque declara **todos** los campos que se le
+ * perdonaban. Es lo que hace que el techo solo pueda bajar: quien termine de declarar un esquema
+ * tiene que borrar su línea de `ContractGaps`, o el build no compila.
+ *
+ * <p>Pide declararlos todos, y no campo a campo, por un motivo concreto: hay esquemas atados por
+ * **dos** tipos locales distintos que comparten una sola entrada del techo. Con la comprobación
+ * campo a campo, el tipo que declarara más obligaría a borrar una línea que el otro todavía
+ * necesita, y la entrada se quedaría sin forma válida de escribirse.
+ */
+type StaleGaps<Local, Name extends keyof Schemas> = [
+  Exclude<ToleratedGaps<Name>, keyof Local>,
+] extends [never]
+  ? ToleratedGaps<Name>
+  : never
+
+/**
  * `true` si el tipo local encaja con el esquema; si no, **los nombres de los campos que fallan**.
  * Es a propósito: el error de compilación los nombra uno a uno en vez de decir «no asignable»,
  * que obligaría a comparar cuarenta campos a ojo.
@@ -185,23 +232,97 @@ export type MatchesContract<Local, Name extends keyof Schemas> = [
   | UnknownFields<Local, Name>
   | MismatchedFields<Local, Name>
   | MissingRequiredFields<Local, Name>
-  | NullableWhereRequired<Local, Name>,
+  | NullableWhereRequired<Local, Name>
+  | UndeclaredFields<Local, Name>
+  | StaleGaps<Local, Name>,
 ] extends [never]
   ? true
   : | UnknownFields<Local, Name>
     | MismatchedFields<Local, Name>
     | MissingRequiredFields<Local, Name>
     | NullableWhereRequired<Local, Name>
+    | UndeclaredFields<Local, Name>
+    | StaleGaps<Local, Name>
 
 /** Rompe la compilación si el tipo no encaja; el error nombra los campos culpables. */
 type Expect<T extends true> = T
+
+/**
+ * Entradas del techo que ya no describen nada real: un esquema que el contrato dejó de traer, o
+ * un campo que ese esquema ya no tiene. Es la otra forma de pudrirse —la silenciosa, la que deja
+ * el repositorio afirmando por escrito algo falso— y por eso se comprueba aparte de `StaleGaps`,
+ * que solo mira el lado del front.
+ */
+type RottenGapEntries = {
+  [N in keyof ContractGaps]: N extends keyof Schemas
+    ? [Exclude<ContractGaps[N], keyof Schemas[N]>] extends [never]
+      ? never
+      : N
+    : N
+}[keyof ContractGaps]
 
 /**
  * Las ataduras: una por cada tipo de este repositorio con un esquema homónimo en el contrato.
  * `api-contract.spec.ts` falla si aparece un tipo nuevo y nadie lo ata aquí, que es lo que evita
  * que esta lista envejezca en silencio.
  */
+/**
+ * **El techo de deuda, y solo baja.** Campos que el contrato declara y este repositorio todavía
+ * no: la foto del día en que `UndeclaredFields` se encendió. Sin ella, encender la comprobación
+ * habría dejado en rojo el build de los dos fronts de golpe, que es la forma segura de que a
+ * alguien se le ocurra apagarla.
+ *
+ * <p>Se sostiene sola por los dos lados: `StaleGaps` obliga a borrar la línea en cuanto el tipo
+ * local declara todo lo que se le perdonaba, y `RottenGapEntries` obliga a borrarla si el
+ * esquema o el campo dejan de existir en el contrato. Añadir una entrada nueva es siempre un
+ * acto deliberado que se ve en el diff — nunca algo que ocurra solo.
+ *
+ * <p>No todo lo de aquí es un defecto. `TokenResponse.refreshToken` se omite **a propósito**
+ * (el backend lo emite en una cookie `HttpOnly` y el campo llega `null`), y los `enabled` de
+ * los catálogos son inertes: sus entidades JPA llevan `@SQLRestriction("enabled = true")`, así
+ * que por el cable nunca viaja otra cosa que `true`. Esa es justo la razón de que el techo
+ * exista en vez de una prohibición seca.
+ */
+interface ContractGaps {
+  // --- Peticiones: lo que este repositorio NUNCA envía -------------------------------
+  // Son las peligrosas. Un campo que no se declara no se envía, y el servidor no recibe
+  // «sin cambios» sino el valor por defecto de Java. Bajar una de estas líneas arregla un
+  // defecto de verdad; bajar una de las de abajo solo enseña un dato más.
+  CreateCompanyRequest: 'cityId' | 'membershipId'
+  UpdateCompanyRequest: 'cityId' | 'membershipId'
+
+  // --- Respuestas: lo que este repositorio no lee -------------------------------------
+  AnimalColorResponse: 'enabled'
+  BasePermissionResponse: 'enabled'
+  BaseRolePermissionResponse: 'enabled'
+  BaseRoleResponse: 'enabled'
+  BreedResponse: 'enabled'
+  CompanyMembershipSummary: 'status'
+  ConsultationTypeResponse: 'enabled'
+  DiagnosticImagingTypeResponse: 'enabled'
+  LaboratoryTestTypeResponse: 'enabled'
+  MembershipResponse: 'enabled'
+  MembershipSubModuleResponse: 'enabled'
+  ModuleResponse: 'enabled'
+  SpaTypeResponse: 'enabled'
+  SpecieResponse: 'enabled'
+  SubModuleResponse: 'enabled'
+  SurgeryTypeResponse: 'enabled'
+  TokenResponse: 'refreshToken'
+  VaccinationTypeResponse: 'enabled'
+}
+
 export type ContractAssertions = [
+  Expect<[RottenGapEntries] extends [never] ? true : RottenGapEntries>,
+  // La envoltura de página, atada por una de sus 37 instanciaciones (BE-21). El generador emite
+  // un esquema por tipo de contenido —`PageResponseCompanyResponse`, `PageResponseSpecieResponse`…—
+  // y ninguno se llama `PageResponse` a secas, así que la regla de homónimos de
+  // `tests/unit/api-contract.spec.ts` no lo alcanzaba y los cinco campos de `PageResponse<T>` eran
+  // los únicos del repositorio sin nada que los atara al servidor: renombrar `content` o
+  // `totalElements` en el backend no rompía la compilación, devolvía `undefined` en los quince
+  // listados paginados de la consola, en `companies.api.ts` y en `useServerPaged`. Una
+  // instanciación basta, porque los cinco campos los declara la envoltura y no el contenido.
+  Expect<MatchesContract<PageResponse<CompanyResponse>, 'PageResponseCompanyResponse'>>,
   Expect<MatchesContract<SystemConfigurationDto, 'SystemConfigurationDto'>>,
   Expect<MatchesContract<AnimalColorResponse, 'AnimalColorResponse'>>,
   Expect<MatchesContract<ModuleResponse, 'ModuleResponse'>>,

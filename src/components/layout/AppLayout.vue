@@ -20,8 +20,8 @@ import AppHeader from './AppHeader.vue'
   display: grid;
   grid-template-columns: 244px 1fr;
   min-height: 100vh;
-  background: #fbfaff;
-  color: #1a1325;
+  background: var(--surface);
+  color: var(--text);
 }
 
 .app-main {
@@ -32,7 +32,25 @@ import AppHeader from './AppHeader.vue'
 
 .app-content {
   flex: 1;
-  padding: 28px 32px;
+  padding: var(--space-28) var(--space-32);
   overflow: auto;
+}
+
+/* EST-10 · La consola se soporta en escritorio y tablet, con 768 px como
+   mínimo declarado. Este era el único armazón de la aplicación sin una sola
+   media query: a 244px fijos de sidebar, en una tablet vertical el contenido
+   se quedaba con poco más de la mitad del ancho.
+   Sintaxis de rango, que es la que usa el resto del árbol (`ModalShell`,
+   `primitives.css`, el front del tenant); `max-width` sería una tercera
+   convención. El valor DEBE coincidir con `COMPACT_MAX_WIDTH` de
+   `src/stores/viewport.store.ts`, que es quien colapsa los rótulos. */
+@media (width <= 1024px) {
+  .app-shell {
+    grid-template-columns: 72px 1fr;
+  }
+
+  .app-content {
+    padding: var(--space-18);
+  }
 }
 </style>

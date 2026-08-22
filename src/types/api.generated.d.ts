@@ -4516,6 +4516,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/companies/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["search_10"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/clinical-history": {
         parameters: {
             query?: never;
@@ -8592,6 +8608,17 @@ export interface components {
         };
         PageResponseConsultationResponse: {
             content?: components["schemas"]["ConsultationResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseCompanyResponse: {
+            content?: components["schemas"]["CompanyResponse"][];
             /** Format: int32 */
             page?: number;
             /** Format: int32 */
@@ -15310,7 +15337,10 @@ export interface operations {
     };
     listAll_41: {
         parameters: {
-            query?: never;
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -15323,7 +15353,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CompanyResponse"][];
+                    "*/*": components["schemas"]["PageResponseCompanyResponse"];
                 };
             };
         };
@@ -18220,6 +18250,7 @@ export interface operations {
                 branchId?: number;
                 q?: string;
                 lowStock?: boolean;
+                productIds?: number[];
                 page?: number;
                 pageSize?: number;
             };
@@ -18965,6 +18996,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ConsultationResponse"];
+                };
+            };
+        };
+    };
+    search_10: {
+        parameters: {
+            query: {
+                q: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyResponse"];
                 };
             };
         };
