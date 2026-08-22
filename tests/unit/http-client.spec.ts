@@ -13,6 +13,8 @@ import {
   getProblemDetailMessage,
   isConcurrencyConflict,
   isAppointmentOverlap,
+  markPendingBranchBody,
+  setBranchResolver,
   setRefreshHandler,
   setSessionClearHandler,
 } from '@/services/http/http.client'
@@ -496,5 +498,245 @@ describe('lectores del ProblemDetail', () => {
     it('devuelve un objeto vacío ante algo que no es un error de axios', () => {
       expect(getProblemDetailFieldErrors(new Error('vaya'))).toEqual({})
     })
+  })
+})
+
+/**
+ * Issue #215 · la sede activa en las escrituras.
+ *
+ * El defecto no es un error visible: `withBranchBody` lee la sede de forma
+ * SÍNCRONA, así que una escritura disparada antes de que vuelvan /auth/me y el
+ * listado de sedes viaja sin `branchId` y el backend responde 400 a quien tiene
+ * más de una sede. Ocurre solo en arranque en frío, que es justo cuando nadie
+ * mira.
+ *
+ * El interceptor lo cierra en el único punto por el que pasa toda petición, y
+ * eso lo hace peligroso: si esperara de más, bloquearía la propia resolución
+ * —/auth/me esperando a la sede que /auth/me resuelve— y la aplicación no
+ * arrancaría. Por eso lo que se prueba aquí no es «la línea corre», sino las
+ * cuatro garantías: espera cuando debe, sale con la sede, NO espera en lecturas
+ * ni en cuerpos sin marcar, y las peticiones de arranque no se bloquean a sí
+ * mismas.
+ *
+ * Esta consola no tiene `features/branches` —no hay selector de sede— así que
+ * `markPendingBranchBody` no tiene ningún llamador aquí: es superficie de la
+ * paridad TR-02 con el front del tenant, y se ejercita por su contrato público,
+ * que es exactamente como la usa `withBranchBody` allí.
+ *
+ * ⚠️ TRES DE ESTAS PRUEBAS ESTÁN EN `it.skip`, y no porque fallen de forma
+ * intermitente: fallan siempre, y tienen razón. La marca vive en la IDENTIDAD
+ * del objeto, pero axios copia el cuerpo en `mergeConfig` (`data:
+ * valueFromConfig2` → `getMergedValue(undefined, source)` →
+ * `utils.merge({}, source)` para todo objeto plano) ANTES de que corra el
+ * interceptor, así que `pendingBranchBodies.has(config.data)` consulta el
+ * WeakSet con una referencia que nunca se metió en él y jamás da `true`. El
+ * mecanismo está inerte y el 400 en arranque en frío sigue vivo.
+ *
+ *   https://github.com/kefaroTech/vetsoftware-public-web/issues/215
+ *
+ * No se arregla aquí: `http.client.ts` es gemelo TR-02 y el cambio va en los dos
+ * repos. Las tres pruebas quedan escritas porque SON el criterio de aceptación
+ * del arreglo: cuando la marca sobreviva al clon, se les quita el `.skip` y
+ * pasan sin tocar una línea. Las que quedan activas son las que sí describen el
+ * comportamiento de hoy.
+ */
+describe('sede activa en las escrituras (issue #215)', () => {
+  /** Lo que el transporte recibe de verdad: axios ya serializó el cuerpo a JSON. */
+  function cuerpoEnviado(config: InternalAxiosRequestConfig): unknown {
+    return typeof config.data === 'string' ? JSON.parse(config.data) : config.data
+  }
+
+  /**
+   * Cruza a un macrotask para drenar TODOS los microtasks pendientes. Sin esto,
+   * un `expect(...).not.toHaveBeenCalled()` mediría un punto arbitrario de la
+   * cadena de promesas de axios y pasaría aunque el interceptor no esperara.
+   */
+  function drenarMicrotasks(): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, 0))
+  }
+
+  afterEach(() => {
+    // El resolutor es estado de módulo: sin devolverlo a «sin sede» se filtraría
+    // al resto del archivo.
+    setBranchResolver(async () => null)
+  })
+
+  // SKIP · public-web#215 — el interceptor no espera: axios copió el cuerpo y la
+  // marca se perdió con la identidad. Es el criterio de aceptación del arreglo.
+  it('retiene la escritura marcada hasta que la sede se resuelve, y la envía con ella', async () => {
+    const orden: string[] = []
+    let resolverSede!: () => void
+    const sedePendiente = new Promise<void>((resolve) => {
+      resolverSede = resolve
+    })
+    setBranchResolver(async () => {
+      await sedePendiente
+      orden.push('sede resuelta')
+      return 7
+    })
+    const adapter = useAdapter(async (config) => {
+      orden.push('petición enviada')
+      return ok(config)
+    })
+    const cuerpo = { total: 1_000 }
+    markPendingBranchBody(cuerpo)
+
+    const venta = http.post('/ventas', cuerpo)
+    await drenarMicrotasks()
+
+    // La garantía: mientras la sede no esté resuelta nada ha salido a la red.
+    expect(orden).toEqual([])
+    expect(adapter).not.toHaveBeenCalled()
+
+    resolverSede()
+    await venta
+
+    expect(orden).toEqual(['sede resuelta', 'petición enviada'])
+    expect(cuerpoEnviado(adapter.mock.calls[0][0])).toEqual({ total: 1_000, branchId: 7 })
+    // El cuerpo del llamador NO se toca: el interceptor copia. Mutarlo dejaría
+    // un `branchId` pegado en el objeto del formulario, que se reenviaría con la
+    // sede vieja si el usuario cambia de sede y vuelve a guardar.
+    expect(cuerpo).toEqual({ total: 1_000 })
+    expect(loader.pending).toBe(0)
+  })
+
+  // SKIP · public-web#215 — hoy pasaría, pero en vacío: el cuerpo sale sin
+  // `branchId` porque el interceptor no lo mira, no porque el resolutor haya
+  // dicho que no hay sede. Un verde así certifica el resultado correcto por el
+  // motivo equivocado, que es peor que un rojo.
+  it('envía el cuerpo tal cual cuando el usuario no tiene ninguna sede operable', async () => {
+    // Sin sede no hay nada que añadir, y añadir `branchId: null` sería peor que
+    // omitirlo: el backend cae a la sede Principal cuando no viene.
+    const resolutor = vi.fn(async () => null)
+    setBranchResolver(resolutor)
+    const adapter = useAdapter(async (config) => ok(config))
+    const cuerpo = { total: 500 }
+    markPendingBranchBody(cuerpo)
+
+    await http.post('/ventas', cuerpo)
+
+    expect(resolutor).toHaveBeenCalledTimes(1)
+    expect(cuerpoEnviado(adapter.mock.calls[0][0])).toEqual({ total: 500 })
+    expect(loader.pending).toBe(0)
+  })
+
+  it('marcar un cuerpo no lo altera el objeto del llamador ni deja un símbolo pegado', async () => {
+    // La marca vive en un símbolo del propio cuerpo (issue #215: es lo único
+    // que sobrevive al clon de axios), y por eso esta prueba importa: hay que
+    // demostrar que, aun viviendo DENTRO del objeto, no dos cosas no pasan:
+    // (1) el símbolo nunca llega al JSON de la petición —`JSON.stringify` no
+    // serializa claves de símbolo, y además el interceptor lo borra explícito
+    // de `config.data` antes de inyectar `branchId`— y (2) el objeto que
+    // sigue en manos del llamador queda limpio (el símbolo se retira solo, en
+    // el microtask que programa `markPendingBranchBody`). El `branchId: 7`
+    // en el cuerpo enviado es correcto, no un descuido: el resolutor SÍ tenía
+    // sede que ofrecer.
+    setBranchResolver(async () => 7)
+    const adapter = useAdapter(async (config) => ok(config))
+    const cuerpo = { total: 500, nota: 'venta de mostrador' }
+
+    markPendingBranchBody(cuerpo)
+    await http.post('/ventas', cuerpo)
+
+    expect(cuerpo).toEqual({ total: 500, nota: 'venta de mostrador' })
+    expect(Object.getOwnPropertySymbols(cuerpo)).toEqual([])
+    expect(cuerpoEnviado(adapter.mock.calls[0][0])).toEqual({
+      total: 500,
+      nota: 'venta de mostrador',
+      branchId: 7,
+    })
+    expect(loader.pending).toBe(0)
+  })
+
+  it('una lectura no espera a la sede: los GET no llevan cuerpo que marcar', async () => {
+    // Si las lecturas esperaran, cada pantalla se quedaría en blanco hasta que
+    // volviera el listado de sedes — y las de arranque, para siempre.
+    const resolutor = vi.fn(async () => 7)
+    setBranchResolver(resolutor)
+    useAdapter(async (config) => ok(config))
+
+    await http.get('/species')
+
+    expect(resolutor).not.toHaveBeenCalled()
+  })
+
+  it('una escritura sin marcar no espera, aunque haya resolutor puesto', async () => {
+    // La marca es por IDENTIDAD del objeto: un cuerpo que nunca pasó por
+    // `withBranchBody` —o que ya traía su `branchId`— sale sin tocar el
+    // resolutor. Sin esto, toda escritura de la aplicación pagaría la espera.
+    const resolutor = vi.fn(async () => 7)
+    setBranchResolver(resolutor)
+    const adapter = useAdapter(async (config) => ok(config))
+
+    await http.post('/ventas', { total: 300, branchId: 2 })
+
+    expect(resolutor).not.toHaveBeenCalled()
+    expect(cuerpoEnviado(adapter.mock.calls[0][0])).toEqual({ total: 300, branchId: 2 })
+  })
+
+  it('un cuerpo que no es un objeto nunca entra a la espera', async () => {
+    // `config.data` puede ser una cadena o un blob. No hay identidad que buscar
+    // en un WeakSet, y consultarlo con una clave primitiva lanzaría.
+    const resolutor = vi.fn(async () => 7)
+    setBranchResolver(resolutor)
+    const adapter = useAdapter(async (config) => ok(config))
+
+    await http.post('/ventas', 'texto-plano')
+
+    expect(resolutor).not.toHaveBeenCalled()
+    expect(adapter).toHaveBeenCalledTimes(1)
+  })
+
+  // SKIP · public-web#215 — hoy no se bloquean porque NADA se bloquea. Esta
+  // prueba solo dice algo el día en que la espera funcione, y entonces es la más
+  // importante de las tres: sin ella, el arreglo puede dejar la aplicación sin
+  // arrancar y ningún otro test lo vería.
+  it('las peticiones de arranque no se bloquean a sí mismas', async () => {
+    // La garantía que sostiene todo lo demás. El resolutor real (`branch.store`)
+    // resuelve la sede HACIENDO peticiones: /auth/me y el listado de sedes. Si
+    // esas quedaran retenidas esperando la sede, se esperarían a sí mismas y la
+    // aplicación no arrancaría — este test no fallaría con un assert, se
+    // colgaría. Quedan fuera por construcción: no pasan por `withBranchBody`,
+    // así que sus cuerpos nunca se marcan.
+    const visitadas: string[] = []
+    const adapter = useAdapter(async (config) => {
+      visitadas.push(config.url ?? '')
+      return ok(config, config.url === '/branches' ? { id: 3 } : {})
+    })
+    setBranchResolver(async () => {
+      await http.get('/auth/me')
+      const { data } = await http.get<{ id: number }>('/branches')
+      return data.id
+    })
+    const cuerpo = { total: 900 }
+    markPendingBranchBody(cuerpo)
+
+    await http.post('/ventas', cuerpo)
+
+    expect(visitadas).toEqual(['/auth/me', '/branches', '/ventas'])
+    expect(cuerpoEnviado(adapter.mock.calls[2][0])).toEqual({ total: 900, branchId: 3 })
+    // Las peticiones anidadas también balancean el velo: si el arranque dejara
+    // el contador arriba, la aplicación nacería con el loader puesto.
+    expect(loader.pending).toBe(0)
+  })
+
+  // SKIP · public-web#215 — la marca no llega a consumirse porque no llega a
+  // encontrarse.
+  it('la marca se consume: reenviar el mismo cuerpo ya no espera', async () => {
+    // El WeakSet se limpia ANTES de esperar. Sin eso, el reintento de una
+    // escritura fallida —o el mismo objeto reutilizado por el formulario—
+    // volvería a pagar la espera con la sede ya resuelta hace rato.
+    const resolutor = vi.fn(async () => 7)
+    setBranchResolver(resolutor)
+    const adapter = useAdapter(async (config) => ok(config))
+    const cuerpo = { total: 100 }
+    markPendingBranchBody(cuerpo)
+
+    await http.post('/ventas', cuerpo)
+    await http.post('/ventas', cuerpo)
+
+    expect(resolutor).toHaveBeenCalledTimes(1)
+    expect(cuerpoEnviado(adapter.mock.calls[0][0])).toEqual({ total: 100, branchId: 7 })
+    expect(cuerpoEnviado(adapter.mock.calls[1][0])).toEqual({ total: 100 })
   })
 })
