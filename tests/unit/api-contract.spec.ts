@@ -33,15 +33,37 @@ const candidatos = (nombre: string): string[] => [
  */
 const HOMONIMOS_FALSOS = new Set(['Permission'])
 
-function tiposDeclarados(): string[] {
-  const nombres: string[] = []
+/**
+ * Esquema que corresponde a la INSTANCIACIÓN de un genérico.
+ *
+ * springdoc nombra la instanciación concatenando la envoltura y el contenido: `PageResponse<T>`
+ * viaja al contrato como `PageResponseCompanyResponse`, `PageResponseSpecieResponse`… y ninguno
+ * de los 37 esquemas de página se llama `PageResponse` a secas. Sin esta regla `candidatos()`
+ * solo proponía `PageResponse` y `PageResponseResponse` —que no existen—, así que la única
+ * envoltura del repositorio quedaba fuera de la comprobación y este test pasaba en verde
+ * justamente sobre el tipo que no cubría.
+ *
+ * Se aplica SOLO a los tipos declarados con parámetros, y eso es lo que la hace exacta: sobre los
+ * 100 tipos exportados de `src/` marca `PageResponse` y ningún otro. Se exige además que lo que
+ * le sobra al nombre sea a su vez un esquema, para no casar por prefijo con un homónimo largo.
+ */
+const instanciacionEnContrato = (nombre: string, schemas: Set<string>): string | undefined =>
+  [...schemas]
+    .sort()
+    .find((s) => s !== nombre && s.startsWith(nombre) && schemas.has(s.slice(nombre.length)))
+
+/** Tipos exportados por `src/`, y si se declararon con parámetros de tipo. */
+function tiposDeclarados(): Map<string, boolean> {
+  const nombres = new Map<string, boolean>()
   const recorrer = (dir: string) => {
     for (const entrada of readdirSync(dir, { withFileTypes: true })) {
       const ruta = join(dir, entrada.name)
       if (entrada.isDirectory()) recorrer(ruta)
       else if (ruta.endsWith('.ts') && !ruta.endsWith('.d.ts')) {
         const fuente = readFileSync(ruta, 'utf8')
-        for (const m of fuente.matchAll(/^export (?:interface|type) (\w+)/gm)) nombres.push(m[1]!)
+        for (const m of fuente.matchAll(/^export (?:interface|type) (\w+)(<[^>]*>)?/gm)) {
+          nombres.set(m[1]!, (nombres.get(m[1]!) ?? false) || m[2] !== undefined)
+        }
       }
     }
   }
@@ -63,12 +85,21 @@ function contrato(): string {
 describe('la atadura al contrato de la API cubre todo lo que puede cubrir', () => {
   it('cada tipo que espeja un DTO del backend está atado', () => {
     const schemas = esquemas()
+    // El `(?:<[^>]*>)?` es lo que hace que una atadura escrita sobre una instanciación
+    // —`MatchesContract<PageResponse<CompanyResponse>, …>`— cuente como atadura de `PageResponse`.
+    // Sin él, el genérico se declararía sin atar aunque su centinela esté puesto.
     const atados = new Set(
-      [...contrato().matchAll(/MatchesContract<\s*(\w+)\s*,/g)].map((m) => m[1]!),
+      [...contrato().matchAll(/MatchesContract<\s*(\w+)(?:<[^>]*>)?\s*,/g)].map((m) => m[1]!),
     )
 
-    const faltan = [...new Set(tiposDeclarados())]
-      .filter((n) => !HOMONIMOS_FALSOS.has(n) && candidatos(n).some((c) => schemas.has(c)))
+    const declarados = tiposDeclarados()
+    /** Esquema del contrato que corresponde al tipo, o `undefined` si el contrato no lo trae. */
+    const esquemaDe = (n: string): string | undefined =>
+      candidatos(n).find((c) => schemas.has(c)) ??
+      (declarados.get(n) === true ? instanciacionEnContrato(n, schemas) : undefined)
+
+    const faltan = [...declarados.keys()]
+      .filter((n) => !HOMONIMOS_FALSOS.has(n) && esquemaDe(n) !== undefined)
       .filter((n) => !atados.has(n))
       .sort()
 
@@ -78,8 +109,11 @@ describe('la atadura al contrato de la API cubre todo lo que puede cubrir', () =
         `Añade una línea por cada uno en src/types/api.contract.ts:\n` +
         faltan
           .map((n) => {
-            const esquema = candidatos(n).find((c) => schemas.has(c))
-            return `  Expect<MatchesContract<${n}, '${esquema}'>>,`
+            const directo = candidatos(n).find((c) => schemas.has(c))
+            const esquema = directo ?? instanciacionEnContrato(n, schemas) ?? n
+            // Un genérico se ata por una instanciación: el contenido es lo que le sobra al nombre.
+            const local = directo ? n : `${n}<${esquema.slice(n.length)}>`
+            return `  Expect<MatchesContract<${local}, '${esquema}'>>,`
           })
           .join('\n'),
     ).toEqual([])
@@ -87,9 +121,11 @@ describe('la atadura al contrato de la API cubre todo lo que puede cubrir', () =
 
   it('no quedan ataduras a esquemas que ya no existen en el contrato', () => {
     const schemas = esquemas()
-    const usados = [...contrato().matchAll(/MatchesContract<\s*\w+\s*,\s*'([^']+)'/g)].map(
-      (m) => m[1]!,
-    )
+    // Mismo `(?:<[^>]*>)?` que arriba: sin él, la atadura de un genérico no se leía aquí y un
+    // `PageResponseXxxResponse` que el backend dejara de emitir se quedaba sin detectar.
+    const usados = [
+      ...contrato().matchAll(/MatchesContract<\s*\w+(?:<[^>]*>)?\s*,\s*'([^']+)'/g),
+    ].map((m) => m[1]!)
 
     expect(usados.filter((n) => !schemas.has(n)).sort()).toEqual([])
   })

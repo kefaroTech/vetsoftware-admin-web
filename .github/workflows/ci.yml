@@ -136,3 +136,63 @@ jobs:
             test-results/
             playwright-report-visual/
           retention-days: 7
+
+  # `scripts/ds-audit.mjs` compara el CSS scoped original contra las primitivas
+  # `ds-*` sobre `docs/ds-audit.html`. No sustituye a `visual-regression` (esa
+  # compara hoy contra la línea base de git; esta compara las dos mitades del
+  # mismo harness) y por eso corre en un job aparte, con su propio servidor.
+  design-system-audit:
+    name: Design system audit
+    needs: frontend-quality-gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      CI: true
+      HUSKY: 0
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      # `ds-audit.mjs` abre Chromium con `playwright` a pelo, no con
+      # `@playwright/test`, así que no hereda el navegador que instala el job de
+      # regresión visual: hay que traerlo aparte.
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      # Mismo motivo que en `visual-regression`: sin `.env.local`, `vite.config.ts`
+      # aborta el arranque por falta de perfil declarado.
+      - name: Provide the localdev environment file
+        run: cp .env.local.example .env.local
+
+      # El harness se sirve desde `/docs` de la propia app: hace falta el
+      # servidor de desarrollo arriba, no un build. Corre en segundo plano
+      # porque el resto de los pasos de este job comparten el mismo runner.
+      - name: Start the dev server
+        run: nohup npm run dev > dev-server.log 2>&1 &
+
+      - name: Wait for the dev server
+        run: |
+          timeout 60 bash -c 'until curl -sf http://localhost:5173/docs/ds-audit.html > /dev/null; do sleep 1; done'
+
+      # El total es un trinquete (`scripts/ds-audit.config.json`, gemelo TR-02):
+      # falla solo si esta tanda deja MÁS diferencias que la última migración
+      # cerrada, no exige cero mientras la migración del design system siga en
+      # curso.
+      - name: Run the design system audit
+        run: npm run ds:audit
+
+      - name: Show the dev server log on failure
+        if: failure()
+        run: cat dev-server.log || true

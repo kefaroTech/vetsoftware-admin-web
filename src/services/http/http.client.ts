@@ -111,9 +111,56 @@ export function setSessionClearHandler(handler: SessionClearHandler) {
   sessionClearHandler = handler
 }
 
-http.interceptors.request.use((config) => {
+/**
+ * Issue #215 · `withBranchBody` (features/branches) lee la sede activa de forma
+ * SÍNCRONA: si una escritura sale antes de que vuelva /auth/me + el listado de
+ * sedes, el cuerpo viaja sin `branchId` y el backend responde 400 a quien tiene
+ * más de una sede. Cerrarlo en 21 llamadores (9 ficheros de API) es el cambio
+ * donde uno se queda sin migrar; se cierra aquí, en el único punto por el que
+ * pasa toda petición.
+ *
+ * `withBranchBody` marca el cuerpo (por IDENTIDAD, con un WeakSet — nunca toca
+ * el objeto ni lo que viaja por HTTP) cuando construye una escritura y la sede
+ * TODAVÍA no está resuelta. Si el cuerpo nunca pasó por `withBranchBody`, o si
+ * ya tenía `branchId`, no se marca — así que esto NUNCA espera en una lectura
+ * (los GET no llevan `config.data`) ni en una escritura que no lleva sede.
+ */
+const pendingBranchBodies = new WeakSet<object>()
+
+/** Llamado por `withBranchBody`. No se importa el store aquí para no crear el
+ *  ciclo store → http.client → store: quien construye el cuerpo solo necesita
+ *  marcarlo, no resolver la sede. */
+export function markPendingBranchBody(body: object): void {
+  pendingBranchBodies.add(body)
+}
+
+// Handler de resolución de sede, inyectado por `branch.store.ts` — mismo patrón
+// y mismo motivo que `refreshHandler`/`sessionClearHandler`. Debe deduplicar
+// llamadas concurrentes (el store ya lo hace) y devolver la sede activa una vez
+// resuelta, o `null` si el usuario no tiene ninguna operable.
+type BranchResolver = () => Promise<number | null>
+let branchResolver: BranchResolver | null = null
+export function setBranchResolver(resolver: BranchResolver) {
+  branchResolver = resolver
+}
+
+http.interceptors.request.use(async (config) => {
   const token = storageService.getToken()
   if (token) config.headers.set('Authorization', `Bearer ${token}`)
+
+  // Excluye por construcción las peticiones de las que depende la propia
+  // resolución (/auth/me, el listado de sedes): ninguna de las dos pasa por
+  // `withBranchBody`, así que nunca quedan marcadas y jamás esperan a sí mismas.
+  if (
+    branchResolver &&
+    config.data &&
+    typeof config.data === 'object' &&
+    pendingBranchBodies.has(config.data)
+  ) {
+    pendingBranchBodies.delete(config.data)
+    const id = await branchResolver()
+    if (id != null) config.data = { ...config.data, branchId: id }
+  }
 
   if (!config.skipGlobalLoader) {
     pushLoader()

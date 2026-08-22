@@ -1,0 +1,4 @@
+{
+  "_comentario": "Techo del total de diferencias de ds-audit.mjs (consola de plataforma). Trinquete: se baja cuando una tanda de migracion mejora la cifra, NUNCA se sube. El script que lo lee es gemelo TR-02 entre los dos fronts; solo este numero puede diferir. Punto de partida medido el 21 de agosto de 2026 sobre docs/ds-audit.html: 320 diferencias, todas ya catalogadas en la tabla de convergencia de docs/design-system.md (la migracion de botones/CTAs a las primitivas cambia caja y tipografia a proposito). El techo arranca en ese numero para no bloquear PR en curso; cada patron que se cierre debe bajarlo.",
+  "maxDiffs": 320
+}

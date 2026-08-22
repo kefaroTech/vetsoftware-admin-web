@@ -1,0 +1,92 @@
+/**
+ * Fuentes REALES de la galería visual, servidas desde el repositorio.
+ *
+ * ── Por qué existe este fichero ────────────────────────────────────────────
+ * `gallery.html` es una entrada de Vite propia y NO pasa por `index.html`, que
+ * es donde la aplicación pide sus fuentes a Google Fonts. Sin esto, la galería
+ * nunca ha tenido las familias del producto disponibles: caía a la pila de
+ * respaldo del sistema, y `estabilizar()` remataba la faena fijando DejaVu.
+ * Resultado: las líneas base fotografiaban una tipografía que la aplicación no
+ * usa, y una caída de Geist al respaldo pasaba en verde para siempre.
+ *
+ * ── Por qué locales y no el `<link>` de Google ─────────────────────────────
+ * La suite tiene que ser determinista y no depender de la red: una llamada a
+ * `fonts.googleapis.com` mete latencia, fallos intermitentes y diferencias
+ * entre ejecuciones, y el contenedor de CI no tiene por qué salir a internet.
+ * `estabilizar()` sigue bloqueando ese dominio a propósito; lo que cambia es
+ * que ahora la fuente de verdad llega por disco, no que se deje de bloquear.
+ *
+ * ── Ojo: Geist y JetBrains Mono son VARIABLES ──────────────────────────────
+ * Google sirve UN solo fichero por familia para todos sus pesos (mismo md5
+ * para 400, 500 y 600), y declara una `@font-face` por peso apuntando al
+ * mismo `src`. Se replica esa estructura tal cual, que es la que produce el
+ * render de producción: declarar un único `font-weight: 400 600` no es
+ * equivalente, y declarar tres pesos con tres ficheros distintos —que no
+ * existen— pintaría los tres iguales sin avisar.
+ * Instrument Serif sí trae ficheros distintos para redonda y cursiva.
+ *
+ * Subset `latin` únicamente (U+0000-00FF + puntuación general): cubre todo el
+ * español —tildes, ñ, ¿, ¡, comillas, rayas— y el producto no tiene texto
+ * fuera de ahí. Empaquetar `latin-ext` sumaría 86 KB para glifos que esta
+ * galería no pinta. Si algún día aparece un glifo fuera del subset, el
+ * navegador cae al respaldo para ESE carácter y la captura cambia: se entera
+ * la suite, que es lo que queremos.
+ *
+ * Licencia de las tres familias: SIL Open Font License 1.1 — ver
+ * `fonts/LICENSE.md`, que acompaña a los ficheros como exige la propia OFL.
+ */
+
+/* Geist — variable, un solo fichero para 400/500/600. */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('./fonts/geist-variable-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 500;
+  font-display: block;
+  src: url('./fonts/geist-variable-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 600;
+  font-display: block;
+  src: url('./fonts/geist-variable-latin.woff2') format('woff2');
+}
+
+/* Instrument Serif — estática, redonda y cursiva son ficheros distintos. */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('./fonts/instrument-serif-400-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: block;
+  src: url('./fonts/instrument-serif-400-italic-latin.woff2') format('woff2');
+}
+
+/* JetBrains Mono — variable, un solo fichero para 400/500. */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('./fonts/jetbrains-mono-variable-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: block;
+  src: url('./fonts/jetbrains-mono-variable-latin.woff2') format('woff2');
+}

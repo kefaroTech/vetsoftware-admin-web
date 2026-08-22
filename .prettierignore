@@ -11,3 +11,15 @@ playwright-report-visual
 # Generado desde el contrato del backend (npm run api:types)
 src/types/api.generated.d.ts
 api/openapi.json
+
+# Directorio COMPLETO, no solo el fichero de licencia: `visual/fonts/` solo
+# contiene tipografías de terceros y el texto legal que las ampara (hoy
+# `LICENSE.md`, palabra por palabra — Prettier lo reescribe: renumera «1)» →
+# «1.», cambia el separador y recorta espacios, y eso ALTERA el texto de una
+# licencia que se redistribuye tal cual). Se excluye la carpeta entera, no el
+# fichero suelto, porque el problema es del DIRECTORIO: la próxima familia
+# tipográfica que entre traerá su propia licencia con su propio nombre, y un
+# `.prettierignore` que solo conozca "LICENSE.md" no la vería. Nada que se
+# guarde aquí necesita el formateador — son binarios de fuente y los textos
+# legales que los acompañan.
+visual/fonts/
