@@ -190,7 +190,13 @@ jobs:
       # falla solo si esta tanda deja MÁS diferencias que la última migración
       # cerrada, no exige cero mientras la migración del design system siga en
       # curso.
+      # `ds-audit.mjs` es gemelo TR-02 y su URL por defecto apunta al 5174 del
+      # tenant, que fija ese puerto por el allowlist de CORS del backend. Esta
+      # consola sirve en el 5173, asi que el puerto va aqui —el script lee
+      # DS_AUDIT_URL justo para esto— y no editando el gemelo.
       - name: Run the design system audit
+        env:
+          DS_AUDIT_URL: http://localhost:5173/docs/ds-audit.html
         run: npm run ds:audit
 
       - name: Show the dev server log on failure
