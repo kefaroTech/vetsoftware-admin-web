@@ -2,19 +2,29 @@ import { storeToRefs } from 'pinia'
 import { useBreedsStore } from '../stores/breeds.store'
 import { breedsApi } from '../api/breeds.api'
 import { useToast } from '@/composables/useToast'
+import { getProblemDetailMessage, getTraceId } from '@/services/http/http.client'
 import type { CreateBreedRequest, UpdateBreedRequest } from '../types/breeds.types'
 
 export function useBreeds() {
   const store = useBreedsStore()
-  const { items, selected, loading } = storeToRefs(store)
+  const { items, selected, loading, error, errorTraceId } = storeToRefs(store)
   const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
+    store.setError(null)
     try {
       const data = await breedsApi.listAll()
       store.setItems(data)
     } catch (e) {
+      // EST-06: el fallo deja rastro en el store para que la tabla pueda
+      // pintar su rama de error. El aviso efímero SE MANTIENE en este cambio:
+      // retirar la realimentación que ya existía en el mismo PR que se añade
+      // la nueva convierte un fallo del arreglo en una pérdida neta.
+      store.setError(
+        getProblemDetailMessage(e, 'No se pudieron cargar las razas'),
+        getTraceId(e) ?? null,
+      )
       errorFrom('Error al cargar las razas', e)
     } finally {
       store.setLoading(false)
@@ -72,6 +82,8 @@ export function useBreeds() {
     breeds: items,
     selected,
     loading,
+    error,
+    errorTraceId,
     fetchAll,
     fetchById,
     create,

@@ -1,27 +1,78 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useLaboratoryTestTypes } from '../composables/useLaboratoryTestTypes'
 import type { LaboratoryTestTypeFormData } from '../composables/useLaboratoryTestTypes'
+import { coincide } from '@/composables/text'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
+import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
+import AppListSearch from '@/components/ui/AppListSearch.vue'
+import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
 import LaboratoryTestTypeForm from '../components/LaboratoryTestTypeForm.vue'
 import { ICONS } from '@/constants/icons'
 
-const { laboratoryTestTypes, fetchAll, create, remove } = useLaboratoryTestTypes()
+const { laboratoryTestTypes, loading, error, errorTraceId, fetchAll, create, remove } =
+  useLaboratoryTestTypes()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
+const saving = ref(false)
+const formRef = ref<InstanceType<typeof LaboratoryTestTypeForm> | null>(null)
+
+/** Término de búsqueda. La vista es dueña del estado; `AppListSearch` solo lo edita. */
+const q = ref('')
+
+/**
+ * Búsqueda en CLIENTE, y es la opción honesta aquí, no la cómoda: la regla de
+ * `docs/ux/patron-de-busqueda-en-listado.md` §5 la decide la forma de la
+ * respuesta, y `GET /laboratory-test-types` devuelve `LaboratoryTestTypeResponse[]` —el
+ * conjunto entero, sin paginar—, así que el navegador ya lo tiene completo en
+ * memoria y filtrar sobre él es exhaustivo por construcción. El día que ese
+ * endpoint pase a `PageResponse<T>`, esta búsqueda pasa a mentir y hay que
+ * bajarla al servidor con su `/search`.
+ *
+ * El predicado usa `coincide`, que pliega acentos, mayúsculas y espacios en los
+ * dos lados de la comparación: con `toLowerCase().includes()`, «analisis» no
+ * encontraba «Análisis», y en estos catálogos clínicos casi todos los nombres
+ * llevan tilde. Vive en `@/composables/text` y NO se copia aquí.
+ *
+ * Se filtra sobre `laboratoryTestTypes`, que es lo que el store guarda DESPUÉS del
+ * filtro por `general` de `fetchAll`, y es exactamente lo que pinta la tabla.
+ * Filtrar sobre el crudo del endpoint dejaría el recuento del pie contando
+ * filas que la tabla no muestra.
+ */
+const filtrados = computed(() =>
+  laboratoryTestTypes.value.filter((t) => coincide(q.value, t.name, t.description)),
+)
+
+/** `null` mientras carga: entonces el recuento no se anuncia. */
+const recuento = computed(() => (loading.value ? null : filtrados.value.length))
 
 onMounted(fetchAll)
 
+// FORM-08: salir de la pantalla con el modal abierto y relleno se llevaba lo
+// escrito sin decir nada.
+useUnsavedChangesGuard(() => showModal.value && (formRef.value?.isDirty() ?? false))
+
 async function handleCreate(data: LaboratoryTestTypeFormData) {
+  if (saving.value) return
+  saving.value = true
   try {
     await create(data)
+    showModal.value = false
   } catch {
     // El composable ya avisó del fallo; el modal sigue abierto con lo escrito.
-    return
+  } finally {
+    // FORM-09: AQUÍ y no dentro del `try`. Si se pone tras el `await`, el
+    // camino de error nunca lo ejecuta y el botón queda deshabilitado para
+    // siempre: el mismo daño que FORM-08, causado por el arreglo de FORM-09.
+    saving.value = false
   }
+}
+
+function handleClose() {
+  if (saving.value) return
   showModal.value = false
 }
 
@@ -46,16 +97,54 @@ async function handleDelete(id: number, name: string) {
       </button>
     </div>
 
+    <!-- El placeholder dice qué campos mira de verdad el predicado. -->
+    <AppListSearch
+      v-model="q"
+      label="Buscar tipos de laboratorio"
+      placeholder="Nombre o descripción…"
+      :result-count="recuento"
+    />
+
     <AppTable
       :headers="['Nombre', 'Descripción', 'Fecha creación', 'Acciones']"
-      :empty="laboratoryTestTypes.length === 0"
+      :empty="filtrados.length === 0"
+      :loading="loading"
+      :error="error"
+      :trace-id="errorTraceId"
+      @retry="fetchAll"
     >
-      <tr v-for="t in laboratoryTestTypes" :key="t.id">
-        <td class="font-weight-medium">{{ t.name }}</td>
-        <td class="text-body-2 text-medium-emphasis">{{ t.description }}</td>
-        <td class="text-caption text-medium-emphasis">{{ t.createdDate }}</td>
+      <template #empty>
+        <!-- Vacío de búsqueda y vacío de verdad son estados DISTINTOS (§4).
+             Quien busca quiere encontrar, no dar de alta: la rama de búsqueda
+             no lleva el botón de crear, y la de catálogo vacío no dice «sin
+             resultados». -->
+        <AppEmptyState
+          v-if="q.trim()"
+          :title="`Sin resultados para «${q.trim()}»`"
+          description="Revisa la escritura o prueba con menos palabras."
+        >
+          <button type="button" class="ds-btn ds-btn--ghost" @click="q = ''">
+            Limpiar búsqueda
+          </button>
+        </AppEmptyState>
+        <AppEmptyState
+          v-else
+          title="Aún no hay tipos de laboratorio"
+          description="Definen las pruebas de laboratorio que las clínicas pueden solicitar y reportar."
+        >
+          <button type="button" class="ds-btn ds-btn--primary" @click="showModal = true">
+            <component :is="ICONS.ADD" :size="15" />
+            Nuevo tipo
+          </button>
+        </AppEmptyState>
+      </template>
+
+      <tr v-for="t in filtrados" :key="t.id" class="ds-row-hover">
+        <td class="ds-text-strong">{{ t.name }}</td>
+        <td class="ds-meta">{{ t.description }}</td>
+        <td class="ds-meta">{{ t.createdDate }}</td>
         <td>
-          <div class="d-flex ga-1">
+          <div class="ds-actions ds-actions--start">
             <RouterLink
               :to="`/catalogos-clinicos/tipos-laboratorio/${t.id}`"
               class="ds-icon-btn"
@@ -76,8 +165,23 @@ async function handleDelete(id: number, name: string) {
       </tr>
     </AppTable>
 
-    <AppModal :open="showModal" title="Nuevo tipo de laboratorio" @close="showModal = false">
-      <LaboratoryTestTypeForm @submit="handleCreate" @cancel="showModal = false" />
+    <!-- Salvaguarda de §5: mientras la búsqueda sea en cliente, el pie dice
+         cuántas filas hay REALMENTE en memoria. El día que el backend trunque,
+         ese número dejará de coincidir de forma observable en la pantalla, en
+         vez de degradar en silencio. No se pinta cargando ni bajo un error:
+         «Mostrando 0 de 0» bajo el banner diría que no hay registros cuando lo
+         cierto es que no se pudo preguntar. -->
+    <p v-if="!loading && !error && laboratoryTestTypes.length > 0" class="ds-meta">
+      Mostrando {{ filtrados.length }} de {{ laboratoryTestTypes.length }}
+    </p>
+
+    <AppModal :open="showModal" title="Nuevo tipo de laboratorio" @close="handleClose">
+      <LaboratoryTestTypeForm
+        ref="formRef"
+        :saving="saving"
+        @submit="handleCreate"
+        @cancel="handleClose"
+      />
     </AppModal>
   </AppLayout>
 </template>

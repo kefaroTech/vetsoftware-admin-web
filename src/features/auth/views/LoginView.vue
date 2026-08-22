@@ -62,18 +62,28 @@ async function handleSubmit() {
         <h1 class="title">Inicia sesión</h1>
         <p class="subtitle">Accede al panel para administrar VetSoftware.</p>
 
-        <div v-if="sessionNotice" class="notice-banner" role="status">
+        <!-- DS-02: el par «aviso» y «error» de esta pantalla se pintaba con seis
+             hexadecimales propios. Ahora los pintan `.ds-banner--warning` y
+             `.ds-banner--error`, que hasta este cambio tenían CERO usos en toda la
+             consola: el sistema solo sabía dar banners a medida, uno por pantalla. -->
+        <p v-if="sessionNotice" class="ds-banner ds-banner--warning ds-banner--sm" role="status">
           {{ sessionNotice }}
-        </div>
+        </p>
 
         <form class="ds-stack ds-stack--14" novalidate @submit.prevent="handleSubmit">
-          <div v-if="errorMessage" class="error-banner" role="alert">
+          <!-- `--flush` porque el contenedor es una `.ds-stack--14` con `gap`: el
+               `margin-bottom` de la primitiva se sumaría al hueco. -->
+          <p
+            v-if="errorMessage"
+            class="ds-banner ds-banner--error ds-banner--sm ds-banner--flush"
+            role="alert"
+          >
             {{ errorMessage }}
-          </div>
+          </p>
 
           <div class="field ds-stack">
             <label for="login-code">Código de usuario</label>
-            <div class="input-box" :class="{ 'has-error': !!errorMessage }">
+            <div class="input-box ds-field ds-field-rest ds-focus-ring ds-flex-row">
               <component :is="ICONS.USER" :size="15" class="leading-icon" aria-hidden="true" />
               <input
                 id="login-code"
@@ -88,13 +98,12 @@ async function handleSubmit() {
 
           <div class="field ds-stack">
             <label for="login-password">Contraseña</label>
-            <div class="input-box" :class="{ 'has-error': !!errorMessage }">
+            <div class="input-box ds-field ds-field-rest ds-focus-ring ds-flex-row">
               <component :is="ICONS.LOCK" :size="15" class="leading-icon" aria-hidden="true" />
               <input
                 id="login-password"
                 v-model="password"
                 :type="showPassword ? 'text' : 'password'"
-                placeholder="••••••••"
                 autocomplete="current-password"
                 :disabled="loading"
               />
@@ -266,26 +275,6 @@ async function handleSubmit() {
   line-height: 1.5;
 }
 
-.error-banner {
-  background: #fee2e2;
-  border: 1px solid #fca5a5;
-  color: #991b1b;
-  font-size: 12px;
-  padding: 10px 12px;
-  border-radius: 8px;
-}
-
-/* Aviso, no error: la sesión se cerró por una razón legítima. */
-.notice-banner {
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  color: #92600a;
-  font-size: 12px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
 .field label {
   font-size: 12px;
   font-weight: 600;
@@ -294,26 +283,20 @@ async function handleSubmit() {
   margin-bottom: 6px;
 }
 
+/* DS-01 · La geometría, el borde, el fondo y el anillo de foco los ponen ahora
+   `.ds-field` + `.ds-field-rest`/`.ds-field-invalid` + `.ds-focus-ring`. Este
+   `.input-box` fue el ORIGEN de la paleta `--vs-field-*` que DS-01 retira: era la
+   pantalla de la que se copiaron los seis hexadecimales al resto de la consola.
+   Aquí solo queda lo que la primitiva no cubre.
+
+   El tono es FIJO (`ds-field-rest` + `ds-focus-ring` escritos en el marcado), no
+   un `toneClass` computado como el de `AppInput`/`AppSelect`: aquí no hay error
+   por campo que pintar —el fallo de credenciales es del formulario entero y lo
+   dice el banner con `role="alert"`, porque ninguno de los dos campos es más
+   sospechoso que el otro— y el bloqueo durante el envío ya lo comunica
+   `.input-box input:disabled`. Mismo patrón estático que `AppListSearch.vue`. */
 .input-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  background: #fff;
-  border: 1px solid #ece5f4;
-  border-radius: 8px;
-  transition:
-    border-color 0.15s,
-    box-shadow 0.15s;
-}
-
-.input-box:focus-within {
-  border-color: #a855f7;
-  box-shadow: 0 0 0 4px rgb(168 85 247 / 12%);
-}
-
-.input-box.has-error {
-  border-color: #dc2626;
+  min-width: 0;
 }
 
 .leading-icon {
@@ -343,7 +326,13 @@ async function handleSubmit() {
 }
 
 .input-box input::placeholder {
-  color: #a89bbd;
+  color: var(--text-placeholder);
+}
+
+/* Issue #102 · el `<input>` de dentro recibe también la regla global de
+   `base.css`, que se sumaría al anillo del envoltorio. */
+.input-box input:focus-visible {
+  box-shadow: none;
 }
 
 .eye-btn {

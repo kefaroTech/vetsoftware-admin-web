@@ -2,6 +2,7 @@ import { storeToRefs } from 'pinia'
 import { useConsultationTypesStore } from '../stores/consultation-types.store'
 import { consultationTypesApi } from '../api/consultation-types.api'
 import { useToast } from '@/composables/useToast'
+import { getProblemDetailMessage, getTraceId } from '@/services/http/http.client'
 import type {
   CreateConsultationTypeRequest,
   UpdateConsultationTypeRequest,
@@ -9,15 +10,24 @@ import type {
 
 export function useConsultationTypes() {
   const store = useConsultationTypesStore()
-  const { items, selected, loading } = storeToRefs(store)
+  const { items, selected, loading, error, errorTraceId } = storeToRefs(store)
   const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
+    store.setError(null)
     try {
       const data = await consultationTypesApi.listAll()
       store.setItems(data)
     } catch (e) {
+      // EST-06: el fallo deja rastro en el store para que la tabla pueda
+      // pintar su rama de error. El aviso efímero SE MANTIENE en este cambio:
+      // retirar la realimentación que ya existía en el mismo PR que se añade
+      // la nueva convierte un fallo del arreglo en una pérdida neta.
+      store.setError(
+        getProblemDetailMessage(e, 'No se pudieron cargar los tipos de consulta'),
+        getTraceId(e) ?? null,
+      )
       errorFrom('Error al cargar los tipos de consulta', e)
     } finally {
       store.setLoading(false)
@@ -83,6 +93,8 @@ export function useConsultationTypes() {
     consultationTypes: items,
     selected,
     loading,
+    error,
+    errorTraceId,
     fetchAll,
     fetchById,
     create,

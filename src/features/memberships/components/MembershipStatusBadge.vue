@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppBadge from '@/components/ui/AppBadge.vue'
+import { MEMBERSHIP_STATUS_LABELS } from '../types/memberships.types'
 import type { MembershipStatus } from '@/types/common.types'
 
 defineProps<{ status: MembershipStatus }>()
@@ -9,14 +10,8 @@ function getVariant(status: MembershipStatus) {
   if (status === 'DEPRECATED') return 'warning'
   return 'neutral'
 }
-
-function getLabel(status: MembershipStatus) {
-  if (status === 'ACTIVE') return 'Activa'
-  if (status === 'DEPRECATED') return 'Deprecada'
-  return 'Inactiva'
-}
 </script>
 
 <template>
-  <AppBadge :label="getLabel(status)" :variant="getVariant(status)" />
+  <AppBadge :label="MEMBERSHIP_STATUS_LABELS[status]" :variant="getVariant(status)" />
 </template>
