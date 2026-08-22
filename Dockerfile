@@ -19,7 +19,10 @@ USER nginx
 
 EXPOSE 8080
 
+# 127.0.0.1 y no localhost: nginx solo abre `listen 8080` (IPv4, docker/nginx.conf), pero dentro
+# del contenedor localhost resuelve primero a ::1 y wget se quedaba en "connection refused". El
+# contenedor servia 200 y aun asi Docker lo marcaba unhealthy.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD wget --quiet --spider http://localhost:8080/health || exit 1
+  CMD wget --quiet --spider http://127.0.0.1:8080/health || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
