@@ -1,5 +1,10 @@
 export const ROUTE_NAMES = {
   LOGIN: 'login',
+  // Alta de superadministradores por invitación. Rutas en español, coherentes
+  // con el tenant; `/login` se queda en inglés y esa incoherencia es previa.
+  ACCESS_REQUEST: 'access-request',
+  ACCESS_APPROVAL: 'access-approval',
+  ACCESS_INVITATION: 'access-invitation',
   DASHBOARD: 'dashboard',
   COMPANIES_LIST: 'companies-list',
   COMPANY_DETAIL: 'company-detail',

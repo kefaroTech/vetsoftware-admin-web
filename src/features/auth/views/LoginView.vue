@@ -3,7 +3,9 @@ import { onMounted, ref } from 'vue'
 import { useAuth } from '../composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import { storageService } from '@/services/storage/storage.service'
+import PublicLayout from '@/components/layout/PublicLayout.vue'
 import { ICONS } from '@/constants/icons'
+import { ROUTE_NAMES } from '@/constants/routes'
 
 const { login } = useAuth()
 const { errorFrom } = useToast()
@@ -42,239 +44,101 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="login-shell ds-stack">
-    <div class="blob blob-tr" aria-hidden="true" />
-    <div class="blob blob-bl" aria-hidden="true" />
+  <!-- El shell (barra superior, tarjeta, pie, blobs y sus 297 líneas de estilo)
+       vive ahora en `PublicLayout`. La extracción es pixel-exacta: ni un color
+       ni un valor cambian. -->
+  <PublicLayout
+    eyebrow="Panel administrativo"
+    title="Inicia sesión"
+    subtitle="Accede al panel para administrar VetSoftware."
+    document-title="Iniciar sesión · VetSoftware"
+  >
+    <template #topRight>
+      ¿Eres nuevo?
+      <!-- Era `<a href="#">`, un enlace muerto. Es el ÚNICO punto de entrada de
+           todo el flujo de alta: sin él, `/solicitar-acceso` es una URL que
+           nadie descubre. -->
+      <RouterLink :to="{ name: ROUTE_NAMES.ACCESS_REQUEST }">Solicita acceso</RouterLink>
+    </template>
 
-    <header class="topbar">
-      <div class="brand">
-        <div class="brand-mark">
-          <component :is="ICONS.PAW" :size="16" />
+    <!-- DS-02: el par «aviso» y «error» de esta pantalla se pintaba con seis
+         hexadecimales propios. Ahora los pintan `.ds-banner--warning` y
+         `.ds-banner--error`, que hasta este cambio tenían CERO usos en toda la
+         consola: el sistema solo sabía dar banners a medida, uno por pantalla. -->
+    <p v-if="sessionNotice" class="ds-banner ds-banner--warning ds-banner--sm" role="status">
+      {{ sessionNotice }}
+    </p>
+
+    <form class="ds-stack ds-stack--14" novalidate @submit.prevent="handleSubmit">
+      <!-- `--flush` porque el contenedor es una `.ds-stack--14` con `gap`: el
+           `margin-bottom` de la primitiva se sumaría al hueco. -->
+      <p
+        v-if="errorMessage"
+        class="ds-banner ds-banner--error ds-banner--sm ds-banner--flush"
+        role="alert"
+      >
+        {{ errorMessage }}
+      </p>
+
+      <div class="field ds-stack">
+        <label for="login-code">Código de usuario</label>
+        <div class="input-box ds-field ds-field-rest ds-focus-ring ds-flex-row">
+          <component :is="ICONS.USER" :size="15" class="leading-icon" aria-hidden="true" />
+          <input
+            id="login-code"
+            v-model="code"
+            type="text"
+            placeholder="SYS001"
+            autocomplete="username"
+            :disabled="loading"
+          />
         </div>
-        <span class="brand-name">VetSoftware</span>
       </div>
-      <div class="topbar-link">¿Eres nuevo? <a href="#">Solicita acceso</a></div>
-    </header>
 
-    <main class="login-main">
-      <div class="login-card">
-        <div class="eyebrow">Panel administrativo</div>
-        <h1 class="title">Inicia sesión</h1>
-        <p class="subtitle">Accede al panel para administrar VetSoftware.</p>
-
-        <!-- DS-02: el par «aviso» y «error» de esta pantalla se pintaba con seis
-             hexadecimales propios. Ahora los pintan `.ds-banner--warning` y
-             `.ds-banner--error`, que hasta este cambio tenían CERO usos en toda la
-             consola: el sistema solo sabía dar banners a medida, uno por pantalla. -->
-        <p v-if="sessionNotice" class="ds-banner ds-banner--warning ds-banner--sm" role="status">
-          {{ sessionNotice }}
-        </p>
-
-        <form class="ds-stack ds-stack--14" novalidate @submit.prevent="handleSubmit">
-          <!-- `--flush` porque el contenedor es una `.ds-stack--14` con `gap`: el
-               `margin-bottom` de la primitiva se sumaría al hueco. -->
-          <p
-            v-if="errorMessage"
-            class="ds-banner ds-banner--error ds-banner--sm ds-banner--flush"
-            role="alert"
+      <div class="field ds-stack">
+        <label for="login-password">Contraseña</label>
+        <div class="input-box ds-field ds-field-rest ds-focus-ring ds-flex-row">
+          <component :is="ICONS.LOCK" :size="15" class="leading-icon" aria-hidden="true" />
+          <input
+            id="login-password"
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            autocomplete="current-password"
+            :disabled="loading"
+          />
+          <button
+            type="button"
+            class="eye-btn"
+            :aria-label="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            :disabled="loading"
+            @click="showPassword = !showPassword"
           >
-            {{ errorMessage }}
-          </p>
-
-          <div class="field ds-stack">
-            <label for="login-code">Código de usuario</label>
-            <div class="input-box ds-field ds-field-rest ds-focus-ring ds-flex-row">
-              <component :is="ICONS.USER" :size="15" class="leading-icon" aria-hidden="true" />
-              <input
-                id="login-code"
-                v-model="code"
-                type="text"
-                placeholder="SYS001"
-                autocomplete="username"
-                :disabled="loading"
-              />
-            </div>
-          </div>
-
-          <div class="field ds-stack">
-            <label for="login-password">Contraseña</label>
-            <div class="input-box ds-field ds-field-rest ds-focus-ring ds-flex-row">
-              <component :is="ICONS.LOCK" :size="15" class="leading-icon" aria-hidden="true" />
-              <input
-                id="login-password"
-                v-model="password"
-                :type="showPassword ? 'text' : 'password'"
-                autocomplete="current-password"
-                :disabled="loading"
-              />
-              <button
-                type="button"
-                class="eye-btn"
-                :aria-label="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
-                :disabled="loading"
-                @click="showPassword = !showPassword"
-              >
-                <component :is="showPassword ? ICONS.EYE_OFF : ICONS.EYE" :size="15" />
-              </button>
-            </div>
-          </div>
-
-          <button type="submit" class="primary-btn" :disabled="loading">
-            <template v-if="loading">Iniciando…</template>
-            <template v-else>
-              Iniciar sesión
-              <component :is="ICONS.ARROW_RIGHT" :size="14" aria-hidden="true" />
-            </template>
+            <component :is="showPassword ? ICONS.EYE_OFF : ICONS.EYE" :size="15" />
           </button>
-        </form>
+        </div>
       </div>
-    </main>
 
-    <footer class="footer">
-      <span>© 2026 VetSoftware</span>
-      <div class="footer-links">
-        <a href="#">Privacidad</a>
-        <a href="#">Términos</a>
-        <a href="#">Soporte</a>
-      </div>
-    </footer>
-  </div>
+      <!-- El `.primary-btn` local (34 líneas) se retira: `.ds-btn--primary`
+           pinta el MISMO degradado (`--gradient-primary`) y `.ds-btn--elevated`
+           la misma sombra. Con él se va su bloque
+           `@media (prefers-reduced-motion)`, que solo existía para anular el
+           `translateY(-1px)` del hover: `.ds-btn` no eleva en hover. -->
+      <button
+        type="submit"
+        class="ds-btn ds-btn--primary ds-btn--lg ds-btn--elevated submit-btn"
+        :disabled="loading"
+      >
+        <template v-if="loading">Iniciando…</template>
+        <template v-else>
+          Iniciar sesión
+          <component :is="ICONS.ARROW_RIGHT" :size="14" aria-hidden="true" />
+        </template>
+      </button>
+    </form>
+  </PublicLayout>
 </template>
 
 <style scoped>
-.login-shell {
-  position: relative;
-  min-height: 100vh;
-  background: radial-gradient(ellipse at top, #f3e8ff 0%, #f5f1fa 50%, #ede8f4 100%);
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
-  color: #1a1325;
-  overflow-x: hidden;
-}
-
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.blob-tr {
-  top: -150px;
-  right: -150px;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgb(192 132 252 / 25%), transparent 60%);
-}
-
-.blob-bl {
-  bottom: -150px;
-  left: -150px;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgb(168 85 247 / 18%), transparent 60%);
-}
-
-.topbar {
-  position: relative;
-  z-index: 1;
-  padding: 24px 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand-mark {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #a855f7, #581c87);
-  display: grid;
-  place-items: center;
-  color: #fff;
-  box-shadow: 0 2px 6px -1px rgb(126 34 206 / 40%);
-}
-
-.brand-name {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: #1a1325;
-}
-
-.topbar-link {
-  font-size: 13px;
-  color: #6b5b80;
-}
-
-.topbar-link a {
-  color: #7e22ce;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.topbar-link a:hover {
-  color: #581c87;
-}
-
-.login-main {
-  position: relative;
-  z-index: 1;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.login-card {
-  width: 100%;
-  max-width: 440px;
-  background: #fff;
-  border: 1px solid #ece5f4;
-  border-radius: 16px;
-  padding: 40px 44px;
-  box-shadow:
-    0 24px 48px -16px rgb(91 33 182 / 18%),
-    0 4px 12px -4px rgb(91 33 182 / 8%);
-}
-
-.eyebrow {
-  font-size: 11px;
-  font-weight: 600;
-  color: #7e22ce;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.title {
-  font-family: 'Instrument Serif', serif;
-  font-size: 34px;
-  font-weight: 400;
-  margin: 0;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  color: #1a1325;
-}
-
-.subtitle {
-  font-size: 13px;
-  color: #6b5b80;
-  margin: 10px 0 28px;
-  line-height: 1.5;
-}
-
 .field label {
   font-size: 12px;
   font-weight: 600;
@@ -343,6 +207,11 @@ async function handleSubmit() {
   color: #a89bbd;
   display: grid;
   place-items: center;
+
+  /* §2.5.8 Target Size (Minimum), 24×24 CSS px: el icono son 15 px y el botón
+     no declaraba tamaño, así que el objetivo quedaba por debajo del mínimo. */
+  min-width: 24px;
+  min-height: 24px;
   transition: color 0.15s;
 }
 
@@ -354,90 +223,10 @@ async function handleSubmit() {
   cursor: not-allowed;
 }
 
-.primary-btn {
+/* Lo único que `.ds-btn--primary` no trae del `.primary-btn` retirado: su
+   separación del campo de arriba y el ancho completo del formulario. */
+.submit-btn {
   margin-top: 6px;
-  padding: 12px 16px;
-  border-radius: 9px;
-  background: linear-gradient(180deg, #9333ea, #7e22ce);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-shadow:
-    0 4px 12px -2px rgb(126 34 206 / 40%),
-    inset 0 1px 0 rgb(255 255 255 / 15%);
-  transition:
-    transform 0.12s,
-    box-shadow 0.15s;
-}
-
-.primary-btn:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow:
-    0 8px 20px -4px rgb(126 34 206 / 50%),
-    inset 0 1px 0 rgb(255 255 255 / 15%);
-}
-
-.primary-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.75;
-}
-
-.footer {
-  position: relative;
-  z-index: 1;
-  padding: 20px 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #6b5b80;
-}
-
-.footer-links {
-  display: flex;
-  gap: 16px;
-}
-
-.footer-links a {
-  color: #6b5b80;
-  text-decoration: none;
-}
-
-.footer-links a:hover {
-  color: #7e22ce;
-}
-
-@media (width <= 640px) {
-  .topbar,
-  .footer {
-    padding: 16px 20px;
-  }
-
-  .login-card {
-    padding: 28px 24px;
-  }
-
-  .title {
-    font-size: 28px;
-  }
-
-  .footer {
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .primary-btn:hover:not(:disabled) {
-    transform: none;
-  }
+  width: 100%;
 }
 </style>

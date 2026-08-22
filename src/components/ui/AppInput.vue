@@ -38,6 +38,14 @@ const props = withDefaults(
     readonly?: boolean
     autocomplete?: string
     inputmode?: 'text' | 'numeric' | 'tel' | 'email' | 'url' | 'decimal' | 'search' | 'none'
+    /**
+     * Presentación monoespaciada y espaciada, para valores que se leen dígito
+     * a dígito (el código de verificación de 6 dígitos de `/aprobar-acceso`).
+     * Es lo que hace que un solo `<input>` se lea como seis casillas sin
+     * serlo — ver por qué no son seis controles en `AprobarAccesoView.vue`.
+     * Aditiva: los 15 consumidores que no la pasan no cambian en nada.
+     */
+    mono?: boolean
   }>(),
   { type: 'text' },
 )
@@ -87,10 +95,18 @@ const toneClass = computed(() => {
         :inputmode="inputmode"
         :aria-invalid="!!error || undefined"
         class="ds-flex-fill"
+        :class="mono ? 'mono' : null"
         @focus="focused = true"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         @blur="onBlur"
       />
+      <!-- Control opcional al final del campo (el ojo de mostrar/ocultar
+           contraseña). Va como slot y no como prop porque su marcado, su
+           `aria-label` y su icono los decide el consumidor; los 15 que ya usan
+           este componente no lo declaran y no cambian en nada. Al ser contenido
+           de slot, se compila con el `data-v` del PADRE: su estilo vive en el
+           `<style scoped>` de quien lo pasa, no aquí. -->
+      <slot name="trailing" />
     </div>
     <p v-if="error" class="error">
       <component :is="ICONS.WARNING" :size="11" />
@@ -149,6 +165,16 @@ const toneClass = computed(() => {
   color: inherit;
   font-family: inherit;
   font-size: inherit;
+}
+
+/* El `text-indent` compensa el hueco que el `letter-spacing` deja sobrante
+   tras el último carácter, que si no descentra el valor. */
+.inputbox > input.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-h3);
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  font-variant-numeric: tabular-nums;
 }
 
 .inputbox > input::placeholder {
