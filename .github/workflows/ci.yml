@@ -5,11 +5,6 @@ on:
     branches:
       - develop
       - main
-    paths-ignore:
-      - '**/*.md'
-      - 'docs/**'
-      - '.gitignore'
-      - 'LICENSE'
   workflow_dispatch:
 
 permissions:
