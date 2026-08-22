@@ -2,50 +2,123 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { useAnimalColors } from '../composables/useAnimalColors'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
+import { useToast } from '@/composables/useToast'
+import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
+import { getProblemDetailMessage } from '@/services/http/http.client'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
+import AppListSearch from '@/components/ui/AppListSearch.vue'
+import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
+import { coincide } from '@/composables/text'
 import AnimalColorForm from '../components/AnimalColorForm.vue'
 import { speciesApi } from '@/features/species/api/species.api'
 import type { SpecieResponse } from '@/features/species/types/species.types'
 import { ICONS } from '@/constants/icons'
 import type { CreateAnimalColorRequest } from '../types/animal-colors.types'
 
-const { colors, fetchAll, fetchBySpecie, create, remove } = useAnimalColors()
+const { colors, loading, error, errorTraceId, fetchAll, fetchBySpecie, create, remove } =
+  useAnimalColors()
 const { confirm } = useConfirmDialog()
+const { errorFrom } = useToast()
 const showModal = ref(false)
+const saving = ref(false)
+const formRef = ref<InstanceType<typeof AnimalColorForm> | null>(null)
 
 const availableSpecies = ref<SpecieResponse[]>([])
 const specieFilter = ref(0)
+const q = ref('')
+
+/** Carga del catálogo del filtro en vuelo, para el `placeholder="Cargando…"`. */
+const cargandoEspecies = ref(false)
+
+/**
+ * Fallo al traer el catálogo del filtro. Se guarda aparte del `error` de la
+ * tabla —que habla de los colores— porque son dos peticiones distintas y
+ * confundirlas haría decir «no se pudieron cargar los colores» cuando los
+ * colores están perfectamente.
+ */
+const especiesError = ref<string | null>(null)
 
 const specieFilterOptions = computed(() => [
   { value: 0, label: 'Todas las especies' },
   ...availableSpecies.value.map((s) => ({ value: s.id, label: s.name })),
 ])
 
+/**
+ * Búsqueda en CLIENTE, y no por comodidad: `GET /animal-colors` devuelve
+ * `List<AnimalColorResponse>` sin paginar, así que el navegador ya tiene el
+ * conjunto completo y filtrar en memoria es exhaustivo por construcción — la
+ * regla de honestidad de `docs/ux/patron-de-busqueda-en-listado.md` §5. El
+ * desplegable de especie es otra cosa: ése SÍ baja al servidor
+ * (`listBySpecie`), y el término se aplica encima de lo que haya traído.
+ *
+ * Filtra sobre el contenido del store, que es lo que la tabla pinta de verdad.
+ * El plegado de acentos lo pone `coincide`: «canela» tiene que encontrar
+ * «Canelá».
+ */
+const filtradas = computed(() =>
+  colors.value.filter((c) => coincide(q.value, c.name, c.specie?.name)),
+)
+
 function reload() {
   return specieFilter.value ? fetchBySpecie(specieFilter.value) : fetchAll()
 }
 
+async function cargarEspecies() {
+  cargandoEspecies.value = true
+  especiesError.value = null
+  try {
+    availableSpecies.value = await speciesApi.listAll()
+  } catch (e) {
+    // Se conserva el OBJETO de error: `errorFrom` saca el mensaje del
+    // `ProblemDetail` y arrastra el `X-Trace-Id`. Escribir el texto a mano en
+    // este `catch` tiraría la traza.
+    especiesError.value = getProblemDetailMessage(e, 'No se pudieron cargar las especies')
+    errorFrom('Error al cargar las especies', e)
+  } finally {
+    cargandoEspecies.value = false
+  }
+}
+
 onMounted(async () => {
-  const data = await speciesApi.listAll()
-  availableSpecies.value = data
+  // El catálogo del filtro y la lista son DOS peticiones independientes, y el
+  // orden importaba: cuando la de especies se rechazaba sin `catch`, el
+  // `onMounted` se abortaba antes del `reload()` y la tabla no llegaba a
+  // cargar nunca. La pantalla se quedaba con «Aún no hay colores» —sin carga,
+  // sin error y sin filas— sobre un catálogo que podía estar lleno.
+  await cargarEspecies()
   await reload()
 })
 
 watch(specieFilter, reload)
 
+// FORM-08: salir de la pantalla con el modal abierto y relleno se llevaba lo
+// escrito sin decir nada.
+useUnsavedChangesGuard(() => showModal.value && (formRef.value?.isDirty() ?? false))
+
 async function handleCreate(data: CreateAnimalColorRequest) {
+  if (saving.value) return
+  saving.value = true
   try {
     await create(data)
+    showModal.value = false
+    // El color creado puede no pertenecer a la especie filtrada; releemos para no mostrarlo fuera.
+    await reload()
   } catch {
     // El composable ya avisó del fallo; el modal sigue abierto con lo escrito.
-    return
+  } finally {
+    // FORM-09: AQUÍ y no dentro del `try`. Si se pone tras el `await`, el
+    // camino de error nunca lo ejecuta y el botón queda deshabilitado para
+    // siempre: el mismo daño que FORM-08, causado por el arreglo de FORM-09.
+    saving.value = false
   }
+}
+
+function handleClose() {
+  if (saving.value) return
   showModal.value = false
-  // El color creado puede no pertenecer a la especie filtrada; releemos para no mostrarlo fuera.
-  await reload()
 }
 
 async function handleDelete(id: number, name: string) {
@@ -69,20 +142,74 @@ async function handleDelete(id: number, name: string) {
       </button>
     </div>
 
-    <div class="mb-4" style="max-width: 280px">
-      <AppSelect v-model="specieFilter" label="Especie" :options="specieFilterOptions" />
+    <!-- El placeholder enumera los campos que el predicado mira de verdad. -->
+    <AppListSearch
+      v-model="q"
+      label="Buscar colores"
+      placeholder="Nombre o especie…"
+      :result-count="loading ? null : filtradas.length"
+    />
+
+    <!-- El desplegable vacío no explica por qué está vacío. Todo sale de
+         primitivas `ds-*`: esto no añade ni una regla de estilo propia. -->
+    <p v-if="especiesError" class="ds-banner ds-banner--error ds-banner--sm" role="alert">
+      <component :is="ICONS.ERROR" :size="14" class="ds-banner-icon" />
+      <span class="ds-flex-fill">{{ especiesError }}</span>
+      <button type="button" class="ds-btn ds-btn--ghost ds-btn--sm" @click="cargarEspecies">
+        <component :is="ICONS.RETRY" :size="13" />
+        Reintentar
+      </button>
+    </p>
+
+    <div class="filtro">
+      <AppSelect
+        v-model="specieFilter"
+        label="Especie"
+        :options="specieFilterOptions"
+        :placeholder="cargandoEspecies ? 'Cargando…' : undefined"
+      />
     </div>
 
     <AppTable
       :headers="['Nombre', 'Especie', 'Fecha creación', 'Acciones']"
-      :empty="colors.length === 0"
+      :empty="filtradas.length === 0"
+      :loading="loading"
+      :error="error"
+      :trace-id="errorTraceId"
+      @retry="reload"
     >
-      <tr v-for="c in colors" :key="c.id">
-        <td class="font-weight-medium">{{ c.name }}</td>
-        <td class="text-body-2">{{ c.specie?.name }}</td>
-        <td class="text-caption text-medium-emphasis">{{ c.createdDate }}</td>
+      <template #empty>
+        <!-- Vacío de búsqueda y vacío de verdad son estados DISTINTOS (§4).
+             Quien busca quiere encontrar, no dar de alta: la rama de búsqueda
+             no lleva el botón de crear, y la de catálogo vacío no dice «sin
+             resultados». -->
+        <AppEmptyState
+          v-if="q.trim()"
+          :title="`Sin resultados para «${q.trim()}»`"
+          description="Revisa la escritura o prueba con menos palabras."
+        >
+          <button type="button" class="ds-btn ds-btn--ghost" @click="q = ''">
+            Limpiar búsqueda
+          </button>
+        </AppEmptyState>
+        <AppEmptyState
+          v-else
+          title="Aún no hay colores"
+          description="Cada color pertenece a una especie y describe el pelaje de la mascota en su ficha."
+        >
+          <button type="button" class="ds-btn ds-btn--primary" @click="showModal = true">
+            <component :is="ICONS.ADD" :size="15" />
+            Nuevo color
+          </button>
+        </AppEmptyState>
+      </template>
+
+      <tr v-for="c in filtradas" :key="c.id" class="ds-row-hover">
+        <td class="ds-text-strong">{{ c.name }}</td>
+        <td>{{ c.specie?.name }}</td>
+        <td class="ds-meta">{{ c.createdDate }}</td>
         <td>
-          <div class="d-flex ga-1">
+          <div class="ds-actions ds-actions--start">
             <RouterLink :to="`/animales/colores/${c.id}`" class="ds-icon-btn" aria-label="Editar">
               <component :is="ICONS.EDIT" :size="15" />
             </RouterLink>
@@ -99,8 +226,31 @@ async function handleDelete(id: number, name: string) {
       </tr>
     </AppTable>
 
-    <AppModal :open="showModal" title="Nuevo color" @close="showModal = false">
-      <AnimalColorForm @submit="handleCreate" @cancel="showModal = false" />
+    <!-- Salvaguarda de §5: el día que el backend trunque la lista, este número
+         dejará de cuadrar de forma observable en vez de degradar en silencio.
+         Bajo un error diría «0 de 0», que es «no hay colores» cuando lo cierto
+         es que no se pudo preguntar; durante el esqueleto, se contradiría con
+         él. El total es el de la especie filtrada, que es lo que hay en memoria. -->
+    <p v-if="!loading && !error && colors.length > 0" class="ds-meta">
+      Mostrando {{ filtradas.length }} de {{ colors.length }}
+    </p>
+
+    <AppModal :open="showModal" title="Nuevo color" @close="handleClose">
+      <AnimalColorForm
+        ref="formRef"
+        :saving="saving"
+        @submit="handleCreate"
+        @cancel="handleClose"
+      />
     </AppModal>
   </AppLayout>
 </template>
+
+<style scoped>
+/* Sustituye a `mb-4` de Vuetify y al `style` en línea que fijaba el ancho: el
+   desplegable de un solo dato no debe estirarse al ancho de la tabla (DS-03b). */
+.filtro {
+  max-width: 280px;
+  margin-bottom: var(--space-16);
+}
+</style>

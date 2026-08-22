@@ -37,6 +37,17 @@ export function createCatalogStore<T>(name: string) {
     const selected = ref(null) as Ref<T | null>
     const loading = ref(false)
 
+    /**
+     * Mensaje del último fallo de carga, para que la tabla pueda distinguir
+     * «no hay registros» de «no se pudieron traer» (EST-06). Antes el `catch`
+     * del composable solo sacaba un aviso efímero y no dejaba rastro: el
+     * listado se quedaba diciendo «Sin resultados» tras un 500.
+     */
+    const error = ref<string | null>(null)
+
+    /** Identificador de traza del último fallo, para poder copiarlo y reportarlo. */
+    const errorTraceId = ref<string | null>(null)
+
     function setItems(data: T[]) {
       items.value = data
     }
@@ -46,7 +57,21 @@ export function createCatalogStore<T>(name: string) {
     function setLoading(value: boolean) {
       loading.value = value
     }
+    function setError(message: string | null, traceId: string | null = null) {
+      error.value = message
+      errorTraceId.value = traceId
+    }
 
-    return { items, selected, loading, setItems, setSelected, setLoading }
+    return {
+      items,
+      selected,
+      loading,
+      error,
+      errorTraceId,
+      setItems,
+      setSelected,
+      setLoading,
+      setError,
+    }
   })
 }

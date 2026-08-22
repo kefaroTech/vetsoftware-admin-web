@@ -1,27 +1,74 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useMembershipSubModules } from '../composables/useMembershipSubModules'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
+import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
+import { coincide } from '@/composables/text'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
+import AppListSearch from '@/components/ui/AppListSearch.vue'
+import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
 import MembershipSubModuleForm from '../components/MembershipSubModuleForm.vue'
 import { ICONS } from '@/constants/icons'
 import type { CreateMembershipSubModuleRequest } from '../types/membership-sub-modules.types'
 
-const { membershipSubModules, fetchAll, create, remove } = useMembershipSubModules()
+const { membershipSubModules, loading, error, errorTraceId, fetchAll, create, remove } =
+  useMembershipSubModules()
 const { confirm } = useConfirmDialog()
 const showModal = ref(false)
+const saving = ref(false)
+const formRef = ref<InstanceType<typeof MembershipSubModuleForm> | null>(null)
+
+/**
+ * Búsqueda EN CLIENTE, y no servida, por la regla de honestidad de
+ * `docs/ux/patron-de-busqueda-en-listado.md` §5: `GET /membership-sub-modules`
+ * devuelve `List<MembershipSubModuleResponse>` sin paginar, así que el
+ * navegador ya tiene el conjunto entero y filtrarlo en memoria es exhaustivo
+ * por construcción. El día que ese endpoint pase a `PageResponse<T>`, esto se
+ * convierte en una mentira —filtraría solo la página visible— y la búsqueda
+ * tiene que bajar al servidor en el MISMO PR que la paginación.
+ */
+const q = ref('')
+
+/**
+ * Mira el nombre de la membresía y el nombre y el código del submódulo, que es
+ * lo que identifica una asociación; el id no se busca porque no es lo que el
+ * usuario lee en la tabla. El `placeholder` del campo dice exactamente esto.
+ *
+ * El plegado de acentos lo pone `coincide`: con `toLowerCase().includes()`,
+ * «submodulo» no encontraría «Submódulo».
+ */
+const filtrados = computed(() =>
+  membershipSubModules.value.filter((m) =>
+    coincide(q.value, m.membership?.name, m.subModule?.name, m.subModule?.code),
+  ),
+)
 
 onMounted(fetchAll)
 
+// FORM-08: salir de la pantalla con el modal abierto y relleno se llevaba lo
+// escrito sin decir nada.
+useUnsavedChangesGuard(() => showModal.value && (formRef.value?.isDirty() ?? false))
+
 async function handleCreate(data: CreateMembershipSubModuleRequest) {
+  if (saving.value) return
+  saving.value = true
   try {
     await create(data)
+    showModal.value = false
   } catch {
     // El composable ya avisó del fallo; el modal sigue abierto con lo escrito.
-    return
+  } finally {
+    // FORM-09: AQUÍ y no dentro del `try`. Si se pone tras el `await`, el
+    // camino de error nunca lo ejecuta y el botón queda deshabilitado para
+    // siempre: el mismo daño que FORM-08, causado por el arreglo de FORM-09.
+    saving.value = false
   }
+}
+
+function handleClose() {
+  if (saving.value) return
   showModal.value = false
 }
 
@@ -46,16 +93,54 @@ async function handleDelete(id: number) {
       </button>
     </div>
 
+    <!-- El placeholder dice qué campos mira de verdad el predicado de arriba. -->
+    <AppListSearch
+      v-model="q"
+      label="Buscar asociaciones membresía-submódulo"
+      placeholder="Membresía, submódulo o su código…"
+      :result-count="loading ? null : filtrados.length"
+    />
+
     <AppTable
       :headers="['Membresía', 'Submódulo', 'Fecha creación', 'Acciones']"
-      :empty="membershipSubModules.length === 0"
+      :empty="filtrados.length === 0"
+      :loading="loading"
+      :error="error"
+      :trace-id="errorTraceId"
+      @retry="fetchAll"
     >
-      <tr v-for="m in membershipSubModules" :key="m.id">
+      <template #empty>
+        <!-- Vacío de búsqueda y vacío de verdad son estados DISTINTOS (§4).
+             Quien busca quiere encontrar, no dar de alta: la rama de búsqueda
+             no lleva el botón de crear, y la de catálogo vacío no dice «sin
+             resultados». -->
+        <AppEmptyState
+          v-if="q.trim()"
+          :title="`Sin resultados para «${q.trim()}»`"
+          description="Revisa la escritura o prueba con menos palabras."
+        >
+          <button type="button" class="ds-btn ds-btn--ghost" @click="q = ''">
+            Limpiar búsqueda
+          </button>
+        </AppEmptyState>
+        <AppEmptyState
+          v-else
+          title="Aún no hay asociaciones membresía-submódulo"
+          description="Cada fila añade un submódulo al plan que vende una membresía."
+        >
+          <button type="button" class="ds-btn ds-btn--primary" @click="showModal = true">
+            <component :is="ICONS.ADD" :size="15" />
+            Nueva asociación
+          </button>
+        </AppEmptyState>
+      </template>
+
+      <tr v-for="m in filtrados" :key="m.id" class="ds-row-hover">
         <td>{{ m.membership?.name ?? '—' }}</td>
         <td>{{ m.subModule?.name ?? '—' }}</td>
-        <td class="text-caption text-medium-emphasis">{{ m.createdDate }}</td>
+        <td class="ds-meta">{{ m.createdDate }}</td>
         <td>
-          <div class="d-flex ga-1">
+          <div class="ds-actions ds-actions--start">
             <RouterLink
               :to="`/membresias-submodulos/${m.id}`"
               class="ds-icon-btn"
@@ -76,12 +161,24 @@ async function handleDelete(id: number) {
       </tr>
     </AppTable>
 
-    <AppModal
-      :open="showModal"
-      title="Nueva asociación membresía-submódulo"
-      @close="showModal = false"
-    >
-      <MembershipSubModuleForm @submit="handleCreate" @cancel="showModal = false" />
+    <!-- Salvaguarda de §5: el segundo número es el total REAL en memoria. El día
+         que el backend trunque la respuesta dejará de coincidir con la realidad
+         de forma observable aquí, en vez de degradar en silencio.
+
+         No se pinta durante la carga ni bajo un error: «Mostrando 0 de 0» bajo
+         el banner de fallo afirmaría que no hay registros cuando lo cierto es
+         que no se pudo preguntar. -->
+    <p v-if="!loading && !error && membershipSubModules.length > 0" class="ds-meta">
+      Mostrando {{ filtrados.length }} de {{ membershipSubModules.length }}
+    </p>
+
+    <AppModal :open="showModal" title="Nueva asociación membresía-submódulo" @close="handleClose">
+      <MembershipSubModuleForm
+        ref="formRef"
+        :saving="saving"
+        @submit="handleCreate"
+        @cancel="handleClose"
+      />
     </AppModal>
   </AppLayout>
 </template>

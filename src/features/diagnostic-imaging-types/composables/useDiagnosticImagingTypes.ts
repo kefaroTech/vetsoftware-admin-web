@@ -2,6 +2,7 @@ import { storeToRefs } from 'pinia'
 import { useDiagnosticImagingTypesStore } from '../stores/diagnostic-imaging-types.store'
 import { diagnosticImagingTypesApi } from '../api/diagnostic-imaging-types.api'
 import { useToast } from '@/composables/useToast'
+import { getProblemDetailMessage, getTraceId } from '@/services/http/http.client'
 import type { CreateDiagnosticImagingTypeRequest } from '../types/diagnostic-imaging-types.types'
 
 export interface DiagnosticImagingTypeFormData {
@@ -11,15 +12,24 @@ export interface DiagnosticImagingTypeFormData {
 
 export function useDiagnosticImagingTypes() {
   const store = useDiagnosticImagingTypesStore()
-  const { items, selected, loading } = storeToRefs(store)
+  const { items, selected, loading, error, errorTraceId } = storeToRefs(store)
   const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
+    store.setError(null)
     try {
       const data = await diagnosticImagingTypesApi.listAll()
       store.setItems(data.filter((t) => t.general))
     } catch (e) {
+      // EST-06: el fallo deja rastro en el store para que la tabla pueda
+      // pintar su rama de error. El aviso efímero SE MANTIENE en este cambio:
+      // retirar la realimentación que ya existía en el mismo PR que se añade
+      // la nueva convierte un fallo del arreglo en una pérdida neta.
+      store.setError(
+        getProblemDetailMessage(e, 'No se pudieron cargar los tipos de imagen diagnóstica'),
+        getTraceId(e) ?? null,
+      )
       errorFrom('Error al cargar los tipos de imagen diagnóstica', e)
     } finally {
       store.setLoading(false)
@@ -99,6 +109,8 @@ export function useDiagnosticImagingTypes() {
     diagnosticImagingTypes: items,
     selected,
     loading,
+    error,
+    errorTraceId,
     fetchAll,
     fetchById,
     create,

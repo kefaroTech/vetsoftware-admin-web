@@ -56,7 +56,7 @@
 .ds-btn--sm {
   padding: var(--space-7) var(--space-12);
   border-radius: var(--radius-field);
-  font-size: var(--text-sm);
+  font-size: var(--text-body); /* DS-05: era --text-sm (12,5px, retirado) */
 }
 
 .ds-btn--snug {
@@ -65,7 +65,7 @@
 
 .ds-btn--lg {
   padding: var(--space-10) var(--space-18);
-  font-size: var(--text-md);
+  font-size: var(--text-lg); /* DS-05: era --text-md (13,5px, retirado) */
 }
 
 /* Variante fantasma — el `.btn-ghost` de los SFC */
@@ -205,7 +205,7 @@
 .ds-banner--sm {
   margin-bottom: var(--space-12);
   padding: var(--space-8) var(--space-12);
-  font-size: var(--text-sm);
+  font-size: var(--text-body); /* DS-05: era --text-sm (12,5px, retirado) */
 }
 
 .ds-banner--error {
@@ -227,7 +227,9 @@
 }
 
 .ds-banner--info {
-  border-color: var(--amatista-200);
+  /* A11Y-09: era --amatista-200 (1,34:1 sobre --amatista-50, el peor borde
+     de banner del sistema). --info-border da 3,53:1. */
+  border-color: var(--info-border);
   background: var(--amatista-50);
   color: var(--amatista-800);
 }
@@ -328,7 +330,26 @@
 /* Seleccionado (fondo suave + borde, no fondo sólido) — 9 copias. */
 .ds-tone--accent-selected {
   background: var(--amatista-50);
-  border-color: var(--amatista-300);
+
+  /* A11Y-09: era --amatista-300 (1,90:1 sobre este fondo). --amatista-450
+     da 3,55:1. */
+  border-color: var(--amatista-450);
+}
+
+/* Issues #237 (tenant) · admin-web#131 — forma `:hover` que faltaba (la
+   tenían ya `accent-outline` y `neutral-soft`, ésta se quedó fuera). Hace
+   falta para el control que se tiñe SOLO al pasar el ratón (no está
+   "seleccionado" en reposo): sin esta clase, no hay ninguna que aplicar y la
+   forma plana lo dejaría preseleccionado siempre, justo lo contrario de lo
+   que el hover comunica. Caso real: `AgendaDayView.vue` (`.clinical-btn`)
+   copiaba este cuerpo a mano.
+   Mismo valor que el reposo, no uno más flojo: `--amatista-450` ya da
+   3,55:1 sobre este mismo fondo (§1.4.11), así que repetirlo cumple la
+   regla de esta primitiva sin necesitar reforzar — un estado de interacción
+   nunca puede reducir el contraste del elemento. */
+.ds-tone--accent-selected:hover:not(:disabled) {
+  background: var(--amatista-50);
+  border-color: var(--amatista-450);
 }
 
 /* Contorno más marcado que `--accent-selected` — 5 copias. */
@@ -358,26 +379,33 @@
   border-color: var(--amatista-600);
 }
 
+/* A11Y-09 / issues #205 (tenant) · #121 (consola). Era `border-color:
+   var(--warm-300)` en reposo Y en `:hover` — 1,49:1, incumple §1.4.11 en
+   los dos estados. El defecto real no era solo el valor: es que un consumidor
+   que sube su propio reposo a `--warm-450` (el criterio vigente para bordes
+   de control) se encontraba con que ESTA regla de `:hover` —peso (0,3,0),
+   gana a cualquier `scoped` de consumidor— lo devolvía a `--warm-300` al
+   pasar el ratón. Señalar un control con el ratón le borraba el borde en
+   vez de reforzarlo. Detectado en un botón destructivo de `BranchCard.vue`,
+   que llevaba un override local (0,4,0) marcado como provisional mientras
+   se corregía aquí.
+   REGLA: un estado de interacción nunca puede reducir el contraste del
+   elemento. Reposo `--warm-450` (3,55:1), `:hover` `--warm-500` (5,36:1) —
+   refuerza, nunca afloja. */
 .ds-tone--neutral-soft {
   background: var(--warm-100);
-  border-color: var(--warm-300);
+  border-color: var(--warm-450);
 }
 
-/* Forma `:hover` del mismo tono (auditoría FE-08, fase final): 3 componentes
-   (`Pagination`, `AgendaFilters`, `BranchCard`) declaran a mano, cada uno con
-   su propio guardián de exclusión (`:not(:disabled)`, `:not(.active)`, o
-   ninguno), el mismo par exacto sólo en `:hover`. El guardián no se
-   generaliza aquí —cada consumidor conserva el suyo, que no es intercambiable
-   sin auditar su estado— así que esto NO sustituye esas tres reglas; sólo
-   documenta el hueco para el consumidor que sí pueda adoptarla tal cual. */
 .ds-tone--neutral-soft:hover:not(:disabled) {
   background: var(--warm-100);
-  border-color: var(--warm-300);
+  border-color: var(--warm-500);
 }
 
 /* Sin fondo, sólo borde+texto — 4 copias. */
 .ds-tone--accent-border {
-  border-color: var(--amatista-300);
+  /* A11Y-09: era --amatista-300. --amatista-450 da 3,77:1 sobre --warm-50. */
+  border-color: var(--amatista-450);
   color: var(--amatista-700);
 }
 
@@ -386,7 +414,7 @@
    texto de acento sólo en `:hover` por variable CSS local
    (`--wt-border`/`--wt-fg`), el mismo mecanismo que `.ds-btn--solid`. */
 .ds-tone--accent-border:hover:not(:disabled) {
-  border-color: var(--amatista-300);
+  border-color: var(--amatista-450);
   color: var(--amatista-700);
 }
 
@@ -436,7 +464,10 @@
    byte. Va con `.ds-table--bare` más abajo. */
 .ds-empty--md {
   padding: var(--space-26);
-  color: var(--warm-400);
+
+  /* A11Y-09/10: era --warm-400 (2,42:1, y esto es TEXTO, exige 4,5:1).
+     --text-subtle (--warm-500 tras A11Y-09) da 5,36:1. */
+  color: var(--text-subtle);
 }
 
 /* Caja punteada con un mensaje: va alineada a la izquierda, no centrada como
@@ -484,6 +515,28 @@
   justify-content: space-between;
   gap: var(--space-16);
   margin-bottom: var(--space-16);
+}
+
+/* Cabecera de vista de DETALLE/EDICIÓN — botón «Volver» + título, en fila,
+   SIN separar (no lleva `justify-content: space-between`; a diferencia de
+   `.ds-head`, aquí no hay una acción al otro extremo). NO es la misma pieza
+   que `.ds-head`: esa es la cabecera de un LISTADO (título a un lado, acción
+   primaria al otro). Confundir las dos generalizaría mal la primitiva.
+
+   Reemplaza la combinación local `.cabecera ds-flex-row ds-flex-row--12` +
+   `.cabecera { margin-bottom: var(--space-24) }` que hoy repiten 17 vistas
+   de detalle (`SpecieDetailView`, `CompanyDetailView`, `ModuleDetailView`…).
+   Esa combinación nació de partir a propósito el cuerpo `{ gap:
+   var(--space-12); margin-bottom: var(--space-24) }` en dos declaraciones
+   sueltas para esquivar `css-budget.mjs` (`maxDuplicateGroups: 0`) — el
+   propio comentario que dejaron en esas vistas lo dice. Esquivar el gate no
+   es arreglar el duplicado: esta primitiva es el arreglo real. Migrar cada
+   vista a `class="ds-detail-head"` y borrar el `.cabecera` local. */
+.ds-detail-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  margin-bottom: var(--space-24);
 }
 
 .ds-actions {
@@ -548,7 +601,7 @@
 
 .ds-label {
   color: var(--text-subtle);
-  font-size: var(--text-label);
+  font-size: var(--text-xs); /* DS-05: era --text-label (11,5px, retirado) */
   font-weight: var(--weight-medium);
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -801,7 +854,7 @@
    él, el hint queda suelto (p. ej. los contadores de encabezado). */
 .ds-hint {
   color: var(--warm-500);
-  font-size: var(--text-label);
+  font-size: var(--text-xs); /* DS-05: era --text-label (11,5px, retirado) */
 }
 
 .ds-hint--spaced {
@@ -811,7 +864,7 @@
 /* Modificadores de tamaño de `.ds-meta` (mismo warm-500) — auditoría FE-08,
    2ª vuelta: 5 copias a 12,5px, 4 a 11px. */
 .ds-meta--sm {
-  font-size: var(--text-sm);
+  font-size: var(--text-body); /* DS-05: era --text-sm (12,5px, retirado) */
 }
 
 .ds-meta--caption {
@@ -828,7 +881,7 @@
 }
 
 .ds-meta-dark--sm {
-  font-size: var(--text-sm);
+  font-size: var(--text-body); /* DS-05: era --text-sm (12,5px, retirado) */
 }
 
 /* Texto fuerte de warm-900/peso medio sin tamaño fijo (7 copias, heredan el
@@ -841,7 +894,7 @@
 }
 
 .ds-text-strong--md {
-  font-size: var(--text-md);
+  font-size: var(--text-lg); /* DS-05: era --text-md (13,5px, retirado) */
 }
 
 /* Etiqueta de fila/ítem — el nombre de mascota, medicamento o línea de
@@ -876,7 +929,9 @@
 /* Variante más tenue (warm-400 en vez de warm-500) — "icono apagado", 5
    copias, siempre con el mismo `flex-shrink:0` de la base. */
 .ds-icon-muted--dim {
-  color: var(--warm-400);
+  /* A11Y-09: era --warm-400 (2,42:1). Es icono, §1.4.11 pide 3:1, no 4,5:1;
+     --warm-450 da 3,55:1. */
+  color: var(--warm-450);
 }
 
 /* ========================================================================== *
@@ -1014,7 +1069,10 @@
   width: 28px;
   height: 28px;
   border-radius: 7px;
-  border: 1px solid var(--warm-200);
+
+  /* A11Y-09: era var(--warm-200) (1,23:1). Es un control (se pulsa):
+     --warm-450 da 3,55:1. */
+  border: 1px solid var(--warm-450);
   background: transparent;
   color: var(--warm-700);
   cursor: pointer;
@@ -1042,7 +1100,9 @@
  * 10 copias, todas coincidiendo en los tres mismos valores. */
 .ds-icon-btn--accent:hover:not(:disabled) {
   background: var(--amatista-50);
-  border-color: var(--amatista-300);
+
+  /* A11Y-09: era --amatista-300. --amatista-450 da 3,55:1. */
+  border-color: var(--amatista-450);
   color: var(--amatista-700);
 }
 
@@ -1058,7 +1118,7 @@
   border-radius: 8px;
   background: var(--danger-150);
   color: oklch(45% 0.18 25deg);
-  font-size: 13px;
+  font-size: var(--text-body); /* DS-05: era el único literal px del gemelo */
 }
 
 /* ========================================================================== *
@@ -1077,7 +1137,7 @@
   border-radius: var(--radius-panel);
   background: var(--danger-150);
   color: var(--danger-950);
-  font-size: var(--text-sm);
+  font-size: var(--text-body); /* DS-05: era --text-sm (12,5px, retirado) */
 }
 
 /* ========================================================================== *
@@ -1111,7 +1171,7 @@
   border-bottom: 1px solid var(--border);
   background: var(--surface-muted);
   color: var(--text-subtle);
-  font-size: var(--text-2xs);
+  font-size: var(--text-caption); /* DS-05: era --text-2xs (10,5px, retirado) */
   font-weight: var(--weight-semibold);
   letter-spacing: 0.04em;
   text-align: left;
@@ -1133,7 +1193,7 @@
    StockDetailModal, CountsHistoryModal, CountSheetModal. */
 .ds-table--dense {
   border-radius: var(--radius-panel);
-  font-size: var(--text-sm);
+  font-size: var(--text-body); /* DS-05: era --text-sm (12,5px, retirado) */
 }
 
 .ds-table--dense th {
@@ -1293,7 +1353,7 @@
   padding: var(--space-3) var(--space-9);
   border-radius: var(--radius-pill);
   font-family: var(--font-sans);
-  font-size: var(--text-label);
+  font-size: var(--text-xs); /* DS-05: era --text-label (11,5px, retirado) */
   font-weight: var(--weight-medium);
   white-space: nowrap;
 }
@@ -1380,7 +1440,7 @@
    EmpresaView tampoco entra ahí). */
 .ds-kicker {
   color: var(--text-subtle);
-  font-size: var(--text-label);
+  font-size: var(--text-xs); /* DS-05: era --text-label (11,5px, retirado) */
   font-weight: var(--weight-medium);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1424,7 +1484,7 @@
    peso. 3 copias (CajaHistoryPanel, CashTable, CashSessionDetailModal;
    CloseCashModal es 11px, variante cercana no exacta). */
 .ds-label--xs {
-  font-size: var(--text-2xs);
+  font-size: var(--text-caption); /* DS-05: era --text-2xs (10,5px, retirado) */
   font-weight: var(--weight-semibold);
 }
 
@@ -1443,15 +1503,29 @@
 
 .ds-hover-accent:hover:not(:disabled) {
   background: var(--amatista-50);
-  border-color: var(--amatista-300);
+
+  /* A11Y-09: era --amatista-300. --amatista-450 da 3,55:1. */
+  border-color: var(--amatista-450);
   color: var(--amatista-700);
 }
 
 /* ========================================================================== *
- * DIÁLOGO DE CONFIRMACIÓN — overlay+card+icono repetidos ~120 líneas en los 4
- * diálogos del asistente de consulta (auditoría FE-08, 2ª vuelta):
- * `SaveConsultaConfirmDialog`, `DeceasedConfirmDialog`,
- * `DiscardConsultaDialog`, `ResumeOrNewConsultaDialog`.
+ * DIÁLOGO DE CONFIRMACIÓN — overlay+card+icono, origen: ~120 líneas repetidas
+ * en 4 diálogos del asistente de consulta (auditoría FE-08, 2ª vuelta).
+ *
+ * Issue #189: el comentario nombraba `SaveConsultaConfirmDialog`,
+ * `DeceasedConfirmDialog` y `DiscardConsultaDialog` como consumidores — los
+ * tres se retiraron al unificar en el diálogo de confirmación único
+ * (`confirmDialog.store.ts` + `useConfirmDialog.ts` + `AppConfirmDialog.vue`,
+ * ya en el tenant). Un comentario que nombra ficheros borrados enseña a no
+ * leer los comentarios, así que se corrige aquí en vez de dejarlo caducar.
+ *
+ * ÚNICO consumidor que queda: `ResumeOrNewConsultaDialog.vue` — no se
+ * retiró porque su decisión (retomar / descartar un borrador) no es una
+ * confirmación simple, no cabe en el diálogo único. NO se borra esta
+ * primitiva por tener un solo consumidor: es gemela TR-02, y si
+ * `ResumeOrNewConsultaDialog` llega a cero consumidores algún día, su
+ * retirada es otra tanda, no esta.
  * ========================================================================== */
 
 .ds-dialog-overlay {
@@ -1463,12 +1537,12 @@
   backdrop-filter: blur(2px);
 }
 
-/* El `z-index` NO entra en la base: 3 de los 4 usan 100,
-   `ResumeOrNewConsultaDialog` usa 1500 (necesita ganarle a otros modales) —
-   residuo real, no deriva, cada diálogo lo sigue declarando localmente. Lo
-   mismo con `animation: fade` + `@keyframes fade`: sólo 2 de los 4 la llevan
-   (`DeceasedConfirmDialog` no anima nada, `ResumeOrNewConsultaDialog` usa una
-   `<transition>` de Vue), así que se queda fuera de esta primitiva. */
+/* El `z-index` NO entra en la base: `ResumeOrNewConsultaDialog` necesita
+   ganarle a otros modales (usa `var(--z-modal)`) y lo sigue declarando
+   localmente — residuo real de cuando había 4 consumidores con necesidades
+   distintas, no deriva. Lo mismo con `animation: fade` + `@keyframes fade`:
+   `ResumeOrNewConsultaDialog` anima con una `<transition>` de Vue, así que
+   se queda fuera de esta primitiva. */
 
 .ds-dialog-card {
   width: 440px;
@@ -1480,7 +1554,7 @@
   font-family: var(--font-sans);
 }
 
-/* `ResumeOrNewConsultaDialog` es la única variante ancha (480px). */
+/* `ResumeOrNewConsultaDialog` es la variante ancha (480px). */
 .ds-dialog-card--wide {
   width: 480px;
 }
@@ -1494,20 +1568,18 @@
   border-radius: var(--radius-lg);
 }
 
-/* El tono (bg+color) del icono NO entra aquí: cada diálogo tiñe distinto
-   (amatista en Save/Resume — usar `.ds-tone--accent`; danger en Discard —
-   `.ds-tone--danger`; un ámbar a medida en Deceased que no coincide byte a
-   byte con ningún token de warning existente, se queda local). */
+/* El tono (bg+color) del icono NO entra aquí: `ResumeOrNewConsultaDialog`
+   lo tiñe amatista con `.ds-tone--accent` puesto aparte en el propio
+   marcado — residuo de cuando cada diálogo teñía distinto. */
 
 .ds-dialog-body {
   color: var(--warm-600);
-  font-size: var(--text-md);
+  font-size: var(--text-lg); /* DS-05: era --text-md (13,5px, retirado) */
   line-height: 1.55;
 }
 
-/* El `margin` del párrafo queda fuera a propósito: 3 de los 4 usan
-   `0 0 22px`, `ResumeOrNewConsultaDialog` usa `0 0 14px` — residuo real que
-   cada diálogo sigue declarando local. */
+/* El `margin` del párrafo queda fuera a propósito: `ResumeOrNewConsultaDialog`
+   sigue declarando el suyo (`0 0 14px`) de forma local. */
 
 /* ========================================================================== *
  * VISUALMENTE OCULTO — el clip de accesibilidad que `LabFormModal` copiaba
@@ -1526,6 +1598,118 @@
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+}
+
+/* ========================================================================== *
+ * SUPERFICIE DE CAMPO — DS-01. No existía una primitiva de superficie: la
+ * familia `.ds-field-*` de más abajo es SOLO de estado (invalid/shake/
+ * disabled). Adopta el patrón de dos capas de `BaseInput.vue` (tenant):
+ * `.ds-field` pone la geometría, sin color; `.ds-field-rest` pone el tono en
+ * reposo. Separadas para que `.ds-field-invalid`/`.ds-field-disabled`
+ * (mismo peso, (0,1,0)) puedan ganarle sin duplicar la geometría.
+ * ========================================================================== */
+
+.ds-field {
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  padding: var(--space-10) var(--space-14);
+  font-size: var(--text-body);
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    background-color var(--transition-base);
+}
+
+/* A11Y-09: el borde de reposo de un control mide 1,23:1 con --warm-200.
+   --warm-450 da 3,55:1, igual que el resto de bordes de control migrados. */
+.ds-field-rest {
+  border-color: var(--warm-450);
+  background: var(--warm-50);
+}
+
+/* Solo lectura — issue public-web#159. NO es lo mismo que deshabilitado: el
+   campo SIGUE siendo operable (recibe foco, se selecciona, se copia) y su
+   valor SÍ se envía. Por eso conserva el texto a contraste pleno
+   (`--warm-900`, 16,76:1 sobre esta superficie) en vez de atenuarlo como
+   `.ds-field-disabled`, y conserva el borde a 3:1 (`--warm-450`, 3,15:1): la
+   excepción de «componentes inactivos» de WCAG 2.2 §1.4.11 exime a lo que
+   «is visible but not currently operable», y esto es operable.
+   Lo que cambia frente a `.ds-field-rest` es la superficie hundida — que por
+   sí sola NO es señal suficiente: mide 1,125:1 contra `--warm-50` y 1,061:1
+   contra el fondo de `.ds-field-disabled` —, así que el canal que de verdad
+   distingue el estado es el candado que `BaseField` pinta en la etiqueta.
+   Quitarlo deja el estado invisible. */
+.ds-field-readonly {
+  border-color: var(--warm-450);
+  background: var(--surface-sunken);
+  color: var(--warm-900);
+}
+
+/* ========================================================================== *
+ * ESQUELETO DE CARGA — EST-05. Placeholder de fila/bloque durante la
+ * primera carga de una tabla o lista.
+ * ========================================================================== */
+
+.ds-skeleton {
+  background: linear-gradient(90deg, var(--warm-150) 25%, var(--warm-100) 37%, var(--warm-150) 63%);
+  background-size: 400% 100%;
+  border-radius: var(--radius-sm);
+  animation: ds-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.ds-skeleton--text {
+  height: 0.85em;
+}
+
+@keyframes ds-skeleton-shimmer {
+  from {
+    background-position: 100% 50%;
+  }
+
+  to {
+    background-position: 0 50%;
+  }
+}
+
+/* WCAG 2.2 §2.2.2 Pause, Stop, Hide (A) para animación en bucle. Obligatorio
+   en el gemelo del tenant: no tiene la regla global de `prefers-reduced-motion`
+   que sí cubre a esta primitiva en `base.css` (DS-06); sin este bloque local,
+   `.ds-skeleton` sería una regresión de accesibilidad nueva por su cuenta. */
+@media (prefers-reduced-motion: reduce) {
+  .ds-skeleton {
+    animation: none;
+    background: var(--warm-150);
+  }
+}
+
+/* ========================================================================== *
+ * RESUMEN DE ERRORES — FORM-05. `ErrorSummary.vue` (gemelo TR-02,
+ * `src/components/feedback/`). El color es heredado a propósito de
+ * `.ds-banner--error`, que el marcado ya aplica junto a esta clase: fijar un
+ * color aquí sería la trampa de especificidad de `AGENTS.md`.
+ * ========================================================================== */
+
+.ds-error-summary {
+  display: block;
+}
+
+.ds-error-summary__title {
+  margin: 0 0 var(--space-8);
+  font-weight: var(--weight-semibold);
+}
+
+.ds-error-summary__list {
+  margin: 0;
+  padding-left: var(--space-20);
+}
+
+.ds-error-summary__list li + li {
+  margin-top: var(--space-4);
+}
+
+.ds-error-summary__list a {
+  color: inherit;
+  text-decoration: underline;
 }
 
 /* ========================================================================== *

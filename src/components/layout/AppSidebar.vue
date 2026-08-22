@@ -3,7 +3,9 @@ import { ref, type Component } from 'vue'
 import { useRoute } from 'vue-router'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
+import SidebarBrand from './SidebarBrand.vue'
 import SidebarUserCard from './SidebarUserCard.vue'
+import { useViewport } from '@/composables/useViewport'
 
 const route = useRoute()
 
@@ -189,33 +191,55 @@ const isExpanded = (parent: NavParent) => expanded.value[parent.label] ?? isChil
 const toggle = (parent: NavParent) => {
   expanded.value[parent.label] = !isExpanded(parent)
 }
+
+/**
+ * EST-10 · El rótulo de cada enlace se oculta con `.ds-sr-only`, NO con
+ * `display: none`. Con `display:none` el enlace se queda sin nombre accesible
+ * y un lector de pantalla anuncia «enlace» a secas (WCAG 2.2 §2.4.4 Link
+ * Purpose, §4.1.2 Name, Role, Value). El front del tenant lo tapa a medias con
+ * `:title`, que es un parche débil: no es fiable en todos los lectores y no
+ * existe en táctil. Aquí se hacen las dos cosas — `.ds-sr-only` para el nombre
+ * accesible, `title` para el usuario de ratón.
+ */
+const { isCompact } = useViewport()
 </script>
 
 <template>
   <aside class="sidebar ds-stack">
-    <div class="sidebar-header">
-      <div class="logo">
-        <component :is="ICONS.PAW" :size="16" />
-      </div>
-      <div>
-        <div class="brand">VetSoftware</div>
-        <div class="brand-sub">Panel administrativo</div>
-      </div>
-    </div>
+    <SidebarBrand />
 
     <nav class="nav-groups ds-stack">
       <div v-for="group in navGroups" :key="group.title" class="nav-group">
         <div class="nav-group-title">{{ group.title }}</div>
         <div class="nav-list ds-stack">
           <template v-for="item in group.items" :key="item.label">
+            <!--
+              `custom` y no `active-class`: `RouterLink` solo emite
+              `aria-current` cuando la ruta coincide EXACTAMENTE, así que en las
+              37 rutas de esta consola el ítem que se ve resaltado y el que se
+              anuncia como actual no siempre eran el mismo. Con el slot, el
+              mismo `isActive` gobierna la clase y el atributo, y nunca se
+              separan.
+            -->
             <RouterLink
               v-if="!isParent(item)"
+              v-slot="{ href, navigate, isActive }"
               :to="item.path"
-              class="nav-item"
-              active-class="is-active"
+              custom
             >
-              <component :is="item.icon" :size="15" class="nav-icon" />
-              <span class="nav-label ds-truncate">{{ item.label }}</span>
+              <a
+                :href="href"
+                class="nav-item"
+                :class="{ 'is-active': isActive }"
+                :aria-current="isActive ? 'page' : undefined"
+                :title="item.label"
+                @click="navigate"
+              >
+                <component :is="item.icon" :size="15" class="nav-icon" />
+                <span class="nav-label ds-truncate" :class="{ 'ds-sr-only': isCompact }">
+                  {{ item.label }}
+                </span>
+              </a>
             </RouterLink>
 
             <div v-else class="ds-stack">
@@ -224,10 +248,13 @@ const toggle = (parent: NavParent) => {
                 class="nav-item nav-item-parent"
                 :class="{ 'is-active': isChildActive(item) }"
                 :aria-expanded="isExpanded(item)"
+                :title="item.label"
                 @click="toggle(item)"
               >
                 <component :is="item.icon" :size="15" class="nav-icon" />
-                <span class="nav-label ds-truncate">{{ item.label }}</span>
+                <span class="nav-label ds-truncate" :class="{ 'ds-sr-only': isCompact }">
+                  {{ item.label }}
+                </span>
                 <component
                   :is="ICONS.CHEVRON_DOWN"
                   :size="13"
@@ -240,12 +267,23 @@ const toggle = (parent: NavParent) => {
                 <RouterLink
                   v-for="child in item.children"
                   :key="child.path"
+                  v-slot="{ href, navigate, isActive }"
                   :to="child.path"
-                  class="nav-item nav-subitem"
-                  active-class="is-active"
+                  custom
                 >
-                  <component :is="child.icon" :size="13" class="nav-icon" />
-                  <span class="nav-label ds-truncate">{{ child.label }}</span>
+                  <a
+                    :href="href"
+                    class="nav-item nav-subitem"
+                    :class="{ 'is-active': isActive }"
+                    :aria-current="isActive ? 'page' : undefined"
+                    :title="child.label"
+                    @click="navigate"
+                  >
+                    <component :is="child.icon" :size="13" class="nav-icon" />
+                    <span class="nav-label ds-truncate" :class="{ 'ds-sr-only': isCompact }">
+                      {{ child.label }}
+                    </span>
+                  </a>
                 </RouterLink>
               </div>
             </div>
@@ -260,64 +298,30 @@ const toggle = (parent: NavParent) => {
 
 <style scoped>
 .sidebar {
-  background: #fff;
-  border-right: 1px solid #ece5f4;
-  padding: 20px 16px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: var(--space-20) var(--space-16);
   height: 100vh;
   position: sticky;
   top: 0;
   overflow-y: auto;
 }
 
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 12px 22px;
-  border-bottom: 1px solid #ece5f4;
-}
-
-.logo {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #a855f7, #581c87);
-  display: grid;
-  place-items: center;
-  color: #fff;
-  box-shadow: 0 2px 6px -1px rgb(126 34 206 / 40%);
-}
-
-.brand {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1a1325;
-  letter-spacing: -0.01em;
-  line-height: 1.1;
-}
-
-.brand-sub {
-  font-size: 10px;
-  color: #6b5b80;
-  letter-spacing: 0.04em;
-  margin-top: 1px;
-}
-
 .nav-groups {
-  margin-top: 18px;
+  margin-top: var(--space-18);
 }
 
 .nav-group {
-  margin-bottom: 18px;
+  margin-bottom: var(--space-18);
 }
 
 .nav-group-title {
-  font-size: 10px;
-  font-weight: 600;
-  color: #a89bbd;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semibold);
+  color: var(--text-subtle);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0 12px 6px;
+  padding: 0 var(--space-12) var(--space-6);
 }
 
 .nav-list {
@@ -327,25 +331,25 @@ const toggle = (parent: NavParent) => {
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 7px 12px;
+  gap: var(--space-10);
+  padding: 7px var(--space-12);
   border-radius: 7px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #3d2e57;
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  color: var(--warm-800);
   text-decoration: none;
   position: relative;
-  transition: background 0.12s;
+  transition: background var(--transition-base);
 }
 
 .nav-item:hover {
-  background: #faf5ff;
+  background: var(--amatista-50);
 }
 
 .nav-item.is-active {
-  background: #f3e8ff;
-  font-weight: 600;
-  color: #1a1325;
+  background: var(--amatista-100);
+  font-weight: var(--weight-semibold);
+  color: var(--text);
 }
 
 .nav-item.is-active::before {
@@ -355,7 +359,7 @@ const toggle = (parent: NavParent) => {
   top: 4px;
   bottom: 4px;
   width: 2px;
-  background: #7e22ce;
+  background: var(--amatista-700);
   border-radius: 2px;
 }
 
@@ -377,40 +381,92 @@ const toggle = (parent: NavParent) => {
 }
 
 .nav-chevron {
-  color: #a89bbd;
+  color: var(--text-subtle);
   transition: transform 0.18s ease;
 }
 
 .nav-chevron.is-open {
   transform: rotate(180deg);
-  color: #7e22ce;
+  color: var(--amatista-700);
 }
 
 .nav-sublist {
   gap: 1px;
-  margin: 2px 0 4px 18px;
-  padding-left: 10px;
-  border-left: 1px solid #ece5f4;
+  margin: var(--space-2) 0 var(--space-4) var(--space-18);
+  padding-left: var(--space-10);
+  border-left: 1px solid var(--border);
 }
 
 .nav-subitem {
-  padding: 6px 10px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #6b5b80;
+  padding: var(--space-6) var(--space-10);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--text-muted);
 }
 
 .nav-subitem:hover {
-  color: #3d2e57;
+  color: var(--warm-800);
 }
 
 .nav-subitem.is-active {
-  color: #1a1325;
+  color: var(--text);
 }
 
 .nav-subitem.is-active::before {
   left: -11px;
   top: 6px;
   bottom: 6px;
+}
+
+/* EST-10 · Sidebar colapsado a iconos en tablet. Portado del patrón que el
+   front del tenant ya tiene resuelto (`AppSidebar` + `SidebarNavItem` +
+   `SidebarSubItem`), con los objetivos de 44×38 y 44×34 px, que superan de
+   sobra el mínimo de §2.5.8 Target Size (24×24 px CSS, AA).
+   El rótulo de grupo colapsa a una línea de 32×1 px en vez de desaparecer:
+   sigue separando bloques cuando ya no se puede leer.
+   El acordeón pierde su señal visual (`.nav-chevron`) al colapsar;
+   `aria-expanded` se conserva, así que el lector de pantalla sí lo sabe. Que el
+   padre navegue al primer hijo en vez de desplegar es un CAMBIO DE
+   COMPORTAMIENTO y necesita aprobación aparte: no se hace aquí. */
+@media (width <= 1024px) {
+  .sidebar {
+    padding: var(--space-18) var(--space-10);
+    align-items: center;
+  }
+
+  .nav-group-title {
+    width: 32px;
+    height: 1px;
+    margin: var(--space-8) 0;
+    padding: 0;
+    overflow: hidden;
+    background: var(--border);
+    color: transparent;
+    font-size: 0;
+  }
+
+  .nav-item {
+    width: 44px;
+    height: 38px;
+    justify-content: center;
+    padding: 0;
+    gap: 0;
+  }
+
+  .nav-subitem {
+    width: 44px;
+    height: 34px;
+  }
+
+  .nav-chevron {
+    display: none;
+  }
+
+  .nav-sublist {
+    align-items: center;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+  }
 }
 </style>

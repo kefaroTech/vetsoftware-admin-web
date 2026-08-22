@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T extends string | number">
 import { Check, ChevronDown } from 'lucide-vue-next'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
+import { ICONS } from '@/constants/icons'
 
 interface Option {
   value: T
@@ -14,6 +15,8 @@ const props = withDefaults(
     label?: string
     required?: boolean
     error?: string
+    /** Texto de ayuda persistente bajo el campo. Se oculta mientras hay error. */
+    hint?: string
     placeholder?: string
     id?: string
     disabled?: boolean
@@ -195,19 +198,39 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', onScrollResize)
   if (typeaheadTimer) clearTimeout(typeaheadTimer)
 })
+
+/**
+ * DS-01: el disparador adopta el patrón de dos capas de `AppInput` — `.ds-field`
+ * pone la geometría y UNA sola clase de estado pone el tono. Ver la cabecera de
+ * `AppInput.vue` para el porqué de que las ramas sean excluyentes.
+ *
+ * `.ds-focus-ring--no-outline` acompaña siempre a `.ds-focus-ring` porque el
+ * disparador es un `<button>`: la primera aporta borde y anillo, la segunda solo
+ * apaga el `outline` nativo que si no se sumaría al anillo.
+ *
+ * El estado abierto ya no necesita regla propia: `.ds-focus-ring:focus` cubre el
+ * clic de ratón (que deja el foco en el botón) además del `:focus-visible` del
+ * teclado, así que el disparador abierto sale con el mismo anillo que enfocado.
+ */
+const toneClass = computed(() => {
+  if (props.error) return ['ds-field-invalid', open.value ? 'ds-field-invalid-focus' : null]
+  if (props.disabled) return ['tone-border', 'ds-field-disabled']
+  return ['ds-field-rest', 'ds-focus-ring', 'ds-focus-ring--no-outline']
+})
 </script>
 
 <template>
-  <div class="app-field">
-    <label v-if="label" :for="controlId" class="app-label">
-      {{ label }}<span v-if="required" class="app-req">*</span>
+  <div class="field ds-stack">
+    <label v-if="label" :for="controlId" class="label">
+      {{ label }}<span v-if="required" class="required">*</span>
     </label>
-    <div ref="root" class="app-select" :class="{ disabled, 'has-error': !!error, open }">
+    <div ref="root" class="select">
       <button
         :id="controlId"
         ref="trigger"
         type="button"
-        class="app-select__trigger"
+        class="trigger ds-field ds-flex-row"
+        :class="toneClass"
         role="combobox"
         aria-haspopup="listbox"
         :aria-expanded="open"
@@ -219,13 +242,10 @@ onBeforeUnmount(() => {
         @click="toggle"
         @keydown="onKeydown"
       >
-        <span
-          class="app-select__value ds-flex-fill ds-truncate"
-          :class="{ placeholder: !selected }"
-        >
+        <span class="value ds-flex-fill ds-truncate" :class="{ 'is-placeholder': !selected }">
           {{ selected?.label ?? placeholder }}
         </span>
-        <ChevronDown class="app-select__chev" :size="16" />
+        <ChevronDown class="chev" :size="16" />
       </button>
 
       <Teleport to="body">
@@ -249,56 +269,103 @@ onBeforeUnmount(() => {
         </ul>
       </Teleport>
     </div>
-    <p v-if="error" class="app-error">{{ error }}</p>
+    <p v-if="error" class="error">
+      <component :is="ICONS.WARNING" :size="11" />
+      <span>{{ error }}</span>
+    </p>
+    <p v-else-if="hint" class="ds-hint">{{ hint }}</p>
   </div>
 </template>
 
 <style scoped>
-.app-select {
+.field {
+  gap: var(--space-6);
+  min-width: 0;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--text);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.01em;
+}
+
+.required {
+  color: var(--danger-500);
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: 0;
+  color: var(--danger-500);
+  font-size: var(--text-xs);
+}
+
+/* Ver `AppInput.vue`: `.ds-field-disabled` no declara borde y `.ds-field-rest`
+   no se puede combinar con ella. */
+.tone-border {
+  border-color: var(--warm-450);
+}
+
+.select {
   position: relative;
 }
 
-.app-select__value {
+.trigger {
+  width: 100%;
+  color: var(--text);
+  cursor: pointer;
   text-align: left;
 }
 
-.app-select__value.placeholder {
-  color: #a89bbd;
+.trigger:hover:not(.ds-field-invalid, .ds-field-disabled, :focus) {
+  border-color: var(--warm-500);
 }
 
-.app-select__chev {
+.value {
+  text-align: left;
+}
+
+.value.is-placeholder {
+  color: var(--text-placeholder);
+}
+
+.chev {
   flex-shrink: 0;
-  color: #a89bbd;
+  color: var(--text-subtle);
   pointer-events: none;
   transition:
     transform 0.18s ease,
-    color 0.15s ease;
+    color var(--transition-base);
 }
 
-.app-select.open .app-select__chev {
+.trigger[aria-expanded='true'] .chev {
   transform: rotate(180deg);
-  color: var(--vs-field-focus);
+  color: var(--amatista-500);
 }
 </style>
 
 <style>
-/* El panel se teletransporta a <body>: estilos globales acotados por la clase. */
+/* El panel se teletransporta a <body>: estilos globales acotados por la clase.
+   DS-01 retiró sus cinco hexadecimales (#fff, #f3e8ff, #6b21a8, #7e22ce,
+   #a89bbd) y la familia `Inter` literal — el panel vive fuera del árbol de la
+   app, así que no heredaba la tipografía de `base.css` y la traía a mano. */
 .app-select-panel {
-  z-index: 2100;
+  z-index: var(--z-popover);
   margin: 0;
-  padding: 5px;
+  padding: var(--space-4);
   list-style: none;
   overflow-y: auto;
-  background: #fff;
-  border: 1px solid var(--vs-field-border);
-  border-radius: 11px;
-  box-shadow: 0 14px 38px rgb(88 28 135 / 18%);
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
+  font-family: var(--font-sans);
   animation: app-select-pop 0.13s ease;
 }
 
@@ -317,37 +384,37 @@ onBeforeUnmount(() => {
 .app-select-panel__item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 9px 11px;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #3d2e57;
+  gap: var(--space-10);
+  padding: var(--space-8) var(--space-11);
+  border-radius: var(--radius-md);
+  font-size: var(--text-body);
+  color: var(--text);
   cursor: pointer;
 }
 
 .app-select-panel__item + .app-select-panel__item {
-  margin-top: 2px;
+  margin-top: var(--space-2);
 }
 
 .app-select-panel__check {
   flex-shrink: 0;
-  color: #7e22ce;
+  color: var(--amatista-700);
 }
 
 .app-select-panel__item.active {
-  background: #f3e8ff;
-  color: #6b21a8;
+  background: var(--amatista-50);
+  color: var(--amatista-800);
 }
 
 .app-select-panel__item.selected {
-  font-weight: 600;
-  color: #6b21a8;
+  font-weight: var(--weight-semibold);
+  color: var(--amatista-800);
 }
 
 .app-select-panel__empty {
-  padding: 12px 11px;
-  font-size: 13px;
-  color: #a89bbd;
+  padding: var(--space-12) var(--space-11);
+  font-size: var(--text-body);
+  color: var(--text-subtle);
   text-align: center;
 }
 

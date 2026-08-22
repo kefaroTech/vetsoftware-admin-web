@@ -2,6 +2,7 @@ import { storeToRefs } from 'pinia'
 import { useBaseRolePermissionsStore } from '../stores/base-role-permissions.store'
 import { baseRolePermissionsApi } from '../api/base-role-permissions.api'
 import { useToast } from '@/composables/useToast'
+import { getProblemDetailMessage, getTraceId } from '@/services/http/http.client'
 import type {
   CreateBaseRolePermissionRequest,
   UpdateBaseRolePermissionRequest,
@@ -9,15 +10,24 @@ import type {
 
 export function useBaseRolePermissions() {
   const store = useBaseRolePermissionsStore()
-  const { items, selected, loading } = storeToRefs(store)
+  const { items, selected, loading, error, errorTraceId } = storeToRefs(store)
   const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
+    store.setError(null)
     try {
       const data = await baseRolePermissionsApi.listAll()
       store.setItems(data)
     } catch (e) {
+      // EST-06: el fallo deja rastro en el store para que la tabla pueda
+      // pintar su rama de error. El aviso efímero SE MANTIENE en este cambio:
+      // retirar la realimentación que ya existía en el mismo PR que se añade
+      // la nueva convierte un fallo del arreglo en una pérdida neta.
+      store.setError(
+        getProblemDetailMessage(e, 'No se pudieron cargar los permisos de roles base'),
+        getTraceId(e) ?? null,
+      )
       errorFrom('Error al cargar los permisos de roles base', e)
     } finally {
       store.setLoading(false)
@@ -87,6 +97,8 @@ export function useBaseRolePermissions() {
     baseRolePermissions: items,
     selected,
     loading,
+    error,
+    errorTraceId,
     fetchAll,
     fetchById,
     create,

@@ -55,7 +55,9 @@ que obliga a tocar el gemelo del otro front, lleva issue en los **dos** repos, e
 - Vue 3 + `<script setup lang="ts">` + Composition API
 - Vite + TypeScript estricto (`vue-tsc -b` debe pasar limpio)
 - **Pinia** para todo el estado global/compartido (montado en `main.ts` con `createPinia()`)
-- Vuetify 3 + iconos Iconify/Tabler
+- Vuetify 3 + iconos Lucide (`lucide-vue-next`, componentes — ver "Iconos"
+  más abajo; el webfont Iconify/Tabler se retiró: pesaba 183 kB y un nombre
+  mal escrito no compilaba con el anterior)
 - Axios para HTTP
 - Backend Spring Boot compartido con el otro front (`/api/v1`)
 
@@ -105,24 +107,28 @@ versiona y evoluciona por su cuenta.
 A cambio, la práctica es la misma en los dos. **Estos archivos se mantienen byte
 a byte idénticos**; si tocas uno, tocas el otro en el mismo PR:
 
-| Archivo                                                                                                       | Qué es                                                              |
-| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `src/services/http/http.client.ts`                                                                            | cliente axios, refresh _single-flight_, lectores de `ProblemDetail` |
-| `src/services/http/api-base-url.ts`                                                                           | resolución de la URL base                                           |
-| `src/services/storage/storage.service.ts`                                                                     | único acceso a `localStorage`/`sessionStorage`                      |
-| `src/services/telemetry/trace.ts`                                                                             | generador de `traceparent` (W3C)                                    |
-| `src/stores/loader.store.ts`                                                                                  | debounce anti-parpadeo del velo                                     |
-| `src/stores/toast.store.ts`                                                                                   | avisos                                                              |
-| `src/composables/useGlobalLoader.ts` · `useToast.ts`                                                          | sus fachadas                                                        |
-| `src/features/auth/utils/jwt.ts`                                                                              | decodificación del JWT                                              |
-| `src/types/api.types.ts`                                                                                      | `ProblemDetail`                                                     |
-| `src/plugins/vuetify.ts` · `vuetify-icon-aliases.ts`                                                          | tema e iconos de Vuetify                                            |
-| `src/assets/styles/tokens.css` · `primitives.css`                                                             | capas 1 y 2 del sistema de diseño                                   |
-| `src/components/feedback/{PawLoader,PageLoader,ToastStack}.vue`                                               | primitivas de feedback                                              |
-| `scripts/check-bundle-budget.mjs` · `ds-audit.mjs` · `css-budget.mjs`                                         | verificadores                                                       |
-| `tests/unit/{setup,storage-service,ui-stores}.spec.ts`                                                        | sus pruebas                                                         |
-| `eslint.config.ts` · `stylelint.config.mjs` · `lint-staged.config.mjs` · `commitlint.config.js` · `AGENTS.md` | tooling                                                             |
-| `stylelint-plugins/no-duplicate-primitive.mjs`                                                                | regla stylelint FE-08: rechaza CSS que reescribe una primitiva      |
+| Archivo                                                                                                       | Qué es                                                                               |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `src/services/http/http.client.ts`                                                                            | cliente axios, refresh _single-flight_, lectores de `ProblemDetail`                  |
+| `src/services/http/api-base-url.ts`                                                                           | resolución de la URL base                                                            |
+| `src/services/storage/storage.service.ts`                                                                     | único acceso a `localStorage`/`sessionStorage`                                       |
+| `src/services/telemetry/telemetry.ts`                                                                         | telemetría de navegador vía Grafana Faro, carga diferida tras el montaje (TR-05)     |
+| `src/stores/loader.store.ts`                                                                                  | debounce anti-parpadeo del velo                                                      |
+| `src/stores/toast.store.ts`                                                                                   | avisos                                                                               |
+| `src/composables/useGlobalLoader.ts` · `useToast.ts`                                                          | sus fachadas                                                                         |
+| `src/features/auth/utils/jwt.ts`                                                                              | decodificación del JWT                                                               |
+| `src/types/api.types.ts`                                                                                      | `ProblemDetail`                                                                      |
+| `src/plugins/vuetify.ts` · `vuetify-icon-aliases.ts`                                                          | tema e iconos de Vuetify                                                             |
+| `src/assets/styles/tokens.css` · `primitives.css` · `base.css`                                                | capas 1, 2 y 0 del sistema de diseño                                                 |
+| `src/components/feedback/{PawLoader,PageLoader,ToastStack,ErrorSummary}.vue`                                  | primitivas de feedback                                                               |
+| `src/components/ui/ModalShell.vue`                                                                            | contenedor de diálogo — byte a byte idéntico, no declarado hasta ahora               |
+| `src/composables/useModalLayer.ts` · `useModalHistory.ts` · `useModalFocus.ts`                                | pila de modales, entrada de historial (EST-09) y trampa/devolución de foco (A11Y-08) |
+| `src/types/pagination.ts`                                                                                     | `PageResponse<T>`, `PageQuery`, `emptyPage()` — el único contrato de paginación      |
+| `src/composables/useServerPaged.ts` · `useQuerySync.ts`                                                       | paginación servida por el backend y filtros sincronizados con la query string        |
+| `scripts/check-bundle-budget.mjs` · `ds-audit.mjs` · `css-budget.mjs`                                         | verificadores                                                                        |
+| `tests/unit/setup.ts` · `storage-service.spec.ts` · `ui-stores.spec.ts`                                       | sus pruebas                                                                          |
+| `eslint.config.ts` · `stylelint.config.mjs` · `lint-staged.config.mjs` · `commitlint.config.js` · `AGENTS.md` | tooling                                                                              |
+| `stylelint-plugins/no-duplicate-primitive.mjs`                                                                | regla stylelint FE-08: rechaza CSS que reescribe una primitiva                       |
 
 **Divergencias permitidas, y solo estas.** Van siempre con un comentario que
 diga por qué:

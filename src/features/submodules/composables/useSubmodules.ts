@@ -2,19 +2,29 @@ import { storeToRefs } from 'pinia'
 import { useSubmodulesStore } from '../stores/submodules.store'
 import { submodulesApi } from '../api/submodules.api'
 import { useToast } from '@/composables/useToast'
+import { getProblemDetailMessage, getTraceId } from '@/services/http/http.client'
 import type { CreateSubModuleRequest, UpdateSubModuleRequest } from '../types/submodules.types'
 
 export function useSubmodules() {
   const store = useSubmodulesStore()
-  const { items, selected, loading } = storeToRefs(store)
+  const { items, selected, loading, error, errorTraceId } = storeToRefs(store)
   const { success, errorFrom } = useToast()
 
   async function fetchAll() {
     store.setLoading(true)
+    store.setError(null)
     try {
       const data = await submodulesApi.listAll()
       store.setItems(data)
     } catch (e) {
+      // EST-06: el fallo deja rastro en el store para que la tabla pueda
+      // pintar su rama de error. El aviso efímero SE MANTIENE en este cambio:
+      // retirar la realimentación que ya existía en el mismo PR que se añade
+      // la nueva convierte un fallo del arreglo en una pérdida neta.
+      store.setError(
+        getProblemDetailMessage(e, 'No se pudieron cargar los submódulos'),
+        getTraceId(e) ?? null,
+      )
       errorFrom('Error al cargar los submódulos', e)
     } finally {
       store.setLoading(false)
@@ -72,6 +82,8 @@ export function useSubmodules() {
     submodules: items,
     selected,
     loading,
+    error,
+    errorTraceId,
     fetchAll,
     fetchById,
     create,

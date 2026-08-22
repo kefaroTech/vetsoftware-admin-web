@@ -111,9 +111,78 @@ export function setSessionClearHandler(handler: SessionClearHandler) {
   sessionClearHandler = handler
 }
 
-http.interceptors.request.use((config) => {
+/**
+ * Issue #215 · `withBranchBody` (features/branches) lee la sede activa de forma
+ * SÍNCRONA: si una escritura sale antes de que vuelva /auth/me + el listado de
+ * sedes, el cuerpo viaja sin `branchId` y el backend responde 400 a quien tiene
+ * más de una sede. Cerrarlo en 21 llamadores (9 ficheros de API) es el cambio
+ * donde uno se queda sin migrar; se cierra aquí, en el único punto por el que
+ * pasa toda petición.
+ *
+ * La marca NO puede vivir en un WeakSet por identidad (así vivía antes, y
+ * estaba inerte): axios clona el cuerpo en `mergeConfig` — `getMergedValue`
+ * cae en `utils.merge({}, source)` para todo objeto plano, ANTES de que corra
+ * este interceptor — así que `config.data` nunca es el mismo objeto que
+ * `withBranchBody` marcó. Comprobado contra el axios instalado (1.19.0):
+ * `merged.data === original` da `false`.
+ *
+ * La marca vive en un SÍMBOLO propio del cuerpo, y un símbolo SÍ sobrevive a
+ * ese clon: `utils.merge` de axios copia explícitamente los símbolos
+ * enumerables del origen, además de las claves de cadena (comprobado contra
+ * el axios instalado). Y un símbolo tiene una garantía extra que una cadena no
+ * tendría: `JSON.stringify` nunca serializa claves de símbolo, así que ni
+ * siquiera un fallo en el borrado de abajo dejaría la marca viajando en el
+ * cuerpo — aun así se borra explícitamente de `config.data` para no dejarla
+ * ni un instante en el objeto que ven otros interceptores.
+ *
+ * La marca en el objeto ORIGINAL (el que se queda en manos de `withBranchBody`
+ * y su llamador) se retira ella sola, en el siguiente microtask:
+ * `mergeConfig` corre de forma SÍNCRONA dentro de la llamada a `http.post(...)`
+ * (antes del primer `await` de `Axios.prototype.request`), así que para cuando
+ * el microtask se ejecuta, la copia ya existe con el símbolo dentro. El
+ * llamador nunca observa la marca.
+ */
+const PENDING_BRANCH_BODY = Symbol('pendingBranchBody')
+
+/** Llamado por `withBranchBody`. No se importa el store aquí para no crear el
+ *  ciclo store → http.client → store: quien construye el cuerpo solo necesita
+ *  marcarlo, no resolver la sede. */
+export function markPendingBranchBody(body: object): void {
+  const marked = body as Record<symbol, boolean>
+  marked[PENDING_BRANCH_BODY] = true
+  void Promise.resolve().then(() => {
+    Reflect.deleteProperty(marked, PENDING_BRANCH_BODY)
+  })
+}
+
+// Handler de resolución de sede, inyectado por `branch.store.ts` — mismo patrón
+// y mismo motivo que `refreshHandler`/`sessionClearHandler`. Debe deduplicar
+// llamadas concurrentes (el store ya lo hace) y devolver la sede activa una vez
+// resuelta, o `null` si el usuario no tiene ninguna operable.
+type BranchResolver = () => Promise<number | null>
+let branchResolver: BranchResolver | null = null
+export function setBranchResolver(resolver: BranchResolver) {
+  branchResolver = resolver
+}
+
+http.interceptors.request.use(async (config) => {
   const token = storageService.getToken()
   if (token) config.headers.set('Authorization', `Bearer ${token}`)
+
+  // Excluye por construcción las peticiones de las que depende la propia
+  // resolución (/auth/me, el listado de sedes): ninguna de las dos pasa por
+  // `withBranchBody`, así que nunca quedan marcadas y jamás esperan a sí mismas.
+  if (
+    branchResolver &&
+    config.data &&
+    typeof config.data === 'object' &&
+    (config.data as Record<symbol, boolean>)[PENDING_BRANCH_BODY]
+  ) {
+    const data = config.data as Record<string | symbol, unknown>
+    Reflect.deleteProperty(data, PENDING_BRANCH_BODY)
+    const id = await branchResolver()
+    config.data = id != null ? { ...data, branchId: id } : data
+  }
 
   if (!config.skipGlobalLoader) {
     pushLoader()

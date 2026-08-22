@@ -1,0 +1,120 @@
+/**
+ * BASE — capa 0 del design system (DS-06).
+ *
+ * Gemelo TR-02: byte a byte idéntico en los dos repos. Reset, tipografía
+ * base, scrollbar, `prefers-reduced-motion` y `color-scheme`. Lo propio de
+ * cada app (el puente de Vuetify, lo que DS-01 no haya retirado todavía)
+ * vive en `app.css`, que NO es gemelo.
+ *
+ * Se importa DESPUÉS de `tokens.css` y ANTES de `primitives.css`
+ * (`main.ts`): es un cambio de cascada, no solo de fichero — con `base.css`
+ * antes, los selectores de elemento de aquí (`input:focus-visible`, …)
+ * quedan por debajo de cualquier clase de `primitives.css` a igualdad de
+ * especificidad real.
+ */
+
+/* Movido desde `tokens.css` (capa 1): esa capa solo declara valores
+   primitivos, y este selector universal es un reset, no un token. */
+* {
+  box-sizing: border-box;
+}
+
+/* Sin esto, el UA elige los colores de los controles nativos, la barra de
+   desplazamiento y el `::selection` por su cuenta: en un equipo con el
+   sistema operativo en oscuro, los `<input>`/`<select>` nativos salen con
+   fondo oscuro sobre una app clara. Es el peor modo de fallo de contraste
+   que existe — el que ningún gate ve porque depende del ajuste del
+   sistema, no del código. */
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Scrollbar */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--warm-300);
+  border-radius: 6px;
+  border: 2px solid var(--warm-100);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--warm-400);
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+/* Foco de campos nativos que no llevan ninguna primitiva encima
+   (`.ds-focus-ring` cubre los que sí). A11Y-01: usa `--ring` —doble anillo
+   sólido, 4,50:1— y `:focus-visible` —no dispara con el ratón—, no el halo
+   translúcido de `--amatista-50` (1,06:1) que quedaba tras `:focus`. */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  border-color: var(--amatista-500);
+  box-shadow: var(--ring);
+}
+
+/* ===========================================================================
+   MOVIMIENTO REDUCIDO (#111) — guarda GLOBAL.
+
+   Hasta aquí la app del tenant no tenía ninguna: la cobertura efectiva eran
+   `PawLoader` y las tres clases de `public-auth.css`, y los 328 SFC con
+   transiciones y animaciones propias quedaban fuera. Una guarda por componente
+   no cierra eso: hay que apagarlo desde arriba, una vez. Con el split DS-06,
+   la consola hereda esta misma guarda global — antes solo apagaba tres
+   selectores de formulario en su propio `main.css`.
+
+   `0.01ms` y no `none` a propósito: la animación/transición se sigue
+   disparando y `transitionend` / `animationend` siguen llegando, así que
+   ningún componente que espere ese evento para limpiar estado se queda colgado.
+   `animation-iteration-count: 1` es lo que corta los giros `infinite`.
+
+   El `!important` es el punto entero de la regla: tiene que ganarle a CUALQUIER
+   declaración de autor, incluidos los `<style scoped>` de los SFC, cuya
+   especificidad (atributo de scope) es siempre mayor que la de este selector
+   universal. Sin `!important` la guarda no apaga nada.
+   =========================================================================== */
+
+/* stylelint-disable declaration-no-important -- DS-08: guardián de exclusión no
+   intercambiable (FE-08); el motivo completo está en el comentario de arriba. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* stylelint-enable */

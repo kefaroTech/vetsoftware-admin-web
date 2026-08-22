@@ -6,8 +6,9 @@ import { startTelemetry } from '@/services/telemetry/telemetry'
 import vuetify from './plugins/vuetify'
 import { useAuthStore } from '@/features/auth/stores/auth.store'
 import './assets/styles/tokens.css'
+import './assets/styles/base.css'
 import './assets/styles/primitives.css'
-import './assets/styles/main.css'
+import './assets/styles/app.css'
 
 const app = createApp(App)
 app.use(createPinia()).use(router).use(vuetify)

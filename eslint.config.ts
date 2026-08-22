@@ -12,7 +12,7 @@ export default tseslint.config(
   ...tseslint.configs.stylistic,
   ...pluginVue.configs['flat/recommended'],
   {
-    files: ['src/**/*.vue'],
+    files: ['{src,visual}/**/*.vue'],
     languageOptions: {
       parserOptions: {
         parser: tseslint.parser,
@@ -20,7 +20,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['src/**/*.{ts,tsx,vue}'],
+    files: ['{src,visual}/**/*.{ts,tsx,vue}'],
     rules: {
       'no-undef': 'off',
       '@typescript-eslint/consistent-type-imports': [

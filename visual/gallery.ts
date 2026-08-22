@@ -11,8 +11,9 @@
  */
 import { createApp } from 'vue'
 import '../src/assets/styles/tokens.css'
+import '../src/assets/styles/base.css'
 import '../src/assets/styles/primitives.css'
-import '../src/assets/styles/main.css'
+import '../src/assets/styles/app.css'
 import Gallery from './Gallery.vue'
 
 createApp(Gallery).mount('#app')
