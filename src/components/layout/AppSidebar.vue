@@ -1,185 +1,43 @@
 <script setup lang="ts">
-import { ref, type Component } from 'vue'
-import { useRoute } from 'vue-router'
-import { ROUTE_NAMES } from '@/constants/routes'
+import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { ICONS } from '@/constants/icons'
 import SidebarBrand from './SidebarBrand.vue'
 import SidebarUserCard from './SidebarUserCard.vue'
 import { useViewport } from '@/composables/useViewport'
+// El QUÉ del menú —grupos, orden y destinos— vive en su propio módulo; aquí se
+// queda el CÓMO se pinta y el estado por instancia. Ver la cabecera de ese
+// fichero para el porqué.
+import { isParent, navGroups, type NavLeaf, type NavParent } from './sidebar-nav'
 
 const route = useRoute()
+const router = useRouter()
 
-interface NavLeaf {
-  name?: (typeof ROUTE_NAMES)[keyof typeof ROUTE_NAMES]
-  label: string
-  path: string
-  icon: Component
-}
+/**
+ * Los destinos que el router conoce **hoy**.
+ *
+ * Las entradas nuevas de §2 llegan antes que las pantallas: cada tarea de la
+ * onda 1 aporta su `routes/<feature>.routes.ts` por su cuenta y el registro de
+ * los seis imports lo hace una sola instancia (§7). Entre medias, pintar
+ * «Configurador» en el menú llevaría a una ruta sin coincidencia —una pantalla
+ * en blanco—, que es peor que no ofrecer la entrada: el usuario no lee «esto
+ * todavía no está», lee «esto está roto».
+ *
+ * Se resuelve una vez, no en cada render: el `computed` no depende de nada
+ * reactivo. En dev, las rutas que aún no existen dejan un aviso de vue-router
+ * en la consola — es la señal de que falta descomentar su import en
+ * `router/index.ts`, no un defecto.
+ */
+const availablePaths = computed(() => {
+  const leaves = navGroups.flatMap((group) =>
+    group.items.flatMap((item) => (isParent(item) ? item.children : [item])),
+  )
+  return new Set(
+    leaves.filter((leaf) => router.resolve(leaf.path).matched.length > 0).map((leaf) => leaf.path),
+  )
+})
 
-interface NavParent {
-  label: string
-  icon: Component
-  children: NavLeaf[]
-}
-
-type NavItem = NavLeaf | NavParent
-
-interface NavGroup {
-  title: string
-  items: NavItem[]
-}
-
-const isParent = (item: NavItem): item is NavParent => 'children' in item
-
-const navGroups: NavGroup[] = [
-  {
-    title: 'General',
-    items: [
-      {
-        name: ROUTE_NAMES.DASHBOARD,
-        label: 'Dashboard',
-        path: '/dashboard',
-        icon: ICONS.DASHBOARD,
-      },
-      {
-        name: ROUTE_NAMES.COMPANIES_LIST,
-        label: 'Empresas',
-        path: '/empresas',
-        icon: ICONS.COMPANY,
-      },
-      { label: 'Empleados', path: '/empleados', icon: ICONS.EMPLOYEE },
-    ],
-  },
-  {
-    title: 'Suscripciones',
-    items: [
-      {
-        name: ROUTE_NAMES.MEMBERSHIPS_LIST,
-        label: 'Membresías',
-        path: '/membresias',
-        icon: ICONS.MEMBERSHIP,
-      },
-      {
-        name: ROUTE_NAMES.MEMBERSHIP_SUB_MODULES_LIST,
-        label: 'Membresías · Submódulos',
-        path: '/membresias-submodulos',
-        icon: ICONS.MEMBERSHIP_SUBMODULE,
-      },
-    ],
-  },
-  {
-    title: 'Configuración',
-    items: [
-      {
-        name: ROUTE_NAMES.MODULES_LIST,
-        label: 'Módulos',
-        path: '/modulos',
-        icon: ICONS.MODULE,
-      },
-      {
-        name: ROUTE_NAMES.SUBMODULES_LIST,
-        label: 'Submódulos',
-        path: '/submodulos',
-        icon: ICONS.SUBMODULE,
-      },
-      {
-        name: ROUTE_NAMES.BASE_PERMISSIONS_LIST,
-        label: 'Permisos base',
-        path: '/permisos-base',
-        icon: ICONS.BASE_PERMISSION,
-      },
-      {
-        name: ROUTE_NAMES.BASE_ROLES_LIST,
-        label: 'Roles base',
-        path: '/roles-base',
-        icon: ICONS.BASE_ROLE,
-      },
-      {
-        name: ROUTE_NAMES.BASE_ROLE_PERMISSIONS_LIST,
-        label: 'Permisos de roles',
-        path: '/permisos-roles-base',
-        icon: ICONS.BASE_ROLE_PERMISSION,
-      },
-      {
-        label: 'Animales',
-        icon: ICONS.ANIMAL_SETTINGS,
-        children: [
-          {
-            name: ROUTE_NAMES.SPECIES_LIST,
-            label: 'Especies',
-            path: '/animales/especies',
-            icon: ICONS.SPECIES,
-          },
-          {
-            name: ROUTE_NAMES.BREEDS_LIST,
-            label: 'Razas',
-            path: '/animales/razas',
-            icon: ICONS.BREED,
-          },
-          {
-            name: ROUTE_NAMES.ANIMAL_COLORS_LIST,
-            label: 'Colores',
-            path: '/animales/colores',
-            icon: ICONS.COLOR,
-          },
-        ],
-      },
-      {
-        label: 'Catálogos clínicos',
-        icon: ICONS.CLINICAL_CATALOGS,
-        children: [
-          {
-            name: ROUTE_NAMES.CONSULTATION_TYPES_LIST,
-            label: 'Tipos de consulta',
-            path: '/catalogos-clinicos/tipos-consulta',
-            icon: ICONS.CONSULTATION_TYPE,
-          },
-          {
-            name: ROUTE_NAMES.VACCINATION_TYPES_LIST,
-            label: 'Tipos de vacuna',
-            path: '/catalogos-clinicos/tipos-vacuna',
-            icon: ICONS.VACCINATION_TYPE,
-          },
-          {
-            name: ROUTE_NAMES.SURGERY_TYPES_LIST,
-            label: 'Tipos de cirugía',
-            path: '/catalogos-clinicos/tipos-cirugia',
-            icon: ICONS.SURGERY_TYPE,
-          },
-          {
-            name: ROUTE_NAMES.LABORATORY_TEST_TYPES_LIST,
-            label: 'Tipos de laboratorio',
-            path: '/catalogos-clinicos/tipos-laboratorio',
-            icon: ICONS.LABORATORY_TEST_TYPE,
-          },
-          {
-            name: ROUTE_NAMES.DIAGNOSTIC_IMAGING_TYPES_LIST,
-            label: 'Tipos de imagen',
-            path: '/catalogos-clinicos/tipos-imagen',
-            icon: ICONS.DIAGNOSTIC_IMAGING_TYPE,
-          },
-          {
-            name: ROUTE_NAMES.SPA_TYPES_LIST,
-            label: 'Tipos de spa',
-            path: '/catalogos-clinicos/tipos-spa',
-            icon: ICONS.SPA_TYPE,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'Sistema',
-    items: [
-      {
-        name: ROUTE_NAMES.CONFIG,
-        label: 'Configuración',
-        path: '/configuracion',
-        icon: ICONS.SETTINGS,
-      },
-    ],
-  },
-]
+const isAvailable = (leaf: NavLeaf) => availablePaths.value.has(leaf.path)
 
 const expanded = ref<Record<string, boolean>>({})
 
@@ -222,7 +80,7 @@ const { isCompact } = useViewport()
               separan.
             -->
             <RouterLink
-              v-if="!isParent(item)"
+              v-if="!isParent(item) && isAvailable(item)"
               v-slot="{ href, navigate, isActive }"
               :to="item.path"
               custom
@@ -242,7 +100,7 @@ const { isCompact } = useViewport()
               </a>
             </RouterLink>
 
-            <div v-else class="ds-stack">
+            <div v-else-if="isParent(item)" class="ds-stack">
               <button
                 type="button"
                 class="nav-item nav-item-parent"

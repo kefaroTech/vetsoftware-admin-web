@@ -68,7 +68,6 @@ import type {
   UpdateBreedRequest,
 } from '../features/breeds/types/breeds.types'
 import type {
-  CompanyMembershipSummary,
   CompanyResponse,
   CreateCompanyRequest,
   UpdateCompanyRequest,
@@ -89,17 +88,6 @@ import type {
   LaboratoryTestTypeResponse,
   UpdateLaboratoryTestTypeRequest,
 } from '../features/laboratory-test-types/types/laboratory-test-types.types'
-import type {
-  CreateMembershipSubModuleRequest,
-  MembershipSubModuleResponse,
-  MembershipSummary,
-  UpdateMembershipSubModuleRequest,
-} from '../features/membership-sub-modules/types/membership-sub-modules.types'
-import type {
-  CreateMembershipRequest,
-  MembershipResponse,
-  UpdateMembershipRequest,
-} from '../features/memberships/types/memberships.types'
 import type {
   ModuleResponse,
   CreateModuleRequest,
@@ -130,6 +118,109 @@ import type {
   UpdateVaccinationTypeRequest,
   VaccinationTypeResponse,
 } from '../features/vaccination-types/types/vaccination-types.types'
+import type {
+  BillingDocumentResponse,
+  BillingDocumentTaxSummary,
+  DunningBillingDocumentSummary,
+  DunningEventResponse,
+  DunningSubscriptionSummary,
+  RegisterExternalInvoiceRequest,
+  SubscriptionPaymentResponse,
+} from '../features/billing-operations/types/billing-operations.types'
+import type {
+  BundleComponentResponse,
+  CatalogItemDependencyResponse,
+  CatalogItemResponse,
+  CatalogItemSummary,
+  CatalogPriceResponse,
+  CreateBundleComponentRequest,
+  CreateCatalogItemDependencyRequest,
+  CreateCatalogItemRequest,
+  CreateCatalogItemSubModuleRequest,
+  CreateCatalogPriceRequest,
+  CreatePriceListRequest,
+  PriceListResponse,
+  UpdateBundleComponentRequest,
+  UpdateCatalogItemDependencyRequest,
+  UpdateCatalogItemRequest,
+  UpdateCatalogPriceRequest,
+  UpdatePriceListRequest,
+} from '../features/commercial-catalog/types/commercial-catalog.types'
+import type {
+  CityResponse,
+  CountryResponse,
+  CountrySummary,
+  StateResponse,
+  StateSummary,
+} from '../features/companies/types/company-locations.types'
+import type {
+  SubscriptionItemOverlapResponse,
+  SubscriptionResponse,
+} from '../features/subscriptions-admin/types/subscriptions-admin.types'
+import type {
+  CancelSubscriptionRequest,
+  ChangeSubscriptionStatusRequest,
+} from '../features/subscriptions-admin/types/subscription-record.types'
+import type {
+  AddSubscriptionItemRequest,
+  ChangeSubscriptionItemQuantityRequest,
+  RemoveSubscriptionItemRequest,
+  SubscriptionItemLineRequest,
+  SubscriptionItemResponse,
+} from '../features/subscriptions-admin/types/subscription-items.types'
+import type {
+  SubscriptionAmendmentResponse,
+  SubscriptionStatusChangeResponse,
+} from '../features/subscriptions-admin/types/subscription-history.types'
+import type {
+  CompanyAccessResponse,
+  CompanyCapacityResponse,
+  CompanyEntitlementResponse,
+  EntitlementRecalculationResponse,
+} from '../features/subscriptions-admin/types/entitlements.types'
+import type { RecordDunningEventRequest } from '../features/subscriptions-admin/types/dunning-record.types'
+import type {
+  RegisterSubscriptionPaymentRequest,
+  SubscriptionChargeResponse,
+} from '../features/subscriptions-admin/types/subscription-money.types'
+import type {
+  ConfiguratorEffectResponse,
+  ConfiguratorOptionResponse,
+  ConfiguratorQuestionResponse,
+  ConfiguratorSelectionResponse,
+  CreateConfiguratorEffectRequest,
+  CreateConfiguratorOptionRequest,
+  CreateConfiguratorQuestionRequest,
+  QuestionnaireOptionResponse,
+  QuestionnaireQuestionResponse,
+  ResolveConfiguratorSelectionRequest,
+  SelectedItemResponse,
+  UpdateConfiguratorEffectRequest,
+  UpdateConfiguratorOptionRequest,
+  UpdateConfiguratorQuestionRequest,
+} from '../features/configurator/types/configurator.types'
+import type {
+  CatalogItemSubModuleResponse,
+  SubModuleSummary,
+} from '../features/platform-setup/types/platform-setup.types'
+import type {
+  BillingDocumentSequenceResponse,
+  CreateBillingDocumentSequenceRequest,
+  PlatformBillingConfigResponse,
+  PriceListSummary,
+  UpdatePlatformBillingConfigRequest,
+} from '../features/platform-billing/types/platform-billing.types'
+import type {
+  AcceptQuoteRequest,
+  CompanySummary,
+  CreateQuoteRequest,
+  QuoteAnswerRequest,
+  QuoteAnswerResponse,
+  QuoteLineRequest,
+  QuoteLineResponse,
+  QuoteResponse,
+  QuoteSummaryResponse,
+} from '../features/quotes/types/quotes.types'
 export type Schemas = components['schemas']
 
 /** Lo que el contrato sabe comparar campo a campo. Lo demás se comprueba por su propia atadura. */
@@ -182,11 +273,15 @@ type NullableWhereRequired<Local, Name extends keyof Schemas> = {
  *
  * <p>Este era el agujero del propio guardián. Los cuatro conjuntos de arriba cruzan todos por
  * `keyof Local`, así que solo saben hablar de campos que este repositorio ya nombra: **omitir**
- * un campo entero les resultaba invisible. `CreateMembershipRequest` declaraba `name` y
- * `status`, el contrato traía además `mandatory`, y
- * `MatchesContract<CreateMembershipRequest, 'CreateMembershipRequest'>` pasaba en verde mientras
- * cada membresía creada o editada desde la consola se guardaba con `mandatory = false` sin que
- * nadie lo eligiera ni lo viera.
+ * un campo entero les resultaba invisible. La petición de crear membresía declaraba `name` y
+ * `status`, el contrato traía además `mandatory`, y su atadura pasaba en verde mientras cada
+ * membresía creada o editada desde la consola se guardaba con `mandatory = false` sin que nadie
+ * lo eligiera ni lo viera.
+ *
+ * <p>Aquel esquema ya no existe: el modelo de membresías se sustituyó por el de suscripciones.
+ * El mecanismo sí sigue haciendo falta, y lo demostró el propio cambio: `CreateSubModuleRequest`
+ * estrenó `sellable` y `readOnlyCapable` sin que este repositorio los declarara, y fue este
+ * conjunto —no los `required`— el que lo detuvo.
  *
  * <p>Y no basta con mirar los `required` del contrato, que es lo que hace `MissingRequiredFields`:
  * `mandatory` **no** es `required` allí —springdoc solo marca lo que lleva `@NotNull` o
@@ -284,25 +379,15 @@ type RottenGapEntries = {
  * exista en vez de una prohibición seca.
  */
 interface ContractGaps {
-  // --- Peticiones: lo que este repositorio NUNCA envía -------------------------------
-  // Son las peligrosas. Un campo que no se declara no se envía, y el servidor no recibe
-  // «sin cambios» sino el valor por defecto de Java. Bajar una de estas líneas arregla un
-  // defecto de verdad; bajar una de las de abajo solo enseña un dato más.
-  CreateCompanyRequest: 'cityId' | 'membershipId'
-  UpdateCompanyRequest: 'cityId' | 'membershipId'
-
   // --- Respuestas: lo que este repositorio no lee -------------------------------------
   AnimalColorResponse: 'enabled'
   BasePermissionResponse: 'enabled'
   BaseRolePermissionResponse: 'enabled'
   BaseRoleResponse: 'enabled'
   BreedResponse: 'enabled'
-  CompanyMembershipSummary: 'status'
   ConsultationTypeResponse: 'enabled'
   DiagnosticImagingTypeResponse: 'enabled'
   LaboratoryTestTypeResponse: 'enabled'
-  MembershipResponse: 'enabled'
-  MembershipSubModuleResponse: 'enabled'
   ModuleResponse: 'enabled'
   SpaTypeResponse: 'enabled'
   SpecieResponse: 'enabled'
@@ -332,7 +417,6 @@ export type ContractAssertions = [
   Expect<MatchesContract<BaseRolePermissionResponse, 'BaseRolePermissionResponse'>>,
   Expect<MatchesContract<BaseRoleSummary, 'BaseRoleSummary'>>,
   Expect<MatchesContract<BreedResponse, 'BreedResponse'>>,
-  Expect<MatchesContract<CompanyMembershipSummary, 'CompanyMembershipSummary'>>,
   Expect<MatchesContract<CompanyResponse, 'CompanyResponse'>>,
   Expect<MatchesContract<ConsultationTypeResponse, 'ConsultationTypeResponse'>>,
   Expect<MatchesContract<CreateAnimalColorRequest, 'CreateAnimalColorRequest'>>,
@@ -344,8 +428,6 @@ export type ContractAssertions = [
   Expect<MatchesContract<CreateConsultationTypeRequest, 'CreateConsultationTypeRequest'>>,
   Expect<MatchesContract<CreateDiagnosticImagingTypeRequest, 'CreateDiagnosticImagingTypeRequest'>>,
   Expect<MatchesContract<CreateLaboratoryTestTypeRequest, 'CreateLaboratoryTestTypeRequest'>>,
-  Expect<MatchesContract<CreateMembershipRequest, 'CreateMembershipRequest'>>,
-  Expect<MatchesContract<CreateMembershipSubModuleRequest, 'CreateMembershipSubModuleRequest'>>,
   Expect<MatchesContract<CreateModuleRequest, 'CreateModuleRequest'>>,
   Expect<MatchesContract<CreateSpaTypeRequest, 'CreateSpaTypeRequest'>>,
   Expect<MatchesContract<CreateSpecieRequest, 'CreateSpecieRequest'>>,
@@ -357,9 +439,6 @@ export type ContractAssertions = [
   Expect<MatchesContract<LoginEmployeeRequest, 'LoginEmployeeRequest'>>,
   Expect<MatchesContract<LoginSystemUserRequest, 'LoginSystemUserRequest'>>,
   Expect<MatchesContract<MeResponse, 'MeResponse'>>,
-  Expect<MatchesContract<MembershipResponse, 'MembershipResponse'>>,
-  Expect<MatchesContract<MembershipSubModuleResponse, 'MembershipSubModuleResponse'>>,
-  Expect<MatchesContract<MembershipSummary, 'MembershipSummary'>>,
   Expect<MatchesContract<PublishAdminPermissionsResponse, 'PublishAdminPermissionsResponse'>>,
   Expect<MatchesContract<SetSystemConfigurationRequest, 'SetSystemConfigurationRequest'>>,
   Expect<MatchesContract<SpaTypeResponse, 'SpaTypeResponse'>>,
@@ -377,8 +456,6 @@ export type ContractAssertions = [
   Expect<MatchesContract<UpdateConsultationTypeRequest, 'UpdateConsultationTypeRequest'>>,
   Expect<MatchesContract<UpdateDiagnosticImagingTypeRequest, 'UpdateDiagnosticImagingTypeRequest'>>,
   Expect<MatchesContract<UpdateLaboratoryTestTypeRequest, 'UpdateLaboratoryTestTypeRequest'>>,
-  Expect<MatchesContract<UpdateMembershipRequest, 'UpdateMembershipRequest'>>,
-  Expect<MatchesContract<UpdateMembershipSubModuleRequest, 'UpdateMembershipSubModuleRequest'>>,
   Expect<MatchesContract<UpdateModuleRequest, 'UpdateModuleRequest'>>,
   Expect<MatchesContract<UpdateSpaTypeRequest, 'UpdateSpaTypeRequest'>>,
   Expect<MatchesContract<UpdateSpecieRequest, 'UpdateSpecieRequest'>>,
@@ -386,4 +463,197 @@ export type ContractAssertions = [
   Expect<MatchesContract<UpdateSurgeryTypeRequest, 'UpdateSurgeryTypeRequest'>>,
   Expect<MatchesContract<UpdateVaccinationTypeRequest, 'UpdateVaccinationTypeRequest'>>,
   Expect<MatchesContract<VaccinationTypeResponse, 'VaccinationTypeResponse'>>,
+  Expect<MatchesContract<BillingDocumentResponse, 'BillingDocumentResponse'>>,
+  Expect<MatchesContract<BillingDocumentTaxSummary, 'BillingDocumentTaxSummary'>>,
+  Expect<MatchesContract<RegisterExternalInvoiceRequest, 'RegisterExternalInvoiceRequest'>>,
+  Expect<MatchesContract<SubscriptionPaymentResponse, 'SubscriptionPaymentResponse'>>,
+  Expect<MatchesContract<DunningEventResponse, 'DunningEventResponse'>>,
+  Expect<MatchesContract<DunningSubscriptionSummary, 'DunningSubscriptionSummary'>>,
+  Expect<MatchesContract<DunningBillingDocumentSummary, 'DunningBillingDocumentSummary'>>,
+  Expect<MatchesContract<CatalogItemResponse, 'CatalogItemResponse'>>,
+  Expect<MatchesContract<CatalogPriceResponse, 'CatalogPriceResponse'>>,
+  Expect<MatchesContract<CityResponse, 'CityResponse'>>,
+  Expect<MatchesContract<CountryResponse, 'CountryResponse'>>,
+  Expect<MatchesContract<CountrySummary, 'CountrySummary'>>,
+  Expect<MatchesContract<CreateCatalogItemRequest, 'CreateCatalogItemRequest'>>,
+  Expect<MatchesContract<CreateCatalogPriceRequest, 'CreateCatalogPriceRequest'>>,
+  Expect<MatchesContract<CreatePriceListRequest, 'CreatePriceListRequest'>>,
+  Expect<MatchesContract<PriceListResponse, 'PriceListResponse'>>,
+  Expect<MatchesContract<StateResponse, 'StateResponse'>>,
+  Expect<MatchesContract<StateSummary, 'StateSummary'>>,
+  Expect<MatchesContract<SubscriptionItemOverlapResponse, 'SubscriptionItemOverlapResponse'>>,
+  Expect<MatchesContract<SubscriptionResponse, 'SubscriptionResponse'>>,
+  Expect<MatchesContract<UpdateCatalogItemRequest, 'UpdateCatalogItemRequest'>>,
+  Expect<MatchesContract<UpdateCatalogPriceRequest, 'UpdateCatalogPriceRequest'>>,
+  Expect<MatchesContract<UpdatePriceListRequest, 'UpdatePriceListRequest'>>,
+
+  // Puesta en marcha de la plataforma (§3.7, W1-B). Las cuatro respuestas que la
+  // lista de comprobación lee para saber si su paso está hecho. Si el backend
+  // renombra `defaultPriceList` o `prefix`, la sonda dejaría de encontrarlo y el
+  // paso se quedaría en «Pendiente» para siempre sin que nada fallara: es
+  // exactamente el fallo silencioso que TR-01 existe para convertir en error de
+  // compilación.
+  Expect<MatchesContract<BillingDocumentSequenceResponse, 'BillingDocumentSequenceResponse'>>,
+  Expect<
+    MatchesContract<CreateBillingDocumentSequenceRequest, 'CreateBillingDocumentSequenceRequest'>
+  >,
+  Expect<MatchesContract<UpdatePlatformBillingConfigRequest, 'UpdatePlatformBillingConfigRequest'>>,
+  Expect<MatchesContract<CatalogItemSubModuleResponse, 'CatalogItemSubModuleResponse'>>,
+  Expect<MatchesContract<ConfiguratorQuestionResponse, 'ConfiguratorQuestionResponse'>>,
+  Expect<MatchesContract<CreateConfiguratorQuestionRequest, 'CreateConfiguratorQuestionRequest'>>,
+  Expect<MatchesContract<UpdateConfiguratorQuestionRequest, 'UpdateConfiguratorQuestionRequest'>>,
+  Expect<MatchesContract<ConfiguratorOptionResponse, 'ConfiguratorOptionResponse'>>,
+  Expect<MatchesContract<CreateConfiguratorOptionRequest, 'CreateConfiguratorOptionRequest'>>,
+  Expect<MatchesContract<UpdateConfiguratorOptionRequest, 'UpdateConfiguratorOptionRequest'>>,
+  Expect<MatchesContract<ConfiguratorEffectResponse, 'ConfiguratorEffectResponse'>>,
+  Expect<MatchesContract<CreateConfiguratorEffectRequest, 'CreateConfiguratorEffectRequest'>>,
+  Expect<MatchesContract<UpdateConfiguratorEffectRequest, 'UpdateConfiguratorEffectRequest'>>,
+  Expect<MatchesContract<QuestionnaireQuestionResponse, 'QuestionnaireQuestionResponse'>>,
+  Expect<MatchesContract<QuestionnaireOptionResponse, 'QuestionnaireOptionResponse'>>,
+  Expect<
+    MatchesContract<ResolveConfiguratorSelectionRequest, 'ResolveConfiguratorSelectionRequest'>
+  >,
+  Expect<MatchesContract<ConfiguratorSelectionResponse, 'ConfiguratorSelectionResponse'>>,
+  Expect<MatchesContract<SelectedItemResponse, 'SelectedItemResponse'>>,
+  Expect<MatchesContract<PlatformBillingConfigResponse, 'PlatformBillingConfigResponse'>>,
+  Expect<MatchesContract<PriceListSummary, 'PriceListSummary'>>,
+  Expect<MatchesContract<SubModuleSummary, 'SubModuleSummary'>>,
+
+  // Cotizaciones (§4.3, W1-D). Las nueve formas del embudo comercial. `CompanySummary` se ata
+  // aquí porque es el resumen anidado que el contrato define UNA vez y que las cotizaciones son
+  // la unica familia de estas pantallas en recibir: si el backend le cambia un campo, tiene que
+  // romper la compilación y no dejar la columna «Cliente» en `undefined`.
+  Expect<MatchesContract<AcceptQuoteRequest, 'AcceptQuoteRequest'>>,
+  Expect<MatchesContract<CompanySummary, 'CompanySummary'>>,
+  Expect<MatchesContract<CreateQuoteRequest, 'CreateQuoteRequest'>>,
+  Expect<MatchesContract<QuoteAnswerRequest, 'QuoteAnswerRequest'>>,
+  Expect<MatchesContract<QuoteAnswerResponse, 'QuoteAnswerResponse'>>,
+  Expect<MatchesContract<QuoteLineRequest, 'QuoteLineRequest'>>,
+  Expect<MatchesContract<QuoteLineResponse, 'QuoteLineResponse'>>,
+  Expect<MatchesContract<QuoteResponse, 'QuoteResponse'>>,
+  Expect<MatchesContract<QuoteSummaryResponse, 'QuoteSummaryResponse'>>,
+
+  // Expediente del contrato (§4.4.2, W2-A). Los dos únicos cuerpos que esta
+  // consola escribe sobre un contrato. `SubscriptionResponse` ya estaba atado
+  // más arriba. Atar estos dos importa especialmente: son escrituras sobre el
+  // dinero y el contrato de un tercero, y un campo renombrado en el backend no
+  // fallaría al compilar — el servidor rechazaría el cuerpo con el operador
+  // delante y Ana al teléfono.
+  Expect<MatchesContract<CancelSubscriptionRequest, 'CancelSubscriptionRequest'>>,
+  Expect<MatchesContract<ChangeSubscriptionStatusRequest, 'ChangeSubscriptionStatusRequest'>>,
+
+  // Acceso calculado (§4.4.2, W2-D). Las cuatro formas de la tabla derivada.
+  // Aquí no se escribe nada —los tres endpoints son de lectura o de reparación y
+  // ninguno lleva cuerpo—, así que lo que hay que atar no son peticiones sino
+  // respuestas, y por un motivo muy concreto: `subscriptionId` y
+  // `subscriptionItemId` son el puente de vuelta a la línea del contrato. Si el
+  // backend renombra uno de los dos, el enlace no falla: desaparece. La celda
+  // pasa a decir «no hay línea detrás» sobre un permiso que sí la tiene, y nadie
+  // se entera hasta que alguien reclama por qué se le cobró algo.
+  Expect<MatchesContract<CompanyEntitlementResponse, 'CompanyEntitlementResponse'>>,
+  Expect<MatchesContract<CompanyCapacityResponse, 'CompanyCapacityResponse'>>,
+  Expect<MatchesContract<CompanyAccessResponse, 'CompanyAccessResponse'>>,
+  Expect<MatchesContract<EntitlementRecalculationResponse, 'EntitlementRecalculationResponse'>>,
+
+  // Historia del contrato (§3.3, W2-C). Los dos documentos inmutables que hacen
+  // auditable el modelo: el otrosí y la bitácora de estados. Aquí tampoco se
+  // escribe nada, y por eso atarlos importa de una forma distinta: un campo
+  // renombrado en el backend no daría un 400 con el operador delante — daría un
+  // `undefined` pintado como «—». `requestedByEmployeeId` y
+  // `requestedBySystemUserId` son las dos firmas que dicen si un cambio lo pidió
+  // la clínica o lo hizo la plataforma, y `prorationAmount`/`monthlyDeltaAmount`
+  // son dos importes que significan cosas distintas. Cualquiera de los cuatro
+  // desapareciendo en silencio deja una película del contrato que se lee entera
+  // y miente.
+  Expect<MatchesContract<SubscriptionAmendmentResponse, 'SubscriptionAmendmentResponse'>>,
+  Expect<MatchesContract<SubscriptionStatusChangeResponse, 'SubscriptionStatusChangeResponse'>>,
+
+  // Lo contratado (§3.3, W2-B). `SubscriptionItemResponse` es el DTO sobre el que
+  // esta consola decide qué tenía contratado una clínica un día concreto. Si el
+  // backend renombrara `effectiveFrom` o `effectiveTo`, el criterio de vigencia no
+  // fallaría: con los dos campos en `undefined` clasificaría TODAS las líneas igual
+  // y la pantalla seguiría respondiendo con aplomo. Es exactamente el error
+  // invisible del que avisa `EffectivePeriod` —«se factura de más o se dejan
+  // permisos vivos hasta que un cliente reclama meses después»—, y la única forma
+  // de que cante es que deje de compilar.
+  //
+  // Los tres cuerpos de escritura se atan por el motivo de siempre: son otrosíes
+  // sobre el contrato de un tercero, y un campo renombrado se descubriría con un
+  // 400 y el operador delante.
+  Expect<MatchesContract<SubscriptionItemResponse, 'SubscriptionItemResponse'>>,
+  Expect<MatchesContract<SubscriptionItemLineRequest, 'SubscriptionItemLineRequest'>>,
+  Expect<MatchesContract<AddSubscriptionItemRequest, 'AddSubscriptionItemRequest'>>,
+  Expect<
+    MatchesContract<ChangeSubscriptionItemQuantityRequest, 'ChangeSubscriptionItemQuantityRequest'>
+  >,
+  Expect<MatchesContract<RemoveSubscriptionItemRequest, 'RemoveSubscriptionItemRequest'>>,
+
+  // El dinero del contrato (§3.5, W2-E). Los tres verbos —devengar, facturar,
+  // cobrar— y el unico cuerpo de escritura de la sub-vista.
+  //
+  // `SubscriptionChargeResponse` es el DTO que sostiene la cadena de §3.3:
+  // `billingDocumentId`, `amendmentId` y `subscriptionItemId` son los tres saltos
+  // que responden «¿por que se le facturaron 179.000?», y `prorationDays` /
+  // `periodDays` son la fraccion sin la cual un prorrateo no se puede
+  // reconstruir. Si el backend renombrara cualquiera de los cinco, nada fallaria:
+  // el enlace no daria error, DESAPARECERIA, y la celda diria «no se sabe de
+  // donde salio» sobre un cargo que si lo sabe. La unica forma de que cante es
+  // que deje de compilar.
+  //
+  // `RegisterSubscriptionPaymentRequest` se ata por el motivo de siempre y por
+  // uno propio: es una escritura sobre el dinero de un tercero, y `clientRequestId`
+  // es lo unico que impide que un doble clic registre dos veces el mismo giro. Un
+  // campo renombrado en el backend no daria un error de compilacion — daria una
+  // llave de idempotencia que el servidor ignora en silencio.
+  Expect<MatchesContract<SubscriptionChargeResponse, 'SubscriptionChargeResponse'>>,
+  Expect<MatchesContract<RegisterSubscriptionPaymentRequest, 'RegisterSubscriptionPaymentRequest'>>,
+
+  // Cobranza del contrato (§4.4.2, W2-F). La respuesta —`DunningEventResponse` y
+  // sus dos resúmenes— ya está atada más arriba desde W1-E, y esta sub-vista la
+  // reutiliza tal cual en vez de declarar una segunda copia. Lo que faltaba atar
+  // es el único cuerpo que esta pantalla escribe.
+  //
+  // Importa por una razón concreta: `eventType` y `channel` son dos uniones
+  // cerradas, y `channel` además es obligatorio cuando `eventType` es
+  // `REMINDER_SENT` (`chk_dunning_events_reminder_channel`). Si el backend
+  // añadiera o renombrara un valor del enum, el formulario seguiría compilando y
+  // mandaría un valor que el servidor rechaza — con el operador delante y el
+  // cliente al teléfono, en la pantalla cuya única razón de ser es servir de
+  // prueba de que se avisó.
+  Expect<MatchesContract<RecordDunningEventRequest, 'RecordDunningEventRequest'>>,
+
+  // Los tres puentes del catálogo (§4.1, W3-A). Nueve rutas que hasta ahora no
+  // tenía ningún consumidor, así que sus siete DTO entran atados desde el primer
+  // día en vez de sumarse a la deuda que este fichero existe para cerrar.
+  //
+  // `CatalogItemDependencyResponse` importa por `relationType`: es una unión
+  // cerrada en inglés (`REQUIRES` / `RECOMMENDS` / `EXCLUDES`) sobre la que ya
+  // hubo un choque con el español de la interfaz. Si el backend renombrara o
+  // añadiera un valor, el `<select>` seguiría compilando y mandaría algo que
+  // `chk_catalog_item_dependencies_relation` rechaza con un 400 — y el operador
+  // leería «solicitud inválida» sobre una regla que acaba de teclear bien.
+  // `note` va atada por otra razón: es **copy que lee el cliente**, no un
+  // comentario técnico. Si desapareciera del contrato, la regla se guardaría sin
+  // mensaje y el configurador enseñaría un rechazo sin explicación, sin que nada
+  // fallara aquí.
+  //
+  // `BundleComponentResponse` y sus dos cuerpos: `quantity` es lo único que se
+  // edita de una pieza, así que un renombrado dejaría el `PUT` mandando un
+  // cuerpo que el servidor ignora y la cantidad «guardada» sin cambiar.
+  //
+  // `CreateCatalogItemSubModuleRequest` es un solo campo, y por eso mismo no
+  // tiene red: `subModuleId` mal escrito es un 400 en el puente entre vender y
+  // funcionar, que es la única escritura de esta pantalla que decide si un
+  // artículo vendido abre alguna pantalla.
+  Expect<MatchesContract<CreateCatalogItemSubModuleRequest, 'CreateCatalogItemSubModuleRequest'>>,
+  Expect<MatchesContract<CatalogItemDependencyResponse, 'CatalogItemDependencyResponse'>>,
+  Expect<MatchesContract<CreateCatalogItemDependencyRequest, 'CreateCatalogItemDependencyRequest'>>,
+  Expect<MatchesContract<UpdateCatalogItemDependencyRequest, 'UpdateCatalogItemDependencyRequest'>>,
+  Expect<MatchesContract<BundleComponentResponse, 'BundleComponentResponse'>>,
+  Expect<MatchesContract<CreateBundleComponentRequest, 'CreateBundleComponentRequest'>>,
+  Expect<MatchesContract<UpdateBundleComponentRequest, 'UpdateBundleComponentRequest'>>,
+  // El resumen del articulo que `CatalogPriceResponse` trae desde la incidencia #379. Se ata
+  // aparte porque es un esquema propio del contrato: si el backend le renombra `code` o `name`,
+  // la rejilla de precios enseñaria una celda vacia en vez de fallar al compilar.
+  Expect<MatchesContract<CatalogItemSummary, 'CatalogItemSummary'>>,
 ]

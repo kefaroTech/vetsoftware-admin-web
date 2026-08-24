@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useCompanies } from '../composables/useCompanies'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
@@ -11,7 +11,13 @@ import AppBadge from '@/components/ui/AppBadge.vue'
 import AppListSearch from '@/components/ui/AppListSearch.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
+import PlatformSetupChecklist from '@/components/feedback/PlatformSetupChecklist.vue'
 import CompanyForm from '../components/CompanyForm.vue'
+import {
+  isPlatformSetupProblem,
+  stepsFlaggedByServer,
+} from '@/features/platform-setup/composables/usePlatformSetup'
+import type { PlatformSetupStepId } from '@/features/platform-setup/types/platform-setup.types'
 import { ICONS } from '@/constants/icons'
 import type { CreateCompanyRequest } from '../types/companies.types'
 
@@ -45,6 +51,25 @@ const { confirm } = useConfirmDialog()
 const showModal = ref(false)
 const saving = ref(false)
 const formRef = ref<InstanceType<typeof CompanyForm> | null>(null)
+
+/**
+ * §3.7 · El alta de una empresa falla mientras el catálogo comercial no esté
+ * sembrado: el backend rechaza la petición con `PLATFORM_CATALOG_NOT_CONFIGURED`
+ * porque el contrato inicial y la empresa nacen en la misma transacción
+ * (`ProvisionCompanyService`), y sin catálogo no hay contrato que firmar.
+ *
+ * Cuando eso ocurre, el modal deja de pedir datos y **pinta la misma lista de
+ * pasos, con las mismas palabras**, que la pantalla de catálogo. Es lo que
+ * cierra el círculo: si el servidor enumerase lo que falta con otras palabras
+ * que la pantalla donde se arregla, el operador creería que son dos problemas
+ * distintos (GOV.UK, *Validation pattern*).
+ *
+ * El formulario no se desmonta —va con `v-show`—: lo escrito sigue ahí cuando se
+ * vuelve a él, igual que en cualquier otro fallo del alta (FORM-08).
+ */
+const setupBlocked = ref(false)
+const flaggedSteps = ref<PlatformSetupStepId[]>([])
+const checklistRef = ref<InstanceType<typeof PlatformSetupChecklist> | null>(null)
 
 onMounted(() => goTo(Number(filtros.page) || 1))
 
@@ -105,8 +130,20 @@ async function handleCreate(data: CreateCompanyRequest) {
   try {
     await create(data)
     showModal.value = false
-  } catch {
-    // El composable ya avisó del fallo; el modal sigue abierto con lo escrito.
+    setupBlocked.value = false
+  } catch (e) {
+    // El composable ya avisó del fallo con su traza; el modal sigue abierto con
+    // lo escrito. Lo único que se añade aquí es la explicación accionable del
+    // único fallo que no depende de lo que el operador escribió.
+    if (isPlatformSetupProblem(e)) {
+      flaggedSteps.value = stepsFlaggedByServer(e)
+      setupBlocked.value = true
+      // El foco va al `<h2>` de lo que hay que hacer ahora, no al botón de
+      // guardar que acaba de dejar de servir ni al principio del documento
+      // (§5.1). `nextTick` porque la lista aún no está en el DOM.
+      await nextTick()
+      checklistRef.value?.focus()
+    }
   } finally {
     // FORM-09: AQUÍ y no dentro del `try`. Si se pone tras el `await`, el
     // camino de error nunca lo ejecuta y el botón queda deshabilitado para
@@ -118,6 +155,7 @@ async function handleCreate(data: CreateCompanyRequest) {
 function handleClose() {
   if (saving.value) return
   showModal.value = false
+  setupBlocked.value = false
 }
 </script>
 
@@ -222,7 +260,21 @@ function handleClose() {
     />
 
     <AppModal :open="showModal" title="Nueva empresa" @close="handleClose">
-      <CompanyForm ref="formRef" :saving="saving" @submit="handleCreate" @cancel="handleClose" />
+      <div v-if="setupBlocked" class="ds-stack ds-stack--16">
+        <PlatformSetupChecklist ref="checklistRef" :flagged="flaggedSteps" />
+        <div class="ds-actions">
+          <button type="button" class="ds-btn ds-btn--ghost" @click="setupBlocked = false">
+            Volver al formulario
+          </button>
+        </div>
+      </div>
+      <CompanyForm
+        v-show="!setupBlocked"
+        ref="formRef"
+        :saving="saving"
+        @submit="handleCreate"
+        @cancel="handleClose"
+      />
     </AppModal>
   </AppLayout>
 </template>

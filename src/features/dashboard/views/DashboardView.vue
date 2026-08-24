@@ -43,12 +43,28 @@ const tiles: Tile[] = [
     path: '/empleados',
   },
   {
-    name: ROUTE_NAMES.MEMBERSHIPS_LIST,
-    title: 'Membresías',
-    count: '6',
-    desc: 'Planes de suscripción disponibles.',
-    icon: ICONS.MEMBERSHIP,
-    path: '/membresias',
+    name: ROUTE_NAMES.COMMERCIAL_CATALOG,
+    title: 'Catálogo y precios',
+    count: '',
+    desc: 'Productos, planes y tarifas comercializables.',
+    icon: ICONS.COMMERCIAL_CATALOG,
+    path: '/catalogo-comercial',
+  },
+  {
+    name: ROUTE_NAMES.SUBSCRIPTIONS_ADMIN,
+    title: 'Contratos',
+    count: '',
+    desc: 'Suscripciones vigentes e integridad de sus líneas.',
+    icon: ICONS.SUBSCRIPTION,
+    path: '/suscripciones',
+  },
+  {
+    name: ROUTE_NAMES.BILLING_OPERATIONS,
+    title: 'Cobranza',
+    count: '',
+    desc: 'Facturas pendientes de emisión externa y cartera vencida.',
+    icon: ICONS.RECEIPT,
+    path: '/cobranza',
   },
   {
     name: ROUTE_NAMES.MODULES_LIST,
@@ -105,7 +121,7 @@ function goTo(path: string) {
         <div class="eyebrow">Bienvenido de vuelta</div>
         <h1 class="hero-title">Dashboard administrativo</h1>
         <p class="hero-text">
-          Administra empresas, membresías, módulos y permisos del sistema VetSoftware desde un solo
+          Administra empresas, catálogo comercial, contratos y cobranza de VetSoftware desde un solo
           lugar.
         </p>
         <div class="hero-actions">
@@ -113,7 +129,9 @@ function goTo(path: string) {
             Ver empresas
             <component :is="ICONS.ARROW_RIGHT" :size="13" />
           </button>
-          <button class="cta-secondary" @click="goTo('/membresias')">Configurar membresías</button>
+          <button class="cta-secondary" @click="goTo('/catalogo-comercial')">
+            Configurar catálogo
+          </button>
         </div>
       </div>
     </section>

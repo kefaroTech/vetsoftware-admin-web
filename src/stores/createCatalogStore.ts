@@ -4,7 +4,7 @@ import { ref, type Ref } from 'vue'
 /**
  * Factoría de los stores de catálogo del panel.
  *
- * Diecisiete features —especies, razas, colores, módulos, membresías, tipos de
+ * Quince features —especies, razas, colores, módulos, tipos de
  * spa, submódulos, roles y permisos base, tipos de consulta, cirugía, vacuna,
  * imagenología, laboratorio…— tenían EXACTAMENTE el mismo archivo con los
  * nombres cambiados: una lista, el seleccionado, un `loading` y tres setters.

@@ -5,12 +5,11 @@ export const membershipsRoutes: RouteRecordRaw[] = [
   {
     path: '/membresias',
     name: ROUTE_NAMES.MEMBERSHIPS_LIST,
-    component: () => import('@/features/memberships/views/MembershipsListView.vue'),
+    redirect: { name: ROUTE_NAMES.COMMERCIAL_CATALOG },
   },
   {
     path: '/membresias/:id',
     name: ROUTE_NAMES.MEMBERSHIP_DETAIL,
-    component: () => import('@/features/memberships/views/MembershipDetailView.vue'),
-    props: true,
+    redirect: { name: ROUTE_NAMES.COMMERCIAL_CATALOG },
   },
 ]

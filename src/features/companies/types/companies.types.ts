@@ -1,10 +1,5 @@
-/** Resumen de ciudad y de plan que devuelve el backend dentro de la empresa. */
+/** Resumen de ciudad que devuelve el backend dentro de la empresa. */
 export interface CompanyCitySummary {
-  id: number
-  name: string
-}
-
-export interface CompanyMembershipSummary {
   id: number
   name: string
 }
@@ -19,7 +14,6 @@ export interface CompanyResponse {
   contactNumber: string | null
   /** TR-01: el backend los devuelve y este repositorio no los declaraba. */
   city: CompanyCitySummary
-  membership: CompanyMembershipSummary
   createdDate: string
   enabled: boolean
 }
@@ -29,6 +23,7 @@ export interface CreateCompanyRequest {
   identifier: string
   address: string
   contactNumber: string
+  cityId: number
 }
 
 export type UpdateCompanyRequest = CreateCompanyRequest

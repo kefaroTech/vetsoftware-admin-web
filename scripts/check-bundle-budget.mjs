@@ -46,19 +46,63 @@ const DIST = path.resolve(import.meta.dirname, '../dist')
  * de compilar en vez de dejar un hueco, y no hay paso de generación que
  * recordar. El JS total bajó de 190,3 a 186,2 KB pese a entrar tokens y
  * primitivas del sistema de diseño.
+ *
+ * ── JS total re-basado tras la onda 3 (24 de agosto de 2026) ────────────────
+ *
+ * El total llegó a 321,6 KB / 310 KB (127 chunks), excedido, sin que ninguna tarea
+ * individual lo causara: doce pantallas de campaña lo fueron subiendo, sobre todo el
+ * chunk diferido de los editores de puentes del catálogo (9,24 KB, W3-A) y tres
+ * primitivas nuevas (`DocumentSheet`/`DocumentSeal`/`RecordSkeleton`, 0,9 KB). Ver
+ * #172/#169.
+ *
+ * Antes de tocar el techo se midió qué hay dentro (`dist/assets/*.js` descomprimido a
+ * mano, sin sourcemaps —no se publican ni en dev— comparando contra bytes gzip):
+ *
+ *   - Los dos chunks más pesados, `icons-*.js` (50,6 KB gzip) e `index-*.js`
+ *     (46,5 KB gzip) — el 30 % del total — NO son bloat de producto: son Vue +
+ *     Vue Router + Vuetify (layout/tema) + Pinia + Axios + el componente base de
+ *     Lucide, el runtime compartido que Rollup agrupa automáticamente porque lo
+ *     usan casi todas las rutas (así es como se decidió no forzar `manualChunks`,
+ *     más arriba en este archivo).
+ *   - El tree-shaking de iconos SÍ funciona: `icons-*.js` embebe 55 iconos (los que
+ *     importa `constants/icons.ts`) y el segundo lote de `index-*.js` embebe otros
+ *     46 (los que pide `vuetify-icon-aliases.ts` para los propios controles de
+ *     Vuetify) — 101 de los 3410 que trae `lucide-vue-next`, no la librería
+ *     entera. No hay una vía real de adelgazar aquí sin dejar de usar iconos.
+ *   - Ningún chunk de vista domina: la ruta más pesada de la campaña
+ *     (`SubscriptionMoneyView`) pesa 12,2 KB gzip. Trocear más no baja la suma
+ *     (ya se intentó, ver el comentario de `manualChunks` en `vite.config.ts`).
+ *
+ * Y un hallazgo que sí cambia el número: la reserva de 70 KB que TR-05 añadió para
+ * Faro/OTel (240 → 310, más abajo) lleva **sin gastarse desde que se creó**:
+ * `VITE_TELEMETRY_URL` está vacío en `.env.dev`, `.env.prod` y `.env.example` — no hay
+ * un solo entorno que lo active — así que ese chunk nunca se emite y los 70 KB no
+ * protegían nada real. Lo que hicieron fue absorber en silencio dos oleadas de
+ * crecimiento genuino de la consola, y por eso el gate no avisó hasta que ya no había
+ * margen (#172, #169). Mantener una reserva especulativa sin gastar contradice la
+ * regla de este mismo archivo — "se fijan con holgura sobre la medida real", no sobre
+ * una futura — así que se retira: el día que un entorno real active la telemetría, esa
+ * PR mide el chunk de verdad y sube el techo esa cantidad exacta, documentado igual
+ * que se hizo aquí. No antes.
+ *
+ * Con eso, el nuevo total se re-basa sobre la medida real de hoy (321,6 KB, ya sin
+ * telemetría dentro) con el mismo criterio de holgura que se usó al fijar el
+ * presupuesto original — ~20 %, ligeramente más conservador que el +26 % de la
+ * primera vez porque ya sabemos que este número puede consumirse en semanas:
+ *
+ *   JS total (hoy)   321,6 KB gzip   → presupuesto 385 KB   (+20 %, ~16 % de margen)
+ *
+ * Los otros dos no se tocan: ruta crítica JS va al 35 % de margen (97,1/150 KB) y CSS
+ * crítico al 19 % (36,3/45 KB) — ninguno de los dos estuvo nunca en riesgo, y son los
+ * que de verdad miden lo que tarda en pintar la pantalla. Con 63 KB de margen nuevo
+ * (frente a los 1,7 KB de #172), una oleada del tamaño de la onda 3 (+11,4 KB) cabe
+ * más de cinco veces antes de volver a estar rojo — no es una cifra cómoda para
+ * siempre, es sitio real para lo que ya se sabe que viene.
  */
 const BUDGET_GZIP = {
   criticalJs: 150 * 1024,
   criticalCss: 45 * 1024,
-  // 240 → 310 KB al entrar la telemetría del navegador (TR-05). Faro y OTel web pesan ~60 KB
-  // gzip y solo se emiten cuando `VITE_TELEMETRY_URL` tiene valor: sin colector configurado
-  // Vite elimina el `import()` y el bundle no crece ni un byte.
-  //
-  // Se sube el techo en vez de excluir esos chunks del cómputo porque el coste es real —lo paga
-  // el navegador del usuario cuando la telemetría está activa— y este presupuesto existe para
-  // que ese tipo de coste sea una decisión y no un accidente. La ruta crítica NO se toca: el
-  // chunk se pide después de pintar, así que sigue midiendo lo mismo que antes.
-  totalJs: 310 * 1024,
+  totalJs: 385 * 1024,
 }
 
 const KB = (bytes) => `${(bytes / 1024).toFixed(1)} KB`
