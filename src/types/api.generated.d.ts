@@ -404,7 +404,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/permissions/{id}": {
+    "/price-lists/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -420,7 +420,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/owners/{id}": {
+    "/platform-billing-config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["find_1"];
+        put: operations["update_23"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/permissions/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -428,9 +444,25 @@ export interface paths {
             cookie?: never;
         };
         get: operations["findById_21"];
-        put: operations["update_23"];
+        put: operations["update_24"];
         post?: never;
         delete: operations["delete_23"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/owners/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_22"];
+        put: operations["update_25"];
+        post?: never;
+        delete: operations["delete_24"];
         options?: never;
         head?: never;
         patch?: never;
@@ -443,10 +475,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_22"];
-        put: operations["update_24"];
+        get: operations["findById_23"];
+        put: operations["update_26"];
         post?: never;
-        delete: operations["delete_24"];
+        delete: operations["delete_25"];
         options?: never;
         head?: never;
         patch?: never;
@@ -459,42 +491,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_23"];
-        put: operations["update_25"];
-        post?: never;
-        delete: operations["delete_25"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/memberships/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
         get: operations["findById_24"];
-        put: operations["update_26"];
-        post?: never;
-        delete: operations["delete_26"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/membership-sub-modules/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_25"];
         put: operations["update_27"];
         post?: never;
-        delete: operations["delete_27"];
+        delete: operations["delete_26"];
         options?: never;
         head?: never;
         patch?: never;
@@ -507,10 +507,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_26"];
+        get: operations["findById_25"];
         put: operations["update_28"];
         post?: never;
-        delete: operations["delete_28"];
+        delete: operations["delete_27"];
         options?: never;
         head?: never;
         patch?: never;
@@ -523,10 +523,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_27"];
+        get: operations["findById_26"];
         put: operations["update_29"];
         post?: never;
-        delete: operations["delete_29"];
+        delete: operations["delete_28"];
         options?: never;
         head?: never;
         patch?: never;
@@ -539,10 +539,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_28"];
+        get: operations["findById_27"];
         put: operations["update_30"];
         post?: never;
-        delete: operations["delete_30"];
+        delete: operations["delete_29"];
         options?: never;
         head?: never;
         patch?: never;
@@ -571,10 +571,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_29"];
+        get: operations["findById_28"];
         put: operations["update_31"];
         post?: never;
-        delete: operations["delete_31"];
+        delete: operations["delete_30"];
         options?: never;
         head?: never;
         patch?: never;
@@ -590,7 +590,7 @@ export interface paths {
         get?: never;
         put: operations["update_32"];
         post?: never;
-        delete: operations["delete_32"];
+        delete: operations["delete_31"];
         options?: never;
         head?: never;
         patch?: never;
@@ -606,7 +606,7 @@ export interface paths {
         get?: never;
         put: operations["update_33"];
         post?: never;
-        delete: operations["delete_33"];
+        delete: operations["delete_32"];
         options?: never;
         head?: never;
         patch?: never;
@@ -619,10 +619,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_30"];
+        get: operations["findById_29"];
         put: operations["update_34"];
         post?: never;
-        delete: operations["delete_34"];
+        delete: operations["delete_33"];
         options?: never;
         head?: never;
         patch?: never;
@@ -651,10 +651,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_31"];
+        get: operations["findById_30"];
         put: operations["update_35"];
         post?: never;
-        delete: operations["delete_35"];
+        delete: operations["delete_34"];
         options?: never;
         head?: never;
         patch?: never;
@@ -667,10 +667,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_32"];
+        get: operations["findById_31"];
         put: operations["update_36"];
         post?: never;
-        delete: operations["delete_36"];
+        delete: operations["delete_35"];
         options?: never;
         head?: never;
         patch?: never;
@@ -683,7 +683,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["find_1"];
+        get: operations["find_2"];
         put: operations["update_37"];
         post: operations["create"];
         delete?: never;
@@ -699,10 +699,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_33"];
+        get: operations["findById_32"];
         put: operations["update_38"];
         post?: never;
-        delete: operations["delete_37"];
+        delete: operations["delete_36"];
         options?: never;
         head?: never;
         patch?: never;
@@ -715,10 +715,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_34"];
+        get: operations["findById_33"];
         put: operations["update_39"];
         post?: never;
-        delete: operations["delete_38"];
+        delete: operations["delete_37"];
         options?: never;
         head?: never;
         patch?: never;
@@ -731,10 +731,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_35"];
+        get: operations["findById_34"];
         put: operations["update_40"];
         post?: never;
-        delete: operations["delete_39"];
+        delete: operations["delete_38"];
         options?: never;
         head?: never;
         patch?: never;
@@ -747,10 +747,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_36"];
+        get: operations["findById_35"];
         put: operations["update_41"];
         post?: never;
-        delete: operations["delete_40"];
+        delete: operations["delete_39"];
         options?: never;
         head?: never;
         patch?: never;
@@ -763,10 +763,58 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_37"];
+        get: operations["findById_36"];
         put: operations["update_42"];
         post?: never;
-        delete: operations["delete_41"];
+        delete: operations["delete_40"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/configurator/questions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findQuestion"];
+        put: operations["updateQuestion"];
+        post?: never;
+        delete: operations["deleteQuestion"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/configurator/options/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateOption"];
+        post?: never;
+        delete: operations["deleteOption"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/configurator/effects/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateEffect"];
+        post?: never;
+        delete: operations["deleteEffect"];
         options?: never;
         head?: never;
         patch?: never;
@@ -779,7 +827,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["find_2"];
+        get: operations["find_3"];
         put: operations["update_43"];
         post: operations["create_1"];
         delete?: never;
@@ -811,10 +859,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_38"];
+        get: operations["findById_37"];
         put: operations["update_44"];
         post?: never;
-        delete: operations["delete_42"];
+        delete: operations["delete_41"];
         options?: never;
         head?: never;
         patch?: never;
@@ -827,8 +875,24 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_39"];
+        get: operations["findById_38"];
         put: operations["update_45"];
+        post?: never;
+        delete: operations["delete_42"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-prices/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_39"];
+        put: operations["update_46"];
         post?: never;
         delete: operations["delete_43"];
         options?: never;
@@ -836,23 +900,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/cash-terminals/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["update_46"];
-        post?: never;
-        delete: operations["deactivate"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/breeds/{id}": {
+    "/catalog-items/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -868,7 +916,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/branches/{id}": {
+    "/catalog-items/{catalogItemId}/dependencies/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -877,6 +925,70 @@ export interface paths {
         };
         get?: never;
         put: operations["update_48"];
+        post?: never;
+        delete: operations["delete_45"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-items/{bundleItemId}/components/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["update_49"];
+        post?: never;
+        delete: operations["delete_46"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cash-terminals/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["update_50"];
+        post?: never;
+        delete: operations["deactivate"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/breeds/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_41"];
+        put: operations["update_51"];
+        post?: never;
+        delete: operations["delete_47"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/branches/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["update_52"];
         post?: never;
         delete?: never;
         options?: never;
@@ -891,10 +1003,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_41"];
-        put: operations["update_49"];
+        get: operations["findById_42"];
+        put: operations["update_53"];
         post?: never;
-        delete: operations["delete_45"];
+        delete: operations["delete_48"];
         options?: never;
         head?: never;
         patch?: never;
@@ -907,10 +1019,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_42"];
-        put: operations["update_50"];
+        get: operations["findById_43"];
+        put: operations["update_54"];
         post?: never;
-        delete: operations["delete_46"];
+        delete: operations["delete_49"];
         options?: never;
         head?: never;
         patch?: never;
@@ -923,10 +1035,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_43"];
-        put: operations["update_51"];
+        get: operations["findById_44"];
+        put: operations["update_55"];
         post?: never;
-        delete: operations["delete_47"];
+        delete: operations["delete_50"];
         options?: never;
         head?: never;
         patch?: never;
@@ -939,10 +1051,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_44"];
-        put: operations["update_52"];
+        get: operations["findById_45"];
+        put: operations["update_56"];
         post?: never;
-        delete: operations["delete_48"];
+        delete: operations["delete_51"];
         options?: never;
         head?: never;
         patch?: never;
@@ -955,10 +1067,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_45"];
-        put: operations["update_53"];
+        get: operations["findById_46"];
+        put: operations["update_57"];
         post?: never;
-        delete: operations["delete_49"];
+        delete: operations["delete_52"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1012,7 +1124,119 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/system-users": {
+    "/system/subscription-billing/companies/{companyId}/documents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["generate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-billing/companies/{companyId}/documents/{id}/void": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["voidDocument"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-billing/companies/{companyId}/documents/{id}/external-invoice": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["registerExternalInvoice"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-billing/companies/{companyId}/documents/{id}/credit-note": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["issueCreditNote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-billing/companies/{companyId}/documents/{id}/await-external": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["submitForExternalIssue"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-billing/companies/{companyId}/charges": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createCharge"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-billing/companies/{companyId}/charges/{id}/void": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["voidCharge"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/billing-document-sequences": {
         parameters: {
             query?: never;
             header?: never;
@@ -1028,7 +1252,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/system-user-permissions": {
+    "/system-users": {
         parameters: {
             query?: never;
             header?: never;
@@ -1044,7 +1268,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/system-permissions": {
+    "/system-user-permissions": {
         parameters: {
             query?: never;
             header?: never;
@@ -1060,7 +1284,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/surgery-types": {
+    "/system-permissions": {
         parameters: {
             query?: never;
             header?: never;
@@ -1076,7 +1300,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/surgeries": {
+    "/surgery-types": {
         parameters: {
             query?: never;
             header?: never;
@@ -1092,6 +1316,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/surgeries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_8"];
+        put?: never;
+        post: operations["create_10"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/suppliers": {
         parameters: {
             query?: never;
@@ -1101,7 +1341,7 @@ export interface paths {
         };
         get: operations["listByCompany"];
         put?: never;
-        post: operations["create_10"];
+        post: operations["create_11"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1117,7 +1357,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_11"];
+        post: operations["create_12"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1156,6 +1396,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/subscriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_1"];
+        put?: never;
+        post: operations["create_13"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscriptions/{id}/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listItems"];
+        put?: never;
+        post: operations["addItem"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscriptions/{id}/items/quantity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["changeItemQuantity"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscription-payments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_2"];
+        put?: never;
+        post: operations["register"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/sub-modules": {
         parameters: {
             query?: never;
@@ -1163,9 +1467,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_8"];
+        get: operations["listAll_9"];
         put?: never;
-        post: operations["create_12"];
+        post: operations["create_14"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1179,9 +1483,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_9"];
+        get: operations["listAll_10"];
         put?: never;
-        post: operations["create_13"];
+        post: operations["create_15"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1195,9 +1499,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_10"];
+        get: operations["listAll_11"];
         put?: never;
-        post: operations["create_14"];
+        post: operations["create_16"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1211,39 +1515,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_11"];
-        put?: never;
-        post: operations["create_15"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/spa-types": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
         get: operations["listAll_12"];
-        put?: never;
-        post: operations["create_16"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/services": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listByCompany_1"];
         put?: never;
         post: operations["create_17"];
         delete?: never;
@@ -1252,7 +1524,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/service-charge-open-accounts": {
+    "/spa-types": {
         parameters: {
             query?: never;
             header?: never;
@@ -1268,14 +1540,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/service-categories": {
+    "/services": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_2"];
+        get: operations["listByCompany_3"];
         put?: never;
         post: operations["create_19"];
         delete?: never;
@@ -1284,7 +1556,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/roles": {
+    "/service-charge-open-accounts": {
         parameters: {
             query?: never;
             header?: never;
@@ -1300,7 +1572,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/role-permissions": {
+    "/service-categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_4"];
+        put?: never;
+        post: operations["create_21"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/roles": {
         parameters: {
             query?: never;
             header?: never;
@@ -1309,7 +1597,23 @@ export interface paths {
         };
         get: operations["listAll_15"];
         put?: never;
-        post: operations["create_21"];
+        post: operations["create_22"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/role-permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_16"];
+        put?: never;
+        post: operations["create_23"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1325,7 +1629,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["register"];
+        post: operations["register_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1348,6 +1652,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/quotes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMine"];
+        put?: never;
+        post: operations["create_24"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/quotes/{id}/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["send"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/quotes/{id}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["reject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/quotes/{id}/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["accept"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/quotes/expire-overdue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["expireOverdue"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/purchase-orders": {
         parameters: {
             query?: never;
@@ -1357,7 +1741,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_22"];
+        post: operations["create_25"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1403,9 +1787,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_16"];
+        get: operations["listAll_17"];
         put?: never;
-        post: operations["create_23"];
+        post: operations["create_26"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1419,9 +1803,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_3"];
+        get: operations["listByCompany_5"];
         put?: never;
-        post: operations["create_24"];
+        post: operations["create_27"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1435,9 +1819,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_17"];
+        get: operations["listAll_18"];
         put?: never;
-        post: operations["create_25"];
+        post: operations["create_28"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1453,7 +1837,7 @@ export interface paths {
         };
         get: operations["list_2"];
         put?: never;
-        post: operations["create_26"];
+        post: operations["create_29"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1469,7 +1853,23 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["generate"];
+        post: operations["generate_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/price-lists": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_19"];
+        put?: never;
+        post: operations["create_30"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1483,9 +1883,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_18"];
+        get: operations["listAll_20"];
         put?: never;
-        post: operations["create_27"];
+        post: operations["create_31"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1499,9 +1899,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_19"];
+        get: operations["listAll_21"];
         put?: never;
-        post: operations["create_28"];
+        post: operations["create_32"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1515,9 +1915,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_20"];
+        get: operations["listAll_22"];
         put?: never;
-        post: operations["create_29"];
+        post: operations["create_33"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1533,7 +1933,7 @@ export interface paths {
         };
         get: operations["list_3"];
         put?: never;
-        post: operations["create_30"];
+        post: operations["create_34"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1547,9 +1947,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_21"];
+        get: operations["listAll_23"];
         put?: never;
-        post: operations["create_31"];
+        post: operations["create_35"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1563,41 +1963,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_22"];
-        put?: never;
-        post: operations["create_32"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/memberships": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listAll_23"];
-        put?: never;
-        post: operations["create_33"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/membership-sub-modules": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
         get: operations["listAll_24"];
         put?: never;
-        post: operations["create_34"];
+        post: operations["create_36"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1613,7 +1981,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["generate_1"];
+        post: operations["generate_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1629,7 +1997,7 @@ export interface paths {
         };
         get: operations["listAll_25"];
         put?: never;
-        post: operations["create_35"];
+        post: operations["create_37"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1645,7 +2013,7 @@ export interface paths {
         };
         get: operations["listAll_26"];
         put?: never;
-        post: operations["create_36"];
+        post: operations["create_38"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1661,7 +2029,7 @@ export interface paths {
         };
         get: operations["listAll_27"];
         put?: never;
-        post: operations["create_37"];
+        post: operations["create_39"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1677,7 +2045,7 @@ export interface paths {
         };
         get: operations["listAll_28"];
         put?: never;
-        post: operations["create_38"];
+        post: operations["create_40"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1789,7 +2157,7 @@ export interface paths {
         };
         get: operations["listAll_29"];
         put?: never;
-        post: operations["create_39"];
+        post: operations["create_41"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1805,7 +2173,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_40"];
+        post: operations["create_42"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1821,7 +2189,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_41"];
+        post: operations["create_43"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1837,7 +2205,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_42"];
+        post: operations["create_44"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1853,7 +2221,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_43"];
+        post: operations["create_45"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1869,7 +2237,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_44"];
+        post: operations["create_46"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1917,7 +2285,23 @@ export interface paths {
         };
         get: operations["listAll_30"];
         put?: never;
-        post: operations["create_45"];
+        post: operations["create_47"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/entitlements/recalculate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["recalculate"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1933,7 +2317,7 @@ export interface paths {
         };
         get: operations["listAll_31"];
         put?: never;
-        post: operations["create_46"];
+        post: operations["create_48"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1981,7 +2365,7 @@ export interface paths {
         };
         get: operations["listAll_32"];
         put?: never;
-        post: operations["create_47"];
+        post: operations["create_49"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2093,7 +2477,23 @@ export interface paths {
         };
         get: operations["listAll_33"];
         put?: never;
-        post: operations["create_48"];
+        post: operations["create_50"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/dunning-events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listBySubscription"];
+        put?: never;
+        post: operations["record"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2125,7 +2525,7 @@ export interface paths {
         };
         get: operations["listAll_34"];
         put?: never;
-        post: operations["create_49"];
+        post: operations["create_51"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2141,7 +2541,7 @@ export interface paths {
         };
         get: operations["listAll_35"];
         put?: never;
-        post: operations["create_50"];
+        post: operations["create_52"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2157,7 +2557,7 @@ export interface paths {
         };
         get: operations["listAll_36"];
         put?: never;
-        post: operations["create_51"];
+        post: operations["create_53"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2173,7 +2573,7 @@ export interface paths {
         };
         get: operations["listAll_37"];
         put?: never;
-        post: operations["create_52"];
+        post: operations["create_54"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2189,7 +2589,7 @@ export interface paths {
         };
         get: operations["listAll_38"];
         put?: never;
-        post: operations["create_53"];
+        post: operations["create_55"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2205,7 +2605,7 @@ export interface paths {
         };
         get: operations["listAll_39"];
         put?: never;
-        post: operations["create_54"];
+        post: operations["create_56"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2221,7 +2621,71 @@ export interface paths {
         };
         get: operations["listAll_40"];
         put?: never;
-        post: operations["create_55"];
+        post: operations["create_57"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/configurator/resolve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["resolve"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/configurator/questions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listQuestions"];
+        put?: never;
+        post: operations["createQuestion"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/configurator/options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createOption"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/configurator/effects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEffects"];
+        put?: never;
+        post: operations["createEffect"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2237,7 +2701,7 @@ export interface paths {
         };
         get: operations["listAll_41"];
         put?: never;
-        post: operations["create_56"];
+        post: operations["create_58"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2253,7 +2717,87 @@ export interface paths {
         };
         get: operations["listAll_42"];
         put?: never;
-        post: operations["create_57"];
+        post: operations["create_59"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-prices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByPriceList"];
+        put?: never;
+        post: operations["create_60"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_43"];
+        put?: never;
+        post: operations["create_61"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-items/{catalogItemId}/sub-modules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCatalogItem"];
+        put?: never;
+        post: operations["create_62"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-items/{catalogItemId}/dependencies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCatalogItem_1"];
+        put?: never;
+        post: operations["create_63"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-items/{bundleItemId}/components": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByBundle"];
+        put?: never;
+        post: operations["create_64"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2269,7 +2813,7 @@ export interface paths {
         };
         get: operations["list_4"];
         put?: never;
-        post: operations["create_58"];
+        post: operations["create_65"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2331,9 +2875,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_43"];
+        get: operations["listAll_44"];
         put?: never;
-        post: operations["create_59"];
+        post: operations["create_66"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2347,9 +2891,41 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_44"];
+        get: operations["listAll_45"];
         put?: never;
-        post: operations["create_60"];
+        post: operations["create_67"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/billing-document-applications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByTargetDocument"];
+        put?: never;
+        post: operations["apply"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/billing-document-applications/{id}/reversal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["reverse"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2363,9 +2939,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_45"];
+        get: operations["listAll_46"];
         put?: never;
-        post: operations["create_61"];
+        post: operations["create_68"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2379,9 +2955,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_46"];
+        get: operations["listAll_47"];
         put?: never;
-        post: operations["create_62"];
+        post: operations["create_69"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2395,9 +2971,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_47"];
+        get: operations["listAll_48"];
         put?: never;
-        post: operations["create_63"];
+        post: operations["create_70"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2525,7 +3101,7 @@ export interface paths {
         };
         get: operations["list_5"];
         put?: never;
-        post: operations["create_64"];
+        post: operations["create_71"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2539,9 +3115,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_48"];
+        get: operations["listAll_49"];
         put?: never;
-        post: operations["create_65"];
+        post: operations["create_72"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2557,7 +3133,7 @@ export interface paths {
         };
         get: operations["listByAnimal"];
         put?: never;
-        post: operations["create_66"];
+        post: operations["create_73"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2571,9 +3147,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_49"];
+        get: operations["listAll_50"];
         put?: never;
-        post: operations["create_67"];
+        post: operations["create_74"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2658,6 +3234,86 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["reactivate_2"];
+        trace?: never;
+    };
+    "/subscriptions/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["changeStatus"];
+        trace?: never;
+    };
+    "/subscriptions/{id}/items/remove": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["removeItem"];
+        trace?: never;
+    };
+    "/subscriptions/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["cancel_3"];
+        trace?: never;
+    };
+    "/subscription-payments/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["changeStatus_1"];
+        trace?: never;
+    };
+    "/subscription-payments/{id}/reconciliation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["reconcile"];
         trace?: never;
     };
     "/sub-modules/{id}/enable": {
@@ -2753,7 +3409,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["voidCharge"];
+        patch: operations["voidCharge_1"];
         trace?: never;
     };
     "/roles/{id}/enable": {
@@ -2801,7 +3457,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["voidCharge_1"];
+        patch: operations["voidCharge_2"];
         trace?: never;
     };
     "/procedure-schedules/{id}/reschedule": {
@@ -2833,7 +3489,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["apply"];
+        patch: operations["apply_1"];
         trace?: never;
     };
     "/procedure-schedules/by-procedure/{hospitalizationProcedureId}/suspend-pending": {
@@ -2850,6 +3506,54 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["suspendPending"];
+        trace?: never;
+    };
+    "/price-lists/{id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["publish_1"];
+        trace?: never;
+    };
+    "/price-lists/{id}/enable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["enable_6"];
+        trace?: never;
+    };
+    "/price-lists/{id}/archive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["archive"];
         trace?: never;
     };
     "/permissions/{id}/enable": {
@@ -2881,7 +3585,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["changeStatus"];
+        patch: operations["changeStatus_2"];
         trace?: never;
     };
     "/numbering-resolutions/{id}/enable": {
@@ -2897,7 +3601,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_6"];
+        patch: operations["enable_7"];
         trace?: never;
     };
     "/modules/{id}/enable": {
@@ -2913,39 +3617,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_7"];
-        trace?: never;
-    };
-    "/memberships/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_6"];
-        trace?: never;
-    };
-    "/membership-sub-modules/{id}/enable": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["reactivate_7"];
+        patch: operations["enable_8"];
         trace?: never;
     };
     "/medication-schedules/{id}/reschedule": {
@@ -2977,7 +3649,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["apply_1"];
+        patch: operations["apply_2"];
         trace?: never;
     };
     "/medication-schedules/by-medication/{hospitalizationMedicationId}/suspend-pending": {
@@ -3009,7 +3681,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_8"];
+        patch: operations["enable_9"];
         trace?: never;
     };
     "/laboratory-tests/{id}/status": {
@@ -3025,7 +3697,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["changeStatus_1"];
+        patch: operations["changeStatus_3"];
         trace?: never;
     };
     "/hospitalization-procedures/{id}/suspend": {
@@ -3073,7 +3745,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["voidCharge_2"];
+        patch: operations["voidCharge_3"];
         trace?: never;
     };
     "/employees/{id}/enable": {
@@ -3089,7 +3761,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_9"];
+        patch: operations["enable_10"];
         trace?: never;
     };
     "/economic-activities/{id}/enable": {
@@ -3105,7 +3777,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_10"];
+        patch: operations["enable_11"];
         trace?: never;
     };
     "/debt-open-accounts/{id}/void": {
@@ -3137,7 +3809,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_11"];
+        patch: operations["enable_12"];
         trace?: never;
     };
     "/consultation-types/{id}/enable": {
@@ -3153,7 +3825,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_12"];
+        patch: operations["enable_13"];
         trace?: never;
     };
     "/cities/{id}/enable": {
@@ -3169,7 +3841,23 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_13"];
+        patch: operations["enable_14"];
+        trace?: never;
+    };
+    "/catalog-items/{id}/enable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["enable_15"];
         trace?: never;
     };
     "/cash-terminals/{id}/activate": {
@@ -3201,7 +3889,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_14"];
+        patch: operations["enable_16"];
         trace?: never;
     };
     "/branches/{id}/deactivate": {
@@ -3249,7 +3937,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_8"];
+        patch: operations["reactivate_6"];
         trace?: never;
     };
     "/base-role-permissions/{id}/enable": {
@@ -3265,7 +3953,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_9"];
+        patch: operations["reactivate_7"];
         trace?: never;
     };
     "/base-permissions/{id}/enable": {
@@ -3281,7 +3969,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reactivate_10"];
+        patch: operations["reactivate_8"];
         trace?: never;
     };
     "/appointments/{id}/status": {
@@ -3297,7 +3985,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["changeStatus_2"];
+        patch: operations["changeStatus_4"];
         trace?: never;
     };
     "/appointments/{id}/reschedule": {
@@ -3329,7 +4017,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["cancel_3"];
+        patch: operations["cancel_4"];
         trace?: never;
     };
     "/animal-colors/{id}/enable": {
@@ -3345,7 +4033,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_15"];
+        patch: operations["enable_17"];
         trace?: never;
     };
     "/vaccinations/by-animal/{animalId}": {
@@ -3388,6 +4076,70 @@ export interface paths {
             cookie?: never;
         };
         get: operations["listDisabled"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-payments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_51"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-billing/documents/overdue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listOverdue"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-billing/documents/awaiting-external": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAwaitingExternal"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/dunning-events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_52"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3468,6 +4220,150 @@ export interface paths {
             cookie?: never;
         };
         get: operations["aging"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscriptions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_47"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscriptions/{id}/status-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listStatusHistory"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscriptions/{id}/amendments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAmendments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscriptions/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findCurrent"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscription-payments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_48"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscription-billing/documents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDocuments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscription-billing/documents/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findDocument"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscription-billing/charges": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listCharges"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscription-billing/charges/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findCharge"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3627,7 +4523,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_4"];
+        get: operations["listByCompany_6"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3643,10 +4539,58 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_46"];
+        get: operations["findById_49"];
         put?: never;
         post?: never;
-        delete: operations["delete_50"];
+        delete: operations["delete_53"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/quotes/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_50"];
+        put?: never;
+        post?: never;
+        delete: operations["delete_54"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/quotes/totals-mismatches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["totalsMismatches"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/quotes/platform": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_53"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -3771,7 +4715,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_47"];
+        get: operations["findById_51"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3796,6 +4740,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/platform-subscriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_54"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform-subscriptions/item-overlaps": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findOverlaps"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/permissions/by-company": {
         parameters: {
             query?: never;
@@ -3803,7 +4779,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_5"];
+        get: operations["listByCompany_7"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3835,10 +4811,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_48"];
+        get: operations["findById_52"];
         put?: never;
         post?: never;
-        delete: operations["delete_51"];
+        delete: operations["delete_55"];
         options?: never;
         head?: never;
         patch?: never;
@@ -4155,7 +5131,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_6"];
+        get: operations["listByCompany_8"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4251,10 +5227,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_49"];
+        get: operations["findById_53"];
         put?: never;
         post?: never;
-        delete: operations["delete_52"];
+        delete: operations["delete_56"];
         options?: never;
         head?: never;
         patch?: never;
@@ -4284,6 +5260,38 @@ export interface paths {
             cookie?: never;
         };
         get: operations["listByOpenAccount_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/entitlements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_6"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/entitlements/access": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["currentAccess"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4347,7 +5355,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_7"];
+        get: operations["listByCompany_9"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4363,7 +5371,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_50"];
+        get: operations["listAll_55"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4379,7 +5387,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_50"];
+        get: operations["findById_54"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4396,6 +5404,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["findByAccount"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/dunning-events/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_55"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4475,7 +5499,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_51"];
+        get: operations["listAll_56"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4507,7 +5531,39 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_51"];
+        get: operations["findById_56"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/configurator/questions/{questionId}/options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listOptions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/configurator/questionnaire": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["questionnaire"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4539,7 +5595,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_8"];
+        get: operations["listByCompany_10"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4555,7 +5611,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_6"];
+        get: operations["list_7"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4651,7 +5707,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_52"];
+        get: operations["findById_57"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4750,7 +5806,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete_53"];
+        delete: operations["delete_57"];
         options?: never;
         head?: never;
         patch?: never;
@@ -4766,7 +5822,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete_54"];
+        delete: operations["delete_58"];
         options?: never;
         head?: never;
         patch?: never;
@@ -4782,7 +5838,23 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete_55"];
+        delete: operations["delete_59"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-items/{catalogItemId}/sub-modules/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["delete_60"];
         options?: never;
         head?: never;
         patch?: never;
@@ -4798,7 +5870,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete_56"];
+        delete: operations["delete_61"];
         options?: never;
         head?: never;
         patch?: never;
@@ -5167,6 +6239,8 @@ export interface components {
             code: string;
             /** Format: int64 */
             moduleId: number;
+            sellable?: boolean;
+            readOnlyCapable?: boolean;
         };
         ModuleSummary: {
             /** Format: int64 */
@@ -5180,6 +6254,8 @@ export interface components {
             name: string;
             code: string;
             module: components["schemas"]["ModuleSummary"];
+            sellable: boolean;
+            readOnlyCapable: boolean;
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
@@ -5550,6 +6626,72 @@ export interface components {
             version: number;
             enabled: boolean;
         };
+        UpdatePriceListRequest: {
+            name: string;
+            currency: string;
+            /** Format: date */
+            validFrom: string;
+            /** Format: date */
+            validTo?: string;
+        };
+        PriceListResponse: {
+            /** Format: int64 */
+            id: number;
+            code: string;
+            name: string;
+            currency: string;
+            /** Format: date */
+            validFrom: string;
+            /**
+             * Format: date
+             * @description Vacío = es la vigente
+             */
+            validTo?: string;
+            /** @enum {string} */
+            status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
+            /** Format: date-time */
+            publishedAt?: string;
+            /** Format: int64 */
+            publishedBySystemUserId?: number;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
+        UpdatePlatformBillingConfigRequest: {
+            /** Format: int64 */
+            defaultPriceListId?: number;
+            /** Format: int32 */
+            defaultGraceDays: number;
+            /** Format: int32 */
+            defaultTrialDays: number;
+            /** Format: int32 */
+            invoiceDayOfMonth: number;
+            /** Format: int32 */
+            defaultPaymentTermDays: number;
+            externalBillingProvider?: string;
+        };
+        PlatformBillingConfigResponse: {
+            /** Format: int64 */
+            id?: number;
+            defaultPriceList?: components["schemas"]["PriceListSummary"];
+            /** Format: int32 */
+            defaultGraceDays?: number;
+            /** Format: int32 */
+            defaultTrialDays?: number;
+            /** Format: int32 */
+            invoiceDayOfMonth?: number;
+            /** Format: int32 */
+            defaultPaymentTermDays?: number;
+            externalBillingProvider?: string;
+            /** Format: date-time */
+            createdDate?: string;
+        };
+        PriceListSummary: {
+            /** Format: int64 */
+            id?: number;
+            code?: string;
+            name?: string;
+        };
         UpdatePermissionRequest: {
             name: string;
             code: string;
@@ -5682,42 +6824,6 @@ export interface components {
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
-        };
-        UpdateMembershipRequest: {
-            name: string;
-            status: string;
-            mandatory?: boolean;
-        };
-        MembershipResponse: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            /** @enum {string} */
-            status: "ACTIVE" | "INACTIVE" | "DEPRECATED";
-            mandatory: boolean;
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
-        UpdateMembershipSubModuleRequest: {
-            /** Format: int64 */
-            membershipId: number;
-            /** Format: int64 */
-            subModuleId: number;
-        };
-        MembershipSubModuleResponse: {
-            /** Format: int64 */
-            id: number;
-            membership: components["schemas"]["MembershipSummary"];
-            subModule: components["schemas"]["SubModuleSummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
-        MembershipSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
         };
         UpdateMedicamentRequest: {
             name: string;
@@ -6136,6 +7242,79 @@ export interface components {
             createdDate: string;
             enabled: boolean;
         };
+        UpdateConfiguratorQuestionRequest: {
+            questionText: string;
+            helpText?: string;
+            /** @enum {string} */
+            answerType: "SINGLE" | "MULTI" | "NUMBER" | "BOOLEAN";
+            /** Format: int64 */
+            parentOptionId?: number;
+            required: boolean;
+            /** Format: int32 */
+            sortOrder: number;
+        };
+        ConfiguratorOptionResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            questionId: number;
+            code: string;
+            label: string;
+            helpText?: string;
+            /** Format: int32 */
+            sortOrder: number;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
+        ConfiguratorQuestionResponse: {
+            /** Format: int64 */
+            id: number;
+            code: string;
+            questionText: string;
+            helpText?: string;
+            answerType: string;
+            /** Format: int64 */
+            parentOptionId?: number;
+            required: boolean;
+            /** Format: int32 */
+            sortOrder: number;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+            /** @description Opciones activas de la pregunta. Vacía en las NUMBER, que no admiten ninguna */
+            options: components["schemas"]["ConfiguratorOptionResponse"][];
+        };
+        UpdateConfiguratorOptionRequest: {
+            label: string;
+            helpText?: string;
+            /** Format: int32 */
+            sortOrder: number;
+        };
+        UpdateConfiguratorEffectRequest: {
+            /** Format: int64 */
+            catalogItemId: number;
+            /** @enum {string} */
+            effect: "ADD" | "REMOVE" | "SET_QUANTITY" | "QUANTITY_FROM_ANSWER";
+            /** Format: int32 */
+            quantity?: number;
+        };
+        ConfiguratorEffectResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            optionId?: number;
+            /** Format: int64 */
+            questionId?: number;
+            /** Format: int64 */
+            catalogItemId: number;
+            effect: string;
+            /** Format: int32 */
+            quantity?: number;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
         UpdateCompanyTaxProfileRequest: {
             /** @enum {string} */
             documentType: "NIT" | "CEDULA_CIUDADANIA" | "CEDULA_EXTRANJERIA" | "PASAPORTE";
@@ -6190,14 +7369,6 @@ export interface components {
             contactNumber?: string;
             /** Format: int64 */
             cityId: number;
-            /** Format: int64 */
-            membershipId: number;
-        };
-        CompanyMembershipSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            status: string;
         };
         CompanyResponse: {
             /** Format: int64 */
@@ -6207,7 +7378,6 @@ export interface components {
             address?: string;
             contactNumber?: string;
             city: components["schemas"]["CitySummary"];
-            membership: components["schemas"]["CompanyMembershipSummary"];
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
@@ -6232,6 +7402,149 @@ export interface components {
             /** Format: int64 */
             id: number;
             name: string;
+        };
+        UpdateCatalogPriceRequest: {
+            /** @enum {string} */
+            billingCycle: "MONTHLY" | "ANNUAL";
+            /** Format: int32 */
+            tierMin: number;
+            /** Format: int32 */
+            tierMax?: number;
+            /** Format: int32 */
+            includedQuantity: number;
+            unitAmount: number;
+            setupAmount: number;
+            taxRate: number;
+            /** @enum {string} */
+            taxTreatment: "TAXED" | "EXEMPT" | "EXCLUDED";
+        };
+        CatalogItemSummary: {
+            /** Format: int64 */
+            id: number;
+            code: string;
+            name: string;
+        };
+        CatalogPriceResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            priceListId: number;
+            /** Format: int64 */
+            catalogItemId: number;
+            /** @enum {string} */
+            billingCycle: "MONTHLY" | "ANNUAL";
+            /** Format: int32 */
+            tierMin: number;
+            /**
+             * Format: int32
+             * @description Vacío = del tramo mínimo en adelante
+             */
+            tierMax?: number;
+            /** Format: int32 */
+            includedQuantity: number;
+            /** @description Precio unitario sin impuesto */
+            unitAmount: number;
+            setupAmount: number;
+            /** @description Porcentaje: 19.00 para el 19 % */
+            taxRate: number;
+            /**
+             * @description EXEMPT y EXCLUDED no son lo mismo y no se pueden colapsar en tarifa cero
+             * @enum {string}
+             */
+            taxTreatment: "TAXED" | "EXEMPT" | "EXCLUDED";
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+            /** @description Artículo al que pertenece el precio. Vacío solo si el artículo se retiró del catálogo */
+            catalogItem?: components["schemas"]["CatalogItemSummary"];
+        };
+        UpdateCatalogItemRequest: {
+            name: string;
+            shortDescription?: string;
+            longDescription?: string;
+            /** @enum {string} */
+            itemType: "MODULE" | "CAPACITY" | "ONE_TIME" | "BUNDLE";
+            /** @enum {string} */
+            capacityUnit?: "USER" | "BRANCH" | "TERMINAL" | "STORAGE_GB";
+            core?: boolean;
+            /** Format: int32 */
+            minQuantity?: number;
+            /** Format: int32 */
+            maxQuantity?: number;
+            /** Format: int32 */
+            sortOrder?: number;
+            /** @enum {string} */
+            status: "DRAFT" | "ACTIVE" | "DEPRECATED";
+        };
+        CatalogItemResponse: {
+            /** Format: int64 */
+            id: number;
+            code: string;
+            name: string;
+            shortDescription?: string;
+            longDescription?: string;
+            /** @enum {string} */
+            itemType: "MODULE" | "CAPACITY" | "ONE_TIME" | "BUNDLE";
+            /** @enum {string} */
+            capacityUnit?: "USER" | "BRANCH" | "TERMINAL" | "STORAGE_GB";
+            core: boolean;
+            /** Format: int32 */
+            minQuantity: number;
+            /** Format: int32 */
+            maxQuantity?: number;
+            /** Format: int32 */
+            sortOrder: number;
+            /** @enum {string} */
+            status: "DRAFT" | "ACTIVE" | "DEPRECATED";
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
+        UpdateCatalogItemDependencyRequest: {
+            /** @enum {string} */
+            relationType: "REQUIRES" | "RECOMMENDS" | "EXCLUDES";
+            note?: string;
+        };
+        CatalogItemDependencyResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            catalogItemId: number;
+            /** Format: int64 */
+            relatedItemId: number;
+            /** @enum {string} */
+            relationType: "REQUIRES" | "RECOMMENDS" | "EXCLUDES";
+            note?: string;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+            /**
+             * @description Solo en el alta: CREATED si se insertó la fila, REACTIVATED si se revivió una dada de baja que seguía ocupando la clave única. Vacío en las lecturas
+             * @enum {string}
+             */
+            outcome?: "CREATED" | "REACTIVATED";
+        };
+        UpdateBundleComponentRequest: {
+            /** Format: int32 */
+            quantity: number;
+        };
+        BundleComponentResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            bundleItemId: number;
+            /** Format: int64 */
+            componentItemId: number;
+            /** Format: int32 */
+            quantity: number;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+            /**
+             * @description Solo en el alta: CREATED si se insertó la fila, REACTIVATED si se revivió una dada de baja que seguía ocupando la clave única. Vacío en las lecturas
+             * @enum {string}
+             */
+            outcome?: "CREATED" | "REACTIVATED";
         };
         UpdateTerminalRequest: {
             name: string;
@@ -6455,6 +7768,152 @@ export interface components {
             /** @enum {string} */
             taxScheme: "IVA" | "INC";
         };
+        GenerateBillingDocumentRequest: {
+            /** Format: int64 */
+            subscriptionId: number;
+            /** @enum {string} */
+            billingReason: "RECURRING_CYCLE" | "PRORATION" | "ONE_TIME" | "ADJUSTMENT";
+            /** Format: date */
+            periodStart: string;
+            /** Format: date */
+            periodEnd: string;
+        };
+        BillingDocumentResponse: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            companyId?: number;
+            documentNumber?: string;
+            /** Format: int64 */
+            subscriptionId?: number;
+            /** @enum {string} */
+            documentKind?: "INVOICE" | "CREDIT_NOTE" | "DEBIT_NOTE";
+            /** @enum {string} */
+            billingReason?: "RECURRING_CYCLE" | "PRORATION" | "ONE_TIME" | "ADJUSTMENT";
+            /** Format: date */
+            periodStart?: string;
+            /** Format: date */
+            periodEnd?: string;
+            /** @enum {string} */
+            issueStatus?: "DRAFT" | "AWAITING_EXTERNAL" | "EXTERNAL_REGISTERED" | "VOIDED";
+            externalInvoiceNumber?: string;
+            externalCufe?: string;
+            /** Format: date */
+            externalIssuedAt?: string;
+            externalProvider?: string;
+            /** Format: date-time */
+            externalRegisteredAt?: string;
+            /** Format: int64 */
+            externalRegisteredBySystemUserId?: number;
+            /** Format: int64 */
+            correctsDocumentId?: number;
+            /** Format: date */
+            dueDate?: string;
+            subtotalAmount?: number;
+            taxAmount?: number;
+            totalAmount?: number;
+            settledAmount?: number;
+            balanceAmount?: number;
+            taxes?: components["schemas"]["BillingDocumentTaxSummary"][];
+            /** Format: date-time */
+            createdDate?: string;
+            /** Format: int64 */
+            version?: number;
+        };
+        BillingDocumentTaxSummary: {
+            /** Format: int64 */
+            id?: number;
+            /** @enum {string} */
+            taxTreatment?: "TAXED" | "EXEMPT" | "EXCLUDED";
+            taxRate?: number;
+            taxableBase?: number;
+            taxAmount?: number;
+        };
+        RegisterExternalInvoiceRequest: {
+            invoiceNumber: string;
+            cufe?: string;
+            /** Format: date */
+            issuedAt: string;
+            provider: string;
+        };
+        IssueCreditNoteRequest: {
+            chargeIds: number[];
+        };
+        CreateSubscriptionChargeRequest: {
+            /** Format: int64 */
+            subscriptionId: number;
+            /** Format: int64 */
+            subscriptionItemId?: number;
+            /** @enum {string} */
+            chargeType: "RECURRING" | "PRORATION" | "ONE_TIME" | "CREDIT" | "DISCOUNT";
+            description: string;
+            /** Format: date */
+            servicePeriodStart: string;
+            /** Format: date */
+            servicePeriodEnd: string;
+            quantity: number;
+            unitAmount: number;
+            subtotalAmount: number;
+            taxRate: number;
+            /** @enum {string} */
+            taxTreatment: "TAXED" | "EXEMPT" | "EXCLUDED";
+            /** Format: int32 */
+            prorationDays?: number;
+            /** Format: int32 */
+            periodDays?: number;
+            /** Format: int64 */
+            amendmentId?: number;
+        };
+        SubscriptionChargeResponse: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            subscriptionId?: number;
+            /** Format: int64 */
+            subscriptionItemId?: number;
+            /** @enum {string} */
+            chargeType?: "RECURRING" | "PRORATION" | "ONE_TIME" | "CREDIT" | "DISCOUNT";
+            description?: string;
+            /** Format: date */
+            servicePeriodStart?: string;
+            /** Format: date */
+            servicePeriodEnd?: string;
+            quantity?: number;
+            unitAmount?: number;
+            subtotalAmount?: number;
+            taxRate?: number;
+            /** @enum {string} */
+            taxTreatment?: "TAXED" | "EXEMPT" | "EXCLUDED";
+            /** Format: int32 */
+            prorationDays?: number;
+            /** Format: int32 */
+            periodDays?: number;
+            /** @enum {string} */
+            status?: "PENDING" | "INVOICED" | "VOIDED";
+            /** Format: int64 */
+            amendmentId?: number;
+            /** Format: int64 */
+            billingDocumentId?: number;
+            /** Format: int64 */
+            voidsChargeId?: number;
+            /** Format: date-time */
+            createdDate?: string;
+        };
+        VoidSubscriptionChargeRequest: {
+            description: string;
+        };
+        CreateBillingDocumentSequenceRequest: {
+            prefix: string;
+        };
+        BillingDocumentSequenceResponse: {
+            /** Format: int64 */
+            id?: number;
+            prefix?: string;
+            /** Format: int64 */
+            nextValue?: number;
+            /** Format: date-time */
+            createdDate?: string;
+        };
         CreateSystemUserRequest: {
             code: string;
             password: string;
@@ -6529,11 +7988,203 @@ export interface components {
             /** Format: int64 */
             version: number;
         };
+        CreateSubscriptionRequest: {
+            /** Format: int64 */
+            quoteId?: number;
+            /** Format: int64 */
+            priceListId: number;
+            /** @enum {string} */
+            billingCycle: "MONTHLY" | "ANNUAL";
+            /** @enum {string} */
+            status: "TRIALING" | "ACTIVE" | "PAST_DUE" | "READ_ONLY" | "CANCELLED" | "EXPIRED";
+            /** Format: date */
+            startDate: string;
+            /** Format: date */
+            trialEndDate?: string;
+            /** Format: date */
+            currentPeriodStart: string;
+            /** Format: date */
+            currentPeriodEnd: string;
+            /** Format: date */
+            nextBillingDate?: string;
+            /** Format: date */
+            commitmentEndDate?: string;
+            /** Format: int32 */
+            graceDays?: number;
+            autoRenew?: boolean;
+            items?: components["schemas"]["RequestedSubscriptionItemRequest"][];
+        };
+        RequestedSubscriptionItemRequest: {
+            /** Format: int64 */
+            catalogItemId: number;
+            /** Format: int32 */
+            quantity: number;
+            /** Format: date */
+            effectiveFrom?: string;
+            /** Format: date */
+            effectiveTo?: string;
+        };
+        SubscriptionResponse: {
+            /** Format: int64 */
+            id?: number;
+            subscriptionNumber?: string;
+            /** Format: int64 */
+            companyId?: number;
+            /** Format: int64 */
+            quoteId?: number;
+            /** Format: int64 */
+            priceListId?: number;
+            /** @enum {string} */
+            billingCycle?: "MONTHLY" | "ANNUAL";
+            /** @enum {string} */
+            status?: "TRIALING" | "ACTIVE" | "PAST_DUE" | "READ_ONLY" | "CANCELLED" | "EXPIRED";
+            current?: boolean;
+            /** Format: date */
+            startDate?: string;
+            /** Format: date */
+            trialEndDate?: string;
+            /** Format: date */
+            currentPeriodStart?: string;
+            /** Format: date */
+            currentPeriodEnd?: string;
+            /** Format: date */
+            nextBillingDate?: string;
+            /** Format: date */
+            commitmentEndDate?: string;
+            /** Format: int32 */
+            graceDays?: number;
+            /** Format: date */
+            pastDueSince?: string;
+            autoRenew?: boolean;
+            /** Format: date-time */
+            cancelRequestedAt?: string;
+            /** Format: date */
+            cancelEffectiveDate?: string;
+            cancelReason?: string;
+            /** Format: date-time */
+            createdDate?: string;
+            enabled?: boolean;
+        };
+        AddSubscriptionItemRequest: {
+            clientRequestId: string;
+            /** Format: date */
+            effectiveDate: string;
+            reason?: string;
+            /** Format: int64 */
+            quoteId?: number;
+            line: components["schemas"]["SubscriptionItemLineRequest"];
+        };
+        SubscriptionItemLineRequest: {
+            /** Format: int64 */
+            catalogItemId: number;
+            itemCode: string;
+            itemName: string;
+            /** @enum {string} */
+            itemType: "MODULE" | "CAPACITY" | "ONE_TIME" | "BUNDLE";
+            /** @enum {string} */
+            capacityUnit?: "USER" | "BRANCH" | "TERMINAL" | "STORAGE_GB";
+            /** Format: int32 */
+            includedQuantity: number;
+            /** @enum {string} */
+            taxTreatment: "TAXED" | "EXEMPT" | "EXCLUDED";
+            /** Format: int32 */
+            quantity: number;
+            unitAmount: number;
+            taxRate: number;
+            /** Format: date */
+            effectiveFrom?: string;
+            /** Format: date */
+            effectiveTo?: string;
+        };
+        SubscriptionItemResponse: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            companyId?: number;
+            /** Format: int64 */
+            subscriptionId?: number;
+            /** Format: int64 */
+            catalogItemId?: number;
+            itemCode?: string;
+            itemName?: string;
+            /** @enum {string} */
+            itemType?: "MODULE" | "CAPACITY" | "ONE_TIME" | "BUNDLE";
+            /** @enum {string} */
+            capacityUnit?: "USER" | "BRANCH" | "TERMINAL" | "STORAGE_GB";
+            /** Format: int32 */
+            includedQuantity?: number;
+            /** @enum {string} */
+            taxTreatment?: "TAXED" | "EXEMPT" | "EXCLUDED";
+            /** Format: int32 */
+            quantity?: number;
+            /** Format: int32 */
+            billableQuantity?: number;
+            unitAmount?: number;
+            taxRate?: number;
+            /** Format: date */
+            effectiveFrom?: string;
+            /** Format: date */
+            effectiveTo?: string;
+            /** @enum {string} */
+            origin?: "INITIAL" | "ADDON" | "QUANTITY_CHANGE" | "REMOVAL" | "MIGRATION";
+            /** Format: int64 */
+            createdAmendmentId?: number;
+            /** Format: int64 */
+            endedAmendmentId?: number;
+            /** Format: date-time */
+            createdDate?: string;
+            enabled?: boolean;
+        };
+        ChangeSubscriptionItemQuantityRequest: {
+            /** Format: int64 */
+            subscriptionItemId: number;
+            /** Format: int32 */
+            newQuantity: number;
+            clientRequestId: string;
+            /** Format: date */
+            effectiveDate: string;
+            reason?: string;
+        };
+        RegisterSubscriptionPaymentRequest: {
+            amount: number;
+            currency?: string;
+            /** @enum {string} */
+            paymentMethod: "TRANSFER" | "CARD" | "PSE" | "CASH" | "OTHER";
+            gateway?: string;
+            gatewayReference?: string;
+            /** Format: date-time */
+            receivedAt: string;
+            clientRequestId?: string;
+        };
+        SubscriptionPaymentResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            amount: number;
+            currency: string;
+            /** @enum {string} */
+            paymentMethod: "TRANSFER" | "CARD" | "PSE" | "CASH" | "OTHER";
+            gateway?: string;
+            gatewayReference?: string;
+            /** Format: date-time */
+            receivedAt: string;
+            /** @enum {string} */
+            status: "PENDING" | "CONFIRMED" | "FAILED" | "REFUNDED";
+            /** Format: date-time */
+            reconciledAt?: string;
+            /** Format: date-time */
+            createdDate: string;
+            /** Format: int64 */
+            version?: number;
+        };
         CreateSubModuleRequest: {
             name: string;
             code: string;
             /** Format: int64 */
             moduleId: number;
+            sellable?: boolean;
+            readOnlyCapable?: boolean;
         };
         CreateStateRequest: {
             name: string;
@@ -6663,6 +8314,110 @@ export interface components {
         VerifyEmailRequest: {
             token: string;
         };
+        CreateQuoteRequest: {
+            clientRequestId: string;
+            prospectName?: string;
+            /** Format: email */
+            prospectEmail?: string;
+            prospectDocument?: string;
+            prospectPhone?: string;
+            /** Format: int64 */
+            priceListId: number;
+            billingCycle: string;
+            /** Format: date */
+            validUntil: string;
+            /** Format: int32 */
+            trialDays?: number;
+            lines: components["schemas"]["QuoteLineRequest"][];
+            answers?: components["schemas"]["QuoteAnswerRequest"][];
+        };
+        QuoteAnswerRequest: {
+            /** Format: int64 */
+            questionId: number;
+            /** Format: int64 */
+            optionId?: number;
+            answerValue?: string;
+        };
+        QuoteLineRequest: {
+            /** Format: int64 */
+            catalogItemId: number;
+            /** Format: int32 */
+            quantity?: number;
+            discountPercent?: number;
+        };
+        QuoteAnswerResponse: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            questionId?: number;
+            /** Format: int64 */
+            optionId?: number;
+            questionCode?: string;
+            answerValue?: string;
+            enabled?: boolean;
+        };
+        QuoteLineResponse: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int32 */
+            lineNumber?: number;
+            /** Format: int64 */
+            catalogItemId?: number;
+            itemCode?: string;
+            itemName?: string;
+            itemType?: string;
+            /** Format: int32 */
+            contractedQuantity?: number;
+            /** Format: int32 */
+            includedQuantity?: number;
+            /** Format: int32 */
+            quantity?: number;
+            unitAmount?: number;
+            grossAmount?: number;
+            discountPercent?: number;
+            discountAmount?: number;
+            taxRate?: number;
+            taxTreatment?: string;
+            taxAmount?: number;
+            lineTotal?: number;
+            enabled?: boolean;
+        };
+        QuoteResponse: {
+            /** Format: int64 */
+            id?: number;
+            quoteNumber?: string;
+            company?: components["schemas"]["CompanySummary"];
+            prospectName?: string;
+            prospectEmail?: string;
+            prospectDocument?: string;
+            prospectPhone?: string;
+            /** Format: int64 */
+            priceListId?: number;
+            billingCycle?: string;
+            subtotalAmount?: number;
+            discountAmount?: number;
+            taxAmount?: number;
+            totalAmount?: number;
+            status?: string;
+            /** Format: date */
+            validUntil?: string;
+            /** Format: int32 */
+            trialDays?: number;
+            /** Format: date-time */
+            acceptedAt?: string;
+            acceptedByEmail?: string;
+            acceptedIp?: string;
+            clientRequestId?: string;
+            lines?: components["schemas"]["QuoteLineResponse"][];
+            answers?: components["schemas"]["QuoteAnswerResponse"][];
+            /** Format: date-time */
+            createdDate?: string;
+            enabled?: boolean;
+        };
+        AcceptQuoteRequest: {
+            /** Format: email */
+            acceptedByEmail: string;
+        };
         CreatePurchaseOrderRequest: {
             /** Format: int64 */
             branchId: number;
@@ -6782,6 +8537,15 @@ export interface components {
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
+        };
+        CreatePriceListRequest: {
+            code: string;
+            name: string;
+            currency: string;
+            /** Format: date */
+            validFrom: string;
+            /** Format: date */
+            validTo?: string;
         };
         CreatePrescriptionRequest: {
             /** Format: date */
@@ -6915,17 +8679,6 @@ export interface components {
         CreateModuleRequest: {
             name: string;
             code: string;
-        };
-        CreateMembershipRequest: {
-            name: string;
-            status: string;
-            mandatory?: boolean;
-        };
-        CreateMembershipSubModuleRequest: {
-            /** Format: int64 */
-            membershipId: number;
-            /** Format: int64 */
-            subModuleId: number;
         };
         HospitalizationMedicationSummary: {
             /** Format: int64 */
@@ -7299,6 +9052,21 @@ export interface components {
             voidedAt?: string;
             voidReason?: string;
         };
+        EntitlementRecalculationResponse: {
+            /** Format: int64 */
+            companyId?: number;
+            /** Format: int64 */
+            subscriptionId?: number;
+            contractStatus?: string;
+            /** Format: int32 */
+            entitlementCount?: number;
+            /** Format: int32 */
+            manualGrantCount?: number;
+            /** Format: int32 */
+            capacityCount?: number;
+            /** Format: date-time */
+            recalculatedAt?: string;
+        };
         CreateEmployeeRequest: {
             employeeCode: string;
             password: string;
@@ -7431,11 +9199,6 @@ export interface components {
             reason: "INTERESES" | "GASTOS" | "CAMBIO_VALOR" | "OTROS";
             additionalAmount?: number;
         };
-        IssueCreditNoteRequest: {
-            /** @enum {string} */
-            reason: "DEVOLUCION" | "ANULACION" | "REBAJA" | "AJUSTE_PRECIO" | "OTROS";
-            partialAmount?: number;
-        };
         RegisterPosSaleRequest: {
             /** @enum {string} */
             documentType: "FE_VENTA" | "DOC_EQUIV_POS" | "NOTA_CREDITO" | "NOTA_DEBITO";
@@ -7472,6 +9235,56 @@ export interface components {
         CreateEconomicActivityRequest: {
             code: string;
             name: string;
+        };
+        RecordDunningEventRequest: {
+            /** Format: int64 */
+            subscriptionId: number;
+            /** Format: int64 */
+            billingDocumentId?: number;
+            /** @enum {string} */
+            eventType: "REMINDER_SENT" | "GRACE_STARTED" | "READ_ONLY_APPLIED" | "REACTIVATED" | "WRITTEN_OFF";
+            /** Format: int32 */
+            daysOverdue?: number;
+            /** @enum {string} */
+            channel?: "EMAIL" | "SMS" | "WHATSAPP" | "PHONE" | "IN_APP";
+            detail?: string;
+            /** Format: date-time */
+            occurredAt?: string;
+        };
+        DunningBillingDocumentSummary: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            documentNumber?: string;
+            balanceAmount?: number;
+        };
+        DunningEventResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            subscription: components["schemas"]["DunningSubscriptionSummary"];
+            billingDocument?: components["schemas"]["DunningBillingDocumentSummary"];
+            /** @enum {string} */
+            eventType: "REMINDER_SENT" | "GRACE_STARTED" | "READ_ONLY_APPLIED" | "REACTIVATED" | "WRITTEN_OFF";
+            /** Format: int32 */
+            daysOverdue?: number;
+            /** @enum {string} */
+            channel?: "EMAIL" | "SMS" | "WHATSAPP" | "PHONE" | "IN_APP";
+            detail?: string;
+            /** Format: date-time */
+            occurredAt: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        DunningSubscriptionSummary: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            subscriptionNumber?: string;
+            status?: string;
         };
         CreateDianProviderConfigRequest: {
             /** @enum {string} */
@@ -7624,6 +9437,54 @@ export interface components {
             name: string;
             description: string;
         };
+        ResolveConfiguratorSelectionRequest: {
+            selectedOptionIds?: number[];
+            numericAnswers?: {
+                [key: string]: number;
+            };
+        };
+        ConfiguratorSelectionResponse: {
+            items: components["schemas"]["SelectedItemResponse"][];
+        };
+        SelectedItemResponse: {
+            /** Format: int64 */
+            catalogItemId: number;
+            /** Format: int32 */
+            quantity: number;
+        };
+        CreateConfiguratorQuestionRequest: {
+            code: string;
+            questionText: string;
+            helpText?: string;
+            /** @enum {string} */
+            answerType: "SINGLE" | "MULTI" | "NUMBER" | "BOOLEAN";
+            /** Format: int64 */
+            parentOptionId?: number;
+            required: boolean;
+            /** Format: int32 */
+            sortOrder: number;
+        };
+        CreateConfiguratorOptionRequest: {
+            /** Format: int64 */
+            questionId: number;
+            code: string;
+            label: string;
+            helpText?: string;
+            /** Format: int32 */
+            sortOrder: number;
+        };
+        CreateConfiguratorEffectRequest: {
+            /** Format: int64 */
+            optionId?: number;
+            /** Format: int64 */
+            questionId?: number;
+            /** Format: int64 */
+            catalogItemId: number;
+            /** @enum {string} */
+            effect: "ADD" | "REMOVE" | "SET_QUANTITY" | "QUANTITY_FROM_ANSWER";
+            /** Format: int32 */
+            quantity?: number;
+        };
         CreateCompanyTaxProfileRequest: {
             /** @enum {string} */
             documentType: "NIT" | "CEDULA_CIUDADANIA" | "CEDULA_EXTRANJERIA" | "PASAPORTE";
@@ -7645,14 +9506,82 @@ export interface components {
             contactNumber?: string;
             /** Format: int64 */
             cityId: number;
-            /** Format: int64 */
-            membershipId: number;
         };
         CreateCityRequest: {
             name: string;
             /** Format: int64 */
             stateId: number;
             daneCode?: string;
+        };
+        CreateCatalogPriceRequest: {
+            /** Format: int64 */
+            priceListId: number;
+            /** Format: int64 */
+            catalogItemId: number;
+            /** @enum {string} */
+            billingCycle: "MONTHLY" | "ANNUAL";
+            /** Format: int32 */
+            tierMin: number;
+            /** Format: int32 */
+            tierMax?: number;
+            /** Format: int32 */
+            includedQuantity: number;
+            unitAmount: number;
+            setupAmount: number;
+            taxRate: number;
+            /** @enum {string} */
+            taxTreatment: "TAXED" | "EXEMPT" | "EXCLUDED";
+        };
+        CreateCatalogItemRequest: {
+            code: string;
+            name: string;
+            shortDescription?: string;
+            longDescription?: string;
+            /** @enum {string} */
+            itemType: "MODULE" | "CAPACITY" | "ONE_TIME" | "BUNDLE";
+            /** @enum {string} */
+            capacityUnit?: "USER" | "BRANCH" | "TERMINAL" | "STORAGE_GB";
+            core?: boolean;
+            /** Format: int32 */
+            minQuantity?: number;
+            /** Format: int32 */
+            maxQuantity?: number;
+            /** Format: int32 */
+            sortOrder?: number;
+            /** @enum {string} */
+            status?: "DRAFT" | "ACTIVE" | "DEPRECATED";
+        };
+        CreateCatalogItemSubModuleRequest: {
+            /** Format: int64 */
+            subModuleId: number;
+        };
+        CatalogItemSubModuleResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            catalogItemId: number;
+            subModule: components["schemas"]["SubModuleSummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+            /**
+             * @description Solo en el alta: CREATED si se insertó la fila, REACTIVATED si se revivió una dada de baja que seguía ocupando la clave única. Vacío en las lecturas
+             * @enum {string}
+             */
+            outcome?: "CREATED" | "REACTIVATED";
+        };
+        CreateCatalogItemDependencyRequest: {
+            /** Format: int64 */
+            relatedItemId: number;
+            /** @enum {string} */
+            relationType: "REQUIRES" | "RECOMMENDS" | "EXCLUDES";
+            note?: string;
+        };
+        CreateBundleComponentRequest: {
+            /** Format: int64 */
+            componentItemId: number;
+            /** Format: int32 */
+            quantity: number;
         };
         SaveTerminalRequest: {
             /** Format: int64 */
@@ -7757,6 +9686,47 @@ export interface components {
             phone?: string;
             /** Format: int64 */
             cityId: number;
+        };
+        ApplyBillingDocumentRequest: {
+            /** Format: int64 */
+            targetDocumentId: number;
+            /** @enum {string} */
+            sourceKind: "PAYMENT" | "CREDIT_NOTE";
+            /** Format: int64 */
+            paymentId?: number;
+            /** Format: int64 */
+            sourceDocumentId?: number;
+            appliedAmount: number;
+            clientRequestId?: string;
+        };
+        BillingDocumentApplicationResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            targetDocument: components["schemas"]["BillingDocumentSummary"];
+            /** @enum {string} */
+            sourceKind: "PAYMENT" | "CREDIT_NOTE";
+            /** Format: int64 */
+            paymentId?: number;
+            sourceDocument?: components["schemas"]["BillingDocumentSummary"];
+            appliedAmount: number;
+            /** Format: int64 */
+            reversalOfId?: number;
+            /** Format: date-time */
+            appliedAt: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        BillingDocumentSummary: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            documentNumber?: string;
+            documentKind: string;
+            totalAmount: number;
+            balanceAmount?: number;
         };
         CreateBaseRoleRequest: {
             name: string;
@@ -7938,6 +9908,32 @@ export interface components {
             /** Format: int32 */
             rolePermissionsCreated: number;
         };
+        ChangeSubscriptionStatusRequest: {
+            /** @enum {string} */
+            status: "TRIALING" | "ACTIVE" | "PAST_DUE" | "READ_ONLY" | "CANCELLED" | "EXPIRED";
+            reason?: string;
+            actor?: string;
+        };
+        RemoveSubscriptionItemRequest: {
+            /** Format: int64 */
+            subscriptionItemId: number;
+            clientRequestId: string;
+            /** Format: date */
+            effectiveDate: string;
+            reason?: string;
+        };
+        CancelSubscriptionRequest: {
+            /** Format: date-time */
+            requestedAt: string;
+            /** Format: date */
+            effectiveDate: string;
+            reason?: string;
+            clientRequestId: string;
+        };
+        ChangeSubscriptionPaymentStatusRequest: {
+            /** @enum {string} */
+            status: "PENDING" | "CONFIRMED" | "FAILED" | "REFUNDED";
+        };
         VoidServiceChargeOpenAccountRequest: {
             reason: string;
             /** Format: int64 */
@@ -8018,6 +10014,50 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
+        PageResponseSubscriptionPaymentResponse: {
+            content?: components["schemas"]["SubscriptionPaymentResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseBillingDocumentResponse: {
+            content?: components["schemas"]["BillingDocumentResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseDunningEventResponse: {
+            content?: components["schemas"]["DunningEventResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseBillingDocumentSequenceResponse: {
+            content?: components["schemas"]["BillingDocumentSequenceResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
         PageResponseSurgeryResponse: {
             content?: components["schemas"]["SurgeryResponse"][];
             /** Format: int32 */
@@ -8071,6 +10111,104 @@ export interface components {
             supplierName?: string;
             taxId?: string;
             bucket?: components["schemas"]["Bucket"];
+        };
+        PageResponseSubscriptionResponse: {
+            content?: components["schemas"]["SubscriptionResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseSubscriptionStatusChangeResponse: {
+            content?: components["schemas"]["SubscriptionStatusChangeResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        SubscriptionStatusChangeResponse: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            companyId?: number;
+            /** Format: int64 */
+            subscriptionId?: number;
+            /** @enum {string} */
+            fromStatus?: "TRIALING" | "ACTIVE" | "PAST_DUE" | "READ_ONLY" | "CANCELLED" | "EXPIRED";
+            /** @enum {string} */
+            toStatus?: "TRIALING" | "ACTIVE" | "PAST_DUE" | "READ_ONLY" | "CANCELLED" | "EXPIRED";
+            reason?: string;
+            /** Format: date-time */
+            occurredAt?: string;
+            actor?: string;
+            /** Format: date-time */
+            createdDate?: string;
+        };
+        PageResponseSubscriptionItemResponse: {
+            content?: components["schemas"]["SubscriptionItemResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseSubscriptionAmendmentResponse: {
+            content?: components["schemas"]["SubscriptionAmendmentResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        SubscriptionAmendmentResponse: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            companyId?: number;
+            /** Format: int64 */
+            subscriptionId?: number;
+            amendmentNumber?: string;
+            /** @enum {string} */
+            amendmentType?: "ADD_ITEM" | "REMOVE_ITEM" | "CHANGE_QUANTITY" | "CHANGE_CYCLE" | "SUSPEND" | "REACTIVATE" | "CANCEL" | "PRICE_LIST_MIGRATION";
+            /** Format: date */
+            effectiveDate?: string;
+            reason?: string;
+            /** Format: int64 */
+            requestedByEmployeeId?: number;
+            /** Format: int64 */
+            requestedBySystemUserId?: number;
+            prorationAmount?: number;
+            monthlyDeltaAmount?: number;
+            /** Format: int64 */
+            quoteId?: number;
+            clientRequestId?: string;
+            /** Format: date-time */
+            createdDate?: string;
+        };
+        PageResponseSubscriptionChargeResponse: {
+            content?: components["schemas"]["SubscriptionChargeResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
         };
         PageResponseSpaResponse: {
             content?: components["schemas"]["SpaResponse"][];
@@ -8191,6 +10329,58 @@ export interface components {
             pendientes?: number;
             needsAttention?: components["schemas"]["PendingDto"][];
         };
+        PageResponseQuoteSummaryResponse: {
+            content?: components["schemas"]["QuoteSummaryResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        QuoteSummaryResponse: {
+            /** Format: int64 */
+            id?: number;
+            quoteNumber?: string;
+            company?: components["schemas"]["CompanySummary"];
+            prospectName?: string;
+            prospectEmail?: string;
+            /** Format: int64 */
+            priceListId?: number;
+            billingCycle?: string;
+            subtotalAmount?: number;
+            discountAmount?: number;
+            taxAmount?: number;
+            totalAmount?: number;
+            status?: string;
+            /** Format: date */
+            validUntil?: string;
+            /** Format: int32 */
+            trialDays?: number;
+            /** Format: date-time */
+            acceptedAt?: string;
+            /** Format: date-time */
+            createdDate?: string;
+            enabled?: boolean;
+        };
+        QuoteTotalsMismatchResponse: {
+            /** Format: int64 */
+            quoteId: number;
+            quoteNumber: string;
+            /**
+             * Format: int64
+             * @description Vacío en una oferta a prospecto, que todavía no tiene empresa
+             */
+            companyId?: number;
+            headerDiscountAmount: number;
+            linesDiscountAmount: number;
+            headerTaxAmount: number;
+            linesTaxAmount: number;
+            headerTotalAmount: number;
+            linesTotalAmount: number;
+        };
         PurchaseBookDto: {
             /** Format: date */
             dateFrom?: string;
@@ -8232,6 +10422,17 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
+        PageResponsePriceListResponse: {
+            content?: components["schemas"]["PriceListResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
         PageResponsePrescriptionResponse: {
             content?: components["schemas"]["PrescriptionResponse"][];
             /** Format: int32 */
@@ -8242,6 +10443,27 @@ export interface components {
             totalElements?: number;
             /** Format: int32 */
             totalPages?: number;
+        };
+        SubscriptionItemOverlapResponse: {
+            /** Format: int64 */
+            companyId?: number;
+            /** Format: int64 */
+            subscriptionId?: number;
+            /** Format: int64 */
+            catalogItemId?: number;
+            itemCode?: string;
+            /** Format: int64 */
+            firstItemId?: number;
+            /** Format: date */
+            firstFrom?: string;
+            /** Format: date */
+            firstTo?: string;
+            /** Format: int64 */
+            secondItemId?: number;
+            /** Format: date */
+            secondFrom?: string;
+            /** Format: date */
+            secondTo?: string;
         };
         PageResponseOwnerResponse: {
             content?: components["schemas"]["OwnerResponse"][];
@@ -8526,6 +10748,60 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
+        CompanyEntitlementResponse: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            companyId?: number;
+            subModule?: components["schemas"]["SubModuleSummary"];
+            accessLevel?: string;
+            source?: string;
+            /** Format: int64 */
+            subscriptionId?: number;
+            /** Format: int64 */
+            subscriptionItemId?: number;
+            /** Format: date-time */
+            validFrom?: string;
+            /** Format: date-time */
+            validUntil?: string;
+            /** Format: date-time */
+            recalculatedAt?: string;
+        };
+        PageResponseCompanyEntitlementResponse: {
+            content?: components["schemas"]["CompanyEntitlementResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        CompanyAccessResponse: {
+            /** Format: int64 */
+            companyId?: number;
+            entitlements?: components["schemas"]["CompanyEntitlementResponse"][];
+            capacities?: components["schemas"]["CompanyCapacityResponse"][];
+            /** Format: date-time */
+            recalculatedAt?: string;
+        };
+        CompanyCapacityResponse: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            companyId?: number;
+            capacityUnit?: string;
+            /** Format: int32 */
+            limitQuantity?: number;
+            /** Format: int32 */
+            usedQuantity?: number;
+            exhausted?: boolean;
+            /** Format: int64 */
+            subscriptionId?: number;
+            /** Format: date-time */
+            recalculatedAt?: string;
+        };
         EmployeeCodeSuggestionResponse: {
             code?: string;
         };
@@ -8617,6 +10893,51 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
+        PageResponseConfiguratorQuestionResponse: {
+            content?: components["schemas"]["ConfiguratorQuestionResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        QuestionnaireOptionResponse: {
+            /** Format: int64 */
+            id: number;
+            code: string;
+            label: string;
+            helpText?: string;
+            /** Format: int32 */
+            sortOrder: number;
+        };
+        QuestionnaireQuestionResponse: {
+            /** Format: int64 */
+            id: number;
+            code: string;
+            questionText: string;
+            helpText?: string;
+            answerType: string;
+            /** Format: int64 */
+            parentOptionId?: number;
+            required: boolean;
+            /** Format: int32 */
+            sortOrder: number;
+            options: components["schemas"]["QuestionnaireOptionResponse"][];
+        };
+        PageResponseConfiguratorEffectResponse: {
+            content?: components["schemas"]["ConfiguratorEffectResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
         PageResponseCompanyResponse: {
             content?: components["schemas"]["CompanyResponse"][];
             /** Format: int32 */
@@ -8643,8 +10964,41 @@ export interface components {
             consultationId?: number;
             summary?: string;
         };
+        PageResponseCatalogPriceResponse: {
+            content?: components["schemas"]["CatalogPriceResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseCatalogItemResponse: {
+            content?: components["schemas"]["CatalogItemResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
         PageResponseCashSessionView: {
             content?: components["schemas"]["CashSessionView"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseBillingDocumentApplicationResponse: {
+            content?: components["schemas"]["BillingDocumentApplicationResponse"][];
             /** Format: int32 */
             page?: number;
             /** Format: int32 */
@@ -10290,7 +12644,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PermissionResponse"];
+                    "*/*": components["schemas"]["PriceListResponse"];
                 };
             };
         };
@@ -10306,7 +12660,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdatePermissionRequest"];
+                "application/json": components["schemas"]["UpdatePriceListRequest"];
             };
         };
         responses: {
@@ -10316,7 +12670,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PermissionResponse"];
+                    "*/*": components["schemas"]["PriceListResponse"];
                 };
             };
         };
@@ -10341,6 +12695,50 @@ export interface operations {
             };
         };
     };
+    find_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlatformBillingConfigResponse"];
+                };
+            };
+        };
+    };
+    update_23: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePlatformBillingConfigRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlatformBillingConfigResponse"];
+                };
+            };
+        };
+    };
     findById_21: {
         parameters: {
             query?: never;
@@ -10358,12 +12756,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["OwnerResponse"];
+                    "*/*": components["schemas"]["PermissionResponse"];
                 };
             };
         };
     };
-    update_23: {
+    update_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -10374,7 +12772,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateOwnerRequest"];
+                "application/json": components["schemas"]["UpdatePermissionRequest"];
             };
         };
         responses: {
@@ -10384,7 +12782,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["OwnerResponse"];
+                    "*/*": components["schemas"]["PermissionResponse"];
                 };
             };
         };
@@ -10426,12 +12824,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["NumberingResolutionResponse"];
+                    "*/*": components["schemas"]["OwnerResponse"];
                 };
             };
         };
     };
-    update_24: {
+    update_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -10442,7 +12840,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateNumberingResolutionRequest"];
+                "application/json": components["schemas"]["UpdateOwnerRequest"];
             };
         };
         responses: {
@@ -10452,7 +12850,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["NumberingResolutionResponse"];
+                    "*/*": components["schemas"]["OwnerResponse"];
                 };
             };
         };
@@ -10494,12 +12892,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ModuleResponse"];
+                    "*/*": components["schemas"]["NumberingResolutionResponse"];
                 };
             };
         };
     };
-    update_25: {
+    update_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -10510,7 +12908,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateModuleRequest"];
+                "application/json": components["schemas"]["UpdateNumberingResolutionRequest"];
             };
         };
         responses: {
@@ -10520,7 +12918,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ModuleResponse"];
+                    "*/*": components["schemas"]["NumberingResolutionResponse"];
                 };
             };
         };
@@ -10562,12 +12960,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["MembershipResponse"];
+                    "*/*": components["schemas"]["ModuleResponse"];
                 };
             };
         };
     };
-    update_26: {
+    update_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -10578,7 +12976,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateMembershipRequest"];
+                "application/json": components["schemas"]["UpdateModuleRequest"];
             };
         };
         responses: {
@@ -10588,7 +12986,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["MembershipResponse"];
+                    "*/*": components["schemas"]["ModuleResponse"];
                 };
             };
         };
@@ -10614,74 +13012,6 @@ export interface operations {
         };
     };
     findById_25: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipSubModuleResponse"];
-                };
-            };
-        };
-    };
-    update_27: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateMembershipSubModuleRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipSubModuleResponse"];
-                };
-            };
-        };
-    };
-    delete_27: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -10729,7 +13059,7 @@ export interface operations {
             };
         };
     };
-    delete_28: {
+    delete_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -10749,7 +13079,7 @@ export interface operations {
             };
         };
     };
-    findById_27: {
+    findById_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -10797,7 +13127,7 @@ export interface operations {
             };
         };
     };
-    delete_29: {
+    delete_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -10817,7 +13147,7 @@ export interface operations {
             };
         };
     };
-    findById_28: {
+    findById_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -10865,7 +13195,7 @@ export interface operations {
             };
         };
     };
-    delete_30: {
+    delete_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -10909,7 +13239,7 @@ export interface operations {
             };
         };
     };
-    findById_29: {
+    findById_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -10957,7 +13287,7 @@ export interface operations {
             };
         };
     };
-    delete_31: {
+    delete_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -11003,7 +13333,7 @@ export interface operations {
             };
         };
     };
-    delete_32: {
+    delete_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -11049,7 +13379,7 @@ export interface operations {
             };
         };
     };
-    delete_33: {
+    delete_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -11069,7 +13399,7 @@ export interface operations {
             };
         };
     };
-    findById_30: {
+    findById_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -11117,7 +13447,7 @@ export interface operations {
             };
         };
     };
-    delete_34: {
+    delete_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -11185,7 +13515,7 @@ export interface operations {
             };
         };
     };
-    findById_31: {
+    findById_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -11233,7 +13563,7 @@ export interface operations {
             };
         };
     };
-    delete_35: {
+    delete_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -11253,7 +13583,7 @@ export interface operations {
             };
         };
     };
-    findById_32: {
+    findById_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -11301,7 +13631,7 @@ export interface operations {
             };
         };
     };
-    delete_36: {
+    delete_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -11321,7 +13651,7 @@ export interface operations {
             };
         };
     };
-    find_1: {
+    find_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -11389,7 +13719,7 @@ export interface operations {
             };
         };
     };
-    findById_33: {
+    findById_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -11437,7 +13767,7 @@ export interface operations {
             };
         };
     };
-    delete_37: {
+    delete_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -11457,7 +13787,7 @@ export interface operations {
             };
         };
     };
-    findById_34: {
+    findById_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -11505,7 +13835,7 @@ export interface operations {
             };
         };
     };
-    delete_38: {
+    delete_37: {
         parameters: {
             query?: never;
             header?: never;
@@ -11525,7 +13855,7 @@ export interface operations {
             };
         };
     };
-    findById_35: {
+    findById_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -11573,7 +13903,7 @@ export interface operations {
             };
         };
     };
-    delete_39: {
+    delete_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -11593,7 +13923,7 @@ export interface operations {
             };
         };
     };
-    findById_36: {
+    findById_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -11641,7 +13971,7 @@ export interface operations {
             };
         };
     };
-    delete_40: {
+    delete_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -11661,7 +13991,7 @@ export interface operations {
             };
         };
     };
-    findById_37: {
+    findById_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -11709,7 +14039,7 @@ export interface operations {
             };
         };
     };
-    delete_41: {
+    delete_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -11729,7 +14059,167 @@ export interface operations {
             };
         };
     };
-    find_2: {
+    findQuestion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConfiguratorQuestionResponse"];
+                };
+            };
+        };
+    };
+    updateQuestion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateConfiguratorQuestionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConfiguratorQuestionResponse"];
+                };
+            };
+        };
+    };
+    deleteQuestion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updateOption: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateConfiguratorOptionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConfiguratorOptionResponse"];
+                };
+            };
+        };
+    };
+    deleteOption: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updateEffect: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateConfiguratorEffectRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConfiguratorEffectResponse"];
+                };
+            };
+        };
+    };
+    deleteEffect: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    find_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -11841,7 +14331,7 @@ export interface operations {
             };
         };
     };
-    findById_38: {
+    findById_37: {
         parameters: {
             query?: never;
             header?: never;
@@ -11889,7 +14379,7 @@ export interface operations {
             };
         };
     };
-    delete_42: {
+    delete_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -11909,7 +14399,7 @@ export interface operations {
             };
         };
     };
-    findById_39: {
+    findById_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -11957,6 +14447,74 @@ export interface operations {
             };
         };
     };
+    delete_42: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_39: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogPriceResponse"];
+                };
+            };
+        };
+    };
+    update_46: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCatalogPriceRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogPriceResponse"];
+                };
+            };
+        };
+    };
     delete_43: {
         parameters: {
             query?: never;
@@ -11977,7 +14535,171 @@ export interface operations {
             };
         };
     };
-    update_46: {
+    findById_40: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemResponse"];
+                };
+            };
+        };
+    };
+    update_47: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCatalogItemRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemResponse"];
+                };
+            };
+        };
+    };
+    delete_44: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    update_48: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCatalogItemDependencyRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemDependencyResponse"];
+                };
+            };
+        };
+    };
+    delete_45: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    update_49: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bundleItemId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBundleComponentRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BundleComponentResponse"];
+                };
+            };
+        };
+    };
+    delete_46: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bundleItemId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    update_50: {
         parameters: {
             query?: never;
             header?: never;
@@ -12025,7 +14747,7 @@ export interface operations {
             };
         };
     };
-    findById_40: {
+    findById_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -12047,7 +14769,7 @@ export interface operations {
             };
         };
     };
-    update_47: {
+    update_51: {
         parameters: {
             query?: never;
             header?: never;
@@ -12073,7 +14795,7 @@ export interface operations {
             };
         };
     };
-    delete_44: {
+    delete_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -12093,7 +14815,7 @@ export interface operations {
             };
         };
     };
-    update_48: {
+    update_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -12119,7 +14841,7 @@ export interface operations {
             };
         };
     };
-    findById_41: {
+    findById_42: {
         parameters: {
             query?: never;
             header?: never;
@@ -12141,7 +14863,7 @@ export interface operations {
             };
         };
     };
-    update_49: {
+    update_53: {
         parameters: {
             query?: never;
             header?: never;
@@ -12167,75 +14889,7 @@ export interface operations {
             };
         };
     };
-    delete_45: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_42: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BaseRolePermissionResponse"];
-                };
-            };
-        };
-    };
-    update_50: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateBaseRolePermissionRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BaseRolePermissionResponse"];
-                };
-            };
-        };
-    };
-    delete_46: {
+    delete_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -12272,12 +14926,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["BasePermissionResponse"];
+                    "*/*": components["schemas"]["BaseRolePermissionResponse"];
                 };
             };
         };
     };
-    update_51: {
+    update_54: {
         parameters: {
             query?: never;
             header?: never;
@@ -12288,7 +14942,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateBasePermissionRequest"];
+                "application/json": components["schemas"]["UpdateBaseRolePermissionRequest"];
             };
         };
         responses: {
@@ -12298,12 +14952,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["BasePermissionResponse"];
+                    "*/*": components["schemas"]["BaseRolePermissionResponse"];
                 };
             };
         };
     };
-    delete_47: {
+    delete_49: {
         parameters: {
             query?: never;
             header?: never;
@@ -12340,12 +14994,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["AppointmentResponse"];
+                    "*/*": components["schemas"]["BasePermissionResponse"];
                 };
             };
         };
     };
-    update_52: {
+    update_55: {
         parameters: {
             query?: never;
             header?: never;
@@ -12356,7 +15010,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateAppointmentRequest"];
+                "application/json": components["schemas"]["UpdateBasePermissionRequest"];
             };
         };
         responses: {
@@ -12366,12 +15020,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["AppointmentResponse"];
+                    "*/*": components["schemas"]["BasePermissionResponse"];
                 };
             };
         };
     };
-    delete_48: {
+    delete_50: {
         parameters: {
             query?: never;
             header?: never;
@@ -12408,12 +15062,80 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    "*/*": components["schemas"]["AppointmentResponse"];
+                };
+            };
+        };
+    };
+    update_56: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAppointmentRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AppointmentResponse"];
+                };
+            };
+        };
+    };
+    delete_51: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_46: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     "*/*": components["schemas"]["AnimalColorResponse"];
                 };
             };
         };
     };
-    update_53: {
+    update_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -12439,7 +15161,7 @@ export interface operations {
             };
         };
     };
-    delete_49: {
+    delete_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -12591,7 +15313,233 @@ export interface operations {
             };
         };
     };
+    generate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GenerateBillingDocumentRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingDocumentResponse"];
+                };
+            };
+        };
+    };
+    voidDocument: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingDocumentResponse"];
+                };
+            };
+        };
+    };
+    registerExternalInvoice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterExternalInvoiceRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingDocumentResponse"];
+                };
+            };
+        };
+    };
+    issueCreditNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IssueCreditNoteRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingDocumentResponse"];
+                };
+            };
+        };
+    };
+    submitForExternalIssue: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingDocumentResponse"];
+                };
+            };
+        };
+    };
+    createCharge: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSubscriptionChargeRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionChargeResponse"];
+                };
+            };
+        };
+    };
+    voidCharge: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VoidSubscriptionChargeRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionChargeResponse"];
+                };
+            };
+        };
+    };
     listAll_3: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseBillingDocumentSequenceResponse"];
+                };
+            };
+        };
+    };
+    create_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateBillingDocumentSequenceRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingDocumentSequenceResponse"];
+                };
+            };
+        };
+    };
+    listAll_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -12611,7 +15559,7 @@ export interface operations {
             };
         };
     };
-    create_5: {
+    create_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -12635,7 +15583,7 @@ export interface operations {
             };
         };
     };
-    listAll_4: {
+    listAll_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -12655,7 +15603,7 @@ export interface operations {
             };
         };
     };
-    create_6: {
+    create_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -12679,7 +15627,7 @@ export interface operations {
             };
         };
     };
-    listAll_5: {
+    listAll_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -12699,7 +15647,7 @@ export interface operations {
             };
         };
     };
-    create_7: {
+    create_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -12723,7 +15671,7 @@ export interface operations {
             };
         };
     };
-    listAll_6: {
+    listAll_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -12743,7 +15691,7 @@ export interface operations {
             };
         };
     };
-    create_8: {
+    create_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -12767,7 +15715,7 @@ export interface operations {
             };
         };
     };
-    listAll_7: {
+    listAll_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -12787,7 +15735,7 @@ export interface operations {
             };
         };
     };
-    create_9: {
+    create_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -12831,7 +15779,7 @@ export interface operations {
             };
         };
     };
-    create_10: {
+    create_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -12855,7 +15803,7 @@ export interface operations {
             };
         };
     };
-    create_11: {
+    create_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -12927,7 +15875,179 @@ export interface operations {
             };
         };
     };
-    listAll_8: {
+    listByCompany_1: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubscriptionResponse"];
+                };
+            };
+        };
+    };
+    create_13: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSubscriptionRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionResponse"];
+                };
+            };
+        };
+    };
+    listItems: {
+        parameters: {
+            query?: {
+                onDate?: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubscriptionItemResponse"];
+                };
+            };
+        };
+    };
+    addItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddSubscriptionItemRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionItemResponse"];
+                };
+            };
+        };
+    };
+    changeItemQuantity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangeSubscriptionItemQuantityRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionItemResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_2: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubscriptionPaymentResponse"];
+                };
+            };
+        };
+    };
+    register: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterSubscriptionPaymentRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionPaymentResponse"];
+                };
+            };
+        };
+    };
+    listAll_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -12947,7 +16067,7 @@ export interface operations {
             };
         };
     };
-    create_12: {
+    create_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -12971,7 +16091,7 @@ export interface operations {
             };
         };
     };
-    listAll_9: {
+    listAll_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -12991,7 +16111,7 @@ export interface operations {
             };
         };
     };
-    create_13: {
+    create_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -13015,7 +16135,7 @@ export interface operations {
             };
         };
     };
-    listAll_10: {
+    listAll_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -13035,7 +16155,7 @@ export interface operations {
             };
         };
     };
-    create_14: {
+    create_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -13059,7 +16179,7 @@ export interface operations {
             };
         };
     };
-    listAll_11: {
+    listAll_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -13079,7 +16199,7 @@ export interface operations {
             };
         };
     };
-    create_15: {
+    create_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -13103,7 +16223,7 @@ export interface operations {
             };
         };
     };
-    listAll_12: {
+    listAll_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -13123,7 +16243,7 @@ export interface operations {
             };
         };
     };
-    create_16: {
+    create_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -13147,7 +16267,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_1: {
+    listByCompany_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -13167,7 +16287,7 @@ export interface operations {
             };
         };
     };
-    create_17: {
+    create_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -13191,7 +16311,7 @@ export interface operations {
             };
         };
     };
-    listAll_13: {
+    listAll_14: {
         parameters: {
             query?: {
                 page?: number;
@@ -13214,7 +16334,7 @@ export interface operations {
             };
         };
     };
-    create_18: {
+    create_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -13238,7 +16358,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_2: {
+    listByCompany_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -13258,7 +16378,7 @@ export interface operations {
             };
         };
     };
-    create_19: {
+    create_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -13282,7 +16402,7 @@ export interface operations {
             };
         };
     };
-    listAll_14: {
+    listAll_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -13302,7 +16422,7 @@ export interface operations {
             };
         };
     };
-    create_20: {
+    create_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -13326,7 +16446,7 @@ export interface operations {
             };
         };
     };
-    listAll_15: {
+    listAll_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -13346,7 +16466,7 @@ export interface operations {
             };
         };
     };
-    create_21: {
+    create_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -13370,7 +16490,7 @@ export interface operations {
             };
         };
     };
-    register: {
+    register_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -13416,7 +16536,146 @@ export interface operations {
             };
         };
     };
-    create_22: {
+    listMine: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseQuoteSummaryResponse"];
+                };
+            };
+        };
+    };
+    create_24: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateQuoteRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuoteResponse"];
+                };
+            };
+        };
+    };
+    send: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuoteResponse"];
+                };
+            };
+        };
+    };
+    reject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuoteResponse"];
+                };
+            };
+        };
+    };
+    accept: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AcceptQuoteRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuoteResponse"];
+                };
+            };
+        };
+    };
+    expireOverdue: {
+        parameters: {
+            query?: {
+                batchSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": number;
+                };
+            };
+        };
+    };
+    create_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -13484,7 +16743,7 @@ export interface operations {
             };
         };
     };
-    listAll_16: {
+    listAll_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -13504,7 +16763,7 @@ export interface operations {
             };
         };
     };
-    create_23: {
+    create_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -13528,7 +16787,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_3: {
+    listByCompany_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -13548,7 +16807,7 @@ export interface operations {
             };
         };
     };
-    create_24: {
+    create_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -13572,7 +16831,7 @@ export interface operations {
             };
         };
     };
-    listAll_17: {
+    listAll_18: {
         parameters: {
             query?: {
                 page?: number;
@@ -13595,7 +16854,7 @@ export interface operations {
             };
         };
     };
-    create_25: {
+    create_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -13639,7 +16898,7 @@ export interface operations {
             };
         };
     };
-    create_26: {
+    create_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -13663,7 +16922,7 @@ export interface operations {
             };
         };
     };
-    generate: {
+    generate_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -13685,7 +16944,55 @@ export interface operations {
             };
         };
     };
-    listAll_18: {
+    listAll_19: {
+        parameters: {
+            query?: {
+                status?: "DRAFT" | "PUBLISHED" | "ARCHIVED";
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponsePriceListResponse"];
+                };
+            };
+        };
+    };
+    create_30: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePriceListRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PriceListResponse"];
+                };
+            };
+        };
+    };
+    listAll_20: {
         parameters: {
             query?: {
                 page?: number;
@@ -13708,7 +17015,7 @@ export interface operations {
             };
         };
     };
-    create_27: {
+    create_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -13732,7 +17039,7 @@ export interface operations {
             };
         };
     };
-    listAll_19: {
+    listAll_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -13752,7 +17059,7 @@ export interface operations {
             };
         };
     };
-    create_28: {
+    create_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -13776,7 +17083,7 @@ export interface operations {
             };
         };
     };
-    listAll_20: {
+    listAll_22: {
         parameters: {
             query?: {
                 page?: number;
@@ -13799,7 +17106,7 @@ export interface operations {
             };
         };
     };
-    create_29: {
+    create_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -13847,7 +17154,7 @@ export interface operations {
             };
         };
     };
-    create_30: {
+    create_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -13871,7 +17178,7 @@ export interface operations {
             };
         };
     };
-    listAll_21: {
+    listAll_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -13891,7 +17198,7 @@ export interface operations {
             };
         };
     };
-    create_31: {
+    create_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -13915,7 +17222,7 @@ export interface operations {
             };
         };
     };
-    listAll_22: {
+    listAll_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -13935,7 +17242,7 @@ export interface operations {
             };
         };
     };
-    create_32: {
+    create_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -13959,95 +17266,7 @@ export interface operations {
             };
         };
     };
-    listAll_23: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipResponse"][];
-                };
-            };
-        };
-    };
-    create_33: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateMembershipRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipResponse"];
-                };
-            };
-        };
-    };
-    listAll_24: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipSubModuleResponse"][];
-                };
-            };
-        };
-    };
-    create_34: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateMembershipSubModuleRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipSubModuleResponse"];
-                };
-            };
-        };
-    };
-    generate_1: {
+    generate_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -14092,7 +17311,7 @@ export interface operations {
             };
         };
     };
-    create_35: {
+    create_37: {
         parameters: {
             query?: never;
             header?: never;
@@ -14139,7 +17358,7 @@ export interface operations {
             };
         };
     };
-    create_36: {
+    create_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -14183,7 +17402,7 @@ export interface operations {
             };
         };
     };
-    create_37: {
+    create_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -14227,7 +17446,7 @@ export interface operations {
             };
         };
     };
-    create_38: {
+    create_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -14436,7 +17655,7 @@ export interface operations {
             };
         };
     };
-    create_39: {
+    create_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -14460,7 +17679,7 @@ export interface operations {
             };
         };
     };
-    create_40: {
+    create_42: {
         parameters: {
             query?: never;
             header?: never;
@@ -14484,7 +17703,7 @@ export interface operations {
             };
         };
     };
-    create_41: {
+    create_43: {
         parameters: {
             query?: never;
             header?: never;
@@ -14508,7 +17727,7 @@ export interface operations {
             };
         };
     };
-    create_42: {
+    create_44: {
         parameters: {
             query?: never;
             header?: never;
@@ -14532,7 +17751,7 @@ export interface operations {
             };
         };
     };
-    create_43: {
+    create_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -14556,7 +17775,7 @@ export interface operations {
             };
         };
     };
-    create_44: {
+    create_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -14647,7 +17866,7 @@ export interface operations {
             };
         };
     };
-    create_45: {
+    create_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -14667,6 +17886,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["GeneralChargeOpenAccountResponse"];
+                };
+            };
+        };
+    };
+    recalculate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EntitlementRecalculationResponse"];
                 };
             };
         };
@@ -14691,7 +17930,7 @@ export interface operations {
             };
         };
     };
-    create_46: {
+    create_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -14783,7 +18022,7 @@ export interface operations {
             };
         };
     };
-    create_47: {
+    create_49: {
         parameters: {
             query?: never;
             header?: never;
@@ -14971,7 +18210,7 @@ export interface operations {
             };
         };
     };
-    create_48: {
+    create_50: {
         parameters: {
             query?: never;
             header?: never;
@@ -14991,6 +18230,54 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["EconomicActivityResponse"];
+                };
+            };
+        };
+    };
+    listBySubscription: {
+        parameters: {
+            query: {
+                subscriptionId: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseDunningEventResponse"];
+                };
+            };
+        };
+    };
+    record: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordDunningEventRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DunningEventResponse"];
                 };
             };
         };
@@ -15041,7 +18328,7 @@ export interface operations {
             };
         };
     };
-    create_49: {
+    create_51: {
         parameters: {
             query?: never;
             header?: never;
@@ -15085,7 +18372,7 @@ export interface operations {
             };
         };
     };
-    create_50: {
+    create_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -15129,7 +18416,7 @@ export interface operations {
             };
         };
     };
-    create_51: {
+    create_53: {
         parameters: {
             query?: never;
             header?: never;
@@ -15176,7 +18463,7 @@ export interface operations {
             };
         };
     };
-    create_52: {
+    create_54: {
         parameters: {
             query?: never;
             header?: never;
@@ -15220,7 +18507,7 @@ export interface operations {
             };
         };
     };
-    create_53: {
+    create_55: {
         parameters: {
             query?: never;
             header?: never;
@@ -15267,7 +18554,7 @@ export interface operations {
             };
         };
     };
-    create_54: {
+    create_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -15311,7 +18598,7 @@ export interface operations {
             };
         };
     };
-    create_55: {
+    create_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -15331,6 +18618,148 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ConsultationTypeResponse"];
+                };
+            };
+        };
+    };
+    resolve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResolveConfiguratorSelectionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConfiguratorSelectionResponse"];
+                };
+            };
+        };
+    };
+    listQuestions: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseConfiguratorQuestionResponse"];
+                };
+            };
+        };
+    };
+    createQuestion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateConfiguratorQuestionRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConfiguratorQuestionResponse"];
+                };
+            };
+        };
+    };
+    createOption: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateConfiguratorOptionRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConfiguratorOptionResponse"];
+                };
+            };
+        };
+    };
+    listEffects: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseConfiguratorEffectResponse"];
+                };
+            };
+        };
+    };
+    createEffect: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateConfiguratorEffectRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConfiguratorEffectResponse"];
                 };
             };
         };
@@ -15358,7 +18787,7 @@ export interface operations {
             };
         };
     };
-    create_56: {
+    create_58: {
         parameters: {
             query?: never;
             header?: never;
@@ -15402,7 +18831,7 @@ export interface operations {
             };
         };
     };
-    create_57: {
+    create_59: {
         parameters: {
             query?: never;
             header?: never;
@@ -15422,6 +18851,245 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CityResponse"];
+                };
+            };
+        };
+    };
+    listByPriceList: {
+        parameters: {
+            query: {
+                priceListId: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCatalogPriceResponse"];
+                };
+            };
+        };
+    };
+    create_60: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCatalogPriceRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogPriceResponse"];
+                };
+            };
+        };
+    };
+    listAll_43: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCatalogItemResponse"];
+                };
+            };
+        };
+    };
+    create_61: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCatalogItemRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemResponse"];
+                };
+            };
+        };
+    };
+    listByCatalogItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemSubModuleResponse"][];
+                };
+            };
+        };
+    };
+    create_62: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCatalogItemSubModuleRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemSubModuleResponse"];
+                };
+            };
+        };
+    };
+    listByCatalogItem_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemDependencyResponse"][];
+                };
+            };
+        };
+    };
+    create_63: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCatalogItemDependencyRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemDependencyResponse"];
+                };
+            };
+        };
+    };
+    listByBundle: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bundleItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BundleComponentResponse"][];
+                };
+            };
+        };
+    };
+    create_64: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bundleItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateBundleComponentRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BundleComponentResponse"];
                 };
             };
         };
@@ -15449,7 +19117,7 @@ export interface operations {
             };
         };
     };
-    create_58: {
+    create_65: {
         parameters: {
             query?: never;
             header?: never;
@@ -15569,7 +19237,7 @@ export interface operations {
             };
         };
     };
-    listAll_43: {
+    listAll_44: {
         parameters: {
             query?: never;
             header?: never;
@@ -15589,7 +19257,7 @@ export interface operations {
             };
         };
     };
-    create_59: {
+    create_66: {
         parameters: {
             query?: never;
             header?: never;
@@ -15613,7 +19281,7 @@ export interface operations {
             };
         };
     };
-    listAll_44: {
+    listAll_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -15633,7 +19301,7 @@ export interface operations {
             };
         };
     };
-    create_60: {
+    create_67: {
         parameters: {
             query?: never;
             header?: never;
@@ -15657,7 +19325,77 @@ export interface operations {
             };
         };
     };
-    listAll_45: {
+    listByTargetDocument: {
+        parameters: {
+            query: {
+                targetDocumentId: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseBillingDocumentApplicationResponse"];
+                };
+            };
+        };
+    };
+    apply: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplyBillingDocumentRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingDocumentApplicationResponse"];
+                };
+            };
+        };
+    };
+    reverse: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingDocumentApplicationResponse"];
+                };
+            };
+        };
+    };
+    listAll_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -15677,7 +19415,7 @@ export interface operations {
             };
         };
     };
-    create_61: {
+    create_68: {
         parameters: {
             query?: never;
             header?: never;
@@ -15701,7 +19439,7 @@ export interface operations {
             };
         };
     };
-    listAll_46: {
+    listAll_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -15721,7 +19459,7 @@ export interface operations {
             };
         };
     };
-    create_62: {
+    create_69: {
         parameters: {
             query?: never;
             header?: never;
@@ -15745,7 +19483,7 @@ export interface operations {
             };
         };
     };
-    listAll_47: {
+    listAll_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -15765,7 +19503,7 @@ export interface operations {
             };
         };
     };
-    create_63: {
+    create_70: {
         parameters: {
             query?: never;
             header?: never;
@@ -15973,7 +19711,7 @@ export interface operations {
             };
         };
     };
-    create_64: {
+    create_71: {
         parameters: {
             query?: never;
             header?: never;
@@ -15997,7 +19735,7 @@ export interface operations {
             };
         };
     };
-    listAll_48: {
+    listAll_49: {
         parameters: {
             query?: {
                 page?: number;
@@ -16020,7 +19758,7 @@ export interface operations {
             };
         };
     };
-    create_65: {
+    create_72: {
         parameters: {
             query?: never;
             header?: never;
@@ -16066,7 +19804,7 @@ export interface operations {
             };
         };
     };
-    create_66: {
+    create_73: {
         parameters: {
             query?: never;
             header?: never;
@@ -16092,7 +19830,7 @@ export interface operations {
             };
         };
     };
-    listAll_49: {
+    listAll_50: {
         parameters: {
             query?: never;
             header?: never;
@@ -16112,7 +19850,7 @@ export interface operations {
             };
         };
     };
-    create_67: {
+    create_74: {
         parameters: {
             query?: never;
             header?: never;
@@ -16244,6 +19982,132 @@ export interface operations {
             };
         };
     };
+    changeStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangeSubscriptionStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionResponse"];
+                };
+            };
+        };
+    };
+    removeItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RemoveSubscriptionItemRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionItemResponse"];
+                };
+            };
+        };
+    };
+    cancel_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelSubscriptionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionResponse"];
+                };
+            };
+        };
+    };
+    changeStatus_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangeSubscriptionPaymentStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionPaymentResponse"];
+                };
+            };
+        };
+    };
+    reconcile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionPaymentResponse"];
+                };
+            };
+        };
+    };
     enable_1: {
         parameters: {
             query?: never;
@@ -16354,7 +20218,7 @@ export interface operations {
             };
         };
     };
-    voidCharge: {
+    voidCharge_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -16424,7 +20288,7 @@ export interface operations {
             };
         };
     };
-    voidCharge_1: {
+    voidCharge_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -16476,7 +20340,7 @@ export interface operations {
             };
         };
     };
-    apply: {
+    apply_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -16520,6 +20384,72 @@ export interface operations {
             };
         };
     };
+    publish_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PriceListResponse"];
+                };
+            };
+        };
+    };
+    enable_6: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PriceListResponse"];
+                };
+            };
+        };
+    };
+    archive: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PriceListResponse"];
+                };
+            };
+        };
+    };
     reactivate_5: {
         parameters: {
             query?: never;
@@ -16542,7 +20472,7 @@ export interface operations {
             };
         };
     };
-    changeStatus: {
+    changeStatus_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -16568,7 +20498,7 @@ export interface operations {
             };
         };
     };
-    enable_6: {
+    enable_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -16590,7 +20520,7 @@ export interface operations {
             };
         };
     };
-    enable_7: {
+    enable_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -16608,50 +20538,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ModuleResponse"];
-                };
-            };
-        };
-    };
-    reactivate_6: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipResponse"];
-                };
-            };
-        };
-    };
-    reactivate_7: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["MembershipSubModuleResponse"];
                 };
             };
         };
@@ -16682,7 +20568,7 @@ export interface operations {
             };
         };
     };
-    apply_1: {
+    apply_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -16726,7 +20612,7 @@ export interface operations {
             };
         };
     };
-    enable_8: {
+    enable_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -16748,7 +20634,7 @@ export interface operations {
             };
         };
     };
-    changeStatus_1: {
+    changeStatus_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -16818,7 +20704,7 @@ export interface operations {
             };
         };
     };
-    voidCharge_2: {
+    voidCharge_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -16844,7 +20730,7 @@ export interface operations {
             };
         };
     };
-    enable_9: {
+    enable_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -16866,7 +20752,7 @@ export interface operations {
             };
         };
     };
-    enable_10: {
+    enable_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -16914,7 +20800,7 @@ export interface operations {
             };
         };
     };
-    enable_11: {
+    enable_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -16936,7 +20822,7 @@ export interface operations {
             };
         };
     };
-    enable_12: {
+    enable_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -16958,7 +20844,7 @@ export interface operations {
             };
         };
     };
-    enable_13: {
+    enable_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -16976,6 +20862,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CityResponse"];
+                };
+            };
+        };
+    };
+    enable_15: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemResponse"];
                 };
             };
         };
@@ -17002,7 +20910,7 @@ export interface operations {
             };
         };
     };
-    enable_14: {
+    enable_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -17068,7 +20976,7 @@ export interface operations {
             };
         };
     };
-    reactivate_8: {
+    reactivate_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -17090,7 +20998,7 @@ export interface operations {
             };
         };
     };
-    reactivate_9: {
+    reactivate_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -17112,7 +21020,7 @@ export interface operations {
             };
         };
     };
-    reactivate_10: {
+    reactivate_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -17134,7 +21042,7 @@ export interface operations {
             };
         };
     };
-    changeStatus_2: {
+    changeStatus_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -17186,7 +21094,7 @@ export interface operations {
             };
         };
     };
-    cancel_3: {
+    cancel_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -17212,7 +21120,7 @@ export interface operations {
             };
         };
     };
-    enable_15: {
+    enable_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -17296,6 +21204,100 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["TaxResponse"][];
+                };
+            };
+        };
+    };
+    listAll_51: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubscriptionPaymentResponse"];
+                };
+            };
+        };
+    };
+    listOverdue: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseBillingDocumentResponse"];
+                };
+            };
+        };
+    };
+    listAwaitingExternal: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseBillingDocumentResponse"];
+                };
+            };
+        };
+    };
+    listAll_52: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseDunningEventResponse"];
                 };
             };
         };
@@ -17418,6 +21420,212 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["AccountsPayableAgingResponse"];
+                };
+            };
+        };
+    };
+    findById_47: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionResponse"];
+                };
+            };
+        };
+    };
+    listStatusHistory: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubscriptionStatusChangeResponse"];
+                };
+            };
+        };
+    };
+    listAmendments: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubscriptionAmendmentResponse"];
+                };
+            };
+        };
+    };
+    findCurrent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionResponse"];
+                };
+            };
+        };
+    };
+    findById_48: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionPaymentResponse"];
+                };
+            };
+        };
+    };
+    listDocuments: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseBillingDocumentResponse"];
+                };
+            };
+        };
+    };
+    findDocument: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingDocumentResponse"];
+                };
+            };
+        };
+    };
+    listCharges: {
+        parameters: {
+            query?: {
+                subscriptionId?: number;
+                status?: "PENDING" | "INVOICED" | "VOIDED";
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubscriptionChargeResponse"];
+                };
+            };
+        };
+    };
+    findCharge: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionChargeResponse"];
                 };
             };
         };
@@ -17630,7 +21838,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_4: {
+    listByCompany_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -17650,7 +21858,7 @@ export interface operations {
             };
         };
     };
-    findById_46: {
+    findById_49: {
         parameters: {
             query?: never;
             header?: never;
@@ -17672,7 +21880,7 @@ export interface operations {
             };
         };
     };
-    delete_50: {
+    delete_53: {
         parameters: {
             query?: never;
             header?: never;
@@ -17689,6 +21897,91 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    findById_50: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuoteResponse"];
+                };
+            };
+        };
+    };
+    delete_54: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    totalsMismatches: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuoteTotalsMismatchResponse"][];
+                };
+            };
+        };
+    };
+    listAll_53: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseQuoteSummaryResponse"];
+                };
             };
         };
     };
@@ -17860,7 +22153,7 @@ export interface operations {
             };
         };
     };
-    findById_47: {
+    findById_51: {
         parameters: {
             query?: never;
             header?: never;
@@ -17904,7 +22197,50 @@ export interface operations {
             };
         };
     };
-    listByCompany_5: {
+    listAll_54: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubscriptionResponse"];
+                };
+            };
+        };
+    };
+    findOverlaps: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionItemOverlapResponse"][];
+                };
+            };
+        };
+    };
+    listByCompany_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -17948,7 +22284,7 @@ export interface operations {
             };
         };
     };
-    findById_48: {
+    findById_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -17970,7 +22306,7 @@ export interface operations {
             };
         };
     };
-    delete_51: {
+    delete_55: {
         parameters: {
             query?: never;
             header?: never;
@@ -18446,7 +22782,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_6: {
+    listByCompany_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -18592,7 +22928,7 @@ export interface operations {
             };
         };
     };
-    findById_49: {
+    findById_53: {
         parameters: {
             query?: never;
             header?: never;
@@ -18614,7 +22950,7 @@ export interface operations {
             };
         };
     };
-    delete_52: {
+    delete_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -18680,6 +23016,49 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["GeneralChargeOpenAccountResponse"][];
+                };
+            };
+        };
+    };
+    list_6: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyEntitlementResponse"];
+                };
+            };
+        };
+    };
+    currentAccess: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyAccessResponse"];
                 };
             };
         };
@@ -18752,7 +23131,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_7: {
+    listByCompany_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -18772,7 +23151,7 @@ export interface operations {
             };
         };
     };
-    listAll_50: {
+    listAll_55: {
         parameters: {
             query?: {
                 branchId?: number;
@@ -18798,7 +23177,7 @@ export interface operations {
             };
         };
     };
-    findById_50: {
+    findById_54: {
         parameters: {
             query?: never;
             header?: never;
@@ -18838,6 +23217,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ElectronicDocumentDto"];
+                };
+            };
+        };
+    };
+    findById_55: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DunningEventResponse"];
                 };
             };
         };
@@ -18936,7 +23337,7 @@ export interface operations {
             };
         };
     };
-    listAll_51: {
+    listAll_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -18978,7 +23379,7 @@ export interface operations {
             };
         };
     };
-    findById_51: {
+    findById_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -18996,6 +23397,48 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ConsultationResponse"];
+                };
+            };
+        };
+    };
+    listOptions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                questionId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConfiguratorOptionResponse"][];
+                };
+            };
+        };
+    };
+    questionnaire: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuestionnaireQuestionResponse"][];
                 };
             };
         };
@@ -19024,7 +23467,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_8: {
+    listByCompany_10: {
         parameters: {
             query?: {
                 types?: ("CONSULTATION" | "SURGERY" | "VACCINATION" | "DEWORMING" | "HOSPITALIZATION" | "LABORATORY_TEST" | "DIAGNOSTIC_IMAGING" | "PRESCRIPTION" | "SPA")[];
@@ -19048,7 +23491,7 @@ export interface operations {
             };
         };
     };
-    list_6: {
+    list_7: {
         parameters: {
             query?: {
                 branchId?: number;
@@ -19183,7 +23626,7 @@ export interface operations {
             };
         };
     };
-    findById_52: {
+    findById_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -19328,7 +23771,7 @@ export interface operations {
             };
         };
     };
-    delete_53: {
+    delete_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -19348,7 +23791,7 @@ export interface operations {
             };
         };
     };
-    delete_54: {
+    delete_58: {
         parameters: {
             query?: never;
             header?: never;
@@ -19368,7 +23811,7 @@ export interface operations {
             };
         };
     };
-    delete_55: {
+    delete_59: {
         parameters: {
             query?: never;
             header?: never;
@@ -19388,7 +23831,28 @@ export interface operations {
             };
         };
     };
-    delete_56: {
+    delete_60: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_61: {
         parameters: {
             query?: never;
             header?: never;

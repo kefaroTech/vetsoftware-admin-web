@@ -5,14 +5,11 @@ export const membershipSubModulesRoutes: RouteRecordRaw[] = [
   {
     path: '/membresias-submodulos',
     name: ROUTE_NAMES.MEMBERSHIP_SUB_MODULES_LIST,
-    component: () =>
-      import('@/features/membership-sub-modules/views/MembershipSubModulesListView.vue'),
+    redirect: { name: ROUTE_NAMES.COMMERCIAL_CATALOG },
   },
   {
     path: '/membresias-submodulos/:id',
     name: ROUTE_NAMES.MEMBERSHIP_SUB_MODULE_DETAIL,
-    component: () =>
-      import('@/features/membership-sub-modules/views/MembershipSubModuleDetailView.vue'),
-    props: true,
+    redirect: { name: ROUTE_NAMES.COMMERCIAL_CATALOG },
   },
 ]

@@ -2,6 +2,7 @@
 import { computed, ref, watch, onMounted } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
+import AppCheckbox from '@/components/ui/AppCheckbox.vue'
 import { length, selection } from '@/composables/validators'
 import { useToast } from '@/composables/useToast'
 import { getProblemDetailMessage } from '@/services/http/http.client'
@@ -29,7 +30,7 @@ const { errorFrom } = useToast()
 
 /** Estado inicial vacío. `moduleId: 0` es el «sin elegir» de este formulario. */
 function emptyForm(): CreateSubModuleRequest {
-  return { name: '', code: '', moduleId: 0 }
+  return { name: '', code: '', moduleId: 0, sellable: false, readOnlyCapable: false }
 }
 
 const form = ref<CreateSubModuleRequest>(emptyForm())
@@ -99,7 +100,13 @@ watch(
     // También cuando `val` es nulo: el modal de creación se reutiliza tras
     // haber editado, y sin este reseteo reabriría con lo de la ficha anterior.
     form.value = val
-      ? { name: val.name, code: val.code, moduleId: val.module?.id ?? 0 }
+      ? {
+          name: val.name,
+          code: val.code,
+          moduleId: val.module?.id ?? 0,
+          sellable: val.sellable,
+          readOnlyCapable: val.readOnlyCapable,
+        }
       : emptyForm()
     submitted.value = false
     baseline.value = JSON.stringify(form.value)
@@ -155,6 +162,10 @@ defineExpose({ isDirty })
       :placeholder="cargandoModulos ? 'Cargando…' : undefined"
       :error="submitted ? errors.moduleId : undefined"
     />
+    <!-- Los dos son `boolean` primitivos en el backend: omitirlos del cuerpo no
+         los deja como estaban, los pone en `false`. Se envian siempre. -->
+    <AppCheckbox v-model="form.sellable" label="Vendible como linea de suscripcion" />
+    <AppCheckbox v-model="form.readOnlyCapable" label="Admite acceso de solo lectura" />
     <div class="ds-actions">
       <button type="button" class="ds-btn ds-btn--ghost" :disabled="saving" @click="emit('cancel')">
         Cancelar

@@ -6,7 +6,7 @@ import { createCatalogStore } from '@/stores/createCatalogStore'
  *
  * Antes cada feature tenía su propia copia, así que un fallo aquí solo rompía
  * una pantalla. Ahora un fallo las rompe todas: especies, razas, colores,
- * módulos, membresías, roles y permisos base, y los cinco catálogos clínicos.
+ * módulos, roles y permisos base, y los cinco catálogos clínicos.
  * Ese es el precio de no repetirse, y esta es la red que lo compensa.
  */
 

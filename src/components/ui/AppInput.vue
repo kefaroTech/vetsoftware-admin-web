@@ -58,6 +58,28 @@ const emit = defineEmits<{
 const autoId = useId()
 const fieldId = () => props.id ?? autoId
 
+/**
+ * A11Y · §5.6 de `docs/ux/suscripciones-consola-especificacion.md`.
+ *
+ * El campo ya declaraba `aria-invalid`, pero el mensaje de error vivía en un
+ * `<p>` sin `id` que nada ataba al control: un lector de pantalla anunciaba
+ * «Nombre, no válido» y **no leía por qué**, así que quien no ve la pantalla
+ * sabe que algo está mal y no qué (WCAG 2.2 §3.3.1). Es el hueco sistémico que
+ * la especificación pide no heredar en las pantallas nuevas — se cierra aquí,
+ * una vez, en el campo que usan los 15 formularios de la consola, en vez de
+ * repetirlo en cada uno.
+ *
+ * El `hint` viaja por el mismo atributo cuando no hay error: es texto de ayuda
+ * persistente y también describe al control. Nunca los dos a la vez, porque
+ * `hint` no se pinta mientras hay error.
+ */
+const errorId = computed(() => `${fieldId()}-error`)
+const hintId = computed(() => `${fieldId()}-hint`)
+const describedBy = computed(() => {
+  if (props.error) return errorId.value
+  return props.hint ? hintId.value : undefined
+})
+
 const focused = ref(false)
 
 /**
@@ -94,6 +116,7 @@ const toneClass = computed(() => {
         :autocomplete="autocomplete"
         :inputmode="inputmode"
         :aria-invalid="!!error || undefined"
+        :aria-describedby="describedBy"
         class="ds-flex-fill"
         :class="mono ? 'mono' : null"
         @focus="focused = true"
@@ -108,11 +131,11 @@ const toneClass = computed(() => {
            `<style scoped>` de quien lo pasa, no aquí. -->
       <slot name="trailing" />
     </div>
-    <p v-if="error" class="error">
+    <p v-if="error" :id="errorId" class="error">
       <component :is="ICONS.WARNING" :size="11" />
       <span>{{ error }}</span>
     </p>
-    <p v-else-if="hint" class="ds-hint">{{ hint }}</p>
+    <p v-else-if="hint" :id="hintId" class="ds-hint">{{ hint }}</p>
   </div>
 </template>
 

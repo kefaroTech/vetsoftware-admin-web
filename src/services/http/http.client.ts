@@ -18,13 +18,45 @@ declare module 'axios' {
     _loaderPushed?: boolean
     /** Marca interna: reintentos ya consumidos ante fallo de red o 5xx. */
     _networkRetries?: number
+    /**
+     * Empresa objetivo de una escritura o lectura que un `SystemUserContext`
+     * ejecuta sobre el contrato de un tercero (docs/ux/suscripciones-consola-
+     * especificacion.md §1.1/§2, tarea W1-A). El backend resuelve la empresa
+     * de un system user leyendo la cabecera `X-Company-Id`
+     * (`Authz.requiredSystemCompanyId()`, `Authz.java:155-175`) y lanza si
+     * falta.
+     *
+     * El envío es CONDICIONAL —solo viaja si el llamador pasa este campo— y
+     * EXPLÍCITO: nunca se infiere de un store "empresa activa" ni de ningún
+     * otro estado global. La especificación lo dice sin rodeos: una cabecera
+     * invisible que cambia el destinatario de una escritura es el mecanismo
+     * con el que se cancela el contrato equivocado. Quien pasa `companyId` lo
+     * hace porque la pantalla que lo invoca ya hace visible de qué empresa se
+     * trata —el expediente del contrato (W2-A)—, nunca un valor recordado
+     * entre pantallas.
+     *
+     * El front del tenant nunca necesita esto: su empresa la resuelve el
+     * backend a partir del `EmployeeContext` del token, nunca de esta
+     * cabecera —solo un `SystemUserContext` la exige—. El campo viaja aquí de
+     * todos modos porque este archivo es gemelo TR-02 byte a byte con el de
+     * la consola de plataforma: mantenerlo como código compartido con una
+     * rama inerte en el tenant cuesta menos que declarar una cuarta
+     * divergencia permitida y tener que justificarla en cada auditoría de
+     * paridad (ver CLAUDE.md, "Los dos fronts son independientes, pero se
+     * escriben igual").
+     */
+    companyId?: number
   }
   export interface InternalAxiosRequestConfig {
     _retry?: boolean
     _loaderPushed?: boolean
     _networkRetries?: number
+    companyId?: number
   }
 }
+
+/** Nombre exacto de la cabecera que exige `Authz.requiredSystemCompanyId()` (backend, `Authz.java:19`). */
+export const COMPANY_ID_HEADER = 'X-Company-Id'
 
 /**
  * Sin timeout, una petición que nunca resuelve deja el contador del loader
@@ -168,6 +200,10 @@ export function setBranchResolver(resolver: BranchResolver) {
 http.interceptors.request.use(async (config) => {
   const token = storageService.getToken()
   if (token) config.headers.set('Authorization', `Bearer ${token}`)
+
+  // Condicional y explícito (ver el doc de `companyId` arriba): solo viaja si
+  // ESTA petición lo pasó, nunca por defecto.
+  if (config.companyId != null) config.headers.set(COMPANY_ID_HEADER, String(config.companyId))
 
   // Excluye por construcción las peticiones de las que depende la propia
   // resolución (/auth/me, el listado de sedes): ninguna de las dos pasa por

@@ -40,6 +40,21 @@ const emit = defineEmits<{
 const autoId = useId()
 const fieldId = () => props.id ?? autoId
 
+/**
+ * A11Y · §5.6 de `docs/ux/suscripciones-consola-especificacion.md`, misma
+ * corrección que `AppInput.vue`: el mensaje de error tiene que estar ASOCIADO
+ * al control y no solo pintado debajo. Con `aria-invalid` a secas, un lector de
+ * pantalla anuncia «no válido» y no lee por qué (WCAG 2.2 §3.3.1). El `hint`
+ * viaja por el mismo atributo cuando no hay error, y nunca los dos a la vez
+ * porque `hint` no se pinta mientras hay error.
+ */
+const errorId = computed(() => `${fieldId()}-error`)
+const hintId = computed(() => `${fieldId()}-hint`)
+const describedBy = computed(() => {
+  if (props.error) return errorId.value
+  return props.hint ? hintId.value : undefined
+})
+
 const focused = ref(false)
 
 /**
@@ -73,16 +88,17 @@ const toneClass = computed(() => {
         :placeholder="placeholder"
         :disabled="disabled"
         :aria-invalid="!!error || undefined"
+        :aria-describedby="describedBy"
         @focus="focused = true"
         @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
         @blur="onBlur"
       />
     </div>
-    <p v-if="error" class="error">
+    <p v-if="error" :id="errorId" class="error">
       <component :is="ICONS.WARNING" :size="11" />
       <span>{{ error }}</span>
     </p>
-    <p v-else-if="hint" class="ds-hint">{{ hint }}</p>
+    <p v-else-if="hint" :id="hintId" class="ds-hint">{{ hint }}</p>
   </div>
 </template>
 

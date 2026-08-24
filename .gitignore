@@ -46,3 +46,9 @@ secrets.*
 /playwright-report-visual/
 /blob-report/
 /playwright/.cache/
+
+# Estado de sesión de los E2E (contiene un access token)
+e2e/.auth/
+test-results/
+playwright-report/
+playwright-report-visual/

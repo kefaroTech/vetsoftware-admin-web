@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
+import AppSelect from '@/components/ui/AppSelect.vue'
 import { length } from '@/composables/validators'
+import { useCompanyLocations } from '../composables/useCompanyLocations'
 import type { CompanyResponse, CreateCompanyRequest } from '../types/companies.types'
 
 const props = defineProps<{
@@ -19,10 +21,35 @@ const emit = defineEmits<{
   cancel: []
 }>()
 
-const VACIO: CreateCompanyRequest = { name: '', identifier: '', address: '', contactNumber: '' }
+const VACIO: CreateCompanyRequest = {
+  name: '',
+  identifier: '',
+  address: '',
+  contactNumber: '',
+  cityId: 0,
+}
 
 const form = ref<CreateCompanyRequest>({ ...VACIO })
+const countryId = ref<number | null>(null)
+const stateId = ref<number | null>(null)
 const submitted = ref(false)
+let locationRequest = 0
+
+const {
+  countryOptions,
+  stateOptions,
+  cityOptions,
+  loadingCountries,
+  loadingStates,
+  loadingCities,
+  error: locationError,
+  loadCountries,
+  loadStates,
+  loadCities,
+  resolveCity,
+  clearStatesAndCities,
+  clearCities,
+} = useCompanyLocations()
 
 /** Copia del estado con el que se abrió el formulario, para saber si está sucio. */
 const baseline = ref('')
@@ -33,11 +60,13 @@ const baseline = ref('')
 const errors = computed(() => ({
   name: length(form.value.name, 'El nombre de la empresa', 2, 100),
   identifier: length(form.value.identifier, 'El identificador', 2, 50),
+  cityId: form.value.cityId > 0 ? null : 'Selecciona la ciudad.',
 }))
 
 watch(
   () => props.initial,
-  (val) => {
+  async (val) => {
+    const request = ++locationRequest
     form.value = val
       ? {
           name: val.name,
@@ -45,13 +74,54 @@ watch(
           // TR-01: el backend puede devolverlos nulos y el formulario los edita como texto.
           address: val.address ?? '',
           contactNumber: val.contactNumber ?? '',
+          cityId: val.city.id,
         }
       : { ...VACIO }
+    countryId.value = null
+    stateId.value = null
+    clearStatesAndCities()
     submitted.value = false
     baseline.value = JSON.stringify(form.value)
+
+    try {
+      if (val) {
+        const context = await resolveCity(val.city.id)
+        if (request !== locationRequest) return
+        countryId.value = context.countryId
+        stateId.value = context.stateId
+      } else {
+        await loadCountries()
+      }
+    } catch {
+      // El composable conserva el banner y la traza. El formulario mantiene la
+      // ciudad vigente en edición para no reemplazarla por un valor inventado.
+    }
   },
   { immediate: true },
 )
+
+async function selectCountry(id: number) {
+  countryId.value = id
+  stateId.value = null
+  form.value.cityId = 0
+  clearStatesAndCities()
+  try {
+    await loadStates(id)
+  } catch {
+    // El composable deja el error visible y trazable.
+  }
+}
+
+async function selectState(id: number) {
+  stateId.value = id
+  form.value.cityId = 0
+  clearCities()
+  try {
+    await loadCities(id)
+  } catch {
+    // El composable deja el error visible y trazable.
+  }
+}
 
 function onContact(v: string) {
   form.value.contactNumber = v.replace(/[^+\d\s()-]/g, '')
@@ -101,6 +171,36 @@ defineExpose({ isDirty })
       placeholder="300 123 4567"
       inputmode="tel"
       @update:model-value="onContact"
+    />
+    <div v-if="locationError" class="ds-banner ds-banner--error" role="alert">
+      {{ locationError }}
+    </div>
+    <AppSelect
+      :model-value="countryId"
+      :options="countryOptions"
+      label="País"
+      required
+      :disabled="loadingCountries"
+      :placeholder="loadingCountries ? 'Cargando…' : 'Selecciona un país'"
+      @update:model-value="selectCountry"
+    />
+    <AppSelect
+      :model-value="stateId"
+      :options="stateOptions"
+      label="Departamento"
+      required
+      :disabled="!countryId || loadingStates"
+      :placeholder="loadingStates ? 'Cargando…' : 'Selecciona un departamento'"
+      @update:model-value="selectState"
+    />
+    <AppSelect
+      v-model="form.cityId"
+      :options="cityOptions"
+      label="Ciudad"
+      required
+      :disabled="!stateId || loadingCities"
+      :placeholder="loadingCities ? 'Cargando…' : 'Selecciona una ciudad'"
+      :error="submitted ? (errors.cityId ?? undefined) : undefined"
     />
     <div class="ds-actions">
       <button type="button" class="ds-btn ds-btn--ghost" :disabled="saving" @click="emit('cancel')">

@@ -8,6 +8,11 @@ export const ROUTE_NAMES = {
   DASHBOARD: 'dashboard',
   COMPANIES_LIST: 'companies-list',
   COMPANY_DETAIL: 'company-detail',
+  COMMERCIAL_CATALOG: 'commercial-catalog',
+  SUBSCRIPTIONS_ADMIN: 'subscriptions-admin',
+  BILLING_OPERATIONS: 'billing-operations',
+  // Alias de compatibilidad para componentes antiguos que siguen en el árbol.
+  // Sus rutas ya no renderizan esas pantallas: redirigen al catálogo comercial.
   MEMBERSHIPS_LIST: 'memberships-list',
   MEMBERSHIP_DETAIL: 'membership-detail',
   MODULES_LIST: 'modules-list',

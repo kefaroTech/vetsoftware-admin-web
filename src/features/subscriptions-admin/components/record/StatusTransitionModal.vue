@@ -1,0 +1,143 @@
+<script setup lang="ts">
+import { computed, reactive, ref, useId, watch } from 'vue'
+import ModalShell from '@/components/ui/ModalShell.vue'
+import AppTextarea from '@/components/ui/AppTextarea.vue'
+import ErrorSummary, { toSummaryItems } from '@/components/feedback/ErrorSummary.vue'
+import { ICONS } from '@/constants/icons'
+import type { SubscriptionResponse } from '../../types/subscriptions-admin.types'
+import type { SubscriptionStatusTransition } from '../../types/subscription-record.types'
+
+/**
+ * Una transición de estado con nombre (§3.4.2).
+ *
+ * <p><b>Esto no es un `<select>` con seis estados.</b> La ruta acepta un enum de
+ * seis valores, pero exponerlo como desplegable convertiría una decisión de
+ * negocio —«esta clínica pasa a solo lectura»— en un cambio de campo. Cada
+ * transición ofrecida llega aquí con su verbo y su consecuencia ya escritos, y
+ * este modal solo añade lo que falta: el motivo y la confirmación explícita.
+ *
+ * <p><b>La pregunta repite el nombre de la empresa.</b> Ninguna acción de este
+ * expediente se confirma sin decir sobre qué empresa se actúa: es la misma razón
+ * por la que la cabecera es permanente (§4.4.2).
+ *
+ * <p><b>`reason` es obligatorio en la interfaz</b> aunque el contrato lo permita
+ * vacío. El modelo lo dice: el motivo es información de negocio, no burocracia —
+ * es la única fuente que explica seis meses después por qué una cuenta cambió de
+ * estado.
+ *
+ * <p>Convención de formularios del repositorio, sin desviarse: validador puro →
+ * `computed errors` → mapa `touched` que arranca en `false` → el error solo se
+ * pinta tras `@blur` o tras un envío fallido → `ErrorSummary` con el mismo texto
+ * literal que el error en línea, y el foco puesto en él.
+ */
+const props = defineProps<{
+  open: boolean
+  transition: SubscriptionStatusTransition
+  subscription: SubscriptionResponse
+  companyName: string
+  saving?: boolean
+}>()
+
+const emit = defineEmits<{ close: []; submit: [reason: string] }>()
+
+const reasonId = useId()
+const summary = ref<InstanceType<typeof ErrorSummary> | null>(null)
+
+const form = reactive({ reason: '' })
+const touched = reactive({ reason: false })
+
+function validateReason(value: string): string {
+  const v = value.trim()
+  if (!v)
+    return 'El motivo es obligatorio: es lo que explica este cambio en la historia del contrato.'
+  if (v.length < 5)
+    return 'Escribe un motivo de al menos 5 caracteres. Ejemplo: pago recibido por transferencia.'
+  if (v.length > 255) return 'El motivo no puede pasar de 255 caracteres.'
+  return ''
+}
+
+const errors = computed(() => ({ reason: validateReason(form.reason) }))
+
+const summaryItems = computed(() =>
+  toSummaryItems({ reason: touched.reason ? errors.value.reason : '' }, { reason: reasonId }, [
+    'reason',
+  ]),
+)
+
+function err(): string {
+  return touched.reason ? errors.value.reason : ''
+}
+
+const question = computed(
+  () =>
+    `¿${props.transition.label} en ${props.subscription.subscriptionNumber}, de ${props.companyName}?`,
+)
+
+/** Se limpia al abrir: un motivo tecleado para OTRA transición no puede quedarse aquí. */
+watch(
+  () => props.open,
+  (open) => {
+    if (!open) return
+    form.reason = ''
+    touched.reason = false
+  },
+)
+
+function submit() {
+  touched.reason = true
+  if (errors.value.reason) {
+    void summary.value?.focus()
+    return
+  }
+  emit('submit', form.reason.trim())
+}
+</script>
+
+<template>
+  <ModalShell
+    :open="open"
+    :title="transition.label"
+    :subtitle="`${subscription.subscriptionNumber} · ${companyName}`"
+    :icon="ICONS.SUBSCRIPTION"
+    role="alertdialog"
+    compact
+    :width="520"
+    @close="emit('close')"
+  >
+    <template #body>
+      <form class="ds-stack ds-stack--16" @submit.prevent="submit">
+        <ErrorSummary ref="summary" :items="summaryItems" />
+
+        <p class="ds-dialog-body">{{ question }}</p>
+        <p class="ds-dialog-body">{{ transition.consequence }}</p>
+
+        <!-- La política, literal y en el sitio donde se decide: no existe corte
+             total de acceso, y quien pulsa tiene que leerlo antes. -->
+        <div v-if="transition.policyNote" class="ds-banner ds-banner--info ds-banner--sm">
+          <component :is="ICONS.INFO" :size="15" class="ds-banner-icon" />
+          <span>{{ transition.policyNote }}</span>
+        </div>
+
+        <AppTextarea
+          :id="reasonId"
+          v-model="form.reason"
+          label="Motivo"
+          required
+          :rows="3"
+          hint="Queda en la historia del contrato. Es lo que se lee cuando alguien pregunta por qué."
+          :error="err()"
+          @blur="touched.reason = true"
+        />
+      </form>
+    </template>
+
+    <template #footer-actions>
+      <button type="button" class="ds-btn ds-btn--ghost" :disabled="saving" @click="emit('close')">
+        Cancelar
+      </button>
+      <button type="button" class="ds-btn ds-btn--primary" :disabled="saving" @click="submit">
+        {{ saving ? 'Guardando…' : transition.label }}
+      </button>
+    </template>
+  </ModalShell>
+</template>

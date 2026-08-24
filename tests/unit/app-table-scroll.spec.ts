@@ -11,7 +11,7 @@ import AppTable from '@/components/ui/AppTable.vue'
  * exterior declaraba `overflow: hidden` para redondear las esquinas, y ese
  * recorte hacía literalmente inalcanzables las últimas columnas en cuanto la
  * tabla era más ancha que el contenedor: no había scroll horizontal, había
- * amputación. En `BaseRolePermissionsListView` o `MembershipSubModulesListView`
+ * amputación. En `BaseRolePermissionsListView` o `SubModulesListView`
  * —las más anchas— eso se traduce en que a 320–640 px de ancho la columna de
  * acciones simplemente no existe para el usuario. No es incomodidad: es
  * contenido perdido, y §1.4.10 lo prohíbe.

@@ -124,7 +124,7 @@ async function handleDelete(id: number, name: string) {
         <AppEmptyState
           v-else
           title="Aún no hay módulos"
-          description="Un módulo agrupa funcionalidades que una membresía habilita a una empresa."
+          description="Un módulo agrupa funcionalidades que una suscripción habilita a una empresa."
         >
           <button type="button" class="ds-btn ds-btn--primary" @click="showModal = true">
             <component :is="ICONS.ADD" :size="15" />

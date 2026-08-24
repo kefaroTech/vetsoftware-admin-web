@@ -104,11 +104,55 @@ describe('sidebar sin cifras inventadas (EST-12)', () => {
     expect(FORMA_DE_CIFRA.test(cifra)).toBe(true)
   })
 
-  it.each(['Empresas', 'Roles base', 'Membresías · Submódulos', 'Tipos de spa'])(
+  it.each(['Empresas', 'Roles base', 'Catálogo y precios', 'Tipos de spa'])(
     '«%s» no se confunde con una cifra',
     (etiqueta) => {
       // Y que no sea tan ancho como para prohibir las etiquetas legítimas.
       expect(FORMA_DE_CIFRA.test(etiqueta)).toBe(false)
     },
   )
+})
+
+/**
+ * El grupo «Suscripciones» cuenta la cadena del modelo, y su ORDEN es el
+ * mensaje: catálogo y precios → el asistente → la oferta → el contrato → el
+ * dinero (§2 de `docs/ux/suscripciones-consola-especificacion.md`).
+ *
+ * Se afirma aquí y no en una revisión visual porque el orden de un array es lo
+ * primero que se pierde cuando alguien añade una entrada al final «para no
+ * tocar nada»: el menú sigue teniendo las cinco entradas, y deja de explicar
+ * por qué están en ese orden. La prueba mira el texto renderizado, no el array,
+ * para que también falle si el marcado deja de recorrerlo.
+ *
+ * ⚠️ El router de estas pruebas es un comodín que casa con TODO, así que las
+ * cinco entradas se pintan. En producción, una entrada cuya ruta el router
+ * todavía no conoce —`/configurador` y `/cotizaciones` hasta que sus tareas
+ * registren su fichero de rutas— NO se pinta: ver `isAvailable` en el
+ * componente. Eso es deliberado, y por eso esta prueba no puede afirmar que se
+ * vean siempre; afirma el orden en que se declaran.
+ */
+describe('el menú cuenta la cadena del modelo de suscripciones (§2)', () => {
+  const CADENA = ['Catálogo y precios', 'Configurador', 'Cotizaciones', 'Contratos', 'Cobranza']
+
+  it('las cinco entradas van en el orden de la cadena', async () => {
+    const wrapper = await montarSidebar()
+    const textos = textosDeLaNavegacion(wrapper.find('nav').element)
+    const posiciones = CADENA.map((etiqueta) => textos.indexOf(etiqueta))
+
+    expect(posiciones, `falta alguna entrada del grupo: ${CADENA.join(' → ')}`).not.toContain(-1)
+    expect(
+      posiciones,
+      `el grupo dejó de contar la cadena en orden (${CADENA.join(' → ')})`,
+    ).toEqual([...posiciones].sort((a, b) => a - b))
+  })
+
+  it('«Facturación de plataforma» vive bajo Sistema y no como grupo propio', async () => {
+    // §2.1: es UNA fila de configuración; un grupo de primer nivel le daría el
+    // mismo peso que a «Contratos».
+    const wrapper = await montarSidebar()
+    const textos = textosDeLaNavegacion(wrapper.find('nav').element)
+
+    expect(textos).toContain('Facturación de plataforma')
+    expect(textos.indexOf('Facturación de plataforma')).toBeGreaterThan(textos.indexOf('Sistema'))
+  })
 })
