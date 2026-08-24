@@ -148,3 +148,9 @@ mencionan "foco" pero solo §2.4.7 + §1.4.11 sustentan esta regla.
 - El patrón que hoy cumple: anillo de dos capas, `0 0 0 2px var(--warm-50), 0 0
 0 4px var(--amatista-500)` — la primera capa separa el color del borde del
   control, la segunda es la que aporta el contraste.
+
+## Integración con Codex
+
+Codex carga este `AGENTS.md` automáticamente. `CLAUDE.md` permanece como referencia técnica detallada compartida: antes de tocar código, localiza sus encabezados con `rg -n "^#{1,3} " CLAUDE.md` y lee las secciones aplicables, en especial Pinia, estructura por feature, TR-02 y convenciones transversales. Lee también el cierre obligatorio cuando el trabajo cambie o revise código. En caso de conflicto, para Codex prevalece este `AGENTS.md`.
+
+Los agentes nativos relevantes están en `.codex/agents/`: `front-feature`, `front-e2e-visual`, `front-parity`, `front-ux-design`, `api-contract-sync`, `observability-telemetry` y `gitflow-release`. Sus instrucciones compartidas viven en `../.claude/agents/`. No ejecutes `front-parity` a la vez que otro agente que edite los archivos gemelos TR-02.
