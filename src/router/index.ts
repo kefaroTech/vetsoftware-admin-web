@@ -21,6 +21,7 @@ import { surgeryTypesRoutes } from './routes/surgery-types.routes'
 import { laboratoryTestTypesRoutes } from './routes/laboratory-test-types.routes'
 import { diagnosticImagingTypesRoutes } from './routes/diagnostic-imaging-types.routes'
 import { spaTypesRoutes } from './routes/spa-types.routes'
+import { medicamentsRoutes } from './routes/medicaments.routes'
 import { configRoutes } from './routes/config.routes'
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -91,6 +92,7 @@ const router = createRouter({
     ...laboratoryTestTypesRoutes,
     ...diagnosticImagingTypesRoutes,
     ...spaTypesRoutes,
+    ...medicamentsRoutes,
     ...configRoutes,
   ],
 })

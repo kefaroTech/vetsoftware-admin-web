@@ -89,6 +89,12 @@ import type {
   UpdateLaboratoryTestTypeRequest,
 } from '../features/laboratory-test-types/types/laboratory-test-types.types'
 import type {
+  CreateGlobalMedicamentRequest,
+  MedicamentCompanySummary,
+  MedicamentResponse,
+  UpdateGlobalMedicamentRequest,
+} from '../features/medicaments/types/medicaments.types'
+import type {
   ModuleResponse,
   CreateModuleRequest,
   UpdateModuleRequest,
@@ -199,6 +205,13 @@ import type {
   UpdateConfiguratorOptionRequest,
   UpdateConfiguratorQuestionRequest,
 } from '../features/configurator/types/configurator.types'
+import type {
+  AcceptInvitationRequest,
+  AccessRequestResponse,
+  CreateAccessRequestRequest,
+  InvitationResponse,
+  ResolveAccessRequestRequest,
+} from '../features/platform-access/types/platform-access.types'
 import type {
   CatalogItemSubModuleResponse,
   SubModuleSummary,
@@ -436,6 +449,14 @@ export type ContractAssertions = [
   Expect<MatchesContract<CreateVaccinationTypeRequest, 'CreateVaccinationTypeRequest'>>,
   Expect<MatchesContract<DiagnosticImagingTypeResponse, 'DiagnosticImagingTypeResponse'>>,
   Expect<MatchesContract<LaboratoryTestTypeResponse, 'LaboratoryTestTypeResponse'>>,
+  // Vademécum. `MedicamentCompanySummary` se ata al mismo `CompanySummary` del
+  // contrato que ya usan las cotizaciones: es el resumen anidado que el backend
+  // define UNA vez, y si le cambia un campo tiene que romper la compilación en
+  // vez de dejar la columna «Ámbito» en `undefined`.
+  Expect<MatchesContract<CreateGlobalMedicamentRequest, 'CreateGlobalMedicamentRequest'>>,
+  Expect<MatchesContract<MedicamentCompanySummary, 'CompanySummary'>>,
+  Expect<MatchesContract<MedicamentResponse, 'MedicamentResponse'>>,
+  Expect<MatchesContract<UpdateGlobalMedicamentRequest, 'UpdateGlobalMedicamentRequest'>>,
   Expect<MatchesContract<LoginEmployeeRequest, 'LoginEmployeeRequest'>>,
   Expect<MatchesContract<LoginSystemUserRequest, 'LoginSystemUserRequest'>>,
   Expect<MatchesContract<MeResponse, 'MeResponse'>>,
@@ -656,4 +677,16 @@ export type ContractAssertions = [
   // aparte porque es un esquema propio del contrato: si el backend le renombra `code` o `name`,
   // la rejilla de precios enseñaria una celda vacia en vez de fallar al compilar.
   Expect<MatchesContract<CatalogItemSummary, 'CatalogItemSummary'>>,
+
+  // Alta de superadministradores por invitacion. Estos cinco tipos se escribieron a mano
+  // mientras el backend construia los endpoints, y su propio fichero dejo dicho que debian
+  // atarse «en cuanto el contrato los publique». El contrato ya los publica, asi que se atan:
+  // hasta esta linea, una deriva del backend en el cuerpo de la invitacion o de la solicitud de
+  // acceso no rompia nada aqui y se veia por primera vez en el navegador, al aceptar la
+  // invitacion con un campo `undefined`.
+  Expect<MatchesContract<AcceptInvitationRequest, 'AcceptInvitationRequest'>>,
+  Expect<MatchesContract<AccessRequestResponse, 'AccessRequestResponse'>>,
+  Expect<MatchesContract<CreateAccessRequestRequest, 'CreateAccessRequestRequest'>>,
+  Expect<MatchesContract<InvitationResponse, 'InvitationResponse'>>,
+  Expect<MatchesContract<ResolveAccessRequestRequest, 'ResolveAccessRequestRequest'>>,
 ]

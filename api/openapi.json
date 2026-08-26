@@ -4874,6 +4874,61 @@
         }
       }
     },
+    "/admin/medicaments/{id}" : {
+      "put" : {
+        "tags" : [ "global-medicament-controller" ],
+        "operationId" : "update_58",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateGlobalMedicamentRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MedicamentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "global-medicament-controller" ],
+        "operationId" : "delete_53",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
     "/vaccinations" : {
       "get" : {
         "tags" : [ "vaccination-controller" ],
@@ -7150,6 +7205,90 @@
         }
       }
     },
+    "/platform/invitation/accept" : {
+      "post" : {
+        "tags" : [ "platform-access-controller" ],
+        "operationId" : "acceptInvitation",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AcceptInvitationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
+    "/platform/access-request" : {
+      "post" : {
+        "tags" : [ "platform-access-controller" ],
+        "operationId" : "createAccessRequest",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateAccessRequestRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "Accepted"
+          }
+        }
+      }
+    },
+    "/platform/access-request/reject" : {
+      "post" : {
+        "tags" : [ "platform-access-controller" ],
+        "operationId" : "rejectAccessRequest",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ResolveAccessRequestRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
+    "/platform/access-request/approve" : {
+      "post" : {
+        "tags" : [ "platform-access-controller" ],
+        "operationId" : "approveAccessRequest",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ResolveAccessRequestRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
     "/permissions" : {
       "get" : {
         "tags" : [ "permission-controller" ],
@@ -7460,6 +7599,13 @@
         "tags" : [ "medicament-controller" ],
         "operationId" : "listAll_25",
         "parameters" : [ {
+          "name" : "q",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
           "name" : "page",
           "in" : "query",
           "required" : false,
@@ -10613,6 +10759,76 @@
         }
       }
     },
+    "/admin/medicaments" : {
+      "get" : {
+        "tags" : [ "global-medicament-controller" ],
+        "operationId" : "listAll_51",
+        "parameters" : [ {
+          "name" : "q",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 20
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponseMedicamentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "global-medicament-controller" ],
+        "operationId" : "create_75",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateGlobalMedicamentRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MedicamentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/admin-permissions/publish" : {
       "post" : {
         "tags" : [ "admin-permission-publish-controller" ],
@@ -12253,6 +12469,33 @@
         }
       }
     },
+    "/admin/medicaments/{id}/enable" : {
+      "patch" : {
+        "tags" : [ "global-medicament-controller" ],
+        "operationId" : "enable_18",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MedicamentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/vaccinations/by-animal/{animalId}" : {
       "get" : {
         "tags" : [ "vaccination-controller" ],
@@ -12350,7 +12593,7 @@
     "/system/subscription-payments" : {
       "get" : {
         "tags" : [ "system-subscription-payment-controller" ],
-        "operationId" : "listAll_51",
+        "operationId" : "listAll_52",
         "parameters" : [ {
           "name" : "companyId",
           "in" : "query",
@@ -12469,7 +12712,7 @@
     "/system/dunning-events" : {
       "get" : {
         "tags" : [ "system-dunning-event-controller" ],
-        "operationId" : "listAll_52",
+        "operationId" : "listAll_53",
         "parameters" : [ {
           "name" : "companyId",
           "in" : "query",
@@ -13441,7 +13684,7 @@
       },
       "delete" : {
         "tags" : [ "role-permission-controller" ],
-        "operationId" : "delete_53",
+        "operationId" : "delete_54",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -13486,7 +13729,7 @@
       },
       "delete" : {
         "tags" : [ "quote-controller" ],
-        "operationId" : "delete_54",
+        "operationId" : "delete_55",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -13527,7 +13770,7 @@
     "/quotes/platform" : {
       "get" : {
         "tags" : [ "quote-controller" ],
-        "operationId" : "listAll_53",
+        "operationId" : "listAll_54",
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
@@ -13936,10 +14179,62 @@
         }
       }
     },
+    "/platform/invitation/validate" : {
+      "get" : {
+        "tags" : [ "platform-access-controller" ],
+        "operationId" : "validateInvitation",
+        "parameters" : [ {
+          "name" : "token",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvitationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/platform/access-request/validate" : {
+      "get" : {
+        "tags" : [ "platform-access-controller" ],
+        "operationId" : "validateAccessRequest",
+        "parameters" : [ {
+          "name" : "token",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/platform-subscriptions" : {
       "get" : {
         "tags" : [ "subscription-admin-controller" ],
-        "operationId" : "listAll_54",
+        "operationId" : "listAll_55",
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
@@ -14087,7 +14382,7 @@
       },
       "delete" : {
         "tags" : [ "open-account-controller" ],
-        "operationId" : "delete_55",
+        "operationId" : "delete_56",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -15228,7 +15523,7 @@
       },
       "delete" : {
         "tags" : [ "goods-receipt-controller" ],
-        "operationId" : "delete_56",
+        "operationId" : "delete_57",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -15528,7 +15823,7 @@
     "/electronic-documents" : {
       "get" : {
         "tags" : [ "electronic-document-controller" ],
-        "operationId" : "listAll_55",
+        "operationId" : "listAll_56",
         "parameters" : [ {
           "name" : "branchId",
           "in" : "query",
@@ -15825,7 +16120,7 @@
     "/daycares" : {
       "get" : {
         "tags" : [ "day-care-controller" ],
-        "operationId" : "listAll_56",
+        "operationId" : "listAll_57",
         "responses" : {
           "200" : {
             "description" : "OK",
@@ -16501,10 +16796,31 @@
         }
       }
     },
+    "/admin/medicaments/disabled" : {
+      "get" : {
+        "tags" : [ "global-medicament-controller" ],
+        "operationId" : "listDisabled_4",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/MedicamentResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/laboratory-test-files/{id}" : {
       "delete" : {
         "tags" : [ "laboratory-test-file-controller" ],
-        "operationId" : "delete_57",
+        "operationId" : "delete_58",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -16524,7 +16840,7 @@
     "/hospitalization-progress-notes/{id}" : {
       "delete" : {
         "tags" : [ "hospitalization-progress-note-controller" ],
-        "operationId" : "delete_58",
+        "operationId" : "delete_59",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -16544,7 +16860,7 @@
     "/hospitalization-observations/{id}" : {
       "delete" : {
         "tags" : [ "hospitalization-observation-controller" ],
-        "operationId" : "delete_59",
+        "operationId" : "delete_60",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -16564,7 +16880,7 @@
     "/catalog-items/{catalogItemId}/sub-modules/{id}" : {
       "delete" : {
         "tags" : [ "catalog-item-sub-module-controller" ],
-        "operationId" : "delete_60",
+        "operationId" : "delete_61",
         "parameters" : [ {
           "name" : "catalogItemId",
           "in" : "path",
@@ -16592,7 +16908,7 @@
     "/animals/{animalId}/weight-records/{id}" : {
       "delete" : {
         "tags" : [ "weight-record-controller" ],
-        "operationId" : "delete_61",
+        "operationId" : "delete_62",
         "parameters" : [ {
           "name" : "animalId",
           "in" : "path",
@@ -21595,6 +21911,22 @@
         },
         "required" : [ "createdDate", "enabled", "id", "name", "specie" ]
       },
+      "UpdateGlobalMedicamentRequest" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "description" : {
+            "type" : "string",
+            "maxLength" : 500,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "name" ]
+      },
       "CreateVaccinationRequest" : {
         "type" : "object",
         "properties" : {
@@ -23892,6 +24224,60 @@
           }
         },
         "required" : [ "animal", "company", "consultation", "createdDate", "date", "enabled", "id", "medicaments", "observations" ]
+      },
+      "AcceptInvitationRequest" : {
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string",
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "password" : {
+            "type" : "string",
+            "maxLength" : 100,
+            "minLength" : 12
+          }
+        },
+        "required" : [ "password", "token" ]
+      },
+      "CreateAccessRequestRequest" : {
+        "type" : "object",
+        "properties" : {
+          "fullName" : {
+            "type" : "string",
+            "maxLength" : 120,
+            "minLength" : 3
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email",
+            "maxLength" : 150,
+            "minLength" : 0
+          },
+          "reason" : {
+            "type" : "string",
+            "maxLength" : 500,
+            "minLength" : 20
+          }
+        },
+        "required" : [ "email", "fullName", "reason" ]
+      },
+      "ResolveAccessRequestRequest" : {
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string",
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "code" : {
+            "type" : "string",
+            "minLength" : 1,
+            "pattern" : "\\d{6}"
+          }
+        },
+        "required" : [ "code", "token" ]
       },
       "CreatePermissionRequest" : {
         "type" : "object",
@@ -27464,6 +27850,22 @@
         },
         "required" : [ "name", "specieId" ]
       },
+      "CreateGlobalMedicamentRequest" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "description" : {
+            "type" : "string",
+            "maxLength" : 500,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "name" ]
+      },
       "PublishAdminPermissionsResponse" : {
         "type" : "object",
         "properties" : {
@@ -28844,6 +29246,34 @@
             "format" : "int32"
           }
         }
+      },
+      "InvitationResponse" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "email" ]
+      },
+      "AccessRequestResponse" : {
+        "type" : "object",
+        "properties" : {
+          "fullName" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "reason" : {
+            "type" : "string"
+          },
+          "requestedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "email", "fullName", "reason", "requestedAt" ]
       },
       "SubscriptionItemOverlapResponse" : {
         "type" : "object",
