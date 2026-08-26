@@ -83,13 +83,22 @@ async function cargarEspecies() {
 }
 
 onMounted(async () => {
-  // El catálogo del filtro y la lista son DOS peticiones independientes, y el
-  // orden importaba: cuando la de especies se rechazaba sin `catch`, el
-  // `onMounted` se abortaba antes del `reload()` y la tabla no llegaba a
-  // cargar nunca. La pantalla se quedaba con «Aún no hay colores» —sin carga,
-  // sin error y sin filas— sobre un catálogo que podía estar lleno.
-  await cargarEspecies()
-  await reload()
+  // El catálogo del filtro y la lista son DOS peticiones independientes: ni la
+  // de especies necesita las filas ni la de colores necesita el desplegable.
+  // Encadenadas con `await` la pantalla tardaba la SUMA de las dos; en paralelo
+  // tarda lo que la más lenta.
+  //
+  // `allSettled` y no `all` a propósito: esta pantalla tiene DOS superficies de
+  // error separadas —`especiesError` para el desplegable y el `error` del store
+  // para la tabla— y sigue siendo útil con una sola de las dos respuestas. Con
+  // `all`, el primer rechazo se propagaría fuera del `onMounted` y dejaría una
+  // promesa rechazada sin manejar en lugar del banner concreto que cada bloque
+  // ya sabe pintar. Ninguna de las dos rechaza hoy —ambas capturan y guardan su
+  // error—, así que `allSettled` no traga nada: solo blinda que un cambio
+  // futuro en una no pueda volver a tumbar a la otra, que es exactamente el
+  // fallo que ya se dio aquí (la tabla se quedaba en «Aún no hay colores», sin
+  // carga, sin error y sin filas, cuando la de especies se rechazaba).
+  await Promise.allSettled([cargarEspecies(), reload()])
 })
 
 watch(specieFilter, reload)

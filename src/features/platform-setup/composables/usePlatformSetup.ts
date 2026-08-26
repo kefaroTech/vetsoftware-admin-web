@@ -218,16 +218,24 @@ export function usePlatformSetup() {
       // la que de verdad se va a usar.
       const targetListId = configuredPriceListId(config) ?? current?.id ?? null
 
-      const prices =
+      // Las dos sondas de la segunda tanda dependen de la PRIMERA —`prices` del
+      // `targetListId` que sale de `config`/`priceLists`, `bridges` de la lista
+      // de artículos— pero no dependen ENTRE SÍ. Encadenadas, el paso 4 y el
+      // paso 5 sumaban sus tiempos sin que ninguno de los dos usara nada del
+      // otro. Ninguna de las dos rechaza: `probe` convierte cualquier fallo en
+      // un `{ ok: false }` con su motivo y `probeBridges` sondea cada artículo
+      // dentro de un `probe`, así que este `Promise.all` no puede tumbar la
+      // pantalla ni cambiar qué sonda queda marcada como fallida.
+      const [prices, bridges] = await Promise.all([
         targetListId === null
-          ? null
-          : await probe(() =>
+          ? Promise.resolve(null)
+          : probe(() =>
               fetchAllPages((page, size) =>
                 catalogPricesApi.listByPriceList(targetListId, page, size),
               ),
-            )
-
-      const bridges = items.ok ? await probeBridges(items.value) : null
+            ),
+        items.ok ? probeBridges(items.value) : Promise.resolve(null),
+      ])
 
       store.setSteps(
         buildSteps({ items, priceLists, config, sequences, questions, prices, bridges, current }),
