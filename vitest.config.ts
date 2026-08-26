@@ -92,13 +92,18 @@ export default defineConfig({
           functions: 100,
           lines: 100,
         },
-        // Por debajo de 100 % en ramas: queda la del temporizador de salida
-        // cuando llega una petición nueva justo mientras el velo se retira. Se
-        // ejercita en las pruebas, pero v8 no la marca porque el `setTimeout`
-        // resuelve por el otro lado.
+        // Por debajo de 100 % en ramas, y a proposito: las dos que quedan son
+        // las guardas dentro de los temporizadores (`pending === 0` antes de
+        // ocultar, `pending > 0` antes de mostrar). Dejaron de ser alcanzables
+        // por la API publica cuando se anadio la ventana de gracia: la
+        // transicion contraria cancela siempre el temporizador pendiente
+        // (`clearHideTimer()` en `push()`, `clearShowTimer()` en `pop()`), asi
+        // que ninguna prueba puede hacerlas evaluar a falso. Se conservan como
+        // defensa en profundidad para que quitar un `clear*` en el futuro no
+        // reintroduzca en silencio un temporizador obsoleto.
         'src/stores/loader.store.ts': {
           statements: 100,
-          branches: 93,
+          branches: 87,
           functions: 100,
           lines: 100,
         },
