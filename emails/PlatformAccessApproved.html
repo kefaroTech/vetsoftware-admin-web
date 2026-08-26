@@ -1,0 +1,489 @@
+<!doctype html>
+<!--
+  PLANTILLA DE RESEND - alta de superadministradores de plataforma.
+
+  Se sube A MANO al panel de Resend y su UUID se pega en la clave del backend:
+    PlatformAccessRequest.html   -> vetsoftware.platform-access.request-template-id
+    PlatformAccessApproved.html  -> vetsoftware.platform-access.approved-template-id
+    PlatformAccessRejected.html  -> vetsoftware.platform-access.rejected-template-id
+    PlatformAccessWelcome.html   -> vetsoftware.platform-access.welcome-template-id
+
+  ============================================================================
+  AVISO DE SEGURIDAD - LEELO ANTES DE ANADIR NINGUNA VARIABLE
+  ============================================================================
+  Resend solo reconoce la TRIPLE llave -tres llaves de apertura y tres de
+  cierre-, y es insercion SIN ESCAPAR. No existe forma escapada: la doble llave
+  no esta documentada y no se sustituye. Comprobado contra la documentacion.
+
+  OJO: no escribas llaves de ejemplo en este comentario. Resend analiza el fichero
+  ENTERO, comentarios incluidos, y registra como variable lo que encuentre. Un
+  ejemplo escrito aqui creo una variable fantasma y tumbo todos los envios con
+  422 "Missing required variable".
+
+  FULL_NAME y REASON los escribe un DESCONOCIDO, desde un endpoint publico y
+  anonimo (POST /platform/access-request), y este correo llega al buzon de quien
+  puede crear superadministradores de plataforma. Un REASON con su propio bloque
+  HTML produciria un correo del remitente legitimo, con la marca correcta, y un
+  boton "Aprobar acceso" apuntando a donde quiera el atacante.
+
+  La UNICA defensa es el escapado en Java: ResendPlatformAccessEmailSender pasa
+  esos dos campos por HtmlEscaper.escape antes de enviarlos, y hay tests que lo
+  sujetan.
+
+  => Si anades una variable que transporte texto escrito por un usuario, TIENES
+     que escaparla en Java del mismo modo. Aqui, en la plantilla, no hay red.
+  ============================================================================
+-->
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="color-scheme" content="light only" />
+    <meta name="supported-color-schemes" content="light only" />
+    <title>Tu acceso de plataforma fue aprobado</title>
+    <!--[if mso]>
+      <style>
+        * {
+          font-family: Arial, sans-serif !important;
+        }
+        .mono {
+          font-family: 'Courier New', monospace !important;
+        }
+      </style>
+    <![endif]-->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Instrument+Serif&family=JetBrains+Mono:wght@500;700&display=swap');
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100% !important;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+      table {
+        border-collapse: collapse;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+      img {
+        border: 0;
+        line-height: 100%;
+        outline: none;
+        text-decoration: none;
+        -ms-interpolation-mode: bicubic;
+      }
+      a {
+        text-decoration: none;
+      }
+      .hover-btn:hover {
+        background-color: #4a2168 !important;
+      }
+      @media only screen and (max-width: 620px) {
+        .container {
+          width: 100% !important;
+        }
+        .px {
+          padding-left: 24px !important;
+          padding-right: 24px !important;
+        }
+        .stack {
+          display: block !important;
+          width: 100% !important;
+        }
+      }
+    </style>
+  </head>
+  <body style="margin: 0; padding: 0; background-color: #f1ece5">
+    <!-- Preheader (hidden preview text) -->
+    <div
+      style="
+        display: none;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        mso-hide: all;
+        font-size: 1px;
+        line-height: 1px;
+        color: #f1ece5;
+      "
+    >
+      Tu solicitud fue aprobada. Crea tu contraseña con el enlace de este correo: es de un solo uso
+      y vence en 7
+      días.&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+    </div>
+
+    <table
+      role="presentation"
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      style="background-color: #f1ece5"
+    >
+      <tr>
+        <td align="center" style="padding: 32px 16px">
+          <!-- ===== Card container ===== -->
+          <table
+            role="presentation"
+            class="container"
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            style="
+              width: 600px;
+              max-width: 600px;
+              background-color: #ffffff;
+              border-radius: 18px;
+              overflow: hidden;
+              box-shadow: 0 12px 40px -12px rgba(60, 30, 80, 0.2);
+            "
+          >
+            <!-- ===== Brand bar ===== -->
+            <tr>
+              <td
+                style="
+                  background-color: #4e2470;
+                  background-image: linear-gradient(135deg, #6a2e92 0%, #43215f 100%);
+                  padding: 26px 40px;
+                "
+              >
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td align="left" valign="middle">
+                      <div
+                        style="
+                          font-family: 'Geist', Arial, sans-serif;
+                          font-size: 19px;
+                          font-weight: 600;
+                          color: #ffffff;
+                          letter-spacing: -0.01em;
+                          line-height: 1;
+                        "
+                      >
+                        Vetrina
+                      </div>
+                      <div
+                        style="
+                          font-family: 'Geist', Arial, sans-serif;
+                          font-size: 10px;
+                          font-weight: 500;
+                          letter-spacing: 0.12em;
+                          text-transform: uppercase;
+                          color: #d8c4e8;
+                          padding-top: 4px;
+                        "
+                      >
+                        Consola de plataforma
+                      </div>
+                    </td>
+                    <td align="right" valign="middle">
+                      <span
+                        style="
+                          font-family: 'Geist', Arial, sans-serif;
+                          font-size: 11px;
+                          font-weight: 500;
+                          color: #f3e9fa;
+                          background-color: rgba(255, 255, 255, 0.18);
+                          padding: 6px 12px;
+                          border-radius: 999px;
+                        "
+                        >Solicitud aprobada</span
+                      >
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- ===== Hero ===== -->
+            <tr>
+              <td class="px" style="padding: 40px 40px 8px 40px">
+                <div
+                  style="
+                    font-family: 'Geist', Arial, sans-serif;
+                    font-size: 12px;
+                    font-weight: 600;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: #7a4e9e;
+                  "
+                >
+                  Acceso aprobado
+                </div>
+                <h1
+                  style="
+                    margin: 10px 0 0 0;
+                    font-family: 'Instrument Serif', Georgia, serif;
+                    font-weight: 400;
+                    font-size: 34px;
+                    line-height: 1.12;
+                    color: #2a2622;
+                    letter-spacing: -0.01em;
+                  "
+                >
+                  Ya puedes crear tu&nbsp;contraseña
+                </h1>
+              </td>
+            </tr>
+
+            <!-- ===== Body copy ===== -->
+            <tr>
+              <td class="px" style="padding: 18px 40px 0 40px">
+                <p
+                  style="
+                    margin: 0;
+                    font-family: 'Geist', Arial, sans-serif;
+                    font-size: 15px;
+                    line-height: 1.62;
+                    color: #4a443d;
+                  "
+                >
+                  Hola <strong style="color: #2a2622">{{{FULL_NAME}}}</strong>,
+                </p>
+                <p
+                  style="
+                    margin: 14px 0 0 0;
+                    font-family: 'Geist', Arial, sans-serif;
+                    font-size: 15px;
+                    line-height: 1.62;
+                    color: #4a443d;
+                  "
+                >
+                  Tu solicitud de acceso a la consola de plataforma de Vetrina fue aprobada. Solo
+                  falta un paso: abre el enlace de abajo y elige la contraseña con la que vas a
+                  entrar.
+                </p>
+              </td>
+            </tr>
+
+            <!-- ===== CTA ===== -->
+            <tr>
+              <td class="px" align="center" style="padding: 28px 40px 4px 40px">
+                <!--[if mso]>
+                  <v:roundrect
+                    xmlns:v="urn:schemas-microsoft-com:vml"
+                    xmlns:w="urn:schemas-microsoft-com:office:word"
+                    href="{{{INVITATION_URL}}}"
+                    style="height: 50px; v-text-anchor: middle; width: 300px"
+                    arcsize="20%"
+                    strokecolor="#43215F"
+                    fillcolor="#5B2A86"
+                  >
+                    <w:anchorlock />
+                    <center
+                      style="
+                        color: #ffffff;
+                        font-family: Arial, sans-serif;
+                        font-size: 15px;
+                        font-weight: 600;
+                      "
+                    >
+                      Crear mi contraseña
+                    </center>
+                  </v:roundrect>
+                <![endif]-->
+                <!--[if !mso]><!-->
+                <a
+                  href="{{{INVITATION_URL}}}"
+                  class="hover-btn"
+                  target="_blank"
+                  style="
+                    display: inline-block;
+                    background-color: #5b2a86;
+                    background-image: linear-gradient(135deg, #6a2e92 0%, #4a2168 100%);
+                    color: #ffffff;
+                    font-family: 'Geist', Arial, sans-serif;
+                    font-size: 15px;
+                    font-weight: 600;
+                    line-height: 50px;
+                    text-align: center;
+                    width: 300px;
+                    border-radius: 10px;
+                    box-shadow: 0 8px 22px -8px rgba(75, 33, 104, 0.55);
+                  "
+                  >Crear mi contraseña</a
+                >
+                <!--<![endif]-->
+              </td>
+            </tr>
+
+            <!-- ===== Enlace de respaldo en texto plano ===== -->
+            <tr>
+              <td class="px" style="padding: 18px 40px 0 40px">
+                <div
+                  style="
+                    font-family: 'Geist', Arial, sans-serif;
+                    font-size: 12.5px;
+                    line-height: 1.55;
+                    color: #6b655e;
+                  "
+                >
+                  ¿El botón no funciona? Copia y pega este enlace en tu navegador:
+                </div>
+                <div
+                  class="mono"
+                  style="
+                    font-family: 'JetBrains Mono', 'Courier New', monospace;
+                    font-size: 12px;
+                    line-height: 1.5;
+                    color: #6a2e92;
+                    word-break: break-all;
+                    overflow-wrap: anywhere;
+                    background-color: #faf7fc;
+                    border: 1px solid #eadff2;
+                    border-radius: 8px;
+                    padding: 11px 13px;
+                    margin-top: 8px;
+                  "
+                >
+                  {{{INVITATION_URL}}}
+                </div>
+              </td>
+            </tr>
+
+            <!-- ===== Qué pasa después ===== -->
+            <tr>
+              <td class="px" style="padding: 24px 40px 0 40px">
+                <table
+                  role="presentation"
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  style="background-color: #faf7fc; border: 1px solid #eadff2; border-radius: 12px"
+                >
+                  <tr>
+                    <td
+                      style="
+                        padding: 16px 18px;
+                        font-family: 'Geist', Arial, sans-serif;
+                        font-size: 13px;
+                        line-height: 1.55;
+                        color: #4a443d;
+                      "
+                    >
+                      Cuando termines, te enviaremos un último correo con tu
+                      <strong style="color: #2a2622">código de usuario</strong>. Guárdalo: el acceso
+                      a la consola de plataforma se hace con ese código y tu contraseña,
+                      <strong style="color: #2a2622">no con tu correo</strong>.
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- ===== Security note ===== -->
+            <tr>
+              <td class="px" style="padding: 20px 40px 0 40px">
+                <table
+                  role="presentation"
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  style="background-color: #fbf6ec; border: 1px solid #f0e2c6; border-radius: 12px"
+                >
+                  <tr>
+                    <td
+                      style="
+                        padding: 16px 18px;
+                        font-family: 'Geist', Arial, sans-serif;
+                        font-size: 13px;
+                        line-height: 1.55;
+                        color: #7a3a12;
+                      "
+                    >
+                      Este enlace <strong>vence a los 7 días</strong> y solo puede usarse una vez.
+                      Si caduca antes de que lo abras, tendrás que solicitar el acceso de nuevo. No
+                      lo reenvíes a nadie: quien lo abra puede crear la cuenta a tu nombre.
+                      <br /><br />
+                      Si tú <strong>no</strong> solicitaste este acceso, no abras el enlace y
+                      avísanos desde el centro de ayuda.
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- ===== Sign-off ===== -->
+            <tr>
+              <td class="px" style="padding: 26px 40px 36px 40px">
+                <p
+                  style="
+                    margin: 0;
+                    font-family: 'Geist', Arial, sans-serif;
+                    font-size: 14px;
+                    line-height: 1.6;
+                    color: #4a443d;
+                  "
+                >
+                  Un saludo,<br /><strong style="color: #2a2622">El equipo de Vetrina</strong>
+                </p>
+              </td>
+            </tr>
+          </table>
+          <!-- ===== /Card ===== -->
+
+          <!-- ===== Footer ===== -->
+          <table
+            role="presentation"
+            class="container"
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            style="width: 600px; max-width: 600px"
+          >
+            <tr>
+              <td align="center" style="padding: 24px 40px 8px 40px">
+                <div
+                  style="
+                    font-family: 'Geist', Arial, sans-serif;
+                    font-size: 12px;
+                    line-height: 1.6;
+                    color: #5f5850;
+                  "
+                >
+                  Recibes este correo porque se solicitó acceso a la consola de plataforma de
+                  Vetrina con esta dirección.
+                </div>
+                <div
+                  style="
+                    font-family: 'Geist', Arial, sans-serif;
+                    font-size: 12px;
+                    line-height: 1.6;
+                    padding-top: 10px;
+                  "
+                >
+                  <a
+                    href="{{{HELP_URL}}}"
+                    style="color: #6a2e92; text-decoration: none; font-weight: 600"
+                    >Ayuda</a
+                  >&nbsp;&nbsp;·&nbsp;&nbsp;
+                  <a
+                    href="{{{PRIVACY_URL}}}"
+                    style="color: #6a2e92; text-decoration: none; font-weight: 600"
+                    >Privacidad</a
+                  >&nbsp;&nbsp;·&nbsp;&nbsp;
+                  <a
+                    href="{{{TERMS_URL}}}"
+                    style="color: #6a2e92; text-decoration: none; font-weight: 600"
+                    >Términos</a
+                  >
+                </div>
+                <div
+                  style="
+                    font-family: 'Geist', Arial, sans-serif;
+                    font-size: 12px;
+                    line-height: 1.6;
+                    color: #6b655e;
+                    padding-top: 10px;
+                  "
+                >
+                  © 2026 Vetrina · Software de gestión veterinaria
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
