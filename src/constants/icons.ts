@@ -23,6 +23,7 @@ import {
   EyeOff,
   FileText,
   Fish,
+  Globe,
   History,
   Inbox,
   Info,
@@ -33,8 +34,10 @@ import {
   LogOut,
   Mail,
   Palette,
+  PauseCircle,
   PawPrint,
   Pencil,
+  Pill,
   Plus,
   Receipt,
   Replace,
@@ -99,10 +102,18 @@ export const ICONS = {
   LABORATORY_TEST_TYPE: TestTube,
   DIAGNOSTIC_IMAGING_TYPE: ScanLine,
   SPA_TYPE: Bath,
+  /** Vademécum: el catálogo de medicamentos de la plataforma. */
+  MEDICAMENT: Pill,
 
   ADD: Plus,
   EDIT: Pencil,
   DELETE: Trash2,
+  /**
+   * Retirar del recetario sin borrar. NO se reutiliza `DELETE` a propósito: el
+   * `DELETE` del backend es una baja lógica y la interfaz la llama «pausar»,
+   * así que un cubo de basura prometería algo irreversible que no lo es.
+   */
+  PAUSE: PauseCircle,
   CLOSE: X,
   COPY: Copy,
   BACK: ArrowLeft,
@@ -120,6 +131,8 @@ export const ICONS = {
   EYE_OFF: EyeOff,
 
   SEARCH: Search,
+  /** Ámbito global: lo que comparte toda la plataforma, frente a lo de una empresa. */
+  GLOBE: Globe,
   BELL: Bell,
   PAW: PawPrint,
   ARROW_RIGHT: ArrowRight,

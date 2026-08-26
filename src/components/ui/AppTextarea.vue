@@ -28,6 +28,13 @@ const props = withDefaults(
     rows?: number
     id?: string
     disabled?: boolean
+    /**
+     * Longitud máxima del `@Size(max = …)` del DTO del backend. Va **junto** al
+     * validador, nunca en su lugar: hace que la restricción exista ANTES de
+     * fallar, pero no protege del pegado en todos los navegadores. Aditiva:
+     * los consumidores que no la pasan no cambian en nada.
+     */
+    maxlength?: number
   }>(),
   { rows: 3 },
 )
@@ -87,6 +94,7 @@ const toneClass = computed(() => {
         :value="modelValue ?? ''"
         :placeholder="placeholder"
         :disabled="disabled"
+        :maxlength="maxlength"
         :aria-invalid="!!error || undefined"
         :aria-describedby="describedBy"
         @focus="focused = true"

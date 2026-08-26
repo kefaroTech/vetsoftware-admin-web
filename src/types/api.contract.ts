@@ -89,6 +89,12 @@ import type {
   UpdateLaboratoryTestTypeRequest,
 } from '../features/laboratory-test-types/types/laboratory-test-types.types'
 import type {
+  CreateGlobalMedicamentRequest,
+  MedicamentCompanySummary,
+  MedicamentResponse,
+  UpdateGlobalMedicamentRequest,
+} from '../features/medicaments/types/medicaments.types'
+import type {
   ModuleResponse,
   CreateModuleRequest,
   UpdateModuleRequest,
@@ -443,6 +449,14 @@ export type ContractAssertions = [
   Expect<MatchesContract<CreateVaccinationTypeRequest, 'CreateVaccinationTypeRequest'>>,
   Expect<MatchesContract<DiagnosticImagingTypeResponse, 'DiagnosticImagingTypeResponse'>>,
   Expect<MatchesContract<LaboratoryTestTypeResponse, 'LaboratoryTestTypeResponse'>>,
+  // Vademécum. `MedicamentCompanySummary` se ata al mismo `CompanySummary` del
+  // contrato que ya usan las cotizaciones: es el resumen anidado que el backend
+  // define UNA vez, y si le cambia un campo tiene que romper la compilación en
+  // vez de dejar la columna «Ámbito» en `undefined`.
+  Expect<MatchesContract<CreateGlobalMedicamentRequest, 'CreateGlobalMedicamentRequest'>>,
+  Expect<MatchesContract<MedicamentCompanySummary, 'CompanySummary'>>,
+  Expect<MatchesContract<MedicamentResponse, 'MedicamentResponse'>>,
+  Expect<MatchesContract<UpdateGlobalMedicamentRequest, 'UpdateGlobalMedicamentRequest'>>,
   Expect<MatchesContract<LoginEmployeeRequest, 'LoginEmployeeRequest'>>,
   Expect<MatchesContract<LoginSystemUserRequest, 'LoginSystemUserRequest'>>,
   Expect<MatchesContract<MeResponse, 'MeResponse'>>,

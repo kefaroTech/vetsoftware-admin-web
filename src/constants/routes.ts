@@ -45,5 +45,9 @@ export const ROUTE_NAMES = {
   DIAGNOSTIC_IMAGING_TYPE_DETAIL: 'diagnostic-imaging-type-detail',
   SPA_TYPES_LIST: 'spa-types-list',
   SPA_TYPE_DETAIL: 'spa-type-detail',
+  MEDICAMENTS_LIST: 'medicaments-list',
+  MEDICAMENT_DETAIL: 'medicament-detail',
+  /** Lente de consulta del listado mixto. No tiene entrada de menú a propósito. */
+  MEDICAMENTS_PLATFORM: 'medicaments-platform',
   CONFIG: 'config',
 } as const

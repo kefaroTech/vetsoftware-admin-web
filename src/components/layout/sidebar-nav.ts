@@ -194,6 +194,19 @@ export const navGroups: NavGroup[] = [
             path: '/catalogos-clinicos/tipos-spa',
             icon: ICONS.SPA_TYPE,
           },
+          // Última del subgrupo, y no en medio: las seis anteriores son «Tipos
+          // de …» y forman una serie homogénea. «Medicamentos» no es un tipo,
+          // es un vademécum; intercalarlo rompe la lectura de la serie.
+          // La lente «Medicamentos en toda la plataforma» NO entra aquí: es el
+          // mismo concepto visto de otra manera, y dos entradas obligarían a
+          // elegir antes de saber en qué se diferencian. Se llega por el enlace
+          // de la pantalla que la explica.
+          {
+            name: ROUTE_NAMES.MEDICAMENTS_LIST,
+            label: 'Medicamentos',
+            path: '/catalogos-clinicos/medicamentos',
+            icon: ICONS.MEDICAMENT,
+          },
         ],
       },
     ],

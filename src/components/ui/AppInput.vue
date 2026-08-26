@@ -39,6 +39,14 @@ const props = withDefaults(
     autocomplete?: string
     inputmode?: 'text' | 'numeric' | 'tel' | 'email' | 'url' | 'decimal' | 'search' | 'none'
     /**
+     * Longitud máxima del `@Size(max = …)` del DTO del backend. Va **junto** al
+     * validador, nunca en su lugar: `maxlength` es la única forma de que la
+     * restricción exista ANTES de fallar, pero no protege del pegado en todos
+     * los navegadores ni del autorrelleno, así que el mensaje sigue haciendo
+     * falta. Aditiva: los consumidores que no la pasan no cambian en nada.
+     */
+    maxlength?: number
+    /**
      * Presentación monoespaciada y espaciada, para valores que se leen dígito
      * a dígito (el código de verificación de 6 dígitos de `/aprobar-acceso`).
      * Es lo que hace que un solo `<input>` se lea como seis casillas sin
@@ -115,6 +123,7 @@ const toneClass = computed(() => {
         :readonly="readonly"
         :autocomplete="autocomplete"
         :inputmode="inputmode"
+        :maxlength="maxlength"
         :aria-invalid="!!error || undefined"
         :aria-describedby="describedBy"
         class="ds-flex-fill"
