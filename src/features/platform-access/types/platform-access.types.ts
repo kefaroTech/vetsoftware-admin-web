@@ -1,16 +1,15 @@
 /**
  * Tipos del alta de superadministradores por invitación.
  *
- * Escritos A MANO y NO derivados de `src/types/api.generated.d.ts`: los
- * endpoints todavía no existen en el backend (se están construyendo en
- * paralelo), así que el contrato OpenAPI no los declara y `api:check` no puede
- * atarlos. En cuanto el contrato los publique, estos nombres deben pasar a
- * contrastarse con `MatchesContract<X, 'X'>` como el resto de la consola —hasta
- * entonces, una deriva del backend NO rompe la compilación aquí.
+ * Escritos a mano —con su documentación de negocio— y ATADOS al contrato en
+ * `src/types/api.contract.ts` con `MatchesContract<X, 'X'>`, como el resto de la
+ * consola. Estuvieron sin atar mientras el backend construía los endpoints y el
+ * contrato no los declaraba; desde que los publica, una deriva del backend en
+ * cualquiera de estos cuerpos rompe la compilación aquí en vez de aparecer como
+ * `undefined` en el navegador.
  *
- * Los nombres siguen la convención del repo (`<Recurso>Request` /
- * `<Recurso>Response`) para que el día que se aten al contrato se lean igual en
- * los dos repositorios.
+ * Los nombres son los del esquema del contrato (`<Recurso>Request` /
+ * `<Recurso>Response`) para que la atadura se lea igual en los dos repositorios.
  */
 
 /** `POST /platform/access-request` — cuerpo. */

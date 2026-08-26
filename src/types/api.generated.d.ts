@@ -1076,6 +1076,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/medicaments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["update_58"];
+        post?: never;
+        delete: operations["delete_53"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/vaccinations": {
         parameters: {
             query?: never;
@@ -1886,6 +1902,70 @@ export interface paths {
         get: operations["listAll_20"];
         put?: never;
         post: operations["create_31"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/invitation/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["acceptInvitation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/access-request": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAccessRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/access-request/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rejectAccessRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/access-request/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["approveAccessRequest"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3156,6 +3236,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/medicaments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_51"];
+        put?: never;
+        post: operations["create_75"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/admin-permissions/publish": {
         parameters: {
             query?: never;
@@ -4036,6 +4132,22 @@ export interface paths {
         patch: operations["enable_17"];
         trace?: never;
     };
+    "/admin/medicaments/{id}/enable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["enable_18"];
+        trace?: never;
+    };
     "/vaccinations/by-animal/{animalId}": {
         parameters: {
             query?: never;
@@ -4091,7 +4203,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_51"];
+        get: operations["listAll_52"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4139,7 +4251,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_52"];
+        get: operations["listAll_53"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4542,7 +4654,7 @@ export interface paths {
         get: operations["findById_49"];
         put?: never;
         post?: never;
-        delete: operations["delete_53"];
+        delete: operations["delete_54"];
         options?: never;
         head?: never;
         patch?: never;
@@ -4558,7 +4670,7 @@ export interface paths {
         get: operations["findById_50"];
         put?: never;
         post?: never;
-        delete: operations["delete_54"];
+        delete: operations["delete_55"];
         options?: never;
         head?: never;
         patch?: never;
@@ -4587,7 +4699,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_53"];
+        get: operations["listAll_54"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4740,6 +4852,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/platform/invitation/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["validateInvitation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/platform/access-request/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["validateAccessRequest"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/platform-subscriptions": {
         parameters: {
             query?: never;
@@ -4747,7 +4891,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_54"];
+        get: operations["listAll_55"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4814,7 +4958,7 @@ export interface paths {
         get: operations["findById_52"];
         put?: never;
         post?: never;
-        delete: operations["delete_55"];
+        delete: operations["delete_56"];
         options?: never;
         head?: never;
         patch?: never;
@@ -5230,7 +5374,7 @@ export interface paths {
         get: operations["findById_53"];
         put?: never;
         post?: never;
-        delete: operations["delete_56"];
+        delete: operations["delete_57"];
         options?: never;
         head?: never;
         patch?: never;
@@ -5371,7 +5515,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_55"];
+        get: operations["listAll_56"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5499,7 +5643,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_56"];
+        get: operations["listAll_57"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5796,23 +5940,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/laboratory-test-files/{id}": {
+    "/admin/medicaments/disabled": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["listDisabled_4"];
         put?: never;
         post?: never;
-        delete: operations["delete_57"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/hospitalization-progress-notes/{id}": {
+    "/laboratory-test-files/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -5828,7 +5972,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/hospitalization-observations/{id}": {
+    "/hospitalization-progress-notes/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -5844,7 +5988,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/catalog-items/{catalogItemId}/sub-modules/{id}": {
+    "/hospitalization-observations/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -5860,7 +6004,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/animals/{animalId}/weight-records/{id}": {
+    "/catalog-items/{catalogItemId}/sub-modules/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -5871,6 +6015,22 @@ export interface paths {
         put?: never;
         post?: never;
         delete: operations["delete_61"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/animals/{animalId}/weight-records/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["delete_62"];
         options?: never;
         head?: never;
         patch?: never;
@@ -7741,6 +7901,10 @@ export interface components {
             createdDate: string;
             enabled: boolean;
         };
+        UpdateGlobalMedicamentRequest: {
+            name: string;
+            description?: string;
+        };
         CreateVaccinationRequest: {
             /** Format: date */
             date: string;
@@ -8581,6 +8745,20 @@ export interface components {
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
+        };
+        AcceptInvitationRequest: {
+            token: string;
+            password: string;
+        };
+        CreateAccessRequestRequest: {
+            fullName: string;
+            /** Format: email */
+            email: string;
+            reason: string;
+        };
+        ResolveAccessRequestRequest: {
+            token: string;
+            code: string;
         };
         CreatePermissionRequest: {
             name: string;
@@ -9898,6 +10076,10 @@ export interface components {
             /** Format: int64 */
             specieId: number;
         };
+        CreateGlobalMedicamentRequest: {
+            name: string;
+            description?: string;
+        };
         PublishAdminPermissionsResponse: {
             /** Format: int32 */
             companiesProcessed: number;
@@ -10443,6 +10625,16 @@ export interface components {
             totalElements?: number;
             /** Format: int32 */
             totalPages?: number;
+        };
+        InvitationResponse: {
+            email: string;
+        };
+        AccessRequestResponse: {
+            fullName: string;
+            email: string;
+            reason: string;
+            /** Format: date-time */
+            requestedAt: string;
         };
         SubscriptionItemOverlapResponse: {
             /** Format: int64 */
@@ -15181,6 +15373,52 @@ export interface operations {
             };
         };
     };
+    update_58: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateGlobalMedicamentRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicamentResponse"];
+                };
+            };
+        };
+    };
+    delete_53: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     listAll: {
         parameters: {
             query?: never;
@@ -17039,6 +17277,94 @@ export interface operations {
             };
         };
     };
+    acceptInvitation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AcceptInvitationRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    createAccessRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateAccessRequestRequest"];
+            };
+        };
+        responses: {
+            /** @description Accepted */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    rejectAccessRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResolveAccessRequestRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    approveAccessRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResolveAccessRequestRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     listAll_21: {
         parameters: {
             query?: never;
@@ -17291,6 +17617,7 @@ export interface operations {
     listAll_25: {
         parameters: {
             query?: {
+                q?: string;
                 page?: number;
                 pageSize?: number;
             };
@@ -19874,6 +20201,54 @@ export interface operations {
             };
         };
     };
+    listAll_51: {
+        parameters: {
+            query?: {
+                q?: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseMedicamentResponse"];
+                };
+            };
+        };
+    };
+    create_75: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateGlobalMedicamentRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicamentResponse"];
+                };
+            };
+        };
+    };
     publish: {
         parameters: {
             query?: never;
@@ -21142,6 +21517,28 @@ export interface operations {
             };
         };
     };
+    enable_18: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicamentResponse"];
+                };
+            };
+        };
+    };
     listByAnimal_1: {
         parameters: {
             query?: {
@@ -21208,7 +21605,7 @@ export interface operations {
             };
         };
     };
-    listAll_51: {
+    listAll_52: {
         parameters: {
             query?: {
                 companyId?: number;
@@ -21278,7 +21675,7 @@ export interface operations {
             };
         };
     };
-    listAll_52: {
+    listAll_53: {
         parameters: {
             query?: {
                 companyId?: number;
@@ -21880,7 +22277,7 @@ export interface operations {
             };
         };
     };
-    delete_53: {
+    delete_54: {
         parameters: {
             query?: never;
             header?: never;
@@ -21922,7 +22319,7 @@ export interface operations {
             };
         };
     };
-    delete_54: {
+    delete_55: {
         parameters: {
             query?: never;
             header?: never;
@@ -21962,7 +22359,7 @@ export interface operations {
             };
         };
     };
-    listAll_53: {
+    listAll_54: {
         parameters: {
             query?: {
                 page?: number;
@@ -22197,7 +22594,51 @@ export interface operations {
             };
         };
     };
-    listAll_54: {
+    validateInvitation: {
+        parameters: {
+            query: {
+                token: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["InvitationResponse"];
+                };
+            };
+        };
+    };
+    validateAccessRequest: {
+        parameters: {
+            query: {
+                token: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccessRequestResponse"];
+                };
+            };
+        };
+    };
+    listAll_55: {
         parameters: {
             query?: {
                 page?: number;
@@ -22306,7 +22747,7 @@ export interface operations {
             };
         };
     };
-    delete_55: {
+    delete_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -22950,7 +23391,7 @@ export interface operations {
             };
         };
     };
-    delete_56: {
+    delete_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -23151,7 +23592,7 @@ export interface operations {
             };
         };
     };
-    listAll_55: {
+    listAll_56: {
         parameters: {
             query?: {
                 branchId?: number;
@@ -23337,7 +23778,7 @@ export interface operations {
             };
         };
     };
-    listAll_56: {
+    listAll_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -23771,23 +24212,23 @@ export interface operations {
             };
         };
     };
-    delete_57: {
+    listDisabled_4: {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                id: number;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description No Content */
-            204: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["MedicamentResponse"][];
+                };
             };
         };
     };
@@ -23836,7 +24277,6 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                catalogItemId: number;
                 id: number;
             };
             cookie?: never;
@@ -23853,6 +24293,27 @@ export interface operations {
         };
     };
     delete_61: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_62: {
         parameters: {
             query?: never;
             header?: never;

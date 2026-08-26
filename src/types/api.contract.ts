@@ -200,6 +200,13 @@ import type {
   UpdateConfiguratorQuestionRequest,
 } from '../features/configurator/types/configurator.types'
 import type {
+  AcceptInvitationRequest,
+  AccessRequestResponse,
+  CreateAccessRequestRequest,
+  InvitationResponse,
+  ResolveAccessRequestRequest,
+} from '../features/platform-access/types/platform-access.types'
+import type {
   CatalogItemSubModuleResponse,
   SubModuleSummary,
 } from '../features/platform-setup/types/platform-setup.types'
@@ -656,4 +663,16 @@ export type ContractAssertions = [
   // aparte porque es un esquema propio del contrato: si el backend le renombra `code` o `name`,
   // la rejilla de precios enseñaria una celda vacia en vez de fallar al compilar.
   Expect<MatchesContract<CatalogItemSummary, 'CatalogItemSummary'>>,
+
+  // Alta de superadministradores por invitacion. Estos cinco tipos se escribieron a mano
+  // mientras el backend construia los endpoints, y su propio fichero dejo dicho que debian
+  // atarse «en cuanto el contrato los publique». El contrato ya los publica, asi que se atan:
+  // hasta esta linea, una deriva del backend en el cuerpo de la invitacion o de la solicitud de
+  // acceso no rompia nada aqui y se veia por primera vez en el navegador, al aceptar la
+  // invitacion con un campo `undefined`.
+  Expect<MatchesContract<AcceptInvitationRequest, 'AcceptInvitationRequest'>>,
+  Expect<MatchesContract<AccessRequestResponse, 'AccessRequestResponse'>>,
+  Expect<MatchesContract<CreateAccessRequestRequest, 'CreateAccessRequestRequest'>>,
+  Expect<MatchesContract<InvitationResponse, 'InvitationResponse'>>,
+  Expect<MatchesContract<ResolveAccessRequestRequest, 'ResolveAccessRequestRequest'>>,
 ]
