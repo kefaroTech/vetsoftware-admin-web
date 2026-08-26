@@ -230,16 +230,31 @@ export function useCatalogItemBridges() {
   /**
    * Recarga al abrir la pantalla, que es la regla del proyecto.
    *
-   * <p>El artículo va **primero y solo**: su `itemType` decide si el tercer
-   * bloque existe siquiera, y pedir `/components` de un artículo que no es
-   * `BUNDLE` es preguntar por algo que el modelo no admite.
+   * <p><b>Solo `/components` espera</b>, y espera por una dependencia real: el
+   * `itemType` que devuelve `loadItem` decide si ese bloque existe siquiera, y
+   * pedir `/components` de un artículo que no es `BUNDLE` es preguntar por algo
+   * que el modelo no admite. Las otras dos lecturas —pantallas y reglas— no
+   * necesitan nada del artículo, solo su `itemId`, que llega como parámetro:
+   * tenerlas en una segunda tanda las hacía esperar a `loadItem` sin motivo y
+   * la pantalla tardaba `t(artículo) + t(pantallas|reglas)` en vez del máximo
+   * de las tres.
+   *
+   * <p>Ninguna de las cuatro `load*` relanza: cada una captura su fallo y deja
+   * su propio banner con su traza en el store, así que este `Promise.all` no
+   * puede rechazar por ellas y cada bloque de la pantalla sigue fallando por
+   * separado. La única que sí rechaza es `loadCatalogOptions`, y por eso
+   * conserva su `.catch` — es una ayuda para poner nombre a los ids, no un dato
+   * sin el que la pantalla no se pueda pintar.
    */
   async function loadAll(itemId: number) {
     store.reset()
-    await Promise.all([loadItem(itemId), loadCatalogOptions(true).catch(() => undefined)])
-    const tasks = [loadSubModuleLinks(itemId), loadDependencies(itemId)]
-    if (isBundle.value) tasks.push(loadComponents(itemId))
-    await Promise.all(tasks)
+    await Promise.all([
+      loadItem(itemId),
+      loadCatalogOptions(true).catch(() => undefined),
+      loadSubModuleLinks(itemId),
+      loadDependencies(itemId),
+    ])
+    if (isBundle.value) await loadComponents(itemId)
   }
 
   // ── Puente 1 · qué pantallas abre ────────────────────────────────────────
