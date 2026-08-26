@@ -33,6 +33,7 @@ import {
   Lock,
   LogOut,
   Mail,
+  Menu,
   Palette,
   PauseCircle,
   PawPrint,
@@ -115,6 +116,8 @@ export const ICONS = {
    */
   PAUSE: PauseCircle,
   CLOSE: X,
+  /** Disparador del cajón de navegación en tablet (ver `useNavDrawer.ts`). */
+  MENU: Menu,
   COPY: Copy,
   BACK: ArrowLeft,
   LOGOUT: LogOut,

@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ICONS } from '@/constants/icons'
 import SidebarBrand from './SidebarBrand.vue'
 import SidebarUserCard from './SidebarUserCard.vue'
-import { useViewport } from '@/composables/useViewport'
+import { useNavDrawer } from '@/composables/useNavDrawer'
 // El QUÉ del menú —grupos, orden y destinos— vive en su propio módulo; aquí se
 // queda el CÓMO se pinta y el estado por instancia. Ver la cabecera de ese
 // fichero para el porqué.
@@ -51,25 +51,84 @@ const toggle = (parent: NavParent) => {
 }
 
 /**
- * EST-10 · El rótulo de cada enlace se oculta con `.ds-sr-only`, NO con
- * `display: none`. Con `display:none` el enlace se queda sin nombre accesible
- * y un lector de pantalla anuncia «enlace» a secas (WCAG 2.2 §2.4.4 Link
- * Purpose, §4.1.2 Name, Role, Value). El front del tenant lo tapa a medias con
- * `:title`, que es un parche débil: no es fiable en todos los lectores y no
- * existe en táctil. Aquí se hacen las dos cosas — `.ds-sr-only` para el nombre
- * accesible, `title` para el usuario de ratón.
+ * En tablet el rótulo de cada enlace ya NO se oculta: el sidebar deja de
+ * colapsar a un raíl de iconos y pasa a ser un cajón modal con el texto
+ * completo. Por eso desaparece el `.ds-sr-only` que este componente aplicaba a
+ * los tres rótulos —hoja, padre del acordeón e hija—: aquella clase existía
+ * para devolverle nombre accesible a un enlace cuyo texto se ocultaba, y ese
+ * enlace ya no existe. Con el cajón cerrado la navegación entera queda fuera
+ * de pantalla y marcada `inert`, así que tampoco hay un estado intermedio en
+ * el que un enlace se quede sin nombre.
+ *
+ * `:title` se mantiene, pero cambia de papel: ya no es el sustituto del rótulo
+ * —un tooltip necesita `:hover`, que en táctil no existe, y por eso el raíl de
+ * iconos era una promesa que la tablet no cumplía— sino el respaldo de
+ * `.ds-truncate` para un rótulo largo cortado en un cajón que `86vw` puede
+ * estrechar por debajo de 280 px.
+ *
+ * La mecánica del cajón (foco, Escape, cierre al navegar) está en
+ * `useNavDrawer.ts` y no aquí: `css:budget` fija `maxSfcLines: 500` con techo
+ * de cero infractores y este fichero ya partía de 330 líneas.
  */
-const { isCompact } = useViewport()
+const asideEl = ref<HTMLElement | null>(null)
+const drawerCloseBtn = ref<HTMLButtonElement | null>(null)
+const { isDrawerViewport, navOpen, closeNav, onTrapTab } = useNavDrawer({
+  asideEl,
+  closeBtn: drawerCloseBtn,
+})
 </script>
 
 <template>
-  <aside class="sidebar ds-stack">
+  <!-- El velo va aquí y no en `AppLayout`: al ser hermano ANTERIOR del `<aside>`
+       y compartir `z-index`, queda debajo del cajón sin `calc()` ni un segundo
+       token. -->
+  <div v-if="isDrawerViewport && navOpen" class="nav-backdrop" @click="closeNav" />
+
+  <!-- El rol cambia con la banda, y es correcto que cambie: por encima de 1024
+       el `<aside>` es una región persistente; por debajo lleva velo, el fondo
+       queda inoperable y el foco NO puede salir (§2.4.3 Focus Order, patrón
+       Dialog del APG). `inert` es obligatorio y no una mejora: un panel movido
+       con `transform` sigue en el flujo y sus enlaces seguirían recibiendo Tab
+       fuera de pantalla.
+       `? true : undefined` y no un booleano pelado: `inert` no está en la lista
+       de atributos booleanos especiales de Vue, así que solo se comporta como
+       tal donde el DOM expone la PROPIEDAD `inert`. Donde no la expone —jsdom,
+       es decir las pruebas unitarias— Vue cae a `setAttribute` y un `false`
+       escribiría `inert="false"`, que por presencia del atributo sigue siendo
+       inerte. Con `undefined` el atributo se retira en los dos caminos. -->
+  <aside
+    ref="asideEl"
+    class="sidebar ds-stack"
+    :class="{ 'is-open': navOpen }"
+    :inert="isDrawerViewport && !navOpen ? true : undefined"
+    :role="isDrawerViewport ? 'dialog' : undefined"
+    :aria-modal="isDrawerViewport ? 'true' : undefined"
+    :aria-label="isDrawerViewport ? 'Navegación principal' : undefined"
+    @keydown.capture="onTrapTab"
+  >
+    <button
+      v-if="isDrawerViewport"
+      ref="drawerCloseBtn"
+      type="button"
+      class="drawer-close ds-hover-accent ds-focus-ring"
+      aria-label="Cerrar menú"
+      @click="closeNav"
+    >
+      <component :is="ICONS.CLOSE" :size="18" />
+    </button>
+
     <SidebarBrand />
 
-    <nav class="nav-groups ds-stack">
+    <!-- Listas nombradas, no `<div>`s sueltos: antes el lector de pantalla
+         anunciaba 26 enlaces en fila sin decir cuántos había ni de qué grupo
+         eran. Con `<ul>` + `aria-labelledby` dice «lista Suscripciones, 5
+         elementos, elemento 3 de 5» (§1.3.1). `.ds-list-reset` en vez de
+         reescribir `list-style/margin/padding` en el scoped: esa primitiva ya
+         existe y copiarla dispara `vetsoftware/no-duplicate-primitive`. -->
+    <nav id="app-nav" class="nav-groups ds-stack" aria-label="Navegación principal">
       <div v-for="group in navGroups" :key="group.title" class="nav-group">
-        <div class="nav-group-title">{{ group.title }}</div>
-        <div class="nav-list ds-stack">
+        <div :id="`navgrp-${group.title}`" class="nav-group-title">{{ group.title }}</div>
+        <ul class="nav-list ds-stack ds-list-reset" :aria-labelledby="`navgrp-${group.title}`">
           <template v-for="item in group.items" :key="item.label">
             <!--
               `custom` y no `active-class`: `RouterLink` solo emite
@@ -79,40 +138,33 @@ const { isCompact } = useViewport()
               mismo `isActive` gobierna la clase y el atributo, y nunca se
               separan.
             -->
-            <RouterLink
-              v-if="!isParent(item) && isAvailable(item)"
-              v-slot="{ href, navigate, isActive }"
-              :to="item.path"
-              custom
-            >
-              <a
-                :href="href"
-                class="nav-item"
-                :class="{ 'is-active': isActive }"
-                :aria-current="isActive ? 'page' : undefined"
-                :title="item.label"
-                @click="navigate"
-              >
-                <component :is="item.icon" :size="15" class="nav-icon" />
-                <span class="nav-label ds-truncate" :class="{ 'ds-sr-only': isCompact }">
-                  {{ item.label }}
-                </span>
-              </a>
-            </RouterLink>
+            <li v-if="!isParent(item) && isAvailable(item)">
+              <RouterLink v-slot="{ href, navigate, isActive }" :to="item.path" custom>
+                <a
+                  :href="href"
+                  class="nav-item ds-focus-ring"
+                  :class="{ 'is-active': isActive }"
+                  :aria-current="isActive ? 'page' : undefined"
+                  :title="item.label"
+                  @click="navigate"
+                >
+                  <component :is="item.icon" :size="15" class="nav-icon" />
+                  <span class="nav-label ds-truncate">{{ item.label }}</span>
+                </a>
+              </RouterLink>
+            </li>
 
-            <div v-else-if="isParent(item)" class="ds-stack">
+            <li v-else-if="isParent(item)" class="ds-stack">
               <button
                 type="button"
-                class="nav-item nav-item-parent"
+                class="nav-item nav-item-parent ds-focus-ring"
                 :class="{ 'is-active': isChildActive(item) }"
                 :aria-expanded="isExpanded(item)"
                 :title="item.label"
                 @click="toggle(item)"
               >
                 <component :is="item.icon" :size="15" class="nav-icon" />
-                <span class="nav-label ds-truncate" :class="{ 'ds-sr-only': isCompact }">
-                  {{ item.label }}
-                </span>
+                <span class="nav-label ds-truncate">{{ item.label }}</span>
                 <component
                   :is="ICONS.CHEVRON_DOWN"
                   :size="13"
@@ -121,32 +173,26 @@ const { isCompact } = useViewport()
                 />
               </button>
 
-              <div v-show="isExpanded(item)" class="nav-sublist ds-stack">
-                <RouterLink
-                  v-for="child in item.children"
-                  :key="child.path"
-                  v-slot="{ href, navigate, isActive }"
-                  :to="child.path"
-                  custom
-                >
-                  <a
-                    :href="href"
-                    class="nav-item nav-subitem"
-                    :class="{ 'is-active': isActive }"
-                    :aria-current="isActive ? 'page' : undefined"
-                    :title="child.label"
-                    @click="navigate"
-                  >
-                    <component :is="child.icon" :size="13" class="nav-icon" />
-                    <span class="nav-label ds-truncate" :class="{ 'ds-sr-only': isCompact }">
-                      {{ child.label }}
-                    </span>
-                  </a>
-                </RouterLink>
-              </div>
-            </div>
+              <ul v-show="isExpanded(item)" class="nav-sublist ds-stack ds-list-reset">
+                <li v-for="child in item.children" :key="child.path">
+                  <RouterLink v-slot="{ href, navigate, isActive }" :to="child.path" custom>
+                    <a
+                      :href="href"
+                      class="nav-item nav-subitem ds-focus-ring"
+                      :class="{ 'is-active': isActive }"
+                      :aria-current="isActive ? 'page' : undefined"
+                      :title="child.label"
+                      @click="navigate"
+                    >
+                      <component :is="child.icon" :size="13" class="nav-icon" />
+                      <span class="nav-label ds-truncate">{{ child.label }}</span>
+                    </a>
+                  </RouterLink>
+                </li>
+              </ul>
+            </li>
           </template>
-        </div>
+        </ul>
       </div>
     </nav>
 
@@ -155,17 +201,28 @@ const { isCompact } = useViewport()
 </template>
 
 <style scoped>
+/* El `<aside>` ya NO scrollea: era el segundo contenedor de scroll de la
+   pantalla —`height: 100vh` + `overflow-y: auto`— y desbordaba en cuanto se
+   abría «Catálogos clínicos» (7 hijos, +238 px). Al ser además `sticky` con un
+   `AppHeader` que no lo era, las dos barras se comportaban al revés de lo que
+   el usuario espera: el menú se quedaba quieto y la barra superior se iba de la
+   pantalla. Ahora el scroll baja SOLO a la lista (`.nav-groups`), así que la
+   marca y «Cerrar sesión» quedan siempre alcanzables, y `sticky` sobra porque
+   ya no hay nada que se desplace detrás. */
 .sidebar {
   background: var(--surface);
   border-right: 1px solid var(--border);
   padding: var(--space-20) var(--space-16);
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  overflow-y: auto;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .nav-groups {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   margin-top: var(--space-18);
 }
 
@@ -173,6 +230,10 @@ const { isCompact } = useViewport()
   margin-bottom: var(--space-18);
 }
 
+/* En compacto esto se convertía en una raya de 32×1 px de `--border`: 1,23:1
+   sobre `--surface`, y era el ÚNICO indicador de frontera entre grupos, o sea
+   información y no decoración (§1.4.11 pide 3:1). Con el rótulo de vuelta el
+   problema no se parchea, se disuelve: el texto mide 5,36:1. */
 .nav-group-title {
   font-size: var(--text-caption);
   font-weight: var(--weight-semibold);
@@ -190,7 +251,7 @@ const { isCompact } = useViewport()
   display: flex;
   align-items: center;
   gap: var(--space-10);
-  padding: 7px var(--space-12);
+  padding: 7px var(--space-12) 7px var(--space-16);
   border-radius: 7px;
   font-size: var(--text-body);
   font-weight: var(--weight-medium);
@@ -210,12 +271,21 @@ const { isCompact } = useViewport()
   color: var(--text);
 }
 
+/* La barra se ancla DENTRO del ítem. Antes iba en `left: -16px`, calibrado
+   para el padding lateral de 16 px del sidebar de escritorio; en compacto ese
+   padding bajaba a 10 px y la barra aterrizaba en x ≈ −2,5 px, fuera del
+   `<aside>`, donde el `overflow-y: auto` la recortaba entera (el desbordamiento
+   hacia el borde inicial no es región desplazable). En tablet quedaba solo el
+   lavado de fondo `--amatista-100`, que mide 1,17:1: el usuario no podía ver en
+   qué pantalla estaba (§1.4.11 sobre un indicador de estado, y §1.4.1 porque a
+   esa distancia de luminancia lo único que queda es el matiz).
+   Anclada aquí no depende nunca del padding del contenedor, y vale igual para
+   la hoja, para la hija y para el padre de la rama activa. */
 .nav-item.is-active::before {
   content: '';
   position: absolute;
-  left: -16px;
-  top: 4px;
-  bottom: 4px;
+  inset-inline-start: 0;
+  inset-block: var(--space-4);
   width: 2px;
   background: var(--amatista-700);
   border-radius: 2px;
@@ -238,6 +308,9 @@ const { isCompact } = useViewport()
   text-align: left;
 }
 
+/* El chevron ya no se apaga en tablet. Con `display: none` el acordeón se
+   quedaba sin ninguna señal visible de que fuera desplegable: solo
+   `aria-expanded`, que quien ve no percibe. */
 .nav-chevron {
   color: var(--text-subtle);
   transition: transform 0.18s ease;
@@ -248,15 +321,18 @@ const { isCompact } = useViewport()
   color: var(--amatista-700);
 }
 
+/* La línea vertical se conserva pero NO es la señal de subordinación: mide
+   1,23:1, así que es decoración. Lo que jerarquiza es la indentación de 18 px,
+   el cuerpo de letra menor y el icono de 13 px frente a 15. */
 .nav-sublist {
   gap: 1px;
   margin: var(--space-2) 0 var(--space-4) var(--space-18);
-  padding-left: var(--space-10);
+  padding-inline-start: var(--space-10);
   border-left: 1px solid var(--border);
 }
 
 .nav-subitem {
-  padding: var(--space-6) var(--space-10);
+  padding: var(--space-6) var(--space-10) var(--space-6) var(--space-16);
   font-size: var(--text-xs);
   font-weight: var(--weight-medium);
   color: var(--text-muted);
@@ -270,61 +346,61 @@ const { isCompact } = useViewport()
   color: var(--text);
 }
 
-.nav-subitem.is-active::before {
-  left: -11px;
-  top: 6px;
-  bottom: 6px;
+/* Solo existe en la banda de cajón (`v-if`), por eso no vive dentro del
+   `@media`. Recibe el foco al abrir: es el primer tabulable del diálogo. */
+.drawer-close {
+  position: absolute;
+  inset-block-start: var(--space-8);
+  inset-inline-end: var(--space-8);
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--text-muted);
 }
 
-/* EST-10 · Sidebar colapsado a iconos en tablet. Portado del patrón que el
-   front del tenant ya tiene resuelto (`AppSidebar` + `SidebarNavItem` +
-   `SidebarSubItem`), con los objetivos de 44×38 y 44×34 px, que superan de
-   sobra el mínimo de §2.5.8 Target Size (24×24 px CSS, AA).
-   El rótulo de grupo colapsa a una línea de 32×1 px en vez de desaparecer:
-   sigue separando bloques cuando ya no se puede leer.
-   El acordeón pierde su señal visual (`.nav-chevron`) al colapsar;
-   `aria-expanded` se conserva, así que el lector de pantalla sí lo sabe. Que el
-   padre navegue al primer hijo en vez de desplegar es un CAMBIO DE
-   COMPORTAMIENTO y necesita aprobación aparte: no se hace aquí. */
+/* Igual que el botón de cierre: el `v-if` ya lo limita a la banda de cajón.
+   Va antes del `<aside>` en el DOM y con el MISMO `z-index`, así que queda
+   debajo sin necesidad de un token propio. `--z-drawer` (1400) ya existía en
+   `tokens.css` y está por debajo de `--z-modal` (1500): un `ModalShell` abierto
+   sigue tapando el cajón, que es lo correcto. */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-drawer);
+  background: rgb(20 15 30 / 45%);
+}
+
+/* Banda de cajón. El valor DEBE coincidir con `COMPACT_MAX_WIDTH` de
+   `src/stores/viewport.store.ts`, que es quien decide `role`/`aria-modal`/`inert`.
+   No se añade guarda local de `prefers-reduced-motion`: `base.css` ya apaga
+   toda transición con `!important`, y duplicarla exigiría un `stylelint-disable`
+   sin justificación. */
 @media (width <= 1024px) {
   .sidebar {
-    padding: var(--space-18) var(--space-10);
-    align-items: center;
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: min(280px, 86vw);
+    z-index: var(--z-drawer);
+    box-shadow: var(--shadow-modal);
+    transform: translateX(-100%);
+    transition: transform var(--transition-slow);
   }
 
-  .nav-group-title {
-    width: 32px;
-    height: 1px;
-    margin: var(--space-8) 0;
-    padding: 0;
-    overflow: hidden;
-    background: var(--border);
-    color: transparent;
-    font-size: 0;
+  .sidebar.is-open {
+    transform: none;
   }
 
+  /* 44 px de alto para TODA fila pulsable, hijas incluidas: la jerarquía la
+     llevan la indentación y el cuerpo de letra, no una fila más baja. Alcanza a
+     las tres variantes porque las tres llevan `.nav-item`. */
   .nav-item {
-    width: 44px;
-    height: 38px;
-    justify-content: center;
-    padding: 0;
-    gap: 0;
-  }
-
-  .nav-subitem {
-    width: 44px;
-    height: 34px;
-  }
-
-  .nav-chevron {
-    display: none;
-  }
-
-  .nav-sublist {
-    align-items: center;
-    margin-left: 0;
-    padding-left: 0;
-    border-left: none;
+    min-height: 44px;
   }
 }
 </style>

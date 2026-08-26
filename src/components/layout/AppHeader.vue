@@ -3,9 +3,15 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ICONS } from '@/constants/icons'
 import { ROUTE_NAMES } from '@/constants/routes'
+import { useViewport } from '@/composables/useViewport'
 
 const router = useRouter()
 const route = useRoute()
+
+// Disparador del cajón de navegación en tablet. El estado es del store porque
+// el cajón lo pinta `AppSidebar`, que es hermano de esta cabecera; ver
+// `viewport.store.ts`.
+const { isDrawerViewport, navOpen, toggleNav } = useViewport()
 
 // El botón del header es un atajo a Empresas; se oculta en la propia lista para
 // no duplicar el "Nueva empresa" que ya vive en esa pantalla.
@@ -28,8 +34,27 @@ function goToCompanies() {
     feature con backend detrás —hay issue abierto—, así que aquí se retira.
   -->
   <header class="topbar">
+    <!--
+      Primero de la fila y alineado a la izquierda: es el punto donde cae el
+      pulgar al sostener la tablet, y es el mismo sitio en todas las pantallas.
+      La ETIQUETA NO cambia con el estado —patrón Disclosure del APG—: el
+      nombre describe el control y `aria-expanded` describe el estado. Un
+      `aria-label` que alternase «Abrir…»/«Cerrar…» duplicaría la información y,
+      en el instante del cambio, algunos lectores anuncian las dos cosas.
+    -->
+    <button
+      v-if="isDrawerViewport"
+      type="button"
+      class="menu-btn ds-focus-ring"
+      aria-label="Menú de navegación"
+      aria-controls="app-nav"
+      :aria-expanded="navOpen"
+      @click="toggleNav"
+    >
+      <component :is="ICONS.MENU" :size="18" />
+    </button>
     <div class="spacer" />
-    <button class="bell-btn" aria-label="Notificaciones">
+    <button class="bell-btn ds-focus-ring" aria-label="Notificaciones">
       <component :is="ICONS.BELL" :size="15" />
       <span class="bell-dot" />
     </button>
@@ -55,6 +80,9 @@ function goToCompanies() {
   flex: 1;
 }
 
+/* Los dos botones de icono de la barra comparten cuerpo: se declaran juntos en
+   vez de dos veces, que es lo que `css:budget` cuenta como cuerpo repetido. */
+.menu-btn,
 .bell-btn {
   width: 34px;
   height: 34px;
@@ -66,11 +94,22 @@ function goToCompanies() {
   cursor: pointer;
   position: relative;
   color: var(--warm-800);
+  flex-shrink: 0;
   transition:
     background var(--transition-base),
     border-color var(--transition-base);
 }
 
+/* La hamburguesa es el ÚNICO acceso a la navegación en tablet, así que va a
+   44×44 en las dos bandas. §2.5.8 Target Size (Minimum) pide 24×24 px CSS en
+   AA; 44 es la cifra de comodidad, y en el control que abre todo el menú se
+   paga entera. */
+.menu-btn {
+  width: 44px;
+  height: 44px;
+}
+
+.menu-btn:hover,
 .bell-btn:hover {
   background: var(--amatista-50);
   border-color: var(--amatista-300);
@@ -104,11 +143,19 @@ function goToCompanies() {
   background: var(--warm-800);
 }
 
-/* EST-10 · A 768 px la barra superior tenía 32 px de padding a cada lado y
-   competía por el ancho con el contenido. */
+/* A 768 px la barra superior tenía 32 px de padding a cada lado y competía por
+   el ancho con el contenido.
+   La campana sube a 44×44 en la banda de cajón: 34×34 pasa §2.5.8 (24×24 px
+   CSS, AA) pero queda por debajo del objetivo cómodo en táctil, y aquí es
+   vecina directa de la hamburguesa y del botón primario. */
 @media (width <= 1024px) {
   .topbar {
     padding: var(--space-14) var(--space-18);
+  }
+
+  .bell-btn {
+    width: 44px;
+    height: 44px;
   }
 }
 </style>
