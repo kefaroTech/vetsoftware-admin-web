@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ICONS } from '@/constants/icons'
 import { useAuth } from '@/features/auth/composables/useAuth'
-import { useViewport } from '@/composables/useViewport'
 
 /**
  * Pie del sidebar: identidad de la sesión y salida. Se extrajo de
@@ -11,18 +10,19 @@ import { useViewport } from '@/composables/useViewport'
  * El `margin-top: auto` vive aquí: la raíz de este componente ES el último
  * hijo flex de `.sidebar`, así que el empuje al fondo se conserva.
  *
- * EST-10: al colapsar, el nombre y el rol se ocultan con `.ds-sr-only` y no con
- * `display: none`, por el mismo motivo que los rótulos de navegación — ver la
- * cabecera de `viewport.store.ts`.
+ * Ya no lee el viewport. Con el raíl de iconos de EST-10 la identidad se
+ * ocultaba en tablet con `.ds-sr-only` para conservar su texto; en el cajón la
+ * tarjeta cabe entera en las dos bandas, así que no hay nada que ocultar. Lo
+ * que sí cambia con la banda es el objetivo táctil de la salida — ver el
+ * `@media` del final.
  */
 const { logout } = useAuth()
-const { isCompact } = useViewport()
 </script>
 
 <template>
   <div class="sidebar-footer">
     <div class="avatar">AD</div>
-    <div class="ds-flex-fill" :class="{ 'ds-sr-only': isCompact }">
+    <div class="ds-flex-fill">
       <div class="user-name">Admin</div>
       <div class="user-role">Super administrador</div>
     </div>
@@ -72,24 +72,33 @@ const { isCompact } = useViewport()
 .logout-btn {
   background: transparent;
   border: none;
-  padding: var(--space-4);
   cursor: pointer;
   color: var(--text-muted);
   display: grid;
   place-items: center;
   border-radius: var(--radius-sm);
+  flex-shrink: 0;
   transition:
     color var(--transition-base),
     background var(--transition-base);
+
+  /* Era `padding: var(--space-4)` alrededor de un icono de 14 px: 22×22 px, por
+     debajo del suelo de 24×24 de §2.5.8 Target Size (Minimum). Puede que lo
+     salvara la excepción de espaciado —no hay otro objetivo lo bastante cerca
+     como para que los círculos de 24 px se crucen— pero es el control de
+     CERRAR SESIÓN, y dejarlo a 22 px pegado a una tarjeta en una pantalla
+     táctil no se sostiene por un tecnicismo. */
+  width: 32px;
+  height: 32px;
 }
 
-/* EST-10 · Con el sidebar a 72 px la tarjeta ya no puede repartir tres piezas
-   en una fila: se centra y solo queda el avatar junto a la salida. */
+/* En la banda de cajón la salida es un objetivo de dedo, no de ratón: 44×44,
+   la misma cifra de comodidad que la hamburguesa, la campana y toda fila de
+   navegación. */
 @media (width <= 1024px) {
-  .sidebar-footer {
-    justify-content: center;
-    padding: var(--space-8);
-    gap: var(--space-6);
+  .logout-btn {
+    width: 44px;
+    height: 44px;
   }
 }
 </style>

@@ -3,19 +3,21 @@ import { storeToRefs } from 'pinia'
 import { COMPACT_MAX_WIDTH, useViewportStore } from '@/stores/viewport.store'
 
 /**
- * Fachada del store de viewport (EST-10). El porqué está en `viewport.store.ts`.
+ * Fachada del store de viewport. El porqué está en `viewport.store.ts`.
  *
  * El listener se registra por componente pero el estado es uno solo: varios
- * consumidores no se pisan, solo comparten la misma lectura.
+ * consumidores no se pisan, solo comparten la misma lectura. `AppHeader` la
+ * consume para decidir si pinta la hamburguesa; `AppSidebar`, a través de
+ * `useNavDrawer`, para saber si el `<aside>` es un diálogo o una región.
  */
 export function useViewport() {
   const store = useViewportStore()
-  const { isCompact } = storeToRefs(store)
+  const { isDrawerViewport, navOpen } = storeToRefs(store)
 
   let media: MediaQueryList | null = null
 
   function sync(event: MediaQueryList | MediaQueryListEvent) {
-    store.setCompact(event.matches)
+    store.setDrawerViewport(event.matches)
   }
 
   onMounted(() => {
@@ -30,5 +32,11 @@ export function useViewport() {
     media = null
   })
 
-  return { isCompact }
+  return {
+    isDrawerViewport,
+    navOpen,
+    openNav: store.openNav,
+    closeNav: store.closeNav,
+    toggleNav: store.toggleNav,
+  }
 }

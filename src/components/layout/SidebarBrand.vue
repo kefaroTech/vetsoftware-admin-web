@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ICONS } from '@/constants/icons'
-import { useViewport } from '@/composables/useViewport'
 
 /**
  * Cabecera del sidebar: marca y subtítulo de la consola.
@@ -10,15 +9,13 @@ import { useViewport } from '@/composables/useViewport'
  * navegación —es marca, no navegación— y `AppSidebar` había cruzado el techo de
  * 500 líneas de `scripts/css-budget.mjs`. El presupuesto no se sube: se paga.
  *
- * EST-10: al colapsar, el texto se oculta con `.ds-sr-only` y no con
- * `display: none`, por el mismo motivo que los rótulos de navegación — ver la
- * cabecera de `viewport.store.ts`.
- *
- * `isCompact` se lee aquí del composable en vez de recibirse por prop: es
- * estado global de viewport, y pasarlo desde el padre solo añadiría un punto
- * donde los dos pueden discrepar.
+ * Ya no lee el viewport. Con el raíl de iconos de EST-10, la marca se ocultaba
+ * en tablet con `.ds-sr-only` para no perder su texto; en el cajón el sidebar
+ * conserva sus 280 px y la marca se ve entera en las dos bandas, así que no
+ * hay nada que ocultar ni, por tanto, nombre accesible que rescatar. Un
+ * componente menos suscrito al viewport es también un punto menos donde dos
+ * lecturas del mismo ancho pueden discrepar.
  */
-const { isCompact } = useViewport()
 </script>
 
 <template>
@@ -26,7 +23,7 @@ const { isCompact } = useViewport()
     <div class="logo">
       <component :is="ICONS.PAW" :size="16" />
     </div>
-    <div class="brand-text" :class="{ 'ds-sr-only': isCompact }">
+    <div class="brand-text">
       <div class="brand">VetSoftware</div>
       <div class="brand-sub">Panel administrativo</div>
     </div>
@@ -66,14 +63,5 @@ const { isCompact } = useViewport()
   color: var(--text-muted);
   letter-spacing: 0.04em;
   margin-top: 1px;
-}
-
-/* EST-10 · viaja con la cabecera desde `AppSidebar.vue`: al colapsar, la marca
-   se centra y pierde el hueco lateral. */
-@media (width <= 1024px) {
-  .sidebar-header {
-    justify-content: center;
-    padding: 0 0 var(--space-18);
-  }
 }
 </style>
