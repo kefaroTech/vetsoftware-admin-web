@@ -54,9 +54,11 @@ describe('loader global', () => {
     expect(loader.visible).toBe(false)
   })
 
-  it('si ya llevaba visible más del mínimo, se retira de inmediato', () => {
-    // Una petición larga ya cumplió de sobra el tiempo mínimo: alargar el velo
-    // otros 300 ms al terminar solo añadiría latencia percibida.
+  it('una vez visible, ocultar siempre respeta la ventana de gracia', () => {
+    // Aunque la petición ya llevaba visible de sobra el mínimo, el ocultado
+    // pasa por HIDE_GRACE_MS (150 ms) antes de aplicarse: es esa ventana la
+    // que le da tiempo a una petición siguiente a cancelar el ocultado, que
+    // es justo lo que evita el parpadeo entre peticiones secuenciales.
     const loader = useLoaderStore()
     loader.push()
     vi.advanceTimersByTime(250)
@@ -65,7 +67,30 @@ describe('loader global', () => {
     vi.advanceTimersByTime(2_000)
     loader.pop()
 
+    expect(loader.visible).toBe(true)
+    vi.advanceTimersByTime(150)
     expect(loader.visible).toBe(false)
+  })
+
+  it('dos peticiones secuenciales no producen parpadeo', () => {
+    // El caso real reportado: una pantalla encadena `await peticionA();
+    // await peticionB()`. Entre una y otra, `pending` pasa por 0, pero el
+    // velo no debe apagarse ni un instante si la siguiente petición llega
+    // dentro de la ventana de gracia.
+    const loader = useLoaderStore()
+    loader.push()
+    vi.advanceTimersByTime(250)
+    expect(loader.visible).toBe(true)
+
+    loader.pop()
+    vi.advanceTimersByTime(100)
+    expect(loader.visible).toBe(true)
+
+    loader.push()
+    vi.advanceTimersByTime(1_000)
+
+    expect(loader.visible).toBe(true)
+    expect(loader.pending).toBe(1)
   })
 
   it('cuenta peticiones concurrentes y solo se retira con la última', () => {
