@@ -261,7 +261,7 @@ defineExpose({ validate, isDirty })
       />
     </div>
 
-    <div class="grid grid--2">
+    <div class="ds-grid-2">
       <AppSelect
         v-model="form.taxTreatment"
         :options="TAX_TREATMENT_OPTIONS"
@@ -297,13 +297,11 @@ defineExpose({ validate, isDirty })
 </template>
 
 <style scoped>
+/* La rejilla de 2 columnas es `.ds-grid-2` (primitives.css); solo la de 3
+   columnas sigue local porque no tiene primitiva equivalente (FE-08). */
 .grid {
   display: grid;
   gap: var(--space-12);
-}
-
-.grid--2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .grid--3 {
@@ -315,7 +313,6 @@ defineExpose({ validate, isDirty })
 }
 
 @media (width <= 680px) {
-  .grid--2,
   .grid--3 {
     grid-template-columns: 1fr;
   }

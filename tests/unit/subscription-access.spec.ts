@@ -48,12 +48,18 @@ function capacity(overrides: Partial<CompanyCapacityResponse> = {}): CompanyCapa
   return {
     id: 5,
     companyId: 42,
-    capacityUnit: 'USER',
+    // El eje ya no es un enum: es una fila del catálogo de dimensiones
+    // (`limitDimensionId` + `dimensionCode`). Ver `entitlements.types.ts`.
+    limitDimensionId: 1,
+    dimensionCode: 'USER',
+    measureKind: 'CONCURRENT',
+    periodKey: null,
     limitQuantity: 10,
     usedQuantity: 7,
     exhausted: false,
     subscriptionId: 184,
-    recalculatedAt: '2026-03-10T08:00:00',
+    limitRecalculatedAt: '2026-03-10T08:00:00',
+    usageReconciledAt: '2026-03-10T08:00:00',
     ...overrides,
   }
 }
@@ -305,10 +311,25 @@ describe('las capacidades se leen sin depender de la barra', () => {
     expect(capacityText(capacity({ usedQuantity: null }))).toBe('0 de 10 usuarios')
   })
 
-  it('nombra las cuatro unidades del dominio en castellano', () => {
-    expect(capacityText(capacity({ capacityUnit: 'BRANCH' }))).toContain('sedes')
-    expect(capacityText(capacity({ capacityUnit: 'TERMINAL' }))).toContain('terminales de caja')
-    expect(capacityText(capacity({ capacityUnit: 'STORAGE_GB' }))).toContain('GB de almacenamiento')
+  it('nombra en castellano los ejes que sabe traducir', () => {
+    expect(capacityText(capacity({ dimensionCode: 'BRANCH' }))).toContain('sedes')
+    expect(capacityText(capacity({ dimensionCode: 'TERMINAL' }))).toContain('terminales de caja')
+    expect(capacityText(capacity({ dimensionCode: 'STORAGE_GB' }))).toContain(
+      'GB de almacenamiento',
+    )
+  })
+
+  /**
+   * <b>El eje dejó de ser un enum cerrado.</b> El backend borró `CapacityUnit.java` y las
+   * dimensiones pasaron a ser datos, así que el servidor puede sembrar un eje nuevo sin
+   * desplegar nada. Indexando el `Record` cerrado, ese eje se pintaba «7 de 10 undefined»:
+   * sin excepción, sin aviso en consola y sin nada roto que mirar — el operador simplemente
+   * leía una palabra inglesa donde iba el sustantivo.
+   */
+  it('un eje que esta consola no sabe traducir se pinta con su código, nunca «undefined»', () => {
+    const texto = capacityText(capacity({ dimensionCode: 'APPOINTMENTS_PER_MONTH' }))
+    expect(texto).toBe('7 de 10 APPOINTMENTS_PER_MONTH')
+    expect(texto).not.toContain('undefined')
   })
 })
 

@@ -116,25 +116,42 @@ describe('sidebar sin cifras inventadas (EST-12)', () => {
 /**
  * El grupo «Suscripciones» cuenta la cadena del modelo, y su ORDEN es el
  * mensaje: catálogo y precios → el asistente → la oferta → el contrato → el
- * dinero (§2 de `docs/ux/suscripciones-consola-especificacion.md`).
+ * cupo → lo que se regala → el dinero → el cuadre (§2 de
+ * `docs/ux/suscripciones-consola-especificacion.md` y §2/§2.2 de
+ * `docs/ux/suscripciones-consola-ampliacion-especificacion.md`).
+ * «Cupos y límites» se intercala entre «Contratos» y «Cobranza» porque el cupo
+ * se deriva del contrato y se cobra después; «Pruebas y concesiones» va pegada
+ * al cupo porque es la misma tarea vista por el otro lado —lo que se regala—; y
+ * «Conciliación» cierra, porque primero se cobra y después se cuadra con el
+ * mundo de fuera.
  *
  * Se afirma aquí y no en una revisión visual porque el orden de un array es lo
  * primero que se pierde cuando alguien añade una entrada al final «para no
- * tocar nada»: el menú sigue teniendo las cinco entradas, y deja de explicar
+ * tocar nada»: el menú sigue teniendo las nueve entradas, y deja de explicar
  * por qué están en ese orden. La prueba mira el texto renderizado, no el array,
  * para que también falle si el marcado deja de recorrerlo.
  *
  * ⚠️ El router de estas pruebas es un comodín que casa con TODO, así que las
- * cinco entradas se pintan. En producción, una entrada cuya ruta el router
+ * nueve entradas se pintan. En producción, una entrada cuya ruta el router
  * todavía no conoce —`/configurador` y `/cotizaciones` hasta que sus tareas
  * registren su fichero de rutas— NO se pinta: ver `isAvailable` en el
  * componente. Eso es deliberado, y por eso esta prueba no puede afirmar que se
  * vean siempre; afirma el orden en que se declaran.
  */
 describe('el menú cuenta la cadena del modelo de suscripciones (§2)', () => {
-  const CADENA = ['Catálogo y precios', 'Configurador', 'Cotizaciones', 'Contratos', 'Cobranza']
+  const CADENA = [
+    'Catálogo y precios',
+    'Configurador',
+    'Cotizaciones',
+    'Contratos',
+    'Cupos y límites',
+    'Pruebas y concesiones',
+    'Cobranza',
+    'Documentos de cobro',
+    'Conciliación',
+  ]
 
-  it('las cinco entradas van en el orden de la cadena', async () => {
+  it('las nueve entradas van en el orden de la cadena', async () => {
     const wrapper = await montarSidebar()
     const textos = textosDeLaNavegacion(wrapper.find('nav').element)
     const posiciones = CADENA.map((etiqueta) => textos.indexOf(etiqueta))

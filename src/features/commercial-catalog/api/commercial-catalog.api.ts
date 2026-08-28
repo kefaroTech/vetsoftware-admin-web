@@ -3,6 +3,11 @@ import { DEFAULT_PAGE_SIZE, type PageResponse } from '@/types/pagination'
 import type { CatalogItemSubModuleResponse } from '@/features/platform-setup/types/platform-setup.types'
 import type {
   BundleComponentResponse,
+  CatalogItemLimitResponse,
+  CreateCatalogItemLimitRequest,
+  LimitPropagationResponse,
+  PropagateCatalogLimitImprovementRequest,
+  UpdateCatalogItemLimitRequest,
   CatalogItemDependencyResponse,
   CatalogItemResponse,
   CatalogPriceResponse,
@@ -238,5 +243,70 @@ export const bundleComponentsApi = {
   },
   async remove(bundleItemId: number, id: number): Promise<void> {
     await http.delete(`/catalog-items/${bundleItemId}/components/${id}`)
+  },
+}
+
+// ───────────────────────────────────────────────────────────────────────────
+// Los techos de fábrica y su propagación
+//
+// El listado devuelve un **array plano**, como los tres puentes: son las filas
+// de UN artículo, no un listado maestro.
+//
+// La propagación vive en `/system/**` y no bajo el artículo, y eso dice de qué
+// es: no es editar el catálogo, es tocar contratos ya firmados. Por eso está en
+// su propio objeto y no dentro de `catalogItemLimitsApi`.
+// ───────────────────────────────────────────────────────────────────────────
+
+export const catalogItemLimitsApi = {
+  /** Devuelve un array plano, no una página: son los ejes de un solo artículo. */
+  async listByCatalogItem(
+    catalogItemId: number,
+    signal?: AbortSignal,
+  ): Promise<CatalogItemLimitResponse[]> {
+    const { data } = await http.get<CatalogItemLimitResponse[]>(
+      `/catalog-items/${catalogItemId}/limits`,
+      { signal },
+    )
+    return data
+  },
+  async create(
+    catalogItemId: number,
+    payload: CreateCatalogItemLimitRequest,
+  ): Promise<CatalogItemLimitResponse> {
+    const { data } = await http.post<CatalogItemLimitResponse>(
+      `/catalog-items/${catalogItemId}/limits`,
+      payload,
+    )
+    return data
+  },
+  async update(
+    catalogItemId: number,
+    id: number,
+    payload: UpdateCatalogItemLimitRequest,
+  ): Promise<CatalogItemLimitResponse> {
+    const { data } = await http.put<CatalogItemLimitResponse>(
+      `/catalog-items/${catalogItemId}/limits/${id}`,
+      payload,
+    )
+    return data
+  },
+}
+
+export const limitPropagationsApi = {
+  /**
+   * Lleva una **mejora** de techo a los contratos vivos.
+   *
+   * <p>El backend solo mejora: quien firmó con cien conserva sus cien aunque la
+   * fábrica baje. Devuelve cuántos contratos se quedaron mejor, que es el único
+   * número honesto — «actualizados» daría a entender que se tocaron todos.
+   */
+  async propagate(
+    payload: PropagateCatalogLimitImprovementRequest,
+  ): Promise<LimitPropagationResponse> {
+    const { data } = await http.post<LimitPropagationResponse>(
+      '/system/subscription-item-limits/propagations',
+      payload,
+    )
+    return data
   },
 }

@@ -87,3 +87,36 @@ export function agingText(days: number | null): string {
 export function agingTitle(iso: string | null | undefined): string {
   return formatDate(iso, '')
 }
+
+/**
+ * Días completos que faltan hasta una fecha ISO, contando por días de calendario
+ * locales. Negativo si ya pasó.
+ *
+ * <p>Es el espejo de `daysSince` y existe por el mismo motivo, aplicado al otro
+ * lado del tiempo: el circuito del dinero tiene tres listas cuyo criterio de
+ * urgencia es <b>cuánto queda</b> —el plazo de una reversión, la fecha del próximo
+ * reintento, la caducidad de un lote de saldo—. Contar por diferencia de instantes
+ * daría «0 días» a algo que vence esta noche y a algo que venció ayer, y en las
+ * tres listas eso es la diferencia entre llegar a tiempo y no llegar.
+ *
+ * <p>Devuelve `null` si la fecha no es parseable: un dato roto tiene que cantar, no
+ * imprimirse como «vence hoy».
+ */
+export function daysUntil(iso: string | null | undefined, now: Date = new Date()): number | null {
+  const days = daysSince(iso, now)
+  return days === null ? null : -days
+}
+
+/**
+ * El plazo <b>en texto</b>, con el signo dicho y no deducido: «venció hace 2 días»
+ * no es lo mismo que «vence en 2 días», y en una pantalla que ordena por urgencia
+ * los dos casos caen uno al lado del otro.
+ */
+export function deadlineText(days: number | null): string {
+  if (days === null) return '—'
+  if (days < -1) return `venció hace ${Math.abs(days)} días`
+  if (days === -1) return 'venció ayer'
+  if (days === 0) return 'vence hoy'
+  if (days === 1) return 'vence mañana'
+  return `vence en ${days} días`
+}

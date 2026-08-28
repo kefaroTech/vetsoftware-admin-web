@@ -26,6 +26,7 @@ export const CONFIGURATOR_ROUTE_NAMES = {
   CONFIGURATOR: 'configurator',
   CONFIGURATOR_QUESTIONNAIRE: 'configurator-questionnaire',
   CONFIGURATOR_TEST: 'configurator-test',
+  CONFIGURATOR_EFFECT_ORDER: 'configurator-effect-order',
 } as const
 
 export const configuratorRoutes: RouteRecordRaw[] = [
@@ -42,6 +43,17 @@ export const configuratorRoutes: RouteRecordRaw[] = [
         name: CONFIGURATOR_ROUTE_NAMES.CONFIGURATOR_QUESTIONNAIRE,
         component: () => import('@/features/configurator/views/ConfiguratorQuestionnaireView.vue'),
         meta: { title: 'Editar el cuestionario · Configurador' },
+      },
+      {
+        // El orden de aplicacion es una propiedad del CONJUNTO de efectos y no
+        // cabe dentro de las tarjetas por pregunta, donde aparecen repartidos
+        // por disparador y nunca en la sucesion en que se ejecutan. Sub-vista
+        // del mismo armazon, no entrada de menu propia: sigue siendo «editar el
+        // configurador», solo que la parte que decide quien manda.
+        path: 'orden',
+        name: CONFIGURATOR_ROUTE_NAMES.CONFIGURATOR_EFFECT_ORDER,
+        component: () => import('@/features/configurator/views/ConfiguratorEffectOrderView.vue'),
+        meta: { title: 'El orden de los efectos · Configurador' },
       },
       {
         path: 'probar',

@@ -98,11 +98,117 @@ const DIST = path.resolve(import.meta.dirname, '../dist')
  * (frente a los 1,7 KB de #172), una oleada del tamaño de la onda 3 (+11,4 KB) cabe
  * más de cinco veces antes de volver a estar rojo — no es una cifra cómoda para
  * siempre, es sitio real para lo que ya se sabe que viene.
+ *
+ * ── `/limites` entra en el router: JS total re-basado (27 de agosto de 2026) ─
+ *
+ * El total llegó a 399,5 KB / 385 KB (162 chunks). La causa inmediata es que al registrar
+ * `limitsRoutes` en `router/index.ts`, las seis pantallas de cupo y límites entraron por
+ * primera vez en el grafo del empaquetador.
+ *
+ * Antes de tocar el techo se comprobó que ese peso es REAL y no un accidente de empaquetado.
+ * Se midió construyendo con `--sourcemap` a un `outDir` aparte —los mapas siguen sin
+ * publicarse, ver `sourcemap: false` en `vite.config.ts`— para saber qué módulo cae en qué
+ * chunk, en vez de deducirlo de los nombres:
+ *
+ *   - `features/limits` ocupa 11 chunks, 24,57 KB gzip, y **los once son diferidos**:
+ *     ninguno aparece en `index.html` ni como entry ni como `modulepreload`.
+ *   - Esos once contienen **solo** módulos de `features/limits`. No hay una sola fuente de
+ *     la feature dentro de `index-*.js` ni de `icons-*.js`, que son la ruta crítica entera.
+ *     Nada de cupo se carga al abrir la aplicación.
+ *   - Ningún `import` estático donde debería haber uno perezoso: las seis vistas entran por
+ *     `() => import(...)` desde `routes/limits.routes.ts`, que fuera de eso solo importa un
+ *     tipo. Los dos modales (`GrantOverrideModal`, `RevokeOverrideModal`) viajan dentro del
+ *     chunk de su vista, que ya es diferido.
+ *   - Cero módulos repetidos entre chunks distintos — comprobado sobre los 162, no solo
+ *     sobre los de cupo. No hay nada empaquetándose dos veces.
+ *   - Ninguna biblioteca nueva: la feature no arrastra nada de `node_modules` que no
+ *     estuviera ya en el bundle.
+ *   - Ningún chunk de cupo domina: el mayor (`LimitOverridesView`, 6,76 KB) está muy por
+ *     debajo del mayor de la onda 3 (`SubscriptionMoneyView`, 12,2 KB).
+ *
+ * O sea: 24,57 KB gzip por seis pantallas, once componentes y tres stores, aislados y
+ * diferidos. Es peso de producto, no bloat de empaquetado — no hay nada que arreglar.
+ *
+ * Los otros dos presupuestos NO se tocan, y son los que de verdad miden lo que tarda en
+ * pintar: ruta crítica JS 100,0/150 KB (33 % de margen) y CSS crítico 36,3/45 KB (19 %). La
+ * ruta crítica subió 2,9 KB desde el 24 de agosto y **no es de cupo**: son los `*.tab.ts` de
+ * los expedientes de empresa y de suscripción, que `import.meta.glob(..., { eager: true })`
+ * mete en el entry a propósito — solo los metadatos, ~5,7 KB en crudo; los SFC de cada
+ * pestaña siguen cargándose de forma diferida.
+ *
+ *   JS total (hoy)   399,5 KB gzip   → presupuesto 440 KB   (+10 %, ~9 % de margen)
+ *
+ * Se sube un +10 % y no el +20 % de la vez anterior, y es a conciencia. Los 63 KB de margen
+ * que dejó el re-base del 24 de agosto se consumieron **en tres días** (321,6 → 399,5 KB), de
+ * los cuales cupo pone 24,6 y el resto lo pusieron otras oleadas de la campaña. Un colchón
+ * más grande no habría evitado nada: solo habría retrasado la conversación hasta que ya no
+ * hubiera sitio, que es exactamente el argumento con el que este mismo archivo retiró la
+ * reserva especulativa de 70 KB de Faro. Si quedan oleadas en cola, lo correcto es que cada
+ * una mida su propio chunk y suba el techo esa cantidad exacta, documentándolo aquí — no
+ * pre-inflarlo hoy sobre una cifra futura que nadie ha medido todavía.
+ *
+ * ── La oleada entera aterriza: JS total re-basado (28 de agosto de 2026) ────
+ *
+ * El total llegó a 504,2 KB / 440 KB (192 chunks). La causa es la misma clase de
+ * suceso que el 27 de agosto, a otra escala: cinco lotes cerraron sus pantallas a la
+ * vez y la integración enganchó al router las dos familias que quedaban escritas sin
+ * registrar —`reconciliationRoutes` y `trialsRoutes`—, así que sus vistas entraron por
+ * primera vez en el grafo del empaquetador junto con todo lo que los lotes añadieron a
+ * features ya registradas (cobranza, expediente de empresa, documentos de cobro).
+ *
+ * Antes de tocar el techo se comprobó que el peso es REAL y no un accidente de
+ * empaquetado, con el mismo método de la vez anterior: build con `--sourcemap` a un
+ * `outDir` aparte —los mapas siguen sin publicarse, ver `sourcemap: false` en
+ * `vite.config.ts`— y atribución de cada módulo a su chunk leyendo los 192 `.map`, en
+ * vez de deducirlo de los nombres:
+ *
+ *   - **Cero módulos repetidos** entre chunks distintos, comprobado sobre los 192. No
+ *     hay nada empaquetándose dos veces.
+ *   - La ruta crítica son **dos** chunks, `index-*.js` (72,0 KB) e `icons-*.js`
+ *     (30,1 KB), y dentro de `src/` no hay una sola vista, componente ni store de
+ *     ninguna feature: solo el armazón (App, main, plugins, guardas, primitivas de
+ *     feedback, http/storage y los stores transversales), los 30 manifiestos de
+ *     `routes/*.routes.ts` —que el router importa por definición— y los 17 `*.tab.ts`
+ *     de los expedientes de empresa y suscripción, que `import.meta.glob(…,
+ *     { eager: true })` mete ahí a propósito y ya estaban declarados el 27 de agosto.
+ *     Los SFC de cada pestaña siguen siendo diferidos.
+ *   - Todos los chunks de las dos familias recién registradas son diferidos:
+ *     `features/reconciliation` 15,67 KB en 1 chunk (su vista única con tres
+ *     pestañas) y `features/trials` 19,14 KB en 8. Ninguno aparece en `index.html`.
+ *   - Ningún `import` estático donde debería haber uno perezoso: las vistas entran por
+ *     `() => import(…)` desde sus ficheros de rutas, y los modales viajan dentro del
+ *     chunk de su vista, que ya es diferido.
+ *   - Ninguna biblioteca nueva. `axios` domina `index-*.js` y `lucide-vue-next`
+ *     `icons-*.js`, igual que antes; no ha entrado nada de `node_modules` que no
+ *     estuviera ya.
+ *   - El chunk de vista más pesado pasa a ser `ReconciliationView` (15,67 KB, 40
+ *     módulos), por delante de `SubscriptionMoneyView` (11,5 KB). Es una sola ruta con
+ *     tres pestañas dentro; trocearlo por pestaña bajaría el pico, no la suma.
+ *
+ * Y lo que de verdad decide cuánto tarda en pintar NO se movió: ruta crítica JS
+ * 102,0/150 KB (32 % de margen, +2,0 KB desde el 27 de agosto, y esos 2 KB son los dos
+ * manifiestos de rutas nuevos más las pestañas que la oleada añadió al glob eager) y
+ * CSS crítico 36,3/45 KB (19 %), idéntico. Lo que crece es código diferido que solo se
+ * descarga al entrar en su ruta.
+ *
+ *   JS total (hoy)   504,2 KB gzip   → presupuesto 555 KB   (+10 %, ~9 % de margen)
+ *
+ * Se sube el mismo +10 % que la vez anterior y por el mismo motivo: un colchón mayor no
+ * evitaría nada, solo retrasaría la conversación. Quedan oleadas en cola —contabilidad,
+ * fiscal, informes, catálogos anuales, incidentes (§2 de la ampliación)— y lo correcto
+ * sigue siendo que cada una mida su propio chunk y suba el techo esa cantidad exacta,
+ * documentándolo aquí.
+ *
+ * <b>No está contado aquí</b> lo que pesa `features/billing-documents` (16,46 KB en 3
+ * chunks): sus dos vistas SÍ están en el bundle —`BillingDocumentsTable.vue` importa
+ * `BILLING_DOCUMENT_ROUTE_NAMES` y enlaza a ellas— pero `billingDocumentsRoutes` no
+ * está registrado en `router/index.ts`, así que hoy son 16 KB que nadie puede abrir.
+ * Registrarlas no sube el techo: ya se está pagando su peso.
  */
 const BUDGET_GZIP = {
   criticalJs: 150 * 1024,
   criticalCss: 45 * 1024,
-  totalJs: 385 * 1024,
+  totalJs: 555 * 1024,
 }
 
 const KB = (bytes) => `${(bytes / 1024).toFixed(1)} KB`

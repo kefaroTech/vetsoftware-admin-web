@@ -149,6 +149,26 @@ export const CAPACITY_UNIT_NOUN = {
 } as const satisfies Record<CapacityUnit, string>
 
 /**
+ * Las dos traducciones de un eje, <b>a prueba de ejes que esta consola no conoce</b>.
+ *
+ * <p>`dimensionCode` dejó de ser un enum de cuatro valores el día que el backend borró
+ * `CapacityUnit.java` y pasó las dimensiones a datos: hoy el servidor puede sembrar
+ * `APPOINTMENTS_PER_MONTH` sin desplegar nada, y esta consola tiene que pintarlo igual. Indexar
+ * el `Record` cerrado con ese código devolvía `undefined`, y lo que veía el operador era
+ * «7 de 10 undefined» — sin error en consola y sin nada roto que mirar.
+ *
+ * <p>Se cae al propio código en mayúsculas, que es feo a propósito: se lee como «falta traducir
+ * este eje» y no como una etiqueta legítima.
+ */
+export function capacityTitle(dimensionCode: string): string {
+  return CAPACITY_UNIT_TITLE[dimensionCode as CapacityUnit] ?? dimensionCode
+}
+
+export function capacityNoun(dimensionCode: string): string {
+  return CAPACITY_UNIT_NOUN[dimensionCode as CapacityUnit] ?? dimensionCode
+}
+
+/**
  * «7 de 10 usuarios», y su caso incómodo: <b>un límite nulo no es un límite de
  * cero</b>.
  *
@@ -157,7 +177,7 @@ export const CAPACITY_UNIT_NOUN = {
  * límite, el texto lo dice y la barra no se pinta.
  */
 export function capacityText(capacity: CompanyCapacityResponse): string {
-  const noun = CAPACITY_UNIT_NOUN[capacity.capacityUnit]
+  const noun = capacityNoun(capacity.dimensionCode)
   const used = capacity.usedQuantity ?? 0
   if (capacity.limitQuantity == null) return `${used} ${noun} · sin límite declarado`
   return `${used} de ${capacity.limitQuantity} ${noun}`

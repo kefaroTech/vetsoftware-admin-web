@@ -57,8 +57,19 @@ export type EntitlementAccessLevel = 'FULL' | 'READ_ONLY' | 'NONE'
 export type EntitlementSource = 'SUBSCRIPTION' | 'TRIAL' | 'CORE' | 'MANUAL_GRANT'
 
 /**
- * Lo que no es una pantalla sino una cantidad
- * (`entitlement/domain/CapacityUnit.java`). Cuatro valores, cerrados.
+ * Los ejes de capacidad que esta consola sabe nombrar en español.
+ *
+ * <p><b>Ya NO es un enum del contrato.</b> Era el calco de
+ * `entitlement/domain/CapacityUnit.java`, «cuatro valores, cerrados» — y ese fichero ya no
+ * existe: el backend sustituyó el enum por una dimensión con fila propia, así que
+ * `CompanyCapacityResponse.dimensionCode` es un `string` libre y el servidor puede sembrar un
+ * eje nuevo sin tocar una línea de Java.
+ *
+ * <p>Lo que queda aquí es <b>una tabla de traducción, no una restricción</b>: el conjunto de
+ * códigos para los que hay etiqueta escrita. Un código fuera de esta lista es legal y hay que
+ * pintarlo igual, así que <b>nunca se indexa directamente</b> — se pasa por `capacityTitle()` o
+ * `capacityNoun()`, que caen al propio código cuando no lo conocen. Indexar un `Record` cerrado
+ * con un `string` del servidor es exactamente cómo se pinta `undefined` en pantalla.
  */
 export type CapacityUnit = 'USER' | 'BRANCH' | 'TERMINAL' | 'STORAGE_GB'
 
@@ -99,13 +110,36 @@ export interface CompanyEntitlementResponse {
 export interface CompanyCapacityResponse {
   id: number
   companyId: number
-  capacityUnit: CapacityUnit
+  /**
+   * <b>El eje ya no es un enum de cuatro valores.</b> `capacityUnit` desapareció del contrato
+   * y en su lugar el servidor identifica la dimensión con `limitDimensionId` + `dimensionCode`,
+   * que son datos de una tabla y no constantes de Java: el backend borró
+   * `entitlement/domain/CapacityUnit.java`. Cualquier código que trate `dimensionCode` como si
+   * tuviera exactamente cuatro valores posibles volverá a romperse en cuanto se siembre un eje
+   * nuevo — por eso las etiquetas se resuelven con una función que sabe caer de pie
+   * (`capacityTitle`/`capacityNoun`) y no indexando un `Record` cerrado.
+   */
+  limitDimensionId: number
+  dimensionCode: string
+  /**
+   * Cómo se mide el eje. Un eje ACUMULATIVO cuenta lo registrado históricamente y uno de flujo
+   * cuenta lo del periodo: llamar «activas» a lo acumulado es el error que R-LIMIT-40 nombra.
+   */
+  measureKind: string
+  /** De qué periodo habla un eje de flujo. Nulo en los ejes que no se reinician. */
+  periodKey: string | null
   /** Nulo cuando la capacidad no tiene techo declarado. */
   limitQuantity: number | null
   usedQuantity: number | null
   exhausted: boolean
   subscriptionId: number | null
-  recalculatedAt: string | null
+  /**
+   * Cuándo se recalculó el LÍMITE. No es lo mismo que `usageReconciledAt` —cuándo se comprobó
+   * el CONSUMO contra las filas reales—, y por eso el contrato manda los dos (R-ENT-13).
+   * `usageReconciledAt` llega nulo mientras no se haya reconciliado nunca.
+   */
+  limitRecalculatedAt: string | null
+  usageReconciledAt: string | null
 }
 
 /**

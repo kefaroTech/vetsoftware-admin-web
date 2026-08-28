@@ -49,9 +49,15 @@ import { configuratorRoutes } from './routes/configurator.routes'
 // W1-D · /cotizaciones y /cotizaciones/:id (§4.3)
 import { quotesRoutes } from './routes/quotes.routes'
 import { subscriptionsAdminRoutes } from './routes/subscriptions-admin.routes'
+import { billingDocumentsRoutes } from './routes/billing-documents.routes'
 import { billingOperationsRoutes } from './routes/billing-operations.routes'
+import { limitsRoutes } from './routes/limits.routes'
 // W1-F · /configuracion/facturacion (§4.6)
-// import { platformBillingRoutes } from './routes/platform-billing.routes'
+import { platformBillingRoutes } from './routes/platform-billing.routes'
+// Ampliación · las dos familias que quedaron escritas sin enganchar: la
+// conciliación (§H) y las ventanas de prueba (§C).
+import { reconciliationRoutes } from './routes/reconciliation.routes'
+import { trialsRoutes } from './routes/trials.routes'
 import { ROUTE_NAMES } from '@/constants/routes'
 
 const router = createRouter({
@@ -75,7 +81,16 @@ const router = createRouter({
     ...quotesRoutes,
     ...subscriptionsAdminRoutes,
     ...billingOperationsRoutes,
-    // ...platformBillingRoutes,
+    // Iba sin registrar mientras `BillingDocumentsTable` ya enlazaba a su detalle por
+    // fila: un enlace vivo en /cobranza que el router no resolvia, y tres fragmentos
+    // que el empaquetador ya pagaba sin que nadie pudiera abrirlos.
+    ...billingDocumentsRoutes,
+    // Primero se cobra, después se cuadra.
+    ...reconciliationRoutes,
+    ...limitsRoutes,
+    // El cupo y lo que se regala, juntos.
+    ...trialsRoutes,
+    ...platformBillingRoutes,
     ...membershipsRoutes,
     ...modulesRoutes,
     ...submodulesRoutes,

@@ -72,6 +72,16 @@ import type {
   CreateCompanyRequest,
   UpdateCompanyRequest,
 } from '../features/companies/types/companies.types'
+import type {
+  CompanyTaxProfileResponse,
+  EconomicActivitySummary,
+  NumberingResolutionResponse,
+  WithholdingConfigDto,
+} from '../features/companies/types/company-fiscal.types'
+import type {
+  CompanyBillingProfileResponse,
+  SucceedCompanyBillingProfileRequest,
+} from '../features/companies/types/company-cession.types'
 import type { SetSystemConfigurationRequest } from '../features/config/types/config.types'
 import type {
   ConsultationTypeResponse,
@@ -134,20 +144,58 @@ import type {
   SubscriptionPaymentResponse,
 } from '../features/billing-operations/types/billing-operations.types'
 import type {
+  BillingDocumentApplicationResponse,
+  BillingDocumentSummary,
+  IssueCreditNoteRequest,
+} from '../features/billing-documents/types/billing-documents.types'
+import type {
+  ApplyBillingDocumentRequest,
+  DocumentWithholdingResponse,
+  RegisterDocumentWithholdingRequest,
+} from '../features/billing-documents/types/document-money.types'
+import type {
+  RecordPaymentAttemptRequest,
+  ReschedulePaymentAttemptRequest,
+  SystemPaymentAttemptResponse,
+} from '../features/billing-operations/types/payment-attempts.types'
+import type {
+  PaymentRefundResponse,
+  RegisterPaymentRefundRequest,
+  SystemPaymentRefundResponse,
+} from '../features/billing-operations/types/payment-refunds.types'
+import type {
+  AcknowledgeReversalRequest,
+  OpenReversalRequest,
+  OpposeReversalRequest,
+  PaymentReversalRequestResponse,
+  ResolveReversalRequest,
+} from '../features/billing-operations/types/payment-reversals.types'
+import type {
+  ConsumeCustomerCreditRequest,
+  CustomerCreditBalanceResponse,
+  CustomerCreditEntryResponse,
+  GrantCustomerCreditRequest,
+} from '../features/billing-operations/types/customer-credit.types'
+import type {
   BundleComponentResponse,
   CatalogItemDependencyResponse,
+  CatalogItemLimitResponse,
   CatalogItemResponse,
   CatalogItemSummary,
   CatalogPriceResponse,
   CreateBundleComponentRequest,
   CreateCatalogItemDependencyRequest,
+  CreateCatalogItemLimitRequest,
   CreateCatalogItemRequest,
   CreateCatalogItemSubModuleRequest,
   CreateCatalogPriceRequest,
   CreatePriceListRequest,
+  LimitPropagationResponse,
   PriceListResponse,
+  PropagateCatalogLimitImprovementRequest,
   UpdateBundleComponentRequest,
   UpdateCatalogItemDependencyRequest,
+  UpdateCatalogItemLimitRequest,
   UpdateCatalogItemRequest,
   UpdateCatalogPriceRequest,
   UpdatePriceListRequest,
@@ -171,7 +219,7 @@ import type {
   AddSubscriptionItemRequest,
   ChangeSubscriptionItemQuantityRequest,
   RemoveSubscriptionItemRequest,
-  SubscriptionItemLineRequest,
+  RequestedSubscriptionItemRequest,
   SubscriptionItemResponse,
 } from '../features/subscriptions-admin/types/subscription-items.types'
 import type {
@@ -197,8 +245,10 @@ import type {
   CreateConfiguratorEffectRequest,
   CreateConfiguratorOptionRequest,
   CreateConfiguratorQuestionRequest,
+  EffectPriorityRequest,
   QuestionnaireOptionResponse,
   QuestionnaireQuestionResponse,
+  ReorderConfiguratorEffectsRequest,
   ResolveConfiguratorSelectionRequest,
   SelectedItemResponse,
   UpdateConfiguratorEffectRequest,
@@ -234,6 +284,41 @@ import type {
   QuoteResponse,
   QuoteSummaryResponse,
 } from '../features/quotes/types/quotes.types'
+import type {
+  CompanyLimitEventResponse,
+  CompanyLimitOverrideResponse,
+  CreateLimitDimensionRequest,
+  EffectiveLimitResponse,
+  GrantCompanyLimitOverrideRequest,
+  LimitDimensionResponse,
+  LimitDimensionSubModuleSummary,
+  RevokeCompanyLimitOverrideRequest,
+  UpdateLimitDimensionRequest,
+} from '../features/limits/types/limits.types'
+import type {
+  AdjustCompanyUsageRequest,
+  CompanyEntitlementSnapshotResponse,
+} from '../features/company-limits/types/company-limits.types'
+import type {
+  CompanyTrialGrantResponse,
+  CompanyTrialWindowResponse,
+  ConsumeTrialGrantRequest,
+  GrantTrialRequest,
+  OpenTrialWindowRequest,
+} from '../features/trials/types/trials.types'
+import type {
+  AttachProviderInvoiceRequest,
+  BankReceiptResponse,
+  ExternalInvoiceReconciliationResponse,
+  GatewaySettlementReconciliationResponse,
+  GatewaySettlementResponse,
+  LinkBankReceiptRequest,
+  MatchExternalInvoiceRequest,
+  OpenExternalInvoiceReconciliationRequest,
+  RegisterBankReceiptRequest,
+  RegisterGatewaySettlementRequest,
+  ResolveExternalInvoiceReconciliationRequest,
+} from '../features/reconciliation/types/reconciliation.types'
 export type Schemas = components['schemas']
 
 /** Lo que el contrato sabe comparar campo a campo. Lo demás se comprueba por su propia atadura. */
@@ -491,6 +576,36 @@ export type ContractAssertions = [
   Expect<MatchesContract<DunningEventResponse, 'DunningEventResponse'>>,
   Expect<MatchesContract<DunningSubscriptionSummary, 'DunningSubscriptionSummary'>>,
   Expect<MatchesContract<DunningBillingDocumentSummary, 'DunningBillingDocumentSummary'>>,
+
+  // El documento de cobro visto como documento (§G2–G4). Los tres esquemas del
+  // bloque del dinero que ninguna pantalla anterior necesitaba.
+  //
+  // `BillingDocumentApplicationResponse` es el que no puede fallar en silencio: es
+  // «qué salda esta factura», y de él sale la explicación de un saldo vivo. Si el
+  // backend renombrara `sourceKind`, la fila no se rompería — se pintaría con el
+  // rótulo de otro origen o sin ninguno, y una retención se leería como un pago.
+  // `appliedAmount` renombrado dejaría la resta «total − aplicado» dando el total
+  // entero, es decir, un documento saldado leyéndose como impagado, que es
+  // exactamente el mecanismo con el que una clínica al día cae a solo lectura.
+  //
+  // `BillingDocumentSummary` es el resumen que traen las aplicaciones para el
+  // documento de origen y el de destino; sin atadura, el enlace a la nota crédito
+  // que salda a esta factura desaparecería en vez de fallar.
+  //
+  // `IssueCreditNoteRequest` se ata aunque su pantalla no esté construida: su
+  // cuerpo son los cargos a acreditar y NO un importe, y esa forma es la garantía
+  // de que nadie pueda escribir aquí un campo de «importe a corregir». Si el
+  // contrato cambiara de forma, se tiene que saber al compilar y no al emitir.
+  Expect<MatchesContract<BillingDocumentApplicationResponse, 'BillingDocumentApplicationResponse'>>,
+  Expect<MatchesContract<BillingDocumentSummary, 'BillingDocumentSummary'>>,
+  Expect<MatchesContract<IssueCreditNoteRequest, 'IssueCreditNoteRequest'>>,
+  Expect<
+    MatchesContract<
+      PageResponse<BillingDocumentApplicationResponse>,
+      'PageResponseBillingDocumentApplicationResponse'
+    >
+  >,
+
   Expect<MatchesContract<CatalogItemResponse, 'CatalogItemResponse'>>,
   Expect<MatchesContract<CatalogPriceResponse, 'CatalogPriceResponse'>>,
   Expect<MatchesContract<CityResponse, 'CityResponse'>>,
@@ -602,7 +717,11 @@ export type ContractAssertions = [
   // sobre el contrato de un tercero, y un campo renombrado se descubriría con un
   // 400 y el operador delante.
   Expect<MatchesContract<SubscriptionItemResponse, 'SubscriptionItemResponse'>>,
-  Expect<MatchesContract<SubscriptionItemLineRequest, 'SubscriptionItemLineRequest'>>,
+  // `AddSubscriptionItemRequest.line` es `RequestedSubscriptionItemRequest` desde el cierre del
+  // defecto de dinero que dejaba fijar el precio del lado del cliente (`unitAmount`, `taxRate`,
+  // `includedQuantity`… viajaban en el cuerpo y el servicio los persistía tal cual). El servidor
+  // ahora resuelve esos campos contra la tarifa del contrato y rechaza que vengan en la petición.
+  Expect<MatchesContract<RequestedSubscriptionItemRequest, 'RequestedSubscriptionItemRequest'>>,
   Expect<MatchesContract<AddSubscriptionItemRequest, 'AddSubscriptionItemRequest'>>,
   Expect<
     MatchesContract<ChangeSubscriptionItemQuantityRequest, 'ChangeSubscriptionItemQuantityRequest'>
@@ -689,4 +808,220 @@ export type ContractAssertions = [
   Expect<MatchesContract<CreateAccessRequestRequest, 'CreateAccessRequestRequest'>>,
   Expect<MatchesContract<InvitationResponse, 'InvitationResponse'>>,
   Expect<MatchesContract<ResolveAccessRequestRequest, 'ResolveAccessRequestRequest'>>,
+
+  // Cupo (§I4/§I5, W3). Los ejes de límite de la plataforma, las excepciones de techo
+  // negociadas con un cliente y el techo efectivo que resuelve el servidor.
+  Expect<MatchesContract<LimitDimensionResponse, 'LimitDimensionResponse'>>,
+  Expect<MatchesContract<LimitDimensionSubModuleSummary, 'LimitDimensionSubModuleSummary'>>,
+  Expect<MatchesContract<CreateLimitDimensionRequest, 'CreateLimitDimensionRequest'>>,
+  Expect<MatchesContract<UpdateLimitDimensionRequest, 'UpdateLimitDimensionRequest'>>,
+  Expect<MatchesContract<CompanyLimitOverrideResponse, 'CompanyLimitOverrideResponse'>>,
+  Expect<MatchesContract<GrantCompanyLimitOverrideRequest, 'GrantCompanyLimitOverrideRequest'>>,
+  Expect<MatchesContract<RevokeCompanyLimitOverrideRequest, 'RevokeCompanyLimitOverrideRequest'>>,
+  Expect<MatchesContract<CompanyLimitEventResponse, 'CompanyLimitEventResponse'>>,
+  Expect<MatchesContract<EffectiveLimitResponse, 'EffectiveLimitResponse'>>,
+
+  // Los cupos de una empresa (§I4/§B8) y su corrección de contador.
+  Expect<MatchesContract<AdjustCompanyUsageRequest, 'AdjustCompanyUsageRequest'>>,
+  Expect<MatchesContract<CompanyEntitlementSnapshotResponse, 'CompanyEntitlementSnapshotResponse'>>,
+
+  // La ventana de prueba de una empresa y sus concesiones (§I5/§C2).
+  Expect<MatchesContract<CompanyTrialGrantResponse, 'CompanyTrialGrantResponse'>>,
+  Expect<MatchesContract<CompanyTrialWindowResponse, 'CompanyTrialWindowResponse'>>,
+  Expect<MatchesContract<OpenTrialWindowRequest, 'OpenTrialWindowRequest'>>,
+
+  // Las dos escrituras del ciclo de una concesión de prueba. Se atan por lo que
+  // se rompe si el backend las mueve, que no es lo mismo en las dos:
+  //
+  // `GrantTrialRequest` — si `daysGranted` dejara de ser obligatorio, esto seguiría
+  // compilando con el campo puesto, pero el día que se renombre el cuerpo saldría sin
+  // él y el borde aceptaría una concesión SIN FECHA DE FIN: la que no caza ningún
+  // recalculo y sobrevive para siempre, sin contrato y sin cargo. Es el peor fallo
+  // silencioso de este slice y la razón de que la atadura no sea opcional.
+  //
+  // `ConsumeTrialGrantRequest` — un `outcome` renombrado cerraría la concesión con el
+  // campo vacío. No fallaría nada: quedaría consumida y muda, que es exactamente el
+  // estado que la pantalla existe para vaciar, y como no hay operación que reescriba
+  // un desenlace, el dato se perdería sin recuperación.
+  Expect<MatchesContract<GrantTrialRequest, 'GrantTrialRequest'>>,
+  Expect<MatchesContract<ConsumeTrialGrantRequest, 'ConsumeTrialGrantRequest'>>,
+
+  // La cesión del contrato (§I11, D-62). Lo que se rompe si el backend los mueve:
+  //
+  // `CompanyBillingProfileResponse` — `validFrom`/`validTo` son el tramo de cada
+  // titular. Si uno de los dos se renombrara, todos los tramos llegarían como
+  // `undefined` y la serie entera se pintaría como «titular actual»: la pantalla
+  // diría que hay cuatro titulares vigentes a la vez, y la pregunta que esta
+  // pestaña existe para contestar —a quién se le factura hoy— dejaría de tener
+  // respuesta sin que fallara nada.
+  //
+  // `SucceedCompanyBillingProfileRequest` — `effectiveFrom` es la línea que parte
+  // la responsabilidad entre el titular saliente y el entrante. Renombrarlo haría
+  // que el cuerpo saliera sin fecha y el borde la eligiera por su cuenta; el
+  // resultado es una cesión con efecto en un día que nadie decidió, y no hay
+  // operación que deshaga una cesión.
+  Expect<MatchesContract<CompanyBillingProfileResponse, 'CompanyBillingProfileResponse'>>,
+  Expect<
+    MatchesContract<SucceedCompanyBillingProfileRequest, 'SucceedCompanyBillingProfileRequest'>
+  >,
+
+  // El perfil fiscal de una empresa y su numeracion (§I7). Los tres campos de
+  // WithholdingConfigDto NO comparten unidad — reteFuente y reteIVA van en por ciento y
+  // reteICA en por mil — y la pantalla pone la unidad a mano: si el contrato renombrara
+  // uno, la tarifa saldria «No declarada» sobre una empresa que si retiene.
+  //
+  // De currentNumber salen las dos cuentas que avisan a una clinica de que se esta
+  // quedando sin numeros, y es el PROXIMO a emitir, no el ultimo. Un renombrado lo deja
+  // en undefined, y undefined menos rangeFrom es NaN: la barra desaparece y el aviso de
+  // agotamiento no se dispara nunca, sin que nada falle.
+  Expect<MatchesContract<CompanyTaxProfileResponse, 'CompanyTaxProfileResponse'>>,
+  Expect<MatchesContract<EconomicActivitySummary, 'EconomicActivitySummary'>>,
+  Expect<MatchesContract<NumberingResolutionResponse, 'NumberingResolutionResponse'>>,
+  Expect<MatchesContract<WithholdingConfigDto, 'WithholdingConfigDto'>>,
+  // Techos de fabrica del catalogo comercial y propagacion de una mejora. El techo que trae
+  // un articulo es lo que despues se convierte en el cupo de la empresa: si el backend
+  // renombrara el valor, el articulo se venderia con el limite en undefined y la empresa
+  // quedaria con un cupo que nadie eligio.
+  Expect<MatchesContract<CatalogItemLimitResponse, 'CatalogItemLimitResponse'>>,
+  Expect<MatchesContract<CreateCatalogItemLimitRequest, 'CreateCatalogItemLimitRequest'>>,
+  Expect<MatchesContract<UpdateCatalogItemLimitRequest, 'UpdateCatalogItemLimitRequest'>>,
+  Expect<
+    MatchesContract<
+      PropagateCatalogLimitImprovementRequest,
+      'PropagateCatalogLimitImprovementRequest'
+    >
+  >,
+  Expect<MatchesContract<LimitPropagationResponse, 'LimitPropagationResponse'>>,
+
+  // Reordenar los efectos del configurador. El orden decide que efecto gana cuando dos tocan
+  // el mismo articulo: un campo renombrado en el cuerpo deja el reordenamiento sin
+  // prioridades y el servidor resuelve por el orden que ya tenia, sin que la pantalla se
+  // entere de que no guardo nada.
+  Expect<MatchesContract<EffectPriorityRequest, 'EffectPriorityRequest'>>,
+  Expect<MatchesContract<ReorderConfiguratorEffectsRequest, 'ReorderConfiguratorEffectsRequest'>>,
+
+  // El resto del circuito del dinero. Cuatro escrituras sobre el documento y cuatro pantallas
+  // de plataforma, todas atadas porque ninguna falla de forma ruidosa: un campo renombrado
+  // aqui no rompe la pantalla, la deja pintando otra cosa.
+  //
+  // DocumentWithholdingResponse es el que mas dano hace en silencio: si el backend renombrara
+  // amount o type, una retencion se registraria sin importe o sin impuesto y el saldo del
+  // documento quedaria vivo, es decir, un cliente que retuvo bien y giro el resto entraria en
+  // mora por una deuda que fiscalmente no existe.
+  //
+  // SystemPaymentAttemptResponse.declineKind gobierna si se ofrece reintentar. Si el contrato
+  // cambiara sus valores, la pantalla ofreceria reprogramar sobre un rechazo duro, que es
+  // exactamente lo que las redes penalizan.
+  //
+  // PaymentReversalRequestResponse guarda las TRES fechas de la figura legal y sus causales
+  // tasadas: renombrar consumerBecameAwareAt dejaria el reloj del consumidor arrancando en la
+  // fecha equivocada sin que nada fallara.
+  //
+  // CustomerCreditEntryResponse.expiresOn es lo unico que avisa de que un lote caduca. Sin
+  // atadura, desapareceria en silencio y el cliente perderia el saldo.
+  Expect<MatchesContract<ApplyBillingDocumentRequest, 'ApplyBillingDocumentRequest'>>,
+  Expect<MatchesContract<DocumentWithholdingResponse, 'DocumentWithholdingResponse'>>,
+  Expect<MatchesContract<RegisterDocumentWithholdingRequest, 'RegisterDocumentWithholdingRequest'>>,
+  Expect<
+    MatchesContract<
+      PageResponse<DocumentWithholdingResponse>,
+      'PageResponseDocumentWithholdingResponse'
+    >
+  >,
+
+  Expect<MatchesContract<SystemPaymentAttemptResponse, 'SystemPaymentAttemptResponse'>>,
+  Expect<MatchesContract<RecordPaymentAttemptRequest, 'RecordPaymentAttemptRequest'>>,
+  Expect<MatchesContract<ReschedulePaymentAttemptRequest, 'ReschedulePaymentAttemptRequest'>>,
+  Expect<
+    MatchesContract<
+      PageResponse<SystemPaymentAttemptResponse>,
+      'PageResponseSystemPaymentAttemptResponse'
+    >
+  >,
+
+  Expect<MatchesContract<SystemPaymentRefundResponse, 'SystemPaymentRefundResponse'>>,
+  Expect<MatchesContract<PaymentRefundResponse, 'PaymentRefundResponse'>>,
+  Expect<MatchesContract<RegisterPaymentRefundRequest, 'RegisterPaymentRefundRequest'>>,
+  Expect<
+    MatchesContract<
+      PageResponse<SystemPaymentRefundResponse>,
+      'PageResponseSystemPaymentRefundResponse'
+    >
+  >,
+  Expect<MatchesContract<PageResponse<PaymentRefundResponse>, 'PageResponsePaymentRefundResponse'>>,
+
+  Expect<MatchesContract<PaymentReversalRequestResponse, 'PaymentReversalRequestResponse'>>,
+  Expect<MatchesContract<OpenReversalRequest, 'OpenReversalRequest'>>,
+  Expect<MatchesContract<AcknowledgeReversalRequest, 'AcknowledgeReversalRequest'>>,
+  Expect<MatchesContract<OpposeReversalRequest, 'OpposeReversalRequest'>>,
+  Expect<MatchesContract<ResolveReversalRequest, 'ResolveReversalRequest'>>,
+  Expect<
+    MatchesContract<
+      PageResponse<PaymentReversalRequestResponse>,
+      'PageResponsePaymentReversalRequestResponse'
+    >
+  >,
+
+  Expect<MatchesContract<CustomerCreditBalanceResponse, 'CustomerCreditBalanceResponse'>>,
+  Expect<MatchesContract<CustomerCreditEntryResponse, 'CustomerCreditEntryResponse'>>,
+  Expect<MatchesContract<GrantCustomerCreditRequest, 'GrantCustomerCreditRequest'>>,
+  Expect<MatchesContract<ConsumeCustomerCreditRequest, 'ConsumeCustomerCreditRequest'>>,
+  Expect<
+    MatchesContract<
+      PageResponse<CustomerCreditBalanceResponse>,
+      'PageResponseCustomerCreditBalanceResponse'
+    >
+  >,
+  Expect<
+    MatchesContract<
+      PageResponse<CustomerCreditEntryResponse>,
+      'PageResponseCustomerCreditEntryResponse'
+    >
+  >,
+
+  // Conciliacion: el cuadre con el facturador externo, las liquidaciones de la pasarela y los
+  // extractos bancarios. Es la ultima linea entre lo que la plataforma cree haber cobrado y lo
+  // que el banco dice que entro, y un campo renombrado aqui no rompe ninguna pantalla: deja el
+  // cuadre dando otro numero, que es peor.
+  Expect<
+    MatchesContract<ExternalInvoiceReconciliationResponse, 'ExternalInvoiceReconciliationResponse'>
+  >,
+  Expect<
+    MatchesContract<
+      OpenExternalInvoiceReconciliationRequest,
+      'OpenExternalInvoiceReconciliationRequest'
+    >
+  >,
+  Expect<MatchesContract<MatchExternalInvoiceRequest, 'MatchExternalInvoiceRequest'>>,
+  Expect<
+    MatchesContract<
+      ResolveExternalInvoiceReconciliationRequest,
+      'ResolveExternalInvoiceReconciliationRequest'
+    >
+  >,
+  Expect<MatchesContract<GatewaySettlementResponse, 'GatewaySettlementResponse'>>,
+  Expect<MatchesContract<RegisterGatewaySettlementRequest, 'RegisterGatewaySettlementRequest'>>,
+  Expect<MatchesContract<AttachProviderInvoiceRequest, 'AttachProviderInvoiceRequest'>>,
+  Expect<MatchesContract<LinkBankReceiptRequest, 'LinkBankReceiptRequest'>>,
+  Expect<
+    MatchesContract<
+      GatewaySettlementReconciliationResponse,
+      'GatewaySettlementReconciliationResponse'
+    >
+  >,
+  Expect<MatchesContract<BankReceiptResponse, 'BankReceiptResponse'>>,
+  Expect<MatchesContract<RegisterBankReceiptRequest, 'RegisterBankReceiptRequest'>>,
+  Expect<
+    MatchesContract<
+      PageResponse<ExternalInvoiceReconciliationResponse>,
+      'PageResponseExternalInvoiceReconciliationResponse'
+    >
+  >,
+  Expect<
+    MatchesContract<
+      PageResponse<GatewaySettlementResponse>,
+      'PageResponseGatewaySettlementResponse'
+    >
+  >,
+  Expect<MatchesContract<PageResponse<BankReceiptResponse>, 'PageResponseBankReceiptResponse'>>,
 ]

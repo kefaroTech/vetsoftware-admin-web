@@ -46,6 +46,36 @@ declare module 'axios' {
      * escriben igual").
      */
     companyId?: number
+
+    /**
+     * <b>Punto de extensión D-91 · el motivo del acceso de soporte. NO existe
+     * todavía, y su ausencia es deliberada.</b>
+     *
+     * `models/modelo-datos-suscripciones.html` (D-91) decidió que soporte SÍ
+     * puede entrar en la cuenta de un cliente, pero que queda constancia de
+     * quién entró, a qué clínica, cuándo y **por qué motivo** — y que se
+     * auditan también las LECTURAS. Hoy no queda ninguna: con la cabecera de
+     * arriba, un usuario de plataforma lee la historia clínica y la cartera de
+     * cualquier empresa sin dejar rastro. La propia fuente lo llama la
+     * exposición mayor del sistema.
+     *
+     * **El backend todavía no acepta ningún motivo.** La única cabecera de
+     * ámbito que lee es `COMPANY_SCOPE_HEADER` (`Authz.java:19`); no hay
+     * ninguna constante de motivo en `src/main/java`, y `api/openapi.json` no
+     * declara más cabecera de petición que `X-Webhook-Signature` (comprobado el
+     * 27-08-2026). Por eso aquí no hay campo, y no lo hay a propósito:
+     * inventarle un nombre a la cabecera sería peor que no mandarla, porque la
+     * pantalla pediría un motivo que el borde descarta y el operador creería
+     * que queda registrado cuando no queda nada.
+     *
+     * Cuando el backend lo publique —seguimiento en
+     * kefaroTech/vetsoftware-backend#634— el cambio es de dos líneas: se
+     * declara el campo aquí y se añade su `headers.set(...)` junto al de
+     * `COMPANY_ID_HEADER`, en el mismo interceptor y con la MISMA regla —
+     * condicional y explícito, nunca inferido de un store—. Y quien lo haga
+     * tiene que pedir el motivo en la pantalla que abre el expediente, no
+     * rellenarlo por defecto: un motivo automático no es constancia de nada.
+     */
   }
   export interface InternalAxiosRequestConfig {
     _retry?: boolean

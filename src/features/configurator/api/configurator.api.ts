@@ -10,6 +10,7 @@ import type {
   CreateConfiguratorQuestionRequest,
   QuestionnaireQuestionResponse,
   ResolveConfiguratorSelectionRequest,
+  ReorderConfiguratorEffectsRequest,
   UpdateConfiguratorEffectRequest,
   UpdateConfiguratorOptionRequest,
   UpdateConfiguratorQuestionRequest,
@@ -120,6 +121,21 @@ export const configuratorEffectsApi = {
   },
   async remove(id: number): Promise<void> {
     await http.delete(`/configurator/effects/${id}`)
+  },
+  /**
+   * Reordena la aplicacion de los efectos: `PUT /configurator/effects/priorities`.
+   *
+   * <p>Devuelve la lista **completa y ya reordenada**, no solo las filas que
+   * viajaron. Se aprovecha: la pantalla se queda con lo que dice el servidor en
+   * vez de reconstruir el orden a partir de lo que creia haber mandado, que es
+   * como se acaba pintando un orden que el backend no guardo.
+   */
+  async reorder(payload: ReorderConfiguratorEffectsRequest): Promise<ConfiguratorEffectResponse[]> {
+    const { data } = await http.put<ConfiguratorEffectResponse[]>(
+      '/configurator/effects/priorities',
+      payload,
+    )
+    return data
   },
 }
 

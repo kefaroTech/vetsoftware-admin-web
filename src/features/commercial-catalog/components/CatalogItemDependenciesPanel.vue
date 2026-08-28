@@ -137,6 +137,28 @@ async function remove(rule: CatalogItemDependencyResponse) {
       </button>
     </template>
 
+    <!-- E8 · Lo que estas reglas hacen HOY, que no es lo que su nombre promete.
+         Tono aviso y no información (§1 de `docs/ux/patron-de-mensajes.md`,
+         pregunta 2): quien las declara se va creyendo que el sistema las
+         aplicará, y la consecuencia —una venta cerrada sin la pieza que
+         «requiere»— no la ve nadie mirando esta pantalla. `role="status"` con
+         `aria-live="polite"`, que es lo que §4.1 fija para el aviso. -->
+    <div class="ds-banner ds-banner--warning" role="status" aria-live="polite">
+      <component :is="ICONS.WARNING" :size="16" class="ds-banner-icon" aria-hidden="true" />
+      <span class="ds-flex-fill ds-stack ds-stack--8">
+        <span class="ds-text-strong">Hoy estas reglas son documentación, no norma.</span>
+        <span>
+          Ningún otro sitio las lee todavía: ni el configurador, ni la cotización, ni la ampliación,
+          ni el recálculo. Se puede vender facturación electrónica sin caja y el contrato queda
+          perfectamente válido.
+        </span>
+        <span>
+          Sirven para que quien arma la oferta sepa qué va con qué; no impiden nada, así que
+          compruébalas a mano antes de cerrar una venta que dependa de ellas.
+        </span>
+      </span>
+    </div>
+
     <!-- El servidor rechazó un alta porque cerraría un bucle. Se pinta la ruta
          completa: es lo que dice qué arco sobra. -->
     <div v-if="dependencyCycle !== null" class="ds-banner ds-banner--error" role="alert">

@@ -18,9 +18,20 @@ import type { SubscriptionStatus } from './subscriptions-admin.types'
  * desplegable con los seis</b> (§3.4.2): expone transiciones con nombre según
  * el estado actual. Ver `SUBSCRIPTION_STATUS_TRANSITIONS`.
  *
- * <p>`reason` es opcional en el contrato y <b>obligatorio en la interfaz</b>:
- * el modelo lo describe como «información de negocio, no burocracia», y es la
- * única fuente que explica por qué una cuenta cambió de estado.
+ * <p><b>`reason` es vocabulario cerrado, obligatorio en el contrato y en la
+ * interfaz.</b> Era un `String` libre de hasta 255 caracteres que el
+ * controlador pasaba tal cual al canal de auditoría: un operador podía colar
+ * saltos de línea y fabricar entradas de bitácora que parecieran de otro
+ * evento (log injection, ASVS V7.3.1). Ahora es
+ * `SubscriptionStatusChangeReason`, el mismo enum que
+ * `com.vetsoftware.app.subscription.domain.SubscriptionStatusChangeReason` del
+ * backend: cualquier valor fuera de la lista lo rechaza el propio
+ * deserializador con un 400. <b>Viaja por el nombre del enum en mayúsculas</b>
+ * —igual que `status`—, no por su `code()` en minúsculas, que es solo la forma
+ * en que queda escrito en la bitácora. `api/openapi.json` todavía no se ha
+ * regenerado tras el cambio del backend y sigue describiendo el DTO viejo
+ * (`reason` opcional, `string`, máx. 255): no es la fuente de verdad de este
+ * campo, el enum de Java lo es.
  *
  * <p>`actor` NO lo escribe el operador. El controller ya deriva del principal
  * quién firma la enmienda (`authz.currentSystemUserIdOrNull()`); un campo de
@@ -29,9 +40,24 @@ import type { SubscriptionStatus } from './subscriptions-admin.types'
  */
 export interface ChangeSubscriptionStatusRequest {
   status: SubscriptionStatus
-  reason?: string
+  reason: SubscriptionStatusChangeReason
   actor?: string
 }
+
+/**
+ * Vocabulario cerrado de seis valores, calcado del enum de dominio del
+ * backend (`SubscriptionStatusChangeReason.java`). El nombre en mayúsculas es
+ * la forma en que viaja por HTTP; las etiquetas en español para el operador
+ * viven en `SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL`
+ * (`composables/subscriptionStatusText.ts`), no aquí.
+ */
+export type SubscriptionStatusChangeReason =
+  | 'OVERDUE_BALANCE'
+  | 'PAYMENT_RECEIVED'
+  | 'TRIAL_ENDED'
+  | 'CANCELLATION_EFFECTIVE'
+  | 'PERIOD_EXPIRED'
+  | 'MANUAL'
 
 /**
  * `PATCH /subscriptions/{id}/cancel`, con sus <b>dos</b> fechas (§3.4.4).

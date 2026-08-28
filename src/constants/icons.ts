@@ -23,8 +23,10 @@ import {
   EyeOff,
   FileText,
   Fish,
+  Gauge,
   Globe,
   History,
+  Hourglass,
   Inbox,
   Info,
   Key,
@@ -39,10 +41,12 @@ import {
   PawPrint,
   Pencil,
   Pill,
+  Files,
   Plus,
   Receipt,
   Replace,
   RotateCcw,
+  Scale,
   ScanLine,
   Search,
   Settings,
@@ -84,6 +88,19 @@ export const ICONS = {
   QUOTE: FileText,
   PLATFORM_BILLING: Banknote,
   SUBSCRIPTION: Replace,
+  /** El cupo se deriva del contrato y se cobra después: entre «Contratos» y «Cobranza». */
+  LIMIT: Gauge,
+  /**
+   * Ventanas de prueba y concesiones. Un reloj de arena y no un calendario: lo
+   * que define una ventana de prueba es que **se acaba**, y la pantalla existe
+   * para ver a quién se le está acabando hoy.
+   */
+  TRIAL: Hourglass,
+  /**
+   * Conciliación. Una balanza, porque la pregunta de esas tres pestañas es una
+   * sola: «¿cuadra lo mío con lo de fuera?» (§2.2 de la ampliación).
+   */
+  RECONCILIATION: Scale,
   MODULE: LayoutGrid,
   SUBMODULE: Component,
   BASE_PERMISSION: Key,
@@ -125,6 +142,9 @@ export const ICONS = {
 
   SETTINGS: Settings,
   RECEIPT: Receipt,
+  // El documento de cobro con su circuito. Files y no FileText: son varios
+  // documentos encadenados -la nota credito corrige a la factura-, no una hoja.
+  BILLING_DOCUMENT: Files,
   HISTORY: History,
 
   USER: User,

@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { ICONS } from '@/constants/icons'
 import { subscriptionRecordTabs } from '@/router/routes/subscriptions-admin.routes'
-import { CAPACITY_UNIT_TITLE, capacityText } from '../../composables/entitlementText'
+import { capacityText, capacityTitle } from '../../composables/entitlementText'
 import type { CompanyCapacityResponse } from '../../types/entitlements.types'
 
 /**
@@ -66,7 +66,7 @@ function limitOf(capacity: CompanyCapacityResponse): number | null {
     <ul v-else class="ds-list-reset ds-stack ds-stack--14">
       <li v-for="capacity in capacities" :key="capacity.id" class="ds-stack ds-stack--8">
         <label class="ds-label" :for="`capacidad-${capacity.id}`">
-          {{ CAPACITY_UNIT_TITLE[capacity.capacityUnit] }}
+          {{ capacityTitle(capacity.dimensionCode) }}
         </label>
 
         <progress
@@ -87,7 +87,7 @@ function limitOf(capacity: CompanyCapacityResponse): number | null {
           <component :is="ICONS.WARNING" :size="15" class="ds-banner-icon" />
           <span class="ds-flex-fill">
             Se agotó. La empresa no puede añadir más
-            {{ CAPACITY_UNIT_TITLE[capacity.capacityUnit].toLowerCase() }} hasta que se amplíe la
+            {{ capacityTitle(capacity.dimensionCode).toLowerCase() }} hasta que se amplíe la
             cantidad contratada. Lo que ya tiene sigue funcionando.
           </span>
           <RouterLink

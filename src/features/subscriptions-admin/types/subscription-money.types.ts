@@ -31,13 +31,20 @@ import type {
  */
 
 /**
- * Los cinco tipos de cargo del contrato.
+ * Los seis tipos de cargo del contrato.
  *
  * <p>`CREDIT` y `DISCOUNT` existen y hoy no se emiten desde esta consola; se
  * declaran porque el enum del backend los trae y una fila con un valor sin rótulo
  * pintaría el valor crudo, que es lo que §4.4.2 prohíbe.
+ *
+ * <p>`OVERAGE` es el sexto y el más reciente. Esta unión es <b>cerrada</b> y
+ * `CHARGE_TYPE_PRESENTATION` la recorre de forma <b>exhaustiva</b>: añadir el valor
+ * al backend sin añadirlo aquí deja de compilar, que es exactamente lo que se
+ * quiere. Es la barandilla que impide que un cargo llegue a la pantalla sin
+ * rótulo.
  */
-export type SubscriptionChargeType = 'RECURRING' | 'PRORATION' | 'ONE_TIME' | 'CREDIT' | 'DISCOUNT'
+export type SubscriptionChargeType =
+  'RECURRING' | 'PRORATION' | 'ONE_TIME' | 'CREDIT' | 'DISCOUNT' | 'OVERAGE'
 
 /**
  * El estado de un cargo, que es la mitad de la frontera entre <b>devengar</b> y
@@ -197,6 +204,15 @@ export const CHARGE_TYPE_PRESENTATION: Record<SubscriptionChargeType, ChargeType
   DISCOUNT: {
     label: 'Descuento',
     meaning: 'Una rebaja aplicada sobre lo devengado. Resta, y por eso su importe es negativo.',
+  },
+  // El rótulo NO dice «exceso» ni «penalización»: el excedente solo se cobra a
+  // quien contrató el derecho a pasarse del cupo, así que es consumo vendido, no
+  // una sanción. Llamarlo penalización en la factura de un cliente que compró
+  // justamente esa flexibilidad es una reclamación asegurada.
+  OVERAGE: {
+    label: 'Excedente',
+    meaning:
+      'El consumo por encima del cupo contratado, en las suscripciones que compraron el derecho a superarlo. Se cobra por lo efectivamente usado de más, y por eso su importe es positivo.',
   },
 }
 

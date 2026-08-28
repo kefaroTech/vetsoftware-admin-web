@@ -2,8 +2,8 @@
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
+import CompanyRef from '@/components/ui/CompanyRef.vue'
 import { formatDate } from '@/composables/format'
-import CompanyRef from './CompanyRef.vue'
 import { formatPaymentAmount } from '../composables/billingFormat'
 import {
   PAYMENT_METHOD_LABEL,

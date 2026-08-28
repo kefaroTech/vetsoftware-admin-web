@@ -25,6 +25,10 @@ import { ICONS } from '@/constants/icons'
  */
 const TABS = [
   { path: '/configurador/cuestionario', label: 'Editar el cuestionario' },
+  // Tercera sub-vista: el orden de aplicación de los efectos. Va entre editar y
+  // probar porque ese es el recorrido — se cambia una regla, se comprueba quién
+  // manda, y solo entonces se prueba el resultado contra un escenario.
+  { path: '/configurador/orden', label: 'El orden de los efectos' },
   { path: '/configurador/probar', label: 'Probarlo' },
 ]
 </script>

@@ -4,7 +4,10 @@ import type {
   SubscriptionResponse,
   SubscriptionStatus,
 } from '../types/subscriptions-admin.types'
-import type { SubscriptionStatusTransition } from '../types/subscription-record.types'
+import type {
+  SubscriptionStatusChangeReason,
+  SubscriptionStatusTransition,
+} from '../types/subscription-record.types'
 
 /**
  * El vocabulario del estado de una cuenta, fijado en §3.4 de
@@ -43,6 +46,33 @@ export const BILLING_CYCLE_LABEL: Record<BillingCycle, string> = {
   MONTHLY: 'Mensual',
   ANNUAL: 'Anual',
 }
+
+/**
+ * El motivo de un cambio de estado, en castellano legible para el operador. El
+ * valor que viaja por HTTP es la clave de este mapa —el nombre del enum de
+ * `SubscriptionStatusChangeReason` en mayúsculas—; esto es solo lo que se lee
+ * en el desplegable de `StatusTransitionModal.vue` (§ vocabulario cerrado,
+ * antes texto libre — ver `subscription-record.types.ts`).
+ */
+export const SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL: Record<
+  SubscriptionStatusChangeReason,
+  string
+> = {
+  OVERDUE_BALANCE: 'Saldo vencido',
+  PAYMENT_RECEIVED: 'Pago recibido',
+  TRIAL_ENDED: 'Fin del periodo de prueba',
+  CANCELLATION_EFFECTIVE: 'Fecha efectiva de la baja',
+  PERIOD_EXPIRED: 'Periodo vencido sin renovar',
+  MANUAL: 'Decisión manual de plataforma',
+}
+
+/** Las mismas seis, listas para `AppSelect`. El orden es el del enum de Java. */
+export const SUBSCRIPTION_STATUS_CHANGE_REASON_OPTIONS: {
+  value: SubscriptionStatusChangeReason
+  label: string
+}[] = (
+  Object.keys(SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL) as SubscriptionStatusChangeReason[]
+).map((value) => ({ value, label: SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL[value] }))
 
 /**
  * Días de cortesía que le quedan a una cuenta vencida.

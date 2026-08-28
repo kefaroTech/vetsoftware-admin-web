@@ -33,11 +33,28 @@ import { PERMISSIONS } from '@/constants/permissions'
  * `SystemUserContext` y recibe `ROLE_SYSTEM` sin que se miren sus permisos. Esto
  * documenta la intención, no restringe el acceso.
  */
+/**
+ * <p><b>Las cuatro pestañas del circuito del dinero</b> —devoluciones, intentos de
+ * cobro, reversiones y saldo a favor— entran como hermanas de las cuatro
+ * originales, y no como una sección aparte, por un motivo de trabajo y no de
+ * ordenación: quien mira un documento vencido tiene que poder saltar a los intentos
+ * de cobro que fallaron sobre él sin cambiar de pantalla. Son ocho rutas de la
+ * misma cosa: el dinero de la plataforma.
+ *
+ * <p>Ninguna lleva `meta.permission` por la misma razón que las tres primeras: sus
+ * endpoints de `/system/**` solo exigen `hasRole('SYSTEM')`, y poner un código de
+ * permiso inventado rompería el día en que `hasPermission()` deje de ser un atajo
+ * universal sin gatear a nadie hoy.
+ */
 export const BILLING_ROUTE_NAMES = {
   AWAITING_EXTERNAL: 'billing-awaiting-external',
   OVERDUE: 'billing-overdue',
   PAYMENTS: 'billing-payments',
   DUNNING: 'billing-dunning',
+  REFUNDS: 'billing-refunds',
+  ATTEMPTS: 'billing-attempts',
+  REVERSALS: 'billing-reversals',
+  CUSTOMER_CREDIT: 'billing-customer-credit',
 } as const
 
 export const billingOperationsRoutes: RouteRecordRaw[] = [
@@ -68,6 +85,26 @@ export const billingOperationsRoutes: RouteRecordRaw[] = [
         name: BILLING_ROUTE_NAMES.DUNNING,
         component: () => import('@/features/billing-operations/views/DunningEventsView.vue'),
         meta: { permission: PERMISSIONS.DUNNING_EVENT_READ },
+      },
+      {
+        path: 'intentos',
+        name: BILLING_ROUTE_NAMES.ATTEMPTS,
+        component: () => import('@/features/billing-operations/views/PaymentAttemptsView.vue'),
+      },
+      {
+        path: 'devoluciones',
+        name: BILLING_ROUTE_NAMES.REFUNDS,
+        component: () => import('@/features/billing-operations/views/PaymentRefundsView.vue'),
+      },
+      {
+        path: 'reversiones',
+        name: BILLING_ROUTE_NAMES.REVERSALS,
+        component: () => import('@/features/billing-operations/views/PaymentReversalsView.vue'),
+      },
+      {
+        path: 'saldo-a-favor',
+        name: BILLING_ROUTE_NAMES.CUSTOMER_CREDIT,
+        component: () => import('@/features/billing-operations/views/CustomerCreditView.vue'),
       },
     ],
   },

@@ -89,7 +89,7 @@ defineExpose({ validate, isDirty })
 
 <template>
   <form class="ds-stack ds-stack--16" @submit.prevent="submit">
-    <div class="grid">
+    <div class="ds-grid-2">
       <AppInput
         v-model="form.code"
         label="Código"
@@ -106,7 +106,7 @@ defineExpose({ validate, isDirty })
         @blur="touch('name')"
       />
     </div>
-    <div class="grid grid--dates">
+    <div class="ds-grid-2 grid--dates">
       <AppInput
         v-model="form.currency"
         label="Moneda"
@@ -144,12 +144,8 @@ defineExpose({ validate, isDirty })
 </template>
 
 <style scoped>
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-12);
-}
-
+/* La rejilla de 2 columnas es `.ds-grid-2` (primitives.css); `.grid--dates`
+   solo pisa las columnas donde necesita 3 (FE-08). */
 .grid--dates {
   grid-template-columns: 0.7fr 1fr 1fr;
 }
@@ -159,7 +155,6 @@ defineExpose({ validate, isDirty })
 }
 
 @media (width <= 680px) {
-  .grid,
   .grid--dates {
     grid-template-columns: 1fr;
   }
