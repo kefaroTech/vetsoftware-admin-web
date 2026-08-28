@@ -89,12 +89,29 @@ export const navGroups: NavGroup[] = [
         path: '/suscripciones',
         icon: ICONS.SUBSCRIPTION,
       },
+      // El cupo se deriva del contrato y se cobra después: va entre los dos.
+      { label: 'Cupos y límites', path: '/limites', icon: ICONS.LIMIT },
+      // Las pruebas van pegadas al cupo, no al contrato: §2 de la ampliación las
+      // agrupa por la misma tarea —gobernar lo que se vende y lo que se regala— y
+      // una ventana de prueba se lee como un techo con fecha de caducidad.
+      { label: 'Pruebas y concesiones', path: '/pruebas', icon: ICONS.TRIAL },
       {
         name: ROUTE_NAMES.BILLING_OPERATIONS,
         label: 'Cobranza',
         path: '/cobranza',
         icon: ICONS.RECEIPT,
       },
+      // El documento de cobro con su circuito de estados. Va pegada a Cobranza
+      // porque es la misma tarea vista desde el otro lado: alli se persigue lo que
+      // falta por cobrar, aqui se mira un documento concreto para entenderlo.
+      { label: 'Documentos de cobro', path: '/documentos', icon: ICONS.BILLING_DOCUMENT },
+      // Cierra la cadena, y por eso va la última: primero se cobra, después se
+      // cuadra. §2 de la ampliación la pone en un grupo «Dinero» junto a Cobranza;
+      // ese grupo no existe todavía —el menú son cuatro grupos y `sidebar-nav-a11y`
+      // lo sujeta—, así que aterriza donde la especificación la deja: pegada a
+      // Cobranza. La cabecera de `reconciliation.routes.ts` proponía «Sistema»,
+      // escrita antes de que §2.2 repartiera estas pantallas por tarea.
+      { label: 'Conciliación', path: '/conciliacion', icon: ICONS.RECONCILIATION },
     ],
   },
   {
