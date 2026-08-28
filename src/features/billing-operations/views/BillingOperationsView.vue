@@ -3,7 +3,15 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import { BILLING_ROUTE_NAMES } from '@/router/routes/billing-operations.routes'
 
 /**
- * El armazón de `/cobranza`: encabezado, las cuatro pestañas y poco más.
+ * El armazón de `/cobranza`: encabezado, las ocho pestañas y poco más.
+ *
+ * <p><b>Eran cuatro y ahora son ocho</b>: el circuito del dinero añadió intentos de
+ * cobro, devoluciones, reversiones y saldo a favor. Van aquí y no en una sección
+ * propia porque son el mismo trabajo — quien mira un documento vencido tiene que
+ * poder saltar a los intentos que fallaron sobre él sin cambiar de pantalla.
+ * «Intentos de cobro» va junto a «Pagos» y antes de «Gestión de mora» a propósito:
+ * ese es el orden real de los hechos, y un intento fallido por <b>error nuestro</b>
+ * no debería llegar nunca a la pestaña siguiente.
  *
  * <p><b>`/cobranza` abre en «Pendiente de facturar», no en un resumen.</b> El
  * motivo está en el modelo: los documentos atascados esperando la referencia
@@ -27,7 +35,11 @@ const TABS = [
   { name: BILLING_ROUTE_NAMES.AWAITING_EXTERNAL, label: 'Pendiente de facturar' },
   { name: BILLING_ROUTE_NAMES.OVERDUE, label: 'Vencidos' },
   { name: BILLING_ROUTE_NAMES.PAYMENTS, label: 'Pagos' },
+  { name: BILLING_ROUTE_NAMES.ATTEMPTS, label: 'Intentos de cobro' },
   { name: BILLING_ROUTE_NAMES.DUNNING, label: 'Gestión de mora' },
+  { name: BILLING_ROUTE_NAMES.REFUNDS, label: 'Devoluciones' },
+  { name: BILLING_ROUTE_NAMES.REVERSALS, label: 'Reversiones' },
+  { name: BILLING_ROUTE_NAMES.CUSTOMER_CREDIT, label: 'Saldo a favor' },
 ] as const
 </script>
 
