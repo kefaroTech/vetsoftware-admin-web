@@ -20,6 +20,13 @@
 >
 > Fecha: 2026-08-23 · Contrato de referencia: `VetSoftware/api/openapi.json` (366 rutas).
 > Issue de inventario: [admin-web #145](https://github.com/kefaroTech/vetsoftware-admin-web/issues/145).
+>
+> **Alcance de este documento: las capas A–H del modelo** — lo que ya existe en el backend. Las
+> siete capas de la ampliación (I a P: prueba gratuita con ventana, límites, cobrar en Colombia,
+> prueba documental, contabilidad, puente al contador y cumplimiento) tienen su propia
+> especificación, que continúa esta y su numeración de ondas:
+> [`suscripciones-consola-ampliacion-especificacion.md`](suscripciones-consola-ampliacion-especificacion.md).
+> **Aviso para quien reparta trabajo: W1-A sigue sin hacerse y bloquea la onda 5 de aquella.**
 
 ---
 

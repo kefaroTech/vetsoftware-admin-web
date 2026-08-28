@@ -260,3 +260,123 @@ export const RELATION_TYPE_LABEL: Record<RelationType, string> = {
   RECOMMENDS: 'Recomienda',
   EXCLUDES: 'Excluye',
 }
+
+// ───────────────────────────────────────────────────────────────────────────
+// Los techos de fábrica de un artículo (`/catalog-items/{id}/limits`)
+//
+// Qué cupo concede un artículo sobre cada eje —mascotas, citas, usuarios,
+// sedes— y con qué dureza se hace cumplir. Se llaman «de fábrica» porque son el
+// valor con el que nace el producto: lo que la empresa acaba teniendo puede ser
+// más, si se le negoció una excepción, pero nunca sale de la nada.
+//
+// El eje (`limitDimensionId`) y su tipo de medida son de `features/limits`; aquí
+// solo se declara la fila que ATA un artículo a un eje. `LimitDimensionResponse`
+// NO se redeclara: se importa de allí, que es donde vive su pantalla.
+// ───────────────────────────────────────────────────────────────────────────
+
+/** Cómo se cuenta el consumo del eje. Lo fija el eje, no el artículo. */
+export type LimitMeasureKind = 'STOCK' | 'CUMULATIVE' | 'FLOW'
+
+/** `FULL` = sin techo; `LIMITED` = hasta la cantidad declarada. */
+export type LimitMode = 'FULL' | 'LIMITED'
+
+/** Cada cuánto vuelve a cero un eje acumulativo. `null` en los que no se reinician. */
+export type LimitResetPeriod = 'MONTH' | 'QUARTER' | 'SEMESTER'
+
+/**
+ * Qué pasa cuando se llega al techo. **No es un matiz**: `WARN` deja seguir,
+ * `BLOCK` para la operación de la clínica, `READ_ONLY` la deja mirar sin
+ * escribir y `OVERAGE` sigue dejando trabajar y lo cobra aparte.
+ */
+export type LimitEnforcement = 'WARN' | 'BLOCK' | 'READ_ONLY' | 'OVERAGE'
+
+export interface CatalogItemLimitResponse {
+  id: number
+  catalogItemId: number
+  limitDimensionId: number
+  measureKind: LimitMeasureKind
+  mode: LimitMode
+  /** `null` cuando `mode` es `FULL`: no hay techo, y un cero aquí sería mentira. */
+  limitQuantity: number | null
+  resetPeriod: LimitResetPeriod | null
+  enforcement: LimitEnforcement
+  /** Solo tiene sentido con `enforcement: OVERAGE`. */
+  overageUnitAmount: number | null
+  /** Porcentaje del techo a partir del cual se avisa. 1–100. */
+  warnThreshold: number
+  /** El techo **durante la prueba**, que puede ser distinto del de pago. */
+  trialMode: LimitMode
+  trialLimitQuantity: number | null
+  createdDate: string
+}
+
+export interface CreateCatalogItemLimitRequest {
+  limitDimensionId: number
+  mode: LimitMode
+  limitQuantity: number | null
+  resetPeriod: LimitResetPeriod | null
+  enforcement: LimitEnforcement
+  overageUnitAmount: number | null
+  warnThreshold: number
+  trialMode: LimitMode
+  trialLimitQuantity: number | null
+}
+
+/** El eje no se cambia: atar el techo a otro eje es otra fila, no la misma. */
+export type UpdateCatalogItemLimitRequest = Omit<CreateCatalogItemLimitRequest, 'limitDimensionId'>
+
+/**
+ * `POST /system/subscription-item-limits/propagations` — llevar una mejora de
+ * techo a los contratos que ya están firmados.
+ *
+ * <p><b>Las mejoras se propagan y los recortes no</b>, y no es una preferencia de
+ * la pantalla: es lo que hace el backend. Quien firmó con cien conserva sus cien
+ * aunque la fábrica baje a cincuenta, porque su cupo se congeló al firmar. Por
+ * eso la respuesta cuenta `improvedContracts` y no «contratos actualizados»: los
+ * que no mejoran no se tocan.
+ */
+export interface PropagateCatalogLimitImprovementRequest {
+  catalogItemId: number
+  limitDimensionId: number
+  factoryMode: LimitMode
+  /** `null` cuando `factoryMode` es `FULL`: pasar a sin techo es la mejora máxima. */
+  factoryLimitQuantity: number | null
+}
+
+export interface LimitPropagationResponse {
+  /** Cuántos contratos vivos se quedaron con un techo mejor del que tenían. */
+  improvedContracts: number
+}
+
+export const LIMIT_MODE_OPTIONS: { value: LimitMode; label: string }[] = [
+  { value: 'FULL', label: 'Sin techo' },
+  { value: 'LIMITED', label: 'Hasta una cantidad' },
+]
+
+export const LIMIT_RESET_PERIOD_OPTIONS: { value: LimitResetPeriod | ''; label: string }[] = [
+  { value: '', label: 'No se reinicia' },
+  { value: 'MONTH', label: 'Cada mes' },
+  { value: 'QUARTER', label: 'Cada trimestre' },
+  { value: 'SEMESTER', label: 'Cada semestre' },
+]
+
+export const LIMIT_ENFORCEMENT_OPTIONS: { value: LimitEnforcement; label: string }[] = [
+  { value: 'WARN', label: 'Avisar y dejar seguir' },
+  { value: 'BLOCK', label: 'Bloquear' },
+  { value: 'READ_ONLY', label: 'Dejar solo lectura' },
+  { value: 'OVERAGE', label: 'Dejar seguir y cobrar el exceso' },
+]
+
+/** Qué le pasa de verdad a la clínica al tocar el techo. Va junto al rótulo. */
+export const LIMIT_ENFORCEMENT_MEANING: Record<LimitEnforcement, string> = {
+  WARN: 'la clínica ve un aviso y sigue trabajando igual',
+  BLOCK: 'la clínica no puede añadir más de eso hasta que amplíe',
+  READ_ONLY: 'la clínica puede consultar lo que tiene, pero no crear más',
+  OVERAGE: 'la clínica sigue trabajando y el exceso se le factura aparte',
+}
+
+export const LIMIT_MEASURE_KIND_LABEL: Record<LimitMeasureKind, string> = {
+  STOCK: 'Existencia',
+  CUMULATIVE: 'Acumulado',
+  FLOW: 'Flujo',
+}

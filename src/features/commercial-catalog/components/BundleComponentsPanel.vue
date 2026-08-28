@@ -140,6 +140,22 @@ async function remove(row: BundleComponentResponse) {
       </button>
     </template>
 
+    <!--
+      Aviso permanente, no una interrupción: `role="status"` y no `role="alert"`
+      (docs/ux/patron-de-mensajes.md §4). Lo que dice no es evidente y es la
+      diferencia entre editar tranquilo y no atreverse a tocar el paquete: la
+      composición de un paquete se CONGELA al firmar, así que lo de aquí decide
+      lo que trae la PRÓXIMA venta y no toca ni un contrato vivo.
+    -->
+    <p class="ds-banner ds-banner--info" role="status">
+      <component :is="ICONS.INFO" :size="16" class="ds-banner-icon" aria-hidden="true" />
+      <span>
+        <strong>Editar esto no afecta a los contratos que ya están firmados.</strong> La composición
+        del paquete se congela al firmar: cada suscripción viva conserva las piezas y las cantidades
+        con las que se vendió. Lo que se cambia aquí es lo que traerá la próxima cotización.
+      </span>
+    </p>
+
     <AppTable
       :headers="['Pieza', 'Cantidad', 'Acciones']"
       :empty="components.length === 0"

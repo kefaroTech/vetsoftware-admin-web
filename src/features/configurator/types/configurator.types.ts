@@ -94,6 +94,8 @@ export interface ConfiguratorEffectResponse {
   catalogItemId: number
   effect: ConfiguratorEffectType
   quantity: number | null
+  /** Orden de aplicación, ascendente. A igualdad, desempata el id. */
+  priority: number
   createdDate: string
   enabled: boolean
 }
@@ -187,3 +189,23 @@ export const EFFECT_TYPE_OPTIONS: { value: ConfiguratorEffectType; label: string
   { value: 'SET_QUANTITY', label: 'fija la cantidad de' },
   { value: 'QUANTITY_FROM_ANSWER', label: 'fija la cantidad, con el número del cliente, de' },
 ]
+
+/**
+ * Una fila del reordenamiento: «este efecto pasa a aplicarse en esta posición».
+ *
+ * <p>`priority` es el orden **de aplicación, ascendente**, y el backend lo acota
+ * a `0..9999` (`@Min`/`@Max` de `EffectPriorityRequest`). A igualdad de
+ * prioridad desempata el `id`, así que dos efectos con el mismo número no son un
+ * empate irresoluble — pero tampoco un orden que nadie eligió, y por eso la
+ * pantalla renumera siempre la lista entera en vez de mandar solo lo que se
+ * movió.
+ */
+export interface EffectPriorityRequest {
+  effectId: number
+  priority: number
+}
+
+/** `PUT /configurator/effects/priorities` — cuerpo. `minItems: 1` en el contrato. */
+export interface ReorderConfiguratorEffectsRequest {
+  priorities: EffectPriorityRequest[]
+}

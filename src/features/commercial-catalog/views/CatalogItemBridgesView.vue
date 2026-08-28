@@ -7,6 +7,7 @@ import AppBadge from '@/components/ui/AppBadge.vue'
 import { formatDate } from '@/composables/format'
 import BundleComponentsPanel from '../components/BundleComponentsPanel.vue'
 import CatalogItemDependenciesPanel from '../components/CatalogItemDependenciesPanel.vue'
+import CatalogItemLimitsPanel from '../components/CatalogItemLimitsPanel.vue'
 import CatalogItemSubModulesPanel from '../components/CatalogItemSubModulesPanel.vue'
 import { useCatalogItemBridges } from '../composables/useCatalogItemBridges'
 import {
@@ -155,6 +156,11 @@ watch(itemId, reload)
       </section>
 
       <CatalogItemSubModulesPanel :item-id="item.id" :item-name="item.name" />
+      <!-- Cuarta pregunta sobre el mismo artículo, y de la misma familia que las
+           otras tres: qué abre, qué exige, qué trae y **cuánto cupo concede**. Un
+           artículo que se vende y no concede nada se cobra sin ampliar nada, que
+           es el mismo defecto que un MODULE sin submódulos puenteados. -->
+      <CatalogItemLimitsPanel :item-id="item.id" :item-name="item.name" />
       <CatalogItemDependenciesPanel :item-id="item.id" :item-name="item.name" />
       <BundleComponentsPanel v-if="isBundle" :bundle-item-id="item.id" :item-name="item.name" />
     </div>

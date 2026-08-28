@@ -40,6 +40,17 @@ export const useConfiguratorStore = defineStore('configurator', () => {
   /** `true` si el servidor tiene más filas de las que este editor pinta. Ver `MAX_ROWS`. */
   const truncated = ref(false)
 
+  /**
+   * El orden de aplicación que el operador está **arreglando**, como lista de
+   * ids de efecto — todavía sin guardar.
+   *
+   * <p>Vive en el store y no en un `ref` de la vista porque la pantalla del
+   * orden y la del cuestionario comparten los mismos efectos: si se reordena,
+   * se navega a editar una respuesta y se vuelve, el trabajo a medias tiene que
+   * seguir ahí. Vacío = no hay borrador y se pinta el orden guardado.
+   */
+  const effectOrderDraft = ref<number[]>([])
+
   // --- Probar -------------------------------------------------------------
   const questionnaire = ref<QuestionnaireQuestionResponse[]>([])
   const answers = ref<ConfiguratorAnswerState>(emptyAnswers())
@@ -77,6 +88,23 @@ export const useConfiguratorStore = defineStore('configurator', () => {
     optionsByQuestion.value = payload.optionsByQuestion
     effects.value = payload.effects
     truncated.value = payload.truncated
+  }
+
+  /**
+   * Reemplaza los efectos con lo que devuelve el servidor tras reordenar, sin
+   * tocar preguntas ni respuestas: el reordenamiento no las cambia y recargarlo
+   * todo haría parpadear la pantalla entera por un cambio de tres números.
+   */
+  function setEffects(value: ConfiguratorEffectResponse[]) {
+    effects.value = value
+  }
+
+  function setEffectOrderDraft(ids: number[]) {
+    effectOrderDraft.value = ids
+  }
+
+  function clearEffectOrderDraft() {
+    effectOrderDraft.value = []
   }
 
   function setCatalogItems(items: CatalogItemResponse[]) {
@@ -147,6 +175,7 @@ export const useConfiguratorStore = defineStore('configurator', () => {
     editorError,
     editorErrorTraceId,
     truncated,
+    effectOrderDraft,
     questionnaire,
     answers,
     selection,
@@ -162,6 +191,9 @@ export const useConfiguratorStore = defineStore('configurator', () => {
     optionById,
     catalogItemById,
     setEditorData,
+    setEffects,
+    setEffectOrderDraft,
+    clearEffectOrderDraft,
     setCatalogItems,
     setEditorLoading,
     setEditorError,

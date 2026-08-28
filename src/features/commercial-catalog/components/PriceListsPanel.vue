@@ -1,17 +1,24 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { Archive, CircleDollarSign, Pencil, Plus, Power, Send } from 'lucide-vue-next'
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
+import { formatDate } from '@/composables/format'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
 import CatalogPriceForm from './CatalogPriceForm.vue'
 import PriceListForm from './PriceListForm.vue'
 import PriceListPricesPanel from './PriceListPricesPanel.vue'
+import PriceListValidityNotice from './PriceListValidityNotice.vue'
+import PriceListCoveragePanel from './PriceListCoveragePanel.vue'
+import PublishPriceListModal from './PublishPriceListModal.vue'
+import TierSimulatorPanel from './TierSimulatorPanel.vue'
 import { useCommercialCatalog } from '../composables/useCommercialCatalog'
+import { usePriceListPublishing } from '../composables/usePriceListPublishing'
+import { businessToday, priceListEffectiveness } from '../composables/priceListValidity'
 import type {
   CatalogPriceResponse,
   CreateCatalogPriceRequest,
@@ -80,9 +87,38 @@ const selectedListIsDraft = computed(
   () => selectedPriceList.value?.status === 'DRAFT' && selectedPriceList.value.enabled,
 )
 
+/**
+ * El día de hoy **en la zona del negocio** (D-73). Ver `priceListValidity.ts`
+ * para por qué no sale del reloj del navegador.
+ *
+ * <p>Se refresca al montar y cada vez que la tabla trae datos nuevos, que es
+ * cuando el operador está mirando. Residuo conocido y aceptado: una consola
+ * abierta y quieta desde antes de medianoche conserva el día con el que
+ * cargó hasta la siguiente recarga. Un temporizador que repinte la tabla sola
+ * costaría más de lo que arregla, y cualquier acción de la pantalla ya la
+ * recarga.
+ */
+const today = ref(businessToday())
+
+/**
+ * Publicar dejó de ser una llamada: comprueba la cobertura de la tarifa, la
+ * enseña y exige un reconocimiento explícito si faltan precios. Todo eso vive en
+ * `usePriceListPublishing` — este fichero estaba en 466 de las 500 líneas que
+ * fija `css:budget` y meterlo aquí lo habría pasado de largo.
+ */
+const publishing = usePriceListPublishing({
+  catalogItems: () => catalogOptions.value,
+  publish: publishPriceList,
+  today,
+})
+
 onMounted(async () => {
   await priceLists.goTo(1)
   if (selectedPriceList.value) await selectPriceList(selectedPriceList.value)
+})
+
+watch(priceLists.items, () => {
+  today.value = businessToday()
 })
 
 useUnsavedChangesGuard(
@@ -132,20 +168,6 @@ async function submitPriceList(data: CreatePriceListRequest | UpdatePriceListReq
   }
 }
 
-async function publishList(priceList: PriceListResponse) {
-  const accepted = await confirm({
-    message: `¿Publicar la lista "${priceList.name}"?`,
-    consequence: 'La lista y sus precios quedarán congelados para preservar lo ofrecido.',
-    confirmLabel: 'Publicar lista',
-  })
-  if (!accepted) return
-  try {
-    await publishPriceList(priceList.id)
-  } catch {
-    // El composable ya avisó.
-  }
-}
-
 async function archiveList(priceList: PriceListResponse) {
   const accepted = await confirm({
     message: `¿Archivar la lista "${priceList.name}"?`,
@@ -171,12 +193,16 @@ async function activateList(priceList: PriceListResponse) {
 async function managePrices(priceList: PriceListResponse) {
   try {
     await selectPriceList(priceList)
+    // La cobertura se pide al abrir la tarifa, no al publicarla: enseñar antes
+    // lo que falta es lo que evita descubrirlo con el diálogo ya abierto.
+    await publishing.refreshCoverage(priceList.id)
   } catch {
     // Los paneles de error conservan las salidas de reintento.
   }
 }
 
 async function closePrices() {
+  publishing.clearCoverage()
   await selectPriceList(null)
 }
 
@@ -209,6 +235,7 @@ async function submitCatalogPrice(data: CreateCatalogPriceRequest | UpdateCatalo
     else if ('priceListId' in data) await createCatalogPrice(data)
     catalogPriceModalOpen.value = false
     editingCatalogPrice.value = null
+    if (selectedPriceList.value) await publishing.refreshCoverage(selectedPriceList.value.id)
   } catch {
     // El composable conserva el modal y muestra el ProblemDetail con su traza.
   } finally {
@@ -225,6 +252,7 @@ async function removePrice(price: CatalogPriceResponse) {
   if (!accepted) return
   try {
     await removeCatalogPrice(price.id)
+    if (selectedPriceList.value) await publishing.refreshCoverage(selectedPriceList.value.id)
   } catch {
     // El composable ya avisó.
   }
@@ -236,6 +264,12 @@ defineExpose({ openCreatePriceList })
 <template>
   <section class="section ds-stack ds-stack--18">
     <div class="ds-stack ds-stack--14">
+      <PriceListValidityNotice
+        :lists="priceLists.items.value"
+        :not-effective="publishing.notEffective.value"
+        @dismiss="publishing.notEffective.value = null"
+      />
+
       <AppTable
         :headers="['Código', 'Lista', 'Moneda', 'Vigencia', 'Estado', 'Acciones']"
         :empty="priceLists.items.value.length === 0"
@@ -260,8 +294,24 @@ defineExpose({ openCreatePriceList })
           <td class="ds-text-strong">{{ priceList.code }}</td>
           <td>{{ priceList.name }}</td>
           <td>{{ priceList.currency }}</td>
-          <td class="ds-meta">
-            {{ priceList.validFrom }} — {{ priceList.validTo ?? 'sin fecha final' }}
+          <!-- D-73 · La ventana en crudo no dice si sirve HOY: una lista
+               publicada puede estar caducada. El distintivo sale de la fecha,
+               no del estado, y lleva su texto para no comunicar por color. -->
+          <td>
+            <div class="ds-stack ds-stack--8">
+              <!-- El `<div>` intermedio evita que el badge, hijo directo de una
+                   columna flex, se estire a todo el ancho de la celda. -->
+              <div>
+                <AppBadge
+                  :variant="priceListEffectiveness(priceList, today).variant"
+                  :label="priceListEffectiveness(priceList, today).label"
+                />
+              </div>
+              <span class="ds-meta">
+                {{ formatDate(priceList.validFrom) }} —
+                {{ priceList.validTo ? formatDate(priceList.validTo) : 'sin fecha final' }}
+              </span>
+            </div>
           </td>
           <td>
             <AppBadge
@@ -293,7 +343,7 @@ defineExpose({ openCreatePriceList })
                 type="button"
                 class="ds-icon-btn"
                 :aria-label="`Publicar ${priceList.name}`"
-                @click="publishList(priceList)"
+                @click="publishing.start(priceList)"
               >
                 <Send :size="15" />
               </button>
@@ -341,6 +391,40 @@ defineExpose({ openCreatePriceList })
       @retry="catalogPrices.reload"
       @close="closePrices"
       @update:page="catalogPrices.goTo"
+    />
+
+    <!-- La cobertura va junto a los precios de la tarifa seleccionada: qué falta
+         se arregla donde se añaden los precios, no en otra pantalla. -->
+    <PriceListCoveragePanel
+      v-if="selectedPriceList && publishing.isCoverageLoadedFor(selectedPriceList.id)"
+      :coverage="publishing.coverage.value"
+      :loading="publishing.coverageLoading.value"
+      :error="publishing.coverageError.value"
+      :trace-id="publishing.coverageTraceId.value"
+      :editable="selectedListIsDraft"
+      @retry="publishing.refreshCoverage(selectedPriceList.id)"
+    />
+
+    <!-- D-66 · Va debajo de los precios y no en una pestaña propia: se simula
+         la tarifa que se está mirando, y la escalera que explica está a un
+         palmo. La tabla de arriba enseña los tramos declarados; esto enseña lo
+         que cuestan quince usuarios con esos tramos. -->
+    <TierSimulatorPanel v-if="selectedPriceList" :price-list="selectedPriceList" />
+
+    <PublishPriceListModal
+      :open="publishing.open.value"
+      :price-list="publishing.target.value"
+      :coverage="publishing.coverage.value"
+      :today="today"
+      :coverage-loading="publishing.coverageLoading.value"
+      :coverage-error="publishing.coverageError.value"
+      :coverage-trace-id="publishing.coverageTraceId.value"
+      :saving="publishing.saving.value"
+      @close="publishing.close()"
+      @retry-coverage="
+        publishing.target.value && publishing.refreshCoverage(publishing.target.value.id)
+      "
+      @confirm="publishing.confirm()"
     />
 
     <AppModal

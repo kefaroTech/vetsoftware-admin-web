@@ -43,6 +43,16 @@ export interface QuoteLineResponse {
   itemName: string
   /** Copia congelada: puede ser un tipo que el catálogo ya no ofrece. Ver la cabecera. */
   itemType: string
+  /**
+   * Tramo de la tarifa escalonada del que salió este renglón (D-66). Los tramos son
+   * ACUMULATIVOS: una cantidad que cruza escalones produce VARIOS renglones del mismo
+   * artículo a precios distintos, y `tierMin`/`tierMax` son lo único que explica por qué.
+   * Sin ellos, dos líneas iguales con `unitAmount` distinto parecen un error de datos.
+   *
+   * <p>`tierMax` nulo es el último tramo, el de «en adelante».
+   */
+  tierMin: number
+  tierMax: number | null
   contractedQuantity: number
   includedQuantity: number
   quantity: number
@@ -50,9 +60,21 @@ export interface QuoteLineResponse {
   grossAmount: number
   discountPercent: number
   discountAmount: number
+  /**
+   * D-86. El descuento está sujeto a una condición —permanencia—, y por eso el IVA se
+   * liquida sobre el precio de LISTA y no sobre el rebajado. Es lo que explica que
+   * `taxAmount` no salga de aplicar `taxRate` al importe con descuento.
+   */
+  discountIsConditional: boolean
   taxRate: number
   /** Copia congelada, igual que `itemType`. */
   taxTreatment: string
+  /**
+   * La base sobre la que se liquidó el impuesto. Con `discountIsConditional` en `true` NO
+   * coincide con el importe rebajado, y ese es justo el motivo de que el contrato la mande
+   * en vez de dejar que el front la recomponga: recomponerla mal es cobrar mal.
+   */
+  taxableBase: number
   taxAmount: number
   lineTotal: number
   enabled: boolean
@@ -134,6 +156,14 @@ export interface QuoteLineRequest {
   catalogItemId: number
   quantity: number
   discountPercent: number
+  /**
+   * D-86. Marca el descuento como sujeto a permanencia; entonces el servidor liquida el IVA
+   * sobre el precio de lista y no sobre el rebajado.
+   *
+   * <p>Opcional a propósito, igual que el `Boolean` (envoltorio, no primitivo) del `record`
+   * de Java: omitirlo es legal y significa `false`. Lo caro es marcar de más, no de menos.
+   */
+  discountIsConditional?: boolean
 }
 
 export interface QuoteAnswerRequest {
