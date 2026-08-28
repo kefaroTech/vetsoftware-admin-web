@@ -68,7 +68,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/system-users/{id}": {
+    "/system/tax-returns/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -77,6 +77,38 @@ export interface paths {
         };
         get: operations["findById_3"];
         put: operations["update_3"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/accounting-accounts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_4"];
+        put: operations["update_4"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system-users/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_5"];
+        put: operations["update_5"];
         post?: never;
         delete: operations["delete_3"];
         options?: never;
@@ -91,8 +123,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_4"];
-        put: operations["update_4"];
+        get: operations["findById_6"];
+        put: operations["update_6"];
         post?: never;
         delete: operations["delete_4"];
         options?: never;
@@ -107,8 +139,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_5"];
-        put: operations["update_5"];
+        get: operations["findById_7"];
+        put: operations["update_7"];
         post?: never;
         delete: operations["delete_5"];
         options?: never;
@@ -139,8 +171,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_6"];
-        put: operations["update_6"];
+        get: operations["findById_8"];
+        put: operations["update_8"];
         post?: never;
         delete: operations["delete_6"];
         options?: never;
@@ -155,8 +187,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_7"];
-        put: operations["update_7"];
+        get: operations["findById_9"];
+        put: operations["update_9"];
         post?: never;
         delete: operations["delete_7"];
         options?: never;
@@ -171,8 +203,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_8"];
-        put: operations["update_8"];
+        get: operations["findById_10"];
+        put: operations["update_10"];
         post?: never;
         delete: operations["delete_8"];
         options?: never;
@@ -187,8 +219,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_9"];
-        put: operations["update_9"];
+        get: operations["findById_11"];
+        put: operations["update_11"];
         post?: never;
         delete: operations["delete_9"];
         options?: never;
@@ -203,8 +235,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_10"];
-        put: operations["update_10"];
+        get: operations["findById_12"];
+        put: operations["update_12"];
         post?: never;
         delete: operations["delete_10"];
         options?: never;
@@ -219,8 +251,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_11"];
-        put: operations["update_11"];
+        get: operations["findById_13"];
+        put: operations["update_13"];
         post?: never;
         delete: operations["delete_11"];
         options?: never;
@@ -235,8 +267,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_12"];
-        put: operations["update_12"];
+        get: operations["findById_14"];
+        put: operations["update_14"];
         post?: never;
         delete: operations["delete_12"];
         options?: never;
@@ -251,8 +283,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_13"];
-        put: operations["update_13"];
+        get: operations["findById_15"];
+        put: operations["update_15"];
         post?: never;
         delete: operations["delete_13"];
         options?: never;
@@ -267,8 +299,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_14"];
-        put: operations["update_14"];
+        get: operations["findById_16"];
+        put: operations["update_16"];
         post?: never;
         delete: operations["delete_14"];
         options?: never;
@@ -283,8 +315,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_15"];
-        put: operations["update_15"];
+        get: operations["findById_17"];
+        put: operations["update_17"];
         post?: never;
         delete: operations["delete_15"];
         options?: never;
@@ -300,7 +332,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_16"];
+        put: operations["update_18"];
         post?: never;
         delete: operations["delete_16"];
         options?: never;
@@ -315,8 +347,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_16"];
-        put: operations["update_17"];
+        get: operations["findById_18"];
+        put: operations["update_19"];
         post?: never;
         delete: operations["delete_17"];
         options?: never;
@@ -347,8 +379,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_17"];
-        put: operations["update_18"];
+        get: operations["findById_19"];
+        put: operations["update_20"];
         post?: never;
         delete: operations["delete_18"];
         options?: never;
@@ -363,8 +395,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_18"];
-        put: operations["update_19"];
+        get: operations["findById_20"];
+        put: operations["update_21"];
         post?: never;
         delete: operations["delete_19"];
         options?: never;
@@ -379,8 +411,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_19"];
-        put: operations["update_20"];
+        get: operations["findById_21"];
+        put: operations["update_22"];
         post?: never;
         delete: operations["delete_20"];
         options?: never;
@@ -396,7 +428,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_21"];
+        put: operations["update_23"];
         post?: never;
         delete: operations["delete_21"];
         options?: never;
@@ -411,8 +443,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_20"];
-        put: operations["update_22"];
+        get: operations["findById_22"];
+        put: operations["update_24"];
         post?: never;
         delete: operations["delete_22"];
         options?: never;
@@ -428,7 +460,7 @@ export interface paths {
             cookie?: never;
         };
         get: operations["find_1"];
-        put: operations["update_23"];
+        put: operations["update_25"];
         post?: never;
         delete?: never;
         options?: never;
@@ -443,8 +475,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_21"];
-        put: operations["update_24"];
+        get: operations["findById_23"];
+        put: operations["update_26"];
         post?: never;
         delete: operations["delete_23"];
         options?: never;
@@ -459,8 +491,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_22"];
-        put: operations["update_25"];
+        get: operations["findById_24"];
+        put: operations["update_27"];
         post?: never;
         delete: operations["delete_24"];
         options?: never;
@@ -475,8 +507,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_23"];
-        put: operations["update_26"];
+        get: operations["findById_25"];
+        put: operations["update_28"];
         post?: never;
         delete: operations["delete_25"];
         options?: never;
@@ -491,8 +523,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_24"];
-        put: operations["update_27"];
+        get: operations["findById_26"];
+        put: operations["update_29"];
         post?: never;
         delete: operations["delete_26"];
         options?: never;
@@ -507,10 +539,26 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_25"];
-        put: operations["update_28"];
+        get: operations["findById_27"];
+        put: operations["update_30"];
         post?: never;
         delete: operations["delete_27"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/limit-dimensions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_28"];
+        put: operations["update_31"];
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -523,8 +571,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_26"];
-        put: operations["update_29"];
+        get: operations["findById_29"];
+        put: operations["update_32"];
         post?: never;
         delete: operations["delete_28"];
         options?: never;
@@ -539,8 +587,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_27"];
-        put: operations["update_30"];
+        get: operations["findById_30"];
+        put: operations["update_33"];
         post?: never;
         delete: operations["delete_29"];
         options?: never;
@@ -571,8 +619,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_28"];
-        put: operations["update_31"];
+        get: operations["findById_31"];
+        put: operations["update_34"];
         post?: never;
         delete: operations["delete_30"];
         options?: never;
@@ -588,7 +636,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_32"];
+        put: operations["update_35"];
         post?: never;
         delete: operations["delete_31"];
         options?: never;
@@ -604,7 +652,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_33"];
+        put: operations["update_36"];
         post?: never;
         delete: operations["delete_32"];
         options?: never;
@@ -619,8 +667,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_29"];
-        put: operations["update_34"];
+        get: operations["findById_32"];
+        put: operations["update_37"];
         post?: never;
         delete: operations["delete_33"];
         options?: never;
@@ -651,8 +699,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_30"];
-        put: operations["update_35"];
+        get: operations["findById_33"];
+        put: operations["update_38"];
         post?: never;
         delete: operations["delete_34"];
         options?: never;
@@ -667,8 +715,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_31"];
-        put: operations["update_36"];
+        get: operations["findById_34"];
+        put: operations["update_39"];
         post?: never;
         delete: operations["delete_35"];
         options?: never;
@@ -684,7 +732,7 @@ export interface paths {
             cookie?: never;
         };
         get: operations["find_2"];
-        put: operations["update_37"];
+        put: operations["update_40"];
         post: operations["create"];
         delete?: never;
         options?: never;
@@ -699,8 +747,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_32"];
-        put: operations["update_38"];
+        get: operations["findById_35"];
+        put: operations["update_41"];
         post?: never;
         delete: operations["delete_36"];
         options?: never;
@@ -715,8 +763,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_33"];
-        put: operations["update_39"];
+        get: operations["findById_36"];
+        put: operations["update_42"];
         post?: never;
         delete: operations["delete_37"];
         options?: never;
@@ -731,8 +779,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_34"];
-        put: operations["update_40"];
+        get: operations["findById_37"];
+        put: operations["update_43"];
         post?: never;
         delete: operations["delete_38"];
         options?: never;
@@ -747,8 +795,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_35"];
-        put: operations["update_41"];
+        get: operations["findById_38"];
+        put: operations["update_44"];
         post?: never;
         delete: operations["delete_39"];
         options?: never;
@@ -763,8 +811,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_36"];
-        put: operations["update_42"];
+        get: operations["findById_39"];
+        put: operations["update_45"];
         post?: never;
         delete: operations["delete_40"];
         options?: never;
@@ -820,6 +868,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/configurator/effects/priorities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["reorderEffects"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/company-tax-profile": {
         parameters: {
             query?: never;
@@ -828,7 +892,7 @@ export interface paths {
             cookie?: never;
         };
         get: operations["find_3"];
-        put: operations["update_43"];
+        put: operations["update_46"];
         post: operations["create_1"];
         delete?: never;
         options?: never;
@@ -859,8 +923,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_37"];
-        put: operations["update_44"];
+        get: operations["findById_40"];
+        put: operations["update_47"];
         post?: never;
         delete: operations["delete_41"];
         options?: never;
@@ -875,8 +939,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_38"];
-        put: operations["update_45"];
+        get: operations["findById_41"];
+        put: operations["update_48"];
         post?: never;
         delete: operations["delete_42"];
         options?: never;
@@ -891,8 +955,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_39"];
-        put: operations["update_46"];
+        get: operations["findById_42"];
+        put: operations["update_49"];
         post?: never;
         delete: operations["delete_43"];
         options?: never;
@@ -907,10 +971,26 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_40"];
-        put: operations["update_47"];
+        get: operations["findById_43"];
+        put: operations["update_50"];
         post?: never;
         delete: operations["delete_44"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-items/{catalogItemId}/limits/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["update_51"];
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -924,7 +1004,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_48"];
+        put: operations["update_52"];
         post?: never;
         delete: operations["delete_45"];
         options?: never;
@@ -940,7 +1020,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_49"];
+        put: operations["update_53"];
         post?: never;
         delete: operations["delete_46"];
         options?: never;
@@ -956,7 +1036,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_50"];
+        put: operations["update_54"];
         post?: never;
         delete: operations["deactivate"];
         options?: never;
@@ -971,8 +1051,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_41"];
-        put: operations["update_51"];
+        get: operations["findById_44"];
+        put: operations["update_55"];
         post?: never;
         delete: operations["delete_47"];
         options?: never;
@@ -988,7 +1068,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_52"];
+        put: operations["update_56"];
         post?: never;
         delete?: never;
         options?: never;
@@ -1003,8 +1083,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_42"];
-        put: operations["update_53"];
+        get: operations["findById_45"];
+        put: operations["update_57"];
         post?: never;
         delete: operations["delete_48"];
         options?: never;
@@ -1019,8 +1099,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_43"];
-        put: operations["update_54"];
+        get: operations["findById_46"];
+        put: operations["update_58"];
         post?: never;
         delete: operations["delete_49"];
         options?: never;
@@ -1035,8 +1115,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_44"];
-        put: operations["update_55"];
+        get: operations["findById_47"];
+        put: operations["update_59"];
         post?: never;
         delete: operations["delete_50"];
         options?: never;
@@ -1051,8 +1131,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_45"];
-        put: operations["update_56"];
+        get: operations["findById_48"];
+        put: operations["update_60"];
         post?: never;
         delete: operations["delete_51"];
         options?: never;
@@ -1067,8 +1147,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_46"];
-        put: operations["update_57"];
+        get: operations["findById_49"];
+        put: operations["update_61"];
         post?: never;
         delete: operations["delete_52"];
         options?: never;
@@ -1084,7 +1164,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_58"];
+        put: operations["update_62"];
         post?: never;
         delete: operations["delete_53"];
         options?: never;
@@ -1092,7 +1172,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/vaccinations": {
+    "/vat-filing-periods": {
         parameters: {
             query?: never;
             header?: never;
@@ -1108,7 +1188,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/vaccination-types": {
+    "/vaccinations": {
         parameters: {
             query?: never;
             header?: never;
@@ -1124,7 +1204,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/taxes": {
+    "/vaccination-types": {
         parameters: {
             query?: never;
             header?: never;
@@ -1134,6 +1214,150 @@ export interface paths {
         get: operations["listAll_2"];
         put?: never;
         post: operations["create_4"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/uvt-values": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_3"];
+        put?: never;
+        post: operations["create_5"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/taxes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_4"];
+        put?: never;
+        post: operations["create_6"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/withholding-rate-rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["create_7"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/withholding-certificates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_5"];
+        put?: never;
+        post: operations["register"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/tax-returns": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_6"];
+        put?: never;
+        post: operations["create_8"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/tax-returns/{id}/corrections": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["correct"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/supplier-withholdings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_7"];
+        put?: never;
+        post: operations["practice"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-item-limits/propagations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["propagate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-item-limits/companies/{companyId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany"];
+        put?: never;
+        post: operations["freeze"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1252,6 +1476,470 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/system/security-incidents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_8"];
+        put?: never;
+        post: operations["register_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/security-incidents/{id}/affected-companies/{companyId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["registerAffectedCompany"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/platform-tax-profiles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_9"];
+        put?: never;
+        post: operations["open"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/platform-tax-profiles/succession": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["succeed"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/payment-reversal-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_10"];
+        put?: never;
+        post: operations["open_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/payment-refunds": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_11"];
+        put?: never;
+        post: operations["register_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/payment-attempts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_12"];
+        put?: never;
+        post: operations["record"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/gateway-settlements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_13"];
+        put?: never;
+        post: operations["register_3"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/external-invoicing-outages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_14"];
+        put?: never;
+        post: operations["open_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/external-invoicing-outages/{id}/companies/{companyId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["registerAffectedCompany_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/external-invoice-reconciliations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_15"];
+        put?: never;
+        post: operations["open_3"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/external-invoice-reconciliations/{id}/resolution": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["resolve"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/external-invoice-reconciliations/{id}/external-invoice": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["match"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/document-withholdings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_16"];
+        put?: never;
+        post: operations["register_4"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/document-withholdings/{id}/certificate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["linkCertificate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/customer-credit/grants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["grant"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/customer-credit/expirations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["expire"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/customer-credit/consumptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["consume"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-usage-events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_17"];
+        put?: never;
+        post: operations["record_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-trial-windows/companies/{companyId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["open_4"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-trial-windows/companies/{companyId}/closures": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["close"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-trial-grants/companies/{companyId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_1"];
+        put?: never;
+        post: operations["grant_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-trial-grants/companies/{companyId}/catalog-items/{catalogItemId}/consumptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["consume_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-limit-overrides/companies/{companyId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_2"];
+        put?: never;
+        post: operations["grant_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-limit-overrides/companies/{companyId}/dimensions/{limitDimensionId}/revocations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["revoke"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-limit-events/reconciliations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["reconcile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-limit-events/companies/{companyId}/usage-adjustments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["adjustUsage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-activity-months": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_18"];
+        put?: never;
+        post: operations["record_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/billing-document-status-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_19"];
+        put?: never;
+        post: operations["record_3"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/system/billing-document-sequences": {
         parameters: {
             query?: never;
@@ -1259,9 +1947,89 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_3"];
+        get: operations["listAll_20"];
         put?: never;
-        post: operations["create_5"];
+        post: operations["create_9"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/bank-receipts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_21"];
+        put?: never;
+        post: operations["register_5"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/accounting-periods": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_22"];
+        put?: never;
+        post: operations["open_5"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/accounting-exports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_23"];
+        put?: never;
+        post: operations["generate_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/accounting-accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_24"];
+        put?: never;
+        post: operations["create_10"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/account-mappings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_25"];
+        put?: never;
+        post: operations["create_11"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1275,9 +2043,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_4"];
+        get: operations["listAll_26"];
         put?: never;
-        post: operations["create_6"];
+        post: operations["create_12"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1291,9 +2059,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_5"];
+        get: operations["listAll_27"];
         put?: never;
-        post: operations["create_7"];
+        post: operations["create_13"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1307,9 +2075,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_6"];
+        get: operations["listAll_28"];
         put?: never;
-        post: operations["create_8"];
+        post: operations["create_14"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1323,9 +2091,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_7"];
+        get: operations["listAll_29"];
         put?: never;
-        post: operations["create_9"];
+        post: operations["create_15"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1339,9 +2107,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_8"];
+        get: operations["listAll_30"];
         put?: never;
-        post: operations["create_10"];
+        post: operations["create_16"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1355,9 +2123,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany"];
+        get: operations["listByCompany_3"];
         put?: never;
-        post: operations["create_11"];
+        post: operations["create_17"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1373,7 +2141,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_12"];
+        post: operations["create_18"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1419,9 +2187,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_1"];
+        get: operations["listByCompany_4"];
         put?: never;
-        post: operations["create_13"];
+        post: operations["create_19"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1467,9 +2235,25 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_2"];
+        get: operations["listByCompany_5"];
         put?: never;
-        post: operations["register"];
+        post: operations["register_6"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscription-payment-methods": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_6"];
+        put?: never;
+        post: operations["register_7"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1483,9 +2267,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_9"];
+        get: operations["listAll_31"];
         put?: never;
-        post: operations["create_14"];
+        post: operations["create_20"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1499,9 +2283,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_10"];
+        get: operations["listAll_32"];
         put?: never;
-        post: operations["create_15"];
+        post: operations["create_21"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1515,9 +2299,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_11"];
+        get: operations["listAll_33"];
         put?: never;
-        post: operations["create_16"];
+        post: operations["create_22"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1531,9 +2315,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_12"];
+        get: operations["listAll_34"];
         put?: never;
-        post: operations["create_17"];
+        post: operations["create_23"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1547,9 +2331,25 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_13"];
+        get: operations["listAll_35"];
         put?: never;
-        post: operations["create_18"];
+        post: operations["create_24"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/smmlv-values": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_36"];
+        put?: never;
+        post: operations["create_25"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1563,9 +2363,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_3"];
+        get: operations["listByCompany_7"];
         put?: never;
-        post: operations["create_19"];
+        post: operations["create_26"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1579,9 +2379,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_14"];
+        get: operations["listAll_37"];
         put?: never;
-        post: operations["create_20"];
+        post: operations["create_27"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1595,9 +2395,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_4"];
+        get: operations["listByCompany_8"];
         put?: never;
-        post: operations["create_21"];
+        post: operations["create_28"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1611,9 +2411,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_15"];
+        get: operations["listAll_38"];
         put?: never;
-        post: operations["create_22"];
+        post: operations["create_29"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1627,9 +2427,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_16"];
+        get: operations["listAll_39"];
         put?: never;
-        post: operations["create_23"];
+        post: operations["create_30"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1645,7 +2445,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["register_1"];
+        post: operations["register_8"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1677,7 +2477,7 @@ export interface paths {
         };
         get: operations["listMine"];
         put?: never;
-        post: operations["create_24"];
+        post: operations["create_31"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1757,7 +2557,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_25"];
+        post: operations["create_32"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1796,6 +2596,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public-holidays": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_40"];
+        put?: never;
+        post: operations["create_33"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/promotions": {
         parameters: {
             query?: never;
@@ -1803,9 +2619,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_17"];
+        get: operations["listAll_41"];
         put?: never;
-        post: operations["create_26"];
+        post: operations["create_34"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1819,9 +2635,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_5"];
+        get: operations["listByCompany_9"];
         put?: never;
-        post: operations["create_27"];
+        post: operations["create_35"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1835,9 +2651,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_18"];
+        get: operations["listAll_42"];
         put?: never;
-        post: operations["create_28"];
+        post: operations["create_36"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1853,7 +2669,7 @@ export interface paths {
         };
         get: operations["list_2"];
         put?: never;
-        post: operations["create_29"];
+        post: operations["create_37"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1869,7 +2685,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["generate_1"];
+        post: operations["generate_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1883,9 +2699,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_19"];
+        get: operations["listAll_43"];
         put?: never;
-        post: operations["create_30"];
+        post: operations["create_38"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1899,9 +2715,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_20"];
+        get: operations["listAll_44"];
         put?: never;
-        post: operations["create_31"];
+        post: operations["create_39"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1979,9 +2795,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_21"];
+        get: operations["listAll_45"];
         put?: never;
-        post: operations["create_32"];
+        post: operations["create_40"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1995,9 +2811,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_22"];
+        get: operations["listAll_46"];
         put?: never;
-        post: operations["create_33"];
+        post: operations["create_41"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2013,7 +2829,7 @@ export interface paths {
         };
         get: operations["list_3"];
         put?: never;
-        post: operations["create_34"];
+        post: operations["create_42"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2027,9 +2843,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_23"];
+        get: operations["listAll_47"];
         put?: never;
-        post: operations["create_35"];
+        post: operations["create_43"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2043,9 +2859,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_24"];
+        get: operations["listAll_48"];
         put?: never;
-        post: operations["create_36"];
+        post: operations["create_44"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2061,7 +2877,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["generate_2"];
+        post: operations["generate_3"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2075,9 +2891,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_25"];
+        get: operations["listAll_49"];
         put?: never;
-        post: operations["create_37"];
+        post: operations["create_45"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2091,9 +2907,41 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_26"];
+        get: operations["listAll_50"];
         put?: never;
-        post: operations["create_38"];
+        post: operations["create_46"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/limit-dimensions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_51"];
+        put?: never;
+        post: operations["create_47"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/legal-documents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["publish"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2107,9 +2955,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_27"];
+        get: operations["listAll_52"];
         put?: never;
-        post: operations["create_39"];
+        post: operations["create_48"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2123,9 +2971,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_28"];
+        get: operations["listAll_53"];
         put?: never;
-        post: operations["create_40"];
+        post: operations["create_49"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2205,7 +3053,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["consume"];
+        post: operations["consume_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2235,9 +3083,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_29"];
+        get: operations["listAll_54"];
         put?: never;
-        post: operations["create_41"];
+        post: operations["create_50"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2253,7 +3101,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_42"];
+        post: operations["create_51"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2269,7 +3117,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_43"];
+        post: operations["create_52"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2285,7 +3133,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_44"];
+        post: operations["create_53"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2301,7 +3149,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_45"];
+        post: operations["create_54"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2317,7 +3165,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_46"];
+        post: operations["create_55"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2363,9 +3211,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_30"];
+        get: operations["listAll_55"];
         put?: never;
-        post: operations["create_47"];
+        post: operations["create_56"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2395,9 +3243,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_31"];
+        get: operations["listAll_56"];
         put?: never;
-        post: operations["create_48"];
+        post: operations["create_57"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2443,9 +3291,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_32"];
+        get: operations["listAll_57"];
         put?: never;
-        post: operations["create_49"];
+        post: operations["create_58"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2555,9 +3403,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_33"];
+        get: operations["listAll_58"];
         put?: never;
-        post: operations["create_50"];
+        post: operations["create_59"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2573,7 +3421,7 @@ export interface paths {
         };
         get: operations["listBySubscription"];
         put?: never;
-        post: operations["record"];
+        post: operations["record_4"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2603,9 +3451,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_34"];
+        get: operations["listAll_59"];
         put?: never;
-        post: operations["create_51"];
+        post: operations["create_60"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2619,9 +3467,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_35"];
+        get: operations["listAll_60"];
         put?: never;
-        post: operations["create_52"];
+        post: operations["create_61"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2635,9 +3483,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_36"];
+        get: operations["listAll_61"];
         put?: never;
-        post: operations["create_53"];
+        post: operations["create_62"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2651,9 +3499,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_37"];
+        get: operations["listAll_62"];
         put?: never;
-        post: operations["create_54"];
+        post: operations["create_63"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2667,9 +3515,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_38"];
+        get: operations["listAll_63"];
         put?: never;
-        post: operations["create_55"];
+        post: operations["create_64"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2683,9 +3531,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_39"];
+        get: operations["listAll_64"];
         put?: never;
-        post: operations["create_56"];
+        post: operations["create_65"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2699,9 +3547,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_40"];
+        get: operations["listAll_65"];
         put?: never;
-        post: operations["create_57"];
+        post: operations["create_66"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2717,7 +3565,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["resolve"];
+        post: operations["resolve_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2772,6 +3620,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/company-contact-channels": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_10"];
+        put?: never;
+        post: operations["authorize"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/company-billing-profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findCurrent"];
+        put?: never;
+        post: operations["open_6"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/company-billing-profile/succession": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["succeed_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/companies": {
         parameters: {
             query?: never;
@@ -2779,9 +3675,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_41"];
+        get: operations["listAll_66"];
         put?: never;
-        post: operations["create_58"];
+        post: operations["create_67"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2795,9 +3691,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_42"];
+        get: operations["listAll_67"];
         put?: never;
-        post: operations["create_59"];
+        post: operations["create_68"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2813,7 +3709,7 @@ export interface paths {
         };
         get: operations["listByPriceList"];
         put?: never;
-        post: operations["create_60"];
+        post: operations["create_69"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2827,9 +3723,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_43"];
+        get: operations["listAll_68"];
         put?: never;
-        post: operations["create_61"];
+        post: operations["create_70"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2845,7 +3741,23 @@ export interface paths {
         };
         get: operations["listByCatalogItem"];
         put?: never;
-        post: operations["create_62"];
+        post: operations["create_71"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-items/{catalogItemId}/limits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCatalogItem_1"];
+        put?: never;
+        post: operations["create_72"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2859,9 +3771,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCatalogItem_1"];
+        get: operations["listByCatalogItem_2"];
         put?: never;
-        post: operations["create_63"];
+        post: operations["create_73"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2877,7 +3789,7 @@ export interface paths {
         };
         get: operations["listByBundle"];
         put?: never;
-        post: operations["create_64"];
+        post: operations["create_74"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2893,7 +3805,7 @@ export interface paths {
         };
         get: operations["list_4"];
         put?: never;
-        post: operations["create_65"];
+        post: operations["create_75"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2925,7 +3837,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["close"];
+        post: operations["close_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2941,7 +3853,7 @@ export interface paths {
         };
         get: operations["openSessions"];
         put?: never;
-        post: operations["open"];
+        post: operations["open_7"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2955,9 +3867,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_44"];
+        get: operations["listAll_69"];
         put?: never;
-        post: operations["create_66"];
+        post: operations["create_76"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2971,9 +3883,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_45"];
+        get: operations["listAll_70"];
         put?: never;
-        post: operations["create_67"];
+        post: operations["create_77"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3019,9 +3931,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_46"];
+        get: operations["listAll_71"];
         put?: never;
-        post: operations["create_68"];
+        post: operations["create_78"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3035,9 +3947,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_47"];
+        get: operations["listAll_72"];
         put?: never;
-        post: operations["create_69"];
+        post: operations["create_79"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3051,9 +3963,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_48"];
+        get: operations["listAll_73"];
         put?: never;
-        post: operations["create_70"];
+        post: operations["create_80"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3181,7 +4093,7 @@ export interface paths {
         };
         get: operations["list_5"];
         put?: never;
-        post: operations["create_71"];
+        post: operations["create_81"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3195,9 +4107,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_49"];
+        get: operations["listAll_74"];
         put?: never;
-        post: operations["create_72"];
+        post: operations["create_82"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3213,7 +4125,7 @@ export interface paths {
         };
         get: operations["listByAnimal"];
         put?: never;
-        post: operations["create_73"];
+        post: operations["create_83"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3227,9 +4139,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_50"];
+        get: operations["listAll_75"];
         put?: never;
-        post: operations["create_74"];
+        post: operations["create_84"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3243,9 +4155,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_51"];
+        get: operations["listAll_76"];
         put?: never;
-        post: operations["create_75"];
+        post: operations["create_85"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3261,7 +4173,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["publish"];
+        post: operations["publish_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3282,6 +4194,486 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["enable"];
+        trace?: never;
+    };
+    "/system/withholding-rate-rules/{id}/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["close_2"];
+        trace?: never;
+    };
+    "/system/withholding-certificates/{id}/substitute-evidence": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["attachSubstituteEvidence"];
+        trace?: never;
+    };
+    "/system/withholding-certificates/{id}/receive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["receive_2"];
+        trace?: never;
+    };
+    "/system/tax-returns/{id}/file": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["file"];
+        trace?: never;
+    };
+    "/system/tax-returns/{id}/annul": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["annul"];
+        trace?: never;
+    };
+    "/system/supplier-withholdings/{id}/payment-receipt": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["registerPayment_1"];
+        trace?: never;
+    };
+    "/system/supplier-withholdings/{id}/certificate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["issueCertificate"];
+        trace?: never;
+    };
+    "/system/subscription-payment-methods/{id}/expiration": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["expire_1"];
+        trace?: never;
+    };
+    "/system/security-incidents/{id}/report": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["report"];
+        trace?: never;
+    };
+    "/system/security-incidents/{id}/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["close_3"];
+        trace?: never;
+    };
+    "/system/payment-reversal-requests/{id}/outcome": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["resolve_2"];
+        trace?: never;
+    };
+    "/system/payment-reversal-requests/{id}/opposition": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["oppose"];
+        trace?: never;
+    };
+    "/system/payment-reversal-requests/{id}/acknowledgement": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["acknowledge"];
+        trace?: never;
+    };
+    "/system/payment-attempts/{id}/schedule": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["reschedule"];
+        trace?: never;
+    };
+    "/system/gateway-settlements/{id}/provider-invoice": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["attachProviderInvoice"];
+        trace?: never;
+    };
+    "/system/gateway-settlements/{id}/bank-receipt": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["linkBankReceipt"];
+        trace?: never;
+    };
+    "/system/external-invoicing-outages/{id}/notify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["notifyCompanies"];
+        trace?: never;
+    };
+    "/system/external-invoicing-outages/{id}/end": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["end"];
+        trace?: never;
+    };
+    "/system/company-usage-events/{id}/charge": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["attachToCharge"];
+        trace?: never;
+    };
+    "/system/company-activity-months/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_50"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["update_63"];
+        trace?: never;
+    };
+    "/system/bank-receipts/{id}/identify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["identify"];
+        trace?: never;
+    };
+    "/system/bank-receipts/{id}/discard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["discard"];
+        trace?: never;
+    };
+    "/system/accounting-periods/{id}/soft-close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["softClose"];
+        trace?: never;
+    };
+    "/system/accounting-periods/{id}/reopen": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["reopen"];
+        trace?: never;
+    };
+    "/system/accounting-periods/{id}/lock": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["lock"];
+        trace?: never;
+    };
+    "/system/accounting-exports/{id}/supersede": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["supersede"];
+        trace?: never;
+    };
+    "/system/accounting-exports/{id}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["reject_1"];
+        trace?: never;
+    };
+    "/system/accounting-exports/{id}/deliver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["deliver"];
+        trace?: never;
+    };
+    "/system/accounting-accounts/{id}/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["close_4"];
+        trace?: never;
+    };
+    "/system/account-mappings/{id}/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["close_5"];
         trace?: never;
     };
     "/system-users/{id}/enable": {
@@ -3409,7 +4801,39 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reconcile"];
+        patch: operations["reconcile_1"];
+        trace?: never;
+    };
+    "/subscription-payment-methods/{id}/revocation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["revoke_1"];
+        trace?: never;
+    };
+    "/subscription-payment-methods/{id}/default": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["setDefault"];
         trace?: never;
     };
     "/sub-modules/{id}/enable": {
@@ -3474,6 +4898,22 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["reactivate_3"];
+        trace?: never;
+    };
+    "/smmlv-values/years/{year}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["changeStatus_2"];
         trace?: never;
     };
     "/services/{id}/enable": {
@@ -3569,7 +5009,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reschedule"];
+        patch: operations["reschedule_1"];
         trace?: never;
     };
     "/procedure-schedules/{id}/apply": {
@@ -3617,7 +5057,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["publish_1"];
+        patch: operations["publish_2"];
         trace?: never;
     };
     "/price-lists/{id}/enable": {
@@ -3681,7 +5121,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["changeStatus_2"];
+        patch: operations["changeStatus_3"];
         trace?: never;
     };
     "/numbering-resolutions/{id}/enable": {
@@ -3729,7 +5169,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reschedule_1"];
+        patch: operations["reschedule_2"];
         trace?: never;
     };
     "/medication-schedules/{id}/apply": {
@@ -3793,7 +5233,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["changeStatus_3"];
+        patch: operations["changeStatus_4"];
         trace?: never;
     };
     "/hospitalization-procedures/{id}/suspend": {
@@ -3924,7 +5364,39 @@ export interface paths {
         patch: operations["enable_13"];
         trace?: never;
     };
-    "/cities/{id}/enable": {
+    "/company-contact-channels/{id}/revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["revoke_2"];
+        trace?: never;
+    };
+    "/company-contact-channels/{id}/primary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["designatePrimary"];
+        trace?: never;
+    };
+    "/companies/{id}/enable": {
         parameters: {
             query?: never;
             header?: never;
@@ -3940,7 +5412,7 @@ export interface paths {
         patch: operations["enable_14"];
         trace?: never;
     };
-    "/catalog-items/{id}/enable": {
+    "/cities/{id}/enable": {
         parameters: {
             query?: never;
             header?: never;
@@ -3954,6 +5426,22 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["enable_15"];
+        trace?: never;
+    };
+    "/catalog-items/{id}/enable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["enable_16"];
         trace?: never;
     };
     "/cash-terminals/{id}/activate": {
@@ -3985,7 +5473,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_16"];
+        patch: operations["enable_17"];
         trace?: never;
     };
     "/branches/{id}/deactivate": {
@@ -4081,7 +5569,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["changeStatus_4"];
+        patch: operations["changeStatus_5"];
         trace?: never;
     };
     "/appointments/{id}/reschedule": {
@@ -4097,7 +5585,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["reschedule_2"];
+        patch: operations["reschedule_3"];
         trace?: never;
     };
     "/appointments/{id}/cancel": {
@@ -4129,7 +5617,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_17"];
+        patch: operations["enable_18"];
         trace?: never;
     };
     "/admin/medicaments/{id}/enable": {
@@ -4145,7 +5633,119 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["enable_18"];
+        patch: operations["enable_19"];
+        trace?: never;
+    };
+    "/withholding-rate-rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAvailable"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/withholding-rate-rules/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_51"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/withholding-rate-rules/effective": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["resolve_3"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/withholding-certificates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_11"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/withholding-certificates/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_52"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/withholding-certificates/missing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMissing"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/vat-filing-periods/years/{year}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findByYear"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/vaccinations/by-animal/{animalId}": {
@@ -4171,7 +5771,23 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAvailable"];
+        get: operations["listAvailable_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/uvt-values/years/{year}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findByYear_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4196,6 +5812,102 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/system/withholding-certificates/missing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMissing_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/tax-returns/by-period/{fiscalPeriodKey}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByPeriod"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/tax-returns/becoming-final": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listBecomingFinal"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/supplier-withholdings/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_53"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/supplier-withholdings/by-supplier/{supplierTaxId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listBySupplier"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/supplier-withholdings/by-period/{fiscalPeriodKey}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByPeriod_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/system/subscription-payments": {
         parameters: {
             query?: never;
@@ -4203,7 +5915,39 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_52"];
+        get: operations["listAll_77"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-payment-methods": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_78"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/subscription-payment-methods/expiring": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listExpiring"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4244,6 +5988,262 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/system/security-incidents/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_54"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/security-incidents/{id}/affected-companies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAffectedCompanies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/revenue-recognition-lines": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_12"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/revenue-recognition-lines/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_55"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/revenue-recognition-lines/by-posting-period/{postingPeriod}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByPostingPeriod"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/platform-tax-profiles/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_56"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/platform-tax-profiles/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findCurrent_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/payment-reversal-requests/expiring": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listExpiring_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/payment-attempts/due": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDue"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/gateway-settlements/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_57"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/gateway-settlements/{id}/reconciliation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["reconcile_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/external-invoicing-outages/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["find_4"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/external-invoicing-outages/{id}/companies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAffectedCompanies_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/external-invoicing-outages/open": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listOpen"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/external-invoice-reconciliations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_58"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/external-invoice-reconciliations/missing-external": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMissing_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/system/dunning-events": {
         parameters: {
             query?: never;
@@ -4251,7 +6251,407 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_53"];
+        get: operations["listAll_79"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/document-withholdings/uncertified": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listUncertified"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/customer-credit/expiring": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listExpiring_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/customer-credit/entries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAllEntries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/customer-credit/balances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAllBalances"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-usage-events/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_59"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-usage-events/by-company": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_13"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-usage-events/by-charge": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCharge"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-trial-windows/companies/{companyId}/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["current"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-trial-grants/expirations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listExpired"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-limit-overrides/companies/{companyId}/effective-limits/{limitDimensionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["effectiveLimit"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-limit-events/companies/{companyId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_14"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-entitlement-snapshots/companies/{companyId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["latestAsOf"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-activity-months/lookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findByCompanyAndPeriod"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-activity-months/dormant": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDormant"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-activity-months/by-period": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByPeriod_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/company-activity-months/by-company": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_15"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/bank-receipts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_60"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/bank-receipts/unidentified": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listUnidentified"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/accounting-periods/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_61"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/accounting-periods/posting-period": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["resolvePostingPeriod"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/accounting-exports/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_62"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/accounting-exports/by-period/{periodKey}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByPeriod_3"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/accounting-accounts/by-code/{code}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findByCode"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/account-mappings/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_63"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/account-mappings/effective": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["resolve_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4267,7 +6667,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAvailable_1"];
+        get: operations["listAvailable_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4347,7 +6747,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_47"];
+        get: operations["findById_64"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4395,7 +6795,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findCurrent"];
+        get: operations["findCurrent_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4411,7 +6811,39 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_48"];
+        get: operations["findById_65"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscription-payment-methods/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_66"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/subscription-item-limits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMine_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4548,6 +6980,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/smmlv-values/years/{year}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findByYear_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/services/search": {
         parameters: {
             query?: never;
@@ -4635,7 +7083,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_6"];
+        get: operations["listByCompany_16"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4651,7 +7099,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_49"];
+        get: operations["findById_67"];
         put?: never;
         post?: never;
         delete: operations["delete_54"];
@@ -4667,7 +7115,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_50"];
+        get: operations["findById_68"];
         put?: never;
         post?: never;
         delete: operations["delete_55"];
@@ -4699,7 +7147,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_54"];
+        get: operations["listAll_80"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4748,6 +7196,54 @@ export interface paths {
             cookie?: never;
         };
         get: operations["search_3"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public-holidays/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_69"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public-holidays/years/{year}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByYear"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public-holidays/deadline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["deadline"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4827,7 +7323,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_51"];
+        get: operations["findById_70"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4891,7 +7387,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_55"];
+        get: operations["listAll_81"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4923,7 +7419,135 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_7"];
+        get: operations["listByCompany_17"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/payment-reversal-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_18"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/payment-reversal-requests/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_71"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/payment-refunds": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_19"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/payment-refunds/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_72"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/payment-refunds/by-payment/{paymentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByPayment"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/payment-attempts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_20"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/payment-attempts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_73"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/payment-attempts/by-document/{billingDocumentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByDocument"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4955,7 +7579,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_52"];
+        get: operations["findById_74"];
         put?: never;
         post?: never;
         delete: operations["delete_56"];
@@ -5035,7 +7659,55 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAvailable_2"];
+        get: operations["listAvailable_3"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/legal-documents/{code}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCode"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/legal-documents/{code}/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findCurrent_3"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/legal-documents/{code}/by-hash/{contentHash}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findByHash"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5083,7 +7755,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAvailable_3"];
+        get: operations["listAvailable_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5275,7 +7947,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_8"];
+        get: operations["listByCompany_21"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5371,7 +8043,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_53"];
+        get: operations["findById_75"];
         put?: never;
         post?: never;
         delete: operations["delete_57"];
@@ -5499,7 +8171,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_9"];
+        get: operations["listByCompany_22"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5515,7 +8187,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_56"];
+        get: operations["listAll_82"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5531,7 +8203,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_54"];
+        get: operations["findById_76"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5563,7 +8235,55 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_55"];
+        get: operations["findById_77"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/document-withholdings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByCompany_23"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/document-withholdings/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_78"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/document-withholdings/uncertified": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listUncertified_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5595,7 +8315,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAvailable_4"];
+        get: operations["listAvailable_5"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5643,7 +8363,55 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_57"];
+        get: operations["listAll_83"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/customer-credit/entries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEntries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/customer-credit/entries/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findEntry"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/customer-credit/balance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findBalance"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5675,7 +8443,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_56"];
+        get: operations["findById_79"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5716,6 +8484,166 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/company-trial-windows/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["current_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/company-trial-grants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMine_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/company-limit-overrides": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMine_3"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/company-limit-overrides/effective-limits/{limitDimensionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["effectiveLimit_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/company-limit-events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMine_4"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/company-entitlement-snapshots": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["latestAsOf_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/company-contact-channels/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_80"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/company-contact-channels/usable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listUsable"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/company-billing-profile/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_81"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/company-billing-profile/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listHistory"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/companies/search": {
         parameters: {
             query?: never;
@@ -5732,6 +8660,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/companies/disabled": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDisabled_4"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/clinical-history": {
         parameters: {
             query?: never;
@@ -5739,7 +8683,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listByCompany_10"];
+        get: operations["listByCompany_24"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5803,7 +8747,55 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["current"];
+        get: operations["current_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/billing-document-status-history/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_82"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/billing-document-status-history/documents/{billingDocumentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByDocument_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/billing-document-status-history/by-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listByStatus"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5851,7 +8843,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_57"];
+        get: operations["findById_83"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5947,7 +8939,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listDisabled_4"];
+        get: operations["listDisabled_5"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6155,6 +9147,90 @@ export interface components {
             updatedBy?: number;
             /** Format: int64 */
             version: number;
+            enabled: boolean;
+        };
+        UpdateTaxReturnAmountsRequest: {
+            totalGenerated: number;
+            totalDeductible: number;
+            balancePayable: number;
+            balanceCredit: number;
+        };
+        TaxReturnResponse: {
+            /** Format: int64 */
+            id: number;
+            /** @enum {string} */
+            taxKind: "INCOME_TAX" | "VAT" | "ICA" | "WITHHOLDING";
+            /** Format: int32 */
+            fiscalYear: number;
+            fiscalPeriodKey: string;
+            /**
+             * Format: int32
+             * @description 1 la inicial; sube con cada correccion.
+             */
+            sequenceNumber: number;
+            /** @description Codigo DIVIPOLA. Presente solo en las declaraciones de ICA. */
+            municipalityCode?: string;
+            /**
+             * @description Presente solo en las declaraciones de IVA.
+             * @enum {string}
+             */
+            vatFrequency?: "BIMONTHLY" | "FOURMONTHLY" | "ANNUAL";
+            /** @enum {string} */
+            status: "DRAFT" | "FILED" | "CORRECTED" | "ANNULLED";
+            /** Format: date-time */
+            filedAt?: string;
+            /** Format: int64 */
+            filedBySystemUserId?: number;
+            /** @description El radicado. Presente solo si ya se presento. */
+            receiptRef?: string;
+            fileRef?: string;
+            totalGenerated: number;
+            totalDeductible: number;
+            balancePayable: number;
+            balanceCredit: number;
+            /**
+             * Format: date
+             * @description Hasta cuando pueden revisarla. Existe siempre que este presentada.
+             */
+            firmezaUntil?: string;
+            /**
+             * Format: int64
+             * @description La declaracion a la que corrige. Vacio en la inicial.
+             */
+            correctsReturnId?: number;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        UpdateAccountingAccountRequest: {
+            name: string;
+            requiresThirdParty: boolean;
+        };
+        AccountingAccountResponse: {
+            /** Format: int64 */
+            id: number;
+            code: string;
+            name: string;
+            /** @enum {string} */
+            accountClass: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE" | "COST";
+            /** @description Vacio solo en la raiz del plan. */
+            parentCode?: string;
+            /**
+             * Format: int32
+             * @description 1 clase, 2 grupo, 4 cuenta, 6 subcuenta.
+             */
+            accountLevel: number;
+            /** @description Solo el nivel 6 admite asiento. */
+            postable: boolean;
+            requiresThirdParty: boolean;
+            /** Format: date */
+            validFrom: string;
+            /**
+             * Format: date
+             * @description Nulo mientras la vigencia siga abierta.
+             */
+            validTo?: string;
+            /** Format: date-time */
+            createdDate: string;
             enabled: boolean;
         };
         UpdateSystemUserRequest: {
@@ -7000,6 +10076,34 @@ export interface components {
             createdDate: string;
             enabled: boolean;
         };
+        UpdateLimitDimensionRequest: {
+            name: string;
+            /** Format: int64 */
+            subModuleId?: number;
+            /** Format: int32 */
+            releaseDelayDays?: number;
+        };
+        LimitDimensionResponse: {
+            /** Format: int64 */
+            id: number;
+            code: string;
+            name: string;
+            /** @enum {string} */
+            measureKind: "STOCK" | "CUMULATIVE" | "FLOW";
+            subModule?: components["schemas"]["LimitDimensionSubModuleSummary"];
+            /** Format: int32 */
+            releaseDelayDays?: number;
+            /** Format: date */
+            availableFrom: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        LimitDimensionSubModuleSummary: {
+            /** Format: int64 */
+            id: number;
+            code: string;
+            name?: string;
+        };
         UpdateLaboratoryTestRequest: {
             /** Format: date */
             date: string;
@@ -7471,9 +10575,23 @@ export interface components {
             effect: string;
             /** Format: int32 */
             quantity?: number;
+            /**
+             * Format: int32
+             * @description Orden de aplicacion, ascendente. A igualdad, desempata el id.
+             */
+            priority: number;
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
+        };
+        EffectPriorityRequest: {
+            /** Format: int64 */
+            effectId: number;
+            /** Format: int32 */
+            priority: number;
+        };
+        ReorderConfiguratorEffectsRequest: {
+            priorities: components["schemas"]["EffectPriorityRequest"][];
         };
         UpdateCompanyTaxProfileRequest: {
             /** @enum {string} */
@@ -7624,8 +10742,7 @@ export interface components {
             longDescription?: string;
             /** @enum {string} */
             itemType: "MODULE" | "CAPACITY" | "ONE_TIME" | "BUNDLE";
-            /** @enum {string} */
-            capacityUnit?: "USER" | "BRANCH" | "TERMINAL" | "STORAGE_GB";
+            capacityUnit?: string;
             core?: boolean;
             /** Format: int32 */
             minQuantity?: number;
@@ -7645,8 +10762,7 @@ export interface components {
             longDescription?: string;
             /** @enum {string} */
             itemType: "MODULE" | "CAPACITY" | "ONE_TIME" | "BUNDLE";
-            /** @enum {string} */
-            capacityUnit?: "USER" | "BRANCH" | "TERMINAL" | "STORAGE_GB";
+            capacityUnit?: string;
             core: boolean;
             /** Format: int32 */
             minQuantity: number;
@@ -7659,6 +10775,50 @@ export interface components {
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
+        };
+        UpdateCatalogItemLimitRequest: {
+            /** @enum {string} */
+            mode: "FULL" | "LIMITED";
+            /** Format: int32 */
+            limitQuantity?: number;
+            /** @enum {string} */
+            resetPeriod?: "MONTH" | "QUARTER" | "SEMESTER";
+            /** @enum {string} */
+            enforcement: "WARN" | "BLOCK" | "READ_ONLY" | "OVERAGE";
+            overageUnitAmount?: number;
+            /** Format: int32 */
+            warnThreshold: number;
+            /** @enum {string} */
+            trialMode: "FULL" | "LIMITED";
+            /** Format: int32 */
+            trialLimitQuantity?: number;
+        };
+        CatalogItemLimitResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            catalogItemId: number;
+            /** Format: int64 */
+            limitDimensionId: number;
+            /** @enum {string} */
+            measureKind: "STOCK" | "CUMULATIVE" | "FLOW";
+            /** @enum {string} */
+            mode: "FULL" | "LIMITED";
+            /** Format: int32 */
+            limitQuantity?: number;
+            /** @enum {string} */
+            resetPeriod?: "MONTH" | "QUARTER" | "SEMESTER";
+            /** @enum {string} */
+            enforcement: "WARN" | "BLOCK" | "READ_ONLY" | "OVERAGE";
+            overageUnitAmount?: number;
+            /** Format: int32 */
+            warnThreshold: number;
+            /** @enum {string} */
+            trialMode: "FULL" | "LIMITED";
+            /** Format: int32 */
+            trialLimitQuantity?: number;
+            /** Format: date-time */
+            createdDate: string;
         };
         UpdateCatalogItemDependencyRequest: {
             /** @enum {string} */
@@ -7905,6 +11065,28 @@ export interface components {
             name: string;
             description?: string;
         };
+        CreateVatFilingPeriodRequest: {
+            /** Format: int32 */
+            fiscalYear?: number;
+            /** @enum {string} */
+            frequency: "BIMONTHLY" | "FOURMONTHLY" | "ANNUAL";
+            legalReference: string;
+        };
+        VatFilingPeriodResponse: {
+            /** Format: int64 */
+            id: number;
+            /**
+             * Format: int32
+             * @example 2026
+             */
+            fiscalYear: number;
+            /** @enum {string} */
+            frequency: "BIMONTHLY" | "FOURMONTHLY" | "ANNUAL";
+            legalReference: string;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
         CreateVaccinationRequest: {
             /** Format: date */
             date: string;
@@ -7926,11 +11108,245 @@ export interface components {
             description?: string;
             general?: boolean;
         };
+        CreateUvtValueRequest: {
+            /** Format: int32 */
+            fiscalYear?: number;
+            valueAmount: number;
+            legalReference: string;
+        };
+        UvtValueResponse: {
+            /** Format: int64 */
+            id: number;
+            /**
+             * Format: int32
+             * @example 2026
+             */
+            fiscalYear: number;
+            /** @example 52374 */
+            valueAmount: number;
+            /** @example Resolucion DIAN 000238 del 15-12-2025 */
+            legalReference: string;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
         CreateTaxRequest: {
             name: string;
             percentage: number;
             /** @enum {string} */
             taxScheme: "IVA" | "INC";
+        };
+        CreateWithholdingRateRuleRequest: {
+            /** @enum {string} */
+            withholdingType: "INCOME_TAX" | "VAT" | "ICA";
+            /** @enum {string} */
+            serviceNature: "SOFTWARE_LICENSING" | "TECHNICAL_SERVICE" | "CONSULTING";
+            municipalityCode?: string;
+            /** @description Porcentaje, no fraccion. El 6,9 por mil se escribe 0.690000. */
+            ratePercent: number;
+            minimumBaseAmount?: number;
+            minimumBaseUvt?: number;
+            legalReference?: string;
+            /** Format: date */
+            validFrom: string;
+            /** Format: date */
+            validTo?: string;
+        };
+        WithholdingRateRuleResponse: {
+            /** Format: int64 */
+            id: number;
+            /** @enum {string} */
+            withholdingType: "INCOME_TAX" | "VAT" | "ICA";
+            /** @enum {string} */
+            serviceNature: "SOFTWARE_LICENSING" | "TECHNICAL_SERVICE" | "CONSULTING";
+            /** @description Codigo DIVIPOLA. Presente solo en las reglas de ICA. */
+            municipalityCode?: string;
+            /** @description Porcentaje, no fraccion: el 6,9 por mil es 0.690000. */
+            ratePercent: number;
+            minimumBaseAmount?: number;
+            minimumBaseUvt?: number;
+            legalReference?: string;
+            /** Format: date */
+            validFrom: string;
+            /**
+             * Format: date
+             * @description Nulo mientras la vigencia siga abierta.
+             */
+            validTo?: string;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
+        RegisterWithholdingCertificateRequest: {
+            issuedByTaxId: string;
+            certificateNumber: string;
+            /** @enum {string} */
+            withholdingType: "INCOME_TAX" | "VAT" | "ICA";
+            /** Format: int32 */
+            fiscalYear: number;
+            fiscalPeriodKey: string;
+            ratePercent: number;
+            certifiedAmount: number;
+            /** Format: date */
+            issuedOn: string;
+            /** Format: date */
+            legalDeadlineOn: string;
+        };
+        WithholdingCertificateResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            issuedByTaxId: string;
+            certificateNumber: string;
+            /** @enum {string} */
+            withholdingType: "INCOME_TAX" | "VAT" | "ICA";
+            /** Format: int32 */
+            fiscalYear: number;
+            fiscalPeriodKey: string;
+            ratePercent: number;
+            certifiedAmount: number;
+            /** Format: date */
+            issuedOn: string;
+            /** Format: date */
+            legalDeadlineOn: string;
+            /** Format: date */
+            receivedOn?: string;
+            fileRef?: string;
+            /** @enum {string} */
+            substituteEvidenceKind?: "PAYMENT_RECEIPT";
+            substituteEvidenceRef?: string;
+            supported: boolean;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        CreateTaxReturnRequest: {
+            /** @enum {string} */
+            taxKind: "INCOME_TAX" | "VAT" | "ICA" | "WITHHOLDING";
+            /** Format: int32 */
+            fiscalYear: number;
+            /** @description 2026-A renta, 2026-M03 retencion, 2026-B03 bimestre, 2026-C02 cuatrimestre. */
+            fiscalPeriodKey: string;
+            municipalityCode?: string;
+            /** @enum {string} */
+            vatFrequency?: "BIMONTHLY" | "FOURMONTHLY" | "ANNUAL";
+            totalGenerated: number;
+            totalDeductible: number;
+            balancePayable: number;
+            balanceCredit: number;
+        };
+        PracticeSupplierWithholdingRequest: {
+            supplierTaxId: string;
+            supplierName: string;
+            /** @enum {string} */
+            supplierDocType: "NIT" | "CC" | "CE" | "PASSPORT" | "FOREIGN_ID";
+            supplierInvoiceRef: string;
+            /** @enum {string} */
+            withholdingType: "INCOME_TAX" | "VAT" | "ICA";
+            concept: string;
+            taxableBase: number;
+            /** @description Porcentaje, no fraccion. El 6,9 por mil se escribe 0.690000. */
+            ratePercent: number;
+            amount: number;
+            municipalityCode?: string;
+            /** Format: int32 */
+            fiscalYear: number;
+            /** @description 2026-M03 para retencion en la fuente; 2026-B02 para reteiva y reteica. */
+            fiscalPeriodKey: string;
+            /** Format: date */
+            practicedOn: string;
+        };
+        SupplierWithholdingResponse: {
+            /** Format: int64 */
+            id: number;
+            supplierTaxId: string;
+            supplierName: string;
+            /** @enum {string} */
+            supplierDocType: "NIT" | "CC" | "CE" | "PASSPORT" | "FOREIGN_ID";
+            supplierInvoiceRef: string;
+            /** @enum {string} */
+            withholdingType: "INCOME_TAX" | "VAT" | "ICA";
+            concept: string;
+            taxableBase: number;
+            /** @description Porcentaje, no fraccion: el 6,9 por mil es 0.690000. */
+            ratePercent: number;
+            amount: number;
+            /** @description Codigo DIVIPOLA. Presente solo en las retenciones de ICA. */
+            municipalityCode?: string;
+            /** Format: int32 */
+            fiscalYear: number;
+            fiscalPeriodKey: string;
+            /** Format: date */
+            practicedOn: string;
+            /**
+             * Format: date-time
+             * @description Presente solo si ya se emitio el certificado.
+             */
+            certificateIssuedAt?: string;
+            /** @description Acompaña siempre a certificateIssuedAt. */
+            certificateRef?: string;
+            /** @description La prueba de la consignacion, cuando llega. */
+            paymentReceiptRef?: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        PropagateCatalogLimitImprovementRequest: {
+            /** Format: int64 */
+            catalogItemId: number;
+            /** Format: int64 */
+            limitDimensionId: number;
+            /** @enum {string} */
+            factoryMode: "FULL" | "LIMITED";
+            /** Format: int32 */
+            factoryLimitQuantity?: number;
+        };
+        LimitPropagationResponse: {
+            /** Format: int32 */
+            improvedContracts: number;
+        };
+        FreezeSubscriptionItemLimitRequest: {
+            /** Format: int64 */
+            subscriptionItemId: number;
+            /** Format: int64 */
+            limitDimensionId: number;
+            /** @enum {string} */
+            measureKind: "STOCK" | "CUMULATIVE" | "FLOW";
+            /** @enum {string} */
+            mode: "FULL" | "LIMITED";
+            /** Format: int32 */
+            limitQuantity?: number;
+            /** @enum {string} */
+            resetPeriod?: "MONTH" | "QUARTER" | "SEMESTER";
+            /** @enum {string} */
+            enforcement: "WARN" | "BLOCK" | "READ_ONLY" | "OVERAGE";
+            overageUnitAmount?: number;
+            /** Format: int32 */
+            warnThreshold: number;
+        };
+        SubscriptionItemLimitResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            subscriptionItemId: number;
+            /** Format: int64 */
+            limitDimensionId: number;
+            /** @enum {string} */
+            measureKind: "STOCK" | "CUMULATIVE" | "FLOW";
+            /** @enum {string} */
+            mode: "FULL" | "LIMITED";
+            /** Format: int32 */
+            limitQuantity?: number;
+            /** @enum {string} */
+            resetPeriod?: "MONTH" | "QUARTER" | "SEMESTER";
+            /** @enum {string} */
+            enforcement: "WARN" | "BLOCK" | "READ_ONLY" | "OVERAGE";
+            overageUnitAmount?: number;
+            /** Format: int32 */
+            warnThreshold: number;
+            /** Format: date-time */
+            createdDate: string;
         };
         GenerateBillingDocumentRequest: {
             /** Format: int64 */
@@ -8009,7 +11425,7 @@ export interface components {
             /** Format: int64 */
             subscriptionItemId?: number;
             /** @enum {string} */
-            chargeType: "RECURRING" | "PRORATION" | "ONE_TIME" | "CREDIT" | "DISCOUNT";
+            chargeType: "RECURRING" | "PRORATION" | "ONE_TIME" | "CREDIT" | "DISCOUNT" | "OVERAGE";
             description: string;
             /** Format: date */
             servicePeriodStart: string;
@@ -8036,7 +11452,7 @@ export interface components {
             /** Format: int64 */
             subscriptionItemId?: number;
             /** @enum {string} */
-            chargeType?: "RECURRING" | "PRORATION" | "ONE_TIME" | "CREDIT" | "DISCOUNT";
+            chargeType?: "RECURRING" | "PRORATION" | "ONE_TIME" | "CREDIT" | "DISCOUNT" | "OVERAGE";
             description?: string;
             /** Format: date */
             servicePeriodStart?: string;
@@ -8066,6 +11482,878 @@ export interface components {
         VoidSubscriptionChargeRequest: {
             description: string;
         };
+        RegisterSecurityIncidentRequest: {
+            /** Format: date-time */
+            detectedAt: string;
+            /** Format: date-time */
+            occurredAt?: string;
+            /**
+             * Format: date-time
+             * @description El escalamiento interno. Desde aqui corren los 15 dias habiles del reporte a la SIC, no desde la deteccion.
+             */
+            escalatedAt: string;
+            /** @enum {string} */
+            kind: "UNAUTHORIZED_ACCESS" | "DATA_LOSS" | "DATA_LEAK" | "RANSOMWARE" | "SERVICE_ABUSE" | "OTHER";
+            /** @enum {string} */
+            severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+            summary: string;
+            /** Format: int32 */
+            affectedSubjectCount?: number;
+        };
+        SecurityIncidentResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: date-time */
+            detectedAt: string;
+            /**
+             * Format: date-time
+             * @description Cuando ocurrio de verdad, si se supo. Nunca posterior a la deteccion.
+             */
+            occurredAt?: string;
+            /**
+             * Format: date-time
+             * @description El escalamiento interno: desde aqui corren los 15 dias habiles del reporte a la SIC.
+             */
+            escalatedAt: string;
+            /** @enum {string} */
+            kind: "UNAUTHORIZED_ACCESS" | "DATA_LOSS" | "DATA_LEAK" | "RANSOMWARE" | "SERVICE_ABUSE" | "OTHER";
+            /** @enum {string} */
+            severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+            summary: string;
+            /**
+             * Format: int32
+             * @description Total declarado. El reparto real son las filas de afectados.
+             */
+            affectedSubjectCount: number;
+            /**
+             * Format: date-time
+             * @description Vencimiento del reporte: 15 dias habiles desde el escalamiento, no desde la deteccion.
+             */
+            deadlineAt: string;
+            /**
+             * Format: date-time
+             * @description Nulo mientras no se haya reportado.
+             */
+            reportedToAuthorityAt?: string;
+            /** @description El radicado. Va siempre junto a la fecha de reporte. */
+            reportReference?: string;
+            /** Format: date-time */
+            notifiedSubjectsAt?: string;
+            containment?: string;
+            rootCause?: string;
+            /**
+             * Format: date-time
+             * @description Nulo mientras el incidente siga abierto.
+             */
+            closedAt?: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        RegisterAffectedCompanyRequest: {
+            /**
+             * @description Entra en la unicidad: la misma clinica puede constar con dos ambitos distintos.
+             * @enum {string}
+             */
+            affectedScope: "PERSONAL_DATA" | "CLINICAL_DATA" | "BILLING_DATA" | "CREDENTIALS";
+            /** Format: int32 */
+            affectedSubjectCount?: number;
+        };
+        AffectedCompanyResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            securityIncidentId: number;
+            /** Format: int64 */
+            companyId: number;
+            /** @enum {string} */
+            affectedScope: "PERSONAL_DATA" | "CLINICAL_DATA" | "BILLING_DATA" | "CREDENTIALS";
+            /**
+             * Format: int32
+             * @description Los titulares de esa clinica, no los del incidente entero.
+             */
+            affectedSubjectCount: number;
+        };
+        OpenPlatformTaxProfileRequest: {
+            /** @enum {string} */
+            documentType: "NIT" | "CEDULA_CIUDADANIA" | "CEDULA_EXTRANJERIA" | "PASAPORTE";
+            documentId: string;
+            /** @description Solo el NIT lo lleva. Sale del modulo 11 y se copia del RUT: no se calcula aqui. */
+            verificationDigit?: string;
+            /** @description Se imprime en la factura de cada cliente. */
+            legalName: string;
+            /** @enum {string} */
+            taxRegime: "RESPONSABLE_IVA" | "NO_RESPONSABLE_IVA";
+            fiscalEmail: string;
+            commercialName?: string;
+            /**
+             * Format: int64
+             * @description Opcional: la columna es nulable.
+             */
+            economicActivityId?: number;
+            /** @description Si VetSoftware es autorretenedor. Coexiste con que sus clientes le retengan; no se deduce lo uno de lo otro. */
+            selfWithholder: boolean;
+            /** Format: date */
+            validFrom: string;
+        };
+        PlatformEconomicActivitySummary: {
+            /** Format: int64 */
+            id: number;
+            code: string;
+            name: string;
+        };
+        PlatformTaxProfileResponse: {
+            /** Format: int64 */
+            id: number;
+            /** @enum {string} */
+            documentType: "NIT" | "CEDULA_CIUDADANIA" | "CEDULA_EXTRANJERIA" | "PASAPORTE";
+            documentId: string;
+            /** @description Solo el NIT lo lleva. */
+            verificationDigit?: string;
+            /** @description Se imprime en la factura de cada cliente. */
+            legalName: string;
+            /** @enum {string} */
+            taxRegime: "RESPONSABLE_IVA" | "NO_RESPONSABLE_IVA";
+            fiscalEmail: string;
+            commercialName?: string;
+            economicActivity?: components["schemas"]["PlatformEconomicActivitySummary"];
+            /** @description Si VetSoftware es autorretenedor. Hoy ningun calculo lo consume todavia. */
+            selfWithholder: boolean;
+            /** Format: date */
+            validFrom: string;
+            /**
+             * Format: date
+             * @description Nulo mientras la vigencia siga abierta.
+             */
+            validTo?: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        SucceedPlatformTaxProfileRequest: {
+            /** @enum {string} */
+            documentType: "NIT" | "CEDULA_CIUDADANIA" | "CEDULA_EXTRANJERIA" | "PASAPORTE";
+            documentId: string;
+            verificationDigit?: string;
+            legalName: string;
+            /** @enum {string} */
+            taxRegime: "RESPONSABLE_IVA" | "NO_RESPONSABLE_IVA";
+            fiscalEmail: string;
+            commercialName?: string;
+            /**
+             * Format: int64
+             * @description Opcional: la columna es nulable.
+             */
+            economicActivityId?: number;
+            selfWithholder: boolean;
+            /**
+             * Format: date
+             * @description Estrictamente posterior al validFrom de la vigente: una identidad abierta hoy no se puede suceder hoy.
+             */
+            effectiveFrom: string;
+        };
+        OpenReversalRequest: {
+            /** Format: int64 */
+            paymentId: number;
+            /** @enum {string} */
+            origin: "CONSUMER_CLAIM" | "GATEWAY_CHARGEBACK";
+            /** @enum {string} */
+            causal?: "FRAUD" | "UNSOLICITED_OPERATION" | "PRODUCT_NOT_RECEIVED" | "NOT_AS_ORDERED" | "DEFECTIVE";
+            /** @enum {string} */
+            consumerDetermination: "CONSUMER" | "NOT_CONSUMER" | "UNDETERMINED";
+            /** Format: date-time */
+            consumerBecameAwareAt?: string;
+            /** Format: date-time */
+            claimReceivedAt: string;
+            /** Format: date-time */
+            issuerNotifiedAt?: string;
+            claimEvidenceRef?: string;
+            /** Format: date-time */
+            deadlineAt: string;
+        };
+        PaymentReversalRequestResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            paymentId: number;
+            /** @enum {string} */
+            origin: "CONSUMER_CLAIM" | "GATEWAY_CHARGEBACK";
+            /** @enum {string} */
+            causal?: "FRAUD" | "UNSOLICITED_OPERATION" | "PRODUCT_NOT_RECEIVED" | "NOT_AS_ORDERED" | "DEFECTIVE";
+            /** @enum {string} */
+            consumerDetermination: "CONSUMER" | "NOT_CONSUMER" | "UNDETERMINED";
+            /** Format: date-time */
+            consumerBecameAwareAt?: string;
+            /** Format: date-time */
+            claimReceivedAt: string;
+            /** Format: date-time */
+            issuerNotifiedAt?: string;
+            claimEvidenceRef?: string;
+            acknowledgementRef?: string;
+            /** Format: date-time */
+            acknowledgedAt?: string;
+            /** @enum {string} */
+            oppositionGround?: "OPERATION_DID_NOT_EXIST" | "INSUFFICIENT_FUNDS" | "CAUSAL_NOT_REPORTED";
+            oppositionEvidenceRef?: string;
+            /** Format: date-time */
+            opposedAt?: string;
+            /** Format: date-time */
+            deadlineAt: string;
+            appliedAmount?: number;
+            /** @enum {string} */
+            outcome?: "ACCEPTED" | "PARTIALLY_ACCEPTED" | "REJECTED" | "WITHDRAWN";
+            /** Format: int64 */
+            resultingRefundId?: number;
+            /** Format: date-time */
+            createdDate: string;
+            /** Format: int64 */
+            version?: number;
+        };
+        RegisterPaymentRefundRequest: {
+            /** Format: int64 */
+            paymentId: number;
+            /** Format: int64 */
+            sourceDocumentId?: number;
+            amount: number;
+            /** @enum {string} */
+            method: "CARD" | "PSE" | "BANK_TRANSFER" | "CUSTOMER_CREDIT";
+            destinationReference?: string;
+            /** Format: date-time */
+            refundedAt: string;
+            /** Format: date */
+            valueDate: string;
+            /** @enum {string} */
+            reasonCode: "WITHDRAWAL" | "BILLING_ERROR" | "CANCELLATION_CREDIT" | "REVERSAL" | "DUPLICATE_PAYMENT" | "OTHER";
+            reason: string;
+            /** Format: int64 */
+            authorizedBySystemUserId: number;
+            clientRequestId?: string;
+        };
+        SystemPaymentRefundResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            paymentId: number;
+            /** Format: int64 */
+            sourceDocumentId?: number;
+            amount: number;
+            /** @enum {string} */
+            method: "CARD" | "PSE" | "BANK_TRANSFER" | "CUSTOMER_CREDIT";
+            destinationReference?: string;
+            /** Format: date-time */
+            refundedAt: string;
+            /** Format: date */
+            valueDate: string;
+            /** @enum {string} */
+            reasonCode: "WITHDRAWAL" | "BILLING_ERROR" | "CANCELLATION_CREDIT" | "REVERSAL" | "DUPLICATE_PAYMENT" | "OTHER";
+            reason: string;
+            /**
+             * Format: int64
+             * @description Id interno del operador que autorizo la devolucion. Solo plataforma.
+             */
+            authorizedBySystemUserId: number;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        RecordPaymentAttemptRequest: {
+            /** Format: int64 */
+            billingDocumentId: number;
+            /** Format: int64 */
+            paymentMethodId?: number;
+            gateway: string;
+            requestedAmount: number;
+            gatewayDeclineCode?: string;
+            /** @enum {string} */
+            declineKind: "SOFT" | "HARD" | "CONFIGURATION";
+            /** Format: date-time */
+            attemptedAt: string;
+            /** Format: date-time */
+            nextAttemptAt?: string;
+        };
+        SystemPaymentAttemptResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            billingDocumentId: number;
+            /** Format: int64 */
+            paymentMethodId?: number;
+            /** Format: int32 */
+            attemptNumber: number;
+            gateway: string;
+            requestedAmount: number;
+            /** @description Codigo crudo de la pasarela. Solo plataforma. */
+            gatewayDeclineCode?: string;
+            /** @enum {string} */
+            declineKind: "SOFT" | "HARD" | "CONFIGURATION";
+            /** Format: date-time */
+            attemptedAt: string;
+            /** Format: date-time */
+            nextAttemptAt?: string;
+            /** Format: date-time */
+            createdDate: string;
+            /** Format: int64 */
+            version?: number;
+        };
+        RegisterGatewaySettlementRequest: {
+            gateway: string;
+            settlementReference: string;
+            grossAmount: number;
+            feeAmount: number;
+            feeTaxAmount: number;
+            gmfAmount: number;
+            netAmount: number;
+            /** Format: int32 */
+            paymentCount?: number;
+            /** Format: date */
+            settledOn: string;
+        };
+        GatewaySettlementResponse: {
+            /** Format: int64 */
+            id: number;
+            gateway: string;
+            settlementReference: string;
+            providerInvoiceRef?: string;
+            providerTaxId?: string;
+            grossAmount: number;
+            feeAmount: number;
+            feeTaxAmount: number;
+            gmfAmount: number;
+            netAmount: number;
+            /** @description Comision + impuesto de la comision + gravamen: lo que costo cobrar. Derivado, no almacenado. */
+            totalCost: number;
+            /** Format: int32 */
+            paymentCount: number;
+            /** Format: date */
+            settledOn: string;
+            /** Format: int64 */
+            bankReceiptId?: number;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        OpenExternalInvoicingOutageRequest: {
+            /**
+             * Format: date-time
+             * @description Instante observado del inicio, no el reloj del servidor.
+             */
+            startedAt: string;
+            /** @enum {string} */
+            causeParty: "EXTERNAL_ISSUER" | "AUTHORITY" | "NETWORK" | "OWN";
+            summary: string;
+            /** Format: int32 */
+            affectedCompanyCount?: number;
+            externalIncidentRef?: string;
+        };
+        ExternalInvoicingOutageResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: date-time */
+            startedAt: string;
+            /**
+             * Format: date-time
+             * @description Nulo mientras la caida sigue viva.
+             */
+            endedAt?: string;
+            /**
+             * @description Separa un incidente de un incumplimiento propio.
+             * @enum {string}
+             */
+            causeParty: "EXTERNAL_ISSUER" | "AUTHORITY" | "NETWORK" | "OWN";
+            summary: string;
+            /**
+             * Format: int32
+             * @description Contador de conveniencia: la verdad esta en el reparto por clinica.
+             */
+            affectedCompanyCount: number;
+            /**
+             * Format: date-time
+             * @description Nulo mientras no se haya avisado.
+             */
+            notifiedCompaniesAt?: string;
+            /** @description El radicado del proveedor externo. */
+            externalIncidentRef?: string;
+            /** @description Si la caida sigue viva. */
+            open: boolean;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        RegisterOutageAffectedCompanyRequest: {
+            /** Format: int32 */
+            failedDocumentCount?: number;
+            /**
+             * @description CONTINGENCY_NUMBERING justifica la numeracion usada durante la caida.
+             * @enum {string}
+             */
+            resolvedBy: "RETRIED" | "MANUAL" | "CONTINGENCY_NUMBERING";
+        };
+        OutageAffectedCompanyResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            outageId: number;
+            /** Format: int64 */
+            companyId: number;
+            /**
+             * Format: int32
+             * @description El numero que sostiene la reclamacion de esa clinica.
+             */
+            failedDocumentCount: number;
+            /** @enum {string} */
+            resolvedBy: "RETRIED" | "MANUAL" | "CONTINGENCY_NUMBERING";
+            /** @description Si salio con numeracion de contingencia, que es lo que hay que demostrar. */
+            contingencyNumbering: boolean;
+        };
+        OpenExternalInvoiceReconciliationRequest: {
+            /** Format: int64 */
+            billingDocumentId: number;
+            computedTotal: number;
+            computedTax: number;
+        };
+        ExternalInvoiceReconciliationResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            billingDocumentId: number;
+            externalResolutionNumber?: string;
+            /** Format: int32 */
+            externalRangeFrom?: number;
+            /** Format: int32 */
+            externalRangeTo?: number;
+            /** Format: date */
+            resolutionValidUntil?: string;
+            externalInvoiceId?: string;
+            externalCufe?: string;
+            computedTotal: number;
+            computedTax: number;
+            externalTotal?: number;
+            externalTax?: number;
+            difference?: number;
+            /** @enum {string} */
+            status: "MATCHED" | "WITHIN_TOLERANCE" | "MISMATCH" | "MISSING_EXTERNAL";
+            /** Format: int64 */
+            resolvedBySystemUserId?: number;
+            /** Format: date-time */
+            resolvedAt?: string;
+            resolutionNote?: string;
+            postingPeriod?: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        ResolveExternalInvoiceReconciliationRequest: {
+            /** Format: int64 */
+            resolvedBySystemUserId: number;
+            resolutionNote: string;
+            postingPeriod: string;
+        };
+        MatchExternalInvoiceRequest: {
+            externalInvoiceId: string;
+            externalCufe?: string;
+            externalTotal: number;
+            externalTax: number;
+            externalResolutionNumber?: string;
+            /** Format: int32 */
+            externalRangeFrom?: number;
+            /** Format: int32 */
+            externalRangeTo?: number;
+            /** Format: date */
+            resolutionValidUntil?: string;
+        };
+        RegisterDocumentWithholdingRequest: {
+            /** Format: int64 */
+            billingDocumentId: number;
+            /** @enum {string} */
+            type: "INCOME_TAX" | "VAT" | "ICA";
+            taxableBase: number;
+            ratePercent: number;
+            amount: number;
+            municipalityCode?: string;
+            /** Format: int32 */
+            fiscalYear?: number;
+            fiscalPeriodKey: string;
+            /** Format: date */
+            practicedOn: string;
+        };
+        DocumentWithholdingResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            billingDocumentId: number;
+            /** @enum {string} */
+            type: "INCOME_TAX" | "VAT" | "ICA";
+            taxableBase: number;
+            ratePercent: number;
+            amount: number;
+            municipalityCode?: string;
+            /** Format: int32 */
+            fiscalYear: number;
+            fiscalPeriodKey: string;
+            /** Format: date */
+            practicedOn: string;
+            /** Format: int64 */
+            certificateId?: number;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        LinkWithholdingCertificateRequest: {
+            /** Format: int64 */
+            certificateId: number;
+        };
+        GrantCustomerCreditRequest: {
+            amount: number;
+            /** @enum {string} */
+            originKind: "OVERPAYMENT" | "CREDIT_NOTE" | "CANCELLATION" | "APPLICATION" | "EXPIRY" | "ROUNDING" | "MANUAL";
+            /** Format: int64 */
+            originPaymentId?: number;
+            /** Format: int64 */
+            originDocumentId?: number;
+            /** Format: int64 */
+            originSubscriptionId?: number;
+            /** Format: date */
+            expiresOn?: string;
+            clientRequestId: string;
+        };
+        CustomerCreditEntryResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** @enum {string} */
+            entryKind: "GRANT" | "CONSUMPTION" | "EXPIRATION" | "VOID" | "CORRECTION";
+            amount: number;
+            /** Format: int64 */
+            lotEntryId?: number;
+            /** @enum {string} */
+            originKind: "OVERPAYMENT" | "CREDIT_NOTE" | "CANCELLATION" | "APPLICATION" | "EXPIRY" | "ROUNDING" | "MANUAL";
+            /** Format: int64 */
+            originPaymentId?: number;
+            /** Format: int64 */
+            originDocumentId?: number;
+            /** Format: int64 */
+            originSubscriptionId?: number;
+            /** Format: date-time */
+            occurredAt: string;
+            /** Format: date */
+            valueDate: string;
+            /** Format: date */
+            expiresOn?: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        ConsumeCustomerCreditRequest: {
+            amount: number;
+            /** Format: int64 */
+            originDocumentId: number;
+            clientRequestId: string;
+        };
+        RecordCompanyUsageEventRequest: {
+            /** @description Solo los ejes contables: OWNER, ANIMAL, APPOINTMENT o INVOICE. */
+            limitDimensionCode: string;
+            /** Format: int64 */
+            usageReferenceId: number;
+            /**
+             * Format: date-time
+             * @description El instante del registro consumido, no la hora del proceso que lo mide.
+             */
+            occurredAt: string;
+            periodKey: string;
+            billable: boolean;
+        };
+        CompanyUsageEventResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            limitDimensionId: number;
+            /**
+             * @description El eje contable del hecho, que dice a que tabla apunta la referencia.
+             * @enum {string}
+             */
+            branch: "OWNER" | "ANIMAL" | "APPOINTMENT" | "INVOICE";
+            /**
+             * Format: int64
+             * @description El registro consumido, en la tabla que indica la rama.
+             */
+            usageReferenceId: number;
+            /**
+             * Format: date-time
+             * @description Cuando ocurrio el hecho. NO es cuando se anoto.
+             */
+            occurredAt: string;
+            periodKey: string;
+            billable: boolean;
+            /**
+             * Format: int64
+             * @description El cargo que lo facturo. Nulo mientras el hecho no se haya cobrado.
+             */
+            chargeId?: number;
+            /**
+             * Format: date-time
+             * @description Cuando se anoto el hecho.
+             */
+            createdDate: string;
+        };
+        OpenTrialWindowRequest: {
+            /** Format: date */
+            startDate: string;
+            /** Format: int32 */
+            windowDays: number;
+            /** Format: int64 */
+            sourceQuoteId: number;
+        };
+        CompanyTrialWindowResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: date */
+            startDate: string;
+            /**
+             * Format: date
+             * @description Último día en prueba, incluido
+             */
+            endDate: string;
+            /** Format: int32 */
+            windowDays: number;
+            /** Format: int64 */
+            sourceQuoteId: number;
+            /** Format: date-time */
+            closedAt?: string;
+            open: boolean;
+        };
+        GrantTrialRequest: {
+            /** Format: int64 */
+            catalogItemId: number;
+            /** Format: date */
+            grantedOn: string;
+            /** Format: int32 */
+            daysGranted: number;
+            /** Format: int32 */
+            policyTrialDays: number;
+            /** @enum {string} */
+            policyTrialOutcome: "CONVERT_TO_PAID" | "LIMITED" | "READ_ONLY";
+            /** Format: int64 */
+            sourceQuoteId?: number;
+            /** Format: int64 */
+            grantingAmendmentId?: number;
+        };
+        CompanyTrialGrantResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            catalogItemId: number;
+            /** Format: int64 */
+            trialWindowId: number;
+            /** Format: date */
+            grantedOn: string;
+            /** Format: int32 */
+            daysGranted: number;
+            /**
+             * Format: int32
+             * @description Días reales tras el recorte de la ventana
+             */
+            effectiveDays: number;
+            /** Format: date */
+            trialEndDate: string;
+            /** Format: int32 */
+            policyTrialDays: number;
+            /** @enum {string} */
+            policyTrialOutcome: "CONVERT_TO_PAID" | "LIMITED" | "READ_ONLY";
+            /** Format: int64 */
+            sourceQuoteId?: number;
+            /** Format: int64 */
+            grantingAmendmentId?: number;
+            /** Format: date-time */
+            consumedAt?: string;
+            /** @enum {string} */
+            outcome?: "CONVERTED" | "LIMITED" | "READ_ONLY" | "ABANDONED";
+            live: boolean;
+        };
+        ConsumeTrialGrantRequest: {
+            /** @enum {string} */
+            outcome?: "CONVERTED" | "LIMITED" | "READ_ONLY" | "ABANDONED";
+        };
+        GrantCompanyLimitOverrideRequest: {
+            /** Format: int64 */
+            limitDimensionId: number;
+            /** Format: int32 */
+            limitQuantity: number;
+            /** Format: date */
+            validFrom: string;
+            /** @enum {string} */
+            reasonCode: "RETENTION" | "MIGRATION" | "COMMERCIAL_AGREEMENT" | "SUPPORT_INCIDENT" | "OTHER";
+            reason: string;
+        };
+        CompanyLimitOverrideResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            limitDimensionId: number;
+            /** Format: int32 */
+            limitQuantity: number;
+            /** Format: date */
+            validFrom: string;
+            /** Format: date */
+            validTo?: string;
+            /** @enum {string} */
+            reasonCode: "RETENTION" | "MIGRATION" | "COMMERCIAL_AGREEMENT" | "SUPPORT_INCIDENT" | "OTHER";
+            reason: string;
+            /** Format: int64 */
+            grantedBySystemUserId: number;
+            /** Format: int64 */
+            revokedBySystemUserId?: number;
+            /** Format: date-time */
+            revokedAt?: string;
+            /** @enum {string} */
+            revokedReasonCode?: "RETENTION" | "MIGRATION" | "COMMERCIAL_AGREEMENT" | "SUPPORT_INCIDENT" | "OTHER";
+            revokedReason?: string;
+            alive: boolean;
+        };
+        RevokeCompanyLimitOverrideRequest: {
+            /** @enum {string} */
+            revokedReasonCode: "RETENTION" | "MIGRATION" | "COMMERCIAL_AGREEMENT" | "SUPPORT_INCIDENT" | "OTHER";
+            revokedReason: string;
+        };
+        UsageReconciliationResponse: {
+            /** Format: int32 */
+            examined: number;
+            /** Format: int32 */
+            matched: number;
+            /** Format: int32 */
+            drifted: number;
+            /** Format: int32 */
+            skipped: number;
+            /**
+             * Format: int64
+             * @description Cursor para pedir el lote siguiente
+             */
+            lastId: number;
+            /** @description El lote salió lleno: hay que pedir otro */
+            fullBatch: boolean;
+        };
+        AdjustCompanyUsageRequest: {
+            /** Format: int64 */
+            limitDimensionId: number;
+            capacityUnit: string;
+            /** Format: int32 */
+            delta: number;
+            reasonCode: string;
+            reason: string;
+        };
+        CompanyLimitEventResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            limitDimensionId: number;
+            /** @enum {string} */
+            eventType: "THRESHOLD_WARNED" | "LIMIT_BLOCKED" | "LIMIT_RAISED" | "USAGE_RECONCILED" | "USAGE_ADJUSTED" | "OVER_LIMIT_ON_DOWNGRADE";
+            /** Format: int32 */
+            limitQuantity: number;
+            /** Format: int32 */
+            usedQuantity: number;
+            /** Format: int32 */
+            requestedDelta: number;
+            /**
+             * @description De dónde salía el techo en el momento del hecho
+             * @enum {string}
+             */
+            limitSource: "COMPANY_OVERRIDE" | "SUBSCRIPTION" | "CATALOG_DEFAULT" | "NONE";
+            /** Format: int64 */
+            overrideId?: number;
+            /** Format: int64 */
+            actorEmployeeId?: number;
+            /** Format: int64 */
+            actorSystemUserId?: number;
+            actorIsProcess: boolean;
+            reasonCode?: string;
+            reason?: string;
+            /** Format: date-time */
+            occurredAt: string;
+        };
+        RecordCompanyActivityMonthRequest: {
+            /** @example 2026-08 */
+            periodKey: string;
+            /** @enum {string} */
+            commercialState: "PAID" | "FREE" | "TRIAL" | "CHURNED";
+            /** Format: int32 */
+            activeDays: number;
+            /** Format: int32 */
+            activeUsers: number;
+            /** Format: int32 */
+            recordsCreated: number;
+            /** @description MRR ya normalizado a mensual. Cero en un mes gratuito, en prueba o de baja. */
+            mrrSnapshot: number;
+        };
+        CompanyActivityMonthResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /**
+             * @description El mes, en formato AAAA-MM.
+             * @example 2026-08
+             */
+            periodKey: string;
+            /**
+             * @description La relacion comercial de ESE mes, no la de hoy.
+             * @enum {string}
+             */
+            commercialState: "PAID" | "FREE" | "TRIAL" | "CHURNED";
+            /**
+             * Format: int32
+             * @description Dias del mes con al menos un acceso. Cero es un dato, no un hueco.
+             */
+            activeDays: number;
+            /** Format: int32 */
+            activeUsers: number;
+            /** Format: int32 */
+            recordsCreated: number;
+            /** @description MRR ya normalizado a mensual, congelado tal como estaba ese mes. */
+            mrrSnapshot: number;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        RecordBillingDocumentStatusChangeRequest: {
+            /** Format: int64 */
+            billingDocumentId: number;
+            /** @enum {string} */
+            fromStatus: "DRAFT" | "AWAITING_EXTERNAL" | "EXTERNAL_REGISTERED" | "VOIDED";
+            /** @enum {string} */
+            toStatus: "DRAFT" | "AWAITING_EXTERNAL" | "EXTERNAL_REGISTERED" | "VOIDED";
+            actor: string;
+            reason: string;
+        };
+        BillingDocumentStatusHistoryResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            billingDocumentId: number;
+            /** @enum {string} */
+            fromStatus: "DRAFT" | "AWAITING_EXTERNAL" | "EXTERNAL_REGISTERED" | "VOIDED";
+            /** @enum {string} */
+            toStatus: "DRAFT" | "AWAITING_EXTERNAL" | "EXTERNAL_REGISTERED" | "VOIDED";
+            /** Format: date-time */
+            occurredAt: string;
+            actor: string;
+            reason: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
         CreateBillingDocumentSequenceRequest: {
             prefix: string;
         };
@@ -8077,6 +12365,171 @@ export interface components {
             nextValue?: number;
             /** Format: date-time */
             createdDate?: string;
+        };
+        RegisterBankReceiptRequest: {
+            bankAccountRef: string;
+            bankReference: string;
+            /** Format: date */
+            receivedOn: string;
+            amount: number;
+            description?: string;
+        };
+        BankReceiptResponse: {
+            /** Format: int64 */
+            id: number;
+            bankAccountRef: string;
+            bankReference: string;
+            /** Format: date */
+            receivedOn: string;
+            amount: number;
+            description?: string;
+            /** @enum {string} */
+            status: "UNIDENTIFIED" | "IDENTIFIED" | "DISCARDED";
+            /** Format: date-time */
+            identifiedAt?: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        OpenAccountingPeriodRequest: {
+            periodKey: string;
+        };
+        AccountingPeriodResponse: {
+            /** Format: int64 */
+            id: number;
+            /** @example 2026-03 */
+            periodKey: string;
+            /** @enum {string} */
+            status: "OPEN" | "SOFT_CLOSED" | "LOCKED";
+            /** Format: date-time */
+            closedAt?: string;
+            /** Format: int64 */
+            closedBySystemUserId?: number;
+            /** Format: date-time */
+            reopenedAt?: string;
+            /** Format: int64 */
+            reopenedBySystemUserId?: number;
+            reopenedReason?: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        GenerateAccountingExportRequest: {
+            periodKey: string;
+            /** @enum {string} */
+            exportKind: "JOURNAL_SUMMARY" | "THIRD_PARTY_REPORT" | "VAT_SUPPORT";
+            totalDebit: number;
+            totalCredit: number;
+            /** @description SHA-256 del contenido del fichero, en minusculas. */
+            totalsHash: string;
+            fileRef: string;
+        };
+        AccountingExportResponse: {
+            /** Format: int64 */
+            id: number;
+            periodKey: string;
+            /** @enum {string} */
+            exportKind: "JOURNAL_SUMMARY" | "THIRD_PARTY_REPORT" | "VAT_SUPPORT";
+            /**
+             * Format: int32
+             * @description 1 el primero; sube al rehacer un fichero rechazado.
+             */
+            attemptNumber: number;
+            /** @enum {string} */
+            status: "GENERATED" | "DELIVERED" | "REJECTED" | "SUPERSEDED";
+            /** Format: date-time */
+            generatedAt: string;
+            /** Format: int64 */
+            generatedBySystemUserId: number;
+            totalDebit: number;
+            totalCredit: number;
+            /** @description SHA-256 del contenido del fichero. */
+            totalsHash: string;
+            fileRef: string;
+            /**
+             * Format: date-time
+             * @description Presente solo si el contador ya lo recibio.
+             */
+            deliveredAt?: string;
+            /**
+             * Format: date-time
+             * @description Presente solo si el contador lo devolvio.
+             */
+            rejectedAt?: string;
+            /** @description Acompaña siempre a rejectedAt. */
+            rejectionReason?: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        CreateAccountingAccountRequest: {
+            code: string;
+            name: string;
+            /** @enum {string} */
+            accountClass: "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE" | "COST";
+            parentCode?: string;
+            /**
+             * Format: int32
+             * @description 1 clase, 2 grupo, 4 cuenta, 6 subcuenta.
+             */
+            accountLevel: number;
+            /** @description Solo el nivel 6 puede admitir asiento. */
+            postable: boolean;
+            requiresThirdParty: boolean;
+            /** Format: date */
+            validFrom: string;
+            /**
+             * Format: date
+             * @description Nulo abre la vigencia; con fecha la cuenta entra ya cerrada.
+             */
+            validTo?: string;
+        };
+        CreateAccountMappingRequest: {
+            /** @enum {string} */
+            mappingKind: "RECEIVABLE" | "DEFERRED_REVENUE" | "REVENUE" | "VAT_PAYABLE" | "VAT_CREDITABLE" | "CASH_IN_TRANSIT" | "BANK" | "GATEWAY_FEE" | "WITHHOLDING_ASSET" | "FINANCIAL_TAX" | "PENALTY_REVENUE" | "CUSTOMER_CREDIT";
+            mappingKey: string;
+            /** Format: int64 */
+            catalogItemId?: number;
+            chargeType?: string;
+            taxTreatment?: string;
+            /** @description Codigo de una cuenta que admita asiento (nivel 6). */
+            debitAccountCode: string;
+            /** @description Codigo de una cuenta que admita asiento (nivel 6). */
+            creditAccountCode: string;
+            deferredAccountCode?: string;
+            /** Format: date */
+            validFrom: string;
+            /**
+             * Format: date
+             * @description Nulo abre la vigencia; con fecha el mapeo entra ya cerrado.
+             */
+            validTo?: string;
+        };
+        AccountMappingResponse: {
+            /** Format: int64 */
+            id: number;
+            /** @enum {string} */
+            mappingKind: "RECEIVABLE" | "DEFERRED_REVENUE" | "REVENUE" | "VAT_PAYABLE" | "VAT_CREDITABLE" | "CASH_IN_TRANSIT" | "BANK" | "GATEWAY_FEE" | "WITHHOLDING_ASSET" | "FINANCIAL_TAX" | "PENALTY_REVENUE" | "CUSTOMER_CREDIT";
+            /** @description La subclave dentro de la clase; '-' cuando no aplica. */
+            mappingKey: string;
+            /**
+             * Format: int64
+             * @description Presente solo en los mapeos de ingreso.
+             */
+            catalogItemId?: number;
+            chargeType?: string;
+            taxTreatment?: string;
+            debitAccountCode: string;
+            creditAccountCode: string;
+            /** @description Presente solo en los mapeos de ingreso. */
+            deferredAccountCode?: string;
+            /** Format: date */
+            validFrom: string;
+            /**
+             * Format: date
+             * @description Nulo mientras la vigencia siga abierta.
+             */
+            validTo?: string;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
         };
         CreateSystemUserRequest: {
             code: string;
@@ -8236,29 +12689,7 @@ export interface components {
             reason?: string;
             /** Format: int64 */
             quoteId?: number;
-            line: components["schemas"]["SubscriptionItemLineRequest"];
-        };
-        SubscriptionItemLineRequest: {
-            /** Format: int64 */
-            catalogItemId: number;
-            itemCode: string;
-            itemName: string;
-            /** @enum {string} */
-            itemType: "MODULE" | "CAPACITY" | "ONE_TIME" | "BUNDLE";
-            /** @enum {string} */
-            capacityUnit?: "USER" | "BRANCH" | "TERMINAL" | "STORAGE_GB";
-            /** Format: int32 */
-            includedQuantity: number;
-            /** @enum {string} */
-            taxTreatment: "TAXED" | "EXEMPT" | "EXCLUDED";
-            /** Format: int32 */
-            quantity: number;
-            unitAmount: number;
-            taxRate: number;
-            /** Format: date */
-            effectiveFrom?: string;
-            /** Format: date */
-            effectiveTo?: string;
+            line: components["schemas"]["RequestedSubscriptionItemRequest"];
         };
         SubscriptionItemResponse: {
             /** Format: int64 */
@@ -8273,8 +12704,11 @@ export interface components {
             itemName?: string;
             /** @enum {string} */
             itemType?: "MODULE" | "CAPACITY" | "ONE_TIME" | "BUNDLE";
-            /** @enum {string} */
-            capacityUnit?: "USER" | "BRANCH" | "TERMINAL" | "STORAGE_GB";
+            capacityUnit?: string;
+            /** Format: int32 */
+            tierMin?: number;
+            /** Format: int32 */
+            tierMax?: number;
             /** Format: int32 */
             includedQuantity?: number;
             /** @enum {string} */
@@ -8284,7 +12718,11 @@ export interface components {
             /** Format: int32 */
             billableQuantity?: number;
             unitAmount?: number;
+            discountPercent?: number;
+            discountAmount?: number;
+            discountIsConditional?: boolean;
             taxRate?: number;
+            taxableBase?: number;
             /** Format: date */
             effectiveFrom?: string;
             /** Format: date */
@@ -8342,6 +12780,45 @@ export interface components {
             /** Format: int64 */
             version?: number;
         };
+        RegisterSubscriptionPaymentMethodRequest: {
+            /** @enum {string} */
+            methodKind: "CARD" | "PSE";
+            gateway: string;
+            token: string;
+            brand?: string;
+            lastFour?: string;
+            /** Format: date */
+            expiresOn?: string;
+            mandateEvidence: string;
+            /** Format: date-time */
+            authorizedAt: string;
+        };
+        SubscriptionPaymentMethodResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** @enum {string} */
+            methodKind: "CARD" | "PSE";
+            gateway: string;
+            brand?: string;
+            lastFour?: string;
+            /** Format: date */
+            expiresOn?: string;
+            /** @enum {string} */
+            mandateStatus: "ACTIVE" | "REVOKED" | "EXPIRED";
+            mandateEvidence: string;
+            /** Format: date-time */
+            authorizedAt: string;
+            /** Format: date-time */
+            revokedAt?: string;
+            revokedReason?: string;
+            defaultMethod: boolean;
+            /** Format: date-time */
+            createdDate: string;
+            /** Format: int64 */
+            version?: number;
+        };
         CreateSubModuleRequest: {
             name: string;
             code: string;
@@ -8373,6 +12850,35 @@ export interface components {
         CreateSpaTypeRequest: {
             name: string;
             description?: string;
+        };
+        CreateSmmlvValueRequest: {
+            /** Format: int32 */
+            fiscalYear?: number;
+            valueAmount: number;
+            legalReference: string;
+        };
+        SmmlvValueResponse: {
+            /** Format: int64 */
+            id: number;
+            /**
+             * Format: int32
+             * @example 2026
+             */
+            fiscalYear: number;
+            /** @example 1750905 */
+            valueAmount: number;
+            /** @example Decreto 1469 de 2025 */
+            legalReference: string;
+            /** @enum {string} */
+            status: "IN_FORCE" | "SUSPENDED" | "SUPERSEDED";
+            /** @description Providencia o norma que movio el estado */
+            statusReference?: string;
+            /** Format: date */
+            statusChangedOn?: string;
+            inForce: boolean;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
         };
         CreateServiceRequest: {
             name: string;
@@ -8508,6 +13014,7 @@ export interface components {
             /** Format: int32 */
             quantity?: number;
             discountPercent?: number;
+            discountIsConditional?: boolean;
         };
         QuoteAnswerResponse: {
             /** Format: int64 */
@@ -8531,6 +13038,10 @@ export interface components {
             itemName?: string;
             itemType?: string;
             /** Format: int32 */
+            tierMin?: number;
+            /** Format: int32 */
+            tierMax?: number;
+            /** Format: int32 */
             contractedQuantity?: number;
             /** Format: int32 */
             includedQuantity?: number;
@@ -8540,8 +13051,10 @@ export interface components {
             grossAmount?: number;
             discountPercent?: number;
             discountAmount?: number;
+            discountIsConditional?: boolean;
             taxRate?: number;
             taxTreatment?: string;
+            taxableBase?: number;
             taxAmount?: number;
             lineTotal?: number;
             enabled?: boolean;
@@ -8593,6 +13106,37 @@ export interface components {
             expectedDate?: string;
             notes?: string;
             lines: components["schemas"]["PurchaseOrderLineRequest"][];
+        };
+        CreatePublicHolidayRequest: {
+            /** Format: date */
+            holidayDate: string;
+            name: string;
+            /** Format: date */
+            nominalDate?: string;
+            moved: boolean;
+            legalReference: string;
+        };
+        PublicHolidayResponse: {
+            /** Format: int64 */
+            id: number;
+            /**
+             * Format: date
+             * @description Fecha observada: la que decide si el dia es habil
+             * @example 2026-07-13
+             */
+            holidayDate: string;
+            name: string;
+            /**
+             * Format: date
+             * @description Efemeride antes del traslado de la Ley 51 de 1983
+             * @example 2026-07-09
+             */
+            nominalDate?: string;
+            moved: boolean;
+            legalReference: string;
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
         };
         CreatePromotionRequest: {
             name: string;
@@ -8916,6 +13460,55 @@ export interface components {
             id: number;
             /** Format: date */
             date: string;
+        };
+        CreateLimitDimensionRequest: {
+            code: string;
+            name: string;
+            /** @enum {string} */
+            measureKind: "STOCK" | "CUMULATIVE" | "FLOW";
+            /** Format: int64 */
+            subModuleId?: number;
+            /** Format: int32 */
+            releaseDelayDays?: number;
+            /** Format: date */
+            availableFrom: string;
+        };
+        PublishLegalDocumentVersionRequest: {
+            code: string;
+            /** @enum {string} */
+            kind: "TERMS" | "PRIVACY_POLICY" | "DATA_PROCESSING_AGREEMENT" | "PRIVACY_NOTICE" | "COMMITMENT_ANNEX";
+            title: string;
+            content: string;
+            /** Format: date */
+            effectiveFrom: string;
+        };
+        LegalDocumentVersionResponse: {
+            /** Format: int64 */
+            id: number;
+            /** @example TERMS_OF_SERVICE */
+            code: string;
+            /**
+             * Format: int32
+             * @example 3
+             */
+            documentVersion: number;
+            /** @enum {string} */
+            kind: "TERMS" | "PRIVACY_POLICY" | "DATA_PROCESSING_AGREEMENT" | "PRIVACY_NOTICE" | "COMMITMENT_ANNEX";
+            title: string;
+            content: string;
+            /** @description SHA-256 del contenido: la huella con la que se prueba que texto se acepto */
+            contentHash: string;
+            /** Format: date-time */
+            publishedAt: string;
+            /** Format: int64 */
+            publishedBySystemUserId: number;
+            /** Format: date */
+            effectiveFrom: string;
+            /** Format: date-time */
+            supersededAt?: string;
+            current: boolean;
+            /** Format: date-time */
+            createdDate: string;
         };
         CreateLaboratoryTestRequest: {
             /** Format: date */
@@ -9377,6 +13970,11 @@ export interface components {
             reason: "INTERESES" | "GASTOS" | "CAMBIO_VALOR" | "OTROS";
             additionalAmount?: number;
         };
+        IssueElectronicCreditNoteRequest: {
+            /** @enum {string} */
+            reason: "DEVOLUCION" | "ANULACION" | "REBAJA" | "AJUSTE_PRECIO" | "OTROS";
+            partialAmount?: number;
+        };
         RegisterPosSaleRequest: {
             /** @enum {string} */
             documentType: "FE_VENTA" | "DOC_EQUIV_POS" | "NOTA_CREDITO" | "NOTA_DEBITO";
@@ -9677,6 +14275,105 @@ export interface components {
             economicActivityId?: number;
             responsibilities?: string[];
         };
+        AuthorizeCompanyContactChannelRequest: {
+            /** @enum {string} */
+            channelType: "EMAIL" | "SMS" | "WHATSAPP" | "PHONE" | "IN_APP";
+            address: string;
+            /** @enum {string} */
+            purpose: "BILLING" | "DUNNING" | "OPERATIONAL" | "MARKETING";
+            authorizationEvidence: string;
+        };
+        CompanyContactChannelResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** @enum {string} */
+            channelType: "EMAIL" | "SMS" | "WHATSAPP" | "PHONE" | "IN_APP";
+            address: string;
+            /** @enum {string} */
+            purpose: "BILLING" | "DUNNING" | "OPERATIONAL" | "MARKETING";
+            /** Format: date-time */
+            authorizedAt: string;
+            authorizationEvidence: string;
+            /** Format: date-time */
+            revokedAt?: string;
+            revokedReason?: string;
+            primary: boolean;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        OpenCompanyBillingProfileRequest: {
+            /** @enum {string} */
+            personKind: "NATURAL" | "LEGAL";
+            /** @enum {string} */
+            taxIdKind: "NIT" | "CC" | "CE" | "PASSPORT" | "FOREIGN_ID";
+            taxId: string;
+            verificationDigit?: string;
+            legalName?: string;
+            firstName?: string;
+            middleName?: string;
+            lastName?: string;
+            secondLastName?: string;
+            address: string;
+            /** Format: int64 */
+            cityId: number;
+            billingEmail: string;
+            /** @enum {string} */
+            taxRegime: "COMMON" | "SIMPLE" | "NOT_RESPONSIBLE_VAT" | "SPECIAL";
+            withholdingAgent: boolean;
+            /** Format: date */
+            validFrom: string;
+        };
+        CompanyBillingProfileResponse: {
+            /** Format: int64 */
+            id: number;
+            /** @enum {string} */
+            personKind: "NATURAL" | "LEGAL";
+            /** @enum {string} */
+            taxIdKind: "NIT" | "CC" | "CE" | "PASSPORT" | "FOREIGN_ID";
+            taxId: string;
+            verificationDigit?: string;
+            legalName?: string;
+            firstName?: string;
+            middleName?: string;
+            lastName?: string;
+            secondLastName?: string;
+            address: string;
+            city: components["schemas"]["CitySummary"];
+            billingEmail: string;
+            /** @enum {string} */
+            taxRegime: "COMMON" | "SIMPLE" | "NOT_RESPONSIBLE_VAT" | "SPECIAL";
+            withholdingAgent: boolean;
+            /** Format: date */
+            validFrom: string;
+            /** Format: date */
+            validTo?: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        SucceedCompanyBillingProfileRequest: {
+            /** @enum {string} */
+            personKind: "NATURAL" | "LEGAL";
+            /** @enum {string} */
+            taxIdKind: "NIT" | "CC" | "CE" | "PASSPORT" | "FOREIGN_ID";
+            taxId: string;
+            verificationDigit?: string;
+            legalName?: string;
+            firstName?: string;
+            middleName?: string;
+            lastName?: string;
+            secondLastName?: string;
+            address: string;
+            /** Format: int64 */
+            cityId: number;
+            billingEmail: string;
+            /** @enum {string} */
+            taxRegime: "COMMON" | "SIMPLE" | "NOT_RESPONSIBLE_VAT" | "SPECIAL";
+            withholdingAgent: boolean;
+            /** Format: date */
+            effectiveFrom: string;
+        };
         CreateCompanyRequest: {
             name: string;
             identifier: string;
@@ -9717,8 +14414,7 @@ export interface components {
             longDescription?: string;
             /** @enum {string} */
             itemType: "MODULE" | "CAPACITY" | "ONE_TIME" | "BUNDLE";
-            /** @enum {string} */
-            capacityUnit?: "USER" | "BRANCH" | "TERMINAL" | "STORAGE_GB";
+            capacityUnit?: string;
             core?: boolean;
             /** Format: int32 */
             minQuantity?: number;
@@ -9747,6 +14443,25 @@ export interface components {
              * @enum {string}
              */
             outcome?: "CREATED" | "REACTIVATED";
+        };
+        CreateCatalogItemLimitRequest: {
+            /** Format: int64 */
+            limitDimensionId: number;
+            /** @enum {string} */
+            mode: "FULL" | "LIMITED";
+            /** Format: int32 */
+            limitQuantity?: number;
+            /** @enum {string} */
+            resetPeriod?: "MONTH" | "QUARTER" | "SEMESTER";
+            /** @enum {string} */
+            enforcement: "WARN" | "BLOCK" | "READ_ONLY" | "OVERAGE";
+            overageUnitAmount?: number;
+            /** Format: int32 */
+            warnThreshold: number;
+            /** @enum {string} */
+            trialMode: "FULL" | "LIMITED";
+            /** Format: int32 */
+            trialLimitQuantity?: number;
         };
         CreateCatalogItemDependencyRequest: {
             /** Format: int64 */
@@ -9869,12 +14584,19 @@ export interface components {
             /** Format: int64 */
             targetDocumentId: number;
             /** @enum {string} */
-            sourceKind: "PAYMENT" | "CREDIT_NOTE";
+            sourceKind: "PAYMENT" | "CREDIT_NOTE" | "WITHHOLDING" | "CUSTOMER_CREDIT" | "ROUNDING" | "WRITE_OFF";
             /** Format: int64 */
             paymentId?: number;
             /** Format: int64 */
             sourceDocumentId?: number;
+            /** Format: int64 */
+            withholdingId?: number;
+            /** Format: int64 */
+            creditEntryId?: number;
             appliedAmount: number;
+            writeOffReason?: string;
+            /** Format: date */
+            valueDate?: string;
             clientRequestId?: string;
         };
         BillingDocumentApplicationResponse: {
@@ -9884,15 +14606,37 @@ export interface components {
             companyId: number;
             targetDocument: components["schemas"]["BillingDocumentSummary"];
             /** @enum {string} */
-            sourceKind: "PAYMENT" | "CREDIT_NOTE";
+            sourceKind: "PAYMENT" | "CREDIT_NOTE" | "WITHHOLDING" | "CUSTOMER_CREDIT" | "ROUNDING" | "WRITE_OFF";
             /** Format: int64 */
             paymentId?: number;
             sourceDocument?: components["schemas"]["BillingDocumentSummary"];
+            /**
+             * Format: int64
+             * @description La retencion practicada, cuando el origen es WITHHOLDING.
+             */
+            withholdingId?: number;
+            /**
+             * Format: int64
+             * @description El lote de saldo a favor, cuando el origen es CUSTOMER_CREDIT.
+             */
+            creditEntryId?: number;
             appliedAmount: number;
             /** Format: int64 */
             reversalOfId?: number;
+            /**
+             * Format: int64
+             * @description Firma nominal de plataforma. Solo en WRITE_OFF.
+             */
+            writeOffAuthorizedBySystemUserId?: number;
+            /** @description Motivo escrito del castigo. Solo en WRITE_OFF. */
+            writeOffReason?: string;
             /** Format: date-time */
             appliedAt: string;
+            /**
+             * Format: date
+             * @description Cuando el asiento cuenta, que no es cuando se registro.
+             */
+            valueDate: string;
             /** Format: date-time */
             createdDate: string;
         };
@@ -10090,10 +14834,130 @@ export interface components {
             /** Format: int32 */
             rolePermissionsCreated: number;
         };
+        CloseWithholdingRateRuleRequest: {
+            /** Format: date */
+            validTo: string;
+        };
+        AttachSubstituteEvidenceRequest: {
+            /** @enum {string} */
+            evidenceKind: "PAYMENT_RECEIPT";
+            evidenceRef: string;
+        };
+        ReceiveWithholdingCertificateRequest: {
+            /** Format: date */
+            receivedOn: string;
+            fileRef: string;
+        };
+        FileTaxReturnRequest: {
+            receiptRef: string;
+            fileRef: string;
+            /**
+             * Format: date
+             * @description Estrictamente posterior a la fecha de presentacion.
+             */
+            firmezaUntil: string;
+        };
+        RegisterSupplierWithholdingPaymentRequest: {
+            paymentReceiptRef: string;
+        };
+        IssueSupplierWithholdingCertificateRequest: {
+            certificateRef: string;
+        };
+        ReportSecurityIncidentRequest: {
+            /** Format: date-time */
+            reportedAt: string;
+            /** @description El radicado que devuelve el micrositio de la Delegatura de Proteccion de Datos. */
+            reportReference: string;
+        };
+        CloseSecurityIncidentRequest: {
+            /** Format: date-time */
+            closedAt: string;
+            containment: string;
+            rootCause: string;
+            /**
+             * Format: date-time
+             * @description Opcional: en Colombia la obligacion es informar a la autoridad, no a los titulares.
+             */
+            notifiedSubjectsAt?: string;
+        };
+        ResolveReversalRequest: {
+            /** @enum {string} */
+            outcome: "ACCEPTED" | "PARTIALLY_ACCEPTED" | "REJECTED" | "WITHDRAWN";
+            appliedAmount?: number;
+            /** Format: int64 */
+            resultingRefundId?: number;
+        };
+        OpposeReversalRequest: {
+            /** @enum {string} */
+            ground: "OPERATION_DID_NOT_EXIST" | "INSUFFICIENT_FUNDS" | "CAUSAL_NOT_REPORTED";
+            oppositionEvidenceRef: string;
+        };
+        AcknowledgeReversalRequest: {
+            acknowledgementRef: string;
+        };
+        ReschedulePaymentAttemptRequest: {
+            /** Format: date-time */
+            nextAttemptAt: string;
+        };
+        AttachProviderInvoiceRequest: {
+            providerInvoiceRef: string;
+            providerTaxId: string;
+        };
+        LinkBankReceiptRequest: {
+            /** Format: int64 */
+            bankReceiptId: number;
+        };
+        NotifyAffectedCompaniesRequest: {
+            /**
+             * Format: date-time
+             * @description Instante del aviso. No puede preceder al inicio de la caida.
+             */
+            notifiedAt: string;
+            /** Format: int32 */
+            affectedCompanyCount?: number;
+        };
+        EndExternalInvoicingOutageRequest: {
+            /**
+             * Format: date-time
+             * @description Instante observado del fin. Estrictamente posterior al inicio.
+             */
+            endedAt: string;
+        };
+        AttachUsageEventToChargeRequest: {
+            /** Format: int64 */
+            chargeId: number;
+        };
+        UpdateCompanyActivityMonthRequest: {
+            /** @enum {string} */
+            commercialState: "PAID" | "FREE" | "TRIAL" | "CHURNED";
+            /** Format: int32 */
+            activeDays: number;
+            /** Format: int32 */
+            activeUsers: number;
+            /** Format: int32 */
+            recordsCreated: number;
+            /** @description MRR ya normalizado a mensual. Reemplaza al anterior, no se suma. */
+            mrrSnapshot: number;
+        };
+        ReopenAccountingPeriodRequest: {
+            reason: string;
+        };
+        RejectAccountingExportRequest: {
+            rejectionReason: string;
+        };
+        CloseAccountingAccountRequest: {
+            /** Format: date */
+            validTo: string;
+        };
+        CloseAccountMappingRequest: {
+            /** Format: date */
+            validTo: string;
+        };
         ChangeSubscriptionStatusRequest: {
             /** @enum {string} */
             status: "TRIALING" | "ACTIVE" | "PAST_DUE" | "READ_ONLY" | "CANCELLED" | "EXPIRED";
-            reason?: string;
+            /** @enum {string} */
+            reason: "OVERDUE_BALANCE" | "PAYMENT_RECEIVED" | "TRIAL_ENDED" | "CANCELLATION_EFFECTIVE" | "PERIOD_EXPIRED" | "MANUAL";
             actor?: string;
         };
         RemoveSubscriptionItemRequest: {
@@ -10115,6 +14979,16 @@ export interface components {
         ChangeSubscriptionPaymentStatusRequest: {
             /** @enum {string} */
             status: "PENDING" | "CONFIRMED" | "FAILED" | "REFUNDED";
+        };
+        RevokeSubscriptionPaymentMethodRequest: {
+            reason: string;
+        };
+        ChangeSmmlvStatusRequest: {
+            /** @enum {string} */
+            status: "IN_FORCE" | "SUSPENDED" | "SUPERSEDED";
+            statusReference?: string;
+            /** Format: date */
+            statusChangedOn?: string;
         };
         VoidServiceChargeOpenAccountRequest: {
             reason: string;
@@ -10169,6 +15043,9 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
         };
+        RevokeCompanyContactChannelRequest: {
+            reason: string;
+        };
         ChangeAppointmentStatusRequest: {
             /** @enum {string} */
             status: "REQUESTED" | "CONFIRMED" | "ARRIVED" | "IN_PROGRESS" | "COMPLETED" | "NO_SHOW" | "CANCELLED";
@@ -10185,8 +15062,74 @@ export interface components {
         CancelAppointmentRequest: {
             reason?: string;
         };
+        PageResponseWithholdingRateRuleResponse: {
+            content?: components["schemas"]["WithholdingRateRuleResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseWithholdingCertificateResponse: {
+            content?: components["schemas"]["WithholdingCertificateResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseVatFilingPeriodResponse: {
+            content?: components["schemas"]["VatFilingPeriodResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
         PageResponseVaccinationResponse: {
             content?: components["schemas"]["VaccinationResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseUvtValueResponse: {
+            content?: components["schemas"]["UvtValueResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseTaxReturnResponse: {
+            content?: components["schemas"]["TaxReturnResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseSupplierWithholdingResponse: {
+            content?: components["schemas"]["SupplierWithholdingResponse"][];
             /** Format: int32 */
             page?: number;
             /** Format: int32 */
@@ -10207,8 +15150,180 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
+        PageResponseSubscriptionPaymentMethodResponse: {
+            content?: components["schemas"]["SubscriptionPaymentMethodResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
         PageResponseBillingDocumentResponse: {
             content?: components["schemas"]["BillingDocumentResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseSecurityIncidentResponse: {
+            content?: components["schemas"]["SecurityIncidentResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseAffectedCompanyResponse: {
+            content?: components["schemas"]["AffectedCompanyResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseRevenueRecognitionLineResponse: {
+            content?: components["schemas"]["RevenueRecognitionLineResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        RevenueRecognitionLineResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            chargeId: number;
+            /** @description El mes al que se imputa el ingreso, en formato yyyy-MM. */
+            periodKey: string;
+            /** @description El periodo contable en que quedo registrado. Nunca anterior a periodKey. */
+            postingPeriod: string;
+            /** @description Puede ser negativo: una correccion es otra fila que compensa. */
+            recognizedAmount: number;
+            /** @enum {string} */
+            method: "STRAIGHT_LINE_DAYS" | "POINT_IN_TIME" | "OVER_CUSTOMER_LIFE";
+            /** Format: date-time */
+            createdDate: string;
+        };
+        PageResponsePlatformTaxProfileResponse: {
+            content?: components["schemas"]["PlatformTaxProfileResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponsePaymentReversalRequestResponse: {
+            content?: components["schemas"]["PaymentReversalRequestResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseSystemPaymentRefundResponse: {
+            content?: components["schemas"]["SystemPaymentRefundResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseSystemPaymentAttemptResponse: {
+            content?: components["schemas"]["SystemPaymentAttemptResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseGatewaySettlementResponse: {
+            content?: components["schemas"]["GatewaySettlementResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        GatewaySettlementReconciliationResponse: {
+            /** Format: int64 */
+            settlementId: number;
+            gateway: string;
+            settlementReference: string;
+            /**
+             * Format: int32
+             * @description Cobros que el lote dice traer.
+             */
+            declaredPayments: number;
+            /**
+             * Format: int64
+             * @description Cobros realmente atados al lote.
+             */
+            linkedPayments: number;
+            /**
+             * Format: int64
+             * @description Declarados menos enlazados. Positivo: falta atar un cobro. Negativo: hay uno atado de mas.
+             */
+            difference: number;
+            balanced: boolean;
+        };
+        PageResponseExternalInvoicingOutageResponse: {
+            content?: components["schemas"]["ExternalInvoicingOutageResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseOutageAffectedCompanyResponse: {
+            content?: components["schemas"]["OutageAffectedCompanyResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseExternalInvoiceReconciliationResponse: {
+            content?: components["schemas"]["ExternalInvoiceReconciliationResponse"][];
             /** Format: int32 */
             page?: number;
             /** Format: int32 */
@@ -10229,8 +15344,184 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
+        PageResponseDocumentWithholdingResponse: {
+            content?: components["schemas"]["DocumentWithholdingResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseCustomerCreditEntryResponse: {
+            content?: components["schemas"]["CustomerCreditEntryResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        CustomerCreditBalanceResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            balanceAmount: number;
+            /** Format: date */
+            nextExpiryOn?: string;
+            /** Format: date-time */
+            recalculatedAt: string;
+            /** Format: int64 */
+            version?: number;
+        };
+        PageResponseCustomerCreditBalanceResponse: {
+            content?: components["schemas"]["CustomerCreditBalanceResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseCompanyUsageEventResponse: {
+            content?: components["schemas"]["CompanyUsageEventResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        EffectiveLimitResponse: {
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            limitDimensionId: number;
+            /**
+             * Format: int32
+             * @description Vacío significa sin techo, que no es lo mismo que cero
+             */
+            limitQuantity?: number;
+            /**
+             * @description De dónde sale el techo, en orden de precedencia descendente
+             * @enum {string}
+             */
+            source: "COMPANY_OVERRIDE" | "SUBSCRIPTION" | "CATALOG_DEFAULT" | "NONE";
+            /**
+             * Format: int64
+             * @description La excepción negociada de la que sale, solo con origen COMPANY_OVERRIDE
+             */
+            overrideId?: number;
+            unlimited: boolean;
+        };
+        CompanyEntitlementSnapshotResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: date-time */
+            recalculatedAt: string;
+            /** Format: int64 */
+            actorEmployeeId?: number;
+            /** Format: int64 */
+            actorSystemUserId?: number;
+            actorIsProcess: boolean;
+            /** @enum {string} */
+            triggerReason: "CONTRACT_AMENDMENT" | "TRIAL_EXPIRED" | "DUNNING" | "MANUAL" | "REPAIR";
+            /** Format: int64 */
+            amendmentId?: number;
+            payload: string;
+            /** Format: int32 */
+            payloadFormatVersion: number;
+        };
+        PageResponseCompanyActivityMonthResponse: {
+            content?: components["schemas"]["CompanyActivityMonthResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseBillingDocumentStatusHistoryResponse: {
+            content?: components["schemas"]["BillingDocumentStatusHistoryResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
         PageResponseBillingDocumentSequenceResponse: {
             content?: components["schemas"]["BillingDocumentSequenceResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseBankReceiptResponse: {
+            content?: components["schemas"]["BankReceiptResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseAccountingPeriodResponse: {
+            content?: components["schemas"]["AccountingPeriodResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseAccountingExportResponse: {
+            content?: components["schemas"]["AccountingExportResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseAccountingAccountResponse: {
+            content?: components["schemas"]["AccountingAccountResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseAccountMappingResponse: {
+            content?: components["schemas"]["AccountMappingResponse"][];
             /** Format: int32 */
             page?: number;
             /** Format: int32 */
@@ -10403,6 +15694,17 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
+        PageResponseSmmlvValueResponse: {
+            content?: components["schemas"]["SmmlvValueResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
         PageResponseServiceResponse: {
             content?: components["schemas"]["ServiceResponse"][];
             /** Format: int32 */
@@ -10425,7 +15727,22 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
-        EntryDto: {
+        RecaudoDto: {
+            paymentMeans?: string;
+            dianCode?: string;
+            amount?: number;
+        };
+        SalesBookDto: {
+            /** Format: date */
+            dateFrom?: string;
+            /** Format: date */
+            dateTo?: string;
+            entries?: components["schemas"]["SalesBookEntryDto"][];
+            taxByRate?: components["schemas"]["TaxByRateDto"][];
+            recaudoByMeans?: components["schemas"]["RecaudoDto"][];
+            totals?: components["schemas"]["SalesBookTotalsDto"];
+        };
+        SalesBookEntryDto: {
             /** Format: int64 */
             id?: number;
             documentType?: string;
@@ -10448,28 +15765,7 @@ export interface components {
             cufe?: string;
             cude?: string;
         };
-        RecaudoDto: {
-            paymentMeans?: string;
-            dianCode?: string;
-            amount?: number;
-        };
-        SalesBookDto: {
-            /** Format: date */
-            dateFrom?: string;
-            /** Format: date */
-            dateTo?: string;
-            entries?: components["schemas"]["EntryDto"][];
-            taxByRate?: components["schemas"]["TaxByRateDto"][];
-            recaudoByMeans?: components["schemas"]["RecaudoDto"][];
-            totals?: components["schemas"]["TotalsDto"];
-        };
-        TaxByRateDto: {
-            taxScheme?: string;
-            taxRate?: number;
-            taxableAmount?: number;
-            taxAmount?: number;
-        };
-        TotalsDto: {
+        SalesBookTotalsDto: {
             /** Format: int64 */
             documentCount?: number;
             base?: number;
@@ -10480,6 +15776,12 @@ export interface components {
             reteFuente?: number;
             reteIva?: number;
             reteIca?: number;
+        };
+        TaxByRateDto: {
+            taxScheme?: string;
+            taxRate?: number;
+            taxableAmount?: number;
+            taxAmount?: number;
         };
         PendingDto: {
             /** Format: int64 */
@@ -10568,8 +15870,36 @@ export interface components {
             dateFrom?: string;
             /** Format: date */
             dateTo?: string;
-            entries?: components["schemas"]["EntryDto"][];
-            totals?: components["schemas"]["TotalsDto"];
+            entries?: components["schemas"]["PurchaseBookEntryDto"][];
+            totals?: components["schemas"]["PurchaseBookTotalsDto"];
+        };
+        PurchaseBookEntryDto: {
+            /** Format: int64 */
+            id?: number;
+            supplierName?: string;
+            supplierTaxId?: string;
+            invoiceNumber?: string;
+            /** Format: date */
+            issueDate?: string;
+            /** Format: date */
+            dueDate?: string;
+            subtotal?: number;
+            taxAmount?: number;
+            withholdingAmount?: number;
+            total?: number;
+            paidAmount?: number;
+            balance?: number;
+            status?: string;
+        };
+        PurchaseBookTotalsDto: {
+            /** Format: int64 */
+            invoiceCount?: number;
+            subtotal?: number;
+            taxAmount?: number;
+            withholdingAmount?: number;
+            total?: number;
+            paidAmount?: number;
+            balance?: number;
         };
         PageResponsePurchaseOrderResponse: {
             content?: components["schemas"]["PurchaseOrderResponse"][];
@@ -10581,6 +15911,39 @@ export interface components {
             totalElements?: number;
             /** Format: int32 */
             totalPages?: number;
+        };
+        PageResponsePublicHolidayResponse: {
+            content?: components["schemas"]["PublicHolidayResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        BusinessDayDeadlineResponse: {
+            /**
+             * Format: date
+             * @example 2026-07-01
+             */
+            startDate: string;
+            /**
+             * Format: int32
+             * @example 15
+             */
+            businessDays: number;
+            /**
+             * Format: date
+             * @example 2026-07-23
+             */
+            dueDate: string;
+            /**
+             * Format: int32
+             * @description Festivos entre semana que el plazo se salto
+             */
+            weekdayHolidaysSkipped: number;
         };
         PageResponseProductResponse: {
             content?: components["schemas"]["ProductResponse"][];
@@ -10657,6 +16020,78 @@ export interface components {
             /** Format: date */
             secondTo?: string;
         };
+        PageResponsePaymentRefundResponse: {
+            content?: components["schemas"]["PaymentRefundResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PaymentRefundResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            paymentId: number;
+            /** Format: int64 */
+            sourceDocumentId?: number;
+            amount: number;
+            /** @enum {string} */
+            method: "CARD" | "PSE" | "BANK_TRANSFER" | "CUSTOMER_CREDIT";
+            destinationReference?: string;
+            /** Format: date-time */
+            refundedAt: string;
+            /** Format: date */
+            valueDate: string;
+            /** @enum {string} */
+            reasonCode: "WITHDRAWAL" | "BILLING_ERROR" | "CANCELLATION_CREDIT" | "REVERSAL" | "DUPLICATE_PAYMENT" | "OTHER";
+            reason: string;
+            /** Format: date-time */
+            createdDate: string;
+        };
+        PageResponsePaymentAttemptResponse: {
+            content?: components["schemas"]["PaymentAttemptResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PaymentAttemptResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            companyId: number;
+            /** Format: int64 */
+            billingDocumentId: number;
+            /** Format: int64 */
+            paymentMethodId?: number;
+            /** Format: int32 */
+            attemptNumber: number;
+            gateway: string;
+            requestedAmount: number;
+            /**
+             * @description Clase del rechazo. El codigo crudo de la pasarela no se expone.
+             * @enum {string}
+             */
+            declineKind: "SOFT" | "HARD" | "CONFIGURATION";
+            /** Format: date-time */
+            attemptedAt: string;
+            /** Format: date-time */
+            nextAttemptAt?: string;
+            /** Format: date-time */
+            createdDate: string;
+            /** Format: int64 */
+            version?: number;
+        };
         PageResponseOwnerResponse: {
             content?: components["schemas"]["OwnerResponse"][];
             /** Format: int32 */
@@ -10699,6 +16134,17 @@ export interface components {
         };
         PageResponseMedicamentPrescriptionResponse: {
             content?: components["schemas"]["MedicamentPrescriptionResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseLegalDocumentVersionResponse: {
+            content?: components["schemas"]["LegalDocumentVersionResponse"][];
             /** Format: int32 */
             page?: number;
             /** Format: int32 */
@@ -10983,7 +16429,11 @@ export interface components {
             id?: number;
             /** Format: int64 */
             companyId?: number;
-            capacityUnit?: string;
+            /** Format: int64 */
+            limitDimensionId?: number;
+            dimensionCode?: string;
+            measureKind?: string;
+            periodKey?: string;
             /** Format: int32 */
             limitQuantity?: number;
             /** Format: int32 */
@@ -10992,7 +16442,9 @@ export interface components {
             /** Format: int64 */
             subscriptionId?: number;
             /** Format: date-time */
-            recalculatedAt?: string;
+            limitRecalculatedAt?: string;
+            /** Format: date-time */
+            usageReconciledAt?: string;
         };
         EmployeeCodeSuggestionResponse: {
             code?: string;
@@ -11121,6 +16573,28 @@ export interface components {
         };
         PageResponseConfiguratorEffectResponse: {
             content?: components["schemas"]["ConfiguratorEffectResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseCompanyContactChannelResponse: {
+            content?: components["schemas"]["CompanyContactChannelResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseCompanyBillingProfileResponse: {
+            content?: components["schemas"]["CompanyBillingProfileResponse"][];
             /** Format: int32 */
             page?: number;
             /** Format: int32 */
@@ -11518,12 +16992,108 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SystemUserResponse"];
+                    "*/*": components["schemas"]["TaxReturnResponse"];
                 };
             };
         };
     };
     update_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateTaxReturnAmountsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxReturnResponse"];
+                };
+            };
+        };
+    };
+    findById_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingAccountResponse"];
+                };
+            };
+        };
+    };
+    update_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAccountingAccountRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingAccountResponse"];
+                };
+            };
+        };
+    };
+    findById_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SystemUserResponse"];
+                };
+            };
+        };
+    };
+    update_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -11569,7 +17139,7 @@ export interface operations {
             };
         };
     };
-    findById_4: {
+    findById_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -11591,7 +17161,7 @@ export interface operations {
             };
         };
     };
-    update_4: {
+    update_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -11637,7 +17207,7 @@ export interface operations {
             };
         };
     };
-    findById_5: {
+    findById_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -11659,7 +17229,7 @@ export interface operations {
             };
         };
     };
-    update_5: {
+    update_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -11749,7 +17319,7 @@ export interface operations {
             };
         };
     };
-    findById_6: {
+    findById_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -11771,7 +17341,7 @@ export interface operations {
             };
         };
     };
-    update_6: {
+    update_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -11817,7 +17387,7 @@ export interface operations {
             };
         };
     };
-    findById_7: {
+    findById_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -11839,7 +17409,7 @@ export interface operations {
             };
         };
     };
-    update_7: {
+    update_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -11885,7 +17455,7 @@ export interface operations {
             };
         };
     };
-    findById_8: {
+    findById_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -11907,7 +17477,7 @@ export interface operations {
             };
         };
     };
-    update_8: {
+    update_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -11953,7 +17523,7 @@ export interface operations {
             };
         };
     };
-    findById_9: {
+    findById_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -11975,7 +17545,7 @@ export interface operations {
             };
         };
     };
-    update_9: {
+    update_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -12021,7 +17591,7 @@ export interface operations {
             };
         };
     };
-    findById_10: {
+    findById_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -12043,7 +17613,7 @@ export interface operations {
             };
         };
     };
-    update_10: {
+    update_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -12089,7 +17659,7 @@ export interface operations {
             };
         };
     };
-    findById_11: {
+    findById_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -12111,7 +17681,7 @@ export interface operations {
             };
         };
     };
-    update_11: {
+    update_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -12157,7 +17727,7 @@ export interface operations {
             };
         };
     };
-    findById_12: {
+    findById_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -12179,7 +17749,7 @@ export interface operations {
             };
         };
     };
-    update_12: {
+    update_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -12225,7 +17795,7 @@ export interface operations {
             };
         };
     };
-    findById_13: {
+    findById_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -12247,7 +17817,7 @@ export interface operations {
             };
         };
     };
-    update_13: {
+    update_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -12293,7 +17863,7 @@ export interface operations {
             };
         };
     };
-    findById_14: {
+    findById_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -12315,7 +17885,7 @@ export interface operations {
             };
         };
     };
-    update_14: {
+    update_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -12361,7 +17931,7 @@ export interface operations {
             };
         };
     };
-    findById_15: {
+    findById_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -12383,7 +17953,7 @@ export interface operations {
             };
         };
     };
-    update_15: {
+    update_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -12429,7 +17999,7 @@ export interface operations {
             };
         };
     };
-    update_16: {
+    update_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -12475,7 +18045,7 @@ export interface operations {
             };
         };
     };
-    findById_16: {
+    findById_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -12497,7 +18067,7 @@ export interface operations {
             };
         };
     };
-    update_17: {
+    update_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -12569,7 +18139,7 @@ export interface operations {
             };
         };
     };
-    findById_17: {
+    findById_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -12591,7 +18161,7 @@ export interface operations {
             };
         };
     };
-    update_18: {
+    update_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -12637,7 +18207,7 @@ export interface operations {
             };
         };
     };
-    findById_18: {
+    findById_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -12659,7 +18229,7 @@ export interface operations {
             };
         };
     };
-    update_19: {
+    update_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -12705,7 +18275,7 @@ export interface operations {
             };
         };
     };
-    findById_19: {
+    findById_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -12727,7 +18297,7 @@ export interface operations {
             };
         };
     };
-    update_20: {
+    update_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -12773,7 +18343,7 @@ export interface operations {
             };
         };
     };
-    update_21: {
+    update_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -12819,7 +18389,7 @@ export interface operations {
             };
         };
     };
-    findById_20: {
+    findById_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -12841,7 +18411,7 @@ export interface operations {
             };
         };
     };
-    update_22: {
+    update_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -12907,7 +18477,7 @@ export interface operations {
             };
         };
     };
-    update_23: {
+    update_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -12931,7 +18501,7 @@ export interface operations {
             };
         };
     };
-    findById_21: {
+    findById_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -12953,7 +18523,7 @@ export interface operations {
             };
         };
     };
-    update_24: {
+    update_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -12999,7 +18569,7 @@ export interface operations {
             };
         };
     };
-    findById_22: {
+    findById_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -13021,7 +18591,7 @@ export interface operations {
             };
         };
     };
-    update_25: {
+    update_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -13067,7 +18637,7 @@ export interface operations {
             };
         };
     };
-    findById_23: {
+    findById_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -13089,7 +18659,7 @@ export interface operations {
             };
         };
     };
-    update_26: {
+    update_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -13135,7 +18705,7 @@ export interface operations {
             };
         };
     };
-    findById_24: {
+    findById_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -13157,7 +18727,7 @@ export interface operations {
             };
         };
     };
-    update_27: {
+    update_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -13203,7 +18773,7 @@ export interface operations {
             };
         };
     };
-    findById_25: {
+    findById_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -13225,7 +18795,7 @@ export interface operations {
             };
         };
     };
-    update_28: {
+    update_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -13271,7 +18841,55 @@ export interface operations {
             };
         };
     };
-    findById_26: {
+    findById_28: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LimitDimensionResponse"];
+                };
+            };
+        };
+    };
+    update_31: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateLimitDimensionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LimitDimensionResponse"];
+                };
+            };
+        };
+    };
+    findById_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -13293,7 +18911,7 @@ export interface operations {
             };
         };
     };
-    update_29: {
+    update_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -13339,7 +18957,7 @@ export interface operations {
             };
         };
     };
-    findById_27: {
+    findById_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -13361,7 +18979,7 @@ export interface operations {
             };
         };
     };
-    update_30: {
+    update_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -13431,7 +19049,7 @@ export interface operations {
             };
         };
     };
-    findById_28: {
+    findById_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -13453,7 +19071,7 @@ export interface operations {
             };
         };
     };
-    update_31: {
+    update_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -13499,7 +19117,7 @@ export interface operations {
             };
         };
     };
-    update_32: {
+    update_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -13545,7 +19163,7 @@ export interface operations {
             };
         };
     };
-    update_33: {
+    update_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -13591,7 +19209,7 @@ export interface operations {
             };
         };
     };
-    findById_29: {
+    findById_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -13613,7 +19231,7 @@ export interface operations {
             };
         };
     };
-    update_34: {
+    update_37: {
         parameters: {
             query?: never;
             header?: never;
@@ -13707,7 +19325,7 @@ export interface operations {
             };
         };
     };
-    findById_30: {
+    findById_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -13729,7 +19347,7 @@ export interface operations {
             };
         };
     };
-    update_35: {
+    update_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -13775,7 +19393,7 @@ export interface operations {
             };
         };
     };
-    findById_31: {
+    findById_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -13797,7 +19415,7 @@ export interface operations {
             };
         };
     };
-    update_36: {
+    update_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -13863,7 +19481,7 @@ export interface operations {
             };
         };
     };
-    update_37: {
+    update_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -13911,7 +19529,7 @@ export interface operations {
             };
         };
     };
-    findById_32: {
+    findById_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -13933,7 +19551,7 @@ export interface operations {
             };
         };
     };
-    update_38: {
+    update_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -13979,7 +19597,7 @@ export interface operations {
             };
         };
     };
-    findById_33: {
+    findById_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -14001,7 +19619,7 @@ export interface operations {
             };
         };
     };
-    update_39: {
+    update_42: {
         parameters: {
             query?: never;
             header?: never;
@@ -14047,7 +19665,7 @@ export interface operations {
             };
         };
     };
-    findById_34: {
+    findById_37: {
         parameters: {
             query?: never;
             header?: never;
@@ -14069,7 +19687,7 @@ export interface operations {
             };
         };
     };
-    update_40: {
+    update_43: {
         parameters: {
             query?: never;
             header?: never;
@@ -14115,7 +19733,7 @@ export interface operations {
             };
         };
     };
-    findById_35: {
+    findById_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -14137,7 +19755,7 @@ export interface operations {
             };
         };
     };
-    update_41: {
+    update_44: {
         parameters: {
             query?: never;
             header?: never;
@@ -14183,7 +19801,7 @@ export interface operations {
             };
         };
     };
-    findById_36: {
+    findById_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -14205,7 +19823,7 @@ export interface operations {
             };
         };
     };
-    update_42: {
+    update_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -14411,6 +20029,30 @@ export interface operations {
             };
         };
     };
+    reorderEffects: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReorderConfiguratorEffectsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConfiguratorEffectResponse"][];
+                };
+            };
+        };
+    };
     find_3: {
         parameters: {
             query?: never;
@@ -14431,7 +20073,7 @@ export interface operations {
             };
         };
     };
-    update_43: {
+    update_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -14523,7 +20165,7 @@ export interface operations {
             };
         };
     };
-    findById_37: {
+    findById_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -14545,7 +20187,7 @@ export interface operations {
             };
         };
     };
-    update_44: {
+    update_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -14591,7 +20233,7 @@ export interface operations {
             };
         };
     };
-    findById_38: {
+    findById_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -14613,7 +20255,7 @@ export interface operations {
             };
         };
     };
-    update_45: {
+    update_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -14659,7 +20301,7 @@ export interface operations {
             };
         };
     };
-    findById_39: {
+    findById_42: {
         parameters: {
             query?: never;
             header?: never;
@@ -14681,7 +20323,7 @@ export interface operations {
             };
         };
     };
-    update_46: {
+    update_49: {
         parameters: {
             query?: never;
             header?: never;
@@ -14727,7 +20369,7 @@ export interface operations {
             };
         };
     };
-    findById_40: {
+    findById_43: {
         parameters: {
             query?: never;
             header?: never;
@@ -14749,7 +20391,7 @@ export interface operations {
             };
         };
     };
-    update_47: {
+    update_50: {
         parameters: {
             query?: never;
             header?: never;
@@ -14795,7 +20437,34 @@ export interface operations {
             };
         };
     };
-    update_48: {
+    update_51: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCatalogItemLimitRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemLimitResponse"];
+                };
+            };
+        };
+    };
+    update_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -14843,7 +20512,7 @@ export interface operations {
             };
         };
     };
-    update_49: {
+    update_53: {
         parameters: {
             query?: never;
             header?: never;
@@ -14891,7 +20560,7 @@ export interface operations {
             };
         };
     };
-    update_50: {
+    update_54: {
         parameters: {
             query?: never;
             header?: never;
@@ -14939,7 +20608,7 @@ export interface operations {
             };
         };
     };
-    findById_41: {
+    findById_44: {
         parameters: {
             query?: never;
             header?: never;
@@ -14961,7 +20630,7 @@ export interface operations {
             };
         };
     };
-    update_51: {
+    update_55: {
         parameters: {
             query?: never;
             header?: never;
@@ -15007,7 +20676,7 @@ export interface operations {
             };
         };
     };
-    update_52: {
+    update_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -15033,7 +20702,7 @@ export interface operations {
             };
         };
     };
-    findById_42: {
+    findById_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -15055,7 +20724,7 @@ export interface operations {
             };
         };
     };
-    update_53: {
+    update_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -15101,7 +20770,7 @@ export interface operations {
             };
         };
     };
-    findById_43: {
+    findById_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -15123,7 +20792,7 @@ export interface operations {
             };
         };
     };
-    update_54: {
+    update_58: {
         parameters: {
             query?: never;
             header?: never;
@@ -15169,7 +20838,7 @@ export interface operations {
             };
         };
     };
-    findById_44: {
+    findById_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -15191,7 +20860,7 @@ export interface operations {
             };
         };
     };
-    update_55: {
+    update_59: {
         parameters: {
             query?: never;
             header?: never;
@@ -15237,7 +20906,7 @@ export interface operations {
             };
         };
     };
-    findById_45: {
+    findById_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -15259,7 +20928,7 @@ export interface operations {
             };
         };
     };
-    update_56: {
+    update_60: {
         parameters: {
             query?: never;
             header?: never;
@@ -15305,7 +20974,7 @@ export interface operations {
             };
         };
     };
-    findById_46: {
+    findById_49: {
         parameters: {
             query?: never;
             header?: never;
@@ -15327,7 +20996,7 @@ export interface operations {
             };
         };
     };
-    update_57: {
+    update_61: {
         parameters: {
             query?: never;
             header?: never;
@@ -15373,7 +21042,7 @@ export interface operations {
             };
         };
     };
-    update_58: {
+    update_62: {
         parameters: {
             query?: never;
             header?: never;
@@ -15421,6 +21090,53 @@ export interface operations {
     };
     listAll: {
         parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseVatFilingPeriodResponse"];
+                };
+            };
+        };
+    };
+    create_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateVatFilingPeriodRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VatFilingPeriodResponse"];
+                };
+            };
+        };
+    };
+    listAll_1: {
+        parameters: {
             query?: never;
             header?: never;
             path?: never;
@@ -15439,7 +21155,7 @@ export interface operations {
             };
         };
     };
-    create_2: {
+    create_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -15463,7 +21179,7 @@ export interface operations {
             };
         };
     };
-    listAll_1: {
+    listAll_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -15483,7 +21199,7 @@ export interface operations {
             };
         };
     };
-    create_3: {
+    create_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -15507,7 +21223,54 @@ export interface operations {
             };
         };
     };
-    listAll_2: {
+    listAll_3: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseUvtValueResponse"];
+                };
+            };
+        };
+    };
+    create_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateUvtValueRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UvtValueResponse"];
+                };
+            };
+        };
+    };
+    listAll_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -15527,7 +21290,7 @@ export interface operations {
             };
         };
     };
-    create_4: {
+    create_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -15547,6 +21310,272 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["TaxResponse"];
+                };
+            };
+        };
+    };
+    create_7: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateWithholdingRateRuleRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WithholdingRateRuleResponse"];
+                };
+            };
+        };
+    };
+    listAll_5: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseWithholdingCertificateResponse"];
+                };
+            };
+        };
+    };
+    register: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterWithholdingCertificateRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WithholdingCertificateResponse"];
+                };
+            };
+        };
+    };
+    listAll_6: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseTaxReturnResponse"];
+                };
+            };
+        };
+    };
+    create_8: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateTaxReturnRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxReturnResponse"];
+                };
+            };
+        };
+    };
+    correct: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateTaxReturnAmountsRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxReturnResponse"];
+                };
+            };
+        };
+    };
+    listAll_7: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSupplierWithholdingResponse"];
+                };
+            };
+        };
+    };
+    practice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PracticeSupplierWithholdingRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SupplierWithholdingResponse"];
+                };
+            };
+        };
+    };
+    propagate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PropagateCatalogLimitImprovementRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LimitPropagationResponse"];
+                };
+            };
+        };
+    };
+    listByCompany: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionItemLimitResponse"][];
+                };
+            };
+        };
+    };
+    freeze: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FreezeSubscriptionItemLimitRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionItemLimitResponse"];
                 };
             };
         };
@@ -15730,7 +21759,1073 @@ export interface operations {
             };
         };
     };
-    listAll_3: {
+    listAll_8: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSecurityIncidentResponse"];
+                };
+            };
+        };
+    };
+    register_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterSecurityIncidentRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SecurityIncidentResponse"];
+                };
+            };
+        };
+    };
+    registerAffectedCompany: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterAffectedCompanyRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AffectedCompanyResponse"];
+                };
+            };
+        };
+    };
+    listAll_9: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponsePlatformTaxProfileResponse"];
+                };
+            };
+        };
+    };
+    open: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenPlatformTaxProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlatformTaxProfileResponse"];
+                };
+            };
+        };
+    };
+    succeed: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SucceedPlatformTaxProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlatformTaxProfileResponse"];
+                };
+            };
+        };
+    };
+    listAll_10: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponsePaymentReversalRequestResponse"];
+                };
+            };
+        };
+    };
+    open_1: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenReversalRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentReversalRequestResponse"];
+                };
+            };
+        };
+    };
+    listAll_11: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSystemPaymentRefundResponse"];
+                };
+            };
+        };
+    };
+    register_2: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterPaymentRefundRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SystemPaymentRefundResponse"];
+                };
+            };
+        };
+    };
+    listAll_12: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSystemPaymentAttemptResponse"];
+                };
+            };
+        };
+    };
+    record: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordPaymentAttemptRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SystemPaymentAttemptResponse"];
+                };
+            };
+        };
+    };
+    listAll_13: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseGatewaySettlementResponse"];
+                };
+            };
+        };
+    };
+    register_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterGatewaySettlementRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GatewaySettlementResponse"];
+                };
+            };
+        };
+    };
+    listAll_14: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseExternalInvoicingOutageResponse"];
+                };
+            };
+        };
+    };
+    open_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenExternalInvoicingOutageRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ExternalInvoicingOutageResponse"];
+                };
+            };
+        };
+    };
+    registerAffectedCompany_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterOutageAffectedCompanyRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OutageAffectedCompanyResponse"];
+                };
+            };
+        };
+    };
+    listAll_15: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseExternalInvoiceReconciliationResponse"];
+                };
+            };
+        };
+    };
+    open_3: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenExternalInvoiceReconciliationRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ExternalInvoiceReconciliationResponse"];
+                };
+            };
+        };
+    };
+    resolve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResolveExternalInvoiceReconciliationRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ExternalInvoiceReconciliationResponse"];
+                };
+            };
+        };
+    };
+    match: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MatchExternalInvoiceRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ExternalInvoiceReconciliationResponse"];
+                };
+            };
+        };
+    };
+    listAll_16: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseDocumentWithholdingResponse"];
+                };
+            };
+        };
+    };
+    register_4: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterDocumentWithholdingRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DocumentWithholdingResponse"];
+                };
+            };
+        };
+    };
+    linkCertificate: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LinkWithholdingCertificateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DocumentWithholdingResponse"];
+                };
+            };
+        };
+    };
+    grant: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GrantCustomerCreditRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CustomerCreditEntryResponse"];
+                };
+            };
+        };
+    };
+    expire: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CustomerCreditEntryResponse"][];
+                };
+            };
+        };
+    };
+    consume: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConsumeCustomerCreditRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CustomerCreditEntryResponse"][];
+                };
+            };
+        };
+    };
+    listAll_17: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyUsageEventResponse"];
+                };
+            };
+        };
+    };
+    record_1: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordCompanyUsageEventRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyUsageEventResponse"];
+                };
+            };
+        };
+    };
+    open_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenTrialWindowRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyTrialWindowResponse"];
+                };
+            };
+        };
+    };
+    close: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyTrialWindowResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyTrialGrantResponse"][];
+                };
+            };
+        };
+    };
+    grant_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GrantTrialRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyTrialGrantResponse"];
+                };
+            };
+        };
+    };
+    consume_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+                catalogItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConsumeTrialGrantRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyTrialGrantResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyLimitOverrideResponse"][];
+                };
+            };
+        };
+    };
+    grant_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GrantCompanyLimitOverrideRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyLimitOverrideResponse"];
+                };
+            };
+        };
+    };
+    revoke: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+                limitDimensionId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RevokeCompanyLimitOverrideRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyLimitOverrideResponse"];
+                };
+            };
+        };
+    };
+    reconcile: {
+        parameters: {
+            query: {
+                staleBefore: string;
+                afterId?: number;
+                batchSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UsageReconciliationResponse"];
+                };
+            };
+        };
+    };
+    adjustUsage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdjustCompanyUsageRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyLimitEventResponse"];
+                };
+            };
+        };
+    };
+    listAll_18: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyActivityMonthResponse"];
+                };
+            };
+        };
+    };
+    record_2: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordCompanyActivityMonthRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyActivityMonthResponse"];
+                };
+            };
+        };
+    };
+    listAll_19: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseBillingDocumentStatusHistoryResponse"];
+                };
+            };
+        };
+    };
+    record_3: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordBillingDocumentStatusChangeRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingDocumentStatusHistoryResponse"];
+                };
+            };
+        };
+    };
+    listAll_20: {
         parameters: {
             query?: {
                 page?: number;
@@ -15753,7 +22848,7 @@ export interface operations {
             };
         };
     };
-    create_5: {
+    create_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -15777,7 +22872,242 @@ export interface operations {
             };
         };
     };
-    listAll_4: {
+    listAll_21: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseBankReceiptResponse"];
+                };
+            };
+        };
+    };
+    register_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterBankReceiptRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BankReceiptResponse"];
+                };
+            };
+        };
+    };
+    listAll_22: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseAccountingPeriodResponse"];
+                };
+            };
+        };
+    };
+    open_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenAccountingPeriodRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingPeriodResponse"];
+                };
+            };
+        };
+    };
+    listAll_23: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseAccountingExportResponse"];
+                };
+            };
+        };
+    };
+    generate_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GenerateAccountingExportRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingExportResponse"];
+                };
+            };
+        };
+    };
+    listAll_24: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseAccountingAccountResponse"];
+                };
+            };
+        };
+    };
+    create_10: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateAccountingAccountRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingAccountResponse"];
+                };
+            };
+        };
+    };
+    listAll_25: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseAccountMappingResponse"];
+                };
+            };
+        };
+    };
+    create_11: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateAccountMappingRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountMappingResponse"];
+                };
+            };
+        };
+    };
+    listAll_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -15797,7 +23127,7 @@ export interface operations {
             };
         };
     };
-    create_6: {
+    create_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -15821,7 +23151,7 @@ export interface operations {
             };
         };
     };
-    listAll_5: {
+    listAll_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -15841,7 +23171,7 @@ export interface operations {
             };
         };
     };
-    create_7: {
+    create_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -15865,7 +23195,7 @@ export interface operations {
             };
         };
     };
-    listAll_6: {
+    listAll_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -15885,7 +23215,7 @@ export interface operations {
             };
         };
     };
-    create_8: {
+    create_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -15909,7 +23239,7 @@ export interface operations {
             };
         };
     };
-    listAll_7: {
+    listAll_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -15929,7 +23259,7 @@ export interface operations {
             };
         };
     };
-    create_9: {
+    create_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -15953,7 +23283,7 @@ export interface operations {
             };
         };
     };
-    listAll_8: {
+    listAll_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -15973,7 +23303,7 @@ export interface operations {
             };
         };
     };
-    create_10: {
+    create_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -15997,7 +23327,7 @@ export interface operations {
             };
         };
     };
-    listByCompany: {
+    listByCompany_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -16017,7 +23347,7 @@ export interface operations {
             };
         };
     };
-    create_11: {
+    create_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -16041,7 +23371,7 @@ export interface operations {
             };
         };
     };
-    create_12: {
+    create_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -16113,7 +23443,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_1: {
+    listByCompany_4: {
         parameters: {
             query?: {
                 page?: number;
@@ -16136,7 +23466,7 @@ export interface operations {
             };
         };
     };
-    create_13: {
+    create_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -16238,7 +23568,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_2: {
+    listByCompany_5: {
         parameters: {
             query?: {
                 page?: number;
@@ -16261,7 +23591,7 @@ export interface operations {
             };
         };
     };
-    register: {
+    register_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -16285,7 +23615,54 @@ export interface operations {
             };
         };
     };
-    listAll_9: {
+    listByCompany_6: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubscriptionPaymentMethodResponse"];
+                };
+            };
+        };
+    };
+    register_7: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterSubscriptionPaymentMethodRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionPaymentMethodResponse"];
+                };
+            };
+        };
+    };
+    listAll_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -16305,7 +23682,7 @@ export interface operations {
             };
         };
     };
-    create_14: {
+    create_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -16329,7 +23706,7 @@ export interface operations {
             };
         };
     };
-    listAll_10: {
+    listAll_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -16349,7 +23726,7 @@ export interface operations {
             };
         };
     };
-    create_15: {
+    create_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -16373,7 +23750,7 @@ export interface operations {
             };
         };
     };
-    listAll_11: {
+    listAll_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -16393,7 +23770,7 @@ export interface operations {
             };
         };
     };
-    create_16: {
+    create_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -16417,7 +23794,7 @@ export interface operations {
             };
         };
     };
-    listAll_12: {
+    listAll_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -16437,7 +23814,7 @@ export interface operations {
             };
         };
     };
-    create_17: {
+    create_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -16461,7 +23838,7 @@ export interface operations {
             };
         };
     };
-    listAll_13: {
+    listAll_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -16481,7 +23858,7 @@ export interface operations {
             };
         };
     };
-    create_18: {
+    create_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -16505,7 +23882,54 @@ export interface operations {
             };
         };
     };
-    listByCompany_3: {
+    listAll_36: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSmmlvValueResponse"];
+                };
+            };
+        };
+    };
+    create_25: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSmmlvValueRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SmmlvValueResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -16525,7 +23949,7 @@ export interface operations {
             };
         };
     };
-    create_19: {
+    create_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -16549,7 +23973,7 @@ export interface operations {
             };
         };
     };
-    listAll_14: {
+    listAll_37: {
         parameters: {
             query?: {
                 page?: number;
@@ -16572,7 +23996,7 @@ export interface operations {
             };
         };
     };
-    create_20: {
+    create_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -16596,7 +24020,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_4: {
+    listByCompany_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -16616,7 +24040,7 @@ export interface operations {
             };
         };
     };
-    create_21: {
+    create_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -16640,7 +24064,7 @@ export interface operations {
             };
         };
     };
-    listAll_15: {
+    listAll_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -16660,7 +24084,7 @@ export interface operations {
             };
         };
     };
-    create_22: {
+    create_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -16684,7 +24108,7 @@ export interface operations {
             };
         };
     };
-    listAll_16: {
+    listAll_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -16704,7 +24128,7 @@ export interface operations {
             };
         };
     };
-    create_23: {
+    create_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -16728,7 +24152,7 @@ export interface operations {
             };
         };
     };
-    register_1: {
+    register_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -16797,7 +24221,7 @@ export interface operations {
             };
         };
     };
-    create_24: {
+    create_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -16913,7 +24337,7 @@ export interface operations {
             };
         };
     };
-    create_25: {
+    create_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -16981,7 +24405,54 @@ export interface operations {
             };
         };
     };
-    listAll_17: {
+    listAll_40: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponsePublicHolidayResponse"];
+                };
+            };
+        };
+    };
+    create_33: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePublicHolidayRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicHolidayResponse"];
+                };
+            };
+        };
+    };
+    listAll_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -17001,7 +24472,7 @@ export interface operations {
             };
         };
     };
-    create_26: {
+    create_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -17025,7 +24496,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_5: {
+    listByCompany_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -17045,7 +24516,7 @@ export interface operations {
             };
         };
     };
-    create_27: {
+    create_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -17069,7 +24540,7 @@ export interface operations {
             };
         };
     };
-    listAll_18: {
+    listAll_42: {
         parameters: {
             query?: {
                 page?: number;
@@ -17092,7 +24563,7 @@ export interface operations {
             };
         };
     };
-    create_28: {
+    create_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -17136,7 +24607,7 @@ export interface operations {
             };
         };
     };
-    create_29: {
+    create_37: {
         parameters: {
             query?: never;
             header?: never;
@@ -17160,7 +24631,7 @@ export interface operations {
             };
         };
     };
-    generate_1: {
+    generate_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -17182,7 +24653,7 @@ export interface operations {
             };
         };
     };
-    listAll_19: {
+    listAll_43: {
         parameters: {
             query?: {
                 status?: "DRAFT" | "PUBLISHED" | "ARCHIVED";
@@ -17206,7 +24677,7 @@ export interface operations {
             };
         };
     };
-    create_30: {
+    create_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -17230,7 +24701,7 @@ export interface operations {
             };
         };
     };
-    listAll_20: {
+    listAll_44: {
         parameters: {
             query?: {
                 page?: number;
@@ -17253,7 +24724,7 @@ export interface operations {
             };
         };
     };
-    create_31: {
+    create_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -17365,7 +24836,7 @@ export interface operations {
             };
         };
     };
-    listAll_21: {
+    listAll_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -17385,7 +24856,7 @@ export interface operations {
             };
         };
     };
-    create_32: {
+    create_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -17409,7 +24880,7 @@ export interface operations {
             };
         };
     };
-    listAll_22: {
+    listAll_46: {
         parameters: {
             query?: {
                 page?: number;
@@ -17432,7 +24903,7 @@ export interface operations {
             };
         };
     };
-    create_33: {
+    create_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -17480,7 +24951,7 @@ export interface operations {
             };
         };
     };
-    create_34: {
+    create_42: {
         parameters: {
             query?: never;
             header?: never;
@@ -17504,7 +24975,7 @@ export interface operations {
             };
         };
     };
-    listAll_23: {
+    listAll_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -17524,7 +24995,7 @@ export interface operations {
             };
         };
     };
-    create_35: {
+    create_43: {
         parameters: {
             query?: never;
             header?: never;
@@ -17548,7 +25019,7 @@ export interface operations {
             };
         };
     };
-    listAll_24: {
+    listAll_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -17568,7 +25039,7 @@ export interface operations {
             };
         };
     };
-    create_36: {
+    create_44: {
         parameters: {
             query?: never;
             header?: never;
@@ -17592,7 +25063,7 @@ export interface operations {
             };
         };
     };
-    generate_2: {
+    generate_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -17614,7 +25085,7 @@ export interface operations {
             };
         };
     };
-    listAll_25: {
+    listAll_49: {
         parameters: {
             query?: {
                 q?: string;
@@ -17638,7 +25109,7 @@ export interface operations {
             };
         };
     };
-    create_37: {
+    create_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -17662,7 +25133,7 @@ export interface operations {
             };
         };
     };
-    listAll_26: {
+    listAll_50: {
         parameters: {
             query?: {
                 page?: number;
@@ -17685,7 +25156,7 @@ export interface operations {
             };
         };
     };
-    create_38: {
+    create_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -17709,7 +25180,75 @@ export interface operations {
             };
         };
     };
-    listAll_27: {
+    listAll_51: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LimitDimensionResponse"][];
+                };
+            };
+        };
+    };
+    create_47: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateLimitDimensionRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LimitDimensionResponse"];
+                };
+            };
+        };
+    };
+    publish: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublishLegalDocumentVersionRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LegalDocumentVersionResponse"];
+                };
+            };
+        };
+    };
+    listAll_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -17729,7 +25268,7 @@ export interface operations {
             };
         };
     };
-    create_39: {
+    create_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -17753,7 +25292,7 @@ export interface operations {
             };
         };
     };
-    listAll_28: {
+    listAll_53: {
         parameters: {
             query?: never;
             header?: never;
@@ -17773,7 +25312,7 @@ export interface operations {
             };
         };
     };
-    create_40: {
+    create_49: {
         parameters: {
             query?: never;
             header?: never;
@@ -17918,7 +25457,7 @@ export interface operations {
             };
         };
     };
-    consume: {
+    consume_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -17962,7 +25501,7 @@ export interface operations {
             };
         };
     };
-    listAll_29: {
+    listAll_54: {
         parameters: {
             query?: never;
             header?: never;
@@ -17982,7 +25521,7 @@ export interface operations {
             };
         };
     };
-    create_41: {
+    create_50: {
         parameters: {
             query?: never;
             header?: never;
@@ -18006,7 +25545,7 @@ export interface operations {
             };
         };
     };
-    create_42: {
+    create_51: {
         parameters: {
             query?: never;
             header?: never;
@@ -18030,7 +25569,7 @@ export interface operations {
             };
         };
     };
-    create_43: {
+    create_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -18054,7 +25593,7 @@ export interface operations {
             };
         };
     };
-    create_44: {
+    create_53: {
         parameters: {
             query?: never;
             header?: never;
@@ -18078,7 +25617,7 @@ export interface operations {
             };
         };
     };
-    create_45: {
+    create_54: {
         parameters: {
             query?: never;
             header?: never;
@@ -18102,7 +25641,7 @@ export interface operations {
             };
         };
     };
-    create_46: {
+    create_55: {
         parameters: {
             query?: never;
             header?: never;
@@ -18170,7 +25709,7 @@ export interface operations {
             };
         };
     };
-    listAll_30: {
+    listAll_55: {
         parameters: {
             query?: {
                 page?: number;
@@ -18193,7 +25732,7 @@ export interface operations {
             };
         };
     };
-    create_47: {
+    create_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -18237,7 +25776,7 @@ export interface operations {
             };
         };
     };
-    listAll_31: {
+    listAll_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -18257,7 +25796,7 @@ export interface operations {
             };
         };
     };
-    create_48: {
+    create_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -18329,7 +25868,7 @@ export interface operations {
             };
         };
     };
-    listAll_32: {
+    listAll_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -18349,7 +25888,7 @@ export interface operations {
             };
         };
     };
-    create_49: {
+    create_58: {
         parameters: {
             query?: never;
             header?: never;
@@ -18432,7 +25971,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["IssueCreditNoteRequest"];
+                "application/json": components["schemas"]["IssueElectronicCreditNoteRequest"];
             };
         };
         responses: {
@@ -18517,7 +26056,7 @@ export interface operations {
             };
         };
     };
-    listAll_33: {
+    listAll_58: {
         parameters: {
             query?: never;
             header?: never;
@@ -18537,7 +26076,7 @@ export interface operations {
             };
         };
     };
-    create_50: {
+    create_59: {
         parameters: {
             query?: never;
             header?: never;
@@ -18585,7 +26124,7 @@ export interface operations {
             };
         };
     };
-    record: {
+    record_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -18635,7 +26174,7 @@ export interface operations {
             };
         };
     };
-    listAll_34: {
+    listAll_59: {
         parameters: {
             query?: never;
             header?: never;
@@ -18655,7 +26194,7 @@ export interface operations {
             };
         };
     };
-    create_51: {
+    create_60: {
         parameters: {
             query?: never;
             header?: never;
@@ -18679,7 +26218,7 @@ export interface operations {
             };
         };
     };
-    listAll_35: {
+    listAll_60: {
         parameters: {
             query?: never;
             header?: never;
@@ -18699,7 +26238,7 @@ export interface operations {
             };
         };
     };
-    create_52: {
+    create_61: {
         parameters: {
             query?: never;
             header?: never;
@@ -18723,7 +26262,7 @@ export interface operations {
             };
         };
     };
-    listAll_36: {
+    listAll_61: {
         parameters: {
             query?: never;
             header?: never;
@@ -18743,7 +26282,7 @@ export interface operations {
             };
         };
     };
-    create_53: {
+    create_62: {
         parameters: {
             query?: never;
             header?: never;
@@ -18767,7 +26306,7 @@ export interface operations {
             };
         };
     };
-    listAll_37: {
+    listAll_62: {
         parameters: {
             query?: {
                 page?: number;
@@ -18790,7 +26329,7 @@ export interface operations {
             };
         };
     };
-    create_54: {
+    create_63: {
         parameters: {
             query?: never;
             header?: never;
@@ -18814,7 +26353,7 @@ export interface operations {
             };
         };
     };
-    listAll_38: {
+    listAll_63: {
         parameters: {
             query?: never;
             header?: never;
@@ -18834,7 +26373,7 @@ export interface operations {
             };
         };
     };
-    create_55: {
+    create_64: {
         parameters: {
             query?: never;
             header?: never;
@@ -18858,7 +26397,7 @@ export interface operations {
             };
         };
     };
-    listAll_39: {
+    listAll_64: {
         parameters: {
             query?: {
                 page?: number;
@@ -18881,7 +26420,7 @@ export interface operations {
             };
         };
     };
-    create_56: {
+    create_65: {
         parameters: {
             query?: never;
             header?: never;
@@ -18905,7 +26444,7 @@ export interface operations {
             };
         };
     };
-    listAll_40: {
+    listAll_65: {
         parameters: {
             query?: never;
             header?: never;
@@ -18925,7 +26464,7 @@ export interface operations {
             };
         };
     };
-    create_57: {
+    create_66: {
         parameters: {
             query?: never;
             header?: never;
@@ -18949,7 +26488,7 @@ export interface operations {
             };
         };
     };
-    resolve: {
+    resolve_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -19091,7 +26630,122 @@ export interface operations {
             };
         };
     };
-    listAll_41: {
+    listByCompany_10: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyContactChannelResponse"];
+                };
+            };
+        };
+    };
+    authorize: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AuthorizeCompanyContactChannelRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyContactChannelResponse"];
+                };
+            };
+        };
+    };
+    findCurrent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyBillingProfileResponse"];
+                };
+            };
+        };
+    };
+    open_6: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenCompanyBillingProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyBillingProfileResponse"];
+                };
+            };
+        };
+    };
+    succeed_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SucceedCompanyBillingProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyBillingProfileResponse"];
+                };
+            };
+        };
+    };
+    listAll_66: {
         parameters: {
             query?: {
                 page?: number;
@@ -19114,7 +26768,7 @@ export interface operations {
             };
         };
     };
-    create_58: {
+    create_67: {
         parameters: {
             query?: never;
             header?: never;
@@ -19138,7 +26792,7 @@ export interface operations {
             };
         };
     };
-    listAll_42: {
+    listAll_67: {
         parameters: {
             query?: never;
             header?: never;
@@ -19158,7 +26812,7 @@ export interface operations {
             };
         };
     };
-    create_59: {
+    create_68: {
         parameters: {
             query?: never;
             header?: never;
@@ -19206,7 +26860,7 @@ export interface operations {
             };
         };
     };
-    create_60: {
+    create_69: {
         parameters: {
             query?: never;
             header?: never;
@@ -19230,7 +26884,7 @@ export interface operations {
             };
         };
     };
-    listAll_43: {
+    listAll_68: {
         parameters: {
             query?: {
                 page?: number;
@@ -19253,7 +26907,7 @@ export interface operations {
             };
         };
     };
-    create_61: {
+    create_70: {
         parameters: {
             query?: never;
             header?: never;
@@ -19299,7 +26953,7 @@ export interface operations {
             };
         };
     };
-    create_62: {
+    create_71: {
         parameters: {
             query?: never;
             header?: never;
@@ -19342,12 +26996,60 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    "*/*": components["schemas"]["CatalogItemLimitResponse"][];
+                };
+            };
+        };
+    };
+    create_72: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCatalogItemLimitRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemLimitResponse"];
+                };
+            };
+        };
+    };
+    listByCatalogItem_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     "*/*": components["schemas"]["CatalogItemDependencyResponse"][];
                 };
             };
         };
     };
-    create_63: {
+    create_73: {
         parameters: {
             query?: never;
             header?: never;
@@ -19395,7 +27097,7 @@ export interface operations {
             };
         };
     };
-    create_64: {
+    create_74: {
         parameters: {
             query?: never;
             header?: never;
@@ -19444,7 +27146,7 @@ export interface operations {
             };
         };
     };
-    create_65: {
+    create_75: {
         parameters: {
             query?: never;
             header?: never;
@@ -19494,7 +27196,7 @@ export interface operations {
             };
         };
     };
-    close: {
+    close_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -19540,7 +27242,7 @@ export interface operations {
             };
         };
     };
-    open: {
+    open_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -19564,7 +27266,7 @@ export interface operations {
             };
         };
     };
-    listAll_44: {
+    listAll_69: {
         parameters: {
             query?: never;
             header?: never;
@@ -19584,7 +27286,7 @@ export interface operations {
             };
         };
     };
-    create_66: {
+    create_76: {
         parameters: {
             query?: never;
             header?: never;
@@ -19608,7 +27310,7 @@ export interface operations {
             };
         };
     };
-    listAll_45: {
+    listAll_70: {
         parameters: {
             query?: never;
             header?: never;
@@ -19628,7 +27330,7 @@ export interface operations {
             };
         };
     };
-    create_67: {
+    create_77: {
         parameters: {
             query?: never;
             header?: never;
@@ -19722,7 +27424,7 @@ export interface operations {
             };
         };
     };
-    listAll_46: {
+    listAll_71: {
         parameters: {
             query?: never;
             header?: never;
@@ -19742,7 +27444,7 @@ export interface operations {
             };
         };
     };
-    create_68: {
+    create_78: {
         parameters: {
             query?: never;
             header?: never;
@@ -19766,7 +27468,7 @@ export interface operations {
             };
         };
     };
-    listAll_47: {
+    listAll_72: {
         parameters: {
             query?: never;
             header?: never;
@@ -19786,7 +27488,7 @@ export interface operations {
             };
         };
     };
-    create_69: {
+    create_79: {
         parameters: {
             query?: never;
             header?: never;
@@ -19810,7 +27512,7 @@ export interface operations {
             };
         };
     };
-    listAll_48: {
+    listAll_73: {
         parameters: {
             query?: never;
             header?: never;
@@ -19830,7 +27532,7 @@ export interface operations {
             };
         };
     };
-    create_70: {
+    create_80: {
         parameters: {
             query?: never;
             header?: never;
@@ -20038,7 +27740,7 @@ export interface operations {
             };
         };
     };
-    create_71: {
+    create_81: {
         parameters: {
             query?: never;
             header?: never;
@@ -20062,7 +27764,7 @@ export interface operations {
             };
         };
     };
-    listAll_49: {
+    listAll_74: {
         parameters: {
             query?: {
                 page?: number;
@@ -20085,7 +27787,7 @@ export interface operations {
             };
         };
     };
-    create_72: {
+    create_82: {
         parameters: {
             query?: never;
             header?: never;
@@ -20131,7 +27833,7 @@ export interface operations {
             };
         };
     };
-    create_73: {
+    create_83: {
         parameters: {
             query?: never;
             header?: never;
@@ -20157,7 +27859,7 @@ export interface operations {
             };
         };
     };
-    listAll_50: {
+    listAll_75: {
         parameters: {
             query?: never;
             header?: never;
@@ -20177,7 +27879,7 @@ export interface operations {
             };
         };
     };
-    create_74: {
+    create_84: {
         parameters: {
             query?: never;
             header?: never;
@@ -20201,7 +27903,7 @@ export interface operations {
             };
         };
     };
-    listAll_51: {
+    listAll_76: {
         parameters: {
             query?: {
                 q?: string;
@@ -20225,7 +27927,7 @@ export interface operations {
             };
         };
     };
-    create_75: {
+    create_85: {
         parameters: {
             query?: never;
             header?: never;
@@ -20249,7 +27951,7 @@ export interface operations {
             };
         };
     };
-    publish: {
+    publish_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -20287,6 +27989,788 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["TaxResponse"];
+                };
+            };
+        };
+    };
+    close_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CloseWithholdingRateRuleRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WithholdingRateRuleResponse"];
+                };
+            };
+        };
+    };
+    attachSubstituteEvidence: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AttachSubstituteEvidenceRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WithholdingCertificateResponse"];
+                };
+            };
+        };
+    };
+    receive_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReceiveWithholdingCertificateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WithholdingCertificateResponse"];
+                };
+            };
+        };
+    };
+    file: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FileTaxReturnRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxReturnResponse"];
+                };
+            };
+        };
+    };
+    annul: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxReturnResponse"];
+                };
+            };
+        };
+    };
+    registerPayment_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterSupplierWithholdingPaymentRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SupplierWithholdingResponse"];
+                };
+            };
+        };
+    };
+    issueCertificate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IssueSupplierWithholdingCertificateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SupplierWithholdingResponse"];
+                };
+            };
+        };
+    };
+    expire_1: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionPaymentMethodResponse"];
+                };
+            };
+        };
+    };
+    report: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReportSecurityIncidentRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SecurityIncidentResponse"];
+                };
+            };
+        };
+    };
+    close_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CloseSecurityIncidentRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SecurityIncidentResponse"];
+                };
+            };
+        };
+    };
+    resolve_2: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResolveReversalRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentReversalRequestResponse"];
+                };
+            };
+        };
+    };
+    oppose: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpposeReversalRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentReversalRequestResponse"];
+                };
+            };
+        };
+    };
+    acknowledge: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AcknowledgeReversalRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentReversalRequestResponse"];
+                };
+            };
+        };
+    };
+    reschedule: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReschedulePaymentAttemptRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SystemPaymentAttemptResponse"];
+                };
+            };
+        };
+    };
+    attachProviderInvoice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AttachProviderInvoiceRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GatewaySettlementResponse"];
+                };
+            };
+        };
+    };
+    linkBankReceipt: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LinkBankReceiptRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GatewaySettlementResponse"];
+                };
+            };
+        };
+    };
+    notifyCompanies: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NotifyAffectedCompaniesRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ExternalInvoicingOutageResponse"];
+                };
+            };
+        };
+    };
+    end: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EndExternalInvoicingOutageRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ExternalInvoicingOutageResponse"];
+                };
+            };
+        };
+    };
+    attachToCharge: {
+        parameters: {
+            query: {
+                companyId: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AttachUsageEventToChargeRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyUsageEventResponse"];
+                };
+            };
+        };
+    };
+    findById_50: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyActivityMonthResponse"];
+                };
+            };
+        };
+    };
+    update_63: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCompanyActivityMonthRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyActivityMonthResponse"];
+                };
+            };
+        };
+    };
+    identify: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BankReceiptResponse"];
+                };
+            };
+        };
+    };
+    discard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BankReceiptResponse"];
+                };
+            };
+        };
+    };
+    softClose: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingPeriodResponse"];
+                };
+            };
+        };
+    };
+    reopen: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReopenAccountingPeriodRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingPeriodResponse"];
+                };
+            };
+        };
+    };
+    lock: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingPeriodResponse"];
+                };
+            };
+        };
+    };
+    supersede: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingExportResponse"];
+                };
+            };
+        };
+    };
+    reject_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RejectAccountingExportRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingExportResponse"];
+                };
+            };
+        };
+    };
+    deliver: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingExportResponse"];
+                };
+            };
+        };
+    };
+    close_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CloseAccountingAccountRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingAccountResponse"];
+                };
+            };
+        };
+    };
+    close_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CloseAccountMappingRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountMappingResponse"];
                 };
             };
         };
@@ -20461,7 +28945,7 @@ export interface operations {
             };
         };
     };
-    reconcile: {
+    reconcile_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -20479,6 +28963,54 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["SubscriptionPaymentResponse"];
+                };
+            };
+        };
+    };
+    revoke_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RevokeSubscriptionPaymentMethodRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionPaymentMethodResponse"];
+                };
+            };
+        };
+    };
+    setDefault: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionPaymentMethodResponse"];
                 };
             };
         };
@@ -20567,6 +29099,32 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["SpaTypeResponse"];
+                };
+            };
+        };
+    };
+    changeStatus_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                year: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangeSmmlvStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SmmlvValueResponse"];
                 };
             };
         };
@@ -20689,7 +29247,7 @@ export interface operations {
             };
         };
     };
-    reschedule: {
+    reschedule_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -20759,7 +29317,7 @@ export interface operations {
             };
         };
     };
-    publish_1: {
+    publish_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -20847,7 +29405,7 @@ export interface operations {
             };
         };
     };
-    changeStatus_2: {
+    changeStatus_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -20917,7 +29475,7 @@ export interface operations {
             };
         };
     };
-    reschedule_1: {
+    reschedule_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -21009,7 +29567,7 @@ export interface operations {
             };
         };
     };
-    changeStatus_3: {
+    changeStatus_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -21219,7 +29777,77 @@ export interface operations {
             };
         };
     };
+    revoke_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RevokeCompanyContactChannelRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyContactChannelResponse"];
+                };
+            };
+        };
+    };
+    designatePrimary: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyContactChannelResponse"];
+                };
+            };
+        };
+    };
     enable_14: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyResponse"];
+                };
+            };
+        };
+    };
+    enable_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -21241,7 +29869,7 @@ export interface operations {
             };
         };
     };
-    enable_15: {
+    enable_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -21285,7 +29913,7 @@ export interface operations {
             };
         };
     };
-    enable_16: {
+    enable_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -21417,7 +30045,7 @@ export interface operations {
             };
         };
     };
-    changeStatus_4: {
+    changeStatus_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -21443,7 +30071,7 @@ export interface operations {
             };
         };
     };
-    reschedule_2: {
+    reschedule_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -21495,7 +30123,7 @@ export interface operations {
             };
         };
     };
-    enable_17: {
+    enable_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -21517,7 +30145,7 @@ export interface operations {
             };
         };
     };
-    enable_18: {
+    enable_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -21535,6 +30163,167 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["MedicamentResponse"];
+                };
+            };
+        };
+    };
+    listAvailable: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseWithholdingRateRuleResponse"];
+                };
+            };
+        };
+    };
+    findById_51: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WithholdingRateRuleResponse"];
+                };
+            };
+        };
+    };
+    resolve_3: {
+        parameters: {
+            query: {
+                withholdingType: "INCOME_TAX" | "VAT" | "ICA";
+                serviceNature: "SOFTWARE_LICENSING" | "TECHNICAL_SERVICE" | "CONSULTING";
+                municipalityCode?: string;
+                on?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WithholdingRateRuleResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_11: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseWithholdingCertificateResponse"];
+                };
+            };
+        };
+    };
+    findById_52: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WithholdingCertificateResponse"];
+                };
+            };
+        };
+    };
+    listMissing: {
+        parameters: {
+            query: {
+                deadlineBefore: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseWithholdingCertificateResponse"];
+                };
+            };
+        };
+    };
+    findByYear: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                year: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VatFilingPeriodResponse"];
                 };
             };
         };
@@ -21565,7 +30354,7 @@ export interface operations {
             };
         };
     };
-    listAvailable: {
+    listAvailable_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -21581,6 +30370,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["VaccinationTypeResponse"][];
+                };
+            };
+        };
+    };
+    findByYear_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                year: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UvtValueResponse"];
                 };
             };
         };
@@ -21605,7 +30416,153 @@ export interface operations {
             };
         };
     };
-    listAll_52: {
+    listMissing_1: {
+        parameters: {
+            query: {
+                deadlineBefore: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseWithholdingCertificateResponse"];
+                };
+            };
+        };
+    };
+    listByPeriod: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                fiscalPeriodKey: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseTaxReturnResponse"];
+                };
+            };
+        };
+    };
+    listBecomingFinal: {
+        parameters: {
+            query: {
+                before: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseTaxReturnResponse"];
+                };
+            };
+        };
+    };
+    findById_53: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SupplierWithholdingResponse"];
+                };
+            };
+        };
+    };
+    listBySupplier: {
+        parameters: {
+            query: {
+                fiscalYear: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                supplierTaxId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSupplierWithholdingResponse"];
+                };
+            };
+        };
+    };
+    listByPeriod_1: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                fiscalPeriodKey: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSupplierWithholdingResponse"];
+                };
+            };
+        };
+    };
+    listAll_77: {
         parameters: {
             query?: {
                 companyId?: number;
@@ -21625,6 +30582,54 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PageResponseSubscriptionPaymentResponse"];
+                };
+            };
+        };
+    };
+    listAll_78: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubscriptionPaymentMethodResponse"];
+                };
+            };
+        };
+    };
+    listExpiring: {
+        parameters: {
+            query: {
+                before: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubscriptionPaymentMethodResponse"];
                 };
             };
         };
@@ -21675,7 +30680,371 @@ export interface operations {
             };
         };
     };
-    listAll_53: {
+    findById_54: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SecurityIncidentResponse"];
+                };
+            };
+        };
+    };
+    listAffectedCompanies: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseAffectedCompanyResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_12: {
+        parameters: {
+            query: {
+                companyId: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseRevenueRecognitionLineResponse"];
+                };
+            };
+        };
+    };
+    findById_55: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RevenueRecognitionLineResponse"];
+                };
+            };
+        };
+    };
+    listByPostingPeriod: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                postingPeriod: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseRevenueRecognitionLineResponse"];
+                };
+            };
+        };
+    };
+    findById_56: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlatformTaxProfileResponse"];
+                };
+            };
+        };
+    };
+    findCurrent_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PlatformTaxProfileResponse"];
+                };
+            };
+        };
+    };
+    listExpiring_1: {
+        parameters: {
+            query: {
+                before: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponsePaymentReversalRequestResponse"];
+                };
+            };
+        };
+    };
+    listDue: {
+        parameters: {
+            query?: {
+                dueBefore?: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSystemPaymentAttemptResponse"];
+                };
+            };
+        };
+    };
+    findById_57: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GatewaySettlementResponse"];
+                };
+            };
+        };
+    };
+    reconcile_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GatewaySettlementReconciliationResponse"];
+                };
+            };
+        };
+    };
+    find_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ExternalInvoicingOutageResponse"];
+                };
+            };
+        };
+    };
+    listAffectedCompanies_1: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseOutageAffectedCompanyResponse"];
+                };
+            };
+        };
+    };
+    listOpen: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ExternalInvoicingOutageResponse"][];
+                };
+            };
+        };
+    };
+    findById_58: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ExternalInvoiceReconciliationResponse"];
+                };
+            };
+        };
+    };
+    listMissing_2: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseExternalInvoiceReconciliationResponse"];
+                };
+            };
+        };
+    };
+    listAll_79: {
         parameters: {
             query?: {
                 companyId?: number;
@@ -21699,7 +31068,592 @@ export interface operations {
             };
         };
     };
-    listAvailable_1: {
+    listUncertified: {
+        parameters: {
+            query: {
+                fiscalYear: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseDocumentWithholdingResponse"];
+                };
+            };
+        };
+    };
+    listExpiring_2: {
+        parameters: {
+            query: {
+                before: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCustomerCreditEntryResponse"];
+                };
+            };
+        };
+    };
+    listAllEntries: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCustomerCreditEntryResponse"];
+                };
+            };
+        };
+    };
+    listAllBalances: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCustomerCreditBalanceResponse"];
+                };
+            };
+        };
+    };
+    findById_59: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyUsageEventResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_13: {
+        parameters: {
+            query: {
+                companyId: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyUsageEventResponse"];
+                };
+            };
+        };
+    };
+    listByCharge: {
+        parameters: {
+            query: {
+                companyId: number;
+                chargeId: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyUsageEventResponse"];
+                };
+            };
+        };
+    };
+    current: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyTrialWindowResponse"];
+                };
+            };
+        };
+    };
+    listExpired: {
+        parameters: {
+            query: {
+                day: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyTrialGrantResponse"][];
+                };
+            };
+        };
+    };
+    effectiveLimit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                companyId: number;
+                limitDimensionId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EffectiveLimitResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_14: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+            };
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyLimitEventResponse"][];
+                };
+            };
+        };
+    };
+    latestAsOf: {
+        parameters: {
+            query: {
+                at: string;
+            };
+            header?: never;
+            path: {
+                companyId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyEntitlementSnapshotResponse"];
+                };
+            };
+        };
+    };
+    findByCompanyAndPeriod: {
+        parameters: {
+            query: {
+                companyId: number;
+                periodKey: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyActivityMonthResponse"];
+                };
+            };
+        };
+    };
+    listDormant: {
+        parameters: {
+            query: {
+                periodKey: string;
+                activeDaysThreshold: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyActivityMonthResponse"];
+                };
+            };
+        };
+    };
+    listByPeriod_2: {
+        parameters: {
+            query: {
+                periodKey: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyActivityMonthResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_15: {
+        parameters: {
+            query: {
+                companyId: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyActivityMonthResponse"];
+                };
+            };
+        };
+    };
+    findById_60: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BankReceiptResponse"];
+                };
+            };
+        };
+    };
+    listUnidentified: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseBankReceiptResponse"];
+                };
+            };
+        };
+    };
+    findById_61: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingPeriodResponse"];
+                };
+            };
+        };
+    };
+    resolvePostingPeriod: {
+        parameters: {
+            query: {
+                occurredOn: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingPeriodResponse"];
+                };
+            };
+        };
+    };
+    findById_62: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingExportResponse"];
+                };
+            };
+        };
+    };
+    listByPeriod_3: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                periodKey: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseAccountingExportResponse"];
+                };
+            };
+        };
+    };
+    findByCode: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountingAccountResponse"];
+                };
+            };
+        };
+    };
+    findById_63: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountMappingResponse"];
+                };
+            };
+        };
+    };
+    resolve_4: {
+        parameters: {
+            query: {
+                mappingKind: "RECEIVABLE" | "DEFERRED_REVENUE" | "REVENUE" | "VAT_PAYABLE" | "VAT_CREDITABLE" | "CASH_IN_TRANSIT" | "BANK" | "GATEWAY_FEE" | "WITHHOLDING_ASSET" | "FINANCIAL_TAX" | "PENALTY_REVENUE" | "CUSTOMER_CREDIT";
+                mappingKey: string;
+                catalogItemId?: number;
+                chargeType?: string;
+                taxTreatment?: string;
+                on?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccountMappingResponse"];
+                };
+            };
+        };
+    };
+    listAvailable_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -21821,7 +31775,7 @@ export interface operations {
             };
         };
     };
-    findById_47: {
+    findById_64: {
         parameters: {
             query?: never;
             header?: never;
@@ -21893,7 +31847,7 @@ export interface operations {
             };
         };
     };
-    findCurrent: {
+    findCurrent_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -21913,7 +31867,7 @@ export interface operations {
             };
         };
     };
-    findById_48: {
+    findById_65: {
         parameters: {
             query?: never;
             header?: never;
@@ -21931,6 +31885,48 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["SubscriptionPaymentResponse"];
+                };
+            };
+        };
+    };
+    findById_66: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionPaymentMethodResponse"];
+                };
+            };
+        };
+    };
+    listMine_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubscriptionItemLimitResponse"][];
                 };
             };
         };
@@ -22119,6 +32115,28 @@ export interface operations {
             };
         };
     };
+    findByYear_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                year: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SmmlvValueResponse"];
+                };
+            };
+        };
+    };
     search_2: {
         parameters: {
             query?: {
@@ -22235,7 +32253,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_6: {
+    listByCompany_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -22255,7 +32273,7 @@ export interface operations {
             };
         };
     };
-    findById_49: {
+    findById_67: {
         parameters: {
             query?: never;
             header?: never;
@@ -22297,7 +32315,7 @@ export interface operations {
             };
         };
     };
-    findById_50: {
+    findById_68: {
         parameters: {
             query?: never;
             header?: never;
@@ -22359,7 +32377,7 @@ export interface operations {
             };
         };
     };
-    listAll_54: {
+    listAll_80: {
         parameters: {
             query?: {
                 page?: number;
@@ -22459,6 +32477,73 @@ export interface operations {
             };
         };
     };
+    findById_69: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicHolidayResponse"];
+                };
+            };
+        };
+    };
+    listByYear: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                year: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicHolidayResponse"][];
+                };
+            };
+        };
+    };
+    deadline: {
+        parameters: {
+            query: {
+                startDate?: string;
+                businessDays: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BusinessDayDeadlineResponse"];
+                };
+            };
+        };
+    };
     search_4: {
         parameters: {
             query?: {
@@ -22550,7 +32635,7 @@ export interface operations {
             };
         };
     };
-    findById_51: {
+    findById_70: {
         parameters: {
             query?: never;
             header?: never;
@@ -22638,7 +32723,7 @@ export interface operations {
             };
         };
     };
-    listAll_55: {
+    listAll_81: {
         parameters: {
             query?: {
                 page?: number;
@@ -22681,7 +32766,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_7: {
+    listByCompany_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -22697,6 +32782,191 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PermissionResponse"][];
+                };
+            };
+        };
+    };
+    listByCompany_18: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponsePaymentReversalRequestResponse"];
+                };
+            };
+        };
+    };
+    findById_71: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentReversalRequestResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_19: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponsePaymentRefundResponse"];
+                };
+            };
+        };
+    };
+    findById_72: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentRefundResponse"];
+                };
+            };
+        };
+    };
+    listByPayment: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                paymentId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponsePaymentRefundResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_20: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponsePaymentAttemptResponse"];
+                };
+            };
+        };
+    };
+    findById_73: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentAttemptResponse"];
+                };
+            };
+        };
+    };
+    listByDocument: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                billingDocumentId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponsePaymentAttemptResponse"];
                 };
             };
         };
@@ -22725,7 +32995,7 @@ export interface operations {
             };
         };
     };
-    findById_52: {
+    findById_74: {
         parameters: {
             query?: never;
             header?: never;
@@ -22859,7 +33129,7 @@ export interface operations {
             };
         };
     };
-    listAvailable_2: {
+    listAvailable_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -22875,6 +33145,76 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["MedicamentResponse"][];
+                };
+            };
+        };
+    };
+    listByCode: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseLegalDocumentVersionResponse"];
+                };
+            };
+        };
+    };
+    findCurrent_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LegalDocumentVersionResponse"];
+                };
+            };
+        };
+    };
+    findByHash: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+                contentHash: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LegalDocumentVersionResponse"];
                 };
             };
         };
@@ -22935,7 +33275,7 @@ export interface operations {
             };
         };
     };
-    listAvailable_3: {
+    listAvailable_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -23223,7 +33563,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_8: {
+    listByCompany_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -23369,7 +33709,7 @@ export interface operations {
             };
         };
     };
-    findById_53: {
+    findById_75: {
         parameters: {
             query?: never;
             header?: never;
@@ -23572,7 +33912,7 @@ export interface operations {
             };
         };
     };
-    listByCompany_9: {
+    listByCompany_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -23592,7 +33932,7 @@ export interface operations {
             };
         };
     };
-    listAll_56: {
+    listAll_82: {
         parameters: {
             query?: {
                 branchId?: number;
@@ -23618,7 +33958,7 @@ export interface operations {
             };
         };
     };
-    findById_54: {
+    findById_76: {
         parameters: {
             query?: never;
             header?: never;
@@ -23662,7 +34002,7 @@ export interface operations {
             };
         };
     };
-    findById_55: {
+    findById_77: {
         parameters: {
             query?: never;
             header?: never;
@@ -23680,6 +34020,75 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["DunningEventResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_23: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseDocumentWithholdingResponse"];
+                };
+            };
+        };
+    };
+    findById_78: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DocumentWithholdingResponse"];
+                };
+            };
+        };
+    };
+    listUncertified_1: {
+        parameters: {
+            query: {
+                fiscalYear: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseDocumentWithholdingResponse"];
                 };
             };
         };
@@ -23710,7 +34119,7 @@ export interface operations {
             };
         };
     };
-    listAvailable_4: {
+    listAvailable_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -23778,7 +34187,7 @@ export interface operations {
             };
         };
     };
-    listAll_57: {
+    listAll_83: {
         parameters: {
             query?: never;
             header?: never;
@@ -23794,6 +34203,71 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["DayCareResponse"][];
+                };
+            };
+        };
+    };
+    listEntries: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCustomerCreditEntryResponse"];
+                };
+            };
+        };
+    };
+    findEntry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CustomerCreditEntryResponse"];
+                };
+            };
+        };
+    };
+    findBalance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CustomerCreditBalanceResponse"];
                 };
             };
         };
@@ -23820,7 +34294,7 @@ export interface operations {
             };
         };
     };
-    findById_56: {
+    findById_79: {
         parameters: {
             query?: never;
             header?: never;
@@ -23884,6 +34358,224 @@ export interface operations {
             };
         };
     };
+    current_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyTrialWindowResponse"];
+                };
+            };
+        };
+    };
+    listMine_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyTrialGrantResponse"][];
+                };
+            };
+        };
+    };
+    listMine_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyLimitOverrideResponse"][];
+                };
+            };
+        };
+    };
+    effectiveLimit_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                limitDimensionId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EffectiveLimitResponse"];
+                };
+            };
+        };
+    };
+    listMine_4: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyLimitEventResponse"][];
+                };
+            };
+        };
+    };
+    latestAsOf_1: {
+        parameters: {
+            query: {
+                at: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyEntitlementSnapshotResponse"];
+                };
+            };
+        };
+    };
+    findById_80: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyContactChannelResponse"];
+                };
+            };
+        };
+    };
+    listUsable: {
+        parameters: {
+            query: {
+                purpose: "BILLING" | "DUNNING" | "OPERATIONAL" | "MARKETING";
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyContactChannelResponse"];
+                };
+            };
+        };
+    };
+    findById_81: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CompanyBillingProfileResponse"];
+                };
+            };
+        };
+    };
+    listHistory: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyBillingProfileResponse"];
+                };
+            };
+        };
+    };
     search_10: {
         parameters: {
             query: {
@@ -23908,7 +34600,30 @@ export interface operations {
             };
         };
     };
-    listByCompany_10: {
+    listDisabled_4: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCompanyResponse"];
+                };
+            };
+        };
+    };
+    listByCompany_24: {
         parameters: {
             query?: {
                 types?: ("CONSULTATION" | "SURGERY" | "VACCINATION" | "DEWORMING" | "HOSPITALIZATION" | "LABORATORY_TEST" | "DIAGNOSTIC_IMAGING" | "PRESCRIPTION" | "SPA")[];
@@ -24005,7 +34720,7 @@ export interface operations {
             };
         };
     };
-    current: {
+    current_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -24021,6 +34736,77 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CashSessionView"];
+                };
+            };
+        };
+    };
+    findById_82: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingDocumentStatusHistoryResponse"];
+                };
+            };
+        };
+    };
+    listByDocument_1: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                billingDocumentId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseBillingDocumentStatusHistoryResponse"];
+                };
+            };
+        };
+    };
+    listByStatus: {
+        parameters: {
+            query: {
+                toStatus: "DRAFT" | "AWAITING_EXTERNAL" | "EXTERNAL_REGISTERED" | "VOIDED";
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseBillingDocumentStatusHistoryResponse"];
                 };
             };
         };
@@ -24067,7 +34853,7 @@ export interface operations {
             };
         };
     };
-    findById_57: {
+    findById_83: {
         parameters: {
             query?: never;
             header?: never;
@@ -24212,7 +34998,7 @@ export interface operations {
             };
         };
     };
-    listDisabled_4: {
+    listDisabled_5: {
         parameters: {
             query?: never;
             header?: never;
