@@ -70,4 +70,33 @@ export const companiesApi = {
   async remove(id: number): Promise<void> {
     await http.delete(`/companies/${id}`)
   },
+  /**
+   * Inverso de `remove`: saca del archivo una empresa dada de baja por error.
+   *
+   * **Por qué `enable` y no `restore`/`reactivate`.** El vocabulario fijo de
+   * `CLAUDE.md` (`listAll`, `findById`, `create`, `update`, `remove`,
+   * `listBy<X>`, `search`) no nombra el inverso de `remove`, pero esta consola
+   * ya lo tenía resuelto: `catalogItemsApi.enable`, `priceListsApi.enable` y
+   * `medicamentsApi.enable` son exactamente esta operación con exactamente este
+   * nombre, y el contrato la publica como `/{recurso}/{id}/enable` en las 29
+   * rutas hermanas. Llamarla aquí `restore` habría inventado un cuarto nombre
+   * para la misma cosa y roto la lectura en paralelo cliente↔contrato.
+   *
+   * El rótulo de la interfaz **sí** dice «Restaurar», que es la palabra del
+   * operador; el cliente habla el idioma del contrato. Es la misma separación
+   * que ya hace `medicamentsApi.remove`, cuyo botón se llama «pausar».
+   *
+   * `PATCH` sin cuerpo: no hay nada que elegir, solo el id de la URL. Devuelve
+   * la ficha ya restaurada (`CompanyResponse`), no `void`, porque el backend
+   * relee la fila tras el `UPDATE` nativo y con ella viene la `version` nueva.
+   *
+   * **404 significa dos cosas a la vez**, y las dos son la misma para quien
+   * llama: el id no existe, o la empresa ya estaba activa. `ReactivateCompanyService`
+   * decide contando filas actualizadas, así que no puede distinguirlas. Ver
+   * `useCompanyRestore`, que es donde eso se traduce a palabras.
+   */
+  async enable(id: number): Promise<CompanyResponse> {
+    const { data } = await http.patch<CompanyResponse>(`/companies/${id}/enable`)
+    return data
+  },
 }
