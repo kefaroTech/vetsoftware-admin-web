@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { computed, reactive, ref, useId, watch } from 'vue'
 import ModalShell from '@/components/ui/ModalShell.vue'
-import AppTextarea from '@/components/ui/AppTextarea.vue'
+import AppSelect from '@/components/ui/AppSelect.vue'
 import ErrorSummary, { toSummaryItems } from '@/components/feedback/ErrorSummary.vue'
 import { ICONS } from '@/constants/icons'
+import { SUBSCRIPTION_STATUS_CHANGE_REASON_OPTIONS } from '../../composables/subscriptionStatusText'
 import type { SubscriptionResponse } from '../../types/subscriptions-admin.types'
-import type { SubscriptionStatusTransition } from '../../types/subscription-record.types'
+import type {
+  SubscriptionStatusChangeReason,
+  SubscriptionStatusTransition,
+} from '../../types/subscription-record.types'
 
 /**
  * Una transición de estado con nombre (§3.4.2).
@@ -20,10 +24,16 @@ import type { SubscriptionStatusTransition } from '../../types/subscription-reco
  * expediente se confirma sin decir sobre qué empresa se actúa: es la misma razón
  * por la que la cabecera es permanente (§4.4.2).
  *
- * <p><b>`reason` es obligatorio en la interfaz</b> aunque el contrato lo permita
- * vacío. El modelo lo dice: el motivo es información de negocio, no burocracia —
- * es la única fuente que explica seis meses después por qué una cuenta cambió de
- * estado.
+ * <p><b>`reason` es vocabulario cerrado, obligatorio en el contrato y en la
+ * interfaz.</b> Ya no es una `AppTextarea` de texto libre: era un `String` que
+ * el controlador pasaba tal cual al canal de auditoría, y un operador podía
+ * colar saltos de línea y fabricar entradas de bitácora que parecieran de otro
+ * evento (log injection, ASVS V7.3.1). El backend lo cerró a
+ * `SubscriptionStatusChangeReason`, un enum de seis valores, y esta pantalla
+ * ahora ofrece exactamente esos seis en un `AppSelect` — ver
+ * `SUBSCRIPTION_STATUS_CHANGE_REASON_OPTIONS` en `subscriptionStatusText.ts`.
+ * Sigue siendo la única fuente que explica seis meses después por qué una
+ * cuenta cambió de estado; ahora, además, no se puede falsificar.
  *
  * <p>Convención de formularios del repositorio, sin desviarse: validador puro →
  * `computed errors` → mapa `touched` que arranca en `false` → el error solo se
@@ -38,21 +48,17 @@ const props = defineProps<{
   saving?: boolean
 }>()
 
-const emit = defineEmits<{ close: []; submit: [reason: string] }>()
+const emit = defineEmits<{ close: []; submit: [reason: SubscriptionStatusChangeReason] }>()
 
 const reasonId = useId()
 const summary = ref<InstanceType<typeof ErrorSummary> | null>(null)
 
-const form = reactive({ reason: '' })
+const form = reactive<{ reason: SubscriptionStatusChangeReason | null }>({ reason: null })
 const touched = reactive({ reason: false })
 
-function validateReason(value: string): string {
-  const v = value.trim()
-  if (!v)
+function validateReason(value: SubscriptionStatusChangeReason | null): string {
+  if (!value)
     return 'El motivo es obligatorio: es lo que explica este cambio en la historia del contrato.'
-  if (v.length < 5)
-    return 'Escribe un motivo de al menos 5 caracteres. Ejemplo: pago recibido por transferencia.'
-  if (v.length > 255) return 'El motivo no puede pasar de 255 caracteres.'
   return ''
 }
 
@@ -78,18 +84,18 @@ watch(
   () => props.open,
   (open) => {
     if (!open) return
-    form.reason = ''
+    form.reason = null
     touched.reason = false
   },
 )
 
 function submit() {
   touched.reason = true
-  if (errors.value.reason) {
+  if (errors.value.reason || !form.reason) {
     void summary.value?.focus()
     return
   }
-  emit('submit', form.reason.trim())
+  emit('submit', form.reason)
 }
 </script>
 
@@ -118,12 +124,13 @@ function submit() {
           <span>{{ transition.policyNote }}</span>
         </div>
 
-        <AppTextarea
+        <AppSelect
           :id="reasonId"
           v-model="form.reason"
+          :options="SUBSCRIPTION_STATUS_CHANGE_REASON_OPTIONS"
           label="Motivo"
           required
-          :rows="3"
+          placeholder="Selecciona el motivo…"
           hint="Queda en la historia del contrato. Es lo que se lee cuando alguien pregunta por qué."
           :error="err()"
           @blur="touched.reason = true"

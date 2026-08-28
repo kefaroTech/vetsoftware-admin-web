@@ -53,12 +53,30 @@ export interface SubscriptionItemResponse {
   itemName: string
   itemType: ItemType
   capacityUnit: CapacityUnit | null
+  /**
+   * Tramo de la tarifa escalonada del que salió la línea (D-66), congelado como el resto.
+   * `tierMax` nulo es el último tramo. Es lo que explica dos líneas del mismo artículo a
+   * precios distintos dentro del mismo contrato.
+   */
+  tierMin: number
+  tierMax: number | null
   includedQuantity: number
   taxTreatment: TaxTreatment
   quantity: number
   billableQuantity: number
   unitAmount: number
+  /**
+   * El descuento pactado, congelado con la línea igual que `unitAmount`. Antes solo existía
+   * en la oferta y se perdía al firmar: el expediente enseñaba el precio de lista y no había
+   * forma de explicar el importe facturado sin volver a la cotización de origen.
+   */
+  discountPercent: number
+  discountAmount: number
+  /** D-86: con permanencia el IVA sale de `taxableBase`, no del importe rebajado. */
+  discountIsConditional: boolean
   taxRate: number
+  /** Base real de liquidación del impuesto. Con `discountIsConditional` NO es el rebajado. */
+  taxableBase: number
   effectiveFrom: string
   effectiveTo: string | null
   origin: SubscriptionItemOrigin
@@ -71,31 +89,31 @@ export interface SubscriptionItemResponse {
 /**
  * La línea que se firma al añadir un artículo.
  *
- * <p><b>Ninguno de estos campos lo teclea el operador.</b> `itemCode`, `itemName`,
- * `itemType` y `capacityUnit` salen del artículo del catálogo; `unitAmount`,
- * `taxRate`, `taxTreatment` e `includedQuantity` salen del precio publicado de la
- * tarifa que el contrato tiene aplicada (`subscription.priceListId`). Lo único que
- * se elige es <b>qué artículo</b>, <b>cuánta cantidad</b> y <b>desde cuándo</b>.
+ * <p><b>Solo selección: qué artículo, cuánta cantidad y desde cuándo.</b> Hasta la
+ * incidencia de dinero que cerró esto, el cuerpo llevaba también `itemCode`,
+ * `itemName`, `itemType`, `capacityUnit`, `includedQuantity`, `taxTreatment`,
+ * `unitAmount` y `taxRate` — es decir, el precio viajaba en la petición y el
+ * servicio lo persistía tal cual. Un cliente que mandara `unitAmount: 0` abría
+ * la línea gratis; uno que mandara `includedQuantity: 9999` movía el techo del
+ * contador. El servidor ahora <b>resuelve esos siete campos contra la tarifa
+ * vigente del propio contrato</b> (`subscription.priceListId` + su ciclo) y
+ * <b>rechaza lo que venga en el cuerpo</b> — de ahí que el tipo del campo `line`
+ * de {@link AddSubscriptionItemRequest} pasara de `SubscriptionItemLineRequest`
+ * (el DTO viejo, con los siete campos) a este `RequestedSubscriptionItemRequest`.
  *
- * <p>Es la consecuencia directa de que el precio vaya congelado: un campo de
- * importe editable aquí sería exactamente la operación «editar el precio» que
- * §3.3 dice que no existe, colada por la puerta del alta.
+ * <p>La consola sigue enseñando el precio antes de firmar — eso no cambia, es
+ * lo que hace que el operador sepa qué está aceptando — pero lo lee de
+ * `useSubscriptionItemCatalog().findPrice(...)`, que resuelve contra el mismo
+ * catálogo/tarifa que después valida el servidor. No lo compone esta pantalla
+ * ni lo manda: es una lectura, no una fuente.
  *
  * <p>`effectiveTo` se declara porque el contrato lo trae, y esta consola
  * <b>no lo envía</b>: una línea nace abierta. Una línea que nace con fecha de fin
  * es una baja programada, y eso se hace con «Dar de baja», que deja su otrosí.
  */
-export interface SubscriptionItemLineRequest {
+export interface RequestedSubscriptionItemRequest {
   catalogItemId: number
-  itemCode: string
-  itemName: string
-  itemType: ItemType
-  capacityUnit?: CapacityUnit | null
-  includedQuantity: number
-  taxTreatment: TaxTreatment
   quantity: number
-  unitAmount: number
-  taxRate: number
   effectiveFrom?: string
   effectiveTo?: string
 }
@@ -122,7 +140,7 @@ export interface AddSubscriptionItemRequest {
   effectiveDate: string
   reason?: string
   quoteId?: number
-  line: SubscriptionItemLineRequest
+  line: RequestedSubscriptionItemRequest
 }
 
 /**

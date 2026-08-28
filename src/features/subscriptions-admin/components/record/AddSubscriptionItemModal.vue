@@ -16,12 +16,22 @@ import type { AddSubscriptionItemRequest } from '../../types/subscription-items.
 /**
  * «Añadir artículo» — `POST /subscriptions/{id}/items`.
  *
- * <p><b>El precio no se teclea: se enseña.</b> `unitAmount`, `includedQuantity`,
- * `taxRate` y `taxTreatment` salen de la tarifa que el contrato tiene aplicada y se
- * pintan en un `&lt;dl&gt;` —hechos, no campos— antes de firmar. Un campo de importe
- * aquí sería la operación «editar el precio» que §3.3 dice que no existe, colada por
- * la puerta del alta; y además rompería lo que hace que el expediente sirva: que lo
- * pactado quede congelado aunque el catálogo suba mañana.
+ * <p><b>El precio no se teclea: se enseña, y desde la incidencia de dinero que
+ * cerró esto, tampoco se manda.</b> `unitAmount`, `includedQuantity`, `taxRate` y
+ * `taxTreatment` salían antes en el cuerpo de la petición —congelados en el
+ * cliente— y el servicio los persistía tal cual: un `unitAmount: 0` abría la
+ * línea gratis, un `includedQuantity: 9999` movía el techo del contador. El
+ * servidor ahora los <b>resuelve contra la tarifa vigente del contrato</b> y
+ * <b>rechaza lo que venga en el cuerpo</b> — de ahí que `line` de
+ * `AddSubscriptionItemRequest` sea hoy `RequestedSubscriptionItemRequest`:
+ * artículo, cantidad y fechas, nada de importes.
+ *
+ * <p>Lo que <b>no</b> cambia es que esta pantalla siga pintando el precio en un
+ * `&lt;dl&gt;` —hechos, no campos— antes de firmar: sigue leyéndolo de
+ * `useSubscriptionItemCatalog().findPrice(...)`, que resuelve contra el mismo
+ * catálogo/tarifa que después valida el servidor. Es una lectura para informar
+ * al operador, no la fuente de lo que se envía. Un campo de importe editable
+ * aquí sería la operación «editar el precio» que §3.3 dice que no existe.
  *
  * <p>Si la tarifa no publica precio para ese artículo en el ciclo del contrato, el
  * alta <b>no se abre un campo de importe</b>: se para con una explicación y con la
@@ -186,6 +196,10 @@ function submit() {
     return
   }
   const item = selectedItem.value
+  // `frozen` no viaja en el cuerpo — el servidor resuelve el precio contra la
+  // tarifa del contrato y rechazaría estos campos si se los mandáramos. Sigue
+  // siendo la guarda de que la tarifa cubre este artículo y esta cantidad: sin
+  // precio publicado no hay nada que firmar.
   const frozen = price.value
   if (!item || !frozen) return
   emit('submit', {
@@ -194,15 +208,7 @@ function submit() {
     reason: form.reason.trim(),
     line: {
       catalogItemId: item.id,
-      itemCode: item.code,
-      itemName: item.name,
-      itemType: item.itemType,
-      capacityUnit: item.capacityUnit,
-      includedQuantity: frozen.includedQuantity,
-      taxTreatment: frozen.taxTreatment,
       quantity: quantityNumber.value,
-      unitAmount: frozen.unitAmount,
-      taxRate: frozen.taxRate,
       effectiveFrom: form.effectiveDate,
     },
   })

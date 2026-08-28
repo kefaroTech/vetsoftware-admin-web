@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import {
   BILLING_CYCLE_LABEL,
   READ_ONLY_POLICY_NOTE,
+  SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL,
+  SUBSCRIPTION_STATUS_CHANGE_REASON_OPTIONS,
   SUBSCRIPTION_STATUS_TRANSITIONS,
   canRequestCancellation,
   graceDaysLeft,
@@ -225,5 +227,36 @@ describe('el ciclo de facturación se lee en castellano', () => {
   it('no deja escapar el valor crudo del enum', () => {
     expect(BILLING_CYCLE_LABEL.MONTHLY).toBe('Mensual')
     expect(BILLING_CYCLE_LABEL.ANNUAL).toBe('Anual')
+  })
+})
+
+/**
+ * `reason` dejó de ser texto libre: es el vocabulario cerrado de
+ * `SubscriptionStatusChangeReason` (backend), y viaja por HTTP con el nombre
+ * del enum en mayúsculas — igual que `status`. Estas pruebas fijan que el
+ * front ofrece exactamente esos seis valores, en ese orden y con ese nombre,
+ * y que cada uno tiene una etiqueta legible que no es el código crudo.
+ */
+describe('el motivo del cambio de estado es vocabulario cerrado, no texto libre', () => {
+  const CODIGOS_BACKEND = [
+    'OVERDUE_BALANCE',
+    'PAYMENT_RECEIVED',
+    'TRIAL_ENDED',
+    'CANCELLATION_EFFECTIVE',
+    'PERIOD_EXPIRED',
+    'MANUAL',
+  ]
+
+  it('son exactamente los seis valores del enum de dominio, en su mismo orden', () => {
+    expect(SUBSCRIPTION_STATUS_CHANGE_REASON_OPTIONS.map((o) => o.value)).toEqual(CODIGOS_BACKEND)
+    expect(Object.keys(SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL)).toEqual(CODIGOS_BACKEND)
+  })
+
+  it('cada opción trae una etiqueta en español y no el código crudo', () => {
+    for (const opcion of SUBSCRIPTION_STATUS_CHANGE_REASON_OPTIONS) {
+      expect(opcion.label).not.toBe(opcion.value)
+      expect(opcion.label.length).toBeGreaterThan(0)
+      expect(opcion.label).not.toMatch(/^[A-Z_]+$/)
+    }
   })
 })

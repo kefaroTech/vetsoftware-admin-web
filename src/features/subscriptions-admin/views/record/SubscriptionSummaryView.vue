@@ -10,6 +10,7 @@ import StatusTransitionModal from '../../components/record/StatusTransitionModal
 import CancelSubscriptionModal from '../../components/record/CancelSubscriptionModal.vue'
 import type {
   CancelSubscriptionRequest,
+  SubscriptionStatusChangeReason,
   SubscriptionStatusTransition,
 } from '../../types/subscription-record.types'
 
@@ -61,7 +62,7 @@ async function focusRecordTitle() {
   document.getElementById('subscription-record-title')?.focus()
 }
 
-async function onTransitionSubmit(reason: string) {
+async function onTransitionSubmit(reason: SubscriptionStatusChangeReason) {
   const transition = activeTransition.value
   if (!transition) return
   if (await applyTransition(transition, reason)) {

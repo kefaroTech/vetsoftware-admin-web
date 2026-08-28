@@ -9,6 +9,7 @@ import { useSubscriptionRecordStore } from '../stores/subscription-record.store'
 import type { SubscriptionResponse } from '../types/subscriptions-admin.types'
 import type {
   CancelSubscriptionRequest,
+  SubscriptionStatusChangeReason,
   SubscriptionStatusTransition,
 } from '../types/subscription-record.types'
 import {
@@ -187,13 +188,13 @@ export function useSubscriptionRecord() {
   }
 
   /**
-   * Aplica una transición con nombre. `reason` es obligatorio en la interfaz
-   * aunque el contrato lo permita vacío: es la única fuente que dice por qué una
-   * cuenta cambió de estado.
+   * Aplica una transición con nombre. `reason` es vocabulario cerrado y
+   * obligatorio, en el contrato y en la interfaz: es la única fuente que dice
+   * por qué una cuenta cambió de estado.
    */
   async function applyTransition(
     transition: SubscriptionStatusTransition,
-    reason: string,
+    reason: SubscriptionStatusChangeReason,
   ): Promise<boolean> {
     return runWrite(
       (target, scope) =>
