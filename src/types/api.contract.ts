@@ -12,22 +12,46 @@
  * necesita `?.`. Eso es perder información, no ganarla. Afirmar conserva los tipos escritos a
  * mano —con su documentación de negocio— y detecta lo que de verdad rompe la pantalla.
  *
- * <p><b>Qué comprueba.</b> Dos cosas, y solo dos, porque son las que el contrato sabe expresar:
+ * <p><b>Qué comprueba.</b> Seis conjuntos de campos. La lista importa, porque de ella depende
+ * qué cambios del backend rompen este build y cuáles no:
  *
  * <ol>
- *   <li><b>Campos que no existen.</b> Si este repositorio declara un campo que el contrato no
- *       tiene, es un campo inventado, renombrado en el backend o eliminado — y en runtime vale
- *       `undefined`. Es el fallo que describe TR-01.</li>
- *   <li><b>Tipos primitivos incompatibles</b>, incluidos los enums: un campo que el backend
- *       declara como una unión cerrada y aquí se escribió como `string` acepta valores que el
- *       servidor rechazará.</li>
+ *   <li><b>Campos que no existen</b> (`UnknownFields`). Si este repositorio declara un campo que
+ *       el contrato no tiene, es un campo inventado, renombrado en el backend o eliminado — y en
+ *       runtime vale `undefined`. Es el fallo que describe TR-01.</li>
+ *   <li><b>Tipos primitivos incompatibles</b> (`MismatchedFields`), incluidos los enums: un campo
+ *       que el backend declara como una unión cerrada y aquí se escribió como `string` acepta
+ *       valores que el servidor rechazará. Un tipo local MÁS estrecho que el del contrato sí
+ *       pasa, y es legítimo.</li>
+ *   <li><b>Campos obligatorios declarados opcionales</b> (`MissingRequiredFields`). springdoc
+ *       deriva `required` de las anotaciones de validación de los DTO de entrada. Declararlo
+ *       opcional aquí deja construir una petición incompleta que compila y se rechaza con un
+ *       400.</li>
+ *   <li><b>Campos garantizados declarados nulables</b> (`NullableWhereRequired`). Desde que los
+ *       DTO de salida llevan `requiredMode`, el contrato SÍ dice qué garantiza devolver el
+ *       servidor, y declararlo nulable aquí obliga a comprobaciones que nunca se cumplen.</li>
+ *   <li><b>Campos del contrato que este repositorio NO declara en absoluto</b>
+ *       (`UndeclaredFields`), descontando el techo de `ContractGaps`.</li>
+ *   <li><b>Entradas caducadas del techo</b> (`StaleGaps`): quien termine de declarar un esquema
+ *       tiene que borrar su línea de `ContractGaps` o el build no compila.</li>
  * </ol>
  *
- * <p><b>Qué NO comprueba, a propósito.</b> La nulabilidad, porque el contrato no la expresa; y la
- * forma de los campos anidados, porque cada tipo anidado tiene su propia atadura en la lista de
- * abajo y se comprueba ahí. Comparar aquí la nulabilidad de lo anidado solo produciría falsos
- * positivos: el generador emite `campo?: string` donde este repositorio escribe `string | null`,
- * y esa diferencia no dice nada sobre el backend.
+ * <p><b>Consecuencia que hay que tener delante, porque es contraintuitiva.</b> El quinto conjunto
+ * significa que <b>un campo NUEVO en una respuesta del backend rompe la compilación de todo front
+ * que ate ese esquema</b>. Un cambio 100 % aditivo —nada renombrado, nada borrado— NO es seguro
+ * para los fronts. Es deliberado: un campo que el servidor manda y la pantalla ignora es
+ * exactamente cómo se pierden datos en silencio (ver el javadoc de `UndeclaredFields`).
+ *
+ * <p>Ya ocurrió, y no es hipotético: al regenerar el contrato, `CatalogItemResponse` ganó el campo
+ * opcional `defaultTrialDays` y la consola dejó de compilar con
+ * `error TS2344: Type '"defaultTrialDays"' does not satisfy the constraint 'true'`. La atadura
+ * hizo su trabajo. Quien lea esta cabecera y planifique un cambio aditivo en el backend tiene que
+ * contar con este paso en los dos fronts.
+ *
+ * <p><b>Qué NO comprueba, a propósito.</b> La forma de los campos anidados: cada tipo anidado
+ * tiene su propia atadura en la lista de abajo y se comprueba ahí. Compararla aquí solo
+ * produciría falsos positivos, ya que el generador emite `campo?: string` donde este repositorio
+ * escribe `string | null` y esa diferencia no dice nada sobre el backend.
  */
 import type { components } from './api.generated'
 import type { PageResponse } from './pagination'
