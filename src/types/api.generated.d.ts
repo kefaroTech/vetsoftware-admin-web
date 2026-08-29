@@ -13133,14 +13133,14 @@ export interface components {
             acceptedByEmail: string;
         };
         SelfServeQuoteLineRequest: {
-            /** Format: int64 */
-            catalogItemId: number;
+            code: string;
             /** Format: int32 */
             quantity?: number;
         };
         SelfServeQuoteRequest: {
             clientRequestId: string;
-            billingCycle: string;
+            /** @enum {string} */
+            billingCycle: "MONTHLY" | "ANNUAL";
             lines: components["schemas"]["SelfServeQuoteLineRequest"][];
         };
         CreatePurchaseOrderRequest: {
@@ -16075,7 +16075,10 @@ export interface components {
             unit: string;
             /** Format: int32 */
             included: number;
-            extraUnitAmount?: number;
+            /** @description Precio de la unidad adicional al mes; nulo si no se vende suelta en ese ciclo */
+            monthlyExtraUnitAmount?: number;
+            /** @description Precio de la unidad adicional al ano; nulo si no se vende suelta en ese ciclo */
+            annualExtraUnitAmount?: number;
         };
         PublicPlanCatalogResponse: {
             /** @description ISO 4217; nulo si no hay tarifa vigente */

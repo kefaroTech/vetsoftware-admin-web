@@ -192,6 +192,50 @@ export interface AcceptQuoteRequest {
   acceptedByEmail: string
 }
 
+/**
+ * Una línea de `POST /quotes/self-serve`. <b>Espeja `SelfServeQuoteLineRequest`.</b>
+ *
+ * <p><b>Esta consola no consume la ruta de autoservicio</b> —la usa la clínica desde el front del
+ * tenant, que sí la tiene implementada—, y aun así los dos tipos se declaran y se atan aquí. El
+ * motivo no es simetría: un esquema sin atadura es un agujero, y este ya se movió una vez. La
+ * línea pedía `catalogItemId: number` y ahora pide `code: string`; ese cambio invierte el sentido
+ * del campo —de identificador interno a código de catálogo— y <b>los dos fronts lo habrían
+ * aceptado en silencio</b>, porque nada comparaba el esquema con nada. Aquí, revertirlo rompe la
+ * compilación con el nombre del campo delante.
+ *
+ * <p>`quantity` se declara <b>requerido</b> aunque el contrato lo dé opcional, y esa estrechez es
+ * legítima (`MismatchedFields` acepta un tipo local más estrecho): el contrato lo marca opcional
+ * solo porque un `int` primitivo de Java no lleva `@NotNull`, mientras el borde REST lo valida
+ * `@Positive`. Un cuerpo sin `quantity` llega al servidor como `0` y se rechaza con un 400, así
+ * que declararlo opcional dejaría compilar exactamente la petición que no funciona.
+ */
+export interface SelfServeQuoteLineRequest {
+  /** Código del artículo del catálogo. <b>No</b> es `catalogItemId`: ver la nota de arriba. */
+  code: string
+  quantity: number
+}
+
+/**
+ * `POST /quotes/self-serve` — la clínica pide su propia oferta. <b>Espeja
+ * `SelfServeQuoteRequest`.</b>
+ *
+ * <p>No lleva `companyId` —lo pone el servidor desde el principal— ni ningún término económico:
+ * ni tarifa, ni vigencia, ni descuento, ni días de prueba. No son campos que el servidor valide
+ * después: son campos que el tipo no tiene, así que no hay dónde escribirlos. Es la diferencia
+ * con `CreateQuoteRequest`, que es la de esta consola y sí los lleva todos.
+ *
+ * <p>`billingCycle` se estrecha a `QuoteBillingCycle` aunque el contrato diga `string`: el backend
+ * lo acota con `@Pattern(regexp = "MONTHLY|ANNUAL")`. <b>Ojo con el reverso</b>: si el backend
+ * añadiera un tercer ciclo, el esquema seguiría diciendo `string` y esta atadura <b>no diría
+ * nada</b> — la unión hay que ampliarla a mano.
+ */
+export interface SelfServeQuoteRequest {
+  /** Llave de idempotencia del cliente. Máximo 64 caracteres. */
+  clientRequestId: string
+  billingCycle: QuoteBillingCycle
+  lines: SelfServeQuoteLineRequest[]
+}
+
 export const QUOTE_STATUS_LABEL: Record<QuoteStatus, string> = {
   DRAFT: 'Borrador',
   SENT: 'Enviada',

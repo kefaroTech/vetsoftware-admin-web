@@ -307,6 +307,8 @@ import type {
   QuoteLineResponse,
   QuoteResponse,
   QuoteSummaryResponse,
+  SelfServeQuoteLineRequest,
+  SelfServeQuoteRequest,
 } from '../features/quotes/types/quotes.types'
 import type {
   CompanyLimitEventResponse,
@@ -692,6 +694,13 @@ export type ContractAssertions = [
   Expect<MatchesContract<QuoteLineResponse, 'QuoteLineResponse'>>,
   Expect<MatchesContract<QuoteResponse, 'QuoteResponse'>>,
   Expect<MatchesContract<QuoteSummaryResponse, 'QuoteSummaryResponse'>>,
+  // Autoservicio. Esta consola no llama a `POST /quotes/self-serve` —lo hace el front del
+  // tenant—, pero el esquema se ata igual: sin atadura, el giro de `catalogItemId: number` a
+  // `code: string` que ya ocurrió habría pasado en verde en los dos repositorios. La línea va
+  // atada APARTE y no basta con la del sobre: el comparador de campos solo entiende
+  // `string | number | boolean`, así que `lines` —un array— lo atraviesa sin que nadie lo mire.
+  Expect<MatchesContract<SelfServeQuoteRequest, 'SelfServeQuoteRequest'>>,
+  Expect<MatchesContract<SelfServeQuoteLineRequest, 'SelfServeQuoteLineRequest'>>,
 
   // Expediente del contrato (§4.4.2, W2-A). Los dos únicos cuerpos que esta
   // consola escribe sobre un contrato. `SubscriptionResponse` ya estaba atado
