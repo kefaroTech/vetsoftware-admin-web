@@ -2,11 +2,16 @@
 import { computed, onMounted, ref } from 'vue'
 import ErrorSummary, { toSummaryItems } from '@/components/feedback/ErrorSummary.vue'
 import PlatformSetupChecklist from '@/components/feedback/PlatformSetupChecklist.vue'
+import AppSelect from '@/components/ui/AppSelect.vue'
 import { ICONS } from '@/constants/icons'
 import QuestionnaireRunner from '../components/QuestionnaireRunner.vue'
 import { useConfiguratorTester } from '../composables/useConfiguratorTester'
 import { useConfiguratorStore } from '../stores/configurator.store'
-import { catalogItemLabel } from '../composables/effect-sentence'
+import { catalogItemLabelByCode } from '../composables/effect-sentence'
+import {
+  CONFIGURATOR_BILLING_CYCLE_LABEL,
+  CONFIGURATOR_BILLING_CYCLE_OPTIONS,
+} from '../types/configurator.types'
 
 /**
  * Probarlo — `/configurador/probar`.
@@ -27,11 +32,21 @@ import { catalogItemLabel } from '../composables/effect-sentence'
  * <p>Al aparecer el resultado el foco va a su `&lt;h2 tabindex="-1"&gt;`: es el
  * paso nuevo del flujo, y dejar el foco en un botón que puede desaparecer o
  * mandarlo al principio del documento son las dos formas de perderlo (§5.1).
+ *
+ * <p><b>Por qué esta pantalla tiene selector de ciclo.</b> No es un campo puesto
+ * para contentar al contrato: `/configurator/resolve` exige el ciclo porque el
+ * techo de capacidad incluida es una columna de la fila de precio y hay una por
+ * ciclo, así que las MISMAS respuestas dan carritos distintos en mensual y en
+ * anual. Un probador que resolviera siempre con un ciclo fijo escondido en el
+ * código enseñaría uno de los dos resultados correctos sin decir cuál, que es la
+ * peor forma de equivocarse: la que no se nota. Por eso el ciclo se elige, se
+ * ve, se rotula junto al resultado y, al cambiarlo, retira el carrito anterior.
  */
 const store = useConfiguratorStore()
 const {
   questionnaire,
   answers,
+  billingCycle,
   selection,
   loading,
   error,
@@ -44,6 +59,7 @@ const {
   loadCatalogItems,
   toggleOption,
   updateNumber,
+  updateBillingCycle,
   clearAnswers,
   loadReferenceScenario,
   resolveNow,
@@ -74,8 +90,13 @@ const summaryItems = computed(() => {
 const cart = computed(() =>
   (selection.value ?? []).map((item) => ({
     ...item,
-    name: catalogItemLabel(item.catalogItemId, store.catalogItemById),
+    name: catalogItemLabelByCode(item.code, store.catalogItemByCode),
   })),
+)
+
+/** El ciclo con el que se resolvió lo que está en pantalla, en palabras. */
+const cycleLabel = computed(() =>
+  CONFIGURATOR_BILLING_CYCLE_LABEL[billingCycle.value].toLowerCase(),
 )
 
 async function onResolve() {
@@ -176,6 +197,21 @@ onMounted(() => {
           el mismo con el que se compara cada cambio en «Editar el cuestionario».
         </p>
 
+        <!--
+          El ciclo va ANTES del cuestionario y no escondido junto al botón: es
+          una entrada del cálculo igual que las respuestas, y las cantidades que
+          salen dependen de él. Ver el bloque de documentación de arriba.
+        -->
+        <div class="ds-grid-2">
+          <AppSelect
+            :model-value="billingCycle"
+            :options="CONFIGURATOR_BILLING_CYCLE_OPTIONS"
+            label="Ciclo de facturación"
+            hint="Cambia el resultado: la capacidad incluida se define por ciclo, así que las mismas respuestas dan cantidades distintas en mensual y en anual."
+            @update:model-value="updateBillingCycle($event)"
+          />
+        </div>
+
         <QuestionnaireRunner
           ref="runnerRef"
           :questions="visible"
@@ -214,7 +250,12 @@ onMounted(() => {
       </h2>
       <p class="ds-meta">
         {{ selection.length === 1 ? '1 artículo' : `${selection.length} artículos` }} con estas
-        respuestas. Los precios no salen de aquí: los pone la tarifa al cotizar.
+        respuestas, en ciclo <strong>{{ cycleLabel }}</strong
+        >. Los precios no salen de aquí: los pone la tarifa al cotizar.
+      </p>
+      <p class="ds-hint">
+        Con el otro ciclo estas mismas respuestas pueden dar otras cantidades: la capacidad incluida
+        se define en la fila de precio, y hay una por ciclo.
       </p>
 
       <p v-if="selection.length === 0" class="ds-empty ds-empty--boxed">
@@ -231,7 +272,7 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in cart" :key="item.catalogItemId">
+            <tr v-for="item in cart" :key="item.code">
               <td>{{ item.name }}</td>
               <td class="ds-num">{{ item.quantity }}</td>
             </tr>

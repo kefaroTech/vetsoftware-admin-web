@@ -117,10 +117,32 @@ describe('el cuerpo que se envía', () => {
   it('indexa numericAnswers por id de pregunta, no por código', () => {
     let answers = selectOption(ARBOL, emptyAnswers(), CAJA, 10, true)
     answers = setNumericAnswer(ARBOL, answers, 2, 4)
-    expect(buildResolveRequest(ARBOL, answers)).toEqual({
+    expect(buildResolveRequest(ARBOL, answers, 'MONTHLY')).toEqual({
       selectedOptionIds: [10],
       numericAnswers: { '2': 4 },
+      billingCycle: 'MONTHLY',
     })
+  })
+
+  /**
+   * El ciclo no es decorativo: el techo de capacidad incluida es una columna de
+   * la fila de precio y hay una por ciclo, así que las mismas respuestas
+   * resueltas en anual pueden devolver otras cantidades. Si el cuerpo no lo
+   * llevara —o lo llevara siempre fijo— el servidor restaría un techo mensual de
+   * una cotización anual y devolvería un número plausible que nadie contradice.
+   */
+  it('viaja el ciclo elegido y no uno fijo', () => {
+    const answers = selectOption(ARBOL, emptyAnswers(), CAJA, 11, true)
+    expect(buildResolveRequest(ARBOL, answers, 'ANNUAL').billingCycle).toBe('ANNUAL')
+    expect(buildResolveRequest(ARBOL, answers, 'MONTHLY').billingCycle).toBe('MONTHLY')
+  })
+
+  it('el ciclo es lo ÚNICO que cambia entre dos cuerpos con las mismas respuestas', () => {
+    let answers = selectOption(ARBOL, emptyAnswers(), CAJA, 10, true)
+    answers = setNumericAnswer(ARBOL, answers, 2, 4)
+    const mensual = buildResolveRequest(ARBOL, answers, 'MONTHLY')
+    const anual = buildResolveRequest(ARBOL, answers, 'ANNUAL')
+    expect({ ...mensual, billingCycle: 'ANNUAL' }).toEqual(anual)
   })
 })
 
@@ -159,23 +181,49 @@ describe('escenario de referencia «Spa Ana Pet»', () => {
   })
 })
 
+/**
+ * <b>Estas filas se identifican por `code` y no por `catalogItemId`.</b> No es
+ * una preferencia: `/configurator/resolve` es anónimo y devolver el id interno
+ * `int64` lo convertía en un oráculo de enumeración del catálogo, así que el
+ * contrato lo retiró y puso el código. La versión anterior de esta prueba
+ * afirmaba la forma del defecto —comparaba por un campo que el servidor ya no
+ * manda— y habría seguido en verde mientras la tabla se llenaba de `undefined`.
+ */
 describe('qué cambió al guardar', () => {
   it('marca cada diferencia con la palabra, no solo con un color', () => {
     const antes = [
-      { catalogItemId: 1, quantity: 1 },
-      { catalogItemId: 2, quantity: 1 },
-      { catalogItemId: 4, quantity: 2 },
+      { code: 'AGENDA', quantity: 1 },
+      { code: 'CAJA', quantity: 1 },
+      { code: 'TERMINAL', quantity: 2 },
     ]
     const despues = [
-      { catalogItemId: 1, quantity: 3 },
-      { catalogItemId: 3, quantity: 1 },
-      { catalogItemId: 4, quantity: 2 },
+      { code: 'AGENDA', quantity: 3 },
+      { code: 'HISTORIA', quantity: 1 },
+      { code: 'TERMINAL', quantity: 2 },
     ]
     expect(diffSelections(antes, despues)).toEqual([
-      { catalogItemId: 1, before: 1, after: 3, change: 'QUANTITY', changeText: 'cantidad: 1 → 3' },
-      { catalogItemId: 2, before: 1, after: null, change: 'REMOVED', changeText: 'QUITADO' },
-      { catalogItemId: 3, before: null, after: 1, change: 'ADDED', changeText: 'AÑADIDO' },
-      { catalogItemId: 4, before: 2, after: 2, change: 'SAME', changeText: '' },
+      { code: 'AGENDA', before: 1, after: 3, change: 'QUANTITY', changeText: 'cantidad: 1 → 3' },
+      { code: 'CAJA', before: 1, after: null, change: 'REMOVED', changeText: 'QUITADO' },
+      { code: 'HISTORIA', before: null, after: 1, change: 'ADDED', changeText: 'AÑADIDO' },
+      { code: 'TERMINAL', before: 2, after: 2, change: 'SAME', changeText: '' },
     ])
+  })
+
+  /**
+   * El orden lo fija el código y no el orden de llegada: dos ejecuciones de la
+   * misma comparación tienen que dar la misma tabla o dejan de ser comparables.
+   */
+  it('ordena por código, no por el orden en que vinieron', () => {
+    const filas = diffSelections(
+      [
+        { code: 'TERMINAL', quantity: 1 },
+        { code: 'AGENDA', quantity: 1 },
+      ],
+      [
+        { code: 'CAJA', quantity: 1 },
+        { code: 'AGENDA', quantity: 1 },
+      ],
+    )
+    expect(filas.map((row) => row.code)).toEqual(['AGENDA', 'CAJA', 'TERMINAL'])
   })
 })

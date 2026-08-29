@@ -2,9 +2,13 @@
 import { computed } from 'vue'
 import { ICONS } from '@/constants/icons'
 import type { CatalogItemResponse } from '@/features/commercial-catalog/types/commercial-catalog.types'
-import { catalogItemLabel } from '../composables/effect-sentence'
+import { catalogItemLabelByCode } from '../composables/effect-sentence'
 import { countChanges, diffSelections } from '../composables/configurator-answers'
-import type { SelectedItemResponse } from '../types/configurator.types'
+import {
+  CONFIGURATOR_BILLING_CYCLE_LABEL,
+  type ConfiguratorBillingCycle,
+  type SelectedItemResponse,
+} from '../types/configurator.types'
 
 /**
  * «Qué cambió al guardar» — la comparación antes/después.
@@ -30,7 +34,13 @@ const props = defineProps<{
   label: string
   /** Contra qué respuestas se comparó. */
   scenario: string
-  catalogItemById: Map<number, CatalogItemResponse>
+  /**
+   * Con qué ciclo se resolvieron las dos fotos. Se pinta siempre: el ciclo
+   * cambia las cantidades incluidas, así que una tabla sin él es un conjunto de
+   * números sin la mitad de su explicación.
+   */
+  cycle: ConfiguratorBillingCycle
+  catalogItemByCode: Map<string, CatalogItemResponse>
 }>()
 
 const rows = computed(() =>
@@ -39,9 +49,11 @@ const rows = computed(() =>
 const changes = computed(() => countChanges(rows.value))
 const failed = computed(() => !props.before || !props.after)
 
-function itemName(catalogItemId: number) {
-  return catalogItemLabel(catalogItemId, props.catalogItemById)
+function itemName(code: string) {
+  return catalogItemLabelByCode(code, props.catalogItemByCode)
 }
+
+const cycleLabel = computed(() => CONFIGURATOR_BILLING_CYCLE_LABEL[props.cycle].toLowerCase())
 
 function quantity(value: number | null) {
   return value == null ? '—' : `×${String(value)}`
@@ -53,7 +65,9 @@ function quantity(value: number | null) {
     <div class="ds-stack ds-stack--8">
       <p class="ds-kicker">{{ label }}</p>
       <h2 class="ds-title">Qué cambió al guardar</h2>
-      <p class="ds-meta">Resuelto con {{ scenario }}, antes y después de escribir.</p>
+      <p class="ds-meta">
+        Resuelto con {{ scenario }}, en ciclo {{ cycleLabel }}, antes y después de escribir.
+      </p>
     </div>
 
     <p v-if="failed" class="ds-banner ds-banner--warning">
@@ -88,8 +102,8 @@ function quantity(value: number | null) {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="row in rows" :key="row.catalogItemId">
-              <td>{{ itemName(row.catalogItemId) }}</td>
+            <tr v-for="row in rows" :key="row.code">
+              <td>{{ itemName(row.code) }}</td>
               <td class="ds-num">{{ quantity(row.before) }}</td>
               <td class="ds-num">{{ quantity(row.after) }}</td>
               <td>

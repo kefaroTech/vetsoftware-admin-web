@@ -38,6 +38,30 @@ export function catalogItemLabel(
   return item ? `${item.name} (${item.code})` : `artículo #${String(catalogItemId)}`
 }
 
+/**
+ * Lo mismo, pero partiendo del **código** del artículo.
+ *
+ * <p>Existen las dos y no una sola porque los dos lados del configurador
+ * identifican el artículo de forma distinta, y ninguna de las dos es un error
+ * que haya que unificar: un **efecto** (`ConfiguratorEffectResponse`) es una fila
+ * de la consola de plataforma y sigue apuntando al `catalogItemId` interno,
+ * mientras que un artículo **resuelto** (`SelectedItemResponse`) viene del
+ * endpoint anónimo, que a propósito ya no expone ids internos. Colapsar las dos
+ * en una obligaría a traducir código↔id justo donde el catálogo puede no estar
+ * cargado, y esa traducción fallaría en silencio.
+ *
+ * <p>Si el catálogo aún no trae ese código, el rótulo lo dice con el código
+ * delante —«artículo «TERMINAL»»— en vez de dejar la celda en `undefined`: el
+ * código es un dato útil por sí solo, es el que el operador ve en el catálogo.
+ */
+export function catalogItemLabelByCode(
+  code: string,
+  catalogItemByCode: Map<string, CatalogItemResponse>,
+): string {
+  const item = catalogItemByCode.get(code)
+  return item ? `${item.name} (${item.code})` : `artículo «${code}»`
+}
+
 /** El disparador, en palabras: la respuesta marcada o la pregunta numérica. */
 export function triggerLabel(
   effect: Pick<ConfiguratorEffectResponse, 'optionId' | 'questionId'>,

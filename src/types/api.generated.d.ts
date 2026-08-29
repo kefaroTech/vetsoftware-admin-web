@@ -2548,6 +2548,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/quotes/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["preview"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/quotes/expire-overdue": {
         parameters: {
             query?: never;
@@ -8724,6 +8740,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/catalog": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["catalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/cash-sessions": {
         parameters: {
             query?: never;
@@ -13143,6 +13175,49 @@ export interface components {
             billingCycle: "MONTHLY" | "ANNUAL";
             lines: components["schemas"]["SelfServeQuoteLineRequest"][];
         };
+        PreviewQuoteRequest: {
+            /** @enum {string} */
+            billingCycle: "MONTHLY" | "ANNUAL";
+            lines: components["schemas"]["SelfServeQuoteLineRequest"][];
+        };
+        QuotePreviewLineResponse: {
+            code: string;
+            name: string;
+            /**
+             * Format: int32
+             * @description Lo que se contrato
+             */
+            contractedQuantity: number;
+            /**
+             * Format: int32
+             * @description Lo que la tarifa ya incluye y no se cobra
+             */
+            includedQuantity: number;
+            /**
+             * Format: int32
+             * @description Las unidades que caen en este tramo
+             */
+            quantity: number;
+            unitAmount?: number;
+            grossAmount?: number;
+            taxRate?: number;
+            /** @enum {string} */
+            taxTreatment?: "TAXED" | "EXEMPT" | "EXCLUDED";
+            taxAmount?: number;
+            lineTotal?: number;
+        };
+        QuotePreviewResponse: {
+            /** @description ISO 4217 de la tarifa vigente */
+            currency: string;
+            /** @enum {string} */
+            billingCycle: "MONTHLY" | "ANNUAL";
+            /** @description Un renglon por tramo: el mismo desglose con el que se facturara */
+            lines: components["schemas"]["QuotePreviewLineResponse"][];
+            subtotalAmount: number;
+            discountAmount: number;
+            taxAmount: number;
+            totalAmount: number;
+        };
         CreatePurchaseOrderRequest: {
             /** Format: int64 */
             branchId: number;
@@ -14266,13 +14341,15 @@ export interface components {
             numericAnswers?: {
                 [key: string]: number;
             };
+            /** @enum {string} */
+            billingCycle: "MONTHLY" | "ANNUAL";
         };
         ConfiguratorSelectionResponse: {
             items: components["schemas"]["SelectedItemResponse"][];
         };
         SelectedItemResponse: {
-            /** Format: int64 */
-            catalogItemId: number;
+            /** @description Rotulo del articulo; el mismo que aceptan /catalog y /quotes/self-serve */
+            code: string;
             /** Format: int32 */
             quantity: number;
         };
@@ -16719,6 +16796,91 @@ export interface components {
             /** Format: int64 */
             consultationId?: number;
             summary?: string;
+        };
+        PublicCatalogCapacityResponse: {
+            code: string;
+            name: string;
+            /** @description Descripcion comercial corta */
+            description?: string;
+            /** @description Parte del minimo estructural (catalog_items.is_core) */
+            mandatory: boolean;
+            /** @description Codigo del eje: USER, BRANCH... */
+            unit: string;
+            /**
+             * Format: int32
+             * @description Unidades que trae el tramo de entrada mensual; nulo si no hay tramo mensual
+             */
+            monthlyIncludedQuantity?: number;
+            /**
+             * Format: int32
+             * @description Unidades que trae el tramo de entrada anual; nulo si no hay tramo anual
+             */
+            annualIncludedQuantity?: number;
+            /** @description Precio de la unidad al mes; nulo si no se vende suelta en ese ciclo */
+            monthlyUnitAmount?: number;
+            /** @description Precio de la unidad al ano; nulo si no se vende suelta en ese ciclo */
+            annualUnitAmount?: number;
+            taxRate?: number;
+            /** @enum {string} */
+            taxTreatment?: "TAXED" | "EXEMPT" | "EXCLUDED";
+            selfServiceEligible: boolean;
+        };
+        PublicCatalogItemResponse: {
+            code: string;
+            name: string;
+            /** @description Descripcion comercial corta */
+            description?: string;
+            /** @description Parte del minimo estructural (catalog_items.is_core): el alta de toda empresa lo incluye y no se puede desmarcar */
+            mandatory: boolean;
+            /**
+             * Format: int32
+             * @description Dias de prueba del articulo; nulo si su politica no concede prueba
+             */
+            trialDays?: number;
+            /** @description Precio al mes; nulo si no se vende suelto en ese ciclo */
+            monthlyAmount?: number;
+            /** @description Precio al ano; nulo si no se vende suelto en ese ciclo. No es el mensual por doce */
+            annualAmount?: number;
+            /** @description Cargo unico de puesta en marcha. En un articulo ONE_TIME es TODO su precio: DATA_MIGRATION vale 0.00 por ciclo y 450000.00 aqui */
+            setupAmount?: number;
+            taxRate?: number;
+            /** @enum {string} */
+            taxTreatment?: "TAXED" | "EXEMPT" | "EXCLUDED";
+            /** @description Si la autocontratacion lo aceptaria como linea. Falso en los cargos unicos, que se negocian */
+            selfServiceEligible: boolean;
+        };
+        PublicCatalogPackResponse: {
+            code: string;
+            name: string;
+            /** @description Descripcion comercial corta del paquete */
+            tagline?: string;
+            /** @description Precio al mes; nulo si el paquete no esta tarifado en ese ciclo */
+            monthlyAmount?: number;
+            /** @description Precio al ano; nulo si el paquete no esta tarifado en ese ciclo */
+            annualAmount?: number;
+            setupAmount?: number;
+            taxRate?: number;
+            /** @enum {string} */
+            taxTreatment?: "TAXED" | "EXEMPT" | "EXCLUDED";
+            /** @description Rotulos de los articulos que el paquete incluye. Ninguno de ellos se puede comprar ademas del paquete */
+            componentCodes: string[];
+        };
+        PublicCatalogResponse: {
+            /** @description ISO 4217; nulo si no hay tarifa vigente */
+            currency?: string;
+            /**
+             * Format: date
+             * @description Desde cuando rigen estos precios; nulo si no hay tarifa vigente
+             */
+            priceValidFrom?: string;
+            /** @description Funcionalidades que se encienden, con su precio suelto */
+            modules: components["schemas"]["PublicCatalogItemResponse"][];
+            /** @description Contadores que se compran por unidades */
+            capacities: components["schemas"]["PublicCatalogCapacityResponse"][];
+            /** @description Cargos unicos con precio de lista; se cotizan con un comercial, no por autoservicio */
+            oneTimeItems: components["schemas"]["PublicCatalogItemResponse"][];
+            /** @description Paquetes, con su precio y su composicion */
+            packs: components["schemas"]["PublicCatalogPackResponse"][];
         };
         PageResponseCatalogPriceResponse: {
             content?: components["schemas"]["CatalogPriceResponse"][];
@@ -24425,6 +24587,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["QuoteResponse"];
+                };
+            };
+        };
+    };
+    preview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PreviewQuoteRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuotePreviewResponse"];
                 };
             };
         };
@@ -34777,6 +34963,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ClinicalEventResponse"][];
+                };
+            };
+        };
+    };
+    catalog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicCatalogResponse"];
                 };
             };
         };
