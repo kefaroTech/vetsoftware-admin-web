@@ -2,10 +2,11 @@
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
+import type { AppTableHeader } from '@/components/ui/AppTable.vue'
 import CompanyRef from '@/components/ui/CompanyRef.vue'
 import { ICONS } from '@/constants/icons'
-import { formatDate } from '@/composables/format'
-import { daysUntil, deadlineText, formatDocumentAmount } from '../composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
+import { daysUntil, deadlineText } from '../composables/billingFormat'
 import {
   CONSUMER_DETERMINATION_LABEL,
   REVERSAL_CAUSAL_LABEL,
@@ -15,7 +16,6 @@ import {
   REVERSAL_URGENT_DAYS,
   type PaymentReversalRequestResponse,
 } from '../types/payment-reversals.types'
-
 /**
  * <b>Las solicitudes de reversión, con su plazo y su fase.</b>
  *
@@ -53,7 +53,15 @@ defineEmits<{
   resolve: [row: PaymentReversalRequestResponse]
 }>()
 
-const HEADERS = ['Solicitud', 'Empresa', 'Origen y causal', 'Fechas', 'Plazo', 'Estado', '']
+const HEADERS: AppTableHeader[] = [
+  'Solicitud',
+  'Empresa',
+  'Origen y causal',
+  'Fechas',
+  'Plazo',
+  'Estado',
+  { label: '', align: 'actions' },
+]
 
 /** Urgente cuando el plazo entra en la franja en la que ya no da tiempo a reunir prueba. */
 function isUrgent(row: PaymentReversalRequestResponse): boolean {
@@ -65,6 +73,7 @@ function isUrgent(row: PaymentReversalRequestResponse): boolean {
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      money
       :headers="HEADERS"
       :empty="rows.length === 0"
       :loading="loading"
@@ -123,7 +132,7 @@ function isUrgent(row: PaymentReversalRequestResponse): boolean {
           <AppBadge v-else-if="row.acknowledgedAt" variant="neutral" label="Acusada" />
           <AppBadge v-else variant="warning" label="Sin acusar" />
           <span v-if="row.appliedAmount !== null" class="ds-meta linea">
-            revertido {{ formatDocumentAmount(row.appliedAmount) }}
+            revertido {{ formatAmount(row.appliedAmount) }}
           </span>
           <span v-if="row.resultingRefundId" class="ds-meta linea">
             devolución #{{ row.resultingRefundId }}
@@ -173,7 +182,7 @@ function isUrgent(row: PaymentReversalRequestResponse): boolean {
     </AppTable>
 
     <AppPagination
-      v-if="!loading && !error && total > 0"
+      v-if="!error && total > 0"
       :page="page"
       :page-size="pageSize"
       :total="total"

@@ -3,18 +3,14 @@ import { computed, useSlots } from 'vue'
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
+import type { AppTableHeader } from '@/components/ui/AppTable.vue'
 import CompanyRef from '@/components/ui/CompanyRef.vue'
-import { formatDate } from '@/composables/format'
+import { formatAmount, formatDate } from '@/composables/format'
 import { ICONS } from '@/constants/icons'
 import { DOCUMENT_KIND_LABEL } from '@/features/billing-documents/types/billing-documents.types'
 import type { IssueStatus } from '../types/billing-operations.types'
 import { BILLING_DOCUMENT_ROUTE_NAMES } from '@/router/routes/billing-documents.routes'
-import {
-  agingText,
-  agingTitle,
-  daysSince,
-  formatDocumentAmount,
-} from '../composables/billingFormat'
+import { agingText, agingTitle, daysSince } from '../composables/billingFormat'
 import type { BillingDocumentResponse } from '../types/billing-operations.types'
 
 /**
@@ -102,8 +98,8 @@ function stalled(document: BillingDocumentResponse) {
   return days != null && days > props.stalledAfterDays
 }
 
-const headers = computed(() => {
-  const base = [
+const headers = computed<AppTableHeader[]>(() => {
+  const base: AppTableHeader[] = [
     'Documento',
     'Empresa',
     'Tipo',
@@ -112,8 +108,8 @@ const headers = computed(() => {
     'Estado',
     'Vencimiento',
     props.agingHeader,
-    'Total',
-    'Saldo',
+    { label: 'Total', align: 'num' },
+    { label: 'Saldo', align: 'num' },
   ]
   return slots['row-actions'] ? [...base, 'Acciones'] : base
 })
@@ -130,6 +126,7 @@ function formatPeriod(document: BillingDocumentResponse) {
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      money
       :headers="headers"
       :empty="documents.length === 0"
       :loading="loading"
@@ -181,8 +178,8 @@ function formatPeriod(document: BillingDocumentResponse) {
             Atascado más de {{ stalledAfterDays }} días
           </span>
         </td>
-        <td class="ds-num">{{ formatDocumentAmount(document.totalAmount) }}</td>
-        <td class="ds-num">{{ formatDocumentAmount(document.balanceAmount) }}</td>
+        <td class="ds-num">{{ formatAmount(document.totalAmount) }}</td>
+        <td class="ds-num">{{ formatAmount(document.balanceAmount) }}</td>
         <td v-if="slots['row-actions']" class="accion">
           <slot name="row-actions" :document="document" />
         </td>
@@ -190,7 +187,7 @@ function formatPeriod(document: BillingDocumentResponse) {
     </AppTable>
 
     <AppPagination
-      v-if="!loading && !error && total > 0"
+      v-if="!error && total > 0"
       :page="page"
       :page-size="pageSize"
       :total="total"

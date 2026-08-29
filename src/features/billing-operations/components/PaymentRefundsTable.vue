@@ -2,15 +2,14 @@
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
+import type { AppTableHeader } from '@/components/ui/AppTable.vue'
 import CompanyRef from '@/components/ui/CompanyRef.vue'
-import { formatDate } from '@/composables/format'
-import { formatDocumentAmount } from '../composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
 import {
   REFUND_METHOD_LABEL,
   REFUND_REASON_LABEL,
   type SystemPaymentRefundResponse,
 } from '../types/payment-refunds.types'
-
 /**
  * <b>Las devoluciones registradas.</b> Cada fila es una salida de caja con su
  * motivo escrito y su firma.
@@ -53,11 +52,11 @@ defineProps<{
 
 defineEmits<{ retry: []; 'update:page': [page: number] }>()
 
-const HEADERS = [
+const HEADERS: AppTableHeader[] = [
   'Devolución',
   'Empresa',
   'Pago',
-  'Importe',
+  { label: 'Importe', align: 'num' },
   'Medio',
   'Girada',
   'Motivo',
@@ -68,6 +67,7 @@ const HEADERS = [
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      money
       :headers="HEADERS"
       :empty="refunds.length === 0"
       :loading="loading"
@@ -83,7 +83,7 @@ const HEADERS = [
         <td class="ds-text-strong">#{{ refund.id }}</td>
         <td><CompanyRef :company-id="refund.companyId" /></td>
         <td>#{{ refund.paymentId }}</td>
-        <td class="ds-num">{{ formatDocumentAmount(refund.amount) }}</td>
+        <td class="ds-num">{{ formatAmount(refund.amount) }}</td>
         <td>
           <AppBadge
             v-if="refund.method === 'CUSTOMER_CREDIT'"
@@ -117,7 +117,7 @@ const HEADERS = [
     </AppTable>
 
     <AppPagination
-      v-if="!loading && !error && total > 0"
+      v-if="!error && total > 0"
       :page="page"
       :page-size="pageSize"
       :total="total"

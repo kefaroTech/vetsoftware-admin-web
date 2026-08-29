@@ -8,7 +8,7 @@ import AppSegmentedTabs from '@/components/ui/AppSegmentedTabs.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import CompanyRef from '@/components/ui/CompanyRef.vue'
 import { segmentedTabId } from '@/components/ui/segmented-tabs'
-import { formatCurrency, formatDate } from '@/composables/format'
+import { formatAmount, formatDate } from '@/composables/format'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
 import ExternalAmountsGrid from './ExternalAmountsGrid.vue'
 import MatchExternalInvoiceForm from './MatchExternalInvoiceForm.vue'
@@ -134,11 +134,12 @@ async function submitResolve(payload: ResolveExternalInvoiceReconciliationReques
       </p>
 
       <AppTable
+        money
         :headers="[
           'Empresa',
           'Documento',
-          'Devengado',
-          'Declarado por el emisor',
+          { label: 'Devengado', align: 'num' },
+          { label: 'Declarado por el emisor', align: 'num' },
           'Veredicto',
           'Acciones',
         ]"
@@ -174,18 +175,18 @@ async function submitResolve(payload: ResolveExternalInvoiceReconciliationReques
           </td>
           <td class="ds-num">
             <div class="ds-stack ds-stack--8">
-              <span>{{ formatCurrency(row.computedTotal) }}</span>
-              <span class="ds-meta">imp. {{ formatCurrency(row.computedTax) }}</span>
+              <span>{{ formatAmount(row.computedTotal) }}</span>
+              <span class="ds-meta">imp. {{ formatAmount(row.computedTax) }}</span>
             </div>
           </td>
           <td class="ds-num">
             <div class="ds-stack ds-stack--8">
-              <span>{{ formatCurrency(row.externalTotal) }}</span>
+              <span>{{ formatAmount(row.externalTotal) }}</span>
               <span class="ds-meta">
                 {{
                   lacksExternalInvoice(row)
                     ? 'el emisor no ha dicho nada'
-                    : `imp. ${formatCurrency(row.externalTax)}`
+                    : `imp. ${formatAmount(row.externalTax)}`
                 }}
               </span>
             </div>
@@ -220,11 +221,7 @@ async function submitResolve(payload: ResolveExternalInvoiceReconciliationReques
       </AppTable>
 
       <AppPagination
-        v-if="
-          !reconciliations.loading.value &&
-          !reconciliations.error.value &&
-          reconciliations.total.value > 0
-        "
+        v-if="!reconciliations.error.value && reconciliations.total.value > 0"
         :page="reconciliations.page.value"
         :page-size="reconciliations.pageSize"
         :total="reconciliations.total.value"

@@ -7,6 +7,7 @@ import { ICONS } from '@/constants/icons'
 import { useToast } from '@/composables/useToast'
 import { useQuoteDetail } from '../composables/useQuoteDetail'
 import { useQuoteCatalog } from '../composables/useQuoteCatalog'
+import { useQuotePriceLists } from '../composables/useQuotePriceLists'
 import QuoteDocument from '../components/QuoteDocument.vue'
 import QuoteDraftPanel from '../components/QuoteDraftPanel.vue'
 import AcceptQuoteModal from '../components/AcceptQuoteModal.vue'
@@ -56,6 +57,21 @@ const { findItemById } = useQuoteCatalog()
 function currentName(catalogItemId: number): string | undefined {
   return findItemById(catalogItemId)?.name
 }
+
+/**
+ * La divisa de la oferta, <b>tomada del contrato</b> y no supuesta.
+ *
+ * <p>`QuoteResponse` trae `priceListId` y no `currency`, pero `PriceListResponse.currency` sí la
+ * declara: es un salto, no un hueco. Por eso estas pantallas usan `formatMoney` con la divisa
+ * real en vez de la nota de plataforma que llevan las demás — aquí «COP» sería una suposición
+ * que el propio catálogo puede desmentir, y una tarifa en dólares es un caso admitido.
+ *
+ * <p>`null` mientras la cache de tarifas carga, si falla, o si la tarifa de esta oferta no está
+ * entre las que devuelve el servidor. En ese caso las cifras salen sin símbolo y `QuoteTotals`
+ * lo dice en su pie: un hueco explicado, nunca un símbolo inventado.
+ */
+const { currencyOf } = useQuotePriceLists()
+const quoteCurrency = computed(() => (quote.value ? currencyOf(quote.value.priceListId) : null))
 
 const acceptOpen = ref(false)
 const quoteId = computed(() => Number(props.id))
@@ -150,6 +166,7 @@ function onReissue() {
         v-else-if="quote && isEmittedQuote(quote.status)"
         :quote="quote"
         :current-name="currentName"
+        :currency="quoteCurrency"
         @reissue="onReissue"
       >
         <template v-if="isDecidableQuote(quote.status)" #actions>
@@ -174,7 +191,12 @@ function onReissue() {
       </QuoteDocument>
 
       <!-- Borrador: la puerta de un solo sentido y la única eliminación que existe. -->
-      <QuoteDraftPanel v-else-if="quote" :quote="quote" :current-name="currentName">
+      <QuoteDraftPanel
+        v-else-if="quote"
+        :quote="quote"
+        :current-name="currentName"
+        :currency="quoteCurrency"
+      >
         <template #actions>
           <button
             type="button"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
@@ -7,8 +7,9 @@ import AppPagination from '@/components/ui/AppPagination.vue'
 import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
 import { ICONS } from '@/constants/icons'
 import { ROUTE_NAMES } from '@/constants/routes'
-import { formatCurrency, formatDate } from '@/composables/format'
+import { formatMoney, formatDate } from '@/composables/format'
 import { useQuotes } from '../composables/useQuotes'
+import { useQuotePriceLists } from '../composables/useQuotePriceLists'
 import QuoteStatusBadge from '../components/QuoteStatusBadge.vue'
 import QuoteValidity from '../components/QuoteValidity.vue'
 import { QUOTE_ROUTE_NAMES } from '@/router/routes/quotes.routes'
@@ -41,6 +42,20 @@ const {
 function goToDetail(quote: QuoteSummaryResponse) {
   void router.push({ name: QUOTE_ROUTE_NAMES.QUOTE_DETAIL, params: { id: quote.id } })
 }
+
+/**
+ * <b>Aquí la divisa es de la fila, no de la tabla.</b> Cada cotización apunta a su propia tarifa
+ * (`priceListId`) y dos filas de esta lista pueden estar en divisas distintas, así que un rótulo
+ * de tabla sería falso en cuanto conviviera una tarifa en dólares con una en pesos. Se resuelve
+ * `PriceListResponse.currency` por fila y se rotula la celda con `formatMoney` — que es la regla
+ * de `format.ts` en su forma fuerte: si la respuesta lleva divisa, esa es la respuesta.
+ */
+const { currencyOf } = useQuotePriceLists()
+
+/** Cuántas filas de la página no han podido resolver su divisa. Se dice, no se rellena. */
+const sinDivisa = computed(
+  () => quotes.value.filter((quote) => currencyOf(quote.priceListId) === null).length,
+)
 
 /** Recarga siempre al abrir la pantalla: el embudo lo mueven otros operadores y el cron. */
 onMounted(() => void loadQuotes(1))
@@ -78,11 +93,23 @@ onMounted(() => void loadQuotes(1))
           <div class="ds-stack ds-stack--8">
             <h2 id="embudo-titulo" class="ds-title">Embudo</h2>
             <p class="ds-meta">{{ total }} cotizaciones registradas</p>
+            <p v-if="sinDivisa > 0" class="ds-meta">
+              {{ sinDivisa }}
+              {{ sinDivisa === 1 ? 'fila va' : 'filas van' }} sin símbolo de divisa: su tarifa no se
+              pudo resolver, y esta consola no supone una.
+            </p>
           </div>
         </div>
 
         <AppTable
-          :headers="['Cotización', 'Cliente', 'Estado', 'Total', 'Vigencia', 'Emitida']"
+          :headers="[
+            'Cotización',
+            'Cliente',
+            'Estado',
+            { label: 'Total', align: 'num' },
+            'Vigencia',
+            'Emitida',
+          ]"
           :empty="quotes.length === 0"
           :loading="loadingQuotes"
           :error="quotesError"
@@ -141,7 +168,9 @@ onMounted(() => void loadQuotes(1))
               </template>
             </td>
             <td><QuoteStatusBadge :status="quote.status" /></td>
-            <td class="ds-num">{{ formatCurrency(quote.totalAmount) }}</td>
+            <td class="ds-num">
+              {{ formatMoney(quote.totalAmount, currencyOf(quote.priceListId)) }}
+            </td>
             <td>
               <QuoteValidity
                 :valid-until="quote.validUntil"

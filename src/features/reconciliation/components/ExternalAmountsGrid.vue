@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { formatCurrency } from '@/composables/format'
+import { formatAmount } from '@/composables/format'
 import { amountGap, lacksExternalInvoice } from '../composables/reconciliationVerdict'
 import type { ExternalInvoiceReconciliationResponse } from '../types/reconciliation.types'
+import MoneyCaption from '@/components/ui/MoneyCaption.vue'
 
 /**
  * <b>Los cuatro números enfrentados</b>: nuestro total y el suyo, nuestro
@@ -54,9 +55,10 @@ const rows = computed(() => [
   <div class="ds-stack ds-stack--10">
     <div class="ds-table-scroll">
       <table class="ds-table">
-        <caption class="ds-sr-only">
-          Comparación entre lo que calculó la plataforma y lo que declaró el facturador externo.
-        </caption>
+        <MoneyCaption
+          >Comparación entre lo que calculó la plataforma y lo que declaró el facturador
+          externo.</MoneyCaption
+        >
         <thead>
           <tr>
             <th scope="col">Concepto</th>
@@ -68,9 +70,9 @@ const rows = computed(() => [
         <tbody>
           <tr v-for="row in rows" :key="row.key">
             <th scope="row" class="ds-text-strong">{{ row.concept }}</th>
-            <td class="ds-num">{{ formatCurrency(row.ours) }}</td>
-            <td class="ds-num">{{ formatCurrency(row.theirs) }}</td>
-            <td class="ds-num">{{ formatCurrency(row.gap) }}</td>
+            <td class="ds-num">{{ formatAmount(row.ours) }}</td>
+            <td class="ds-num">{{ formatAmount(row.theirs) }}</td>
+            <td class="ds-num">{{ formatAmount(row.gap) }}</td>
           </tr>
         </tbody>
       </table>
@@ -83,7 +85,7 @@ const rows = computed(() => [
 
     <p v-else-if="reconciliation.difference !== null" class="ds-meta">
       Diferencia declarada por el servidor:
-      <span class="ds-num">{{ formatCurrency(reconciliation.difference) }}</span>
+      <span class="ds-num">{{ formatAmount(reconciliation.difference) }}</span>
       . Es la que manda; las de la tabla se derivan de los cuatro números para ver si lo que baila
       es el total o solo el impuesto.
     </p>

@@ -6,7 +6,7 @@ import AppModal from '@/components/ui/AppModal.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import CapacityMeter from '@/components/ui/CapacityMeter.vue'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
-import { formatCurrency } from '@/composables/format'
+import { formatAmount } from '@/composables/format'
 import BridgeSection from './BridgeSection.vue'
 import CatalogItemLimitForm from './CatalogItemLimitForm.vue'
 import PropagateLimitModal from './PropagateLimitModal.vue'
@@ -19,7 +19,6 @@ import {
   type CreateCatalogItemLimitRequest,
   type PropagateCatalogLimitImprovementRequest,
 } from '../types/commercial-catalog.types'
-
 /**
  * <b>Los techos de fábrica</b> que un artículo concede sobre cada eje de cupo, y
  * la propagación de una mejora a los contratos vivos.
@@ -175,7 +174,26 @@ async function confirmPropagate(payload: PropagateCatalogLimitImprovementRequest
       </button>
     </template>
 
+    <!--
+      `money` (la nota de divisa de plataforma) y NO `formatMoney`, al revés que las cotizaciones
+      y que los dos paneles de precios de esta misma pantalla.
+
+      El motivo es del contrato, no de estilo: `CatalogItemLimitResponse` cuelga de
+      `(catalogItemId, limitDimensionId)` y **no tiene ninguna vía hacia una lista de precios** —
+      ni `priceListId`, ni `currency`, ni la entidad de la que sale (`catalog_item_limits`) tiene
+      una clave foránea hacia `price_lists`. `overageUnitAmount` es un techo de fábrica del
+      artículo, no un precio de una tarifa, así que aquí no hay divisa declarada que resolver: es
+      el caso en el que la nota de plataforma es lo único honesto que se puede decir.
+
+      **Es la más débil de las notas de plataforma del repositorio y conviene saberlo.** Convive
+      en pantalla con `PriceListPricesPanel` y `TierSimulatorPanel`, que sí pintan la divisa real
+      de su tarifa y pueden decir «US$». Que no se contradigan depende de que el rótulo viva en el
+      `<caption>` de ESTA tabla y no en la pantalla: acota la afirmación a estas filas. Lo que lo
+      cerraría de verdad es `currency` en `CatalogItemLimitResponse`, o un vínculo explícito a la
+      tarifa desde la que se cobra el excedente.
+    -->
     <AppTable
+      money
       :headers="['Eje', 'Techo de pago', 'Durante la prueba', 'Al llegar', 'Reinicio', 'Acciones']"
       :empty="limits.length === 0"
       :loading="loading"
@@ -221,7 +239,7 @@ async function confirmPropagate(payload: PropagateCatalogLimitImprovementRequest
             <span>{{ enforcementLabel(limit) }}</span>
             <span class="ds-meta">{{ LIMIT_ENFORCEMENT_MEANING[limit.enforcement] }}</span>
             <span v-if="limit.enforcement === 'OVERAGE'" class="ds-meta ds-num">
-              {{ formatCurrency(limit.overageUnitAmount) }} por unidad de más
+              {{ formatAmount(limit.overageUnitAmount) }} por unidad de más
             </span>
           </div>
         </td>

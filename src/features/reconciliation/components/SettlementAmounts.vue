@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Info, TriangleAlert } from 'lucide-vue-next'
-import { formatCurrency } from '@/composables/format'
+import { formatAmount } from '@/composables/format'
 import {
   joinSpanish,
   negativeAmountLabels,
   settlementAmountsBalance,
 } from '../composables/reconciliationVerdict'
 import type { GatewaySettlementResponse } from '../types/reconciliation.types'
+import MoneyCaption from '@/components/ui/MoneyCaption.vue'
 
 /**
  * <b>Los cinco importes del lote</b>: bruto, comisión, impuesto de la comisión,
@@ -69,9 +70,7 @@ const negativesText = computed(() => {
   <div class="ds-stack ds-stack--10">
     <div class="ds-table-scroll">
       <table class="ds-table">
-        <caption class="ds-sr-only">
-          Los cinco importes de la liquidación y lo que costó cobrar.
-        </caption>
+        <MoneyCaption>Los cinco importes de la liquidación y lo que costó cobrar.</MoneyCaption>
         <thead>
           <tr>
             <th scope="col">Concepto</th>
@@ -81,14 +80,14 @@ const negativesText = computed(() => {
         <tbody>
           <tr v-for="row in rows" :key="row.key">
             <th scope="row" :class="row.strong ? 'ds-text-strong' : ''">{{ row.label }}</th>
-            <td class="ds-num">{{ formatCurrency(row.value) }}</td>
+            <td class="ds-num">{{ formatAmount(row.value) }}</td>
           </tr>
           <tr>
             <th scope="row">
               Lo que costó cobrar
               <span class="ds-meta"> · comisión + impuesto + gravamen, derivado</span>
             </th>
-            <td class="ds-num">{{ formatCurrency(settlement.totalCost) }}</td>
+            <td class="ds-num">{{ formatAmount(settlement.totalCost) }}</td>
           </tr>
         </tbody>
       </table>
@@ -107,11 +106,11 @@ const negativesText = computed(() => {
       <TriangleAlert :size="15" class="ds-banner-icon" />
       <span class="ds-flex-fill">
         Los cinco importes no cuadran entre sí: bruto menos costes da
-        <span class="ds-num">{{ formatCurrency(balance.expectedNet) }}</span>
+        <span class="ds-num">{{ formatAmount(balance.expectedNet) }}</span>
         y el neto registrado es
-        <span class="ds-num">{{ formatCurrency(settlement.netAmount) }}</span>
+        <span class="ds-num">{{ formatAmount(settlement.netAmount) }}</span>
         — sobran
-        <span class="ds-num">{{ formatCurrency(balance.gap) }}</span>
+        <span class="ds-num">{{ formatAmount(balance.gap) }}</span>
         . Revisa el registro del lote antes de casarlo con el abono.
       </span>
     </p>

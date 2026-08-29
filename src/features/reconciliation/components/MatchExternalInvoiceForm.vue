@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
-import { formatCurrency } from '@/composables/format'
+import { formatAmount } from '@/composables/format'
 import { length, maxLength } from '@/composables/validators'
 import type {
   ExternalInvoiceReconciliationResponse,
   MatchExternalInvoiceRequest,
 } from '../types/reconciliation.types'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
 /**
  * Casar la factura del emisor con nuestro documento.
@@ -167,13 +168,15 @@ defineExpose({ validate, isDirty })
 
 <template>
   <form class="ds-stack ds-stack--16" @submit.prevent="submit">
+    <MoneyScopeNote />
+
     <p class="ds-banner ds-banner--info" role="status">
       <span>
         Teclea lo que dice la factura del emisor, no lo que calculamos nosotros. Nuestro documento
         va por
-        <span class="ds-num">{{ formatCurrency(reconciliation.computedTotal) }}</span>
+        <span class="ds-num">{{ formatAmount(reconciliation.computedTotal) }}</span>
         de total y
-        <span class="ds-num">{{ formatCurrency(reconciliation.computedTax) }}</span>
+        <span class="ds-num">{{ formatAmount(reconciliation.computedTax) }}</span>
         de impuesto; el veredicto lo decide el servidor comparando las dos cifras.
       </span>
     </p>

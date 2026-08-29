@@ -8,14 +8,14 @@ import ConsumeCreditModal from '../components/ConsumeCreditModal.vue'
 import CustomerCreditBalancesTable from '../components/CustomerCreditBalancesTable.vue'
 import CustomerCreditEntriesTable from '../components/CustomerCreditEntriesTable.vue'
 import GrantCreditModal from '../components/GrantCreditModal.vue'
-import { formatDocumentAmount } from '../composables/billingFormat'
 import { useCustomerCredit } from '../composables/useCustomerCredit'
 import {
   CREDIT_ENTRY_LABEL,
   CREDIT_EXPIRY_WARNING_DAYS,
   type CustomerCreditBalanceResponse,
 } from '../types/customer-credit.types'
-
+import { formatAmount } from '@/composables/format'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 /**
  * <b>Saldo a favor</b>, visto como lo que es: una pila de lotes que caduca.
  *
@@ -88,6 +88,7 @@ onMounted(() => void reloadAll())
           El saldo no es un número: es una pila de lotes. Se consume empezando por el que antes
           caduca, y lo que caduca sin usarse lo pierde el cliente.
         </p>
+        <MoneyScopeNote />
       </div>
       <button type="button" class="ds-btn ds-btn--primary" @click="granting = true">
         <component :is="ICONS.ADD" :size="15" />
@@ -105,7 +106,7 @@ onMounted(() => void reloadAll())
         <template v-for="(movement, index) in lastLotMovements" :key="movement.id">
           <template v-if="index > 0"> · </template>
           {{ CREDIT_ENTRY_LABEL[movement.entryKind] }} de
-          {{ formatDocumentAmount(movement.amount) }}
+          {{ formatAmount(movement.amount) }}
         </template>
       </span>
     </div>

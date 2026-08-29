@@ -5,7 +5,7 @@ import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
 import ErrorSummary, { toSummaryItems } from '@/components/feedback/ErrorSummary.vue'
 import { ICONS } from '@/constants/icons'
-import { formatCurrency, formatDate, parseISODate } from '@/composables/format'
+import { formatAmount, formatDate, parseISODate } from '@/composables/format'
 import { todayISODate } from '../../composables/subscriptionDateTime'
 import { taxLabel } from '../../composables/subscriptionItemLifecycle'
 import type { SubscriptionResponse } from '../../types/subscriptions-admin.types'
@@ -13,6 +13,7 @@ import type {
   ChangeSubscriptionItemQuantityRequest,
   SubscriptionItemResponse,
 } from '../../types/subscription-items.types'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
 /**
  * «Cambiar cantidad» — `POST /subscriptions/{id}/items/quantity`, y <b>la pantalla
@@ -173,6 +174,8 @@ function submit() {
       <form class="ds-stack ds-stack--16" @submit.prevent="submit">
         <ErrorSummary ref="summary" :items="summaryItems" />
 
+        <MoneyScopeNote />
+
         <!-- La línea actual, como hecho. Todo lo que se ve aquí viaja intacto a la
              sucesora: por eso son datos y no campos. -->
         <dl class="ds-detail-grid">
@@ -186,7 +189,7 @@ function submit() {
           </div>
           <div>
             <dt class="ds-label">Precio unitario (congelado)</dt>
-            <dd class="valor ds-num">{{ formatCurrency(item.unitAmount) }}</dd>
+            <dd class="valor ds-num">{{ formatAmount(item.unitAmount) }}</dd>
           </div>
           <div>
             <dt class="ds-label">Incluidas (congelado)</dt>

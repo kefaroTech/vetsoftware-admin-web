@@ -2,9 +2,10 @@
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
+import type { AppTableHeader } from '@/components/ui/AppTable.vue'
 import CompanyRef from '@/components/ui/CompanyRef.vue'
-import { formatDate } from '@/composables/format'
-import { daysUntil, deadlineText, formatDocumentAmount } from '../composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
+import { daysUntil, deadlineText } from '../composables/billingFormat'
 import {
   CREDIT_ENTRY_LABEL,
   CREDIT_ENTRY_MEANING,
@@ -12,7 +13,6 @@ import {
   CREDIT_ORIGIN_LABEL,
   type CustomerCreditEntryResponse,
 } from '../types/customer-credit.types'
-
 /**
  * <b>Los movimientos de la pila de lotes.</b> Sirve para las dos listas de la
  * pestaña —el histórico y los lotes por caducar— porque son la misma fila mirada
@@ -42,12 +42,20 @@ defineProps<{
 
 defineEmits<{ retry: []; 'update:page': [page: number] }>()
 
-const HEADERS = ['Movimiento', 'Empresa', 'Importe', 'Origen', 'Cuándo', 'Caduca']
+const HEADERS: AppTableHeader[] = [
+  'Movimiento',
+  'Empresa',
+  { label: 'Importe', align: 'num' },
+  'Origen',
+  'Cuándo',
+  'Caduca',
+]
 </script>
 
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      money
       :headers="HEADERS"
       :empty="rows.length === 0"
       :loading="loading"
@@ -72,7 +80,7 @@ const HEADERS = ['Movimiento', 'Empresa', 'Importe', 'Origen', 'Cuándo', 'Caduc
         </td>
 
         <td><CompanyRef :company-id="row.companyId" /></td>
-        <td class="ds-num">{{ formatDocumentAmount(row.amount) }}</td>
+        <td class="ds-num">{{ formatAmount(row.amount) }}</td>
 
         <td>
           <span>{{ CREDIT_ORIGIN_LABEL[row.originKind] }}</span>
@@ -103,7 +111,7 @@ const HEADERS = ['Movimiento', 'Empresa', 'Importe', 'Origen', 'Cuándo', 'Caduc
     </AppTable>
 
     <AppPagination
-      v-if="!loading && !error && total > 0"
+      v-if="!error && total > 0"
       :page="page"
       :page-size="pageSize"
       :total="total"

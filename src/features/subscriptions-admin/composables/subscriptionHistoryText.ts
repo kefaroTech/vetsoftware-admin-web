@@ -1,4 +1,4 @@
-import { formatCurrency, formatDate, parseISODate } from '@/composables/format'
+import { formatAmount, formatDate, parseISODate } from '@/composables/format'
 import type {
   SubscriptionAmendmentResponse,
   SubscriptionAmendmentType,
@@ -158,18 +158,18 @@ export function monthlyDeltaReading(value: number | null | undefined): AmountRea
   }
   if (value > 0) {
     return {
-      amount: `+${formatCurrency(value)}`,
-      sentence: `La factura recurrente sube ${formatCurrency(value)} al mes a partir de ahora.`,
+      amount: `+${formatAmount(value)}`,
+      sentence: `La factura recurrente sube ${formatAmount(value)} al mes a partir de ahora.`,
     }
   }
   if (value < 0) {
     return {
-      amount: `−${formatCurrency(Math.abs(value))}`,
-      sentence: `La factura recurrente baja ${formatCurrency(Math.abs(value))} al mes a partir de ahora.`,
+      amount: `−${formatAmount(Math.abs(value))}`,
+      sentence: `La factura recurrente baja ${formatAmount(Math.abs(value))} al mes a partir de ahora.`,
     }
   }
   return {
-    amount: formatCurrency(0),
+    amount: formatAmount(0),
     sentence: 'La factura recurrente no cambia.',
   }
 }
@@ -195,18 +195,18 @@ export function prorationReading(value: number | null | undefined): AmountReadin
   }
   if (value > 0) {
     return {
-      amount: formatCurrency(value),
-      sentence: `Se cobró ${formatCurrency(value)} una sola vez, por los días que quedaban del periodo.`,
+      amount: formatAmount(value),
+      sentence: `Se cobró ${formatAmount(value)} una sola vez, por los días que quedaban del periodo.`,
     }
   }
   if (value < 0) {
     return {
-      amount: `−${formatCurrency(Math.abs(value))}`,
-      sentence: `Se acreditó ${formatCurrency(Math.abs(value))} una sola vez, por los días del periodo que ya no se usaron.`,
+      amount: `−${formatAmount(Math.abs(value))}`,
+      sentence: `Se acreditó ${formatAmount(Math.abs(value))} una sola vez, por los días del periodo que ya no se usaron.`,
     }
   }
   return {
-    amount: formatCurrency(0),
+    amount: formatAmount(0),
     sentence: 'No hubo cobro puntual por el periodo en curso.',
   }
 }

@@ -5,7 +5,7 @@ import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
-import { formatCurrency, formatDate } from '@/composables/format'
+import { formatAmount, formatDate } from '@/composables/format'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
 import AttachProviderInvoiceForm from './AttachProviderInvoiceForm.vue'
 import LinkBankReceiptModal from './LinkBankReceiptModal.vue'
@@ -153,7 +153,16 @@ async function submitLink(bankReceiptId: number) {
     </div>
 
     <AppTable
-      :headers="['Pasarela', 'Liquidada', 'Bruto', 'Coste', 'Neto', 'La cuenta', 'Acciones']"
+      money
+      :headers="[
+        'Pasarela',
+        'Liquidada',
+        { label: 'Bruto', align: 'num' },
+        { label: 'Coste', align: 'num' },
+        { label: 'Neto', align: 'num' },
+        'La cuenta',
+        'Acciones',
+      ]"
       :empty="settlements.items.value.length === 0"
       :loading="settlements.loading.value"
       :error="settlements.error.value"
@@ -183,9 +192,9 @@ async function submitLink(bankReceiptId: number) {
           </div>
         </td>
         <td>{{ formatDate(settlement.settledOn) }}</td>
-        <td class="ds-num">{{ formatCurrency(settlement.grossAmount) }}</td>
-        <td class="ds-num">{{ formatCurrency(settlement.totalCost) }}</td>
-        <td class="ds-num">{{ formatCurrency(settlement.netAmount) }}</td>
+        <td class="ds-num">{{ formatAmount(settlement.grossAmount) }}</td>
+        <td class="ds-num">{{ formatAmount(settlement.totalCost) }}</td>
+        <td class="ds-num">{{ formatAmount(settlement.netAmount) }}</td>
         <td>
           <SettlementCountCell
             :count="settlementCounts[settlement.id]"
@@ -218,7 +227,7 @@ async function submitLink(bankReceiptId: number) {
     </AppTable>
 
     <AppPagination
-      v-if="!settlements.loading.value && !settlements.error.value && settlements.total.value > 0"
+      v-if="!settlements.error.value && settlements.total.value > 0"
       :page="settlements.page.value"
       :page-size="settlements.pageSize"
       :total="settlements.total.value"

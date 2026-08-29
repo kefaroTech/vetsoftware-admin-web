@@ -3,15 +3,13 @@ import AppBadge from '@/components/ui/AppBadge.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import CompanyRef from '@/components/ui/CompanyRef.vue'
-import { formatDate } from '@/composables/format'
-import { formatPaymentAmount } from '../composables/billingFormat'
+import { formatDate, formatMoney } from '@/composables/format'
 import {
   PAYMENT_METHOD_LABEL,
   PAYMENT_STATUS_LABEL,
   PAYMENT_STATUS_VARIANT,
   type SubscriptionPaymentResponse,
 } from '../types/billing-operations.types'
-
 /**
  * **Cobrar**: la plata que entró. Es el tercero de los tres verbos y no se
  * confunde con los otros dos — un pago no es un documento facturado ni un cargo
@@ -56,7 +54,7 @@ function gatewayText(payment: SubscriptionPaymentResponse): string {
         'Pago',
         'Empresa',
         'Recibido',
-        'Importe',
+        { label: 'Importe', align: 'num' },
         'Método',
         'Estado',
         'Conciliación',
@@ -76,7 +74,7 @@ function gatewayText(payment: SubscriptionPaymentResponse): string {
         <td class="ds-text-strong">#{{ payment.id }}</td>
         <td><CompanyRef :company-id="payment.companyId" /></td>
         <td>{{ formatDate(payment.receivedAt) }}</td>
-        <td class="ds-num">{{ formatPaymentAmount(payment.amount, payment.currency) }}</td>
+        <td class="ds-num">{{ formatMoney(payment.amount, payment.currency) }}</td>
         <td>{{ PAYMENT_METHOD_LABEL[payment.paymentMethod] }}</td>
         <td>
           <AppBadge
@@ -93,7 +91,7 @@ function gatewayText(payment: SubscriptionPaymentResponse): string {
     </AppTable>
 
     <AppPagination
-      v-if="!loading && !error && total > 0"
+      v-if="!error && total > 0"
       :page="page"
       :page-size="pageSize"
       :total="total"

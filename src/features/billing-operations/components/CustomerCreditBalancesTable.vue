@@ -2,15 +2,15 @@
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
+import type { AppTableHeader } from '@/components/ui/AppTable.vue'
 import CompanyRef from '@/components/ui/CompanyRef.vue'
 import { ICONS } from '@/constants/icons'
-import { formatDate } from '@/composables/format'
-import { daysUntil, deadlineText, formatDocumentAmount } from '../composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
+import { daysUntil, deadlineText } from '../composables/billingFormat'
 import {
   CREDIT_EXPIRY_WARNING_DAYS,
   type CustomerCreditBalanceResponse,
 } from '../types/customer-credit.types'
-
 /**
  * <b>El saldo a favor de cada empresa, con la fecha del primer lote que caduca.</b>
  *
@@ -44,7 +44,13 @@ defineEmits<{
   expire: [row: CustomerCreditBalanceResponse]
 }>()
 
-const HEADERS = ['Empresa', 'Saldo a favor', 'Primer lote que caduca', 'Recalculado', '']
+const HEADERS: AppTableHeader[] = [
+  'Empresa',
+  { label: 'Saldo a favor', align: 'num' },
+  'Primer lote que caduca',
+  'Recalculado',
+  { label: '', align: 'actions' },
+]
 
 function expiresSoon(row: CustomerCreditBalanceResponse): boolean {
   const days = daysUntil(row.nextExpiryOn)
@@ -55,6 +61,7 @@ function expiresSoon(row: CustomerCreditBalanceResponse): boolean {
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      money
       :headers="HEADERS"
       :empty="rows.length === 0"
       :loading="loading"
@@ -68,7 +75,7 @@ function expiresSoon(row: CustomerCreditBalanceResponse): boolean {
 
       <tr v-for="row in rows" :key="row.id" class="ds-row-hover">
         <td><CompanyRef :company-id="row.companyId" /></td>
-        <td class="ds-num ds-text-strong">{{ formatDocumentAmount(row.balanceAmount) }}</td>
+        <td class="ds-num ds-text-strong">{{ formatAmount(row.balanceAmount) }}</td>
 
         <td>
           <template v-if="row.nextExpiryOn">
@@ -112,7 +119,7 @@ function expiresSoon(row: CustomerCreditBalanceResponse): boolean {
     </AppTable>
 
     <AppPagination
-      v-if="!loading && !error && total > 0"
+      v-if="!error && total > 0"
       :page="page"
       :page-size="pageSize"
       :total="total"

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppTable from '@/components/ui/AppTable.vue'
-import { formatPaymentAmount } from '@/features/billing-operations/composables/billingFormat'
 import {
   PAYMENT_METHOD_LABEL,
   PAYMENT_STATUS_LABEL,
@@ -10,7 +9,7 @@ import {
 } from '@/features/billing-operations/types/billing-operations.types'
 import { formatDateTime } from '../../composables/subscriptionHistoryText'
 import { countsAsCollected } from '../../composables/subscriptionMoneyText'
-
+import { formatMoney } from '@/composables/format'
 /**
  * <b>Cobrado</b>: entró la plata. Una fila por pago registrado.
  *
@@ -29,9 +28,9 @@ import { countsAsCollected } from '../../composables/subscriptionMoneyText'
  *
  * <p><b>Aquí sí hay divisa.</b> `SubscriptionPaymentResponse.currency` existe —a
  * diferencia del documento y del cargo—, así que los pagos son lo único de esta
- * pantalla que se pinta con su moneda, y con `formatPaymentAmount` de W1-E, que
- * imprime el código al lado cuando no es la esperada en vez de rotular «$» sobre
- * un importe en otra divisa.
+ * pantalla que se pinta con su moneda, y con `formatMoney`, que formatea con la
+ * divisa que el propio pago declara en vez de rotular «$» sobre un importe en
+ * otra divisa.
  *
  * <p><b>Ni un control de edición.</b> `PATCH …/status` y `PATCH …/reconciliation`
  * existen en el contrato y <b>no</b> se ofrecen aquí: son otra operación, y esta
@@ -50,7 +49,14 @@ defineEmits<{ retry: [] }>()
 
 <template>
   <AppTable
-    :headers="['Recibido', 'Importe', 'Medio', 'Referencia', 'Estado', '¿Cuenta como cobro?']"
+    :headers="[
+      'Recibido',
+      { label: 'Importe', align: 'num' },
+      'Medio',
+      'Referencia',
+      'Estado',
+      '¿Cuenta como cobro?',
+    ]"
     :empty="rows.length === 0"
     :loading="loading"
     :error="error"
@@ -70,7 +76,7 @@ defineEmits<{ retry: [] }>()
         <span class="ds-meta bloque">Registrado el {{ formatDateTime(payment.createdDate) }}</span>
       </td>
 
-      <td class="ds-num">{{ formatPaymentAmount(payment.amount, payment.currency) }}</td>
+      <td class="ds-num">{{ formatMoney(payment.amount, payment.currency) }}</td>
 
       <td>{{ PAYMENT_METHOD_LABEL[payment.paymentMethod] }}</td>
 

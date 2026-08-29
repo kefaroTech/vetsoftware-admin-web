@@ -7,16 +7,14 @@ import AppSegmentedTabs from '@/components/ui/AppSegmentedTabs.vue'
 import { segmentedTabId, type SegmentedTabOption } from '@/components/ui/segmented-tabs'
 import { ICONS } from '@/constants/icons'
 import BillingDocumentsTable from '@/features/billing-operations/components/BillingDocumentsTable.vue'
-import {
-  daysSince,
-  formatDocumentAmount,
-} from '@/features/billing-operations/composables/billingFormat'
+import { daysSince } from '@/features/billing-operations/composables/billingFormat'
 import { useAwaitingExternalDocuments } from '@/features/billing-operations/composables/useBillingOperations'
 import type { IssueStatus } from '@/features/billing-operations/types/billing-operations.types'
 import ContractGapNotice from '../components/ContractGapNotice.vue'
 import { useBillingDocumentsStore } from '../stores/billing-documents.store'
 import { ISSUE_STATUS_PRESENTATION, STALLED_AFTER_DAYS } from '../types/billing-documents.types'
-
+import { formatAmount } from '@/composables/format'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 /**
  * <b>Los documentos de cobro con su circuito</b> (§G2).
  *
@@ -101,6 +99,7 @@ onMounted(() => void reload())
             proveedor externo y es la única que el cliente ve. Aquí se ve todo porque esta es la
             consola de plataforma.
           </p>
+          <MoneyScopeNote />
         </div>
       </div>
 
@@ -128,7 +127,7 @@ onMounted(() => void reload())
 
           <p v-if="items.length > 0" class="ds-meta">
             Los {{ items.length }} de esta página suman
-            <strong class="ds-num">{{ formatDocumentAmount(pageAmount) }}</strong
+            <strong class="ds-num">{{ formatAmount(pageAmount) }}</strong
             >. El servidor no devuelve el acumulado de los {{ total }}, así que esta suma es solo la
             de lo que se está viendo.
           </p>

@@ -25,7 +25,12 @@ import { QUOTE_BILLING_CYCLE_LABEL, type QuoteResponse } from '../types/quotes.t
  * aparece en ningún estado porque el contrato no expone la operación, y «Eliminar»
  * solo existe en el borrador, que es otro componente.
  */
-defineProps<{ quote: QuoteResponse; currentName?: (catalogItemId: number) => string | undefined }>()
+defineProps<{
+  quote: QuoteResponse
+  currentName?: (catalogItemId: number) => string | undefined
+  /** Divisa declarada por la tarifa de la oferta; se reenvía tal cual a las cifras. */
+  currency: string | null
+}>()
 
 defineEmits<{ reissue: [] }>()
 </script>
@@ -95,8 +100,8 @@ defineEmits<{ reissue: [] }>()
 
       <section class="ds-stack ds-stack--10" aria-labelledby="lineas-titulo">
         <h3 id="lineas-titulo" class="ds-title">La oferta</h3>
-        <QuoteLinesTable :lines="quote.lines" :current-name="currentName" />
-        <QuoteTotals :quote="quote" />
+        <QuoteLinesTable :lines="quote.lines" :current-name="currentName" :currency="currency" />
+        <QuoteTotals :quote="quote" :currency="currency" />
       </section>
 
       <section class="ds-stack ds-stack--10" aria-labelledby="respuestas-titulo">

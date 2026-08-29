@@ -8,7 +8,6 @@ import {
   DUNNING_EVENT_LABEL,
   DUNNING_EVENT_VARIANT,
 } from '@/features/billing-operations/types/billing-operations.types'
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
 import { formatDateTime } from '../../composables/entitlementText'
 import {
   EVENT_TYPE_MEANING,
@@ -17,6 +16,8 @@ import {
   overdueText,
 } from '../../composables/dunningRecordText'
 import type { DunningEventResponse } from '../../types/dunning-record.types'
+import { formatAmount } from '@/composables/format'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
 /**
  * <b>La película de una cuenta</b>, no una lista de filas.
@@ -84,6 +85,8 @@ function meaningOf(event: DunningEventResponse): string | null {
 
 <template>
   <div class="ds-stack ds-stack--12">
+    <MoneyScopeNote v-if="events.length > 0" />
+
     <div v-if="error" class="ds-banner ds-banner--error" role="alert">
       <component :is="ICONS.ERROR" :size="16" class="ds-banner-icon" />
       <div class="ds-stack ds-stack--8 ds-flex-fill">
@@ -141,7 +144,7 @@ function meaningOf(event: DunningEventResponse): string | null {
                   entry.event.billingDocument.documentNumber ?? `#${entry.event.billingDocument.id}`
                 }}
                 <span v-if="entry.event.billingDocument.balanceAmount !== null" class="ds-meta">
-                  saldo {{ formatDocumentAmount(entry.event.billingDocument.balanceAmount) }}
+                  saldo {{ formatAmount(entry.event.billingDocument.balanceAmount) }}
                 </span>
               </dd>
             </div>

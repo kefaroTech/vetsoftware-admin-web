@@ -6,12 +6,13 @@ import AppSelect from '@/components/ui/AppSelect.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
 import ErrorSummary, { toSummaryItems } from '@/components/feedback/ErrorSummary.vue'
 import { ICONS } from '@/constants/icons'
-import { formatCurrency, formatDate, parseISODate } from '@/composables/format'
+import { formatAmount, formatDate, parseISODate } from '@/composables/format'
 import { todayISODate } from '../../composables/subscriptionDateTime'
 import { useSubscriptionItemCatalog } from '../../composables/useSubscriptionItemCatalog'
 import { capacityUnitLabel, itemTypeLabel } from '../../composables/subscriptionItemLifecycle'
 import type { SubscriptionResponse } from '../../types/subscriptions-admin.types'
 import type { AddSubscriptionItemRequest } from '../../types/subscription-items.types'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
 /**
  * «Añadir artículo» — `POST /subscriptions/{id}/items`.
@@ -229,6 +230,8 @@ function submit() {
       <form class="ds-stack ds-stack--16" @submit.prevent="submit">
         <ErrorSummary ref="summary" :items="summaryItems" />
 
+        <MoneyScopeNote />
+
         <div v-if="error" class="ds-banner ds-banner--error ds-banner--sm" role="alert">
           <component :is="ICONS.ERROR" :size="15" class="ds-banner-icon" />
           <span class="ds-flex-fill">{{ error }}</span>
@@ -255,7 +258,7 @@ function submit() {
         <dl v-if="price && selectedItem" class="ds-detail-grid congelado">
           <div>
             <dt class="ds-label">Precio unitario</dt>
-            <dd class="valor ds-num">{{ formatCurrency(price.unitAmount) }}</dd>
+            <dd class="valor ds-num">{{ formatAmount(price.unitAmount) }}</dd>
           </div>
           <div>
             <dt class="ds-label">Incluidas en el precio</dt>

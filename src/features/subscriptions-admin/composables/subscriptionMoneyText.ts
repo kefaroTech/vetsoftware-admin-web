@@ -1,4 +1,3 @@
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
 import type {
   BillingDocumentResponse,
   SubscriptionPaymentResponse,
@@ -9,7 +8,7 @@ import {
   CHARGE_TYPE_PRESENTATION,
   type SubscriptionChargeResponse,
 } from '../types/subscription-money.types'
-
+import { formatAmount } from '@/composables/format'
 /**
  * Los textos y las lecturas de `/dinero` (§3.5 y §4.4.2, tarea W2-E).
  *
@@ -18,16 +17,17 @@ import {
  * de contabilidad dice lo que no es, y que el vocabulario prohibido de §3.4 no se
  * cuela por una plantilla.
  *
- * <p><b>Qué NO se reimplementa aquí, y por qué importa.</b> `formatDocumentAmount`
- * (W1-E), `formatDate`/`formatCurrency` (W1-A) y `formatDateTime` (W2-C) ya
- * existen. La consola no necesita una sexta forma de escribir un importe: cada
- * copia es un sitio más donde arreglar el día que el contrato declare la divisa.
+ * <p><b>Qué NO se reimplementa aquí, y por qué importa.</b> `formatAmount`,
+ * `formatMoney`, `formatDate` (`src/composables/format.ts`) y `formatDateTime`
+ * (W2-C) ya existen. La consola no necesita una sexta forma de escribir un
+ * importe: cada copia es un sitio más donde arreglar el día que el contrato
+ * declare la divisa.
  *
  * <p><b>La decisión de la divisa, heredada de W1-E y extendida al cargo.</b>
  * `BillingDocumentResponse` no declara `currency`, y <b>`SubscriptionChargeResponse`
  * tampoco</b>: ninguno de los dos esquemas del contrato trae el campo. Rotular con
  * «$» una cifra cuya divisa el servidor no declara es inventar el dato, así que
- * los importes de cargo y de documento se pintan con `formatDocumentAmount()` —sin
+ * los importes de cargo y de documento se pintan con `formatAmount()` —sin
  * símbolo— exactamente como ya hace la pantalla de cobranza. Los <b>pagos</b> sí
  * traen su divisa y por eso son los únicos de esta pantalla que la llevan escrita.
  * Cuando el contrato añada `currency` a los otros dos, se migran los dos a la vez.
@@ -162,7 +162,7 @@ export function chargeAmountReading(charge: SubscriptionChargeResponse): AmountR
     return { amount: '—', sentence: 'El cargo no trae importe.' }
   }
   if (value < 0) {
-    const abs = formatDocumentAmount(Math.abs(value))
+    const abs = formatAmount(Math.abs(value))
     return {
       amount: `−${abs}`,
       sentence: charge.voidsChargeId
@@ -171,8 +171,8 @@ export function chargeAmountReading(charge: SubscriptionChargeResponse): AmountR
     }
   }
   return {
-    amount: formatDocumentAmount(value),
-    sentence: `Suma ${formatDocumentAmount(value)} a lo devengado del periodo.`,
+    amount: formatAmount(value),
+    sentence: `Suma ${formatAmount(value)} a lo devengado del periodo.`,
   }
 }
 
@@ -244,8 +244,8 @@ export function accruedTotals(charges: SubscriptionChargeResponse[]): AccruedTot
  */
 export function accruedSummary(totals: AccruedTotals, scopeNote = ''): string {
   const partes = [
-    `${totals.pendingCount} ${totals.pendingCount === 1 ? 'cargo devengado sin facturar' : 'cargos devengados sin facturar'} por ${formatDocumentAmount(totals.pendingAmount)}`,
-    `${totals.invoicedCount} ya ${totals.invoicedCount === 1 ? 'facturado' : 'facturados'} por ${formatDocumentAmount(totals.invoicedAmount)}`,
+    `${totals.pendingCount} ${totals.pendingCount === 1 ? 'cargo devengado sin facturar' : 'cargos devengados sin facturar'} por ${formatAmount(totals.pendingAmount)}`,
+    `${totals.invoicedCount} ya ${totals.invoicedCount === 1 ? 'facturado' : 'facturados'} por ${formatAmount(totals.invoicedAmount)}`,
   ]
   if (totals.voidedCount > 0) {
     partes.push(`${totals.voidedCount} ${totals.voidedCount === 1 ? 'anulado' : 'anulados'}`)
@@ -292,7 +292,7 @@ export function collectedTotals(payments: SubscriptionPaymentResponse[]): Collec
  * que omite en silencio tres pagos pendientes es un total que engaña.
  */
 export function collectedSummary(totals: CollectedTotals): string {
-  const base = `${totals.confirmedCount} ${totals.confirmedCount === 1 ? 'pago confirmado' : 'pagos confirmados'} por ${formatDocumentAmount(totals.confirmedAmount)}.`
+  const base = `${totals.confirmedCount} ${totals.confirmedCount === 1 ? 'pago confirmado' : 'pagos confirmados'} por ${formatAmount(totals.confirmedAmount)}.`
   if (totals.notCountedCount === 0) return base
   return `${base} Otros ${totals.notCountedCount} registrados no cuentan como cobro: están pendientes, fallidos o devueltos.`
 }
@@ -310,19 +310,19 @@ export function documentBalanceReading(document: BillingDocumentResponse): Amoun
   }
   if (balance <= 0) {
     return {
-      amount: formatDocumentAmount(0),
-      sentence: `Saldado: se aplicaron ${formatDocumentAmount(settled)} sobre un total de ${formatDocumentAmount(document.totalAmount)}.`,
+      amount: formatAmount(0),
+      sentence: `Saldado: se aplicaron ${formatAmount(settled)} sobre un total de ${formatAmount(document.totalAmount)}.`,
     }
   }
   if (settled > 0) {
     return {
-      amount: formatDocumentAmount(balance),
-      sentence: `Abonado en parte: ${formatDocumentAmount(settled)} de ${formatDocumentAmount(document.totalAmount)}. Quedan ${formatDocumentAmount(balance)}.`,
+      amount: formatAmount(balance),
+      sentence: `Abonado en parte: ${formatAmount(settled)} de ${formatAmount(document.totalAmount)}. Quedan ${formatAmount(balance)}.`,
     }
   }
   return {
-    amount: formatDocumentAmount(balance),
-    sentence: `Sin ningún abono: quedan los ${formatDocumentAmount(balance)} completos.`,
+    amount: formatAmount(balance),
+    sentence: `Sin ningún abono: quedan los ${formatAmount(balance)} completos.`,
   }
 }
 

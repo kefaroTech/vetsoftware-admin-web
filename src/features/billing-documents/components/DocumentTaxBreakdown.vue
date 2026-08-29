@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ICONS } from '@/constants/icons'
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
 import type { BillingDocumentTaxSummary } from '@/features/billing-operations/types/billing-operations.types'
 import ContractGapNotice from './ContractGapNotice.vue'
 import { TAX_TOLERANCE, TAX_TREATMENT_PRESENTATION } from '../types/billing-documents.types'
+import { formatAmount } from '@/composables/format'
+import MoneyCaption from '@/components/ui/MoneyCaption.vue'
 
 /**
  * <b>Bloque 3 · el desglose de impuestos</b>, y el veredicto de los dos pesos.
@@ -89,6 +90,7 @@ const VERDICT_ICON = {
 
     <div v-else class="ds-table-scroll">
       <table class="ds-table ds-table--dense">
+        <MoneyCaption>Desglose de impuestos del documento, por tratamiento y tarifa.</MoneyCaption>
         <thead>
           <tr>
             <th scope="col">Tratamiento</th>
@@ -108,19 +110,19 @@ const VERDICT_ICON = {
               }}</span>
             </td>
             <td class="ds-num">{{ tax.taxRate }} %</td>
-            <td class="ds-num">{{ formatDocumentAmount(tax.taxableBase) }}</td>
-            <td class="ds-num">{{ formatDocumentAmount(tax.taxAmount) }}</td>
+            <td class="ds-num">{{ formatAmount(tax.taxableBase) }}</td>
+            <td class="ds-num">{{ formatAmount(tax.taxAmount) }}</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <th scope="row" colspan="2">Suma de las filas</th>
-            <td class="ds-num">{{ formatDocumentAmount(subtotal) }}</td>
-            <td class="ds-num">{{ formatDocumentAmount(check?.summed) }}</td>
+            <td class="ds-num">{{ formatAmount(subtotal) }}</td>
+            <td class="ds-num">{{ formatAmount(check?.summed) }}</td>
           </tr>
           <tr>
             <th scope="row" colspan="3">Impuesto que declara el documento</th>
-            <td class="ds-num">{{ formatDocumentAmount(check?.declared) }}</td>
+            <td class="ds-num">{{ formatAmount(check?.declared) }}</td>
           </tr>
         </tfoot>
       </table>
@@ -131,7 +133,7 @@ const VERDICT_ICON = {
     <div v-if="check && taxes.length > 0" class="ds-banner" :class="VERDICT_TONE[check.verdict]">
       <component :is="VERDICT_ICON[check.verdict]" :size="16" class="ds-banner-icon" />
       <span class="ds-flex-fill">
-        <strong>Diferencia: {{ formatDocumentAmount(check.difference) }}.</strong>
+        <strong>Diferencia: {{ formatAmount(check.difference) }}.</strong>
         {{ VERDICT_TEXT[check.verdict] }}
       </span>
     </div>

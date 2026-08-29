@@ -3,16 +3,15 @@ import { computed } from 'vue'
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
 import AppTable from '@/components/ui/AppTable.vue'
+import type { AppTableHeader } from '@/components/ui/AppTable.vue'
 import { ICONS } from '@/constants/icons'
-import { formatDate } from '@/composables/format'
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
 import { BILLING_DOCUMENT_ROUTE_NAMES } from '@/router/routes/billing-documents.routes'
 import ContractGapNotice from './ContractGapNotice.vue'
 import {
   APPLICATION_SOURCE_PRESENTATION,
   type BillingDocumentApplicationResponse,
 } from '../types/billing-documents.types'
-
 /**
  * <b>Bloque 4 · qué salda este documento.</b>
  *
@@ -75,7 +74,13 @@ const props = defineProps<{
 
 defineEmits<{ retry: []; reverse: [applicationId: number]; apply: [] }>()
 
-const HEADERS = ['Origen', 'Referencia', 'Aplicado', 'Cuándo', '']
+const HEADERS: AppTableHeader[] = [
+  'Origen',
+  'Referencia',
+  { label: 'Aplicado', align: 'num' },
+  'Cuándo',
+  { label: '', align: 'actions' },
+]
 
 /**
  * Qué aplicaciones ya tienen su contra-aplicación en pantalla.
@@ -117,6 +122,7 @@ function canReverse(row: BillingDocumentApplicationResponse): boolean {
     </div>
 
     <AppTable
+      money
       :headers="HEADERS"
       :empty="rows.length === 0"
       :loading="loading"
@@ -170,7 +176,7 @@ function canReverse(row: BillingDocumentApplicationResponse): boolean {
           <span v-else class="ds-meta">Sin referencia en el contrato</span>
         </td>
 
-        <td class="ds-num">{{ formatDocumentAmount(row.appliedAmount) }}</td>
+        <td class="ds-num">{{ formatAmount(row.appliedAmount) }}</td>
         <td>{{ formatDate(row.appliedAt) }}</td>
 
         <!-- Nunca una papelera: contra-aplicar añade una fila, no la quita. El
@@ -221,15 +227,15 @@ function canReverse(row: BillingDocumentApplicationResponse): boolean {
     <dl v-if="settlement" class="ds-detail-grid cuentas">
       <div>
         <dt class="ds-label">Total del documento</dt>
-        <dd class="ds-num">{{ formatDocumentAmount(settlement.total) }}</dd>
+        <dd class="ds-num">{{ formatAmount(settlement.total) }}</dd>
       </div>
       <div>
         <dt class="ds-label">Aplicado (lo que dice el servidor)</dt>
-        <dd class="ds-num">− {{ formatDocumentAmount(settlement.settled) }}</dd>
+        <dd class="ds-num">− {{ formatAmount(settlement.settled) }}</dd>
       </div>
       <div>
         <dt class="ds-label">Saldo</dt>
-        <dd class="ds-num ds-text-strong">= {{ formatDocumentAmount(settlement.balance) }}</dd>
+        <dd class="ds-num ds-text-strong">= {{ formatAmount(settlement.balance) }}</dd>
       </div>
     </dl>
 
@@ -237,10 +243,9 @@ function canReverse(row: BillingDocumentApplicationResponse): boolean {
       <component :is="ICONS.WARNING" :size="16" class="ds-banner-icon" />
       <span class="ds-flex-fill">
         La resta no da el saldo que trae el documento: total menos aplicado son
-        {{ formatDocumentAmount(settlement.arithmeticBalance) }} y el saldo dice
-        {{ formatDocumentAmount(settlement.balance) }}.
-        <strong>Manda el saldo del servidor</strong>, que es el que gobierna la mora; esta
-        diferencia hay que reportarla.
+        {{ formatAmount(settlement.arithmeticBalance) }} y el saldo dice
+        {{ formatAmount(settlement.balance) }}. <strong>Manda el saldo del servidor</strong>, que es
+        el que gobierna la mora; esta diferencia hay que reportarla.
       </span>
     </div>
 
@@ -254,10 +259,10 @@ function canReverse(row: BillingDocumentApplicationResponse): boolean {
       class="ds-meta descripcion"
     >
       La suma de la columna «Aplicado» da
-      {{ formatDocumentAmount(settlement.summedApplications) }} y el documento dice que lleva
-      {{ formatDocumentAmount(settlement.settled) }} saldados. La diferencia es esperable si alguna
-      fila contra-aplica a otra: el contrato no declara con qué signo viaja una reversión, así que
-      la cuenta buena es la del servidor.
+      {{ formatAmount(settlement.summedApplications) }} y el documento dice que lleva
+      {{ formatAmount(settlement.settled) }} saldados. La diferencia es esperable si alguna fila
+      contra-aplica a otra: el contrato no declara con qué signo viaja una reversión, así que la
+      cuenta buena es la del servidor.
     </p>
 
     <p v-if="settlement && !settlement.applicationsComplete" class="ds-meta descripcion">

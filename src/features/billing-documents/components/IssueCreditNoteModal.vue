@@ -3,10 +3,10 @@ import { computed, ref, watch } from 'vue'
 import AppCheckbox from '@/components/ui/AppCheckbox.vue'
 import ModalShell from '@/components/ui/ModalShell.vue'
 import { ICONS } from '@/constants/icons'
-import { formatDate } from '@/composables/format'
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
 import type { SubscriptionChargeResponse } from '@/features/subscriptions-admin/types/subscription-money.types'
 import type { IssueCreditNoteRequest } from '../types/billing-documents.types'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
 /**
  * <b>Emitir la nota crédito que corrige a este documento.</b>
@@ -100,6 +100,8 @@ function submit() {
   >
     <template #body>
       <div class="ds-stack ds-stack--16">
+        <MoneyScopeNote />
+
         <div class="ds-banner ds-banner--info">
           <component :is="ICONS.INFO" :size="16" class="ds-banner-icon" aria-hidden="true" />
           <span class="ds-flex-fill">
@@ -136,7 +138,7 @@ function submit() {
             <p class="ds-meta nota">
               {{ formatDate(charge.servicePeriodStart) }} –
               {{ formatDate(charge.servicePeriodEnd) }} ·
-              {{ formatDocumentAmount(charge.subtotalAmount) }}
+              {{ formatAmount(charge.subtotalAmount) }}
               <span v-if="charge.voidsChargeId">
                 · ya anula al cargo #{{ charge.voidsChargeId }}: acreditarlo otra vez duplicaría la
                 corrección.
@@ -151,7 +153,7 @@ function submit() {
 
         <p v-if="canSubmit" class="ds-text-strong">
           Se acreditarán {{ selected.length }} {{ selected.length === 1 ? 'cargo' : 'cargos' }} por
-          {{ formatDocumentAmount(total) }}.
+          {{ formatAmount(total) }}.
         </p>
       </div>
     </template>

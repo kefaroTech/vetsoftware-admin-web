@@ -157,7 +157,7 @@ async function remove(row: BundleComponentResponse) {
     </p>
 
     <AppTable
-      :headers="['Pieza', 'Cantidad', 'Acciones']"
+      :headers="['Pieza', { label: 'Cantidad', align: 'num' }, 'Acciones']"
       :empty="components.length === 0"
       :loading="componentsLoading"
       :error="componentsError"

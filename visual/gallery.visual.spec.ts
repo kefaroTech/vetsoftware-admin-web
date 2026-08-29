@@ -43,6 +43,17 @@ const SHOTS = [
   // (5 reglas) se podían recolorear enteras sin que esta suite se enterase.
   'resumen-errores',
   'dialogos',
+
+  // D-02. El bloque del dinero —las ~60 pantallas de cobranza, la mayor
+  // superficie visual del repositorio— no tenía NI UNA captura: la unificación
+  // tipográfica del dinero pasó esta suite 22/22 no porque nada se moviera,
+  // sino porque nadie estaba mirando. Los tres bloques congelan las dos mitades
+  // de la política y su frontera: la celda sin símbolo con la divisa en el
+  // `<caption>`, la nota de superficie fuera de una tabla, y el caso en que el
+  // contrato SÍ declara divisa y entonces rotula la celda y no la tabla.
+  'dinero-tabla',
+  'dinero-nota',
+  'dinero-divisa',
 ] as const
 
 /**

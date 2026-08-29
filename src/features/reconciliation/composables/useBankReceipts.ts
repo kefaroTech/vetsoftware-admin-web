@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useServerPaged } from '@/composables/useServerPaged'
 import { useToast } from '@/composables/useToast'
 import { getProblemDetailMessage, getTraceId } from '@/services/http/http.client'
-import { formatCurrency, formatDate } from '@/composables/format'
+import { formatAmount, formatDate } from '@/composables/format'
 import { useReconciliationStore } from '../stores/reconciliation.store'
 import { bankReceiptsApi } from '../api/reconciliation.api'
 import type { BankReceiptResponse, RegisterBankReceiptRequest } from '../types/reconciliation.types'
@@ -53,7 +53,7 @@ export function useBankReceipts() {
   const unidentifiedOptions = computed(() =>
     unidentifiedReceipts.value.map((receipt) => ({
       value: receipt.id,
-      label: `${formatDate(receipt.receivedOn)} · ${formatCurrency(receipt.amount)} · ${receipt.bankReference}`,
+      label: `${formatDate(receipt.receivedOn)} · ${formatAmount(receipt.amount)} · ${receipt.bankReference}`,
     })),
   )
 

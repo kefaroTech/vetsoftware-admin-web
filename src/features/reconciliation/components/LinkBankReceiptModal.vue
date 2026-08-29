@@ -3,8 +3,9 @@ import { computed, ref, watch } from 'vue'
 import { Banknote } from 'lucide-vue-next'
 import AppModal from '@/components/ui/AppModal.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
-import { formatCurrency, formatDate } from '@/composables/format'
+import { formatAmount, formatDate } from '@/composables/format'
 import type { BankReceiptResponse, GatewaySettlementResponse } from '../types/reconciliation.types'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
 /**
  * Casar una liquidación con el abono bancario que la pagó.
@@ -74,10 +75,12 @@ function submit() {
     @close="emit('close')"
   >
     <div v-if="settlement" class="ds-stack ds-stack--16">
+      <MoneyScopeNote />
+
       <p class="ds-dialog-body">
         La liquidación <span class="ds-text-strong">{{ settlement.settlementReference }}</span> de
         {{ settlement.gateway }}, liquidada el {{ formatDate(settlement.settledOn) }}, dejó un neto
-        de <span class="ds-num">{{ formatCurrency(settlement.netAmount) }}</span
+        de <span class="ds-num">{{ formatAmount(settlement.netAmount) }}</span
         >.
       </p>
 
@@ -104,7 +107,7 @@ function submit() {
         <Banknote :size="16" class="ds-banner-icon" />
         <span class="ds-flex-fill">
           El neto del lote y el abono no coinciden: se separan
-          <span class="ds-num">{{ formatCurrency(gap) }}</span>
+          <span class="ds-num">{{ formatAmount(gap) }}</span>
           . Casarlos igualmente es legítimo —la pasarela agrupa varios lotes en una transferencia—
           pero la diferencia queda sin explicar, y el contrato no ofrece forma de deshacer el
           enlace.

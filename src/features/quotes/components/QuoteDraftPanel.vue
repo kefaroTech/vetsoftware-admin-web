@@ -30,7 +30,12 @@ import { QUOTE_BILLING_CYCLE_LABEL, type QuoteResponse } from '../types/quotes.t
  * otra. Esa frase es la diferencia entre una interfaz honesta y una que promete una operación
  * inexistente.
  */
-defineProps<{ quote: QuoteResponse; currentName?: (catalogItemId: number) => string | undefined }>()
+defineProps<{
+  quote: QuoteResponse
+  currentName?: (catalogItemId: number) => string | undefined
+  /** Divisa declarada por la tarifa de la oferta; se reenvía tal cual a las cifras. */
+  currency: string | null
+}>()
 </script>
 
 <template>
@@ -83,8 +88,8 @@ defineProps<{ quote: QuoteResponse; currentName?: (catalogItemId: number) => str
 
     <section class="ds-stack ds-stack--10" aria-labelledby="borrador-lineas-titulo">
       <h3 id="borrador-lineas-titulo" class="ds-title">Lo que se va a ofrecer</h3>
-      <QuoteLinesTable :lines="quote.lines" :current-name="currentName" />
-      <QuoteTotals :quote="quote" />
+      <QuoteLinesTable :lines="quote.lines" :current-name="currentName" :currency="currency" />
+      <QuoteTotals :quote="quote" :currency="currency" />
     </section>
   </article>
 </template>

@@ -5,7 +5,6 @@ import AppSelect from '@/components/ui/AppSelect.vue'
 import ModalShell from '@/components/ui/ModalShell.vue'
 import ErrorSummary, { toSummaryItems } from '@/components/feedback/ErrorSummary.vue'
 import { ICONS } from '@/constants/icons'
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
 import {
   parseAmount,
   validateAmount,
@@ -19,7 +18,8 @@ import {
   type RegisterDocumentWithholdingRequest,
   type WithholdingType,
 } from '../types/document-money.types'
-
+import { formatAmount } from '@/composables/format'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 /**
  * <b>Registrar la retención que practicó el cliente.</b>
  *
@@ -223,7 +223,7 @@ function isDirty() {
 
 const subtitle = computed(() => {
   const name = props.documentNumber ?? 'Documento #' + props.documentId
-  return name + ' · saldo ' + formatDocumentAmount(props.balanceAmount)
+  return name + ' · saldo ' + formatAmount(props.balanceAmount)
 })
 </script>
 
@@ -244,6 +244,8 @@ const subtitle = computed(() => {
     <template #body>
       <form class="ds-stack ds-stack--16" @submit.prevent="submit">
         <ErrorSummary ref="summary" :items="summaryItems" />
+
+        <MoneyScopeNote />
 
         <div class="ds-banner ds-banner--info">
           <component :is="ICONS.INFO" :size="16" class="ds-banner-icon" aria-hidden="true" />
@@ -313,10 +315,10 @@ const subtitle = computed(() => {
         <div v-if="arithmetic && !arithmetic.agrees" class="ds-banner ds-banner--warning">
           <component :is="ICONS.WARNING" :size="16" class="ds-banner-icon" aria-hidden="true" />
           <span class="ds-flex-fill">
-            Base por tarifa da {{ formatDocumentAmount(arithmetic.expected) }} y el importe escrito
-            es {{ formatDocumentAmount(arithmetic.written) }}: hay
-            {{ formatDocumentAmount(Math.abs(arithmetic.difference)) }} de diferencia. Se puede
-            guardar así —manda el certificado—, pero revisa la tarifa antes.
+            Base por tarifa da {{ formatAmount(arithmetic.expected) }} y el importe escrito es
+            {{ formatAmount(arithmetic.written) }}: hay
+            {{ formatAmount(Math.abs(arithmetic.difference)) }} de diferencia. Se puede guardar así
+            —manda el certificado—, pero revisa la tarifa antes.
           </span>
         </div>
 

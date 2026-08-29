@@ -63,7 +63,15 @@ defineEmits<{ retry: [] }>()
 
 <template>
   <AppTable
-    :headers="['Empresa', 'Eje', 'Estado', 'Consumo', 'Techo', 'Origen del techo', 'Se supo']"
+    :headers="[
+      'Empresa',
+      'Eje',
+      'Estado',
+      { label: 'Consumo', align: 'num' },
+      { label: 'Techo', align: 'num' },
+      'Origen del techo',
+      'Se supo',
+    ]"
     :empty="rows.length === 0"
     :loading="loading"
     :error="error"

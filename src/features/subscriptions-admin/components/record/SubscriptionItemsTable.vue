@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { RouterLink, type RouteLocationRaw } from 'vue-router'
 import AppBadge from '@/components/ui/AppBadge.vue'
 import { ICONS } from '@/constants/icons'
-import { formatCurrency, formatDate } from '@/composables/format'
+import { formatAmount, formatDate } from '@/composables/format'
 import {
   SUBSCRIPTION_RECORD_ROUTE_NAMES,
   subscriptionRecordTabs,
@@ -17,6 +17,7 @@ import {
 import { RECORD_LINK_PARAMS, recordLinkQuery } from '../../composables/useRecordLink'
 import type { SubscriptionItemRow } from '../../composables/useSubscriptionItems'
 import type { SubscriptionItemResponse } from '../../types/subscription-items.types'
+import MoneyCaption from '@/components/ui/MoneyCaption.vue'
 
 /**
  * <b>El expediente de líneas.</b> Chasis de documento (§3.2): estos registros no se
@@ -153,10 +154,10 @@ function canRemove(row: SubscriptionItemRow): boolean {
 <template>
   <div class="ds-table-scroll">
     <table class="ds-table">
-      <caption class="ds-sr-only">
-        Líneas del contrato con su vigencia y su precio congelado. Las líneas cerradas se muestran:
-        dar de baja no borra, escribe la fecha de fin.
-      </caption>
+      <MoneyCaption
+        >Líneas del contrato con su vigencia y su precio congelado. Las líneas cerradas se muestran:
+        dar de baja no borra, escribe la fecha de fin.</MoneyCaption
+      >
       <thead>
         <tr>
           <th scope="col">Artículo</th>
@@ -217,7 +218,7 @@ function canRemove(row: SubscriptionItemRow): boolean {
             </p>
           </td>
 
-          <td class="ds-num">{{ formatCurrency(row.item.unitAmount) }}</td>
+          <td class="ds-num">{{ formatAmount(row.item.unitAmount) }}</td>
 
           <td>{{ taxLabel(row.item) }}</td>
 

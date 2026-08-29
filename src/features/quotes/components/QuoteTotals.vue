@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatCurrency, formatDate } from '@/composables/format'
+import { formatMoney, formatDate } from '@/composables/format'
 import type { QuoteResponse } from '../types/quotes.types'
 
 /**
@@ -12,7 +12,15 @@ import type { QuoteResponse } from '../types/quotes.types'
  * <p>El pie lo dice explícitamente, con la fecha y la tarifa: es la frase que responde «¿por qué
  * este precio y no el de hoy?» sin que nadie tenga que abrir el catálogo.
  */
-defineProps<{ quote: QuoteResponse }>()
+defineProps<{
+  quote: QuoteResponse
+  /**
+   * La divisa declarada por la tarifa (`PriceListResponse.currency`), resuelta por la vista.
+   * `null` cuando no se ha podido resolver — entonces los importes van sin símbolo y el pie lo
+   * dice, en vez de rellenar el hueco con la divisa de la plataforma.
+   */
+  currency: string | null
+}>()
 </script>
 
 <template>
@@ -20,25 +28,28 @@ defineProps<{ quote: QuoteResponse }>()
     <dl class="totales">
       <div class="fila">
         <dt>Subtotal</dt>
-        <dd class="ds-num">{{ formatCurrency(quote.subtotalAmount) }}</dd>
+        <dd class="ds-num">{{ formatMoney(quote.subtotalAmount, currency) }}</dd>
       </div>
       <div class="fila">
         <dt>Descuento</dt>
-        <dd class="ds-num">{{ formatCurrency(quote.discountAmount) }}</dd>
+        <dd class="ds-num">{{ formatMoney(quote.discountAmount, currency) }}</dd>
       </div>
       <div class="fila">
         <dt>Impuestos</dt>
-        <dd class="ds-num">{{ formatCurrency(quote.taxAmount) }}</dd>
+        <dd class="ds-num">{{ formatMoney(quote.taxAmount, currency) }}</dd>
       </div>
       <div class="fila fila--total">
         <dt class="ds-text-strong">Total</dt>
-        <dd class="ds-num ds-text-strong">{{ formatCurrency(quote.totalAmount) }}</dd>
+        <dd class="ds-num ds-text-strong">{{ formatMoney(quote.totalAmount, currency) }}</dd>
       </div>
     </dl>
     <p class="ds-meta">
       Importes congelados al {{ formatDate(quote.createdDate) }} con la tarifa #{{
         quote.priceListId
       }}.
+      <template v-if="!currency">
+        No se pudo resolver la divisa de esa tarifa, así que los importes van sin símbolo.
+      </template>
     </p>
   </div>
 </template>
