@@ -37,10 +37,23 @@ import { fileURLToPath } from 'node:url'
 const ROOT = fileURLToPath(new URL('..', import.meta.url)).replace(/[/\\]+$/, '')
 const REPO_NAME = basename(ROOT)
 
-/** Cada repo solo conoce el nombre de su gemelo, no una lista de N repos: es 1:1 por diseño. */
+/**
+ * Cada repo solo conoce a su gemelo, no una lista de N repos: es 1:1 por diseño.
+ *
+ * Son DOS nombres de directorio por lado, y no por gusto: en el checkout local
+ * el directorio se llama como el proyecto (`VetSoftwareFront`), mientras que
+ * `actions/checkout` lo nombra como el REPOSITORIO (`vetsoftware-admin-web`).
+ * La primera versión de este mapa solo tenía los nombres locales y trataba
+ * cualquier otro nombre como error de configuración: en CI eso hacía `exit 1`
+ * y tumbaba `npm run quality` entero —lint, tipos, contrato y presupuesto ni
+ * llegaban a correr— en los dos fronts a la vez. Justo lo que la cabecera de
+ * este archivo dice que NO debe pasar.
+ */
 const SIBLING_OF = {
-  VetSoftwareFront: 'VetSoftwarePublicFront',
-  VetSoftwarePublicFront: 'VetSoftwareFront',
+  VetSoftwareFront: ['VetSoftwarePublicFront', 'vetsoftware-public-web'],
+  'vetsoftware-admin-web': ['VetSoftwarePublicFront', 'vetsoftware-public-web'],
+  VetSoftwarePublicFront: ['VetSoftwareFront', 'vetsoftware-admin-web'],
+  'vetsoftware-public-web': ['VetSoftwareFront', 'vetsoftware-admin-web'],
 }
 
 const { files: FILES, allowlist: ALLOWLIST } = JSON.parse(
@@ -48,25 +61,28 @@ const { files: FILES, allowlist: ALLOWLIST } = JSON.parse(
 )
 const allowedReason = new Map(ALLOWLIST.map((entry) => [entry.file, entry.reason]))
 
-const siblingName = SIBLING_OF[REPO_NAME]
-if (!siblingName) {
-  console.error(
-    `tr02:parity · el directorio del repo se llama "${REPO_NAME}", que no está en SIBLING_OF. ` +
-      `Actualiza scripts/tr02-parity-check.mjs en los dos repos si el nombre del directorio cambió.`,
-  )
-  process.exit(1)
-}
+/**
+ * No encontrar el árbol gemelo NUNCA es un fallo, venga de un nombre de
+ * directorio desconocido o de que sencillamente no esté al lado. Los dos casos
+ * significan lo mismo —no hay con qué comparar— y ninguno es evidencia de
+ * deriva. Fallar por cualquiera de ellos bloquearía todo PR para siempre sin
+ * haber mirado ni un archivo, que es peor que no comprobar: un rojo que nadie
+ * puede arreglar se acaba ignorando, y con él se ignora el gate entero.
+ */
+const siblingRoot = (SIBLING_OF[REPO_NAME] ?? [])
+  .map((name) => join(dirname(ROOT), name))
+  .find((candidate) => existsSync(candidate))
 
-const siblingRoot = join(dirname(ROOT), siblingName)
-
-if (!existsSync(siblingRoot)) {
+if (!siblingRoot) {
   console.log(
-    `tr02:parity · SIN COMPROBAR — no encuentro "${siblingName}" junto a este repo ` +
+    `tr02:parity · SIN COMPROBAR — no encuentro el árbol gemelo junto a "${REPO_NAME}" ` +
       `(¿checkout de un solo repo, como en CI?). La paridad TR-02 solo se puede verificar con ` +
       `los dos árboles presentes; ver AGENTS.md.`,
   )
   process.exit(0)
 }
+
+const siblingName = basename(siblingRoot)
 
 const failures = []
 let compared = 0
