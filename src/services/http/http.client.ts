@@ -357,10 +357,17 @@ export function getTraceId(error: unknown): string | undefined {
  * Mensaje redactado por el backend en el `ProblemDetail`, o `fallback` si no hay
  * ninguno. Se prefiere siempre lo que dice el servidor: el texto fijo del
  * llamador describe la pantalla, no lo que falló.
+ *
+ * El discriminador es si HUBO respuesta, no si `error.message` tiene contenido:
+ * axios rellena `error.message` incluso cuando la petición nunca llegó a
+ * completarse (`"Network Error"`, sin traducir, ante una caída de red), así que
+ * usarlo como señal tapaba el `fallback` del llamador justo en el caso para el
+ * que se escribió. Con respuesta pero sin `ProblemDetail` en el cuerpo,
+ * `error.message` sí aporta algo real y se conserva.
  */
 export function getProblemDetailMessage(error: unknown, fallback = 'Error inesperado'): string {
-  if (error instanceof AxiosError) {
-    const pd = error.response?.data as ProblemDetail | undefined
+  if (error instanceof AxiosError && error.response) {
+    const pd = error.response.data as ProblemDetail | undefined
     if (pd?.detail) return pd.detail
     if (pd?.title) return pd.title
     if (error.message) return error.message
