@@ -2,8 +2,7 @@
 import { computed } from 'vue'
 import CompanyRef from '@/components/ui/CompanyRef.vue'
 import DocumentSheet from '@/components/ui/DocumentSheet.vue'
-import { formatDate } from '@/composables/format'
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
 import type { BillingDocumentResponse } from '@/features/billing-operations/types/billing-operations.types'
 import { BILLING_DOCUMENT_ROUTE_NAMES } from '@/router/routes/billing-documents.routes'
 import ContractGapNotice from './ContractGapNotice.vue'
@@ -13,6 +12,7 @@ import {
   DOCUMENT_KIND_LABEL,
   ISSUE_STATUS_PRESENTATION,
 } from '../types/billing-documents.types'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
 /**
  * <b>Bloque 1 · la cabecera del documento</b>: quién es, de qué periodo, en qué
@@ -84,11 +84,11 @@ const issueMeaning = computed(() => ISSUE_STATUS_PRESENTATION[props.document.iss
       </div>
       <div>
         <dt class="ds-label">Total del documento</dt>
-        <dd class="ds-num">{{ formatDocumentAmount(document.totalAmount) }}</dd>
+        <dd class="ds-num">{{ formatAmount(document.totalAmount) }}</dd>
       </div>
       <div>
         <dt class="ds-label">Saldo</dt>
-        <dd class="ds-num">{{ formatDocumentAmount(document.balanceAmount) }}</dd>
+        <dd class="ds-num">{{ formatAmount(document.balanceAmount) }}</dd>
       </div>
       <div>
         <dt class="ds-label">Qué clase de documento es</dt>
@@ -101,6 +101,8 @@ const issueMeaning = computed(() => ISSUE_STATUS_PRESENTATION[props.document.iss
     </template>
 
     <template #body>
+      <MoneyScopeNote />
+
       <p class="ds-meta estado">
         {{ issueMeaning }}
       </p>

@@ -316,6 +316,16 @@
   color: oklch(50% 0.2 25deg);
 }
 
+/* Falta en el catálogo original: éxito, peligro, neutro y acento no cubrían
+   aviso. Mismo par de tokens que `.ds-banner--warning` ya usa (líneas
+   217-221), así que no introduce ninguna combinación de color nueva —
+   petición de suscripcion-tenant-especificacion.md §9.2. 7,92:1 medido
+   OKLCH → sRGB → WCAG. */
+.ds-tone--warning {
+  background: var(--warning-bg);
+  color: var(--warning-fg);
+}
+
 /* "Acción positiva" de `compras`/`caja` — no es `--success`: comparte familia
    pero es otro matiz (`--compras-ok-*`, tokens.css). 4 copias byte a byte
    (auditoría FE-08, fase final): `CashStatusPill.open`, el hover

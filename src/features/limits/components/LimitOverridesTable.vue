@@ -35,7 +35,15 @@ defineEmits<{ retry: []; revoke: [override: CompanyLimitOverrideResponse] }>()
 
 <template>
   <AppTable
-    :headers="['Eje', 'Techo', 'Rige desde', 'Hasta', 'Motivo', 'Estado', 'Acciones']"
+    :headers="[
+      'Eje',
+      { label: 'Techo', align: 'num' },
+      'Rige desde',
+      'Hasta',
+      'Motivo',
+      'Estado',
+      'Acciones',
+    ]"
     :empty="overrides.length === 0"
     :loading="loading"
     :error="error"

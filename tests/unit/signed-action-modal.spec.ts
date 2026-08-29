@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import ModalShell from '@/components/ui/ModalShell.vue'
+import { useAuthStore } from '@/features/auth/stores/auth.store'
+import type { MeResponse } from '@/features/auth/types/auth.types'
 import SignedActionModal, {
   SIGNED_ACTION_MISSING_REASON,
   signedActionMissingNote,
@@ -38,7 +40,29 @@ const REASONS = [
 
 const CONFIRM_LABEL = 'Revocar la excepción'
 
-function montar(props: Record<string, unknown> = {}) {
+/**
+ * La identidad que `GET /auth/me` deja en el store. Se siembra en cada montaje
+ * porque **sin sesión el modal ya no deja firmar** (ver el bloque «la firma se
+ * muestra y no se elige», más abajo): un montaje sin identidad no probaría la
+ * validación del motivo, probaría la ausencia de sesión.
+ */
+const FIRMANTE: MeResponse = {
+  id: 7,
+  type: 'SYSTEM_USER',
+  companyId: null,
+  name: 'Ana Ruiz',
+  employeeCode: null,
+  permissions: [],
+  mustChangePassword: false,
+  branchIds: [],
+}
+
+function sembrarFirmante(identity: MeResponse | null = FIRMANTE) {
+  useAuthStore().me = identity
+}
+
+function montar(props: Record<string, unknown> = {}, identity: MeResponse | null = FIRMANTE) {
+  sembrarFirmante(identity)
   return mount(SignedActionModal, {
     props: {
       open: true,
@@ -263,5 +287,68 @@ describe('SignedActionModal · cada apertura empieza en blanco', () => {
     await wrapper.setProps({ open: true })
 
     expect(wrapper.find('[data-error-anchor]').exists()).toBe(false)
+  })
+})
+
+/**
+ * <b>La tercera regla del plano: la firma se muestra y no se elige.</b>
+ *
+ * <p>El modal implementaba cuatro de las cinco y omitía esta, así que en 12 de
+ * las 13 pantallas que firman el operador confirmaba una condonación de deuda o
+ * una devolución <b>sin ver su propio nombre al lado del botón</b>. Con un solo
+ * rol de plataforma para 216 operaciones, la firma no protege de nada
+ * técnicamente: es todo el control que hay, y un control que no se ve no disuade.
+ */
+describe('SignedActionModal · la firma se muestra y no se elige', () => {
+  it('dice quién firma, con su nombre, sin que la pantalla tenga que pasarlo', () => {
+    const wrapper = montar()
+
+    expect(wrapper.text()).toContain('Firma')
+    expect(wrapper.text()).toContain('Ana Ruiz')
+  })
+
+  it('avisa de que la firma queda escrita y no se puede cambiar', () => {
+    expect(montar().text()).toContain('no se puede cambiar')
+  })
+
+  it('no ofrece ningún selector de «quién autoriza»: eso convertiría la firma en una afirmación', () => {
+    const wrapper = montar()
+
+    // El único combobox del modal es el de motivos.
+    expect(wrapper.findAllComponents(AppSelect)).toHaveLength(1)
+  })
+
+  it('sin nombre resuelto dice el identificador y NO inventa uno (R14)', () => {
+    const wrapper = montar({}, { ...FIRMANTE, name: '' })
+
+    expect(wrapper.text()).toContain('usuario #7')
+  })
+})
+
+describe('SignedActionModal · una sesión que no identifica a nadie no firma', () => {
+  it('lo dice con un aviso en role="alert" en vez de dejar que lo rechace el servidor', () => {
+    const wrapper = montar({}, null)
+
+    const aviso = wrapper
+      .findAll('[role="alert"]')
+      .find((n) => n.text().includes('no se puede firmar'))
+    expect(aviso).toBeDefined()
+    expect(aviso?.text()).toContain('Vuelve a iniciar sesión')
+  })
+
+  it('es la ÚNICA excepción a «el botón no se deshabilita»: aquí no falta un campo, falta la sesión', () => {
+    const wrapper = montar({}, null)
+
+    expect(boton(wrapper, CONFIRM_LABEL).attributes('disabled')).toBeDefined()
+  })
+
+  it('tampoco firma por la puerta de atrás que abre defineExpose', async () => {
+    const wrapper = montar({}, null)
+
+    await elegirMotivo(wrapper, 'PRICE_MATCH')
+    ;(wrapper.vm as unknown as { submit: () => void }).submit()
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.emitted('submit')).toBeUndefined()
   })
 })

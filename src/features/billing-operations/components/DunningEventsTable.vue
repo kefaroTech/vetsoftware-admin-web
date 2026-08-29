@@ -3,15 +3,13 @@ import AppBadge from '@/components/ui/AppBadge.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import CompanyRef from '@/components/ui/CompanyRef.vue'
-import { formatDate } from '@/composables/format'
-import { formatDocumentAmount } from '../composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
 import {
   DUNNING_CHANNEL_LABEL,
   DUNNING_EVENT_LABEL,
   DUNNING_EVENT_VARIANT,
   type DunningEventResponse,
 } from '../types/billing-operations.types'
-
 /**
  * **Gestión de mora**: el feed global de avisos.
  *
@@ -45,13 +43,14 @@ defineEmits<{ retry: []; 'update:page': [page: number] }>()
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      money
       :headers="[
         'Ocurrió',
         'Empresa',
         'Contrato',
         'Documento',
         'Evento',
-        'Días de mora',
+        { label: 'Días de mora', align: 'num' },
         'Canal',
         'Detalle',
       ]"
@@ -75,7 +74,7 @@ defineEmits<{ retry: []; 'update:page': [page: number] }>()
           <template v-if="event.billingDocument">
             {{ event.billingDocument.documentNumber ?? `#${event.billingDocument.id}` }}
             <span v-if="event.billingDocument.balanceAmount !== null" class="ds-meta saldo">
-              saldo {{ formatDocumentAmount(event.billingDocument.balanceAmount) }}
+              saldo {{ formatAmount(event.billingDocument.balanceAmount) }}
             </span>
           </template>
           <template v-else>—</template>
@@ -93,7 +92,7 @@ defineEmits<{ retry: []; 'update:page': [page: number] }>()
     </AppTable>
 
     <AppPagination
-      v-if="!loading && !error && total > 0"
+      v-if="!error && total > 0"
       :page="page"
       :page-size="pageSize"
       :total="total"

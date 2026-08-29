@@ -2532,6 +2532,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/quotes/self-serve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["selfServe"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/quotes/expire-overdue": {
         parameters: {
             query?: never;
@@ -7412,6 +7428,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["plans"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/permissions/by-company": {
         parameters: {
             query?: never;
@@ -10775,6 +10807,11 @@ export interface components {
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
+            /**
+             * Format: int32
+             * @description Dias de prueba que concede el articulo. Nulo significa SIN prueba, no «no se sabe»: chk_catalog_items_trial_policy obliga a que un NEVER_FREE tenga la columna vacia. La prueba vence por linea, no por contrato.
+             */
+            defaultTrialDays?: number;
         };
         UpdateCatalogItemLimitRequest: {
             /** @enum {string} */
@@ -13094,6 +13131,17 @@ export interface components {
         AcceptQuoteRequest: {
             /** Format: email */
             acceptedByEmail: string;
+        };
+        SelfServeQuoteLineRequest: {
+            code: string;
+            /** Format: int32 */
+            quantity?: number;
+        };
+        SelfServeQuoteRequest: {
+            clientRequestId: string;
+            /** @enum {string} */
+            billingCycle: "MONTHLY" | "ANNUAL";
+            lines: components["schemas"]["SelfServeQuoteLineRequest"][];
         };
         CreatePurchaseOrderRequest: {
             /** Format: int64 */
@@ -16019,6 +16067,48 @@ export interface components {
             secondFrom?: string;
             /** Format: date */
             secondTo?: string;
+        };
+        PublicPlanCapacityResponse: {
+            code: string;
+            name: string;
+            /** @description Codigo del eje: USER, BRANCH... */
+            unit: string;
+            /** Format: int32 */
+            included: number;
+            /** @description Precio de la unidad adicional al mes; nulo si no se vende suelta en ese ciclo */
+            monthlyExtraUnitAmount?: number;
+            /** @description Precio de la unidad adicional al ano; nulo si no se vende suelta en ese ciclo */
+            annualExtraUnitAmount?: number;
+        };
+        PublicPlanCatalogResponse: {
+            /** @description ISO 4217; nulo si no hay tarifa vigente */
+            currency?: string;
+            /**
+             * Format: date
+             * @description Desde cuando rigen estos precios; nulo si no hay tarifa vigente
+             */
+            priceValidFrom?: string;
+            plans: components["schemas"]["PublicPlanResponse"][];
+        };
+        PublicPlanIncludedResponse: {
+            code: string;
+            name: string;
+            /** Format: int32 */
+            trialDays?: number;
+        };
+        PublicPlanResponse: {
+            code: string;
+            name: string;
+            /** @description Descripcion comercial corta del paquete */
+            tagline?: string;
+            monthlyFromAmount?: number;
+            annualFromAmount?: number;
+            setupAmount?: number;
+            taxRate?: number;
+            /** @enum {string} */
+            taxTreatment?: "TAXED" | "EXEMPT" | "EXCLUDED";
+            includes: components["schemas"]["PublicPlanIncludedResponse"][];
+            capacities: components["schemas"]["PublicPlanCapacityResponse"][];
         };
         PageResponsePaymentRefundResponse: {
             content?: components["schemas"]["PaymentRefundResponse"][];
@@ -24306,6 +24396,30 @@ export interface operations {
         responses: {
             /** @description OK */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuoteResponse"];
+                };
+            };
+        };
+    };
+    selfServe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SelfServeQuoteRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32762,6 +32876,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["SubscriptionItemOverlapResponse"][];
+                };
+            };
+        };
+    };
+    plans: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicPlanCatalogResponse"];
                 };
             };
         };

@@ -370,7 +370,7 @@ defineExpose({ openCreatePriceList })
         </tr>
       </AppTable>
       <AppPagination
-        v-if="!priceLists.loading.value && !priceLists.error.value && priceLists.total.value > 0"
+        v-if="!priceLists.error.value && priceLists.total.value > 0"
         :page="priceLists.page.value"
         :page-size="priceLists.pageSize"
         :total="priceLists.total.value"

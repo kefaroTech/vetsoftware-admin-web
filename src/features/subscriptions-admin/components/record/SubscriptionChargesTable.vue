@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppTable from '@/components/ui/AppTable.vue'
-import { formatDate } from '@/composables/format'
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
 import {
   chargeAmountClass,
   chargeAmountReading,
@@ -39,7 +38,7 @@ import ChargeChain from './ChargeChain.vue'
  *
  * <p>Sin símbolo de moneda, y no es un descuido: `SubscriptionChargeResponse` no
  * declara `currency` —igual que `BillingDocumentResponse`—, así que se usa
- * `formatDocumentAmount()`, el mismo formateador que ya eligió la pantalla de
+ * `formatAmount()`, el mismo formateador que ya eligió la pantalla de
  * cobranza por esta misma razón. Rotular «$» sobre una cifra cuya divisa el
  * servidor no declara es inventar el dato.
  *
@@ -76,11 +75,12 @@ defineEmits<{ retry: []; focusDocument: [documentId: number] }>()
 
 <template>
   <AppTable
+    money
     :headers="[
       'Concepto',
       'Periodo de servicio',
-      'Cantidad × unitario',
-      'Importe',
+      { label: 'Cantidad × unitario', align: 'num' },
+      { label: 'Importe', align: 'num' },
       'Estado',
       'De dónde sale',
     ]"
@@ -136,7 +136,7 @@ defineEmits<{ retry: []; focusDocument: [documentId: number] }>()
         <span class="ds-meta bloque">Cuándo se prestó el servicio</span>
       </td>
 
-      <td class="ds-num">{{ charge.quantity }} × {{ formatDocumentAmount(charge.unitAmount) }}</td>
+      <td class="ds-num">{{ charge.quantity }} × {{ formatAmount(charge.unitAmount) }}</td>
 
       <td class="ds-num">
         <span :class="chargeAmountClass(charge)">{{ chargeAmountReading(charge).amount }}</span>

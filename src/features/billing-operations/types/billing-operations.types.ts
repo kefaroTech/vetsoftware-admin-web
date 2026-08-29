@@ -42,9 +42,10 @@ export interface BillingDocumentTaxSummary {
  * <p>⚠️ El contrato **no incluye moneda**. No se añade localmente ni se rotula
  * el importe con `COP` a mano: inventar una divisa en una pantalla contable es
  * peor que no ponerla. Por eso los importes de un documento se pintan con
- * `formatDocumentAmount()` (sin símbolo) y no con `formatCurrency()`, que sí se
- * usa en los pagos porque `SubscriptionPaymentResponse.currency` sí existe. Está
- * abierto como issue de contrato.
+ * `formatAmount()` (sin símbolo) y no con `formatMoney()`, que sí se usa en los
+ * pagos porque `SubscriptionPaymentResponse.currency` sí existe. Esas dos son
+ * las únicas funciones de dinero del producto y su regla de elección está
+ * escrita en `src/composables/format.ts`. Está abierto como issue de contrato.
  *
  * <p>`companyId` sí lo manda el backend, y es lo que permite ejecutar las
  * escrituras de `/system/subscription-billing/companies/{companyId}/**` sin

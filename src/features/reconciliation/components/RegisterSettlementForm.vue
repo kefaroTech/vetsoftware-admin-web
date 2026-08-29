@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
-import { formatCurrency } from '@/composables/format'
+import { formatAmount } from '@/composables/format'
 import { length } from '@/composables/validators'
 import type { RegisterGatewaySettlementRequest } from '../types/reconciliation.types'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
 /**
  * Dar de alta una liquidación de la pasarela.
@@ -147,6 +148,8 @@ defineExpose({ validate, isDirty })
 
 <template>
   <form class="ds-stack ds-stack--16" @submit.prevent="submit">
+    <MoneyScopeNote />
+
     <div class="ds-grid-2">
       <AppInput
         v-model="form.gateway"
@@ -213,9 +216,9 @@ defineExpose({ validate, isDirty })
 
     <p v-if="preview" class="ds-meta">
       Con estas cifras, cobrar costó
-      <span class="ds-num">{{ formatCurrency(preview.cost) }}</span>
+      <span class="ds-num">{{ formatAmount(preview.cost) }}</span>
       y el neto debería ser
-      <span class="ds-num">{{ formatCurrency(preview.expectedNet) }}</span>
+      <span class="ds-num">{{ formatAmount(preview.expectedNet) }}</span>
       .
     </p>
 

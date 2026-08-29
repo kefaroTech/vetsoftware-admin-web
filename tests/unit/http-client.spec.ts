@@ -405,10 +405,28 @@ describe('getProblemDetailMessage', () => {
     expect(getProblemDetailMessage(error)).toBe(esperado)
   })
 
-  it('cae al mensaje de axios cuando el cuerpo no es un ProblemDetail', () => {
-    const error = new AxiosError('Network Error', AxiosError.ERR_NETWORK)
+  it('con respuesta del servidor pero sin ProblemDetail en el cuerpo, cae al mensaje de axios', () => {
+    // Hubo respuesta -el servidor SÍ contestó, solo que sin cuerpo ProblemDetail-,
+    // así que `error.message` aporta algo real (aquí, el código de estado) y se
+    // prefiere sobre el `fallback` genérico del llamador.
+    const error = httpError({ headers: {} } as InternalAxiosRequestConfig, 500, 'texto plano')
 
-    expect(getProblemDetailMessage(error)).toBe('Network Error')
+    expect(getProblemDetailMessage(error, 'Algo salió mal')).toBe(
+      'Request failed with status code 500',
+    )
+  })
+
+  it('sin respuesta del servidor, usa el fallback del llamador en vez de "Network Error"', () => {
+    // Defecto real: sin `error.response` (caída de red, DNS, CORS) no hay nada
+    // que el servidor haya dicho, así que el `error.message` crudo de axios
+    // ("Network Error", sin traducir) tapaba el fallback en español exactamente
+    // en el caso para el que se escribió. Ver useRegistroGeo.loadCountries en el
+    // front tenant.
+    const error = networkError({ headers: {} } as InternalAxiosRequestConfig)
+
+    expect(getProblemDetailMessage(error, 'No se pudieron cargar los países')).toBe(
+      'No se pudieron cargar los países',
+    )
   })
 
   it('usa el texto de respaldo ante algo que no es un error de axios', () => {
@@ -523,22 +541,25 @@ describe('lectores del ProblemDetail', () => {
  * paridad TR-02 con el front del tenant, y se ejercita por su contrato público,
  * que es exactamente como la usa `withBranchBody` allí.
  *
- * ⚠️ TRES DE ESTAS PRUEBAS ESTÁN EN `it.skip`, y no porque fallen de forma
- * intermitente: fallan siempre, y tienen razón. La marca vive en la IDENTIDAD
- * del objeto, pero axios copia el cuerpo en `mergeConfig` (`data:
- * valueFromConfig2` → `getMergedValue(undefined, source)` →
- * `utils.merge({}, source)` para todo objeto plano) ANTES de que corra el
- * interceptor, así que `pendingBranchBodies.has(config.data)` consulta el
- * WeakSet con una referencia que nunca se metió en él y jamás da `true`. El
- * mecanismo está inerte y el 400 en arranque en frío sigue vivo.
- *
  *   https://github.com/kefaroTech/vetsoftware-public-web/issues/215
  *
- * No se arregla aquí: `http.client.ts` es gemelo TR-02 y el cambio va en los dos
- * repos. Las tres pruebas quedan escritas porque SON el criterio de aceptación
- * del arreglo: cuando la marca sobreviva al clon, se les quita el `.skip` y
- * pasan sin tocar una línea. Las que quedan activas son las que sí describen el
- * comportamiento de hoy.
+ * Las pruebas de abajo pasan hoy porque la marca vive en un SÍMBOLO propio del
+ * cuerpo (ver el comentario sobre `PENDING_BRANCH_BODY` en `http.client.ts`),
+ * que sí sobrevive al clon que axios hace en `mergeConfig` ANTES de que corra
+ * este interceptor. Un WeakSet por identidad —la implementación anterior, y la
+ * que el front del tenant tuvo divergida hasta que se corrigió para igualar
+ * esta— NO las pasaría: `pendingBranchBodies.has(config.data)` consultaría el
+ * WeakSet con una referencia que nunca se metió en él (`config.data` es la
+ * copia, no el objeto que `markPendingBranchBody` marcó) y el interceptor
+ * jamás esperaría ni inyectaría `branchId`. Si alguna de estas pruebas empieza
+ * a fallar, es esa regresión: verificado corriendo esta misma suite contra una
+ * reversión puntual a `WeakSet<object>` — fallan CINCO de las siete, todas
+ * menos las dos que prueban precisamente lo contrario (que NO se espera: «una
+ * lectura no espera a la sede» y «un cuerpo que no es un objeto nunca entra a
+ * la espera»). De las cinco, dos fallan por una razón más sutil que «no
+ * espera»: con el WeakSet inerte el interceptor nunca llama a
+ * `branchResolver()`, así que «envía el cuerpo tal cual…» y «marcar un cuerpo
+ * no lo altera…» no ven un `resolutor` invocado ni un `branchId` inyectado.
  */
 describe('sede activa en las escrituras (issue #215)', () => {
   /** Lo que el transporte recibe de verdad: axios ya serializó el cuerpo a JSON. */
@@ -561,8 +582,9 @@ describe('sede activa en las escrituras (issue #215)', () => {
     setBranchResolver(async () => null)
   })
 
-  // SKIP · public-web#215 — el interceptor no espera: axios copió el cuerpo y la
-  // marca se perdió con la identidad. Es el criterio de aceptación del arreglo.
+  // Regresaría a fallar con un WeakSet por identidad: axios copia el cuerpo en
+  // `mergeConfig` antes del interceptor, y la marca se perdería con la
+  // identidad.
   it('retiene la escritura marcada hasta que la sede se resuelve, y la envía con ella', async () => {
     const orden: string[] = []
     let resolverSede!: () => void
@@ -600,10 +622,11 @@ describe('sede activa en las escrituras (issue #215)', () => {
     expect(loader.pending).toBe(0)
   })
 
-  // SKIP · public-web#215 — hoy pasaría, pero en vacío: el cuerpo sale sin
-  // `branchId` porque el interceptor no lo mira, no porque el resolutor haya
-  // dicho que no hay sede. Un verde así certifica el resultado correcto por el
-  // motivo equivocado, que es peor que un rojo.
+  // Regresaría a fallar con un WeakSet por identidad: el interceptor nunca
+  // miraría la marca, así que `resolutor` no se llamaría — falla el
+  // `toHaveBeenCalledTimes(1)` de abajo, no el resultado del cuerpo (que por
+  // casualidad seguiría saliendo igual). El `expect` sobre `resolutor` es lo
+  // que distingue un verde correcto de uno por el motivo equivocado.
   it('envía el cuerpo tal cual cuando el usuario no tiene ninguna sede operable', async () => {
     // Sin sede no hay nada que añadir, y añadir `branchId: null` sería peor que
     // omitirlo: el backend cae a la sede Principal cuando no viene.
@@ -620,6 +643,9 @@ describe('sede activa en las escrituras (issue #215)', () => {
     expect(loader.pending).toBe(0)
   })
 
+  // Regresaría a fallar con un WeakSet por identidad, y no en el símbolo:
+  // `branchId: 7` no llegaría al cuerpo enviado porque el interceptor nunca
+  // esperaría al resolutor.
   it('marcar un cuerpo no lo altera el objeto del llamador ni deja un símbolo pegado', async () => {
     // La marca vive en un símbolo del propio cuerpo (issue #215: es lo único
     // que sobrevive al clon de axios), y por eso esta prueba importa: hay que
@@ -687,10 +713,10 @@ describe('sede activa en las escrituras (issue #215)', () => {
     expect(adapter).toHaveBeenCalledTimes(1)
   })
 
-  // SKIP · public-web#215 — hoy no se bloquean porque NADA se bloquea. Esta
-  // prueba solo dice algo el día en que la espera funcione, y entonces es la más
-  // importante de las tres: sin ella, el arreglo puede dejar la aplicación sin
-  // arrancar y ningún otro test lo vería.
+  // La más importante de las que dependen de la espera: con un WeakSet inerte
+  // pasaría igual, porque nada se bloquearía —pero por eso mismo no probaría
+  // nada. Si la espera funciona pero le falta esta exclusión, la aplicación
+  // no arranca y ningún otro test lo vería: se colgaría, no fallaría un assert.
   it('las peticiones de arranque no se bloquean a sí mismas', async () => {
     // La garantía que sostiene todo lo demás. El resolutor real (`branch.store`)
     // resuelve la sede HACIENDO peticiones: /auth/me y el listado de sedes. Si
@@ -720,8 +746,9 @@ describe('sede activa en las escrituras (issue #215)', () => {
     expect(loader.pending).toBe(0)
   })
 
-  // SKIP · public-web#215 — la marca no llega a consumirse porque no llega a
-  // encontrarse.
+  // Regresaría a fallar con un WeakSet por identidad: la marca nunca llegaría
+  // a encontrarse (ver el comentario de arriba), así que tampoco llegaría a
+  // consumirse, y este test lo notaría por partida doble.
   it('la marca se consume: reenviar el mismo cuerpo ya no espera', async () => {
     // El WeakSet se limpia ANTES de esperar. Sin eso, el reintento de una
     // escritura fallida —o el mismo objeto reutilizado por el formulario—

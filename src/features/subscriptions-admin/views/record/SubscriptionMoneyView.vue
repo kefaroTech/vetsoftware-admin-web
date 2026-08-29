@@ -2,7 +2,6 @@
 import { computed, nextTick, onMounted, ref } from 'vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import { ICONS } from '@/constants/icons'
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
 import { useSubscriptionRecord } from '../../composables/useSubscriptionRecord'
 import { useSubscriptionMoney } from '../../composables/useSubscriptionMoney'
 import {
@@ -21,6 +20,8 @@ import SubscriptionPaymentsTable from '../../components/record/SubscriptionPayme
 import RegisterPaymentModal from '../../components/record/RegisterPaymentModal.vue'
 import type { SubscriptionChargeStatus } from '../../types/subscription-money.types'
 import type { RegisterSubscriptionPaymentRequest } from '../../types/subscription-money.types'
+import { formatAmount } from '@/composables/format'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
 /**
  * `/dinero` — <b>devengado · facturado · cobrado</b> (§3.5 y §4.4.2, tarea W2-E).
@@ -235,6 +236,7 @@ async function onSubmitPayment(payload: RegisterSubscriptionPaymentRequest) {
       </dl>
 
       <p class="ds-meta">{{ SIGN_CONVENTION_NOTE }}</p>
+      <MoneyScopeNote />
     </div>
 
     <!-- 2 · DEVENGADO. -->
@@ -254,11 +256,11 @@ async function onSubmitPayment(payload: RegisterSubscriptionPaymentRequest) {
       <dl class="ds-detail-grid">
         <div>
           <dt class="ds-label">Devengado sin facturar</dt>
-          <dd class="valor ds-num">{{ formatDocumentAmount(accrued.pendingAmount) }}</dd>
+          <dd class="valor ds-num">{{ formatAmount(accrued.pendingAmount) }}</dd>
         </div>
         <div>
           <dt class="ds-label">Ya facturado</dt>
-          <dd class="valor ds-num">{{ formatDocumentAmount(accrued.invoicedAmount) }}</dd>
+          <dd class="valor ds-num">{{ formatAmount(accrued.invoicedAmount) }}</dd>
         </div>
         <div>
           <dt class="ds-label">Cargos anulados</dt>
@@ -315,7 +317,7 @@ async function onSubmitPayment(payload: RegisterSubscriptionPaymentRequest) {
       />
 
       <AppPagination
-        v-if="!loadingCharges && !chargesError && chargesTotal > 0"
+        v-if="!chargesError && chargesTotal > 0"
         :page="chargesPage"
         :page-size="chargesPageSize"
         :total="chargesTotal"
@@ -365,7 +367,7 @@ async function onSubmitPayment(payload: RegisterSubscriptionPaymentRequest) {
       />
 
       <AppPagination
-        v-if="!loadingDocuments && !documentsError && documentsTotal > 0"
+        v-if="!documentsError && documentsTotal > 0"
         :page="documentsPage"
         :page-size="documentsPageSize"
         :total="documentsTotal"
@@ -389,7 +391,7 @@ async function onSubmitPayment(payload: RegisterSubscriptionPaymentRequest) {
       <dl class="ds-detail-grid">
         <div>
           <dt class="ds-label">Cobrado (solo pagos confirmados)</dt>
-          <dd class="valor ds-num">{{ formatDocumentAmount(collected.confirmedAmount) }}</dd>
+          <dd class="valor ds-num">{{ formatAmount(collected.confirmedAmount) }}</dd>
         </div>
         <div>
           <dt class="ds-label">Registrados que no cuentan</dt>
@@ -414,7 +416,7 @@ async function onSubmitPayment(payload: RegisterSubscriptionPaymentRequest) {
       />
 
       <AppPagination
-        v-if="!loadingPayments && !paymentsError && paymentsTotal > 0"
+        v-if="!paymentsError && paymentsTotal > 0"
         :page="paymentsPage"
         :page-size="paymentsPageSize"
         :total="paymentsTotal"

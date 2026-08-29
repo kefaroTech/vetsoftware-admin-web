@@ -32,6 +32,13 @@ export interface CatalogItemResponse {
   status: CatalogItemStatus
   createdDate: string
   enabled: boolean
+  /**
+   * Días de prueba que concede el artículo. `null` significa SIN prueba, no «no se sabe»:
+   * `chk_catalog_items_trial_policy` obliga a que un `NEVER_FREE` tenga la columna vacía.
+   * La prueba vence por LÍNEA de concesión, no por contrato: Caja puede vencer el día 14 y
+   * Agenda el 30 dentro del mismo contrato.
+   */
+  defaultTrialDays: number | null
 }
 
 export interface CreateCatalogItemRequest {

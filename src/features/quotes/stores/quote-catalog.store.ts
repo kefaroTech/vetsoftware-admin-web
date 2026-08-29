@@ -31,6 +31,7 @@ export const useQuoteCatalogStore = defineStore('quoteCatalog', () => {
   const error = ref<string | null>(null)
 
   let inFlight: Promise<void> | null = null
+  let priceListsInFlight: Promise<void> | null = null
 
   async function fetchAll(): Promise<void> {
     loading.value = true
@@ -52,6 +53,42 @@ export const useQuoteCatalogStore = defineStore('quoteCatalog', () => {
     }
   }
 
+  /**
+   * Solo las tarifas, sin los artículos.
+   *
+   * <p>Existe porque hay pantallas que necesitan la divisa de una tarifa y <b>no</b> el catálogo
+   * de artículos: el listado de cotizaciones y el detalle de una. `QuoteResponse` y
+   * `QuoteSummaryResponse` traen `priceListId` pero no `currency`, así que la divisa —que el
+   * contrato SÍ declara, en `PriceListResponse.currency`— hay que resolverla por aquí. Pedir
+   * además 200 artículos para pintar un símbolo sería pagar una petición por nada.
+   *
+   * <p>Comparte la lista y la promesa con `ensureLoaded()` en vez de cachear las tarifas por
+   * segunda vez en otro store: dos caches de lo mismo es exactamente la deriva que este
+   * repositorio persigue.
+   */
+  function ensurePriceListsLoaded(): Promise<void> {
+    if (priceLists.value.length > 0) return Promise.resolve()
+    priceListsInFlight ??= fetchPriceLists().finally(() => {
+      priceListsInFlight = null
+    })
+    return priceListsInFlight
+  }
+
+  async function fetchPriceLists(): Promise<void> {
+    loading.value = true
+    error.value = null
+    try {
+      const page = await priceListsApi.listAll(0, CATALOG_PAGE_SIZE)
+      priceLists.value = page.content
+    } catch (e: unknown) {
+      error.value = getProblemDetailMessage(e, 'No se pudieron cargar las tarifas')
+      priceLists.value = []
+      throw e
+    } finally {
+      loading.value = false
+    }
+  }
+
   /** Carga si la cache está vacía; si ya hay una petición en vuelo, se engancha a ella. */
   function ensureLoaded(): Promise<void> {
     if (items.value.length > 0 && priceLists.value.length > 0) return Promise.resolve()
@@ -66,8 +103,9 @@ export const useQuoteCatalogStore = defineStore('quoteCatalog', () => {
     items.value = []
     priceLists.value = []
     inFlight = null
+    priceListsInFlight = null
     return ensureLoaded()
   }
 
-  return { items, priceLists, loading, error, ensureLoaded, refresh }
+  return { items, priceLists, loading, error, ensureLoaded, ensurePriceListsLoaded, refresh }
 })

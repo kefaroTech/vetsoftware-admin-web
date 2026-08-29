@@ -5,7 +5,6 @@ import AppSelect from '@/components/ui/AppSelect.vue'
 import ModalShell from '@/components/ui/ModalShell.vue'
 import ErrorSummary, { toSummaryItems } from '@/components/feedback/ErrorSummary.vue'
 import { ICONS } from '@/constants/icons'
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
 import {
   newRequestId,
   parseAmount,
@@ -21,7 +20,8 @@ import {
   APPLICATION_SOURCE_FORM,
   type ApplyBillingDocumentRequest,
 } from '../types/document-money.types'
-
+import { formatAmount } from '@/composables/format'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 /**
  * <b>Registrar a mano qué salda este documento.</b>
  *
@@ -137,7 +137,7 @@ const overpays = computed(() => {
 
 const subtitle = computed(() => {
   const name = props.documentNumber ?? 'Documento #' + props.documentId
-  return name + ' · saldo ' + formatDocumentAmount(props.balanceAmount)
+  return name + ' · saldo ' + formatAmount(props.balanceAmount)
 })
 
 function submit() {
@@ -179,6 +179,8 @@ function isDirty() {
       <form class="ds-stack ds-stack--16" @submit.prevent="submit">
         <ErrorSummary ref="summary" :items="summaryItems" />
 
+        <MoneyScopeNote />
+
         <AppSelect
           :id="ids.sourceKind"
           v-model="form.sourceKind"
@@ -209,8 +211,8 @@ function isDirty() {
         />
 
         <p v-if="overpays" class="ds-meta nota">
-          El importe supera el saldo vivo del documento ({{ formatDocumentAmount(balanceAmount) }}).
-          Se puede registrar —manda el saldo del servidor—, pero comprueba que no sobra un dígito.
+          El importe supera el saldo vivo del documento ({{ formatAmount(balanceAmount) }}). Se
+          puede registrar —manda el saldo del servidor—, pero comprueba que no sobra un dígito.
         </p>
 
         <AppInput

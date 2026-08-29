@@ -240,9 +240,7 @@ async function toggleItem(item: CatalogItemResponse) {
         </tr>
       </AppTable>
       <AppPagination
-        v-if="
-          !catalogItems.loading.value && !catalogItems.error.value && catalogItems.total.value > 0
-        "
+        v-if="!catalogItems.error.value && catalogItems.total.value > 0"
         :page="catalogItems.page.value"
         :page-size="catalogItems.pageSize"
         :total="catalogItems.total.value"

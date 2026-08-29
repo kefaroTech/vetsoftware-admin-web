@@ -2,8 +2,7 @@
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import { ICONS } from '@/constants/icons'
-import { formatDate } from '@/composables/format'
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
 import type { BillingDocumentResponse } from '@/features/billing-operations/types/billing-operations.types'
 import {
   correctionChainText,
@@ -14,7 +13,6 @@ import {
   ISSUE_STATUS_LABEL,
   ISSUE_STATUS_VARIANT,
 } from '../../types/subscription-money.types'
-
 /**
  * <b>Facturado</b>: se emitió el documento. Una fila por cuenta de cobro, nota
  * crédito o nota débito.
@@ -61,7 +59,15 @@ defineEmits<{ retry: []; focusDocument: [documentId: number] }>()
 
 <template>
   <AppTable
-    :headers="['Documento', 'Periodo facturado', 'Total', 'Queda por cobrar', 'Emisión', '']"
+    money
+    :headers="[
+      'Documento',
+      'Periodo facturado',
+      { label: 'Total', align: 'num' },
+      { label: 'Queda por cobrar', align: 'num' },
+      'Emisión',
+      { label: '', align: 'actions' },
+    ]"
     :empty="rows.length === 0"
     :loading="loading"
     :error="error"
@@ -110,7 +116,7 @@ defineEmits<{ retry: []; focusDocument: [documentId: number] }>()
         </span>
       </td>
 
-      <td class="ds-num">{{ formatDocumentAmount(document.totalAmount) }}</td>
+      <td class="ds-num">{{ formatAmount(document.totalAmount) }}</td>
 
       <td class="ds-num">
         {{ documentBalanceReading(document).amount }}

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import AppTable from '@/components/ui/AppTable.vue'
+import type { AppTableHeader } from '@/components/ui/AppTable.vue'
 import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
-import { formatDate } from '@/composables/format'
-import { formatDocumentAmount } from '@/features/billing-operations/composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
 import {
   CHARGE_TYPE_PRESENTATION,
   type SubscriptionChargeResponse,
@@ -50,7 +50,12 @@ defineProps<{
 
 defineEmits<{ retry: [] }>()
 
-const HEADERS = ['Concepto', 'Cuándo se prestó', 'Cantidad × unitario', 'Subtotal']
+const HEADERS: AppTableHeader[] = [
+  'Concepto',
+  'Cuándo se prestó',
+  { label: 'Cantidad × unitario', align: 'num' },
+  { label: 'Subtotal', align: 'num' },
+]
 </script>
 
 <template>
@@ -70,8 +75,8 @@ const HEADERS = ['Concepto', 'Cuándo se prestó', 'Cantidad × unitario', 'Subt
       :reason="
         `El servidor no sabe devolver «los cargos del documento»: solo devuelve los del contrato ` +
         `#${subscriptionId}. Los que se cruzaron aquí suman ` +
-        `${formatDocumentAmount(lines.subtotal)} y el documento dice ` +
-        `${formatDocumentAmount(lines.documentSubtotal)}, así que el cruce está incompleto` +
+        `${formatAmount(lines.subtotal)} y el documento dice ` +
+        `${formatAmount(lines.documentSubtotal)}, así que el cruce está incompleto` +
         (lines.truncated
           ? ' — el contrato tiene más cargos de los que caben en una consulta.'
           : '.')
@@ -82,6 +87,7 @@ const HEADERS = ['Concepto', 'Cuándo se prestó', 'Cantidad × unitario', 'Subt
 
     <AppTable
       v-else
+      money
       :headers="HEADERS"
       :empty="!lines || lines.rows.length === 0"
       :loading="loading"
@@ -106,21 +112,19 @@ const HEADERS = ['Concepto', 'Cuándo se prestó', 'Cantidad × unitario', 'Subt
         <td>
           {{ formatDate(charge.servicePeriodStart) }} → {{ formatDate(charge.servicePeriodEnd) }}
         </td>
-        <td class="ds-num">
-          {{ charge.quantity }} × {{ formatDocumentAmount(charge.unitAmount) }}
-        </td>
-        <td class="ds-num">{{ formatDocumentAmount(charge.subtotalAmount) }}</td>
+        <td class="ds-num">{{ charge.quantity }} × {{ formatAmount(charge.unitAmount) }}</td>
+        <td class="ds-num">{{ formatAmount(charge.subtotalAmount) }}</td>
       </tr>
     </AppTable>
 
     <dl v-if="lines && lines.complete && lines.rows.length > 0" class="ds-detail-grid cuentas">
       <div>
         <dt class="ds-label">Suma de los renglones</dt>
-        <dd class="ds-num">{{ formatDocumentAmount(lines.subtotal) }}</dd>
+        <dd class="ds-num">{{ formatAmount(lines.subtotal) }}</dd>
       </div>
       <div>
         <dt class="ds-label">Subtotal del documento</dt>
-        <dd class="ds-num ds-text-strong">{{ formatDocumentAmount(lines.documentSubtotal) }}</dd>
+        <dd class="ds-num ds-text-strong">{{ formatAmount(lines.documentSubtotal) }}</dd>
       </div>
     </dl>
   </section>

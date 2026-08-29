@@ -51,7 +51,7 @@ import SignedActionModal, {
   type SignedActionSignature,
 } from '@/components/ui/SignedActionModal.vue'
 import { useAuthStore } from '@/features/auth/stores/auth.store'
-import { formatCurrency } from '@/composables/format'
+import { formatAmount } from '@/composables/format'
 import ExternalAmountsGrid from './ExternalAmountsGrid.vue'
 import VerdictLine from './VerdictLine.vue'
 import {
@@ -185,7 +185,7 @@ function submit(signature: SignedActionSignature) {
         <ExternalAmountsGrid :reconciliation="reconciliation" />
         <p class="ds-meta">
           Devengado por nosotros:
-          <span class="ds-num">{{ formatCurrency(reconciliation.computedTotal) }}</span>
+          <span class="ds-num">{{ formatAmount(reconciliation.computedTotal) }}</span>
         </p>
       </div>
     </template>

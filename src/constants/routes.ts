@@ -10,6 +10,18 @@ export const ROUTE_NAMES = {
   COMPANY_DETAIL: 'company-detail',
   COMMERCIAL_CATALOG: 'commercial-catalog',
   SUBSCRIPTIONS_ADMIN: 'subscriptions-admin',
+  /**
+   * El expediente de un contrato: `/suscripciones/:companyId/:id`.
+   *
+   * <p>Vive aquí y no solo junto a su ruta porque lo necesita `SubscriptionRef`,
+   * una primitiva de `components/ui/`. Que una primitiva importe de
+   * `router/routes/**` es una dependencia hacia arriba que este árbol no tiene
+   * en ningún sitio: `CompanyRef` importa de aquí, que es plano y no depende de
+   * nada. `subscriptions-admin.routes.ts` sigue exportando
+   * `SUBSCRIPTION_RECORD_ROUTE_NAMES` —sus consumidores no cambian— pero ahora
+   * lo deriva de este nombre, así que solo hay un literal.
+   */
+  SUBSCRIPTION_RECORD: 'subscription-record',
   BILLING_OPERATIONS: 'billing-operations',
   // Alias de compatibilidad para componentes antiguos que siguen en el árbol.
   // Sus rutas ya no renderizan esas pantallas: redirigen al catálogo comercial.

@@ -141,7 +141,7 @@ async function submit() {
     </form>
 
     <AppTable
-      :headers="['Prefijo', 'Próximo número', 'Creada']"
+      :headers="['Prefijo', { label: 'Próximo número', align: 'num' }, 'Creada']"
       :empty="sequences.items.value.length === 0"
       :loading="sequences.loading.value"
       :error="sequences.error.value"

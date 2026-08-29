@@ -4,6 +4,7 @@ import { ICONS } from '@/constants/icons'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTable from '@/components/ui/AppTable.vue'
+import { formatMoney } from '@/composables/format'
 import BridgeSection from './BridgeSection.vue'
 import { useTierSimulator } from '../composables/useTierSimulator'
 import { tierRangeLabel } from '../composables/tierPricing'
@@ -71,17 +72,15 @@ const itemSelectOptions = computed(() =>
   itemOptions.value.map((option) => ({ value: option.id, label: option.label })),
 )
 
-const currency = computed(
-  () =>
-    new Intl.NumberFormat('es-CO', {
-      style: 'currency',
-      currency: props.priceList.currency,
-      maximumFractionDigits: 2,
-    }),
-)
-
+/**
+ * La tarifa **sí** declara su divisa, así que el simulador la rotula con la de
+ * verdad. Delega en `formatMoney` en vez de construir su propio
+ * `Intl.NumberFormat`: era la tercera política de moneda del producto y hacía
+ * que en una lista en dólares el simulador dijera `US$ 50,00` y el precio de
+ * excedente de la misma pantalla `$ 50,00`.
+ */
 function money(value: number) {
-  return currency.value.format(value)
+  return formatMoney(value, props.priceList.currency)
 }
 
 /** El aviso de escalera rota, con las unidades concretas. Vacío si está sana. */
@@ -204,7 +203,12 @@ watch(itemOptions, (options) => {
         </div>
 
         <AppTable
-          :headers="['Tramo', 'Unidades', 'Precio por unidad', 'Subtotal']"
+          :headers="[
+            'Tramo',
+            { label: 'Unidades', align: 'num' },
+            { label: 'Precio por unidad', align: 'num' },
+            { label: 'Subtotal', align: 'num' },
+          ]"
           :empty="simulation.lines.length === 0"
         >
           <template #empty>

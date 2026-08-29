@@ -32,6 +32,7 @@ import AppSelect from '@/components/ui/AppSelect.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
 import ErrorSummary, { toSummaryItems } from '@/components/feedback/ErrorSummary.vue'
 import { ICONS } from '@/constants/icons'
+import { useAuthStore } from '@/features/auth/stores/auth.store'
 
 /**
  * <b>Acción que exige firma</b>: la pieza compartida de las once pantallas que
@@ -66,6 +67,19 @@ import { ICONS } from '@/constants/icons'
  *
  * <p><b>`role="alertdialog"`</b>: toda acción que se firma tiene consecuencia y su
  * cuerpo hay que oírlo sí o sí.
+ *
+ * <p><b>La firma se muestra y no se elige.</b> Faltaba la tercera de las cinco
+ * reglas del plano: el modal pedía motivo y nota pero <b>en ningún punto decía
+ * quién estaba firmando</b>, así que el operador confirmaba una condonación de
+ * deuda o una devolución sin ver su propio nombre al lado del botón. No es
+ * cosmética: la consola tiene <b>un solo rol de plataforma</b> para 216
+ * operaciones, la firma no protege de nada técnicamente —es todo el control que
+ * hay— y un control que no se ve no disuade. De las 13 pantallas que firman, una
+ * sola tocaba la identidad del firmante (`ResolveReconciliationModal`, y ni
+ * siquiera la enseñaba). Ahora la heredan las trece.
+ *
+ * <p>La identidad se <b>lee</b> del usuario en sesión y no hay ningún selector de
+ * «quién autoriza»: un selector convertiría la firma en una afirmación.
  */
 const props = withDefaults(
   defineProps<{
@@ -118,6 +132,33 @@ const props = withDefaults(
 
 const emit = defineEmits<{ close: []; submit: [signature: SignedActionSignature] }>()
 
+const auth = useAuthStore()
+
+/**
+ * Quién firma. Sale de `GET /auth/me`, que es lo único que trae el <i>nombre</i>;
+ * si esa llamada no ha resuelto todavía o falló, se cae al `sub` del JWT y la
+ * firma dice «usuario #7» sin nombre. <b>Es un hueco honesto</b> (R14): decir el
+ * identificador es verdad, y fabricar un nombre para rellenar el hueco en la
+ * constancia de una operación que se audita sería justo lo contrario.
+ */
+const signer = computed(() => {
+  const identity = auth.me
+  if (identity) return { id: identity.id, name: identity.name?.trim() || null }
+  const id = auth.userId
+  return id === null ? null : { id, name: null }
+})
+
+/**
+ * <b>La única excepción legítima a «el botón no se deshabilita».</b> La regla de
+ * `:56-60` existe porque un botón apagado no dice qué falta: se confirma, se
+ * valida y el foco salta al `ErrorSummary`. Aquí lo que falta no es un campo del
+ * formulario sino la propia sesión, así que no hay nada que el usuario pueda
+ * escribir para arreglarlo y el servidor lo rechazaría igualmente. Decirlo antes
+ * —con el aviso de arriba, en `role="alert"`— es mejor que dejar que lo rechace
+ * después.
+ */
+const signerMissing = computed(() => signer.value === null)
+
 const reasonId = useId()
 const noteId = useId()
 const summary = ref<InstanceType<typeof ErrorSummary> | null>(null)
@@ -166,6 +207,9 @@ watch(
 )
 
 function submit() {
+  // `defineExpose({ submit })` deja que el padre confirme por su cuenta, así que
+  // el `:disabled` del botón no basta: sin sesión no sale firma por ninguna vía.
+  if (signerMissing.value) return
   touched.reason = true
   touched.note = true
   if (errors.value.reason || errors.value.note) {
@@ -229,6 +273,24 @@ defineExpose({ submit })
           @blur="touched.note = true"
         />
 
+        <!-- La firma: se muestra, no se elige. Va pegada al botón que confirma,
+             que es donde tiene efecto disuasorio. -->
+        <div v-if="signerMissing" class="ds-banner ds-banner--error" role="alert">
+          <component :is="ICONS.LOCK" :size="16" class="ds-banner-icon" />
+          <span class="ds-flex-fill">
+            La sesión no identifica a nadie, así que esta operación no se puede firmar. Vuelve a
+            iniciar sesión y reinténtalo.
+          </span>
+        </div>
+        <p v-else class="ds-meta firma">
+          <component :is="ICONS.USER" :size="14" aria-hidden="true" />
+          <span>
+            Firma <strong>{{ signer?.name ?? `usuario #${signer?.id}` }}</strong
+            ><template v-if="signer?.name"> · usuario #{{ signer.id }}</template
+            >. Queda escrito con la operación y no se puede cambiar.
+          </span>
+        </p>
+
         <slot name="extra" />
       </form>
     </template>
@@ -245,7 +307,7 @@ defineExpose({ submit })
         type="button"
         class="ds-btn"
         :class="confirmTone === 'danger' ? 'ds-btn--danger' : 'ds-btn--primary'"
-        :disabled="saving"
+        :disabled="saving || signerMissing"
         @click="submit"
       >
         {{ saving ? savingLabel : confirmLabel }}
@@ -253,3 +315,13 @@ defineExpose({ submit })
     </template>
   </ModalShell>
 </template>
+
+<style scoped>
+/* Geometría pura: alinea el icono con la frase. Sin color, sin tipografía — el
+   tono lo pone `.ds-meta` y el icono su propio `:size`. */
+.firma {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+</style>

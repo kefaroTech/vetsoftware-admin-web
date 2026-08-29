@@ -7,7 +7,7 @@ import AppPagination from '@/components/ui/AppPagination.vue'
 import AppSegmentedTabs from '@/components/ui/AppSegmentedTabs.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import { segmentedTabId } from '@/components/ui/segmented-tabs'
-import { formatCurrency, formatDate } from '@/composables/format'
+import { formatAmount, formatDate } from '@/composables/format'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
 import RegisterBankReceiptForm from './RegisterBankReceiptForm.vue'
@@ -69,7 +69,7 @@ async function submitRegister(payload: RegisterBankReceiptRequest) {
 
 async function markIdentified(receipt: BankReceiptResponse) {
   const accepted = await confirm({
-    message: `¿Marcar como identificado el abono de ${formatCurrency(receipt.amount)} del ${formatDate(receipt.receivedOn)}?`,
+    message: `¿Marcar como identificado el abono de ${formatAmount(receipt.amount)} del ${formatDate(receipt.receivedOn)}?`,
     consequence:
       'Deja de aparecer en la bandeja de trabajo y en el desplegable con el que se casan las liquidaciones.',
     confirmLabel: 'Marcar como identificado',
@@ -84,7 +84,7 @@ async function markIdentified(receipt: BankReceiptResponse) {
 
 async function markDiscarded(receipt: BankReceiptResponse) {
   const accepted = await confirm({
-    message: `¿Descartar el abono de ${formatCurrency(receipt.amount)} del ${formatDate(receipt.receivedOn)}?`,
+    message: `¿Descartar el abono de ${formatAmount(receipt.amount)} del ${formatDate(receipt.receivedOn)}?`,
     consequence:
       'Se conserva por trazabilidad, pero deja de contar para la conciliación. Descartar un abono que sí era nuestro deja caja sin explicar y nadie vuelve a mirarlo.',
     confirmLabel: 'Descartar el abono',
@@ -115,7 +115,15 @@ async function markDiscarded(receipt: BankReceiptResponse) {
 
     <div :id="panelId" role="tabpanel" :aria-labelledby="activeTabId" class="ds-stack ds-stack--14">
       <AppTable
-        :headers="['Recibido', 'Cuenta', 'Referencia', 'Importe', 'Estado', 'Acciones']"
+        money
+        :headers="[
+          'Recibido',
+          'Cuenta',
+          'Referencia',
+          { label: 'Importe', align: 'num' },
+          'Estado',
+          'Acciones',
+        ]"
         :empty="receipts.items.value.length === 0"
         :loading="receipts.loading.value"
         :error="receipts.error.value"
@@ -152,7 +160,7 @@ async function markDiscarded(receipt: BankReceiptResponse) {
               <span v-if="receipt.description" class="ds-meta">{{ receipt.description }}</span>
             </div>
           </td>
-          <td class="ds-num">{{ formatCurrency(receipt.amount) }}</td>
+          <td class="ds-num">{{ formatAmount(receipt.amount) }}</td>
           <td><VerdictLine :verdict="bankReceiptVerdict(receipt.status)" /></td>
           <td>
             <div class="ds-actions ds-actions--start">
@@ -183,7 +191,7 @@ async function markDiscarded(receipt: BankReceiptResponse) {
       </AppTable>
 
       <AppPagination
-        v-if="!receipts.loading.value && !receipts.error.value && receipts.total.value > 0"
+        v-if="!receipts.error.value && receipts.total.value > 0"
         :page="receipts.page.value"
         :page-size="receipts.pageSize"
         :total="receipts.total.value"

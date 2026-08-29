@@ -47,7 +47,7 @@ defineEmits<{ retry: [] }>()
       'Empresa',
       'Eje',
       'Qué pasó',
-      'Consumo / techo del momento',
+      { label: 'Consumo / techo del momento', align: 'num' },
       'Origen del techo',
       'Quién',
     ]"

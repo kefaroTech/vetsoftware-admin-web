@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatCurrency } from '@/composables/format'
+import { formatMoney } from '@/composables/format'
 import { itemTypeLabel, taxTreatmentLabel, type QuoteLineResponse } from '../types/quotes.types'
 
 /**
@@ -19,6 +19,16 @@ const props = defineProps<{
   lines: QuoteLineResponse[]
   /** Nombre que el artículo tiene HOY, para delatar un renombrado. Opcional: es una ayuda. */
   currentName?: (catalogItemId: number) => string | undefined
+  /**
+   * La divisa que declara la tarifa de la que salió esta oferta, resuelta por la vista con
+   * `useQuotePriceLists`. `null` mientras carga, si falla o si la tarifa no aparece.
+   *
+   * <p>No lleva valor por defecto a propósito. `formatMoney(v, null)` imprime la cifra desnuda,
+   * que es lo correcto cuando la divisa no se sabe; poner `'COP'` aquí convertiría un hueco en
+   * una afirmación, y en esta familia de pantallas esa afirmación puede ser falsa — una tarifa
+   * en dólares es un caso que el catálogo admite y ya pinta con su símbolo real.
+   */
+  currency: string | null
 }>()
 
 function renamedTo(line: QuoteLineResponse): string | null {
@@ -68,19 +78,19 @@ function taxLabel(line: QuoteLineResponse): string {
               · {{ line.includedQuantity }} incluidas
             </span>
           </td>
-          <td class="ds-num">{{ formatCurrency(line.unitAmount) }}</td>
-          <td class="ds-num">{{ formatCurrency(line.grossAmount) }}</td>
+          <td class="ds-num">{{ formatMoney(line.unitAmount, currency) }}</td>
+          <td class="ds-num">{{ formatMoney(line.grossAmount, currency) }}</td>
           <td class="ds-num">
-            {{ formatCurrency(line.discountAmount) }}
+            {{ formatMoney(line.discountAmount, currency) }}
             <span v-if="line.discountPercent > 0" class="ds-meta">
               · {{ line.discountPercent }} %
             </span>
           </td>
           <td>
             {{ taxLabel(line) }}
-            <span class="ds-meta"> · {{ formatCurrency(line.taxAmount) }}</span>
+            <span class="ds-meta"> · {{ formatMoney(line.taxAmount, currency) }}</span>
           </td>
-          <td class="ds-num ds-text-strong">{{ formatCurrency(line.lineTotal) }}</td>
+          <td class="ds-num ds-text-strong">{{ formatMoney(line.lineTotal, currency) }}</td>
         </tr>
       </tbody>
     </table>

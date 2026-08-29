@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { formatDate } from '@/composables/format'
+import { formatAmount, formatDate } from '@/composables/format'
 import DocumentSheet from '@/components/ui/DocumentSheet.vue'
-import { formatDocumentAmount } from '../composables/billingFormat'
 import type { BillingDocumentResponse } from '../types/billing-operations.types'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
 /**
  * **Una referencia externa ya registrada.** No es un formulario: es un hecho.
@@ -51,8 +51,12 @@ defineProps<{ document: BillingDocumentResponse }>()
       </div>
       <div>
         <dt class="ds-label">Total del documento</dt>
-        <dd class="ds-num">{{ formatDocumentAmount(document.totalAmount) }}</dd>
+        <dd class="ds-num">{{ formatAmount(document.totalAmount) }}</dd>
       </div>
+    </template>
+
+    <template #body>
+      <MoneyScopeNote />
     </template>
 
     <template #chain>

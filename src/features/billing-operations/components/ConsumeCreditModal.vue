@@ -4,7 +4,6 @@ import AppInput from '@/components/ui/AppInput.vue'
 import ModalShell from '@/components/ui/ModalShell.vue'
 import ErrorSummary, { toSummaryItems } from '@/components/feedback/ErrorSummary.vue'
 import { ICONS } from '@/constants/icons'
-import { formatDocumentAmount } from '../composables/billingFormat'
 import {
   newRequestId,
   parseAmount,
@@ -12,10 +11,12 @@ import {
   validateAmount,
   validateId,
 } from '../composables/moneyFields'
+import { formatAmount } from '@/composables/format'
 import type {
   ConsumeCustomerCreditRequest,
   CustomerCreditBalanceResponse,
 } from '../types/customer-credit.types'
+import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
 /**
  * <b>Aplicar saldo a favor a una cuenta de cobro.</b>
@@ -106,7 +107,7 @@ const overdraws = computed(() => {
 
 const subtitle = computed(() =>
   props.balance
-    ? `Empresa #${props.balance.companyId} · saldo ${formatDocumentAmount(props.balance.balanceAmount)}`
+    ? `Empresa #${props.balance.companyId} · saldo ${formatAmount(props.balance.balanceAmount)}`
     : '',
 )
 
@@ -145,6 +146,8 @@ function isDirty() {
       <form class="ds-stack ds-stack--16" @submit.prevent="submit">
         <ErrorSummary ref="summary" :items="summaryItems" />
 
+        <MoneyScopeNote />
+
         <div class="ds-banner ds-banner--info">
           <component :is="ICONS.INFO" :size="16" class="ds-banner-icon" aria-hidden="true" />
           <span class="ds-flex-fill">
@@ -175,7 +178,7 @@ function isDirty() {
         />
 
         <p v-if="overdraws && balance" class="ds-meta nota">
-          Pides más que el saldo consolidado ({{ formatDocumentAmount(balance.balanceAmount) }}). El
+          Pides más que el saldo consolidado ({{ formatAmount(balance.balanceAmount) }}). El
           servidor es quien manda sobre el saldo, pero comprueba que no sobra un dígito.
         </p>
 

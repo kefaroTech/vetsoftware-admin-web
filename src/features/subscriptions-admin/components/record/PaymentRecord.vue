@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppBadge from '@/components/ui/AppBadge.vue'
 import { ICONS } from '@/constants/icons'
-import { formatPaymentAmount } from '@/features/billing-operations/composables/billingFormat'
 import {
   PAYMENT_METHOD_LABEL,
   PAYMENT_STATUS_LABEL,
@@ -10,7 +9,7 @@ import {
 } from '@/features/billing-operations/types/billing-operations.types'
 import { formatDateTime } from '../../composables/subscriptionHistoryText'
 import { countsAsCollected } from '../../composables/subscriptionMoneyText'
-
+import { formatMoney } from '@/composables/format'
 /**
  * El pago <b>ya registrado</b>: un hecho, no un formulario (§3.2).
  *
@@ -43,7 +42,7 @@ defineProps<{ payment: SubscriptionPaymentResponse }>()
     <header class="ds-stack ds-stack--8">
       <p class="ds-kicker">Pago registrado</p>
       <h3 id="payment-record-title" class="ds-title" tabindex="-1">
-        {{ formatPaymentAmount(payment.amount, payment.currency) }}
+        {{ formatMoney(payment.amount, payment.currency) }}
       </h3>
       <p class="ds-meta">Pago #{{ payment.id }} · empresa #{{ payment.companyId }}</p>
       <div>

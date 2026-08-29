@@ -44,6 +44,57 @@ const PLANES = [
   { value: 'basico', label: 'Plan Básico' },
 ]
 
+// ── El bloque del dinero (D-02) ───────────────────────────────────────────
+// Las ~60 pantallas de cobranza son la mayor superficie visual de esta consola
+// y no tenían ni una captura: la unificación tipográfica del dinero pasó la
+// suite 22/22 no porque nada se moviera, sino porque nadie miraba. La objeción
+// que excluye las pantallas reales —«piden backend, sesión y datos»— no aplica
+// a un fixture: es el mismo argumento con el que ya entraron `/login` y el
+// armazón de tablet.
+//
+// Se montan los componentes REALES (`AppTable`, `MoneyCaption`,
+// `MoneyScopeNote`) y el formateador REAL, porque lo que hay que congelar es
+// justo la costura entre los tres: la cifra sin símbolo en la celda y la
+// divisa dicha una sola vez por superficie.
+import AppTable, { type AppTableHeader } from '../src/components/ui/AppTable.vue'
+import MoneyScopeNote from '../src/components/ui/MoneyScopeNote.vue'
+import { formatAmount, formatMoney } from '../src/composables/format'
+
+/** Importes fijos y escritos a mano: ni `Date`, ni aleatorios, ni red. */
+const DOCUMENTOS = [
+  { id: 'DOC-2026-000181', empresa: 'Clínica Veterinaria Norte', total: 179000, saldo: 179000 },
+  { id: 'DOC-2026-000182', empresa: 'Centro Animal del Valle', total: 1250400.5, saldo: 0 },
+  { id: 'DOC-2026-000183', empresa: 'Hospital Veterinario Sur', total: 89900, saldo: 44950 },
+]
+
+const DOCUMENTOS_HEADERS: AppTableHeader[] = [
+  'Documento',
+  'Empresa',
+  { label: 'Total', align: 'num' },
+  { label: 'Saldo', align: 'num' },
+]
+
+/** Los totales de una oferta: la superficie de dinero que NO es una tabla. */
+const TOTALES = [
+  { concepto: 'Subtotal', importe: 1050000 },
+  { concepto: 'Descuento', importe: 50000 },
+  { concepto: 'Impuestos', importe: 190000 },
+]
+const TOTAL_OFERTA = 1190000
+
+/**
+ * La otra mitad de la política: cuando el DTO SÍ declara `currency`, la celda
+ * lleva el símbolo y la tabla NO lleva `<caption>` de divisa. Las dos formas
+ * tienen que poder compararse en la misma imagen — es exactamente la costura
+ * que se rompió cuando el mismo peso tenía tres tipografías.
+ */
+const PAGOS = [
+  { id: 'PAY-9001', importe: 179000, currency: 'COP' },
+  { id: 'PAY-9002', importe: 50, currency: 'USD' },
+]
+
+const PAGOS_HEADERS: AppTableHeader[] = ['Pago', { label: 'Importe', align: 'num' }]
+
 /**
  * Catálogo de todo lo que la capa visual promete.
  *
@@ -346,6 +397,49 @@ const PLANES = [
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- ── Dinero · tabla cuyo DTO no declara divisa ──────────────────── -->
+    <section data-shot="dinero-tabla">
+      <h2>Dinero · tabla sin divisa en el contrato</h2>
+      <AppTable :headers="DOCUMENTOS_HEADERS" money>
+        <tr v-for="documento in DOCUMENTOS" :key="documento.id" class="ds-row-hover">
+          <td class="ds-text-strong">{{ documento.id }}</td>
+          <td>{{ documento.empresa }}</td>
+          <td class="ds-num">{{ formatAmount(documento.total) }}</td>
+          <td class="ds-num">{{ formatAmount(documento.saldo) }}</td>
+        </tr>
+      </AppTable>
+    </section>
+
+    <!-- ── Dinero · superficie que no es una tabla ────────────────────── -->
+    <section data-shot="dinero-nota">
+      <h2>Dinero · nota de superficie</h2>
+      <div class="ds-card ds-stack ds-stack--8">
+        <h3 class="ds-title">Totales de la oferta</h3>
+        <dl class="ds-detail-grid">
+          <div v-for="linea in TOTALES" :key="linea.concepto">
+            <dt class="ds-label">{{ linea.concepto }}</dt>
+            <dd class="ds-num">{{ formatAmount(linea.importe) }}</dd>
+          </div>
+          <div>
+            <dt class="ds-label">Total</dt>
+            <dd class="ds-num ds-text-strong">{{ formatAmount(TOTAL_OFERTA) }}</dd>
+          </div>
+        </dl>
+        <MoneyScopeNote />
+      </div>
+    </section>
+
+    <!-- ── Dinero · tabla cuyo DTO SÍ declara divisa ──────────────────── -->
+    <section data-shot="dinero-divisa">
+      <h2>Dinero · divisa declarada por el contrato</h2>
+      <AppTable :headers="PAGOS_HEADERS">
+        <tr v-for="pago in PAGOS" :key="pago.id" class="ds-row-hover">
+          <td class="ds-text-strong">{{ pago.id }}</td>
+          <td class="ds-num">{{ formatMoney(pago.importe, pago.currency) }}</td>
+        </tr>
+      </AppTable>
     </section>
   </main>
 </template>

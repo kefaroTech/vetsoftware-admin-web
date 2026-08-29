@@ -332,7 +332,7 @@ async function onRecalculate() {
       />
 
       <AppPagination
-        v-if="scope === 'audit' && !loading && !error && auditTotal > 0"
+        v-if="scope === 'audit' && !error && auditTotal > 0"
         :page="auditPage"
         :page-size="auditPageSize"
         :total="auditTotal"

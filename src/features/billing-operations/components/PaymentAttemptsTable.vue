@@ -2,16 +2,15 @@
 import AppBadge from '@/components/ui/AppBadge.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
+import type { AppTableHeader } from '@/components/ui/AppTable.vue'
 import CompanyRef from '@/components/ui/CompanyRef.vue'
 import { ICONS } from '@/constants/icons'
-import { formatDate } from '@/composables/format'
-import { formatDocumentAmount } from '../composables/billingFormat'
+import { formatAmount, formatDate } from '@/composables/format'
 import {
   DECLINE_KIND_PRESENTATION,
   SOFT_MAX_ATTEMPTS,
   type SystemPaymentAttemptResponse,
 } from '../types/payment-attempts.types'
-
 /**
  * <b>Los intentos de cobro, con su familia de rechazo a la vista.</b>
  *
@@ -53,21 +52,22 @@ defineEmits<{
   reschedule: [attempt: SystemPaymentAttemptResponse]
 }>()
 
-const HEADERS = [
+const HEADERS: AppTableHeader[] = [
   'Intento',
   'Empresa',
   'Documento',
-  'Importe',
+  { label: 'Importe', align: 'num' },
   'Rechazo',
   'Cuándo',
   'Próximo reintento',
-  '',
+  { label: '', align: 'actions' },
 ]
 </script>
 
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      money
       :headers="HEADERS"
       :empty="attempts.length === 0"
       :loading="loading"
@@ -93,7 +93,7 @@ const HEADERS = [
         </td>
         <td><CompanyRef :company-id="attempt.companyId" /></td>
         <td>#{{ attempt.billingDocumentId }}</td>
-        <td class="ds-num">{{ formatDocumentAmount(attempt.requestedAmount) }}</td>
+        <td class="ds-num">{{ formatAmount(attempt.requestedAmount) }}</td>
 
         <td>
           <AppBadge
@@ -154,7 +154,7 @@ const HEADERS = [
     </AppTable>
 
     <AppPagination
-      v-if="!loading && !error && total > 0"
+      v-if="!error && total > 0"
       :page="page"
       :page-size="pageSize"
       :total="total"

@@ -1,49 +1,21 @@
-import { formatCurrency, formatDate, parseISODate } from '@/composables/format'
+import { formatDate, parseISODate } from '@/composables/format'
 
 /**
  * Lo que la cobranza necesita mostrar y `src/composables/format.ts` no puede dar
- * por sí solo: la **antigüedad** de un documento atascado y el importe de un
- * documento **que no trae moneda**.
+ * por sí solo: la **antigüedad** y el **plazo** de un documento atascado.
  *
- * <p>Todo lo demás —fecha `dd/mm/aaaa`, dinero en pesos— sale del módulo
- * transversal y no se reimplementa aquí. Este fichero existe por dos huecos
- * concretos del contrato, no por gusto de tener un formateador propio.
- */
-
-const documentAmountFormatter = new Intl.NumberFormat('es-CO', {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-})
-
-/**
- * Importe de un documento de cobro, **sin símbolo de moneda**.
+ * <p>Todo lo demás —fecha `dd/mm/aaaa`, dinero— sale del módulo transversal y no
+ * se reimplementa aquí. Este fichero existe por el tiempo, no por el dinero.
  *
- * <p>No es un descuido ni una tercera convención de formato: `BillingDocumentResponse`
- * no expone `currency` (`SubscriptionPaymentResponse` sí), y rotular «$» sobre un
- * documento cuya divisa el contrato no declara es inventar un dato en una
- * pantalla contable. Los pagos usan `formatCurrency()` del módulo transversal
- * porque ahí la divisa sí viene del servidor. Cuando el contrato añada `currency`
- * al documento, esta función se borra y su llamada pasa a `formatCurrency`.
+ * <p><b>Ya no vive aquí el formateo de importes.</b> `formatDocumentAmount` (sin
+ * símbolo) y `formatPaymentAmount` (con la divisa del pago) subieron a
+ * `src/composables/format.ts` como `formatAmount` y `formatMoney`, que son las
+ * dos únicas funciones de dinero del producto. Tener la política de moneda
+ * dentro de una feature era justo lo que permitió que se bifurcara en tres:
+ * cobranza aplicaba la regla honesta, conciliación y catálogo no, y ninguna de
+ * las tres podía ver a las otras. La regla, con su razonamiento, está escrita en
+ * el módulo transversal.
  */
-export function formatDocumentAmount(value: number | null | undefined, empty = '—'): string {
-  if (value == null || Number.isNaN(value)) return empty
-  return documentAmountFormatter.format(value)
-}
-
-/**
- * Importe de un pago, **con la divisa que declara el propio pago**.
- *
- * <p>`formatCurrency` del módulo transversal fija `COP`, que es lo correcto para
- * el 100 % de la plataforma hoy. Pero `SubscriptionPaymentResponse.currency`
- * existe y puede traer otra cosa, y pintar «$ 1.200,00» sobre un pago en dólares
- * sería un error de 4.000 pesos por dólar en una pantalla de conciliación. Así
- * que la divisa esperada se formatea con el módulo transversal y cualquier otra
- * se imprime con su código al lado, sin símbolo inventado.
- */
-export function formatPaymentAmount(value: number, currency: string): string {
-  if (currency === 'COP') return formatCurrency(value)
-  return `${documentAmountFormatter.format(value)} ${currency}`
-}
 
 /** Milisegundos de un día. Se compara a medianoche local, no por diferencia de instantes. */
 const DAY_MS = 86_400_000

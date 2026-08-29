@@ -1,10 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  agingText,
-  daysSince,
-  formatDocumentAmount,
-  formatPaymentAmount,
-} from '@/features/billing-operations/composables/billingFormat'
+import { agingText, daysSince } from '@/features/billing-operations/composables/billingFormat'
 
 /**
  * La antigüedad es el único criterio de urgencia de `/cobranza`: el endpoint no
@@ -53,29 +48,10 @@ describe('agingText dice la antigüedad en palabras', () => {
   })
 })
 
-/**
- * `BillingDocumentResponse` NO trae moneda y `SubscriptionPaymentResponse` SÍ.
- * Rotular con «$» un importe cuya divisa el contrato no declara es inventar un
- * dato en una pantalla contable.
+/*
+ * Los importes ya no se prueban aquí: la política de moneda dejó de vivir en
+ * esta feature y subió a `src/composables/format.ts`, que es donde una regla que
+ * vale para las once features del dinero tiene que estar. Su prueba es
+ * `tests/unit/money-format.spec.ts`. Este fichero se queda con el tiempo, que es
+ * lo único que de verdad era de cobranza.
  */
-describe('los importes no inventan una moneda que el contrato no da', () => {
-  it('el importe de un documento va sin símbolo', () => {
-    const texto = formatDocumentAmount(179000)
-    expect(texto).not.toContain('$')
-    expect(texto).toContain('179')
-  })
-
-  it('un importe ausente cae en el guion del sistema de diseño', () => {
-    expect(formatDocumentAmount(null)).toBe('—')
-  })
-
-  it('un pago en pesos usa el formateador transversal, con símbolo', () => {
-    expect(formatPaymentAmount(179000, 'COP')).toContain('$')
-  })
-
-  it('un pago en otra divisa lleva su código y ningún símbolo inventado', () => {
-    const texto = formatPaymentAmount(1200, 'USD')
-    expect(texto).toContain('USD')
-    expect(texto).not.toContain('$')
-  })
-})

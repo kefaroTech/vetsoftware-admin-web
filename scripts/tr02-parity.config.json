@@ -1,0 +1,63 @@
+{
+  "_comentario": "Inventario TR-02: los archivos que VetSoftwareFront y VetSoftwarePublicFront mantienen byte a byte identicos, y las unicas divergencias permitidas dentro de ellos. Este fichero es el mismo gemelo TR-02 en los dos repos -no son numeros por app, como en css-budget.config.json- porque el objeto de acuerdo es la lista en si. Lo lee scripts/tr02-parity-check.mjs, que corre dentro de `npm run quality`. Anadir un gemelo nuevo es una linea en `files`; si la razon para divergir ya no aplica, borra la entrada de `allowlist` en los dos repos en el mismo PR.",
+  "files": [
+    "src/services/http/http.client.ts",
+    "src/services/http/api-base-url.ts",
+    "src/services/storage/storage.service.ts",
+    "src/services/telemetry/telemetry.ts",
+    "src/stores/loader.store.ts",
+    "src/stores/toast.store.ts",
+    "src/composables/useGlobalLoader.ts",
+    "src/composables/useToast.ts",
+    "src/features/auth/utils/jwt.ts",
+    "src/types/api.types.ts",
+    "src/plugins/vuetify.ts",
+    "src/plugins/vuetify-icon-aliases.ts",
+    "src/assets/styles/tokens.css",
+    "src/assets/styles/primitives.css",
+    "src/assets/styles/base.css",
+    "src/components/feedback/PawLoader.vue",
+    "src/components/feedback/PageLoader.vue",
+    "src/components/feedback/ToastStack.vue",
+    "src/components/feedback/ErrorSummary.vue",
+    "src/components/ui/ModalShell.vue",
+    "src/composables/useModalLayer.ts",
+    "src/composables/useModalHistory.ts",
+    "src/composables/useModalFocus.ts",
+    "src/types/pagination.ts",
+    "src/composables/useServerPaged.ts",
+    "src/composables/useQuerySync.ts",
+    "scripts/check-bundle-budget.mjs",
+    "scripts/ds-audit.mjs",
+    "scripts/css-budget.mjs",
+    "scripts/tr02-parity-check.mjs",
+    "scripts/tr02-parity.config.json",
+    "tests/unit/setup.ts",
+    "tests/unit/storage-service.spec.ts",
+    "tests/unit/ui-stores.spec.ts",
+    "eslint.config.ts",
+    "stylelint.config.mjs",
+    "lint-staged.config.mjs",
+    "commitlint.config.js",
+    "AGENTS.md",
+    "stylelint-plugins/no-duplicate-primitive.mjs"
+  ],
+  "allowlist": [
+    {
+      "file": "src/services/telemetry/telemetry.ts",
+      "reason": "El nombre de la aplicacion que se reporta a Grafana Faro (`app.name`): 'vetsoftware-admin' en la consola, 'vetsoftware-operativo' en el tenant."
+    },
+    {
+      "file": "src/services/http/http.client.ts",
+      "reason": "Bloque delimitado con los presupuestos de timeout por llamada propios de cada app: el front tenant declara DIAN_TIMEOUT_MS y TRANSFER_TIMEOUT_MS (transmision DIAN, subidas/descargas); la consola no declara ninguno porque solo hace CRUD contra la API. El resto del archivo -incluida la marca de sede pendiente, que fue precisamente la deriva que este gate existe para atrapar- se mantiene identico."
+    },
+    {
+      "file": "scripts/check-bundle-budget.mjs",
+      "reason": "Las cifras del presupuesto de bundle (criticalJs/totalJs) y el historial narrado de cada re-base: cada app parte de un bundle de tamano distinto y con una historia de crecimiento distinta."
+    },
+    {
+      "file": "AGENTS.md",
+      "reason": "La seccion 'Integracion con Codex' remite a los encabezados del CLAUDE.md de SU PROPIO repo (`rg -n \"^#{1,3} \" CLAUDE.md`). Las dos listas son correctas para su repo, no una deriva: el CLAUDE.md del tenant tiene secciones que el de la consola no tiene (Recargar SIEMPRE al abrir pantalla/modal, Convencion de validacion de formularios, Convencion de API + composables de catalogo, UI / Layout), asi que igualar el texto haria que al menos un AGENTS.md apuntara a secciones inexistentes en su propio CLAUDE.md. Verificado leyendo los encabezados de los dos CLAUDE.md el 2026-08-29; ver tambien AGENTS.md linea 154 en cada repo."
+    }
+  ]
+}

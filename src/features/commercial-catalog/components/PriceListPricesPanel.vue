@@ -4,6 +4,7 @@ import { Pencil, Plus, X } from 'lucide-vue-next'
 import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppTable from '@/components/ui/AppTable.vue'
+import { formatMoney } from '@/composables/format'
 import type { useServerPaged } from '@/composables/useServerPaged'
 import type {
   CatalogItemResponse,
@@ -60,12 +61,16 @@ function taxTreatmentLabel(value: CatalogPriceResponse['taxTreatment']) {
   return { TAXED: 'Gravado', EXEMPT: 'Exento', EXCLUDED: 'Excluido' }[value]
 }
 
-function formatMoney(value: number) {
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: props.priceList.currency,
-    maximumFractionDigits: 2,
-  }).format(value)
+/**
+ * La tarifa **sí** declara su divisa (`PriceListResponse.currency`), así que
+ * este es uno de los dos únicos sitios del bloque del dinero que la rotula, y la
+ * rotula con la de verdad. El `Intl.NumberFormat` propio que vivía aquí era la
+ * tercera política de moneda del producto; ahora delega en `formatMoney`, que es
+ * la misma que usan los pagos, y la elección entre símbolo y cifra desnuda queda
+ * en un solo sitio (`src/composables/format.ts`).
+ */
+function money(value: number) {
+  return formatMoney(value, props.priceList.currency)
 }
 </script>
 
@@ -123,9 +128,9 @@ function formatMoney(value: number) {
         <td>{{ price.tierMin }} — {{ price.tierMax ?? 'en adelante' }}</td>
         <td>{{ price.includedQuantity }}</td>
         <td>
-          <span class="ds-text-strong">{{ formatMoney(price.unitAmount) }}</span>
+          <span class="ds-text-strong">{{ money(price.unitAmount) }}</span>
           <span v-if="price.setupAmount > 0" class="description ds-meta">
-            + {{ formatMoney(price.setupAmount) }} inicial
+            + {{ money(price.setupAmount) }} inicial
           </span>
         </td>
         <td>{{ taxTreatmentLabel(price.taxTreatment) }} · {{ price.taxRate }} %</td>
@@ -153,7 +158,7 @@ function formatMoney(value: number) {
       </tr>
     </AppTable>
     <AppPagination
-      v-if="!paged.loading.value && !paged.error.value && paged.total.value > 0"
+      v-if="!paged.error.value && paged.total.value > 0"
       :page="paged.page.value"
       :page-size="paged.pageSize"
       :total="paged.total.value"
