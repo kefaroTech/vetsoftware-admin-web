@@ -1,4 +1,5 @@
 import type {
+  ConfiguratorBillingCycle,
   QuestionnaireOptionResponse,
   QuestionnaireQuestionResponse,
   ResolveConfiguratorSelectionRequest,
@@ -60,7 +61,8 @@ export interface MissingAnswer {
 export type SelectionChange = 'ADDED' | 'REMOVED' | 'QUANTITY' | 'SAME'
 
 export interface SelectionDiffRow {
-  catalogItemId: number
+  /** El código del artículo, que es lo que devuelve `/configurator/resolve`. */
+  code: string
   before: number | null
   after: number | null
   change: SelectionChange
@@ -230,15 +232,28 @@ export function missingRequired(
     }))
 }
 
-/** El cuerpo de `POST /configurator/resolve`, ya podado. */
+/**
+ * El cuerpo de `POST /configurator/resolve`, ya podado.
+ *
+ * <p><b>`billingCycle` es un parámetro y no tiene valor por defecto.</b> El ciclo
+ * cambia el resultado —el techo de capacidad incluida es una columna de la fila
+ * de precio y hay una por ciclo—, así que dos llamadas idénticas salvo el ciclo
+ * devuelven dos carritos distintos y los dos son correctos. Un `= 'MONTHLY'`
+ * aquí dejaría que un sitio de llamada nuevo resolviera un escenario anual
+ * contra el techo mensual sin escribir nada: el compilador no diría nada y la
+ * pantalla tampoco. Obligando a pasarlo, cada sitio de llamada tiene que decir
+ * de dónde saca el ciclo.
+ */
 export function buildResolveRequest(
   questions: QuestionnaireQuestionResponse[],
   answers: ConfiguratorAnswerState,
+  billingCycle: ConfiguratorBillingCycle,
 ): ResolveConfiguratorSelectionRequest {
   const pruned = pruneAnswers(questions, answers)
   return {
     selectedOptionIds: [...pruned.selectedOptionIds].sort((a, b) => a - b),
     numericAnswers: pruned.numericAnswers,
+    billingCycle,
   }
 }
 
@@ -293,37 +308,45 @@ export function referenceScenario(
 /**
  * Qué cambió entre dos carritos, **con la palabra** y no solo con un color.
  *
- * Devuelve la unión de artículos de los dos lados, ordenada por id para que dos
- * ejecuciones iguales den la misma tabla — el mismo criterio con el que el
- * backend ordena `ConfiguratorResolver.resolve`.
+ * Devuelve la unión de artículos de los dos lados, ordenada **por código** para
+ * que dos ejecuciones iguales den la misma tabla. Antes se ordenaba por el id
+ * interno, que el endpoint anónimo ya no devuelve; el orden por código es
+ * igual de estable y además es el que el operador lee en el catálogo.
+ *
+ * <p>La comparación es la lexicográfica de UTF-16 y no `localeCompare`: los
+ * códigos son ASCII en mayúsculas y hace falta que el orden no dependa de la
+ * configuración regional del navegador, o dos operadores verían la misma
+ * comparación en dos órdenes distintos.
  */
 export function diffSelections(
   before: SelectedItemResponse[],
   after: SelectedItemResponse[],
 ): SelectionDiffRow[] {
-  const beforeById = new Map(before.map((item) => [item.catalogItemId, item.quantity]))
-  const afterById = new Map(after.map((item) => [item.catalogItemId, item.quantity]))
-  const ids = [...new Set([...beforeById.keys(), ...afterById.keys()])].sort((a, b) => a - b)
+  const beforeByCode = new Map(before.map((item) => [item.code, item.quantity]))
+  const afterByCode = new Map(after.map((item) => [item.code, item.quantity]))
+  const codes = [...new Set([...beforeByCode.keys(), ...afterByCode.keys()])].sort((a, b) =>
+    a < b ? -1 : a > b ? 1 : 0,
+  )
 
-  return ids.map((catalogItemId) => {
-    const antes = beforeById.get(catalogItemId) ?? null
-    const despues = afterById.get(catalogItemId) ?? null
+  return codes.map((code) => {
+    const antes = beforeByCode.get(code) ?? null
+    const despues = afterByCode.get(code) ?? null
     if (antes == null && despues != null) {
-      return { catalogItemId, before: null, after: despues, change: 'ADDED', changeText: 'AÑADIDO' }
+      return { code, before: null, after: despues, change: 'ADDED', changeText: 'AÑADIDO' }
     }
     if (antes != null && despues == null) {
-      return { catalogItemId, before: antes, after: null, change: 'REMOVED', changeText: 'QUITADO' }
+      return { code, before: antes, after: null, change: 'REMOVED', changeText: 'QUITADO' }
     }
     if (antes !== despues) {
       return {
-        catalogItemId,
+        code,
         before: antes,
         after: despues,
         change: 'QUANTITY',
         changeText: `cantidad: ${String(antes)} → ${String(despues)}`,
       }
     }
-    return { catalogItemId, before: antes, after: despues, change: 'SAME', changeText: '' }
+    return { code, before: antes, after: despues, change: 'SAME', changeText: '' }
   })
 }
 

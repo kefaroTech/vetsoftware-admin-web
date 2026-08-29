@@ -52,7 +52,9 @@ export function useConfiguratorEditor() {
     comparisonAfter,
     comparisonLabel,
     comparisonScenario,
+    comparisonCycle,
     catalogItemById,
+    catalogItemByCode,
   } = storeToRefs(store)
   const { success, errorFrom } = useToast()
   const { confirm } = useConfirmDialog()
@@ -173,6 +175,10 @@ export function useConfiguratorEditor() {
       after: after.items,
       label: options.label,
       scenario: after.label,
+      // El de la foto de «después», que es la que manda al describir el estado
+      // actual. Las dos se toman con el mismo ciclo: `snapshot` lo lee del store
+      // y entre ambas no hay pantalla con la que cambiarlo.
+      cycle: after.cycle,
     })
     return true
   }
@@ -301,6 +307,7 @@ export function useConfiguratorEditor() {
     effectsByQuestion,
     catalogItems,
     catalogItemById,
+    catalogItemByCode,
     loading: editorLoading,
     error: editorError,
     errorTraceId: editorErrorTraceId,
@@ -309,6 +316,7 @@ export function useConfiguratorEditor() {
     comparisonAfter,
     comparisonLabel,
     comparisonScenario,
+    comparisonCycle,
     loadAll,
     createQuestion,
     updateQuestion,

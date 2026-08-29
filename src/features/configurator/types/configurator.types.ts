@@ -136,20 +136,67 @@ export interface QuestionnaireQuestionResponse {
 }
 
 /**
+ * El ciclo de facturación con el que se resuelve una selección.
+ *
+ * <p>Se declara **aquí** y no se importa de `commercial-catalog` ni de `quotes`,
+ * que ya tienen el suyo: cada uno espeja un campo distinto del contrato y su
+ * atadura `MatchesContract` tiene que fallar por separado. Si el backend
+ * añadiera un tercer ciclo a `/configurator/resolve` y no a las cotizaciones,
+ * una unión compartida haría pasar en verde justamente el sitio que se movió.
+ *
+ * <p><b>Ojo con el reverso</b>, igual que en `QuoteBillingCycle`: el contrato
+ * declara el campo como `string` con `pattern`, así que un ciclo NUEVO no rompe
+ * esta unión — hay que ampliarla a mano.
+ */
+export type ConfiguratorBillingCycle = 'MONTHLY' | 'ANNUAL'
+
+export const CONFIGURATOR_BILLING_CYCLE_LABEL: Record<ConfiguratorBillingCycle, string> = {
+  MONTHLY: 'Mensual',
+  ANNUAL: 'Anual',
+}
+
+export const CONFIGURATOR_BILLING_CYCLE_OPTIONS: {
+  value: ConfiguratorBillingCycle
+  label: string
+}[] = [
+  { value: 'MONTHLY', label: CONFIGURATOR_BILLING_CYCLE_LABEL.MONTHLY },
+  { value: 'ANNUAL', label: CONFIGURATOR_BILLING_CYCLE_LABEL.ANNUAL },
+]
+
+/**
  * `POST /configurator/resolve` — cuerpo.
  *
  * `numericAnswers` va **indexado por id de pregunta** (no por código): el
  * backend lo lee como `answers.numericAnswers().containsKey(questionId)`
  * (`ConfiguratorResolver.seDispara`). JSON obliga a que la clave sea string,
  * así que aquí es `Record<string, number>` con el id en texto.
+ *
+ * <p><b>`billingCycle` es obligatorio y no tiene valor por defecto en el tipo.</b>
+ * El techo de capacidad incluida es una columna de la **fila de precio**, y hay
+ * una por ciclo: resolver sin decir el ciclo permitía restar un techo mensual de
+ * una cotización anual y devolver dos números igual de plausibles que nunca se
+ * contradicen en voz alta. Por eso el campo viaja explícito desde quien llama en
+ * vez de tener un `= 'MONTHLY'` escondido aquí: un valor por defecto reintroduce
+ * exactamente el fallo silencioso que el contrato acaba de cerrar.
  */
 export interface ResolveConfiguratorSelectionRequest {
   selectedOptionIds: number[]
   numericAnswers: Record<string, number>
+  billingCycle: ConfiguratorBillingCycle
 }
 
+/**
+ * Un artículo del carrito resuelto.
+ *
+ * <p><b>Lleva `code`, no `catalogItemId`.</b> El endpoint es anónimo: devolver
+ * el id interno `int64` del artículo convertía `/configurator/resolve` en un
+ * oráculo de enumeración —pedir y contar hasta dibujar el catálogo entero, y de
+ * paso su tamaño y su ritmo de crecimiento— sin autenticarse. El `code` es el
+ * mismo rótulo que ya aceptan `/catalog` y `/quotes/self-serve`, así que además
+ * es el que sirve para construir la línea de la cotización.
+ */
 export interface SelectedItemResponse {
-  catalogItemId: number
+  code: string
   quantity: number
 }
 

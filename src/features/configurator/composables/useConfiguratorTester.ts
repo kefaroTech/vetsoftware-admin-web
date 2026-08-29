@@ -18,6 +18,7 @@ import {
   type ConfiguratorAnswerState,
 } from './configurator-answers'
 import type {
+  ConfiguratorBillingCycle,
   QuestionnaireQuestionResponse,
   SelectedItemResponse,
 } from '../types/configurator.types'
@@ -50,6 +51,7 @@ export function useConfiguratorTester() {
   const {
     questionnaire,
     answers,
+    billingCycle,
     selection,
     questionnaireLoading,
     questionnaireError,
@@ -128,6 +130,22 @@ export function useConfiguratorTester() {
     store.setSelection(null)
   }
 
+  /**
+   * Cambiar el ciclo **retira el resultado**, igual que cambiar una respuesta.
+   *
+   * <p>No es simetría cosmética: el ciclo cambia las cantidades resueltas, así
+   * que un carrito calculado en mensual bajo un selector que dice «Anual» es
+   * exactamente la confusión que el contrato acaba de cerrar en el servidor.
+   * Retirarlo obliga a volver a pulsar «Ver el resultado» —una petición más del
+   * cupo de 60/min, y por eso no se resuelve solo— pero lo que queda en pantalla
+   * siempre corresponde al ciclo que se ve seleccionado.
+   */
+  function updateBillingCycle(value: ConfiguratorBillingCycle) {
+    if (value === billingCycle.value) return
+    store.setBillingCycle(value)
+    store.setSelection(null)
+  }
+
   function clearAnswers() {
     store.setAnswers(emptyAnswers())
     store.setSelection(null)
@@ -138,10 +156,17 @@ export function useConfiguratorTester() {
     store.setSelection(null)
   }
 
-  /** Resuelve un estado concreto. Propaga el error para que lo trate quien llama. */
+  /**
+   * Resuelve un estado concreto **con el ciclo elegido**. Propaga el error para
+   * que lo trate quien llama.
+   *
+   * <p>El ciclo sale del store y no de un argumento con valor por defecto: es el
+   * mismo que el operador tiene delante en el selector, y así las dos fotos de
+   * la comparación se toman con el mismo que el resultado de «Probar».
+   */
   async function resolveState(state: ConfiguratorAnswerState): Promise<SelectedItemResponse[]> {
     const response = await configuratorPublicApi.resolve(
-      buildResolveRequest(questionnaire.value, state),
+      buildResolveRequest(questionnaire.value, state, billingCycle.value),
     )
     return response.items
   }
@@ -197,20 +222,29 @@ export function useConfiguratorTester() {
    * `error`, porque la escritura sí ocurrió y el operador tiene que saber
    * exactamente eso.
    */
-  async function snapshot(): Promise<{ items: SelectedItemResponse[] | null; label: string }> {
+  async function snapshot(): Promise<{
+    items: SelectedItemResponse[] | null
+    label: string
+    cycle: ConfiguratorBillingCycle
+  }> {
     const loaded = await loadQuestionnaire()
     const { state, label } = comparisonScenarioFor(loaded)
+    // Se devuelve el ciclo con el que se resolvió, y no se vuelve a leer del
+    // store al pintar: quien guarda la comparación tiene que poder rotularla con
+    // el ciclo de ESTAS fotos aunque el operador cambie el selector después.
+    const cycle = billingCycle.value
     try {
-      return { items: await resolveState(state), label }
+      return { items: await resolveState(state), label, cycle }
     } catch (error) {
       warnFrom('No se pudo calcular la comparación', error)
-      return { items: null, label }
+      return { items: null, label, cycle }
     }
   }
 
   return {
     questionnaire,
     answers,
+    billingCycle,
     selection,
     loading: questionnaireLoading,
     error: questionnaireError,
@@ -223,6 +257,7 @@ export function useConfiguratorTester() {
     loadCatalogItems,
     toggleOption,
     updateNumber,
+    updateBillingCycle,
     clearAnswers,
     loadReferenceScenario,
     resolveNow,

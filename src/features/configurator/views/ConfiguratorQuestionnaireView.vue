@@ -52,6 +52,7 @@ const {
   comparisonAfter,
   comparisonLabel,
   comparisonScenario,
+  comparisonCycle,
   loadAll,
   createQuestion,
   updateQuestion,
@@ -301,7 +302,8 @@ onMounted(loadAll)
       :after="comparisonAfter"
       :label="comparisonLabel"
       :scenario="comparisonScenario"
-      :catalog-item-by-id="store.catalogItemById"
+      :cycle="comparisonCycle"
+      :catalog-item-by-code="store.catalogItemByCode"
     />
 
     <AppModal

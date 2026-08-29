@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { CatalogItemResponse } from '@/features/commercial-catalog/types/commercial-catalog.types'
 import type {
+  ConfiguratorBillingCycle,
   ConfiguratorEffectResponse,
   ConfiguratorOptionResponse,
   ConfiguratorQuestionResponse,
@@ -54,6 +55,23 @@ export const useConfiguratorStore = defineStore('configurator', () => {
   // --- Probar -------------------------------------------------------------
   const questionnaire = ref<QuestionnaireQuestionResponse[]>([])
   const answers = ref<ConfiguratorAnswerState>(emptyAnswers())
+  /**
+   * Con qué ciclo se resuelve. **Cambia el resultado**, no solo su precio: el
+   * techo de capacidad incluida es una columna de la fila de precio y hay una
+   * por ciclo, así que las cantidades que devuelve `/configurator/resolve`
+   * dependen de este valor.
+   *
+   * <p>Vive en el store por el mismo motivo que `answers`: lo elige el operador
+   * en `/configurador/probar` y lo LEE la comparación antes/después que se
+   * dispara desde `/configurador/cuestionario`. Si viviera en un `ref` de la
+   * vista de «Probar», la comparación resolvería siempre en mensual mientras el
+   * operador cree estar mirando lo anual.
+   *
+   * <p>Arranca en `MONTHLY` porque es el ciclo por defecto del resto de la
+   * consola (`BILLING_CYCLE_OPTIONS`, `tier-simulator.store`), no porque dé
+   * igual: el rótulo del ciclo se pinta siempre junto al resultado.
+   */
+  const billingCycle = ref<ConfiguratorBillingCycle>('MONTHLY')
   const selection = ref<SelectedItemResponse[] | null>(null)
   const questionnaireLoading = ref(false)
   const questionnaireError = ref<string | null>(null)
@@ -65,6 +83,14 @@ export const useConfiguratorStore = defineStore('configurator', () => {
   const comparisonAfter = ref<SelectedItemResponse[] | null>(null)
   const comparisonLabel = ref('')
   const comparisonScenario = ref('')
+  /**
+   * Con qué ciclo se tomaron las DOS fotos. Se guarda con ellas y no se lee de
+   * `billingCycle` al pintar: entre guardar el cambio y leer la tabla el
+   * operador puede haber cambiado el selector en «Probar», y una comparación
+   * rotulada con un ciclo que no es el suyo miente sobre el único dato que
+   * explica por qué las cantidades son esas.
+   */
+  const comparisonCycle = ref<ConfiguratorBillingCycle>('MONTHLY')
 
   const questionById = computed(
     () => new Map(questions.value.map((question) => [question.id, question])),
@@ -77,6 +103,21 @@ export const useConfiguratorStore = defineStore('configurator', () => {
     return index
   })
   const catalogItemById = computed(() => new Map(catalogItems.value.map((item) => [item.id, item])))
+  /**
+   * El mismo catálogo, indexado por **código**.
+   *
+   * <p>No es un índice de conveniencia: `/configurator/resolve` identifica cada
+   * artículo del carrito por su `code` y ya no devuelve el id interno, así que
+   * sin este mapa la tabla del resultado no tiene forma de poner un nombre. Se
+   * mantienen los dos porque los efectos del editor sí siguen apuntando al id.
+   *
+   * <p>Si dos artículos compartieran código el último ganaría, igual que en el
+   * índice por id — pero `catalog_items.code` es único en la base, así que el
+   * caso no existe.
+   */
+  const catalogItemByCode = computed(
+    () => new Map(catalogItems.value.map((item) => [item.code, item])),
+  )
 
   function setEditorData(payload: {
     questions: ConfiguratorQuestionResponse[]
@@ -132,6 +173,10 @@ export const useConfiguratorStore = defineStore('configurator', () => {
     selection.value = value
   }
 
+  function setBillingCycle(value: ConfiguratorBillingCycle) {
+    billingCycle.value = value
+  }
+
   function setQuestionnaireLoading(value: boolean) {
     questionnaireLoading.value = value
   }
@@ -155,15 +200,23 @@ export const useConfiguratorStore = defineStore('configurator', () => {
     after: SelectedItemResponse[] | null
     label: string
     scenario: string
+    cycle: ConfiguratorBillingCycle
   }) {
     comparisonBefore.value = payload.before
     comparisonAfter.value = payload.after
     comparisonLabel.value = payload.label
     comparisonScenario.value = payload.scenario
+    comparisonCycle.value = payload.cycle
   }
 
   function clearComparison() {
-    setComparison({ before: null, after: null, label: '', scenario: '' })
+    setComparison({
+      before: null,
+      after: null,
+      label: '',
+      scenario: '',
+      cycle: billingCycle.value,
+    })
   }
 
   return {
@@ -178,6 +231,7 @@ export const useConfiguratorStore = defineStore('configurator', () => {
     effectOrderDraft,
     questionnaire,
     answers,
+    billingCycle,
     selection,
     questionnaireLoading,
     questionnaireError,
@@ -187,9 +241,11 @@ export const useConfiguratorStore = defineStore('configurator', () => {
     comparisonAfter,
     comparisonLabel,
     comparisonScenario,
+    comparisonCycle,
     questionById,
     optionById,
     catalogItemById,
+    catalogItemByCode,
     setEditorData,
     setEffects,
     setEffectOrderDraft,
@@ -200,6 +256,7 @@ export const useConfiguratorStore = defineStore('configurator', () => {
     setQuestionnaire,
     setAnswers,
     setSelection,
+    setBillingCycle,
     setQuestionnaireLoading,
     setQuestionnaireError,
     setResolving,
