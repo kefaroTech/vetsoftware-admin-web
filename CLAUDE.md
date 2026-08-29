@@ -126,22 +126,35 @@ a byte idénticos**; si tocas uno, tocas el otro en el mismo PR:
 | `src/types/pagination.ts`                                                                                     | `PageResponse<T>`, `PageQuery`, `emptyPage()` — el único contrato de paginación      |
 | `src/composables/useServerPaged.ts` · `useQuerySync.ts`                                                       | paginación servida por el backend y filtros sincronizados con la query string        |
 | `scripts/check-bundle-budget.mjs` · `ds-audit.mjs` · `css-budget.mjs`                                         | verificadores                                                                        |
+| `scripts/tr02-parity-check.mjs` · `tr02-parity.config.json`                                                   | gate de paridad TR-02 — compara este listado byte a byte, corre en `npm run quality` |
 | `tests/unit/setup.ts` · `storage-service.spec.ts` · `ui-stores.spec.ts`                                       | sus pruebas                                                                          |
 | `eslint.config.ts` · `stylelint.config.mjs` · `lint-staged.config.mjs` · `commitlint.config.js` · `AGENTS.md` | tooling                                                                              |
 | `stylelint-plugins/no-duplicate-primitive.mjs`                                                                | regla stylelint FE-08: rechaza CSS que reescribe una primitiva                       |
 
 **Divergencias permitidas, y solo estas.** Van siempre con un comentario que
-diga por qué:
+diga por qué (y con una entrada en `scripts/tr02-parity.config.json`, que es
+lo que `npm run quality` de verdad comprueba):
 
 - `telemetry.ts`: el nombre de la aplicación.
 - `http.client.ts`: un bloque delimitado con los presupuestos por llamada
   propios de cada app (el operativo declara `DIAN_TIMEOUT_MS` y
   `TRANSFER_TIMEOUT_MS`; la consola, ninguno).
 - `check-bundle-budget.mjs`: las cifras del presupuesto.
+- `AGENTS.md`: la sección "Integración con Codex" remite a los encabezados del
+  `CLAUDE.md` de SU PROPIO repo, y las dos listas son correctas para su repo:
+  el `CLAUDE.md` del front tenant tiene secciones (recarga de pantalla/modal,
+  validación de formularios, API/composables de catálogo, UI) que el de la
+  consola no tiene. Igualar el texto haría que al menos un `AGENTS.md`
+  apuntara a secciones inexistentes en su propio `CLAUDE.md`. Verificado
+  leyendo los encabezados de los dos `CLAUDE.md` el 2026-08-29.
 
 Cualquier otra diferencia entre esos archivos es deriva, no diseño. Fue
 exactamente así como el velo de carga acabó durando 300 ms en un front y 420 en
-el otro durante semanas.
+el otro durante semanas — y así fue como `http.client.ts` estuvo semanas con
+`withBranchBody` corregido en un front y roto (marca por identidad en un
+`WeakSet`, inerte porque axios clona el cuerpo antes del interceptor) en el
+otro: nadie lo comparaba. `npm run tr02:parity` (dentro de `quality`) existe
+para que la próxima no se encuentre por accidente.
 
 **Registro de claves volátiles (issue #68 del front tenant).** `storageService.clearSession()`
 —la que corre en cada expulsión por token expirado— solo borra
