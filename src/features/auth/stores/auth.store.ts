@@ -4,11 +4,22 @@ import { storageService, type AuthSession } from '@/services/storage/storage.ser
 import { setRefreshHandler, setSessionClearHandler } from '@/services/http/http.client'
 import { authApi } from '../api/auth.api'
 import { decodeJwt } from '../utils/jwt'
-import type { AuthSubjectType } from '../types/auth.types'
+import type { AuthSubjectType, MeResponse } from '../types/auth.types'
 
 export const useAuthStore = defineStore('auth', () => {
   const session = ref<AuthSession | null>(storageService.getSession())
   const permissions = ref<string[]>([])
+  /**
+   * La identidad del usuario en sesión, tal y como la declara `GET /auth/me`.
+   *
+   * <p>Se guardaba solo `permissions` y se tiraba el resto, así que **el nombre
+   * de quien está operando no existía en ninguna parte del cliente**: el JWT
+   * solo trae `sub`, y con un identificador numérico no se puede escribir «Firma
+   * Ana Ruiz» al lado del botón que condona una deuda. Ese es el único consumidor
+   * nuevo (`SignedActionModal`, D-06); `permissions` se conserva aparte porque lo
+   * lee `hasPermission` en cada guarda y no conviene encadenarlo a un opcional.
+   */
+  const me = ref<MeResponse | null>(null)
 
   const token = computed<string | null>(() => session.value?.token ?? null)
   const claims = computed(() => (session.value ? decodeJwt(session.value.token) : null))
@@ -50,6 +61,7 @@ export const useAuthStore = defineStore('auth', () => {
     storageService.clearSession()
     session.value = null
     permissions.value = []
+    me.value = null
   }
 
   /** Hidrata los permisos del usuario actual desde `GET /auth/me` (SYSTEM_USER o EMPLOYEE). */
@@ -57,9 +69,11 @@ export const useAuthStore = defineStore('auth', () => {
     if (!token.value) return
     try {
       const data = await authApi.me()
+      me.value = data
       permissions.value = data.permissions ?? []
     } catch {
       // token inválido/expirado → el interceptor 401 (o el guard) hará el redirect.
+      me.value = null
       permissions.value = []
     }
   }
@@ -136,6 +150,7 @@ export const useAuthStore = defineStore('auth', () => {
     session,
     token,
     permissions,
+    me,
     userId,
     userType,
     isAuthenticated,
