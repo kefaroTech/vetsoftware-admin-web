@@ -55,8 +55,21 @@ export const companiesApi = {
     })
     return data
   },
-  async findById(id: number): Promise<CompanyResponse> {
-    const { data } = await http.get<CompanyResponse>(`/companies/${id}`)
+  /**
+   * La ficha de una empresa.
+   *
+   * <p>`silent` apaga el velo global para esta llamada, y existe por un único
+   * llamador: la caché de nombres que `CompanyRef` consulta para no seguir
+   * pintando `#42` en catorce pantallas. Esas peticiones no son la carga de la
+   * pantalla —son decoración de filas que ya están en el DOM— y dejarlas bajo el
+   * velo taparía la tabla mientras se resuelven veinte nombres que el operador
+   * ya puede leer por su número. La pantalla que abre una ficha de empresa a
+   * propósito **sí** quiere el velo, así que el valor por defecto no cambia.
+   */
+  async findById(id: number, options: { silent?: boolean } = {}): Promise<CompanyResponse> {
+    const { data } = await http.get<CompanyResponse>(`/companies/${id}`, {
+      skipGlobalLoader: options.silent === true,
+    })
     return data
   },
   async create(payload: CreateCompanyRequest): Promise<CompanyResponse> {

@@ -13,8 +13,16 @@ import type { SubscriptionRecordTab } from '@/features/subscriptions-admin/types
  */
 
 export const SUBSCRIPTION_RECORD_ROUTE_NAMES = {
-  /** La ruta padre: el armazón con la cabecera de empresa y la barra de sub-vistas. */
-  RECORD: 'subscription-record',
+  /**
+   * La ruta padre: el armazón con la cabecera de empresa y la barra de
+   * sub-vistas.
+   *
+   * <p>El literal subió a `constants/routes.ts` para que `SubscriptionRef`
+   * —primitiva de `components/ui/`— pueda enlazar aquí sin importar desde
+   * `router/routes/**`. Este alias se conserva porque lo usan las pestañas y el
+   * armazón, y renombrarlo habría tocado ficheros que esta tarea no necesita.
+   */
+  RECORD: ROUTE_NAMES.SUBSCRIPTION_RECORD,
 } as const
 
 /**
