@@ -5,11 +5,13 @@ defineProps<{
 }>()
 
 /**
- * El tono `success` NO tiene clase local: su par (`--success-bg`/`--success-fg`)
- * ya está declarado como `.ds-tone--success` en `primitives.css`, y reescribirlo
- * aquí es exactamente lo que rechaza `vetsoftware/no-duplicate-primitive`.
+ * `success` y `warning` NO tienen clase local: sus pares (`--success-bg`/
+ * `--success-fg` y `--warning-bg`/`--warning-fg`) ya están declarados como
+ * `.ds-tone--success` / `.ds-tone--warning` en `primitives.css`, y
+ * reescribirlos aquí es exactamente lo que rechaza
+ * `vetsoftware/no-duplicate-primitive`.
  *
- * Los otros tres SÍ la conservan porque no coinciden con ninguna primitiva:
+ * Los otros dos SÍ la conservan porque no coinciden con ninguna primitiva:
  * `.ds-tone--danger` usa `--danger-200`/`--danger-700` y este badge usa
  * `--danger-50`, que es un fondo más claro pensado para texto pequeño sobre
  * fila de tabla. Mapear los cuatro a `.ds-tone--*` habría cambiado el color de
@@ -17,7 +19,7 @@ defineProps<{
  */
 const TONE_CLASS = {
   success: 'ds-tone--success',
-  warning: 'badge--warning',
+  warning: 'ds-tone--warning',
   danger: 'badge--danger',
   neutral: 'badge--neutral',
 } as const
@@ -45,11 +47,6 @@ const TONE_CLASS = {
 
 /* DS-01: eran cuatro literales `oklch` fuera de la escala. Los pares
    semánticos ya existen en `tokens.css` y están medidos contra §1.4.3. */
-.badge--warning {
-  background: var(--warning-bg);
-  color: var(--warning-fg);
-}
-
 .badge--danger {
   background: var(--danger-50);
   color: var(--danger-700);
