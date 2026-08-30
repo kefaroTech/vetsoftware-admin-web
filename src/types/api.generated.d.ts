@@ -1060,6 +1060,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/assistant/proposal/lines": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["editLines"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/appointments/{id}": {
         parameters: {
             query?: never;
@@ -3982,6 +3998,54 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["forgot"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/assistant/proposals/suppress": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["suppress"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/assistant/proposal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_1"];
+        put?: never;
+        post: operations["generate_4"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/assistant/proposal/refine": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["refine"];
         delete?: never;
         options?: never;
         head?: never;
@@ -8619,7 +8683,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get_1"];
+        get: operations["get_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8779,7 +8843,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get_2"];
+        get: operations["get_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -10800,6 +10864,61 @@ export interface components {
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
+        };
+        EditProposalLinesRequest: {
+            token: string;
+            addedCodes?: string[];
+            removedCodes?: string[];
+            /** Format: int64 */
+            version?: number;
+        };
+        AssistantPackOfferResponse: {
+            packCode?: string;
+            packName?: string;
+            packAmount?: number;
+            standaloneTotal?: number;
+            monthlySaving?: number;
+            currency?: string;
+            /** Format: int32 */
+            trialDaysLost?: number;
+            modulesLosingTrial?: string[];
+        };
+        AssistantProposalLineResponse: {
+            code?: string;
+            name?: string;
+            description?: string;
+            kind?: string;
+            /** Format: int32 */
+            quantity?: number;
+            unitAmount?: number;
+            taxRate?: number;
+            taxAmount?: number;
+            totalAmount?: number;
+            /** Format: int32 */
+            trialDays?: number;
+            currency?: string;
+            reason?: string;
+        };
+        AssistantProposalResponse: {
+            token?: string;
+            presentation?: string;
+            /** Format: date-time */
+            expiresAt?: string;
+            /** Format: int64 */
+            version?: number;
+            lines?: components["schemas"]["AssistantProposalLineResponse"][];
+            recommendations?: components["schemas"]["AssistantProposalLineResponse"][];
+            /** Format: int32 */
+            discardedLines?: number;
+            currency?: string;
+            subtotal?: number;
+            taxes?: number;
+            total?: number;
+            firstPeriodTotal?: number;
+            packOffer?: components["schemas"]["AssistantPackOfferResponse"];
+            /** Format: int32 */
+            refinementsLeft?: number;
+            recalculated?: boolean;
         };
         UpdateAppointmentRequest: {
             /** Format: date-time */
@@ -14502,6 +14621,40 @@ export interface components {
         };
         ForgotPasswordRequest: {
             employeeCode: string;
+        };
+        SuppressProposalDataRequest: {
+            /**
+             * Format: email
+             * @description Correo del titular cuyos datos se suprimen
+             */
+            contactEmail: string;
+        };
+        ProposalSuppressionResponse: {
+            /** Format: int32 */
+            proposals: number;
+            /** Format: int32 */
+            turns: number;
+            /** Format: int32 */
+            lines: number;
+            /** Format: int32 */
+            total: number;
+        };
+        GenerateProposalRequest: {
+            /** Format: email */
+            email: string;
+            description: string;
+            acceptances: components["schemas"]["LegalAcceptanceRequest"][];
+        };
+        LegalAcceptanceRequest: {
+            code: string;
+            /** Format: int32 */
+            documentVersion?: number;
+        };
+        RefineProposalRequest: {
+            token: string;
+            text: string;
+            /** Format: int64 */
+            version?: number;
         };
         CreateAppointmentRequest: {
             /** Format: date-time */
@@ -20617,6 +20770,30 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    editLines: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EditProposalLinesRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AssistantProposalResponse"];
+                };
             };
         };
     };
@@ -27331,6 +27508,102 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    suppress: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SuppressProposalDataRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProposalSuppressionResponse"];
+                };
+            };
+        };
+    };
+    get_1: {
+        parameters: {
+            query: {
+                token: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AssistantProposalResponse"];
+                };
+            };
+        };
+    };
+    generate_4: {
+        parameters: {
+            query?: never;
+            header?: {
+                "Idempotency-Key"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GenerateProposalRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AssistantProposalResponse"];
+                };
+            };
+        };
+    };
+    refine: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RefineProposalRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AssistantProposalResponse"];
+                };
             };
         };
     };
@@ -34292,7 +34565,7 @@ export interface operations {
             };
         };
     };
-    get_1: {
+    get_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -34515,7 +34788,7 @@ export interface operations {
             };
         };
     };
-    get_2: {
+    get_3: {
         parameters: {
             query?: {
                 types?: ("CONSULTATION" | "SURGERY" | "VACCINATION" | "DEWORMING" | "HOSPITALIZATION" | "LABORATORY_TEST" | "DIAGNOSTIC_IMAGING" | "PRESCRIPTION" | "SPA")[];
