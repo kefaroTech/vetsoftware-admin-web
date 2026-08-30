@@ -1,6 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { useLoaderStore } from '@/stores/loader.store'
 import { useToastStore } from '@/stores/toast.store'
+import { elemento } from '../helpers/exigir'
+
+/** El primer aviso de la pila, exigido: sin él la prueba muere sin decir que la pila estaba vacía. */
+const primerAviso = (store: ReturnType<typeof useToastStore>) =>
+  elemento(store.toasts, 0, 'la pila de avisos')
 
 /**
  * Los dos stores transversales de la interfaz. Ninguno tiene lógica de negocio
@@ -166,7 +171,7 @@ describe('avisos', () => {
 
     store.push('info', 'Sincronizando')
 
-    expect(store.toasts[0].message).toBeUndefined()
+    expect(primerAviso(store).message).toBeUndefined()
   })
 
   it('cada aviso lleva un id distinto', () => {
@@ -200,7 +205,7 @@ describe('avisos', () => {
     store.push('error', 'Falló el guardado', 'Detalle', 9_000, 'abc123')
     vi.advanceTimersByTime(8_999)
     expect(store.toasts).toHaveLength(1)
-    expect(store.toasts[0].traceId).toBe('abc123')
+    expect(primerAviso(store).traceId).toBe('abc123')
 
     vi.advanceTimersByTime(1)
     expect(store.toasts).toHaveLength(0)
@@ -235,7 +240,7 @@ describe('avisos', () => {
     const store = useToastStore()
     store.push('info', 'Uno')
     store.push('info', 'Dos')
-    const idPrimero = store.toasts[0].id
+    const idPrimero = primerAviso(store).id
 
     store.dismiss(idPrimero)
 
@@ -246,7 +251,7 @@ describe('avisos', () => {
     const store = useToastStore()
     store.push('info', 'Uno')
     store.push('info', 'Dos')
-    const idPrimero = store.toasts[0].id
+    const idPrimero = primerAviso(store).id
 
     store.dismiss(idPrimero)
     store.dismiss(idPrimero)

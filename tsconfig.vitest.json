@@ -1,0 +1,26 @@
+{
+  // Las pruebas unitarias estuvieron fuera de todo `tsconfig`: `vue-tsc -b` solo
+  // veía `src/` y `visual/`, así que `tests/**` no se comprobaba. Un `expect`
+  // sobre un campo que no existe, un mock que devuelve otra forma que la real o
+  // un `as` que miente pasaban en verde. Una prueba que afirma algo falso es
+  // peor que no tener prueba, y aquí había mentiras en rutas de sesión y de
+  // dinero. Este proyecto las mete bajo el mismo rigor que `src/`.
+  //
+  // No se listan los ficheros de `src/`: TypeScript arrastra por `import` los
+  // módulos que las pruebas realmente tocan, así que el programa es el de las
+  // pruebas más su superficie de producción, sin recompilar la app entera.
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.vitest.tsbuildinfo",
+    // `vite/client` porque el código bajo prueba lee `import.meta.env`; `node`
+    // porque las pruebas leen ficheros del repo (`node:fs`, `node:path`).
+    "types": ["vite/client", "node"]
+  },
+  "include": [
+    "tests/**/*.ts",
+    // Las declaraciones globales (`grecaptcha`, `vite-env`) no llegan por
+    // `import`: hay que listarlas o el programa de pruebas ve un `window`
+    // distinto del que ve la aplicación.
+    "src/**/*.d.ts"
+  ]
+}

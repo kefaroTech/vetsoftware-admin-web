@@ -62,6 +62,7 @@ function item(overrides: Partial<CatalogItemResponse> = {}): CatalogItemResponse
     status: 'ACTIVE',
     createdDate: '2026-08-01',
     enabled: true,
+    defaultTrialDays: null,
     ...overrides,
   }
 }

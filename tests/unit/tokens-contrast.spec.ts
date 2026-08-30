@@ -63,7 +63,10 @@ function parseRootTokens(css: string): Map<string, string> {
 
   const tokens = new Map<string, string>()
   // `[^;]` cruza saltos de línea a propósito: hay valores multilínea.
-  for (const [, name, value] of block.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]*);/gi)) {
+  for (const match of block.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]*);/gi)) {
+    const name = match[1]
+    const value = match[2]
+    if (name === undefined || value === undefined) continue
     tokens.set(name, value.trim().replace(/\s+/g, ' '))
   }
   return tokens
@@ -81,7 +84,10 @@ function ruleBlock(selector: string): string {
   const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   const match = new RegExp(`(?:^|\\n)${escaped}\\s*\\{([^}]*)\\}`).exec(PRIMITIVES)
   if (match === null) throw new Error(`primitives.css no declara la regla ${selector}`)
-  return match[1]
+  const cuerpo = match[1]
+  if (cuerpo === undefined)
+    throw new Error(`primitives.css: la regla ${selector} no capturó cuerpo`)
+  return cuerpo
 }
 
 function tokenValue(name: string): string {
@@ -100,7 +106,9 @@ function resolveVars(value: string, seen: ReadonlySet<string> = new Set()): stri
 
 /** Nombres de token que referencia un valor, en orden de aparición. */
 function referencedTokens(value: string): string[] {
-  return Array.from(value.matchAll(/var\(\s*(--[a-z0-9-]+)\s*\)/gi), (m) => m[1])
+  return Array.from(value.matchAll(/var\(\s*(--[a-z0-9-]+)\s*\)/gi))
+    .map((m) => m[1])
+    .filter((name): name is string => name !== undefined)
 }
 
 // --------------------------------------------------------------------------
@@ -117,6 +125,10 @@ interface Oklch {
 function parseOklch(value: string): Oklch {
   const match = /^oklch\(\s*([^\s/]+)\s+([^\s/]+)\s+([^\s/)]+)\s*\)$/i.exec(value.trim())
   if (!match) throw new Error(`no se reconoce como OKLCH sin alfa: "${value}"`)
+  const [lRaw, cRaw, hRaw] = [match[1], match[2], match[3]]
+  if (lRaw === undefined || cRaw === undefined || hRaw === undefined) {
+    throw new Error(`OKLCH sin los tres componentes: "${value}"`)
+  }
 
   const component = (raw: string, allowPercent: boolean): number => {
     // Solo se aceptan número puro, `%` y `deg`. Un `rad`/`turn` revienta aquí
@@ -132,9 +144,9 @@ function parseOklch(value: string): Oklch {
   }
 
   return {
-    l: component(match[1], true),
-    c: component(match[2], false),
-    h: component(match[3], false),
+    l: component(lRaw, true),
+    c: component(cRaw, false),
+    h: component(hRaw, false),
   }
 }
 
@@ -161,7 +173,11 @@ function oklchToLinearSrgb({ l, c, h }: Oklch): [number, number, number] {
  * corresponde a lo que realmente se ve en pantalla.
  */
 function relativeLuminance(color: Oklch): number {
-  const [r, g, b] = oklchToLinearSrgb(color).map((channel) => Math.min(1, Math.max(0, channel)))
+  const clamp = (channel: number) => Math.min(1, Math.max(0, channel))
+  const [rRaw, gRaw, bRaw] = oklchToLinearSrgb(color)
+  const r = clamp(rRaw)
+  const g = clamp(gRaw)
+  const b = clamp(bRaw)
   return 0.2126 * r + 0.7152 * g + 0.0722 * b
 }
 
@@ -188,7 +204,9 @@ function declaration(selector: string, property: string): string {
   // El `(?:^|;)` delante es lo que evita que `color` case con `border-color`.
   const match = new RegExp(`(?:^|;)\\s*${property}\\s*:\\s*([^;]+)`).exec(block)
   if (match === null) throw new Error(`${selector} no declara \`${property}\``)
-  return match[1].trim().replace(/\s+/g, ' ')
+  const valor = match[1]
+  if (valor === undefined) throw new Error(`${selector}: \`${property}\` sin grupo capturado`)
+  return valor.trim().replace(/\s+/g, ' ')
 }
 
 const surfaceLuminance = relativeLuminance(parseOklch(resolveVars(tokenValue('--warm-50'))))

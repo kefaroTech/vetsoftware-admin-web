@@ -370,8 +370,16 @@ for (const { nombre, viewport } of VIEWPORTS_TABLET) {
       const barra = await activo.evaluate((el) => {
         const pseudo = getComputedStyle(el, '::before')
         const item = el.getBoundingClientRect()
-        const aside = el.closest('aside')!.getBoundingClientRect()
-        const lista = el.closest('nav#app-nav')!.getBoundingClientRect()
+        // Este callback corre serializado en el contexto del navegador (Playwright
+        // `page.evaluate`): no puede importar el helper `exigir` de Node, así que la
+        // comprobación real va inline, con el mismo criterio — fallar diciendo qué
+        // ancestro faltaba en vez de un `!` que revienta con "null is not an object".
+        const asideEl = el.closest('aside')
+        if (!asideEl) throw new Error('el ítem activo no tiene un <aside> ancestro')
+        const aside = asideEl.getBoundingClientRect()
+        const navEl = el.closest('nav#app-nav')
+        if (!navEl) throw new Error('el ítem activo no tiene un nav#app-nav ancestro')
+        const lista = navEl.getBoundingClientRect()
         return {
           content: pseudo.content,
           width: pseudo.width,

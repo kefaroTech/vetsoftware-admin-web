@@ -1,4 +1,4 @@
-import { test, expect, type Request } from '@playwright/test'
+import { test, expect, type Page, type Request } from '@playwright/test'
 import { API_BASE, COMPANY_ID_HEADER } from './helpers/session'
 
 /**
@@ -68,7 +68,7 @@ interface HttpClientModule {
  * llamadores de `features/subscriptions-admin/api/`.
  */
 async function callWithRealClient(
-  page: import('@playwright/test').Page,
+  page: Page,
   url: string,
   companyId?: number,
 ): Promise<DriverResult> {
@@ -96,7 +96,7 @@ async function callWithRealClient(
 }
 
 /** Captura las peticiones a la API y el valor de la cabecera en cada una. */
-function recordApiRequests(page: import('@playwright/test').Page) {
+function recordApiRequests(page: Page) {
   const seen: { url: string; header: string | undefined }[] = []
   page.on('request', (request: Request) => {
     if (!request.url().startsWith(API_BASE)) return
