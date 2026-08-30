@@ -9,6 +9,7 @@
     "src/stores/toast.store.ts",
     "src/composables/useGlobalLoader.ts",
     "src/composables/useToast.ts",
+    "src/composables/useTokenDeEnlace.ts",
     "src/features/auth/utils/jwt.ts",
     "src/types/api.types.ts",
     "src/plugins/vuetify.ts",

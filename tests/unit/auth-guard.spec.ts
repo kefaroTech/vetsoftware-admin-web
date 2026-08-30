@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import type { Mock } from 'vitest'
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import { authGuard } from '@/router/guards/auth.guard'
 import { useAuthStore } from '@/features/auth/stores/auth.store'
@@ -18,7 +19,17 @@ vi.mock('@/composables/useNotification', () => ({
  */
 
 function route(meta: Record<string, unknown> = {}, fullPath = '/'): RouteLocationNormalized {
-  return { meta, fullPath } as unknown as RouteLocationNormalized
+  // `path` es `fullPath` sin query ni hash, igual que lo construye vue-router.
+  // Los dos tienen que existir en el doble o el test no distinguiría cuál de
+  // los dos lee el guard, que es justo lo que aquí se está comprobando.
+  const path = fullPath.split(/[?#]/)[0]
+  return { meta, fullPath, path } as unknown as RouteLocationNormalized
+}
+
+/** El destino (`?redirect=`) con el que el guard mandó al login. */
+function redirectCapturado(next: NavigationGuardNext): string {
+  const espia = next as unknown as Mock<(location: { query: { redirect: string } }) => void>
+  return espia.mock.calls[0]?.[0]?.query.redirect ?? ''
 }
 
 /** Token cuyo `exp` cae antes o después de ahora, según se pida. */
@@ -60,12 +71,43 @@ describe('authGuard', () => {
     // siempre en el home aunque hubiera abierto un enlace profundo.
     const next = vi.fn() as unknown as NavigationGuardNext
 
-    authGuard(route({}, '/companies/42?tab=facturacion'), route(), next)
+    authGuard(route({}, '/companies/42'), route(), next)
 
     expect(next).toHaveBeenCalledWith({
       name: ROUTE_NAMES.LOGIN,
-      query: { redirect: '/companies/42?tab=facturacion' },
+      query: { redirect: '/companies/42' },
     })
+  })
+
+  it('no republica la cadena de consulta de la ruta protegida en la URL de login', () => {
+    // El guard es infraestructura genérica: no sabe qué parámetro de qué feature
+    // es un secreto. En este monorepo `token` ya nombra a cuatro distintos
+    // (restablecer contraseña, aceptar invitación, aprobar acceso, recuperar
+    // propuesta), así que recorta la query entera. Reenviarla dejaría el secreto
+    // en la barra de direcciones del login, en el historial y en el `Referer`.
+    // El valor NO tiene pinta de credencial a propósito. El pre-commit escanea
+    // con gitleaks, y un literal entrópico junto a un identificador que contiene
+    // «secret» dispara `generic-api-key` y bloquea el commit por un dato de
+    // mentira. Lo que esta prueba necesita es que este valor NO aparezca en la
+    // URL de login; que parezca real no aporta nada.
+    const VALOR_EN_LA_QUERY = 'aprobacion-de-mentira'
+    const next = vi.fn() as unknown as NavigationGuardNext
+
+    authGuard(route({}, `/companies/42?token=${VALOR_EN_LA_QUERY}&tab=facturacion`), route(), next)
+
+    const destino = redirectCapturado(next)
+    expect(destino).toBe('/companies/42')
+
+    // La URL de login tal y como acaba en el navegador. Se afirma sobre la forma
+    // cruda Y sobre la decodificada: sin el arreglo el rojo se ve escapado
+    // (`?redirect=%2Fcompanies%2F42%3Ftoken%3D…`), y un `toContain` sobre una
+    // sola de las dos formas puede pasar por alto la otra.
+    const urlLogin = `/login?redirect=${encodeURIComponent(destino)}`
+    for (const forma of [urlLogin, decodeURIComponent(urlLogin)]) {
+      expect(forma).not.toContain('token')
+      expect(forma).not.toContain(VALOR_EN_LA_QUERY)
+      expect(forma).not.toContain('tab')
+    }
   })
 
   it('deja pasar con un token vigente', () => {

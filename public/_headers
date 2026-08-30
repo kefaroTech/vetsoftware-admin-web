@@ -39,6 +39,58 @@
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dev-api.kefaro.tech https://api.vetsoftware.co; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
   Cache-Control: no-cache
 
+# ─────────────────────────────────────────────────────────────────────────────
+# LAS RUTAS QUE LLEGAN POR UN ENLACE DE CORREO VAN CON `Referrer-Policy: no-referrer`
+#
+# Estas pantallas reciben en `?token=` la única cosa que las autoriza. Con
+# `strict-origin-when-cross-origin` el navegador recorta a solo el origen ENTRE
+# ORÍGENES DISTINTOS, pero en peticiones al MISMO origen manda la URL COMPLETA —y
+# los `/assets/…` que pide index.html son del mismo origen—, así que el token
+# viaja en el `Referer` de cada subrecurso y acaba escrito en el registro de
+# acceso de quien esté delante. `docker/nginx.conf` ya no lo escribe (ver el
+# comentario largo del `log_format` de ese archivo), pero en Cloudflare Pages ese
+# archivo no existe y esta es la única palanca que hay.
+#
+# CADA BLOQUE REPITE LAS CABECERAS DE `/*` ENTERAS, y no es redundancia por
+# descuido. `_headers` de Cloudflare Pages no documenta de forma inequívoca si
+# una regla más específica FUSIONA con `/*` o lo SUSTITUYE. Repitiéndolo todo el
+# resultado es correcto en los dos casos; si solo se declarara `Referrer-Policy`
+# y la semántica fuese de sustitución, estas pantallas —una de ellas crea la
+# contraseña de la cuenta— se quedarían sin CSP ni HSTS, en silencio. Van DESPUÉS
+# de `/*` para que, bajo cualquiera de las dos semánticas y también si Cloudflare
+# emite la cabecera dos veces, gane `no-referrer`: el navegador se queda con el
+# ÚLTIMO valor válido de Referrer-Policy.
+#
+# `tests/unit/security-headers.spec.ts` comprueba que cada bloque sea idéntico al
+# de `/*` salvo en Referrer-Policy, que la lista de rutas coincida con el `map`
+# de `docker/nginx.conf`, y que no haya en `src/` un lector de `route.query.token`
+# sin su ruta declarada aquí.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# El invitado aprobado CREA su contraseña con este token
+/aceptar-invitacion
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dev-api.kefaro.tech https://api.vetsoftware.co; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+  Cache-Control: no-cache
+
+# Aprobación de una solicitud de acceso a la plataforma
+/aprobar-acceso
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dev-api.kefaro.tech https://api.vetsoftware.co; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+  Cache-Control: no-cache
+
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
