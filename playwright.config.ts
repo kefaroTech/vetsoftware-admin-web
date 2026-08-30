@@ -64,9 +64,10 @@ export default defineConfig({
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
     {
       name: 'chromium',
-      // `./e2e/tablet` queda fuera: esa suite mide el armazón con la API
-      // interceptada y NO debe arrastrar el `setup`, que exige backend real.
-      testIgnore: '**/tablet/**',
+      // `./e2e/tablet` y `./e2e/supresion` quedan fuera: esas dos suites
+      // miden con la API interceptada y NO deben arrastrar el `setup`, que exige
+      // backend real.
+      testIgnore: ['**/tablet/**', '**/supresion/**'],
       use: { ...devices['Desktop Chrome'], storageState: 'e2e/.auth/system-user.json' },
       dependencies: ['setup'],
     },
@@ -90,6 +91,28 @@ export default defineConfig({
     {
       name: 'armazon-tablet',
       testDir: './e2e/tablet',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    /**
+     * Supresión de datos del asistente — habeas data, Ley 1581 art. 8 lit. e.
+     *
+     * Proyecto aparte y SIN `dependencies`, por el mismo motivo que
+     * `armazon-tablet` y por uno propio que pesa más: el endpoint de detrás
+     * BORRA de verdad, es irreversible y el contrato no publica ninguna lectura
+     * con la que comprobar antes ni restituir después. Una suite que lo llamara
+     * contra `localdev` incumpliría «cada spec deja el sistema como lo
+     * encontró» de la única forma que no tiene arreglo. Además, los dos
+     * desenlaces que la suite existe para separar —hallazgo y cero
+     * coincidencias— no se pueden provocar a voluntad contra datos reales.
+     *
+     * Todo el tráfico va interceptado en `e2e/helpers/supresion.ts`, así que
+     * corre con el backend apagado.
+     *
+     * Se corre solo:  npx playwright test --project=supresion-datos
+     */
+    {
+      name: 'supresion-datos',
+      testDir: './e2e/supresion',
       use: { ...devices['Desktop Chrome'] },
     },
   ],
