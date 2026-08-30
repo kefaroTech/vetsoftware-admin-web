@@ -44,6 +44,10 @@ import { configRoutes } from './routes/config.routes'
  * ajustar.
  * ────────────────────────────────────────────────────────────────────────── */
 import { commercialCatalogRoutes } from './routes/commercial-catalog.routes'
+// Habeas data · /asistente/supresion-datos. El eslabón «el asistente» de la
+// cadena del menú, y la única pantalla que llama a
+// POST /assistant/proposals/suppress.
+import { proposalSuppressionRoutes } from './routes/proposal-suppression.routes'
 // W1-D · /cotizaciones y /cotizaciones/:id (§4.3)
 import { quotesRoutes } from './routes/quotes.routes'
 import { subscriptionsAdminRoutes } from './routes/subscriptions-admin.routes'
@@ -75,6 +79,7 @@ const router = createRouter({
     ...companiesRoutes,
     // El orden de la cadena, igual que en el menú.
     ...commercialCatalogRoutes,
+    ...proposalSuppressionRoutes,
     ...quotesRoutes,
     ...subscriptionsAdminRoutes,
     ...billingOperationsRoutes,

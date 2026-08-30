@@ -19,6 +19,7 @@ import {
   Component,
   Copy,
   Dog,
+  Eraser,
   Eye,
   EyeOff,
   FileText,
@@ -81,6 +82,8 @@ export const ICONS = {
   COMPANY: Building2,
   EMPLOYEE: Users,
   COMMERCIAL_CATALOG: Ticket,
+  /** Supresión de datos del asistente a petición del titular (habeas data). */
+  DATA_SUPPRESSION: Eraser,
   // Las dos entradas que §2 de la especificación de suscripciones añade al
   // menú: la oferta y las políticas de facturación.
   QUOTE: FileText,

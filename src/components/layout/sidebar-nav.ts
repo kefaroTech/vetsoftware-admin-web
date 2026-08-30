@@ -81,6 +81,17 @@ export const navGroups: NavGroup[] = [
         path: '/catalogo-comercial',
         icon: ICONS.COMMERCIAL_CATALOG,
       },
+      // El eslabón «el asistente» de la cadena, que hasta ahora no tenía ninguna
+      // entrada: va entre el catálogo y la oferta porque es donde el orden
+      // documentado arriba lo coloca —el asistente es lo que convierte una
+      // descripción en una cotización—. Es además la única pantalla de los dos
+      // fronts que atiende una petición de habeas data (Ley 1581, art. 8 e), y
+      // hasta que existió, cumplirla exigía invocar la API a mano.
+      {
+        label: 'Supresión de datos',
+        path: '/asistente/supresion-datos',
+        icon: ICONS.DATA_SUPPRESSION,
+      },
       { label: 'Cotizaciones', path: '/cotizaciones', icon: ICONS.QUOTE },
       {
         name: ROUTE_NAMES.SUBSCRIPTIONS_ADMIN,

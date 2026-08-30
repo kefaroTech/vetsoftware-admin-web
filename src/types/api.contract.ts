@@ -325,6 +325,10 @@ import type {
   RegisterGatewaySettlementRequest,
   ResolveExternalInvoiceReconciliationRequest,
 } from '../features/reconciliation/types/reconciliation.types'
+import type {
+  ProposalSuppressionResponse,
+  SuppressProposalDataRequest,
+} from '../features/proposal-suppression/types/proposal-suppression.types'
 export type Schemas = components['schemas']
 
 /** Lo que el contrato sabe comparar campo a campo. Lo demás se comprueba por su propia atadura. */
@@ -1012,4 +1016,11 @@ export type ContractAssertions = [
     >
   >,
   Expect<MatchesContract<PageResponse<BankReceiptResponse>, 'PageResponseBankReceiptResponse'>>,
+
+  // Habeas data: la supresión a petición del titular. La petición lleva UN campo y la
+  // respuesta son tres contadores más su suma; si el backend renombra cualquiera de los
+  // cuatro, la pantalla mostraría `undefined` donde dice cuántas filas se borraron, que
+  // es el número con el que se le responde a la SIC.
+  Expect<MatchesContract<SuppressProposalDataRequest, 'SuppressProposalDataRequest'>>,
+  Expect<MatchesContract<ProposalSuppressionResponse, 'ProposalSuppressionResponse'>>,
 ]
