@@ -1,6 +1,10 @@
 # Logs
 logs
 *.log
+# Marcadores de código de salida de procesos en segundo plano. Hermanos de *.log:
+# se escribe `cmd > x.log 2>&1; echo $? > x.exit` porque la notificación de fondo
+# miente sobre el exit code. Desechables; NUNCA deben commitearse.
+*.exit
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
