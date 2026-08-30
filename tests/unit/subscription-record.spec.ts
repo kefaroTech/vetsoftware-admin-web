@@ -233,11 +233,18 @@ describe('el ciclo de facturación se lee en castellano', () => {
 /**
  * `reason` dejó de ser texto libre: es el vocabulario cerrado de
  * `SubscriptionStatusChangeReason` (backend), y viaja por HTTP con el nombre
- * del enum en mayúsculas — igual que `status`. Estas pruebas fijan que el
- * front ofrece exactamente esos seis valores, en ese orden y con ese nombre,
- * y que cada uno tiene una etiqueta legible que no es el código crudo.
+ * del enum en mayúsculas — igual que `status`.
+ *
+ * <p><b>Los dos conjuntos ya no coinciden, y esa es la prueba.</b> El mapa de
+ * rótulos tiene los SIETE códigos del enum, porque el expediente tiene que poder
+ * pintar cualquiera que llegue del servidor. El desplegable ofrece SEIS: a
+ * `REPLACED_BY_NEW_CONTRACT` lo escribe el sistema cuando el cliente acepta una
+ * cotización (DC-2), y dejar que una persona lo eligiera permitiría atribuirle a
+ * esa causa una transición que decidió ella — sobre una columna que es prueba en
+ * una disputa de cobro.
  */
 describe('el motivo del cambio de estado es vocabulario cerrado, no texto libre', () => {
+  /** Los siete del enum de dominio, en su mismo orden. */
   const CODIGOS_BACKEND = [
     'OVERDUE_BALANCE',
     'PAYMENT_RECEIVED',
@@ -245,11 +252,29 @@ describe('el motivo del cambio de estado es vocabulario cerrado, no texto libre'
     'CANCELLATION_EFFECTIVE',
     'PERIOD_EXPIRED',
     'MANUAL',
+    'REPLACED_BY_NEW_CONTRACT',
   ]
 
-  it('son exactamente los seis valores del enum de dominio, en su mismo orden', () => {
-    expect(SUBSCRIPTION_STATUS_CHANGE_REASON_OPTIONS.map((o) => o.value)).toEqual(CODIGOS_BACKEND)
+  /** El que escribe el sistema y NINGUNA persona puede elegir. */
+  const SOLO_DEL_SISTEMA = 'REPLACED_BY_NEW_CONTRACT'
+
+  it('el mapa de rótulos cubre los siete códigos del enum, en su mismo orden', () => {
     expect(Object.keys(SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL)).toEqual(CODIGOS_BACKEND)
+  })
+
+  it('el desplegable ofrece los seis que elige una persona, y NO el del sistema', () => {
+    const ofrecidos = SUBSCRIPTION_STATUS_CHANGE_REASON_OPTIONS.map((o) => o.value)
+
+    expect(ofrecidos).toEqual(CODIGOS_BACKEND.filter((c) => c !== SOLO_DEL_SISTEMA))
+    expect(
+      ofrecidos,
+      'el operador puede firmar a mano una sustitución que decide el sistema',
+    ).not.toContain(SOLO_DEL_SISTEMA)
+    // Y sigue teniendo rótulo: el expediente tiene que poder PINTARLO aunque el
+    // desplegable no deje ESCRIBIRLO.
+    expect(SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL[SOLO_DEL_SISTEMA]).toBe(
+      'Sustituido por un contrato nuevo',
+    )
   })
 
   it('cada opción trae una etiqueta en español y no el código crudo', () => {

@@ -12913,6 +12913,7 @@ export interface components {
             /** Format: email */
             fiscalEmail: string;
             recaptchaToken?: string;
+            aiProposalToken?: string;
         };
         RegistrationResponse: {
             /** Format: int64 */
@@ -13026,6 +13027,7 @@ export interface components {
             /** @enum {string} */
             billingCycle: "MONTHLY" | "ANNUAL";
             lines: components["schemas"]["SelfServeQuoteLineRequest"][];
+            aiProposalToken?: string;
         };
         PreviewQuoteRequest: {
             /** @enum {string} */
@@ -14638,12 +14640,18 @@ export interface components {
             lines: number;
             /** Format: int32 */
             total: number;
+            /** Format: date-time */
+            suppressedAt: string;
+            /** Format: date-time */
+            previouslySuppressedAt?: string;
         };
         GenerateProposalRequest: {
             /** Format: email */
             email: string;
             description: string;
             acceptances: components["schemas"]["LegalAcceptanceRequest"][];
+            /** @enum {string} */
+            billingCycle?: "MONTHLY" | "ANNUAL";
         };
         LegalAcceptanceRequest: {
             code: string;
@@ -14918,7 +14926,7 @@ export interface components {
             /** @enum {string} */
             status: "TRIALING" | "ACTIVE" | "PAST_DUE" | "READ_ONLY" | "CANCELLED" | "EXPIRED";
             /** @enum {string} */
-            reason: "OVERDUE_BALANCE" | "PAYMENT_RECEIVED" | "TRIAL_ENDED" | "CANCELLATION_EFFECTIVE" | "PERIOD_EXPIRED" | "MANUAL";
+            reason: "OVERDUE_BALANCE" | "PAYMENT_RECEIVED" | "TRIAL_ENDED" | "CANCELLATION_EFFECTIVE" | "PERIOD_EXPIRED" | "MANUAL" | "REPLACED_BY_NEW_CONTRACT";
             actor?: string;
         };
         RemoveSubscriptionItemRequest: {
@@ -16156,6 +16164,32 @@ export interface components {
             totalElements?: number;
             /** Format: int32 */
             totalPages?: number;
+        };
+        PublicLegalDocumentResponse: {
+            /** Format: int64 */
+            id: number;
+            /** @example PRIVACY_NOTICE */
+            code: string;
+            /**
+             * Format: int32
+             * @example 3
+             */
+            documentVersion: number;
+            /** @enum {string} */
+            kind: "TERMS" | "PRIVACY_POLICY" | "DATA_PROCESSING_AGREEMENT" | "PRIVACY_NOTICE" | "COMMITMENT_ANNEX";
+            title: string;
+            content: string;
+            /** @description SHA-256 del contenido: la huella con la que se prueba que texto se acepto */
+            contentHash: string;
+            /** Format: date-time */
+            publishedAt: string;
+            /** Format: date */
+            effectiveFrom: string;
+            /** Format: date-time */
+            supersededAt?: string;
+            current: boolean;
+            /** Format: date-time */
+            createdDate: string;
         };
         PageResponseLaboratoryTestResponse: {
             content?: components["schemas"]["LaboratoryTestResponse"][];
@@ -33104,7 +33138,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["LegalDocumentVersionResponse"];
+                    "*/*": components["schemas"]["PublicLegalDocumentResponse"];
                 };
             };
         };
