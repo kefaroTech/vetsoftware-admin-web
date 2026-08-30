@@ -168,7 +168,7 @@ for (const { nombre, viewport } of VIEWPORTS_TABLET) {
           // `> div > ul >` acota a las listas de GRUPO. Sin ese anclaje, el
           // selector se lleva también los hijos de los dos acordeones —que
           // están en el DOM aunque estén plegados, porque usan `v-show`— y
-          // cuenta 25 donde hay 15.
+          // cuenta 29 donde hay 19.
           primerNivel: medir(
             'nav#app-nav > div > ul > li > a > span, nav#app-nav > div > ul > li > button > span',
           ),
@@ -182,7 +182,25 @@ for (const { nombre, viewport } of VIEWPORTS_TABLET) {
         'hay rótulos cortados con elipsis dentro del cajón',
       ).toEqual([])
 
-      expect(etiquetas.primerNivel.length, 'entradas de primer nivel del cajón').toBe(15)
+      /*
+       * 19, y la cifra está MEDIDA en el navegador, no deducida de `sidebar-nav.ts`.
+       *
+       * Las dos no coinciden y por eso hay que medirla: el array declara 20
+       * entradas de primer nivel —18 hojas y 2 acordeones— y el cajón pinta 19.
+       * La que falta es «Empleados», cuyo `/empleados` no lo declara ningún
+       * `routes/*.routes.ts`, así que `isAvailable()` (`AppSidebar.vue:31-40`)
+       * la descarta por `router.resolve(...).matched.length === 0`. En `npm run
+       * dev` deja además su rastro en consola: «No match found for location with
+       * path "/empleados"».
+       *
+       * Este número llevaba tiempo desfasado: decía 15 cuando el cajón pintaba
+       * 20 (19 más el «Configurador», retirado en esta rama). Restarle uno al
+       * retirar el configurador habría dado 14 y habría parecido recién
+       * verificado. Si vuelve a fallar, la respuesta NO es mover la constante:
+       * es abrir el cajón y contar, porque lo que ha cambiado es el menú o el
+       * router.
+       */
+      expect(etiquetas.primerNivel.length, 'entradas de primer nivel del cajón').toBe(19)
     })
 
     test('§8.13 · con el cajón cerrado la navegación es inerte y Tab no la alcanza', async ({
@@ -191,7 +209,10 @@ for (const { nombre, viewport } of VIEWPORTS_TABLET) {
       await abrirListadoLargo(page)
 
       const inerte = await cajon(page).evaluate((el) => (el as HTMLElement).inert)
-      expect(inerte, 'el <aside> cerrado no está inerte: sus 26 enlaces siguen tabulables').toBe(
+      // 19 controles alcanzables: 17 enlaces de primer nivel más los 2
+      // acordeones. Los 10 hijos no cuentan porque `v-show` los deja en
+      // `display: none` mientras el acordeón está plegado.
+      expect(inerte, 'el <aside> cerrado no está inerte: sus 19 controles siguen tabulables').toBe(
         true,
       )
 
@@ -349,8 +370,16 @@ for (const { nombre, viewport } of VIEWPORTS_TABLET) {
       const barra = await activo.evaluate((el) => {
         const pseudo = getComputedStyle(el, '::before')
         const item = el.getBoundingClientRect()
-        const aside = el.closest('aside')!.getBoundingClientRect()
-        const lista = el.closest('nav#app-nav')!.getBoundingClientRect()
+        // Este callback corre serializado en el contexto del navegador (Playwright
+        // `page.evaluate`): no puede importar el helper `exigir` de Node, así que la
+        // comprobación real va inline, con el mismo criterio — fallar diciendo qué
+        // ancestro faltaba en vez de un `!` que revienta con "null is not an object".
+        const asideEl = el.closest('aside')
+        if (!asideEl) throw new Error('el ítem activo no tiene un <aside> ancestro')
+        const aside = asideEl.getBoundingClientRect()
+        const navEl = el.closest('nav#app-nav')
+        if (!navEl) throw new Error('el ítem activo no tiene un nav#app-nav ancestro')
+        const lista = navEl.getBoundingClientRect()
         return {
           content: pseudo.content,
           width: pseudo.width,

@@ -10,7 +10,7 @@ import type { RouteRecordRaw } from 'vue-router'
  * misma persona el mismo día.
  *
  * <p><b>Los nombres de ruta viven aquí y no en `src/constants/routes.ts`</b>, por
- * el mismo motivo que en `quotes.routes.ts` y `configurator.routes.ts`: ese
+ * el mismo motivo que en `quotes.routes.ts`: ese
  * fichero es un punto de serialización que las cinco tareas de la onda 1 querrían
  * tocar a la vez. Nada de fuera necesita este nombre —`AppSidebar` enlaza por
  * ruta— así que se declara junto a la ruta que nombra.

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import router from '@/router'
 import { platformBillingRoutes } from '@/router/routes/platform-billing.routes'
 import { isParent, navGroups, type NavLeaf } from '@/components/layout/sidebar-nav'
+import { exigir } from '../helpers/exigir'
 
 /**
  * <b>Una entrada de menú que lleva a una ruta que no existe.</b>
@@ -44,15 +45,18 @@ describe('la ruta de «Facturación de plataforma» está registrada', () => {
     // mismo path escrita a mano, esto lo dice.
     const declared = platformBillingRoutes[0]
     expect(declared).toBeDefined()
+    const decl = exigir(declared, 'platformBillingRoutes[0]')
 
-    const registered = router.getRoutes().find((r) => r.name === declared!.name)
+    const registered = router.getRoutes().find((r) => r.name === decl.name)
     expect(registered).toBeDefined()
-    expect(registered!.path).toBe(declared!.path)
+    const reg = exigir(registered, 'la ruta registrada en el router')
+    expect(reg.path).toBe(decl.path)
   })
 
   it('carga la vista sin reventar el import perezoso', async () => {
-    const record = router.getRoutes().find((r) => r.name === 'platform-billing-config')
-    const loader = record!.components?.default as () => Promise<unknown>
+    const found = router.getRoutes().find((r) => r.name === 'platform-billing-config')
+    const record = exigir(found, 'la ruta platform-billing-config')
+    const loader = record.components?.default as () => Promise<unknown>
 
     expect(typeof loader).toBe('function')
     const mod = (await loader()) as { default?: unknown }

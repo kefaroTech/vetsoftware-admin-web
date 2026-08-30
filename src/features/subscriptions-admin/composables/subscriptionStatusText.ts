@@ -64,14 +64,38 @@ export const SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL: Record<
   CANCELLATION_EFFECTIVE: 'Fecha efectiva de la baja',
   PERIOD_EXPIRED: 'Periodo vencido sin renovar',
   MANUAL: 'Decisión manual de plataforma',
+  REPLACED_BY_NEW_CONTRACT: 'Sustituido por un contrato nuevo',
 }
 
-/** Las mismas seis, listas para `AppSelect`. El orden es el del enum de Java. */
+/**
+ * Los motivos que un operador puede ELEGIR, listos para `AppSelect`. El orden es
+ * el del enum de Java.
+ *
+ * <p><b>Ya no es `Object.keys(LABEL)`, y la diferencia es el punto.</b> El mapa
+ * de arriba tiene siete entradas y este desplegable ofrece seis:
+ * `REPLACED_BY_NEW_CONTRACT` lo escribe el sistema cuando el cliente acepta una
+ * cotización y el contrato nuevo sustituye al viejo (DC-2). Ofrecérselo a una
+ * persona le permitiría atribuir a esa causa una transición que decidió ella, y
+ * esta columna es prueba en una disputa de cobro —lo dice el javadoc del enum—:
+ * el rótulo equivocado en la fila que explica por qué murió un contrato es
+ * justo lo que la vuelve inservible el día que hay que exhibirla.
+ *
+ * <p>Tiene rótulo arriba para poder PINTARLO en el expediente; no tiene entrada
+ * aquí para no poder ESCRIBIRLO. Derivar la lista de las claves del mapa fundía
+ * las dos cosas en una.
+ */
 export const SUBSCRIPTION_STATUS_CHANGE_REASON_OPTIONS: {
   value: SubscriptionStatusChangeReason
   label: string
 }[] = (
-  Object.keys(SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL) as SubscriptionStatusChangeReason[]
+  [
+    'OVERDUE_BALANCE',
+    'PAYMENT_RECEIVED',
+    'TRIAL_ENDED',
+    'CANCELLATION_EFFECTIVE',
+    'PERIOD_EXPIRED',
+    'MANUAL',
+  ] as const satisfies readonly SubscriptionStatusChangeReason[]
 ).map((value) => ({ value, label: SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL[value] }))
 
 /**

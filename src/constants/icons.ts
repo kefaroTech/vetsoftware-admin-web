@@ -19,6 +19,7 @@ import {
   Component,
   Copy,
   Dog,
+  Eraser,
   Eye,
   EyeOff,
   FileText,
@@ -53,7 +54,6 @@ import {
   Shield,
   ShieldCheck,
   Slice,
-  SlidersHorizontal,
   Stethoscope,
   Syringe,
   TestTube,
@@ -82,9 +82,10 @@ export const ICONS = {
   COMPANY: Building2,
   EMPLOYEE: Users,
   COMMERCIAL_CATALOG: Ticket,
-  // Las tres entradas que §2 de la especificación de suscripciones añade al
-  // menú: el asistente, la oferta y las políticas de facturación.
-  CONFIGURATOR: SlidersHorizontal,
+  /** Supresión de datos del asistente a petición del titular (habeas data). */
+  DATA_SUPPRESSION: Eraser,
+  // Las dos entradas que §2 de la especificación de suscripciones añade al
+  // menú: la oferta y las políticas de facturación.
   QUOTE: FileText,
   PLATFORM_BILLING: Banknote,
   SUBSCRIPTION: Replace,

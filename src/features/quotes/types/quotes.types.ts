@@ -80,21 +80,6 @@ export interface QuoteLineResponse {
   enabled: boolean
 }
 
-/**
- * Una respuesta del configurador que produjo esta oferta.
- *
- * <p>No es accesorio: es la única forma de responder «¿por qué le vendimos esto?» seis meses
- * después, y por eso el detalle las pinta como pares legibles y no como identificadores.
- */
-export interface QuoteAnswerResponse {
-  id: number
-  questionId: number
-  optionId: number | null
-  questionCode: string
-  answerValue: string
-  enabled: boolean
-}
-
 /** Fila del listado de plataforma (`GET /quotes/platform`). */
 export interface QuoteSummaryResponse {
   id: number
@@ -147,7 +132,6 @@ export interface QuoteResponse {
   /** Llave de idempotencia con la que se creó. Es lo que hace que un doble clic no cree dos. */
   clientRequestId: string | null
   lines: QuoteLineResponse[]
-  answers: QuoteAnswerResponse[]
   createdDate: string
   enabled: boolean
 }
@@ -166,12 +150,6 @@ export interface QuoteLineRequest {
   discountIsConditional?: boolean
 }
 
-export interface QuoteAnswerRequest {
-  questionId: number
-  optionId: number | null
-  answerValue: string | null
-}
-
 export interface CreateQuoteRequest {
   /** `crypto.randomUUID()` UNA vez al abrir el formulario, no en cada envío. */
   clientRequestId: string
@@ -184,7 +162,6 @@ export interface CreateQuoteRequest {
   validUntil: string
   trialDays: number | null
   lines: QuoteLineRequest[]
-  answers: QuoteAnswerRequest[]
 }
 
 /** El servidor añade la IP y la marca de tiempo; aquí solo viaja quién dijo que sí. */
@@ -224,16 +201,33 @@ export interface SelfServeQuoteLineRequest {
  * después: son campos que el tipo no tiene, así que no hay dónde escribirlos. Es la diferencia
  * con `CreateQuoteRequest`, que es la de esta consola y sí los lleva todos.
  *
- * <p>`billingCycle` se estrecha a `QuoteBillingCycle` aunque el contrato diga `string`: el backend
- * lo acota con `@Pattern(regexp = "MONTHLY|ANNUAL")`. <b>Ojo con el reverso</b>: si el backend
- * añadiera un tercer ciclo, el esquema seguiría diciendo `string` y esta atadura <b>no diría
- * nada</b> — la unión hay que ampliarla a mano.
+ * <p>`billingCycle` **ya no es un estrechamiento local**: el contrato publica el esquema como
+ * `enum: ["MONTHLY","ANNUAL"]` —springdoc lo deriva del `@Schema(allowableValues = …)` que
+ * acompaña al `@Pattern(regexp = "MONTHLY|ANNUAL")` del DTO—, así que `QuoteBillingCycle` es
+ * una copia del contrato y no una decisión de este repositorio. Aquí decía lo contrario: que un
+ * tercer ciclo se colaría en silencio porque el esquema seguiría diciendo `string`. Ya no es
+ * verdad — `MismatchedFields` compara la unión contra la del contrato, así que un tercer ciclo
+ * en el backend **rompe este build**, con el nombre del campo a la vista.
  */
 export interface SelfServeQuoteRequest {
   /** Llave de idempotencia del cliente. Máximo 64 caracteres. */
   clientRequestId: string
   billingCycle: QuoteBillingCycle
   lines: SelfServeQuoteLineRequest[]
+  /**
+   * Token público de la propuesta del asistente de la que sale esta cesta, o ausente si el
+   * cliente llegó por el configurador de la portada. Son los 43 caracteres que produce
+   * `ProposalToken`, y **no es un término económico**: solo dice de dónde viene la cesta, así
+   * que no rompe la regla que da sentido a este tipo —sigue sin haber un solo campo con el que
+   * el cliente pueda influir en lo que se le cobra—. Un token desconocido no es un error: la
+   * oferta se emite igual y se queda sin atribuir, que es lo correcto cuando la purga de
+   * retención ya se llevó la propuesta.
+   *
+   * <p>Esta consola no llama a `POST /quotes/self-serve` —lo hace el front del tenant—, pero el
+   * campo se declara igual: el esquema está atado abajo y `UndeclaredFields` rompe el build si
+   * el contrato declara un campo que aquí no consta.
+   */
+  aiProposalToken?: string
 }
 
 export const QUOTE_STATUS_LABEL: Record<QuoteStatus, string> = {

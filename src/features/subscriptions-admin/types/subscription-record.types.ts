@@ -28,10 +28,10 @@ import type { SubscriptionStatus } from './subscriptions-admin.types'
  * backend: cualquier valor fuera de la lista lo rechaza el propio
  * deserializador con un 400. <b>Viaja por el nombre del enum en mayúsculas</b>
  * —igual que `status`—, no por su `code()` en minúsculas, que es solo la forma
- * en que queda escrito en la bitácora. `api/openapi.json` todavía no se ha
- * regenerado tras el cambio del backend y sigue describiendo el DTO viejo
- * (`reason` opcional, `string`, máx. 255): no es la fuente de verdad de este
- * campo, el enum de Java lo es.
+ * en que queda escrito en la bitácora. El contrato ya describe `reason` como
+ * enumerado y obligatorio, así que este tipo está atado de verdad en
+ * `api.contract.ts` y ya no depende de que alguien recuerde mirar el enum de
+ * Java.
  *
  * <p>`actor` NO lo escribe el operador. El controller ya deriva del principal
  * quién firma la enmienda (`authz.currentSystemUserIdOrNull()`); un campo de
@@ -45,11 +45,21 @@ export interface ChangeSubscriptionStatusRequest {
 }
 
 /**
- * Vocabulario cerrado de seis valores, calcado del enum de dominio del
+ * Vocabulario cerrado de siete valores, calcado del enum de dominio del
  * backend (`SubscriptionStatusChangeReason.java`). El nombre en mayúsculas es
  * la forma en que viaja por HTTP; las etiquetas en español para el operador
  * viven en `SUBSCRIPTION_STATUS_CHANGE_REASON_LABEL`
  * (`composables/subscriptionStatusText.ts`), no aquí.
+ *
+ * <p><b>`REPLACED_BY_NEW_CONTRACT` lo escribe el sistema, no una persona</b>
+ * (DC-2: el cliente aceptó una cotización y ese contrato sustituye al que
+ * había). Está en la unión porque hay que poder LEERLO del expediente, y por eso
+ * mismo NO está en `SUBSCRIPTION_STATUS_CHANGE_REASON_OPTIONS`: ver allí.
+ *
+ * <p>Una unión más estrecha que la del contrato pasa la atadura en silencio
+ * —`MismatchedFields` solo se queja de lo más ancho—, así que el día que el
+ * backend añada un octavo motivo esto no se romperá solo. Hay que ampliarlo a
+ * mano, y el `Record` del rótulo es lo que obliga a no olvidarlo.
  */
 export type SubscriptionStatusChangeReason =
   | 'OVERDUE_BALANCE'
@@ -58,6 +68,7 @@ export type SubscriptionStatusChangeReason =
   | 'CANCELLATION_EFFECTIVE'
   | 'PERIOD_EXPIRED'
   | 'MANUAL'
+  | 'REPLACED_BY_NEW_CONTRACT'
 
 /**
  * `PATCH /subscriptions/{id}/cancel`, con sus <b>dos</b> fechas (§3.4.4).

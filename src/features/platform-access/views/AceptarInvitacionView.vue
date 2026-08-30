@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
 import ErrorSummary, { toSummaryItems } from '@/components/feedback/ErrorSummary.vue'
 import PawLoader from '@/components/feedback/PawLoader.vue'
 import PublicLayout from '@/components/layout/PublicLayout.vue'
@@ -9,6 +8,7 @@ import PasswordChecklist, {
   PASSWORD_MAX,
   PASSWORD_MIN,
 } from '@/components/ui/PasswordChecklist.vue'
+import { useTokenDeEnlace } from '@/composables/useTokenDeEnlace'
 import { length } from '@/composables/validators'
 import { ICONS } from '@/constants/icons'
 import { ROUTE_NAMES } from '@/constants/routes'
@@ -28,7 +28,7 @@ import { usePlatformAccess } from '../composables/usePlatformAccess'
  */
 type Estado = 'loading' | 'form' | 'invalid' | 'success'
 
-const route = useRoute()
+const { tomarTokenDeLaUrl } = useTokenDeEnlace()
 const { loading, loadInvitation, acceptInvitation } = usePlatformAccess()
 
 const estado = ref<Estado>('loading')
@@ -50,10 +50,16 @@ let loaderTimer: ReturnType<typeof setTimeout> | undefined
 
 const IDS = { password: 'invitacion-password', confirmacion: 'invitacion-confirmacion' } as const
 
-const token = computed(() => {
-  const raw = route.query.token
-  return typeof raw === 'string' ? raw : ''
-})
+/**
+ * El token, ya FUERA de la barra de direcciones.
+ *
+ * Es un `ref` y no un `computed` sobre `route.query` a propósito:
+ * `tomarTokenDeLaUrl()` borra el `?token=` de la URL antes de devolverlo, así
+ * que un `computed` derivado de la ruta se vaciaría justo después de leerlo y
+ * `crear()` mandaría la contraseña sin credencial. Aquí se captura una vez, al
+ * montar, y vive lo que vive esta instancia de la pantalla — nunca en un store.
+ */
+const token = ref('')
 
 // `length()` produce los tres mensajes exactos que pide el diseño: «La
 // contraseña es obligatoria.», «… debe tener al menos 12 caracteres.» y
@@ -78,10 +84,17 @@ function err(field: keyof typeof IDS) {
 }
 
 onMounted(async () => {
-  if (!token.value) {
+  // Primero se saca la credencial de la URL, y solo después se usa: para cuando
+  // sale la petición, el `?token=` ya no está en la barra ni en el historial.
+  // Sin token no se llama al servidor ni se toca el historial: no hay nada que
+  // limpiar y una petición vacía solo le diría a quien prueba enlaces que la
+  // ruta existe.
+  const recibido = await tomarTokenDeLaUrl()
+  if (recibido === null) {
     estado.value = 'invalid'
     return
   }
+  token.value = recibido
   loaderTimer = setTimeout(() => (mostrarLoader.value = true), SHOW_LOADER_MS)
   const resultado = await loadInvitation(token.value)
   clearTimeout(loaderTimer)

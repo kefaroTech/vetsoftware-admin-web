@@ -3,8 +3,8 @@ import { ROUTE_NAMES } from '@/constants/routes'
 
 /**
  * El nombre de la sub-vista del artículo vive **aquí y no en
- * `src/constants/routes.ts`**, por el mismo motivo que en `quotes.routes.ts`,
- * `configurator.routes.ts` y `platform-billing.routes.ts`: ese fichero es un
+ * `src/constants/routes.ts`**, por el mismo motivo que en `quotes.routes.ts` y
+ * `platform-billing.routes.ts`: ese fichero es un
  * punto de serialización que varias tareas querrían tocar a la vez. Nada de
  * fuera necesita este nombre —el catálogo enlaza por ruta— así que se declara
  * junto a la ruta que nombra.

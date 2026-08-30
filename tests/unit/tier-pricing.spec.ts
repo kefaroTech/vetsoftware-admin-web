@@ -4,6 +4,7 @@ import {
   tierRangeLabel,
   type TierRow,
 } from '@/features/commercial-catalog/composables/tierPricing'
+import { elemento } from '../helpers/exigir'
 
 /**
  * El simulador de tramos acumulativos (D-66, épica E5).
@@ -46,7 +47,7 @@ describe('quince usuarios cuestan 141.000 y no 117.000', () => {
     // Si `includedQuantity` se descontara al final, el primer tramo aportaría
     // seis unidades (3–8) y el total sería 96.000 − 24.000 + 45.000 = 117.000.
     const resultado = simulateTiers(ESCALERA, 15)
-    expect(resultado.lines[0].units).toBe(8)
+    expect(elemento(resultado.lines, 0, 'las líneas simuladas').units).toBe(8)
   })
 })
 
@@ -73,7 +74,10 @@ describe('los bordes de la escalera', () => {
   })
 
   it('ordena la escalera aunque las filas lleguen del revés', () => {
-    const desordenada = [ESCALERA[1], ESCALERA[0]]
+    const desordenada = [
+      elemento(ESCALERA, 1, 'la escalera de tramos'),
+      elemento(ESCALERA, 0, 'la escalera de tramos'),
+    ]
     expect(simulateTiers(desordenada, 15).recurringTotal).toBe(141_000)
   })
 

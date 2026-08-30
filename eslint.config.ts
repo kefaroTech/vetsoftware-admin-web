@@ -11,8 +11,15 @@ export default tseslint.config(
   ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
   ...pluginVue.configs['flat/recommended'],
+  // `tests/**` y `e2e/**` estuvieron fuera del alcance de eslint —y de todo
+  // `tsconfig`— hasta que se miró qué escondían: enums inventados en rutas de
+  // sesión y de dinero. Ahora entran también en `tsconfig.vitest.json` y
+  // `tsconfig.e2e.json` (referenciados desde el `tsconfig.json` raíz, que es
+  // lo que compila `npm run typecheck` y `npm run build`), y aquí en los
+  // MISMOS bloques de eslint que `src`, no en unos rebajados: una prueba que
+  // nadie comprueba es peor que ninguna, porque además da confianza.
   {
-    files: ['{src,visual}/**/*.vue'],
+    files: ['{src,visual,tests,e2e}/**/*.vue'],
     languageOptions: {
       parserOptions: {
         parser: tseslint.parser,
@@ -20,7 +27,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['{src,visual}/**/*.{ts,tsx,vue}'],
+    files: ['{src,visual,tests,e2e}/**/*.{ts,tsx,vue}'],
     rules: {
       'no-undef': 'off',
       '@typescript-eslint/consistent-type-imports': [
@@ -47,6 +54,17 @@ export default tseslint.config(
       '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/prefer-function-type': 'warn',
     },
+  },
+  {
+    // El cuerpo vacío es el CONTENIDO de un doble de prueba, no un olvido: un
+    // `vi.fn(async () => {})` que no hace nada es exactamente lo que se quiere
+    // afirmar, igual que un `console.error` silenciado a propósito o el `reset()`
+    // de un stub de grecaptcha. La regla existe para cazar implementaciones a
+    // medio escribir en `src/`, donde sigue activa; aquí solo produce 21 avisos
+    // que solo se pueden callar uno a uno, y esa es la forma que tiene un gate de
+    // volverse ruido y dejar de leerse.
+    files: ['{tests,e2e}/**/*.ts'],
+    rules: { '@typescript-eslint/no-empty-function': 'off' },
   },
   prettierConfig,
   {

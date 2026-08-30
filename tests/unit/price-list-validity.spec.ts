@@ -10,6 +10,7 @@ import type {
   PriceListResponse,
   PriceListStatus,
 } from '@/features/commercial-catalog/types/commercial-catalog.types'
+import { elemento } from '../helpers/exigir'
 
 /**
  * Vigencia por fecha de la lista de precios (D-73, épica E4).
@@ -134,8 +135,8 @@ describe('dos tarifas publicadas que se pisan', () => {
       priceList(2, 'Tarifa 2026 H2', '2026-07-01', '2027-06-30'),
     ])
     expect(solapes).toHaveLength(1)
-    expect(solapes[0].from).toBe('2026-07-01')
-    expect(solapes[0].to).toBe('2026-12-31')
+    expect(elemento(solapes, 0, 'los solapes detectados').from).toBe('2026-07-01')
+    expect(elemento(solapes, 0, 'los solapes detectados').to).toBe('2026-12-31')
   })
 
   it('dos ventanas consecutivas que no se tocan no son un solape', () => {
@@ -153,7 +154,7 @@ describe('dos tarifas publicadas que se pisan', () => {
       priceList(2, 'Tarifa 2026', '2026-01-01', '2026-12-31'),
     ])
     expect(solapes).toHaveLength(1)
-    expect(solapes[0].to).toBe('2026-12-31')
+    expect(elemento(solapes, 0, 'los solapes detectados').to).toBe('2026-12-31')
   })
 
   it('dos abiertas dan un solape sin fecha final', () => {
@@ -161,7 +162,7 @@ describe('dos tarifas publicadas que se pisan', () => {
       priceList(1, 'A', '2020-01-01', null),
       priceList(2, 'B', '2026-01-01', null),
     ])
-    expect(solapes[0].to).toBeNull()
+    expect(elemento(solapes, 0, 'los solapes detectados').to).toBeNull()
   })
 
   it('los borradores no cuentan: solapar mientras se prepara la subida es lo normal', () => {

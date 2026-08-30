@@ -25,10 +25,10 @@ import type {
  *
  * <p>Nota de frontera: `features/platform-setup/api/platform-setup.api.ts`
  * mantiene sus propias sondas de solo lectura sobre estas mismas dos rutas. No es
- * deriva: la lista de puesta en marcha pregunta por siete cosas a la vez y
+ * deriva: la lista de puesta en marcha pregunta por seis cosas a la vez y
  * necesita su propio `probe` con abortos y tolerancia a fallos, mientras que
  * estos métodos escriben. Es el mismo reparto que ya hay entre
- * `configuratorQuestionsApi` (sonda) y `configuratorApi` (la feature).
+ * `catalogItemSubModulesApi` (sonda) y el editor del puente (la feature).
  */
 export const platformBillingConfigApi = {
   async find(signal?: AbortSignal): Promise<PlatformBillingConfigResponse> {

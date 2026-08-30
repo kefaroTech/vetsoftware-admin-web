@@ -137,14 +137,33 @@ export const http = axios.create({
  * sin ninguna recarga que lo corrigiera.
  *
  * Conserva el destino en la URL de login (`?redirect=`) para que, tras
- * autenticar de nuevo, el usuario vuelva a donde iba y no siempre al home.
+ * autenticar de nuevo, el usuario vuelva a donde iba — pero SOLO el
+ * `pathname`, nunca `location.search`.
+ *
+ * La cadena de consulta ya ha transportado un secreto real en este producto
+ * (el token de restablecer contraseña, el de aceptar/aprobar invitación, el
+ * de recuperar una propuesta — todos bajo el nombre `token`). Reenviarla tal
+ * cual aquí la republica en la barra de direcciones, en el historial del
+ * navegador y en el `Referer` de lo próximo que el usuario visite tras
+ * autenticar: exactamente el escenario en que el equipo puede estar
+ * compartido o la pantalla proyectada.
+ *
+ * Un allowlist de parámetros "seguros" (pestaña, filtro, página) no cierra
+ * el riesgo: este archivo es infraestructura genérica sin visibilidad de qué
+ * feature usa qué nombre de parámetro, y nada impide que la próxima pantalla
+ * llame a su secreto `code`, `ref` o `key` en vez de `token` — precisamente
+ * el "quinto sitio" que este recorte existe para prevenir sin tener que
+ * anticiparlo. Perder una pestaña o un filtro en el caso excepcional de una
+ * sesión expirada es una degradación menor y acotada; un secreto reexpuesto
+ * en la URL de login no lo es. Si una pantalla concreta necesita sobrevivir
+ * a esto, que persista su propio estado (store, `sessionStorage`) — no lo
+ * intentes aquí, en el único punto que ve todas las peticiones de la app.
  */
 function redirectToLogin() {
   sessionClearHandler?.()
   storageService.clearVolatile()
   if (window.location.pathname !== '/login') {
-    const target = window.location.pathname + (window.location.search || '')
-    window.location.href = `/login?redirect=${encodeURIComponent(target)}`
+    window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname)}`
   }
 }
 

@@ -207,7 +207,6 @@ function submit() {
       quantity: Number(line.quantity),
       discountPercent: Number(line.discountPercent.replace(',', '.')),
     })),
-    answers: [],
   })
 }
 

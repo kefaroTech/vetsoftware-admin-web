@@ -18,8 +18,8 @@ const router = useRouter()
  *
  * Las entradas nuevas de §2 llegan antes que las pantallas: cada tarea de la
  * onda 1 aporta su `routes/<feature>.routes.ts` por su cuenta y el registro de
- * los seis imports lo hace una sola instancia (§7). Entre medias, pintar
- * «Configurador» en el menú llevaría a una ruta sin coincidencia —una pantalla
+ * los imports lo hace una sola instancia (§7). Entre medias, pintar
+ * «Cotizaciones» en el menú llevaría a una ruta sin coincidencia —una pantalla
  * en blanco—, que es peor que no ofrecer la entrada: el usuario no lee «esto
  * todavía no está», lee «esto está roto».
  *
@@ -120,9 +120,9 @@ const { isDrawerViewport, navOpen, closeNav, onTrapTab } = useNavDrawer({
     <SidebarBrand />
 
     <!-- Listas nombradas, no `<div>`s sueltos: antes el lector de pantalla
-         anunciaba 26 enlaces en fila sin decir cuántos había ni de qué grupo
-         eran. Con `<ul>` + `aria-labelledby` dice «lista Suscripciones, 5
-         elementos, elemento 3 de 5» (§1.3.1). `.ds-list-reset` en vez de
+         anunciaba los 19 controles del cajón en fila sin decir cuántos había ni
+         de qué grupo eran. Con `<ul>` + `aria-labelledby` dice «lista
+         Suscripciones, 8 elementos, elemento 3 de 8» (§1.3.1). `.ds-list-reset` en vez de
          reescribir `list-style/margin/padding` en el scoped: esa primitiva ya
          existe y copiarla dispara `vetsoftware/no-duplicate-primitive`. -->
     <nav id="app-nav" class="nav-groups ds-stack" aria-label="Navegación principal">

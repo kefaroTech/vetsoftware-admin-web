@@ -67,11 +67,11 @@ export const navGroups: NavGroup[] = [
      * el menú explica, así que va sujeto con una prueba
      * (`tests/unit/sidebar-sin-cifras-inventadas.spec.ts`).
      *
-     * `Configurador` y `Cotizaciones` son las dos entradas nuevas. Sus rutas las
-     * aportan otras tareas de la onda (§7), y hasta que el router las conozca la
-     * entrada NO se pinta: un elemento de menú que lleva a una pantalla en blanco
-     * es exactamente la avería que el usuario reporta como «la consola está
-     * rota». Ver `isAvailable`.
+     * `Cotizaciones` es la entrada nueva. Sus rutas las aportan otras tareas de
+     * la onda (§7), y hasta que el router las conozca la entrada NO se pinta: un
+     * elemento de menú que lleva a una pantalla en blanco es exactamente la
+     * avería que el usuario reporta como «la consola está rota». Ver
+     * `isAvailable`.
      */
     title: 'Suscripciones',
     items: [
@@ -81,7 +81,17 @@ export const navGroups: NavGroup[] = [
         path: '/catalogo-comercial',
         icon: ICONS.COMMERCIAL_CATALOG,
       },
-      { label: 'Configurador', path: '/configurador', icon: ICONS.CONFIGURATOR },
+      // El eslabón «el asistente» de la cadena, que hasta ahora no tenía ninguna
+      // entrada: va entre el catálogo y la oferta porque es donde el orden
+      // documentado arriba lo coloca —el asistente es lo que convierte una
+      // descripción en una cotización—. Es además la única pantalla de los dos
+      // fronts que atiende una petición de habeas data (Ley 1581, art. 8 e), y
+      // hasta que existió, cumplirla exigía invocar la API a mano.
+      {
+        label: 'Supresión de datos',
+        path: '/asistente/supresion-datos',
+        icon: ICONS.DATA_SUPPRESSION,
+      },
       { label: 'Cotizaciones', path: '/cotizaciones', icon: ICONS.QUOTE },
       {
         name: ROUTE_NAMES.SUBSCRIPTIONS_ADMIN,

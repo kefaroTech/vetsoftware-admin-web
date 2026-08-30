@@ -17,7 +17,7 @@ import {
  * ── Por qué es un componente y no un `AppEmptyState` con más texto ──────────
  *
  * `AppEmptyState` tiene `title`, `description` y **un** slot de acción. Aquí hay
- * siete pasos con estado independiente y destino propio cada uno. Sin
+ * seis pasos con estado independiente y destino propio cada uno. Sin
  * componente, serían cinco copias del mismo bloque y el gate de duplicados
  * acabaría marcándolo (`scripts/css-budget.mjs`, regla 2).
  *
@@ -164,7 +164,7 @@ defineExpose({ focus })
     <p v-if="loading && steps.length === 0" class="ds-meta">Comprobando los pasos…</p>
 
     <!-- Un fallo que impidió comprobarlo TODO: no hay lista honesta que pintar,
-         así que se dice, con su traza, en vez de enseñar siete «Pendiente». -->
+         así que se dice, con su traza, en vez de enseñar seis «Pendiente». -->
     <div v-if="error" class="ds-banner ds-banner--error" role="alert">
       <component :is="ICONS.ERROR" :size="16" class="ds-banner-icon" aria-hidden="true" />
       <span class="ds-flex-fill">

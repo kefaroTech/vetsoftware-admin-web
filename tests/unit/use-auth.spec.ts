@@ -71,14 +71,14 @@ describe('isAuthenticated', () => {
     const { isAuthenticated } = useAuth()
     expect(isAuthenticated.value).toBe(false)
 
-    useAuthStore().setSession(TOKEN)
+    useAuthStore().setSession({ token: TOKEN, type: 'SYSTEM_USER' })
 
     expect(isAuthenticated.value).toBe(true)
   })
 
   it('REGRESIÓN: reacciona al cierre de sesión', () => {
     const store = useAuthStore()
-    store.setSession(TOKEN)
+    store.setSession({ token: TOKEN, type: 'SYSTEM_USER' })
     const { isAuthenticated } = useAuth()
     expect(isAuthenticated.value).toBe(true)
 
@@ -179,7 +179,7 @@ describe('sanitizeRedirect', () => {
 describe('logout', () => {
   it('cierra la sesión y sale al login', async () => {
     const store = useAuthStore()
-    store.setSession(TOKEN)
+    store.setSession({ token: TOKEN, type: 'SYSTEM_USER' })
     const { logout, isAuthenticated } = useAuth()
 
     await logout()
@@ -205,7 +205,7 @@ describe('logout', () => {
     sessionStorage.setItem('com.grafana.faro.session', '{"id":"sesion-de-A"}')
     localStorage.setItem('vetsoft.lo-que-sea', 'contexto del usuario que sale')
     const store = useAuthStore()
-    store.setSession(TOKEN)
+    store.setSession({ token: TOKEN, type: 'SYSTEM_USER' })
 
     await useAuth().logout()
 
@@ -218,7 +218,7 @@ describe('logout', () => {
     // servidor falló dejaría la sesión abierta en un equipo compartido.
     logoutApi.mockRejectedValue(new Error('503'))
     const store = useAuthStore()
-    store.setSession(TOKEN)
+    store.setSession({ token: TOKEN, type: 'SYSTEM_USER' })
     const { logout, isAuthenticated } = useAuth()
 
     await logout()

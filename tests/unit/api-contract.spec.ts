@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync, readdirSync } from 'node:fs'
 import { join, resolve } from 'node:path'
+import { elemento } from '../helpers/exigir'
 
 /**
  * TR-01. `src/types/api.contract.ts` ata los tipos de este repositorio al contrato del backend,
@@ -62,7 +63,8 @@ function tiposDeclarados(): Map<string, boolean> {
       else if (ruta.endsWith('.ts') && !ruta.endsWith('.d.ts')) {
         const fuente = readFileSync(ruta, 'utf8')
         for (const m of fuente.matchAll(/^export (?:interface|type) (\w+)(<[^>]*>)?/gm)) {
-          nombres.set(m[1]!, (nombres.get(m[1]!) ?? false) || m[2] !== undefined)
+          const nombre = elemento(m, 1, 'm')
+          nombres.set(nombre, (nombres.get(nombre) ?? false) || m[2] !== undefined)
         }
       }
     }
@@ -89,7 +91,9 @@ describe('la atadura al contrato de la API cubre todo lo que puede cubrir', () =
     // —`MatchesContract<PageResponse<CompanyResponse>, …>`— cuente como atadura de `PageResponse`.
     // Sin él, el genérico se declararía sin atar aunque su centinela esté puesto.
     const atados = new Set(
-      [...contrato().matchAll(/MatchesContract<\s*(\w+)(?:<[^>]*>)?\s*,/g)].map((m) => m[1]!),
+      [...contrato().matchAll(/MatchesContract<\s*(\w+)(?:<[^>]*>)?\s*,/g)].map((m) =>
+        elemento(m, 1, 'm'),
+      ),
     )
 
     const declarados = tiposDeclarados()
@@ -125,7 +129,7 @@ describe('la atadura al contrato de la API cubre todo lo que puede cubrir', () =
     // `PageResponseXxxResponse` que el backend dejara de emitir se quedaba sin detectar.
     const usados = [
       ...contrato().matchAll(/MatchesContract<\s*\w+(?:<[^>]*>)?\s*,\s*'([^']+)'/g),
-    ].map((m) => m[1]!)
+    ].map((m) => elemento(m, 1, 'm'))
 
     expect(usados.filter((n) => !schemas.has(n)).sort()).toEqual([])
   })

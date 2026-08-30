@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import AppSelect from '@/components/ui/AppSelect.vue'
 import ModalShell from '@/components/ui/ModalShell.vue'
 import { useAuthStore } from '@/features/auth/stores/auth.store'
 import type { MeResponse } from '@/features/auth/types/auth.types'
@@ -83,9 +82,19 @@ function boton(wrapper: VueWrapper, label: string) {
   return found
 }
 
-/** Elegir en la lista cerrada. `AppSelect` es un combobox propio: se usa su contrato. */
+/**
+ * Elegir en la lista cerrada. `AppSelect` es un combobox propio: se usa su
+ * contrato. Se busca por `{ name }` y no pasando el propio componente: `AppSelect`
+ * es genérico (`generic="T extends string | number"`) y `findComponent` no puede
+ * resolver `T` sin una instancia concreta, así que el propio componente no
+ * encaja en `FindComponentSelector`. El `$emit` se tipa aparte por el mismo
+ * motivo: `.vm` de un `WrapperLike` no garantiza los emits de un componente sin
+ * instanciar.
+ */
 async function elegirMotivo(wrapper: VueWrapper, value: string) {
-  wrapper.findComponent(AppSelect).vm.$emit('update:modelValue', value)
+  const select = wrapper.findComponent({ name: 'AppSelect' })
+  const vm = select.vm as unknown as { $emit: (event: 'update:modelValue', value: string) => void }
+  vm.$emit('update:modelValue', value)
   await wrapper.vm.$nextTick()
 }
 
@@ -315,7 +324,7 @@ describe('SignedActionModal · la firma se muestra y no se elige', () => {
     const wrapper = montar()
 
     // El único combobox del modal es el de motivos.
-    expect(wrapper.findAllComponents(AppSelect)).toHaveLength(1)
+    expect(wrapper.findAllComponents({ name: 'AppSelect' })).toHaveLength(1)
   })
 
   it('sin nombre resuelto dice el identificador y NO inventa uno (R14)', () => {

@@ -262,24 +262,6 @@ import type {
   SubscriptionChargeResponse,
 } from '../features/subscriptions-admin/types/subscription-money.types'
 import type {
-  ConfiguratorEffectResponse,
-  ConfiguratorOptionResponse,
-  ConfiguratorQuestionResponse,
-  ConfiguratorSelectionResponse,
-  CreateConfiguratorEffectRequest,
-  CreateConfiguratorOptionRequest,
-  CreateConfiguratorQuestionRequest,
-  EffectPriorityRequest,
-  QuestionnaireOptionResponse,
-  QuestionnaireQuestionResponse,
-  ReorderConfiguratorEffectsRequest,
-  ResolveConfiguratorSelectionRequest,
-  SelectedItemResponse,
-  UpdateConfiguratorEffectRequest,
-  UpdateConfiguratorOptionRequest,
-  UpdateConfiguratorQuestionRequest,
-} from '../features/configurator/types/configurator.types'
-import type {
   AcceptInvitationRequest,
   AccessRequestResponse,
   CreateAccessRequestRequest,
@@ -301,8 +283,6 @@ import type {
   AcceptQuoteRequest,
   CompanySummary,
   CreateQuoteRequest,
-  QuoteAnswerRequest,
-  QuoteAnswerResponse,
   QuoteLineRequest,
   QuoteLineResponse,
   QuoteResponse,
@@ -345,6 +325,10 @@ import type {
   RegisterGatewaySettlementRequest,
   ResolveExternalInvoiceReconciliationRequest,
 } from '../features/reconciliation/types/reconciliation.types'
+import type {
+  ProposalSuppressionResponse,
+  SuppressProposalDataRequest,
+} from '../features/proposal-suppression/types/proposal-suppression.types'
 export type Schemas = components['schemas']
 
 /** Lo que el contrato sabe comparar campo a campo. Lo demás se comprueba por su propia atadura. */
@@ -661,22 +645,6 @@ export type ContractAssertions = [
   >,
   Expect<MatchesContract<UpdatePlatformBillingConfigRequest, 'UpdatePlatformBillingConfigRequest'>>,
   Expect<MatchesContract<CatalogItemSubModuleResponse, 'CatalogItemSubModuleResponse'>>,
-  Expect<MatchesContract<ConfiguratorQuestionResponse, 'ConfiguratorQuestionResponse'>>,
-  Expect<MatchesContract<CreateConfiguratorQuestionRequest, 'CreateConfiguratorQuestionRequest'>>,
-  Expect<MatchesContract<UpdateConfiguratorQuestionRequest, 'UpdateConfiguratorQuestionRequest'>>,
-  Expect<MatchesContract<ConfiguratorOptionResponse, 'ConfiguratorOptionResponse'>>,
-  Expect<MatchesContract<CreateConfiguratorOptionRequest, 'CreateConfiguratorOptionRequest'>>,
-  Expect<MatchesContract<UpdateConfiguratorOptionRequest, 'UpdateConfiguratorOptionRequest'>>,
-  Expect<MatchesContract<ConfiguratorEffectResponse, 'ConfiguratorEffectResponse'>>,
-  Expect<MatchesContract<CreateConfiguratorEffectRequest, 'CreateConfiguratorEffectRequest'>>,
-  Expect<MatchesContract<UpdateConfiguratorEffectRequest, 'UpdateConfiguratorEffectRequest'>>,
-  Expect<MatchesContract<QuestionnaireQuestionResponse, 'QuestionnaireQuestionResponse'>>,
-  Expect<MatchesContract<QuestionnaireOptionResponse, 'QuestionnaireOptionResponse'>>,
-  Expect<
-    MatchesContract<ResolveConfiguratorSelectionRequest, 'ResolveConfiguratorSelectionRequest'>
-  >,
-  Expect<MatchesContract<ConfiguratorSelectionResponse, 'ConfiguratorSelectionResponse'>>,
-  Expect<MatchesContract<SelectedItemResponse, 'SelectedItemResponse'>>,
   Expect<MatchesContract<PlatformBillingConfigResponse, 'PlatformBillingConfigResponse'>>,
   Expect<MatchesContract<PriceListSummary, 'PriceListSummary'>>,
   Expect<MatchesContract<SubModuleSummary, 'SubModuleSummary'>>,
@@ -688,8 +656,6 @@ export type ContractAssertions = [
   Expect<MatchesContract<AcceptQuoteRequest, 'AcceptQuoteRequest'>>,
   Expect<MatchesContract<CompanySummary, 'CompanySummary'>>,
   Expect<MatchesContract<CreateQuoteRequest, 'CreateQuoteRequest'>>,
-  Expect<MatchesContract<QuoteAnswerRequest, 'QuoteAnswerRequest'>>,
-  Expect<MatchesContract<QuoteAnswerResponse, 'QuoteAnswerResponse'>>,
   Expect<MatchesContract<QuoteLineRequest, 'QuoteLineRequest'>>,
   Expect<MatchesContract<QuoteLineResponse, 'QuoteLineResponse'>>,
   Expect<MatchesContract<QuoteResponse, 'QuoteResponse'>>,
@@ -926,13 +892,6 @@ export type ContractAssertions = [
   >,
   Expect<MatchesContract<LimitPropagationResponse, 'LimitPropagationResponse'>>,
 
-  // Reordenar los efectos del configurador. El orden decide que efecto gana cuando dos tocan
-  // el mismo articulo: un campo renombrado en el cuerpo deja el reordenamiento sin
-  // prioridades y el servidor resuelve por el orden que ya tenia, sin que la pantalla se
-  // entere de que no guardo nada.
-  Expect<MatchesContract<EffectPriorityRequest, 'EffectPriorityRequest'>>,
-  Expect<MatchesContract<ReorderConfiguratorEffectsRequest, 'ReorderConfiguratorEffectsRequest'>>,
-
   // El resto del circuito del dinero. Cuatro escrituras sobre el documento y cuatro pantallas
   // de plataforma, todas atadas porque ninguna falla de forma ruidosa: un campo renombrado
   // aqui no rompe la pantalla, la deja pintando otra cosa.
@@ -1057,4 +1016,11 @@ export type ContractAssertions = [
     >
   >,
   Expect<MatchesContract<PageResponse<BankReceiptResponse>, 'PageResponseBankReceiptResponse'>>,
+
+  // Habeas data: la supresión a petición del titular. La petición lleva UN campo y la
+  // respuesta son tres contadores más su suma; si el backend renombra cualquiera de los
+  // cuatro, la pantalla mostraría `undefined` donde dice cuántas filas se borraron, que
+  // es el número con el que se le responde a la SIC.
+  Expect<MatchesContract<SuppressProposalDataRequest, 'SuppressProposalDataRequest'>>,
+  Expect<MatchesContract<ProposalSuppressionResponse, 'ProposalSuppressionResponse'>>,
 ]

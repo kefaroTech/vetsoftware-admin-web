@@ -25,7 +25,7 @@ import type { RouteRecordRaw } from 'vue-router'
  * `/system/**` y su `@PreAuthorize` es `hasRole('SYSTEM')` a secas: todo operador
  * de esta consola es un `SystemUserContext` que lo recibe sin que se miren sus
  * permisos. Poner aquí un código inventado no restringiría nada — mismo criterio
- * y misma redacción que `configurator.routes.ts`.
+ * y misma redacción que `platform-billing.routes.ts`.
  *
  * <p>Los nombres viven aquí y no en `src/constants/routes.ts` por lo mismo que
  * allí: ese fichero es un punto de serialización que varias tareas quieren tocar

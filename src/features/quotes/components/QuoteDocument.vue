@@ -5,7 +5,6 @@ import QuoteStatusBadge from './QuoteStatusBadge.vue'
 import QuoteValidity from './QuoteValidity.vue'
 import QuoteLinesTable from './QuoteLinesTable.vue'
 import QuoteTotals from './QuoteTotals.vue'
-import QuoteAnswers from './QuoteAnswers.vue'
 import QuoteAcceptanceProof from './QuoteAcceptanceProof.vue'
 import QuoteChain from './QuoteChain.vue'
 import { QUOTE_BILLING_CYCLE_LABEL, type QuoteResponse } from '../types/quotes.types'
@@ -102,11 +101,6 @@ defineEmits<{ reissue: [] }>()
         <h3 id="lineas-titulo" class="ds-title">La oferta</h3>
         <QuoteLinesTable :lines="quote.lines" :current-name="currentName" :currency="currency" />
         <QuoteTotals :quote="quote" :currency="currency" />
-      </section>
-
-      <section class="ds-stack ds-stack--10" aria-labelledby="respuestas-titulo">
-        <h3 id="respuestas-titulo" class="ds-title">Por qué se cotizó esto</h3>
-        <QuoteAnswers :answers="quote.answers" />
       </section>
     </template>
 

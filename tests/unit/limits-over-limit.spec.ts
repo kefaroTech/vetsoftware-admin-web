@@ -6,6 +6,7 @@ import {
   summarizeOverLimit,
 } from '@/features/limits/composables/overLimitAccounts'
 import type { CompanyLimitEventResponse } from '@/features/limits/types/limits.types'
+import { exigir, elemento } from '../helpers/exigir'
 
 function evento(patch: Partial<CompanyLimitEventResponse> = {}): CompanyLimitEventResponse {
   return {
@@ -73,8 +74,8 @@ describe('reducir la bitácora al último estado conocido', () => {
       evento({ id: 2, limitDimensionId: 7, usedQuantity: 95, occurredAt: '2026-03-09T10:00:00' }),
     ])
     expect(filas).toHaveLength(1)
-    expect(filas[0]!.usedQuantity).toBe(95)
-    expect(filas[0]!.state).toBe('NEAR')
+    expect(elemento(filas, 0, 'filas').usedQuantity).toBe(95)
+    expect(elemento(filas, 0, 'filas').state).toBe('NEAR')
   })
 
   /**
@@ -89,14 +90,14 @@ describe('reducir la bitácora al último estado conocido', () => {
       evento({ id: 9, limitDimensionId: 7, usedQuantity: 100, occurredAt: mismoInstante }),
       evento({ id: 4, limitDimensionId: 7, usedQuantity: 99, occurredAt: mismoInstante }),
     ])
-    expect(filas[0]!.usedQuantity).toBe(100)
+    expect(elemento(filas, 0, 'filas').usedQuantity).toBe(100)
 
     // Y con el array al revés, el resultado es el mismo.
     const alReves = summarizeOverLimit([
       evento({ id: 4, limitDimensionId: 7, usedQuantity: 99, occurredAt: mismoInstante }),
       evento({ id: 9, limitDimensionId: 7, usedQuantity: 100, occurredAt: mismoInstante }),
     ])
-    expect(alReves[0]!.usedQuantity).toBe(100)
+    expect(elemento(alReves, 0, 'alReves').usedQuantity).toBe(100)
   })
 
   it('ordena por urgencia: primero lo desbordado, al final lo que no pide nada', () => {
@@ -117,7 +118,7 @@ describe('reducir la bitácora al último estado conocido', () => {
 
   it('el techo cero llega a la fila como ausencia de techo, no como 0', () => {
     const [fila] = summarizeOverLimit([evento({ limitQuantity: 0, usedQuantity: 7 })])
-    expect(fila!.limitQuantity).toBeNull()
+    expect(exigir(fila, 'una fila para el techo cero').limitQuantity).toBeNull()
   })
 })
 

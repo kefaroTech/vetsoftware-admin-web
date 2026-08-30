@@ -15,9 +15,8 @@
  * declaró provisionalmente `features/platform-setup/types/platform-setup.types.ts`
  * (tarea W1-B) porque la lista de puesta en marcha necesitaba sus pasos 5 y 6
  * antes de que esta pantalla existiera, y su propia cabecera dejó escrito que
- * debían **mudarse** a la feature dueña en cuanto aterrizara. Esto es esa mudanza,
- * con la misma forma que ya tenía W1-C con `ConfiguratorQuestionResponse`: el
- * tipo vive una sola vez, aquí, y `platform-setup` lo importa. Duplicarlos
+ * debían **mudarse** a la feature dueña en cuanto aterrizara. Esto es esa mudanza:
+ * el tipo vive una sola vez, aquí, y `platform-setup` lo importa. Duplicarlos
  * dejaría dos interfaces homónimas en el repositorio y `api-contract.spec.ts`
  * agrupa por nombre: solo una de las dos quedaría atada al contrato y la otra se
  * pudriría en silencio, que es justo lo que TR-01 existe para impedir.

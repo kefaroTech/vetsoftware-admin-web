@@ -39,9 +39,12 @@ function scopedStyle(sfcRelativePath: string): string {
   const source = readFileSync(path.join(ROOT, sfcRelativePath), 'utf8')
   const match = /<style scoped>([\s\S]*?)<\/style>/.exec(source)
   if (match === null) throw new Error(`${sfcRelativePath} no declara <style scoped>`)
+  const contenido = match[1]
+  if (contenido === undefined)
+    throw new Error(`${sfcRelativePath}: <style scoped> sin grupo capturado`)
   // Los comentarios explican precisamente el `overflow: hidden` que se retiró;
   // dejarlos dentro haría que la búsqueda encontrara su propia lápida.
-  return match[1].replace(/\/\*[\s\S]*?\*\//g, '')
+  return contenido.replace(/\/\*[\s\S]*?\*\//g, '')
 }
 
 /** Cuerpo de una regla de primer nivel dentro de una hoja de estilos. */
@@ -49,7 +52,9 @@ function ruleBlock(css: string, selector: string, where: string): string {
   const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   const match = new RegExp(`(?:^|\\n)${escaped}\\s*\\{([^}]*)\\}`).exec(css)
   if (match === null) throw new Error(`${where} no declara la regla ${selector}`)
-  return match[1]
+  const cuerpo = match[1]
+  if (cuerpo === undefined) throw new Error(`${where}: la regla ${selector} no capturó cuerpo`)
+  return cuerpo
 }
 
 const APP_TABLE_CSS = scopedStyle('src/components/ui/AppTable.vue')
