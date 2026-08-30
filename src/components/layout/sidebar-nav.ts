@@ -67,11 +67,11 @@ export const navGroups: NavGroup[] = [
      * el menú explica, así que va sujeto con una prueba
      * (`tests/unit/sidebar-sin-cifras-inventadas.spec.ts`).
      *
-     * `Configurador` y `Cotizaciones` son las dos entradas nuevas. Sus rutas las
-     * aportan otras tareas de la onda (§7), y hasta que el router las conozca la
-     * entrada NO se pinta: un elemento de menú que lleva a una pantalla en blanco
-     * es exactamente la avería que el usuario reporta como «la consola está
-     * rota». Ver `isAvailable`.
+     * `Cotizaciones` es la entrada nueva. Sus rutas las aportan otras tareas de
+     * la onda (§7), y hasta que el router las conozca la entrada NO se pinta: un
+     * elemento de menú que lleva a una pantalla en blanco es exactamente la
+     * avería que el usuario reporta como «la consola está rota». Ver
+     * `isAvailable`.
      */
     title: 'Suscripciones',
     items: [
@@ -81,7 +81,6 @@ export const navGroups: NavGroup[] = [
         path: '/catalogo-comercial',
         icon: ICONS.COMMERCIAL_CATALOG,
       },
-      { label: 'Configurador', path: '/configurador', icon: ICONS.CONFIGURATOR },
       { label: 'Cotizaciones', path: '/cotizaciones', icon: ICONS.QUOTE },
       {
         name: ROUTE_NAMES.SUBSCRIPTIONS_ADMIN,

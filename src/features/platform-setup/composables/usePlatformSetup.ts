@@ -20,11 +20,9 @@ import type {
 import {
   billingDocumentSequencesApi,
   catalogItemSubModulesApi,
-  configuratorQuestionsApi,
   platformBillingConfigApi,
 } from '../api/platform-setup.api'
 import { usePlatformSetupStore } from '../stores/platform-setup.store'
-import type { ConfiguratorQuestionResponse } from '@/features/configurator/types/configurator.types'
 import type {
   BillingDocumentSequenceResponse,
   PlatformBillingConfigResponse,
@@ -32,7 +30,7 @@ import type {
 import type { PlatformSetupStep, PlatformSetupStepId } from '../types/platform-setup.types'
 
 /**
- * Las siete sondas de la puesta en marcha (§3.7).
+ * Las seis sondas de la puesta en marcha (§3.7).
  *
  * ── Por qué las condiciones no son literalmente las de la tabla de §3.7 ──────
  *
@@ -188,7 +186,7 @@ export function usePlatformSetup() {
   const blocked = computed(() => steps.value.length > 0 && pendingRequired.value > 0)
 
   /**
-   * Sondea los siete pasos y deja el resultado en el store.
+   * Sondea los seis pasos y deja el resultado en el store.
    *
    * Se llama al montar cada pantalla que pinte la lista: la regla del proyecto es
    * recargar al abrir, y una lista de puesta en marcha servida de caché diría
@@ -200,12 +198,11 @@ export function usePlatformSetup() {
     store.setLoading(true)
     store.setError(null)
     try {
-      const [items, priceLists, config, sequences, questions] = await Promise.all([
+      const [items, priceLists, config, sequences] = await Promise.all([
         probe(() => fetchAllPages((page, size) => catalogItemsApi.listAll(page, size))),
         probe(() => fetchAllPages((page, size) => priceListsApi.listAll(page, size))),
         probe(() => platformBillingConfigApi.find()),
         probe(() => billingDocumentSequencesApi.listAll(0, PROBE_PAGE_SIZE)),
-        probe(() => configuratorQuestionsApi.listAll(0, 1)),
       ])
 
       const today = new Date()
@@ -238,7 +235,7 @@ export function usePlatformSetup() {
       ])
 
       store.setSteps(
-        buildSteps({ items, priceLists, config, sequences, questions, prices, bridges, current }),
+        buildSteps({ items, priceLists, config, sequences, prices, bridges, current }),
         new Date().toISOString(),
       )
     } catch (e) {
@@ -299,7 +296,6 @@ interface StepInputs {
   priceLists: Probe<PriceListResponse[]>
   config: Probe<PlatformBillingConfigResponse>
   sequences: Probe<PageResponse<BillingDocumentSequenceResponse>>
-  questions: Probe<PageResponse<ConfiguratorQuestionResponse>>
   prices: Probe<CatalogPriceResponse[]> | null
   bridges: { probed: number; withoutBridge: number; failed: number } | null
   current: PriceListResponse | null
@@ -309,7 +305,7 @@ interface StepInputs {
 const DOCUMENT_SEQUENCE_PREFIX = 'DC'
 
 function buildSteps(input: StepInputs): PlatformSetupStep[] {
-  const { items, priceLists, config, sequences, questions, prices, bridges, current } = input
+  const { items, priceLists, config, sequences, prices, bridges, current } = input
   const coreItem = items.ok ? (items.value.find(isCoreItem) ?? null) : null
   const activeItems = items.ok ? items.value.filter(isActiveItem) : []
   const targetListId = configuredPriceListId(config) ?? current?.id ?? null
@@ -376,15 +372,6 @@ function buildSteps(input: StepInputs): PlatformSetupStep[] {
       ...resolve(sequences, (page) =>
         page.content.some((row) => row.prefix === DOCUMENT_SEQUENCE_PREFIX),
       ),
-    },
-    {
-      id: 'questionnaire',
-      order: 7,
-      label: 'Cuestionario con al menos una pregunta',
-      detail: 'No bloquea el alta. Sin preguntas, el configurador no puede proponer nada.',
-      to: '/configurador/cuestionario',
-      required: false,
-      ...resolve(questions, (page) => page.totalElements > 0),
     },
   ]
 }

@@ -53,7 +53,6 @@ import {
   Shield,
   ShieldCheck,
   Slice,
-  SlidersHorizontal,
   Stethoscope,
   Syringe,
   TestTube,
@@ -82,9 +81,8 @@ export const ICONS = {
   COMPANY: Building2,
   EMPLOYEE: Users,
   COMMERCIAL_CATALOG: Ticket,
-  // Las tres entradas que §2 de la especificación de suscripciones añade al
-  // menú: el asistente, la oferta y las políticas de facturación.
-  CONFIGURATOR: SlidersHorizontal,
+  // Las dos entradas que §2 de la especificación de suscripciones añade al
+  // menú: la oferta y las políticas de facturación.
   QUOTE: FileText,
   PLATFORM_BILLING: Banknote,
   SUBSCRIPTION: Replace,

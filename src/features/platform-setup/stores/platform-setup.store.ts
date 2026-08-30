@@ -6,8 +6,8 @@ import type { PlatformSetupStep } from '../types/platform-setup.types'
  * Estado de la puesta en marcha de la plataforma.
  *
  * Es estado **compartido entre pantallas** —el catálogo comercial, la lista de
- * contratos, el fallo del alta de una empresa y, cuando existan, cotizaciones y
- * el configurador pintan todos la misma lista—, así que vive en Pinia y no en un
+ * contratos, el fallo del alta de una empresa y, cuando existan, las
+ * cotizaciones pintan todos la misma lista—, así que vive en Pinia y no en un
  * `ref()` a nivel de módulo dentro del composable. Regla obligatoria del
  * CLAUDE.md de este repo, sin excepciones para estado nuevo.
  *

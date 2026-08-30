@@ -1,13 +1,12 @@
 import { http } from '@/services/http/http.client'
 import { DEFAULT_PAGE_SIZE, type PageResponse } from '@/types/pagination'
-import type { ConfiguratorQuestionResponse } from '@/features/configurator/types/configurator.types'
 import type {
   BillingDocumentSequenceResponse,
   PlatformBillingConfigResponse,
 } from '@/features/platform-billing/types/platform-billing.types'
 
 /**
- * Las cuatro rutas que la lista de comprobación necesita y que hoy no tiene
+ * Las tres rutas que la lista de comprobación necesita y que hoy no tiene
  * ningún cliente en esta consola.
  *
  * Las otras tres —`/catalog-items`, `/price-lists`, `/catalog-prices`— sí lo
@@ -15,17 +14,16 @@ import type {
  * **reutilizan**: duplicar aquí un `listAll` de artículos sería la primera copia
  * de un cliente que ya existe.
  *
- * Los siete `GET` son **globales de plataforma** (§1.1): ninguno resuelve la
+ * Los seis `GET` son **globales de plataforma** (§1.1): ninguno resuelve la
  * empresa con `Authz.currentCompanyId()`, así que ninguno necesita la cabecera
  * `X-Company-Id` y todos funcionan hoy desde esta consola.
  *
- * ⚠️ **Frontera de tareas.** Los DTO de §4.6 (W1-F) y §4.2 (W1-C) ya viven en
- * sus features dueñas y este módulo los importa. Con W3-A, el cliente del puente
- * de submódulos (§4.1) hizo lo mismo: vive en `commercial-catalog` y aquí solo
- * se re-exporta. Lo que se queda aquí son las **sondas**: la lista de
- * comprobación pregunta por siete cosas a la vez, con aborto y tolerancia a
- * fallos, y ninguna de ellas escribe. Es el mismo reparto que hay con el
- * configurador, cuyo cliente completo vive en su feature.
+ * ⚠️ **Frontera de tareas.** Los DTO de §4.6 (W1-F) ya viven en su feature dueña
+ * y este módulo los importa. Con W3-A, el cliente del puente de submódulos
+ * (§4.1) hizo lo mismo: vive en `commercial-catalog` y aquí solo se re-exporta.
+ * Lo que se queda aquí son las **sondas**: la lista de comprobación pregunta por
+ * seis cosas a la vez, con aborto y tolerancia a fallos, y ninguna de ellas
+ * escribe.
  */
 
 export const platformBillingConfigApi = {
@@ -49,20 +47,6 @@ export const billingDocumentSequencesApi = {
   ): Promise<PageResponse<BillingDocumentSequenceResponse>> {
     const { data } = await http.get<PageResponse<BillingDocumentSequenceResponse>>(
       '/system/billing-document-sequences',
-      { params: { page, pageSize }, signal },
-    )
-    return data
-  },
-}
-
-export const configuratorQuestionsApi = {
-  async listAll(
-    page = 0,
-    pageSize = DEFAULT_PAGE_SIZE,
-    signal?: AbortSignal,
-  ): Promise<PageResponse<ConfiguratorQuestionResponse>> {
-    const { data } = await http.get<PageResponse<ConfiguratorQuestionResponse>>(
-      '/configurator/questions',
       { params: { page, pageSize }, signal },
     )
     return data

@@ -820,70 +820,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/configurator/questions/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findQuestion"];
-        put: operations["updateQuestion"];
-        post?: never;
-        delete: operations["deleteQuestion"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/configurator/options/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["updateOption"];
-        post?: never;
-        delete: operations["deleteOption"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/configurator/effects/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["updateEffect"];
-        post?: never;
-        delete: operations["deleteEffect"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/configurator/effects/priorities": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["reorderEffects"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/company-tax-profile": {
         parameters: {
             query?: never;
@@ -3588,70 +3524,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/configurator/resolve": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["resolve_1"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/configurator/questions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listQuestions"];
-        put?: never;
-        post: operations["createQuestion"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/configurator/options": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["createOption"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/configurator/effects": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listEffects"];
-        put?: never;
-        post: operations["createEffect"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/company-contact-channels": {
         parameters: {
             query?: never;
@@ -4401,7 +4273,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["resolve_2"];
+        patch: operations["resolve_1"];
         trace?: never;
     };
     "/system/payment-reversal-requests/{id}/opposition": {
@@ -5707,7 +5579,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["resolve_3"];
+        get: operations["resolve_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6683,7 +6555,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["resolve_4"];
+        get: operations["resolve_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8492,38 +8364,6 @@ export interface paths {
             cookie?: never;
         };
         get: operations["findById_79"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/configurator/questions/{questionId}/options": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listOptions"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/configurator/questionnaire": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["questionnaire"];
         put?: never;
         post?: never;
         delete?: never;
@@ -10569,93 +10409,6 @@ export interface components {
             /** Format: date-time */
             createdDate: string;
             enabled: boolean;
-        };
-        UpdateConfiguratorQuestionRequest: {
-            questionText: string;
-            helpText?: string;
-            /** @enum {string} */
-            answerType: "SINGLE" | "MULTI" | "NUMBER" | "BOOLEAN";
-            /** Format: int64 */
-            parentOptionId?: number;
-            required: boolean;
-            /** Format: int32 */
-            sortOrder: number;
-        };
-        ConfiguratorOptionResponse: {
-            /** Format: int64 */
-            id: number;
-            /** Format: int64 */
-            questionId: number;
-            code: string;
-            label: string;
-            helpText?: string;
-            /** Format: int32 */
-            sortOrder: number;
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
-        ConfiguratorQuestionResponse: {
-            /** Format: int64 */
-            id: number;
-            code: string;
-            questionText: string;
-            helpText?: string;
-            answerType: string;
-            /** Format: int64 */
-            parentOptionId?: number;
-            required: boolean;
-            /** Format: int32 */
-            sortOrder: number;
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-            /** @description Opciones activas de la pregunta. Vacía en las NUMBER, que no admiten ninguna */
-            options: components["schemas"]["ConfiguratorOptionResponse"][];
-        };
-        UpdateConfiguratorOptionRequest: {
-            label: string;
-            helpText?: string;
-            /** Format: int32 */
-            sortOrder: number;
-        };
-        UpdateConfiguratorEffectRequest: {
-            /** Format: int64 */
-            catalogItemId: number;
-            /** @enum {string} */
-            effect: "ADD" | "REMOVE" | "SET_QUANTITY" | "QUANTITY_FROM_ANSWER";
-            /** Format: int32 */
-            quantity?: number;
-        };
-        ConfiguratorEffectResponse: {
-            /** Format: int64 */
-            id: number;
-            /** Format: int64 */
-            optionId?: number;
-            /** Format: int64 */
-            questionId?: number;
-            /** Format: int64 */
-            catalogItemId: number;
-            effect: string;
-            /** Format: int32 */
-            quantity?: number;
-            /**
-             * Format: int32
-             * @description Orden de aplicacion, ascendente. A igualdad, desempata el id.
-             */
-            priority: number;
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
-        EffectPriorityRequest: {
-            /** Format: int64 */
-            effectId: number;
-            /** Format: int32 */
-            priority: number;
-        };
-        ReorderConfiguratorEffectsRequest: {
-            priorities: components["schemas"]["EffectPriorityRequest"][];
         };
         UpdateCompanyTaxProfileRequest: {
             /** @enum {string} */
@@ -13068,14 +12821,6 @@ export interface components {
             /** Format: int32 */
             trialDays?: number;
             lines: components["schemas"]["QuoteLineRequest"][];
-            answers?: components["schemas"]["QuoteAnswerRequest"][];
-        };
-        QuoteAnswerRequest: {
-            /** Format: int64 */
-            questionId: number;
-            /** Format: int64 */
-            optionId?: number;
-            answerValue?: string;
         };
         QuoteLineRequest: {
             /** Format: int64 */
@@ -13084,17 +12829,6 @@ export interface components {
             quantity?: number;
             discountPercent?: number;
             discountIsConditional?: boolean;
-        };
-        QuoteAnswerResponse: {
-            /** Format: int64 */
-            id?: number;
-            /** Format: int64 */
-            questionId?: number;
-            /** Format: int64 */
-            optionId?: number;
-            questionCode?: string;
-            answerValue?: string;
-            enabled?: boolean;
         };
         QuoteLineResponse: {
             /** Format: int64 */
@@ -13155,7 +12889,6 @@ export interface components {
             acceptedIp?: string;
             clientRequestId?: string;
             lines?: components["schemas"]["QuoteLineResponse"][];
-            answers?: components["schemas"]["QuoteAnswerResponse"][];
             /** Format: date-time */
             createdDate?: string;
             enabled?: boolean;
@@ -14335,56 +14068,6 @@ export interface components {
         CreateConsultationTypeRequest: {
             name: string;
             description: string;
-        };
-        ResolveConfiguratorSelectionRequest: {
-            selectedOptionIds?: number[];
-            numericAnswers?: {
-                [key: string]: number;
-            };
-            /** @enum {string} */
-            billingCycle: "MONTHLY" | "ANNUAL";
-        };
-        ConfiguratorSelectionResponse: {
-            items: components["schemas"]["SelectedItemResponse"][];
-        };
-        SelectedItemResponse: {
-            /** @description Rotulo del articulo; el mismo que aceptan /catalog y /quotes/self-serve */
-            code: string;
-            /** Format: int32 */
-            quantity: number;
-        };
-        CreateConfiguratorQuestionRequest: {
-            code: string;
-            questionText: string;
-            helpText?: string;
-            /** @enum {string} */
-            answerType: "SINGLE" | "MULTI" | "NUMBER" | "BOOLEAN";
-            /** Format: int64 */
-            parentOptionId?: number;
-            required: boolean;
-            /** Format: int32 */
-            sortOrder: number;
-        };
-        CreateConfiguratorOptionRequest: {
-            /** Format: int64 */
-            questionId: number;
-            code: string;
-            label: string;
-            helpText?: string;
-            /** Format: int32 */
-            sortOrder: number;
-        };
-        CreateConfiguratorEffectRequest: {
-            /** Format: int64 */
-            optionId?: number;
-            /** Format: int64 */
-            questionId?: number;
-            /** Format: int64 */
-            catalogItemId: number;
-            /** @enum {string} */
-            effect: "ADD" | "REMOVE" | "SET_QUANTITY" | "QUANTITY_FROM_ANSWER";
-            /** Format: int32 */
-            quantity?: number;
         };
         CreateCompanyTaxProfileRequest: {
             /** @enum {string} */
@@ -16704,51 +16387,6 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
-        PageResponseConfiguratorQuestionResponse: {
-            content?: components["schemas"]["ConfiguratorQuestionResponse"][];
-            /** Format: int32 */
-            page?: number;
-            /** Format: int32 */
-            pageSize?: number;
-            /** Format: int64 */
-            totalElements?: number;
-            /** Format: int32 */
-            totalPages?: number;
-        };
-        QuestionnaireOptionResponse: {
-            /** Format: int64 */
-            id: number;
-            code: string;
-            label: string;
-            helpText?: string;
-            /** Format: int32 */
-            sortOrder: number;
-        };
-        QuestionnaireQuestionResponse: {
-            /** Format: int64 */
-            id: number;
-            code: string;
-            questionText: string;
-            helpText?: string;
-            answerType: string;
-            /** Format: int64 */
-            parentOptionId?: number;
-            required: boolean;
-            /** Format: int32 */
-            sortOrder: number;
-            options: components["schemas"]["QuestionnaireOptionResponse"][];
-        };
-        PageResponseConfiguratorEffectResponse: {
-            content?: components["schemas"]["ConfiguratorEffectResponse"][];
-            /** Format: int32 */
-            page?: number;
-            /** Format: int32 */
-            pageSize?: number;
-            /** Format: int64 */
-            totalElements?: number;
-            /** Format: int32 */
-            totalPages?: number;
-        };
         PageResponseCompanyContactChannelResponse: {
             content?: components["schemas"]["CompanyContactChannelResponse"][];
             /** Format: int32 */
@@ -16865,6 +16503,12 @@ export interface components {
             /** @description Rotulos de los articulos que el paquete incluye. Ninguno de ellos se puede comprar ademas del paquete */
             componentCodes: string[];
         };
+        PublicCatalogRequirementResponse: {
+            /** @description Code del articulo que el cliente elige */
+            itemCode: string;
+            /** @description Code del articulo que se le anadira. Puede no aparecer en modules/capacities/oneTimeItems si no tiene precio en la tarifa vigente: el servidor lo anade igual */
+            requiredItemCode: string;
+        };
         PublicCatalogResponse: {
             /** @description ISO 4217; nulo si no hay tarifa vigente */
             currency?: string;
@@ -16881,6 +16525,8 @@ export interface components {
             oneTimeItems: components["schemas"]["PublicCatalogItemResponse"][];
             /** @description Paquetes, con su precio y su composicion */
             packs: components["schemas"]["PublicCatalogPackResponse"][];
+            /** @description Grafo de requisitos: arcos DIRECTOS «si eliges itemCode, se anade requiredItemCode». No es el cierre transitivo; recorrelos en anchura si lo necesitas */
+            requirements: components["schemas"]["PublicCatalogRequirementResponse"][];
         };
         PageResponseCatalogPriceResponse: {
             content?: components["schemas"]["CatalogPriceResponse"][];
@@ -20118,190 +19764,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
-            };
-        };
-    };
-    findQuestion: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConfiguratorQuestionResponse"];
-                };
-            };
-        };
-    };
-    updateQuestion: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateConfiguratorQuestionRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConfiguratorQuestionResponse"];
-                };
-            };
-        };
-    };
-    deleteQuestion: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    updateOption: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateConfiguratorOptionRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConfiguratorOptionResponse"];
-                };
-            };
-        };
-    };
-    deleteOption: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    updateEffect: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateConfiguratorEffectRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConfiguratorEffectResponse"];
-                };
-            };
-        };
-    };
-    deleteEffect: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    reorderEffects: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ReorderConfiguratorEffectsRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConfiguratorEffectResponse"][];
-                };
             };
         };
     };
@@ -26788,148 +26250,6 @@ export interface operations {
             };
         };
     };
-    resolve_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ResolveConfiguratorSelectionRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConfiguratorSelectionResponse"];
-                };
-            };
-        };
-    };
-    listQuestions: {
-        parameters: {
-            query?: {
-                page?: number;
-                pageSize?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PageResponseConfiguratorQuestionResponse"];
-                };
-            };
-        };
-    };
-    createQuestion: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateConfiguratorQuestionRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConfiguratorQuestionResponse"];
-                };
-            };
-        };
-    };
-    createOption: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateConfiguratorOptionRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConfiguratorOptionResponse"];
-                };
-            };
-        };
-    };
-    listEffects: {
-        parameters: {
-            query?: {
-                page?: number;
-                pageSize?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PageResponseConfiguratorEffectResponse"];
-                };
-            };
-        };
-    };
-    createEffect: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateConfiguratorEffectRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConfiguratorEffectResponse"];
-                };
-            };
-        };
-    };
     listByCompany_10: {
         parameters: {
             query?: {
@@ -28547,7 +27867,7 @@ export interface operations {
             };
         };
     };
-    resolve_2: {
+    resolve_1: {
         parameters: {
             query: {
                 companyId: number;
@@ -30512,7 +29832,7 @@ export interface operations {
             };
         };
     };
-    resolve_3: {
+    resolve_2: {
         parameters: {
             query: {
                 withholdingType: "INCOME_TAX" | "VAT" | "ICA";
@@ -31926,7 +31246,7 @@ export interface operations {
             };
         };
     };
-    resolve_4: {
+    resolve_3: {
         parameters: {
             query: {
                 mappingKind: "RECEIVABLE" | "DEFERRED_REVENUE" | "REVENUE" | "VAT_PAYABLE" | "VAT_CREDITABLE" | "CASH_IN_TRANSIT" | "BANK" | "GATEWAY_FEE" | "WITHHOLDING_ASSET" | "FINANCIAL_TAX" | "PENALTY_REVENUE" | "CUSTOMER_CREDIT";
@@ -34632,48 +33952,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ConsultationResponse"];
-                };
-            };
-        };
-    };
-    listOptions: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                questionId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ConfiguratorOptionResponse"][];
-                };
-            };
-        };
-    };
-    questionnaire: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["QuestionnaireQuestionResponse"][];
                 };
             };
         };

@@ -80,21 +80,6 @@ export interface QuoteLineResponse {
   enabled: boolean
 }
 
-/**
- * Una respuesta del configurador que produjo esta oferta.
- *
- * <p>No es accesorio: es la única forma de responder «¿por qué le vendimos esto?» seis meses
- * después, y por eso el detalle las pinta como pares legibles y no como identificadores.
- */
-export interface QuoteAnswerResponse {
-  id: number
-  questionId: number
-  optionId: number | null
-  questionCode: string
-  answerValue: string
-  enabled: boolean
-}
-
 /** Fila del listado de plataforma (`GET /quotes/platform`). */
 export interface QuoteSummaryResponse {
   id: number
@@ -147,7 +132,6 @@ export interface QuoteResponse {
   /** Llave de idempotencia con la que se creó. Es lo que hace que un doble clic no cree dos. */
   clientRequestId: string | null
   lines: QuoteLineResponse[]
-  answers: QuoteAnswerResponse[]
   createdDate: string
   enabled: boolean
 }
@@ -166,12 +150,6 @@ export interface QuoteLineRequest {
   discountIsConditional?: boolean
 }
 
-export interface QuoteAnswerRequest {
-  questionId: number
-  optionId: number | null
-  answerValue: string | null
-}
-
 export interface CreateQuoteRequest {
   /** `crypto.randomUUID()` UNA vez al abrir el formulario, no en cada envío. */
   clientRequestId: string
@@ -184,7 +162,6 @@ export interface CreateQuoteRequest {
   validUntil: string
   trialDays: number | null
   lines: QuoteLineRequest[]
-  answers: QuoteAnswerRequest[]
 }
 
 /** El servidor añade la IP y la marca de tiempo; aquí solo viaja quién dijo que sí. */

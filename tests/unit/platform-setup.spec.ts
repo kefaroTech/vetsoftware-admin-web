@@ -9,7 +9,7 @@ import type { CatalogItemResponse } from '@/features/commercial-catalog/types/co
  * La puesta en marcha de la plataforma (§3.7 de
  * `docs/ux/suscripciones-consola-especificacion.md`).
  *
- * Lo que se afirma aquí no es «el componente pinta siete filas»: es la propiedad
+ * Lo que se afirma aquí no es «el componente pinta seis filas»: es la propiedad
  * de la que depende que la lista sirva de algo — **que no mienta**. Un paso en
  * «Listo» donde el alta va a fallar, o en «Pendiente» donde en realidad no se
  * pudo preguntar, manda al operador a arreglar lo que no está roto y le esconde
@@ -22,7 +22,6 @@ const priceListsApi = { listAll: vi.fn() }
 const catalogPricesApi = { listByPriceList: vi.fn() }
 const platformBillingConfigApi = { find: vi.fn() }
 const billingDocumentSequencesApi = { listAll: vi.fn() }
-const configuratorQuestionsApi = { listAll: vi.fn() }
 const catalogItemSubModulesApi = { listByCatalogItem: vi.fn() }
 
 vi.mock('@/features/commercial-catalog/api/commercial-catalog.api', () => ({
@@ -34,7 +33,6 @@ vi.mock('@/features/commercial-catalog/api/commercial-catalog.api', () => ({
 vi.mock('@/features/platform-setup/api/platform-setup.api', () => ({
   platformBillingConfigApi,
   billingDocumentSequencesApi,
-  configuratorQuestionsApi,
   catalogItemSubModulesApi,
 }))
 
@@ -84,7 +82,6 @@ function plataformaSinSembrar() {
     createdDate: '2026-08-01',
   })
   billingDocumentSequencesApi.listAll.mockResolvedValue(page([]))
-  configuratorQuestionsApi.listAll.mockResolvedValue(page([]))
   catalogItemSubModulesApi.listByCatalogItem.mockResolvedValue([])
 }
 
@@ -125,10 +122,11 @@ describe('la lista de comprobación de la puesta en marcha', () => {
       'catalog-prices',
       'billing-config',
       'document-sequence',
-      'questionnaire',
     ])
     // El recuento que se pinta —«{n} de 6 pasos obligatorios completados»— sale
-    // de aquí. El séptimo es «recomendado» y NO entra en el denominador.
+    // de aquí. Los seis pasos son obligatorios: desde que el configurador se
+    // retiró del producto no queda ningún paso «recomendado» fuera del
+    // denominador, así que el total sondeado y el denominador coinciden.
     expect(setup.requiredTotal.value).toBe(6)
     expect(setup.requiredDone.value).toBe(0)
     expect(setup.blocked.value).toBe(true)
@@ -227,14 +225,12 @@ describe('ningún estado se comunica solo por color (§5.2)', () => {
     await router.isReady()
 
     const wrapper = mount(PlatformSetupChecklist, { global: { plugins: [router] } })
-    await vi.waitFor(() => expect(wrapper.findAll('li')).toHaveLength(7))
+    await vi.waitFor(() => expect(wrapper.findAll('li')).toHaveLength(6))
 
     const texto = wrapper.text()
     expect(texto).toContain('Puesta en marcha de la plataforma')
     expect(texto).toContain('0 de 6 pasos obligatorios completados')
     expect(texto).toContain('Pendiente')
-    // El séptimo no es obligatorio y se dice con esa palabra, no con otro color.
-    expect(texto).toContain('Recomendado')
 
     // §5.1 · el foco puede ir al encabezado de lo que hay que hacer ahora.
     expect(wrapper.get('h2').attributes('tabindex')).toBe('-1')

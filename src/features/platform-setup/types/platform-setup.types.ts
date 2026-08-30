@@ -24,8 +24,7 @@ import type { LinkOutcome } from '../../commercial-catalog/types/commercial-cata
  * W1-F) no existía, con el compromiso escrito de **mudarlos a ella** en cuanto
  * aterrizara. W1-F ya está, así que viven en
  * `features/platform-billing/types/platform-billing.types.ts` y este módulo los
- * importa — igual que se hizo con `ConfiguratorQuestionResponse` cuando aterrizó
- * W1-C. Declararlos en dos sitios dejaría dos interfaces homónimas y
+ * importa. Declararlos en dos sitios dejaría dos interfaces homónimas y
  * `api-contract.spec.ts` agrupa por nombre: solo una quedaría atada al contrato.
  *
  * `CatalogItemSubModuleResponse` y `SubModuleSummary` **se quedan pese a que su
@@ -65,7 +64,7 @@ export interface CatalogItemSubModuleResponse {
 // El modelo de la lista de comprobación
 // ---------------------------------------------------------------------------
 
-/** Los siete pasos de §3.7, en orden de dependencia real. */
+/** Los seis pasos de §3.7, en orden de dependencia real. */
 export type PlatformSetupStepId =
   | 'catalog-item'
   | 'sub-modules'
@@ -73,7 +72,6 @@ export type PlatformSetupStepId =
   | 'catalog-prices'
   | 'billing-config'
   | 'document-sequence'
-  | 'questionnaire'
 
 /**
  * Tres estados y no dos.
@@ -88,7 +86,7 @@ export type PlatformSetupStepState = 'done' | 'pending' | 'unknown'
 
 export interface PlatformSetupStep {
   id: PlatformSetupStepId
-  /** 1..7 — el número que el operador lee y con el que se habla del paso. */
+  /** 1..6 — el número que el operador lee y con el que se habla del paso. */
   order: number
   /** El rótulo de §3.7. Idéntico en las cuatro pantallas y en el fallo del alta. */
   label: string

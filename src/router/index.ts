@@ -25,10 +25,10 @@ import { medicamentsRoutes } from './routes/medicaments.routes'
 import { configRoutes } from './routes/config.routes'
 
 /* ──────────────────────────────────────────────────────────────────────────
- * Suscripciones · las seis entradas de menú de §2 de
+ * Suscripciones · las entradas de menú de §2 de
  * `docs/ux/suscripciones-consola-especificacion.md`, en el orden de la cadena
- * del modelo: catálogo y precios → configurador → cotizaciones → contratos →
- * cobranza, más facturación de plataforma bajo Sistema.
+ * del modelo: catálogo y precios → cotizaciones → contratos → cobranza, más
+ * facturación de plataforma bajo Sistema.
  *
  * Regla de no colisión de §7: cada tarea de la onda 1 aporta su propio
  * `routes/<feature>.routes.ts` y **ninguna toca este fichero**; los imports los
@@ -44,8 +44,6 @@ import { configRoutes } from './routes/config.routes'
  * ajustar.
  * ────────────────────────────────────────────────────────────────────────── */
 import { commercialCatalogRoutes } from './routes/commercial-catalog.routes'
-// W1-C · /configurador/{cuestionario,probar} (§4.2)
-import { configuratorRoutes } from './routes/configurator.routes'
 // W1-D · /cotizaciones y /cotizaciones/:id (§4.3)
 import { quotesRoutes } from './routes/quotes.routes'
 import { subscriptionsAdminRoutes } from './routes/subscriptions-admin.routes'
@@ -77,7 +75,6 @@ const router = createRouter({
     ...companiesRoutes,
     // El orden de la cadena, igual que en el menú.
     ...commercialCatalogRoutes,
-    ...configuratorRoutes,
     ...quotesRoutes,
     ...subscriptionsAdminRoutes,
     ...billingOperationsRoutes,

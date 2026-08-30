@@ -18,8 +18,8 @@ const router = useRouter()
  *
  * Las entradas nuevas de §2 llegan antes que las pantallas: cada tarea de la
  * onda 1 aporta su `routes/<feature>.routes.ts` por su cuenta y el registro de
- * los seis imports lo hace una sola instancia (§7). Entre medias, pintar
- * «Configurador» en el menú llevaría a una ruta sin coincidencia —una pantalla
+ * los imports lo hace una sola instancia (§7). Entre medias, pintar
+ * «Cotizaciones» en el menú llevaría a una ruta sin coincidencia —una pantalla
  * en blanco—, que es peor que no ofrecer la entrada: el usuario no lee «esto
  * todavía no está», lee «esto está roto».
  *
