@@ -120,9 +120,9 @@ const { isDrawerViewport, navOpen, closeNav, onTrapTab } = useNavDrawer({
     <SidebarBrand />
 
     <!-- Listas nombradas, no `<div>`s sueltos: antes el lector de pantalla
-         anunciaba 26 enlaces en fila sin decir cuántos había ni de qué grupo
-         eran. Con `<ul>` + `aria-labelledby` dice «lista Suscripciones, 5
-         elementos, elemento 3 de 5» (§1.3.1). `.ds-list-reset` en vez de
+         anunciaba los 19 controles del cajón en fila sin decir cuántos había ni
+         de qué grupo eran. Con `<ul>` + `aria-labelledby` dice «lista
+         Suscripciones, 8 elementos, elemento 3 de 8» (§1.3.1). `.ds-list-reset` en vez de
          reescribir `list-style/margin/padding` en el scoped: esa primitiva ya
          existe y copiarla dispara `vetsoftware/no-duplicate-primitive`. -->
     <nav id="app-nav" class="nav-groups ds-stack" aria-label="Navegación principal">

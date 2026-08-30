@@ -135,6 +135,38 @@ export async function esperarFuentes(page: Page): Promise<void> {
   await page.evaluate(() => document.fonts.ready.then(() => undefined))
 }
 
+/**
+ * El velo global de carga (`PageLoader.vue`).
+ *
+ * Se localiza por la PAREJA de atributos ARIA, no por `.page-loader`: la clase
+ * es de estilo y `role="alert"` a secas lo llevan decenas de banners de error
+ * de la consola. `role="alert"` + `aria-busy="true"` juntos solo los declara el
+ * velo.
+ */
+export const velo = (page: Page) => page.locator('[role="alert"][aria-busy="true"]')
+
+/**
+ * Espera a que el velo NO esté puesto.
+ *
+ * Sin esto la captura sale con el velo encima y la prueba falla sin que nada
+ * haya cambiado en la pantalla: `loader.store.ts` lo muestra a los
+ * `SHOW_DELAY_MS` = 200 ms y, una vez visible, lo mantiene `MIN_VISIBLE_MS` =
+ * 300 ms más allá de la última respuesta. Entre que la tabla ya está pintada y
+ * que el velo se retira hay, por tanto, una ventana de hasta 300 ms en la que
+ * el armazón está listo y la pantalla está tapada — y ahí es donde caía
+ * `armazon-tablet-768x1024-cerrado`: 735.217 píxeles distintos (94 % de la
+ * imagen) sobre una línea base correcta, que la captura final de la misma
+ * tirada reprodujo byte a byte.
+ *
+ * Se espera por estado observable y NUNCA con `waitForTimeout`. Va DESPUÉS de
+ * que las filas estén en el DOM, y ese orden importa: para entonces la
+ * respuesta de `/companies` ya llegó y `popLoader()` ya corrió, así que no
+ * queda ninguna petición que pueda volver a levantarlo tras la comprobación.
+ */
+export async function esperarVeloOculto(page: Page): Promise<void> {
+  await expect(velo(page)).toBeHidden()
+}
+
 /** Abre una ruta de la consola con sesión y API simuladas, y espera al armazón. */
 export async function abrirArmazon(page: Page, ruta = '/empresas'): Promise<void> {
   await bloquearFuentesRemotas(page)
@@ -143,6 +175,7 @@ export async function abrirArmazon(page: Page, ruta = '/empresas'): Promise<void
   await page.goto(ruta)
   await expect(page.locator('main#contenido')).toBeVisible()
   await esperarFuentes(page)
+  await esperarVeloOculto(page)
 }
 
 /** Abre el listado de empresas y espera a que las 40 filas estén pintadas. */
@@ -150,6 +183,9 @@ export async function abrirListadoLargo(page: Page): Promise<void> {
   await abrirArmazon(page, '/empresas')
   await expect(page.getByRole('heading', { name: 'Empresas', level: 1 })).toBeVisible()
   await expect(page.locator('tbody tr')).toHaveCount(FILAS)
+  // Otra vez, y no por duplicado: `abrirArmazon` comprobó el velo antes de que
+  // `/companies` respondiera, así que esa respuesta pudo levantarlo de nuevo.
+  await esperarVeloOculto(page)
 }
 
 /** El botón que abre el cajón. Por rol y nombre accesible, nunca por clase. */
