@@ -64,10 +64,10 @@ export default defineConfig({
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
     {
       name: 'chromium',
-      // `./e2e/tablet` y `./e2e/supresion` quedan fuera: esas dos suites
-      // miden con la API interceptada y NO deben arrastrar el `setup`, que exige
-      // backend real.
-      testIgnore: ['**/tablet/**', '**/supresion/**'],
+      // `./e2e/tablet`, `./e2e/supresion` y `./e2e/pistas` quedan fuera: esas
+      // tres suites miden con la API interceptada y NO deben arrastrar el
+      // `setup`, que exige backend real.
+      testIgnore: ['**/tablet/**', '**/supresion/**', '**/pistas/**'],
       use: { ...devices['Desktop Chrome'], storageState: 'e2e/.auth/system-user.json' },
       dependencies: ['setup'],
     },
@@ -113,6 +113,33 @@ export default defineConfig({
     {
       name: 'supresion-datos',
       testDir: './e2e/supresion',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    /**
+     * Pistas del asistente — `/asistente/pistas` y su ficha.
+     *
+     * Proyecto aparte y SIN `dependencies`, por los mismos motivos que los dos
+     * de arriba y por tres propios que `e2e/helpers/pistas.ts` desarrolla:
+     *
+     *  · La fila que más importa —pista viva con `catalogItemCode` y
+     *    `catalogItemName` NULOS— exige un artículo deshabilitado en el
+     *    catálogo GLOBAL de plataforma que además tenga pista vigente. Sembrarlo
+     *    contra `localdev` es mutar el catálogo comercial para probar otra
+     *    pantalla, y dejarlo mutado.
+     *  · `catalog_item_ai_hints` es historial append-only: el `PUT` inserta y el
+     *    `DELETE` solo cierra la vigencia. Publicar o retirar contra el servidor
+     *    real deja revisiones que NADA puede quitar después, y el índice único
+     *    `(catalog_item_id, hint_hash)` impide incluso republicar el texto
+     *    anterior. «Cada spec deja el sistema como lo encontró» sería imposible.
+     *  · Y lo que se escribe aquí cambia lo que se le vende a desconocidos, sin
+     *    despliegue: pistas de prueba en un servidor compartido llegan al
+     *    siguiente prospecto que escriba en la landing.
+     *
+     * Se corre solo:  npx playwright test --project=pistas-asistente
+     */
+    {
+      name: 'pistas-asistente',
+      testDir: './e2e/pistas',
       use: { ...devices['Desktop Chrome'] },
     },
   ],

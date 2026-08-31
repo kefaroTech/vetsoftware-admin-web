@@ -48,6 +48,9 @@ import { commercialCatalogRoutes } from './routes/commercial-catalog.routes'
 // cadena del menú, y la única pantalla que llama a
 // POST /assistant/proposals/suppress.
 import { proposalSuppressionRoutes } from './routes/proposal-suppression.routes'
+// Las pistas que el asistente lee para decidir qué proponer: /asistente/pistas
+// y /asistente/pistas/:catalogItemId. Mismo eslabón que la supresión.
+import { catalogAiHintsRoutes } from './routes/catalog-ai-hints.routes'
 // W1-D · /cotizaciones y /cotizaciones/:id (§4.3)
 import { quotesRoutes } from './routes/quotes.routes'
 import { subscriptionsAdminRoutes } from './routes/subscriptions-admin.routes'
@@ -79,6 +82,7 @@ const router = createRouter({
     ...companiesRoutes,
     // El orden de la cadena, igual que en el menú.
     ...commercialCatalogRoutes,
+    ...catalogAiHintsRoutes,
     ...proposalSuppressionRoutes,
     ...quotesRoutes,
     ...subscriptionsAdminRoutes,
