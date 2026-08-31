@@ -81,12 +81,20 @@ export const navGroups: NavGroup[] = [
         path: '/catalogo-comercial',
         icon: ICONS.COMMERCIAL_CATALOG,
       },
-      // El eslabón «el asistente» de la cadena, que hasta ahora no tenía ninguna
-      // entrada: va entre el catálogo y la oferta porque es donde el orden
-      // documentado arriba lo coloca —el asistente es lo que convierte una
-      // descripción en una cotización—. Es además la única pantalla de los dos
-      // fronts que atiende una petición de habeas data (Ley 1581, art. 8 e), y
-      // hasta que existió, cumplirla exigía invocar la API a mano.
+      // El eslabón «el asistente» de la cadena: va entre el catálogo y la oferta
+      // porque es donde el orden documentado arriba lo coloca —el asistente es
+      // lo que convierte una descripción en una cotización—. Son dos entradas, y
+      // este es su orden: las pistas gobiernan lo que el asistente hace todos los
+      // días, y la supresión es un deber legal que se ejerce a petición.
+      //
+      // Las pistas son lo que el modelo lee para decidir qué proponerle a un
+      // prospecto. Escribir aquí cambia lo que se le ofrece a desconocidos sin
+      // despliegue y sin que lo revise nadie, y hasta que existió esta pantalla
+      // corregir una pista exigía un changeset y un despliegue.
+      { label: 'Pistas del asistente', path: '/asistente/pistas', icon: ICONS.AI_HINT },
+      // La única pantalla de los dos fronts que atiende una petición de habeas
+      // data (Ley 1581, art. 8 e); hasta que existió, cumplirla exigía invocar
+      // la API a mano.
       {
         label: 'Supresión de datos',
         path: '/asistente/supresion-datos',

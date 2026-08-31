@@ -54,6 +54,7 @@ import {
   Shield,
   ShieldCheck,
   Slice,
+  Sparkles,
   Stethoscope,
   Syringe,
   TestTube,
@@ -82,6 +83,12 @@ export const ICONS = {
   COMPANY: Building2,
   EMPLOYEE: Users,
   COMMERCIAL_CATALOG: Ticket,
+  /**
+   * Las pistas que el asistente lee para decidir qué proponer. No había ningún
+   * icono de asistente ni de IA en el inventario —de `DASHBOARD` a `UNCHECKED`,
+   * sin `SPARKLES`, `BOT` ni `WAND`— así que entra una clave nueva.
+   */
+  AI_HINT: Sparkles,
   /** Supresión de datos del asistente a petición del titular (habeas data). */
   DATA_SUPPRESSION: Eraser,
   // Las dos entradas que §2 de la especificación de suscripciones añade al

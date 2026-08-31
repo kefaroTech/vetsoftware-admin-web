@@ -225,6 +225,11 @@ import type {
   UpdatePriceListRequest,
 } from '../features/commercial-catalog/types/commercial-catalog.types'
 import type {
+  CatalogItemAiHintResponse,
+  PublishCatalogItemAiHintRequest,
+  ReviseCatalogItemAiHintRequest,
+} from '../features/catalog-ai-hints/types/catalog-ai-hints.types'
+import type {
   CityResponse,
   CountryResponse,
   CountrySummary,
@@ -616,6 +621,21 @@ export type ContractAssertions = [
     >
   >,
 
+  // Las pistas del asistente. Los cuatro campos nulables de la respuesta
+  // —`catalogItemCode`, `catalogItemName`, `supersededAt` y
+  // `supersededBySystemUserId`— NO son `required` en el contrato, así que
+  // declararlos `| null` es lo correcto y `NullableWhereRequired` no los mira.
+  // La envoltura de página se ata sobre esta instanciación porque es un listado
+  // más de la consola y el generador emite su propio esquema.
+  Expect<MatchesContract<CatalogItemAiHintResponse, 'CatalogItemAiHintResponse'>>,
+  Expect<
+    MatchesContract<
+      PageResponse<CatalogItemAiHintResponse>,
+      'PageResponseCatalogItemAiHintResponse'
+    >
+  >,
+  Expect<MatchesContract<PublishCatalogItemAiHintRequest, 'PublishCatalogItemAiHintRequest'>>,
+  Expect<MatchesContract<ReviseCatalogItemAiHintRequest, 'ReviseCatalogItemAiHintRequest'>>,
   Expect<MatchesContract<CatalogItemResponse, 'CatalogItemResponse'>>,
   Expect<MatchesContract<CatalogPriceResponse, 'CatalogPriceResponse'>>,
   Expect<MatchesContract<CityResponse, 'CityResponse'>>,
