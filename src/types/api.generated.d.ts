@@ -964,6 +964,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/catalog-item-ai-hints/{catalogItemId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findCurrent"];
+        put: operations["revise"];
+        post?: never;
+        delete: operations["retire"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/cash-terminals/{id}": {
         parameters: {
             query?: never;
@@ -3563,7 +3579,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findCurrent"];
+        get: operations["findCurrent_1"];
         put?: never;
         post: operations["open_6"];
         delete?: never;
@@ -3710,6 +3726,22 @@ export interface paths {
         get: operations["listByBundle"];
         put?: never;
         post: operations["create_74"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-item-ai-hints": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listCurrent"];
+        put?: never;
+        post: operations["publish_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4141,7 +4173,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["publish_1"];
+        post: operations["publish_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -5025,7 +5057,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["publish_2"];
+        patch: operations["publish_3"];
         trace?: never;
     };
     "/price-lists/{id}/enable": {
@@ -6059,7 +6091,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findCurrent_1"];
+        get: operations["findCurrent_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6763,7 +6795,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findCurrent_2"];
+        get: operations["findCurrent_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7675,7 +7707,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findCurrent_3"];
+        get: operations["findCurrent_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8652,6 +8684,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["catalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/catalog-item-ai-hints/{catalogItemId}/revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listRevisions"];
         put?: never;
         post?: never;
         delete?: never;
@@ -10751,6 +10799,50 @@ export interface components {
              * @enum {string}
              */
             outcome?: "CREATED" | "REACTIVATED";
+        };
+        ReviseCatalogItemAiHintRequest: {
+            /** @description El texto corregido, en las mismas tres partes: que es el modulo, las senales literales, y cuando NO aplica */
+            hintText: string;
+        };
+        CatalogItemAiHintResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            catalogItemId: number;
+            /**
+             * @description Nulo si el articulo se retiro del catalogo
+             * @example GROOMING
+             */
+            catalogItemCode?: string;
+            /** @description Nulo si el articulo se retiro del catalogo */
+            catalogItemName?: string;
+            /**
+             * Format: int32
+             * @example 2
+             */
+            hintRevision: number;
+            /** @description El texto que el prompt le ensena al modelo sobre este articulo */
+            hintText: string;
+            /** Format: date-time */
+            publishedAt: string;
+            /**
+             * Format: int64
+             * @description La cuenta de plataforma que firmo esta revision
+             */
+            publishedBySystemUserId: number;
+            /**
+             * Format: date-time
+             * @description Cuando dejo de regir; nulo si es la vigente
+             */
+            supersededAt?: string;
+            /**
+             * Format: int64
+             * @description La cuenta de plataforma que la retiro. Nulo si la pista es la vigente -no la ha retirado nadie- o si se reemplazo antes de que la columna existiera: en ese caso no consta, y no es lo mismo que no haberse retirado
+             */
+            supersededBySystemUserId?: number;
+            current: boolean;
+            /** Format: date-time */
+            createdDate: string;
         };
         UpdateTerminalRequest: {
             name: string;
@@ -14405,6 +14497,15 @@ export interface components {
             /** Format: int32 */
             quantity: number;
         };
+        PublishCatalogItemAiHintRequest: {
+            /**
+             * Format: int64
+             * @description Articulo del catalogo al que se le publica la pista
+             */
+            catalogItemId: number;
+            /** @description El texto de la pista, en tres partes separadas por linea en blanco: que es el modulo en palabras del negocio, las senales literales en el texto del prospecto, y cuando NO aplica (el contraejemplo, sin el cual el modelo propone de mas) */
+            hintText: string;
+        };
         SaveTerminalRequest: {
             /** Format: int64 */
             branchId: number;
@@ -16728,6 +16829,17 @@ export interface components {
         };
         PageResponseCatalogItemResponse: {
             content?: components["schemas"]["CatalogItemResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PageResponseCatalogItemAiHintResponse: {
+            content?: components["schemas"]["CatalogItemAiHintResponse"][];
             /** Format: int32 */
             page?: number;
             /** Format: int32 */
@@ -20447,6 +20559,74 @@ export interface operations {
             path: {
                 bundleItemId: number;
                 id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findCurrent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemAiHintResponse"];
+                };
+            };
+        };
+    };
+    revise: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReviseCatalogItemAiHintRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemAiHintResponse"];
+                };
+            };
+        };
+    };
+    retire: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
             };
             cookie?: never;
         };
@@ -26508,7 +26688,7 @@ export interface operations {
             };
         };
     };
-    findCurrent: {
+    findCurrent_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -26950,6 +27130,53 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["BundleComponentResponse"];
+                };
+            };
+        };
+    };
+    listCurrent: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCatalogItemAiHintResponse"];
+                };
+            };
+        };
+    };
+    publish_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublishCatalogItemAiHintRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemAiHintResponse"];
                 };
             };
         };
@@ -27878,7 +28105,7 @@ export interface operations {
             };
         };
     };
-    publish_1: {
+    publish_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -29244,7 +29471,7 @@ export interface operations {
             };
         };
     };
-    publish_2: {
+    publish_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -30747,7 +30974,7 @@ export interface operations {
             };
         };
     };
-    findCurrent_1: {
+    findCurrent_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -31774,7 +32001,7 @@ export interface operations {
             };
         };
     };
-    findCurrent_2: {
+    findCurrent_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -33121,7 +33348,7 @@ export interface operations {
             };
         };
     };
-    findCurrent_3: {
+    findCurrent_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -34568,6 +34795,31 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PublicCatalogResponse"];
+                };
+            };
+        };
+    };
+    listRevisions: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                catalogItemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCatalogItemAiHintResponse"];
                 };
             };
         };
