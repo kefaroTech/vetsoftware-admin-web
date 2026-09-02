@@ -3,6 +3,43 @@
 Convenciones del front **admin de plataforma** (VetSoftwareFront) que Claude
 Code debe respetar.
 
+## Comentarios en el código
+
+**El comentario es la última opción.** Antes van un nombre que diga lo que hace, un método
+pequeño y un flujo que se lea de arriba abajo. Si un comentario existe porque el código
+cuesta de leer, **arregla el código**.
+
+- **Nunca narres QUÉ hace el código.** `// Filtra las organizaciones` sobra: la línea de
+  debajo ya lo dice. Igual `// Comprueba si existe` o `// Devuelve el resultado`.
+- **Nunca guardes en un comentario** hallazgos de implementación, análisis, contexto de la
+  tarea o del ticket, tu razonamiento, notas de depuración, narración histórica («antes este
+  método…») ni la descripción del cambio que acabas de hacer. Eso va en la respuesta final,
+  no en el código fuente. Las formas que más se cuelan: `// Añadido porque el ticket pide…`,
+  `// Según mi análisis…`, `// Esto corrige el problema de…`, `// Esto asegura que…`.
+- **Sí se gana su sitio cuando explica POR QUÉ existe algo no obvio**: una regla de negocio
+  que no se deduce del código, el límite de una API externa, una restricción de
+  compatibilidad, una suposición de concurrencia, una decisión de seguridad, una invariante,
+  un workaround necesario, o código que parece incorrecto y es intencionadamente así.
+
+```ts
+// El backend pagina desde 1 y este cliente cuenta desde 0.
+const page = uiPage + 1
+```
+
+**Cierre de toda tarea de implementación:** repasa el `git diff`, borra los comentarios que
+añadiste y no expliquen un porqué, y simplifica el código cuando el comentario solo existía
+para descifrarlo. No toques comentarios previos ajenos al cambio, salvo que este los haya
+vuelto incorrectos.
+
+El objetivo no es cero comentarios: es que sean **excepcionales y valiosos** en vez de
+rutinarios y descriptivos. La versión larga, con el alcance completo y las excepciones, está
+en `.claude/rules/code-comments.md` del directorio de coordinación.
+
+**Gemelos TR-02.** En un archivo de la tabla de gemelos no añadas ni quites un comentario
+sin replicarlo en el otro front: son byte a byte idénticos y `npm run quality` lo comprueba.
+Y las divergencias permitidas **tienen** que llevar el comentario que las justifica — ese no
+se toca.
+
 ## Cierre obligatorio — nada abierto sin issue
 
 **Regla dura del proyecto, sin excepciones y sin pedir permiso.** Todo lo que quede abierto al
