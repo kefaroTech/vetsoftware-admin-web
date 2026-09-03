@@ -16723,6 +16723,11 @@ export interface components {
             consultationId?: number;
             summary?: string;
         };
+        PublicCatalogAreaResponse: {
+            /** @description Codigo del area; es el valor que traen los modulos en areaCode */
+            code: string;
+            name: string;
+        };
         PublicCatalogCapacityResponse: {
             code: string;
             name: string;
@@ -16774,6 +16779,10 @@ export interface components {
             taxTreatment?: "TAXED" | "EXEMPT" | "EXCLUDED";
             /** @description Si la autocontratacion lo aceptaria como linea. Falso en los cargos unicos, que se negocian */
             selfServiceEligible: boolean;
+            /** @description Codigo del area funcional bajo cuya cabecera va el modulo; casa con areas[].code. Nulo en todo articulo que no se agrupa bajo una cabecera: los cargos unicos, cualquiera que no sea MODULE, y tambien CORE, que se pinta en una fila fija sobre las cabeceras */
+            areaCode?: string;
+            /** @description Rotulo corto para la casilla, mas breve que name y distinto de description. Nulo mientras no se haya escrito: en ese caso se pinta name */
+            shortLabel?: string;
         };
         PublicCatalogPackResponse: {
             code: string;
@@ -16790,6 +16799,8 @@ export interface components {
             taxTreatment?: "TAXED" | "EXEMPT" | "EXCLUDED";
             /** @description Rotulos de los articulos que el paquete incluye. Ninguno de ellos se puede comprar ademas del paquete */
             componentCodes: string[];
+            /** @description La combinacion que el negocio destaca. Es una decision comercial editable, no el minimo estructural de mandatory; a lo sumo un paquete vivo la lleva */
+            recommended: boolean;
         };
         PublicCatalogRequirementResponse: {
             /** @description Code del articulo que el cliente elige */
@@ -16815,6 +16826,8 @@ export interface components {
             packs: components["schemas"]["PublicCatalogPackResponse"][];
             /** @description Grafo de requisitos: arcos DIRECTOS «si eliges itemCode, se anade requiredItemCode». No es el cierre transitivo; recorrelos en anchura si lo necesitas */
             requirements: components["schemas"]["PublicCatalogRequirementResponse"][];
+            /** @description Cabeceras funcionales, YA ORDENADAS: el orden de la lista es el de presentacion y no se reordena en el cliente. Vacia si no hay tarifa vigente */
+            areas: components["schemas"]["PublicCatalogAreaResponse"][];
         };
         PageResponseCatalogPriceResponse: {
             content?: components["schemas"]["CatalogPriceResponse"][];
