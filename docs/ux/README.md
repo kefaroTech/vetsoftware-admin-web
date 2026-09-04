@@ -77,8 +77,11 @@ tres ([admin-web #82](https://github.com/kefaroTech/vetsoftware-admin-web/issues
 3. **Cada número lleva al lado el comando que lo reproduce.** Es el criterio que este documento le
    exige a `AGENTS.md` en public-web #131 / admin-web #83, y no puede eximirse de él.
 
-No están en el manifiesto de gemelos TR-02, que cubre `src/` y el tooling. Darlos de alta es una
-propuesta pendiente; ver el cierre de `reglas-de-interfaz.md`.
+**Ya dados de alta en el manifiesto de gemelos TR-02** (`scripts/tr02-parity.config.json`), junto con
+`patron-de-busqueda-en-listado.md` y `patron-de-mensajes.md` — los otros dos ficheros de este
+directorio que también se declaran gemelo byte a byte. Hasta que esto se hizo, el manifiesto cubría
+`src/` y el tooling pero ninguna ruta de `docs/`, así que una ficha podía desfasarse de su gemelo sin
+que ningún gate lo notara.
 
 ## Lo que NO va aquí
 

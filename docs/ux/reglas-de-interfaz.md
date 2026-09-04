@@ -168,11 +168,15 @@ vuelve al disparador')`, con los dos caminos separados —
 es deliberado: el camino de abandono es el que se olvida.
 
 **Sin verificar.** El retorno de foco de `ModalShell` y el de cualquier panel nuevo. `ModalShell`
-(gemelo de facto entre los dos repos, y **no declarado** en el manifiesto TR-02) pone el foco inicial
-y cierra con Escape, pero nada comprueba dónde queda el foco al cerrar. Y **sigue sin retener el
-foco** mientras está abierto (no hay focus trap en ninguno de los dos repos): Tab desde el último
-control del diálogo sale a la página de detrás. Eso es §2.4.3 (A) y no lo cubre ninguno de los
-diecinueve arreglos de las dos tandas.
+(gemelo de facto entre los dos repos, y **declarado** en el manifiesto TR-02) pone el foco inicial y
+cierra con Escape, pero nada comprueba dónde queda el foco al cerrar. La trampa de foco mientras el
+diálogo está abierto **sí existe** — `useModalFocus.ts:47-64` (`onTrapTab`), consumida por
+`ModalShell.vue:188` y, en la consola, también por el cajón de navegación vía `useNavDrawer.ts:40-45`
+—, así que lo que falta no es implementarla: es la prueba que compruebe el retorno de foco al cerrar.
+**No escribas una segunda trampa**: `armazon-tablet-especificacion.md` §6.2 lo prohíbe por escrito
+(«la trampa de foco ya existe — no escribas otra»), precisamente porque una segunda implementación
+compite por el mismo `keydown.capture` con la que ya hay. Eso es §2.4.3 (A) y no lo cubre ninguno de
+los diecinueve arreglos de las dos tandas.
 
 ---
 
@@ -446,7 +450,7 @@ clínicas en `src/features/acciones/views/` (`Deworm`, `Hosp`, `Imaging`, `Lab`,
 
 **Regla.** Cualquier espera se representa con `PawLoader`. Están prohibidos los spinners genéricos,
 los iconos de Lucide girando (`RefreshCw`, `Loader2`) y las rotaciones CSS sueltas. Y la guarda de
-`prefers-reduced-motion` **es global, de una vez, en `main.css`** — no por componente, porque por
+`prefers-reduced-motion` **es global, de una vez, en `base.css`** — no por componente, porque por
 componente no se cierra nunca.
 
 **Criterio.**
@@ -473,8 +477,8 @@ sin guarda. Dos defectos en cinco líneas.
 además el nombre accesible: `role="status"`, `aria-label` y un `.ds-sr-only` con el mismo texto. Un
 spinner propio no trae nada de eso.
 
-**Así sí, la guarda** — `VetSoftwarePublicFront/src/assets/styles/main.css:80-91`, que es lo que
-entró en la 2.ª tanda y cubre los 328 SFC del tenant de golpe:
+**Así sí, la guarda** — `base.css:108-119` (gemelo TR-02, idéntico en los dos repos desde el split
+DS-06), que es lo que entró en la 2.ª tanda y cubre los 328 SFC del tenant de golpe:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -513,19 +517,22 @@ estado «comprobando» monta `PawLoader`, que **no** queda ningún `.spin`, que 
 con lo que se está esperando, y que los otros tres estados no montan loader ninguno.
 
 **Aviso que costó una tanda: verificar antes de copiar.** La 1.ª versión de esta ficha decía que en
-la consola «la guarda existe pero no alcanza». La lectura del árbol dice algo peor:
-`VetSoftwareFront/src/assets/styles/main.css:222-234` **no es global** — apaga la transición y el
-temblor de exactamente tres selectores (`.app-inputbox`, `.app-textarea`, `.app-select__trigger`).
-Copiarlo al tenant no habría cubierto nada de los 328 SFC. Por eso el bloque nuevo se escribió desde
-cero con selector universal. La lección se generaliza: **un fichero gemelo por nombre no es un
-fichero gemelo por contenido**; antes de copiar, se lee.
+la consola «la guarda existe pero no alcanza». La lectura del árbol en su momento decía algo peor: el
+`main.css` de la consola **no era global** — apagaba la transición y el temblor de exactamente tres
+selectores (`.app-inputbox`, `.app-textarea`, `.app-select__trigger`). Copiarlo al tenant no habría
+cubierto nada de los 328 SFC. Por eso el bloque nuevo se escribió desde cero con selector universal.
+La lección se generaliza: **un fichero gemelo por nombre no es un fichero gemelo por contenido**;
+antes de copiar, se lee. `main.css` ya no existe en ninguno de los dos repos: el split DS-06 lo
+disolvió en `tokens.css`, `base.css`, `primitives.css` y `app.css`, y el bloque universal que resultó
+de esa lectura vive hoy en `base.css:108-119`, gemelo TR-02 idéntico en los dos repos.
 
-**Sin verificar, y con tres agujeros abiertos:**
+**Sin verificar, con un agujero cerrado y dos abiertos:**
 
-- **La consola sigue sin guarda global.** Las primitivas gemelas `.ds-field-invalid` y
-  `.ds-field-shake` de `primitives.css:731,738` —el temblor del campo inválido— quedan fuera de su
-  bloque de tres selectores. Abierto en **admin-web #74**, y el arreglo ya está escrito y probado al
-  lado: es copiar `main.css:80-91` del tenant.
+- **Ya resuelto — no lo repitas.** Las primitivas gemelas `.ds-field-invalid` y `.ds-field-shake`
+  (`primitives.css:797,806`) parecían quedar fuera del bloque de tres selectores del extinto
+  `main.css`, pero el bloque universal que lo sustituyó en `base.css:108-119` (`*, *::before,
+  *::after`) las cubre sin necesitar una lista propia: es gemelo TR-02, idéntico en los dos repos.
+  Cerrado en **admin-web #74**.
 - **La guarda de rejilla vive con cinco excepciones reales**, no falsos positivos: cinco giros
   infinitos que EST-11 no tocó porque viven en la capa pública y de autenticación
   (`components/public/AuthSelect.vue`, `components/public/PrimaryButton.vue`,
@@ -534,7 +541,7 @@ fichero gemelo por contenido**; antes de copiar, se lee.
   **public-web #112**.
 - Y la guarda **no cubre la otra mitad de la regla**: barre animaciones infinitas, no la ausencia de
   `prefers-reduced-motion`, ni que el bloque global siga existiendo. Hoy nadie impide que alguien
-  borre `main.css:80-91` y el CI siga verde. Es la guarda más barata que falta de todo el documento.
+  borre `base.css:108-119` y el CI siga verde. Es la guarda más barata que falta de todo el documento.
 
 **Nota de mantenimiento.** Dos comentarios del árbol se quedaron obsoletos con este arreglo y afirman
 lo contrario de lo que ahora es cierto: `PosCashGate.vue:199` («`main.css` no declara ninguna») y el
@@ -588,7 +595,7 @@ La descendencia se queda con lo que comparten los dos párrafos y el resto viaja
 versión de esta ficha decía que toda excepción se declara «en `overrides`, por fichero concreto» y
 «nunca con un `/* stylelint-disable */` suelto». La segunda mitad sigue valiendo —**suelto**, es
 decir sin motivo, no se admite— pero la primera está mal ordenada. El caso que lo demuestra es la
-guarda global de R06: `VetSoftwarePublicFront/src/assets/styles/main.css:78-92` usa
+guarda global de R06: `base.css:106-119` usa
 
 ```css
 /* stylelint-disable declaration-no-important -- DS-08: guardián de exclusión no
@@ -622,7 +629,7 @@ documento que corre en el pre-commit.
   entero, no para la declaración concreta. Migrarla a `stylelint-disable` en línea la haría auditable
   y de paso cerraría **admin-web #81** sin tocar nada más.
 - Que la primitiva de exclusión no se duplique: `vetsoftware/no-duplicate-primitive` mira `<style>` de
-  SFC, no bloques de `main.css`.
+  SFC, no bloques de `base.css`.
 
 ---
 
@@ -729,33 +736,39 @@ está corregido a medias. Abierto en **public-web #116**.
 (≥ 18,5 px, o 14 px en negrita). El texto secundario de este sistema mide 11,5–12 px, así que no entra
 por ningún lado en la excepción: le aplica el 4,5:1.
 
-**Así no** — `--warm-500: oklch(58% 0.012 60deg)`, que es lo que hubo hasta la 2.ª tanda.
+**Así no** — `--warm-500: oklch(58% 0.012 60deg)`, el valor que hubo antes de A11Y-02.
 
-**Así sí** — `tokens.css:31-36` (gemelo TR-02):
+**Así sí** — `tokens.css:68-76` (gemelo TR-02):
 
 ```css
-/* A11Y-02: 58% daba 4,17:1 sobre `--warm-50`, por debajo del 4,5:1 que exige
-   WCAG 2.2 §1.4.3 para texto normal — es el color real detrás de
-   `--text-subtle`/`.ds-hint`/`.ds-meta`/`.ds-icon-muted`. 55% da 4,73:1
-   contra `--warm-50` y 4,87:1 contra blanco: margen deliberado sobre el
-   umbral, no el mínimo que raspaba en 56% (~4,53:1). */
---warm-500: oklch(55% 0.012 60deg);
+/* A11Y-02 / A11Y-09: 58% daba 4,15:1 sobre `--warm-50`, por debajo del
+   4,5:1 que exige WCAG 2.2 §1.4.3 para texto normal — es el color real
+   detrás de `--text-subtle`/`.ds-hint`/`.ds-meta`/`.ds-icon-muted`. 55%
+   daba 4,72:1 SOLO sobre `--warm-50`; sobre `--warm-100`
+   (`.ds-panel`/`.ds-card--flat`) medía 4,44:1, sobre `--warm-150`
+   4,19:1 y sobre `--amatista-50` 4,43:1 — los tres por debajo del
+   mínimo. 52% da 5,38:1 / 5,07:1 / 4,78:1 / 5,06:1 respectivamente:
+   margen real sobre las cuatro superficies donde este color aparece. */
+--warm-500: oklch(52% 0.012 var(--hue-neutral));
 ```
 
-**Medido, no citado de memoria.** Reproduciendo la conversión del propio repositorio (OKLCH → sRGB
-con las matrices de CSS Color 4, recorte a gamut, luminancia relativa de WCAG 2.x) contra
-`--warm-50: oklch(99% 0.005 60deg)`:
+**Medido, no citado de memoria — y pasó por dos rondas.** La 1.ª corrección (55%) solo se verificó
+contra `--warm-50`, la superficie que motivó el arreglo, y ahí pasaba. Pero `.ds-hint` / `.ds-meta` /
+`.ds-icon-muted` también aparecen sobre `--warm-100`, `--warm-150` y `--amatista-50`, y en esas tres
+el 55% quedaba por debajo del mínimo. Reproduciendo la conversión del propio repositorio (OKLCH →
+sRGB con las matrices de CSS Color 4, recorte a gamut, luminancia relativa de WCAG 2.x):
 
-| Valor                     | vs `--warm-50` | vs blanco |
-| ------------------------- | -------------- | --------- |
-| `58%` (antes)             | **4,171:1** ❌ | 4,295:1 ❌ |
-| `55%` (ahora)             | **4,725:1** ✅ | 4,866:1 ✅ |
-| `--warm-600` a `45%`      | 7,245:1        | 7,461:1   |
+| Valor                    | `--warm-50` | `--warm-100` | `--warm-150` | `--amatista-50` |
+| ------------------------ | ----------- | ------------ | ------------ | ---------------- |
+| `58%` (antes de A11Y-02) | 4,15:1 ❌   | —            | —            | —                 |
+| `55%` (1.ª corrección)   | 4,72:1 ✅   | 4,44:1 ❌    | 4,19:1 ❌    | 4,43:1 ❌         |
+| `52%` (ahora)            | 5,38:1 ✅   | 5,07:1 ✅    | 4,78:1 ✅    | 5,06:1 ✅         |
+| `--warm-600` a `45%`     | 7,25:1      | —            | —            | —                 |
 
 **El remedio descartado, y por qué importa.** La otra vía era dejar `--warm-500` como estaba y mover
 `.ds-hint` / `.ds-meta` / `.ds-icon-muted` a `--warm-600`. Es igual de válida por separado. Lo que no
-se puede es **aplicar las dos**: eso lleva el texto secundario de 4,17:1 a 7,2:1 de golpe —un salto de
-gris medio a casi negro, que borra la jerarquía visual entre texto principal y secundario. La regla
+se puede es **aplicar las dos**: eso lleva el texto secundario de 4,15:1 a 7,25:1 de golpe —un salto
+de gris medio a casi negro, que borra la jerarquía visual entre texto principal y secundario. La regla
 generalizable: **un defecto de contraste, un remedio**, y se elige el que esté más arriba en la
 cadena, porque cubre a todos los consumidores presentes y futuros.
 
@@ -830,13 +843,15 @@ El detalle que lo vuelve grave: es el foco del **campo inválido**, es decir jus
 usuario más necesita ver dónde está. Y son 5 componentes del tenant (`BaseInput`, `BaseSelect`,
 `BaseTextarea`, `OwnerSearchAutocomplete`, `DateInput`).
 
-**Así sí** — `primitives.css:768-776` (gemelo TR-02):
+**Así sí** — `primitives.css:837-845` (gemelo TR-02). El `border-color` también se destapó a mano en
+algún punto y ya está tokenizado (`--danger-border`), así que hoy no queda ni un valor suelto en la
+clase:
 
 ```css
 .ds-field-invalid-focus {
-  border-color: oklch(55% 0.22 25deg);
+  border-color: var(--danger-border);
 
-  /* A11Y-02: `0 0 0 3px var(--danger-200)` a mano daba 1,29:1 — el mismo
+  /* A11Y-02: `0 0 0 3px var(--danger-200)` a mano daba 1,25:1 — el mismo
      defecto que A11Y-01 corrigió en `--ring-danger` (5,16:1, sujeto por
      `tests/unit/tokens-contrast.spec.ts`) pero por la puerta de al lado.
      Hereda el token en vez de mantener su propia guarda. */
@@ -1127,7 +1142,7 @@ marcado cambiado— haría pasar la primera prueba sin mirar nada.
 ## R15 · Una tabla ancha se desplaza, no se recorta
 
 **Regla.** Ningún contenedor de tabla lleva `overflow: hidden`. Si la tabla puede ser más ancha que su
-caja, se envuelve en `.ds-table-scroll` (primitiva gemela, `primitives.css:684-687`), que aporta el
+caja, se envuelve en `.ds-table-scroll` (primitiva gemela, `primitives.css:753-756`), que aporta el
 `overflow-x: auto`. El redondeo de esquinas, que suele ser el motivo real por el que alguien escribió
 el `hidden`, se resuelve con `border-radius: inherit` en el envoltorio.
 
@@ -1291,11 +1306,11 @@ trabajos nuevos.
 
 | Qué falta                                                                                                                              | Regla | Issue |
 | -------------------------------------------------------------------------------------------------------------------------------------- | ----- | ----- |
-| `--text-subtle` a 4,17:1, por debajo del 4,5:1 de §1.4.3 — **arreglado en el árbol** (`--warm-500` a 55 %, 4,725:1)                    | R10   | [public-web #114](https://github.com/kefaroTech/vetsoftware-public-web/issues/114) · [admin-web #75](https://github.com/kefaroTech/vetsoftware-admin-web/issues/75) |
+| `--text-subtle` a 4,17:1, por debajo del 4,5:1 de §1.4.3 — **arreglado en el árbol** (`--warm-500` a 52 %, 5,38:1)                    | R10   | [public-web #114](https://github.com/kefaroTech/vetsoftware-public-web/issues/114) · [admin-web #75](https://github.com/kefaroTech/vetsoftware-admin-web/issues/75) |
 | El foco del campo inválido repite el anillo de bajo contraste fuera del token — **arreglado en el árbol** (consume `var(--ring-danger)`) | R11   | [public-web #107](https://github.com/kefaroTech/vetsoftware-public-web/issues/107) · [admin-web #72](https://github.com/kefaroTech/vetsoftware-admin-web/issues/72) |
 | `ListBody` presenta el fallo del servidor como estado vacío — **arreglado en el árbol** (rama de error + traza + reintento a la página que falló) | R05   | [public-web #110](https://github.com/kefaroTech/vetsoftware-public-web/issues/110) |
-| El tenant sin guarda global de movimiento reducido — **arreglado en el árbol** (`main.css:80-91`, 328 SFC)                             | R06   | [public-web #111](https://github.com/kefaroTech/vetsoftware-public-web/issues/111) |
-| **La guarda de movimiento de la consola no alcanza a las primitivas TR-02**: cubre `.app-*`, no el temblor de `.ds-field-*`. El arreglo ya existe al lado, es copiarlo. | R06 | [admin-web #74](https://github.com/kefaroTech/vetsoftware-admin-web/issues/74) |
+| El tenant sin guarda global de movimiento reducido — **arreglado en el árbol** (`base.css:108-119`, 328 SFC)                             | R06   | [public-web #111](https://github.com/kefaroTech/vetsoftware-public-web/issues/111) |
+| **Ya resuelto — no lo repitas.** La guarda de movimiento se creía limitada a `.app-*` en la consola, sin alcanzar `.ds-field-*`. Es el mismo defecto que R06 documenta como cerrado: `base.css:108-119` es gemelo TR-02 e idéntico en los dos repos, así que cubre las dos clases a la vez. | R06 | [admin-web #74](https://github.com/kefaroTech/vetsoftware-admin-web/issues/74) (cerrar al verificar) |
 | **Tres SFC del tenant escriben su propio anillo de foco** con `color-mix` al 16-18 % (1,14-1,29:1) y anulan el `outline`: R11 por la puerta de al lado, dentro de `<style scoped>`. | R03, R11 | [public-web #134](https://github.com/kefaroTech/vetsoftware-public-web/issues/134) |
 | **El borde de los campos da 1,23:1**, cuando §1.4.11 (AA) pide 3:1 para el límite de un control.                                       | R03   | [public-web #115](https://github.com/kefaroTech/vetsoftware-public-web/issues/115) |
 | **La mitad pendiente de las etiquetas**: cuatro botones de eliminar fila con etiqueta estática, uno de ellos solo «Quitar» (censo en R04). | R04 | [public-web #118](https://github.com/kefaroTech/vetsoftware-public-web/issues/118) |
@@ -1389,7 +1404,7 @@ Este documento no abre issues. Estos cuatro salieron de la 2.ª tanda y hay que 
 > impidió porque todavía no existe la primitiva que duplicar. Para cerrarlo: `.ds-trace-chip` en
 > `primitives.css` con su variante tonal, y los dos consumidores aplicándola.
 >
-> (b) `primitives.css:684-687` declara `.ds-table-scroll { overflow-x: auto }` sin `tabindex="0"`, sin
+> (b) `primitives.css:753-756` declara `.ds-table-scroll { overflow-x: auto }` sin `tabindex="0"`, sin
 > `role="region"` y sin nombre accesible. Una región desplazable que no es enfocable no se puede
 > desplazar sin ratón: WCAG 2.2 §2.1.1 Teclado (A), regla `scrollable-region-focusable` de axe-core.
 > Afecta a los 11 usos del tenant (`ListBody`, `LibroComprasView`, `FeDocumentDetail`,
@@ -1408,9 +1423,11 @@ primeras son copiar algo que ya existe y funciona.
    tenant contra 364 en la consola. El tenant no vigila ni `--text-subtle`, ni las tres clases de texto
    secundario, ni `.ds-field-invalid-focus` — y es el repo con los 306 usos y los cinco consumidores.
    Es copiar dos `describe`.
-2. **Copiar `main.css:80-91` del tenant a la consola** (R06, cierra **admin-web #74**). El bloque
-   global ya está escrito, comentado y justificado. Cierra de una vez el temblor de `.ds-field-*` que
-   el bloque de tres selectores de la consola nunca alcanzó.
+2. **Ya resuelto — no lo repitas.** Esta ficha pedía copiar `main.css:80-91` del tenant a la consola
+   (R06, cerraría **admin-web #74**). Ese `main.css` ya no existe en ninguno de los dos repos — el
+   split DS-06 lo disolvió en `tokens.css`, `base.css`, `primitives.css` y `app.css` — y el bloque
+   universal resultante vive en `base.css:108-119`, gemelo TR-02 idéntico en los dos repos. **admin-web
+   #74 está cerrado**: no queda nada que copiar.
 3. **Copiar a la consola las guardas de comportamiento del tenant, y viceversa.** El tenant tiene
    R01, R02, R04, R05, R09, R12; la consola tiene R08, R10, R11, R14, R15. Cada una vale en el otro
    repo solo si el componente equivalente existe: el `describe('idioma de la página')` de
@@ -1430,7 +1447,7 @@ primeras son copiar algo que ya existe y funciona.
    error; ningún valor tokenizado escrito a mano en `primitives.css`; ningún `:key="idx"` sobre lista
    editable. Las cuatro son gramaticales, se comprueban leyendo el fichero y no necesitan navegador.
 8. **Cerrar la otra mitad de R06 en la rejilla**: que el bloque global de `prefers-reduced-motion` de
-   `main.css` **siga existiendo** (hoy se puede borrar y el CI sigue verde), y ningún icono de Lucide
+   `base.css` **siga existiendo** (hoy se puede borrar y el CI sigue verde), y ningún icono de Lucide
    con nombre de spinner (`Loader`, `Loader2`, `RefreshCw`) dentro de un bloque de espera. Ojo con el
    segundo: `ListBody.vue:156` usa `RefreshCw` **estático** en el botón «Reintentar», que es legítimo —
    la firma que hay que buscar es «icono de spinner + animación», no el nombre del icono.
@@ -1441,9 +1458,10 @@ primeras son copiar algo que ya existe y funciona.
    `contextOptions: { reducedMotion: 'reduce' }` comprueba lo que ninguna expresión regular puede:
    que con movimiento reducido **el `transitionend` sigue llegando** y ningún componente se queda
    colgado. Es el aserto que justifica el `0.01ms`.
-10. **Alta de estos dos ficheros en el manifiesto de gemelos TR-02**, para que la divergencia entre las
-    dos copias se detecte sola en vez de depender de que alguien se acuerde. Hoy el manifiesto cubre 29
-    ficheros de `src/` y tooling, y ni siquiera declara `ModalShell`, que también es gemelo de facto.
+10. **Alta de `ModalShell.vue` y `useModalFocus.ts` en el manifiesto de gemelos TR-02**, para que la
+    divergencia entre las dos copias se detecte sola en vez de depender de que alguien se acuerde.
+    **Ya resuelto**: los dos están declarados hoy, junto con este mismo documento y sus otros tres
+    gemelos de `docs/ux/`.
 
 ## Fuentes
 
