@@ -154,7 +154,7 @@ const shell = computed(() => {
   switch (estado.value) {
     case 'form':
       return {
-        documentTitle: 'Crear contraseña · VetSoftware',
+        documentTitle: 'Crear contraseña · Lumbre',
         eyebrow: 'INVITACIÓN',
         title: 'Crea tu contraseña',
         subtitle: email.value
@@ -165,7 +165,7 @@ const shell = computed(() => {
       }
     case 'success':
       return {
-        documentTitle: 'Contraseña creada · VetSoftware',
+        documentTitle: 'Contraseña creada · Lumbre',
         eyebrow: undefined,
         title: 'Cuenta activada',
         subtitle: 'Tu contraseña quedó creada. Ya puedes iniciar sesión con ella.',
@@ -176,7 +176,7 @@ const shell = computed(() => {
       // Ni «caducó hace 20 minutos», ni «ya se usó el 21 de agosto», ni «no
       // existe ninguna invitación con ese token»: un solo texto para los tres.
       return {
-        documentTitle: 'Enlace no válido · VetSoftware',
+        documentTitle: 'Enlace no válido · Lumbre',
         eyebrow: undefined,
         title: 'Este enlace ya no sirve',
         subtitle: 'La invitación no es válida, caducó o ya se usó. Pide que te envíen una nueva.',
@@ -185,7 +185,7 @@ const shell = computed(() => {
       }
     default:
       return {
-        documentTitle: 'Crear contraseña · VetSoftware',
+        documentTitle: 'Crear contraseña · Lumbre',
         eyebrow: undefined,
         title: undefined,
         subtitle: undefined,

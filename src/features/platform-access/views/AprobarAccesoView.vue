@@ -231,7 +231,7 @@ const shell = computed(() => {
   switch (estado.value) {
     case 'form':
       return {
-        documentTitle: 'Aprobar acceso · VetSoftware',
+        documentTitle: 'Aprobar acceso · Lumbre',
         eyebrow: 'APROBACIÓN DE ACCESO',
         title: 'Revisa esta solicitud',
         subtitle:
@@ -241,7 +241,7 @@ const shell = computed(() => {
       }
     case 'blocked':
       return {
-        documentTitle: 'Enlace no válido · VetSoftware',
+        documentTitle: 'Enlace no válido · Lumbre',
         eyebrow: undefined,
         title: 'Demasiados intentos',
         subtitle:
@@ -251,7 +251,7 @@ const shell = computed(() => {
       }
     case 'approved':
       return {
-        documentTitle: 'Acceso aprobado · VetSoftware',
+        documentTitle: 'Acceso aprobado · Lumbre',
         eyebrow: undefined,
         title: 'Acceso aprobado',
         subtitle:
@@ -262,7 +262,7 @@ const shell = computed(() => {
       }
     case 'rejected':
       return {
-        documentTitle: 'Solicitud rechazada · VetSoftware',
+        documentTitle: 'Solicitud rechazada · Lumbre',
         eyebrow: undefined,
         title: 'Solicitud rechazada',
         subtitle:
@@ -272,7 +272,7 @@ const shell = computed(() => {
       }
     case 'invalid':
       return {
-        documentTitle: 'Enlace no válido · VetSoftware',
+        documentTitle: 'Enlace no válido · Lumbre',
         eyebrow: undefined,
         title: 'Este enlace ya no sirve',
         subtitle:
@@ -285,7 +285,7 @@ const shell = computed(() => {
       // estado al que se llegue) y uno provisional obliga a cambiarlo, lo que
       // en un lector de pantalla se oye dos veces.
       return {
-        documentTitle: 'Aprobar acceso · VetSoftware',
+        documentTitle: 'Aprobar acceso · Lumbre',
         eyebrow: undefined,
         title: undefined,
         subtitle: undefined,

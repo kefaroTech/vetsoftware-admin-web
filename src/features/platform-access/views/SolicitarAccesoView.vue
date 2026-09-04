@@ -134,7 +134,7 @@ async function enviar() {
 const shell = computed(() => {
   if (estado.value === 'sent') {
     return {
-      documentTitle: 'Solicitud enviada · VetSoftware',
+      documentTitle: 'Solicitud enviada · Lumbre',
       statusIcon: ICONS.SUCCESS,
       statusTone: 'success' as const,
       title: 'Solicitud enviada',
@@ -147,7 +147,7 @@ const shell = computed(() => {
   }
   if (estado.value === 'closed') {
     return {
-      documentTitle: 'Solicitudes no disponibles · VetSoftware',
+      documentTitle: 'Solicitudes no disponibles · Lumbre',
       // Tono NEUTRO, no de error: no ha fallado nada, el usuario simplemente no
       // puede hacer eso. Por eso tampoco hay banner rojo ni toast.
       statusIcon: undefined,
@@ -158,7 +158,7 @@ const shell = computed(() => {
     }
   }
   return {
-    documentTitle: 'Solicitar acceso · VetSoftware',
+    documentTitle: 'Solicitar acceso · Lumbre',
     statusIcon: undefined,
     statusTone: 'accent' as const,
     title: 'Solicita una cuenta de plataforma',
@@ -272,7 +272,7 @@ const shell = computed(() => {
       v-else
       :icon="ICONS.WARNING"
       title="Esta consola no está aceptando solicitudes de acceso ahora mismo."
-      description="Si necesitas una cuenta de plataforma, pídesela a quien ya administra VetSoftware en tu organización."
+      description="Si necesitas una cuenta de plataforma, pídesela a quien ya administra Lumbre en tu organización."
     >
       <RouterLink class="ds-btn ds-btn--ghost" :to="{ name: ROUTE_NAMES.LOGIN }">
         Ir a iniciar sesión

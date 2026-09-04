@@ -45,7 +45,7 @@ function goToCompanies() {
     <button
       v-if="isDrawerViewport"
       type="button"
-      class="menu-btn ds-focus-ring"
+      class="menu-btn ds-icon-btn--accent ds-focus-ring"
       aria-label="Menú de navegación"
       aria-controls="app-nav"
       :aria-expanded="navOpen"
@@ -54,7 +54,7 @@ function goToCompanies() {
       <component :is="ICONS.MENU" :size="18" />
     </button>
     <div class="spacer" />
-    <button class="bell-btn ds-focus-ring" aria-label="Notificaciones">
+    <button class="bell-btn ds-icon-btn--accent ds-focus-ring" aria-label="Notificaciones">
       <component :is="ICONS.BELL" :size="15" />
       <span class="bell-dot" />
     </button>
@@ -107,12 +107,6 @@ function goToCompanies() {
 .menu-btn {
   width: 44px;
   height: 44px;
-}
-
-.menu-btn:hover,
-.bell-btn:hover {
-  background: var(--amatista-50);
-  border-color: var(--amatista-300);
 }
 
 .bell-dot {

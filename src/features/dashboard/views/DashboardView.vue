@@ -121,7 +121,7 @@ function goTo(path: string) {
         <div class="eyebrow">Bienvenido de vuelta</div>
         <h1 class="hero-title">Dashboard administrativo</h1>
         <p class="hero-text">
-          Administra empresas, catálogo comercial, contratos y cobranza de VetSoftware desde un solo
+          Administra empresas, catálogo comercial, contratos y cobranza de Lumbre desde un solo
           lugar.
         </p>
         <div class="hero-actions">
@@ -181,7 +181,7 @@ function goTo(path: string) {
 
 <style scoped>
 .hero {
-  background: linear-gradient(135deg, #581c87 0%, #3b0764 100%);
+  background: linear-gradient(135deg, var(--amatista-700) 0%, var(--amatista-800) 100%);
   border-radius: 14px;
   padding: 28px 32px;
   color: #fff;
@@ -197,7 +197,7 @@ function goTo(path: string) {
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(216 180 254 / 25%), transparent 70%);
+  background: radial-gradient(circle, rgb(170 175 254 / 25%), transparent 70%);
   pointer-events: none;
 }
 
@@ -210,12 +210,12 @@ function goTo(path: string) {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #d8b4fe;
+  color: var(--amatista-200);
   margin-bottom: 8px;
 }
 
 .hero-title {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--font-display);
   font-size: 36px;
   font-weight: 400;
   margin: 0;
@@ -226,7 +226,7 @@ function goTo(path: string) {
 
 .hero-text {
   font-size: 14px;
-  color: #e9d5ff;
+  color: var(--amatista-100);
   margin: 10px 0 18px;
   max-width: 540px;
   line-height: 1.5;
@@ -241,7 +241,7 @@ function goTo(path: string) {
   padding: 8px 14px;
   border-radius: 7px;
   background: #fff;
-  color: #3b0764;
+  color: var(--amatista-800);
   border: none;
   cursor: pointer;
   font-size: 13px;
@@ -265,7 +265,11 @@ function goTo(path: string) {
   border-radius: 7px;
   background: rgb(255 255 255 / 10%);
   color: #fff;
-  border: 1px solid rgb(255 255 255 / 20%);
+
+  /* Token claro y no un blanco translúcido: el relleno del botón ya es blanco
+     sobre el hero, así que un blanco con alfa se acerca al relleno en vez de
+     separarse de él — ni al 60 % alcanza el 3:1 de §1.4.11 en el hover. */
+  border: 1px solid var(--amatista-200);
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
@@ -287,7 +291,7 @@ function goTo(path: string) {
   padding: 16px 22px;
   margin-bottom: 24px;
   background: #fff;
-  border: 1px solid #e9d5ff;
+  border: 1px solid var(--warm-450);
   border-radius: 12px;
   cursor: pointer;
   transition:
@@ -296,16 +300,16 @@ function goTo(path: string) {
 }
 
 .uvt-strip:hover {
-  border-color: #c084fc;
-  box-shadow: 0 4px 16px -6px rgb(126 34 206 / 15%);
+  border-color: var(--amatista-450);
+  box-shadow: 0 4px 16px -6px rgb(86 77 197 / 15%);
 }
 
 .uvt-strip-ic {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: #f3e8ff;
-  color: #7e22ce;
+  background: var(--amatista-100);
+  color: var(--amatista-600);
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -314,7 +318,7 @@ function goTo(path: string) {
 .uvt-strip-kicker {
   font-size: 11px;
   font-weight: 600;
-  color: #7e22ce;
+  color: var(--amatista-600);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-bottom: 3px;
@@ -322,7 +326,7 @@ function goTo(path: string) {
 
 .uvt-strip-desc {
   font-size: 13px;
-  color: #3d2e57;
+  color: var(--warm-700);
 }
 
 .uvt-strip-right {
@@ -331,16 +335,16 @@ function goTo(path: string) {
 }
 
 .uvt-strip-value {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 28px;
   font-weight: 400;
-  color: #1a1325;
+  color: var(--text);
   line-height: 1;
 }
 
 .uvt-strip-cta {
   font-size: 11px;
-  color: #a89bbd;
+  color: var(--text-subtle);
   margin-top: 4px;
   display: flex;
   align-items: center;
@@ -356,13 +360,13 @@ function goTo(path: string) {
   font-size: 14px;
   font-weight: 600;
   margin: 0;
-  color: #1a1325;
+  color: var(--text);
 }
 
 .modules-count {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: #a89bbd;
+  color: var(--text-subtle);
 }
 
 .spacer {
@@ -372,7 +376,7 @@ function goTo(path: string) {
 .link-btn {
   font-size: 12px;
   font-weight: 500;
-  color: #7e22ce;
+  color: var(--amatista-600);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -381,7 +385,7 @@ function goTo(path: string) {
 }
 
 .link-btn:hover {
-  color: #581c87;
+  color: var(--amatista-700);
 }
 
 .tiles-grid {
@@ -393,8 +397,8 @@ function goTo(path: string) {
 .tile {
   padding: 18px;
   border-radius: 12px;
-  background: #fbfaff;
-  border: 1px solid #ece5f4;
+  background: var(--surface);
+  border: 1px solid var(--warm-450);
   cursor: pointer;
   gap: 12px;
   text-align: left;
@@ -404,8 +408,8 @@ function goTo(path: string) {
 
 .tile:hover {
   background: #fff;
-  border-color: #d8b4fe;
-  box-shadow: 0 4px 16px -6px rgb(126 34 206 / 15%);
+  border-color: var(--amatista-450);
+  box-shadow: 0 4px 16px -6px rgb(86 77 197 / 15%);
 }
 
 .tile-row {
@@ -419,20 +423,20 @@ function goTo(path: string) {
   height: 32px;
   border-radius: 8px;
   background: #fff;
-  border: 1px solid #ece5f4;
-  color: #7e22ce;
+  border: 1px solid var(--border);
+  color: var(--amatista-600);
   display: grid;
   place-items: center;
   transition: background 0.15s;
 }
 
 .tile:hover .tile-icon {
-  background: #f3e8ff;
+  background: var(--amatista-100);
 }
 
 .tile-arrow {
   opacity: 0;
-  color: #7e22ce;
+  color: var(--amatista-600);
   transition: opacity 0.15s;
 }
 
@@ -450,19 +454,19 @@ function goTo(path: string) {
 .tile-title {
   font-size: 14px;
   font-weight: 600;
-  color: #1a1325;
+  color: var(--text);
 }
 
 .tile-count {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: #a89bbd;
+  color: var(--text-subtle);
   font-weight: 500;
 }
 
 .tile-desc {
   font-size: 12px;
-  color: #6b5b80;
+  color: var(--text-muted);
   line-height: 1.45;
 }
 

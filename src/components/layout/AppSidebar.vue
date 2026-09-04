@@ -233,7 +233,7 @@ const { isDrawerViewport, navOpen, closeNav, onTrapTab } = useNavDrawer({
 /* En compacto esto se convertía en una raya de 32×1 px de `--border`: 1,23:1
    sobre `--surface`, y era el ÚNICO indicador de frontera entre grupos, o sea
    información y no decoración (§1.4.11 pide 3:1). Con el rótulo de vuelta el
-   problema no se parchea, se disuelve: el texto mide 5,36:1. */
+   problema no se parchea, se disuelve: el texto mide 5,38:1. */
 .nav-group-title {
   font-size: var(--text-caption);
   font-weight: var(--weight-semibold);

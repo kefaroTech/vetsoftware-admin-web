@@ -50,8 +50,8 @@ async function handleSubmit() {
   <PublicLayout
     eyebrow="Panel administrativo"
     title="Inicia sesión"
-    subtitle="Accede al panel para administrar VetSoftware."
-    document-title="Iniciar sesión · VetSoftware"
+    subtitle="Accede al panel para administrar Lumbre."
+    document-title="Iniciar sesión · Lumbre"
   >
     <template #topRight>
       ¿Eres nuevo?
@@ -142,7 +142,7 @@ async function handleSubmit() {
 .field label {
   font-size: 12px;
   font-weight: 600;
-  color: #3d2e57;
+  color: var(--warm-700);
   letter-spacing: 0.01em;
   margin-bottom: 6px;
 }
@@ -164,13 +164,13 @@ async function handleSubmit() {
 }
 
 .leading-icon {
-  color: #a89bbd;
+  color: var(--warm-450);
   flex-shrink: 0;
   transition: color 0.15s;
 }
 
 .input-box:focus-within .leading-icon {
-  color: #7e22ce;
+  color: var(--amatista-600);
 }
 
 .input-box input {
@@ -179,7 +179,7 @@ async function handleSubmit() {
   outline: none;
   background: transparent;
   font-size: 14px;
-  color: #1a1325;
+  color: var(--text);
   font-family: inherit;
   min-width: 0;
 }
@@ -204,7 +204,7 @@ async function handleSubmit() {
   border: none;
   padding: 0;
   cursor: pointer;
-  color: #a89bbd;
+  color: var(--warm-450);
   display: grid;
   place-items: center;
 
@@ -216,7 +216,7 @@ async function handleSubmit() {
 }
 
 .eye-btn:hover:not(:disabled) {
-  color: #7e22ce;
+  color: var(--amatista-600);
 }
 
 .eye-btn:disabled {

@@ -2,15 +2,45 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lumbre</title>
+    <meta
+      name="description"
+      content="Consola de plataforma de Lumbre: administra empresas, catálogo comercial, contratos y cobranza desde un solo lugar."
+    />
+    <meta name="theme-color" content="#0F172A" />
+
+    <link rel="icon" href="/brand/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Sin `og:image`, `twitter:image` ni `og:url`: Open Graph exige URL absoluta y
+         esta consola no tiene dominio público declarado (solo `dev-admin.kefaro.tech`
+         en desarrollo). Una ruta relativa la descarta el rastreador y una absoluta
+         inventada sirve una imagen rota con confianza. `twitter:card` es `summary`
+         y no `summary_large_image` porque este ya no promete una imagen grande. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Lumbre" />
+    <meta property="og:title" content="Lumbre — Gestiona lo que cuidas" />
+    <meta
+      property="og:description"
+      content="Consola de plataforma de Lumbre: administra empresas, catálogo comercial, contratos y cobranza desde un solo lugar."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Lumbre — Gestiona lo que cuidas" />
+    <meta
+      name="twitter:description"
+      content="Consola de plataforma de Lumbre: administra empresas, catálogo comercial, contratos y cobranza desde un solo lugar."
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <title>VetSoftware</title>
   </head>
   <body>
     <div id="app"></div>
