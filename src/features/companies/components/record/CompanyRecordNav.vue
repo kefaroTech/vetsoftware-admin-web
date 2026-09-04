@@ -59,22 +59,29 @@ defineProps<{ companyId: number }>()
   display: flex;
   gap: var(--space-18);
   border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
 }
 
-/* El `padding` vertical es lo que da el objetivo táctil; el color del estado
-   activo lo pone `.ds-tab--active`, no esta regla. */
+/* El color y el color del borde NO pueden vivir en la base: el `[data-v-…]`
+   del `scoped` la sube a (0,2,0) y ganaría a `.ds-tab--active` (0,1,0), que
+   es quien pinta el estado. El tono de la pestaña inactiva se hereda del
+   contenedor, que la clase de estado sí puede sobrescribir. */
 .tab {
   display: inline-flex;
   align-items: center;
   padding: var(--space-10) var(--space-2);
-  border-bottom: 2px solid transparent;
-  color: var(--text-muted);
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
   font-size: var(--text-body);
   text-decoration: none;
   white-space: nowrap;
 }
 
-.tab:hover {
+.tab:not(.ds-tab--active) {
+  border-bottom-color: transparent;
+}
+
+.tab:not(.ds-tab--active):hover {
   color: var(--text);
 }
 </style>
