@@ -289,19 +289,19 @@
 
 .ds-card--flat {
   border-color: transparent;
-  background: var(--surface-muted);
+  background: var(--surface-panel);
 }
 
 .ds-panel {
   padding: var(--space-12) var(--space-14);
   border: 1px solid var(--border);
   border-radius: var(--radius-panel);
-  background: var(--surface-muted);
+  background: var(--surface-panel);
 }
 
 /* Panel/marco que recorta su contenido (una tabla, normalmente) — 4 copias.
    Distinto de `.ds-panel`: sin padding propio y con `--surface` (no
-   `--surface-muted`) de fondo. */
+   `--surface-panel`) de fondo. */
 .ds-frame {
   overflow: hidden;
   border: 1px solid var(--border);
@@ -1225,10 +1225,14 @@
   font-size: var(--text-body);
 }
 
+/* Comparte token con `.ds-card--flat` a propósito: una tabla puede ir envuelta
+   en una tarjeta plana, y entonces la cabecera y la caja se tocan. Si cada una
+   toma su superficie, entre las dos aparece un escalón de contraste que nadie
+   ha pedido; se mueven juntas. */
 .ds-table th {
   padding: var(--space-11) var(--space-14);
   border-bottom: 1px solid var(--border);
-  background: var(--surface-muted);
+  background: var(--surface-panel);
   color: var(--text-subtle);
   font-size: var(--text-caption); /* DS-05: era --text-2xs (10,5px, retirado) */
   font-weight: var(--weight-semibold);
