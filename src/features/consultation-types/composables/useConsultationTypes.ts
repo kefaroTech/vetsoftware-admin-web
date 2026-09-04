@@ -36,10 +36,20 @@ export function useConsultationTypes() {
 
   async function fetchById(id: number) {
     store.setLoading(true)
+    store.setError(null)
+    store.setSelected(null)
     try {
       const data = await consultationTypesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
+      // Se limpia otra vez aunque ya se limpiara antes del `await`: una carga
+      // concurrente pudo dejar OTRO registro en `selected` mientras esta estaba
+      // en vuelo, y la ficha lo pintaría como si fuera el de la ruta.
+      store.setSelected(null)
+      store.setError(
+        getProblemDetailMessage(e, 'No se pudo cargar el tipo de consulta'),
+        getTraceId(e) ?? null,
+      )
       errorFrom('Tipo de consulta no encontrado', e)
     } finally {
       store.setLoading(false)
