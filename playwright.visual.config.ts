@@ -23,6 +23,25 @@ export default defineConfig({
   // Sin reintentos: una captura no es "flaky", o coincide o no. Reintentar solo
   // escondería una diferencia real detrás de una segunda tirada.
   retries: 0,
+
+  /* ── Por qué la concurrencia va fija y baja ──────────────────────────────
+   *
+   * Con la concurrencia por defecto —la mitad de los núcleos lógicos, 16 en la
+   * máquina donde se midió— el `beforeEach` de `shell-tablet` falló 3 de 4
+   * veces dentro del contenedor. El velo de `PageLoader` quedaba con
+   * `page-loader-fade-enter-from`, `-leave-from` y `-leave-active` a la vez, y
+   * sin `-enter-active` ni `-leave-to`: esa combinación no es un velo que siga
+   * puesto, es una transición de Vue que nunca avanzó de fotograma porque el
+   * `requestAnimationFrame` no llegó a correr. Es inanición de render, así que
+   * ampliar el tiempo de espera no arregla nada — el fotograma que falta no
+   * llega por esperarlo más. Con 2 pasaron 4 de 4, dos veces seguidas.
+   *
+   * Fijarlo no cambia lo que hace el CI: el job corre en un runner de 4 vCPU,
+   * no declara `workers` en ningún sitio y la mitad de 4 es justo 2. Lo que
+   * añade es que una tirada local reproduzca esa misma condición en vez de
+   * depender de cuántos núcleos tenga el portátil de quien la lanza.
+   */
+  workers: 2,
   reporter: [['list'], ['html', { open: 'never', outputFolder: 'playwright-report-visual' }]],
 
   // Sin sufijo de plataforma: hay UNA base, la de Linux, y se genera en el
@@ -87,9 +106,10 @@ export default defineConfig({
        * nunca se calibró contra nada — y admin#84 demostró que era la SEGUNDA
        * capa de ceguera, no la red de seguridad. Con `threshold` a 0,02, aquel
        * mismo cambio de `--warm-500` movió 75 píxeles en `tipografia` y 595 en
-       * `vacios`; los presupuestos de 0,002 eran 709,6 y 694,8, así que los dos
-       * bloques seguían pasando (`vacios` al 86 % del presupuesto, a un elemento
-       * de texto de cruzarlo).
+       * `vacios`; los presupuestos de 0,002 sobre la geometría que aquellos dos
+       * bloques tenían entonces eran 709,6 y 694,8, así que los dos seguían
+       * pasando (`vacios` al 86 % del presupuesto, a un elemento de texto de
+       * cruzarlo).
        *
        * Esas dos cifras medidas son las que fijan el tope: para no volver a
        * perder el caso más fino, el presupuesto tiene que quedar por DEBAJO de
@@ -99,11 +119,14 @@ export default defineConfig({
        *
        * Se dejan los DOS a propósito: Playwright toma el MÍNIMO de ambos, así
        * que la ratio sigue mandando en los recortes pequeños —`icon-btn`, de
-       * 64.064 px, se queda en 32 píxeles en vez de heredar los 60— y el tope
+       * 65.296 px, se queda en 32 píxeles en vez de heredar los 60— y el tope
        * absoluto manda en los grandes, que es justo donde la ratio se volvía
-       * permisiva (en `banners`, de 482.944 px, 0,002 eran 966 píxeles de barra
-       * libre: el borde de 1 px de un botón de icono de 24×24 son ~92 píxeles y
-       * pasaba sin despeinarse).
+       * permisiva (en `banners`, de 2.411.024 px, 0,002 eran 4.822 píxeles de
+       * barra libre: el borde de 1 px de un botón de icono de 24×24 son ~92
+       * píxeles y cabía cincuenta veces dentro del presupuesto).
+       *
+       * Las dos áreas se leen de las líneas base de `visual/__screenshots__`,
+       * que es lo que la suite compara: no son estimaciones.
        */
       maxDiffPixels: 60,
       maxDiffPixelRatio: 0.0005,

@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch, type Component } from 'vue'
-import { ICONS } from '@/constants/icons'
 
 /**
  * Shell de las pantallas públicas (login, solicitud de acceso, aprobación de
  * acceso, invitación).
- *
- * Estaba INCRUSTADO en `LoginView.vue` —marcado + 297 líneas de `<style
- * scoped>`— y cuatro pantallas no pueden compartirlo sin extraerlo. La
- * extracción es **pixel-exacta**: los hexadecimales literales vienen verbatim
- * de `LoginView.vue`. Tokenizarlos es un cambio visual con riesgo de regresión
- * y es trabajo de `front-parity`, en otra tanda y con las líneas base de
- * regresión visual delante.
  *
  * `eyebrow`/`title`/`subtitle`/`statusIcon` son PROPS y no slots a propósito:
  * un `<style scoped>` no alcanza al contenido inyectado por slot (se compila
@@ -71,11 +63,6 @@ function focusTitle() {
   heading.value?.focus({ preventScroll: false })
 }
 
-/**
- * `index.html` declara `<title>VetSoftware</title>` para las 38 rutas y no hay
- * una sola escritura de `document.title` en `src/` (R08, issue public-web#133).
- * Estas rutas nacen cumpliendo §2.4.2 Page Titled aunque el resto no lo haga.
- */
 function applyDocumentTitle(value?: string) {
   if (value) document.title = value
 }
@@ -98,12 +85,7 @@ defineExpose({ focusTitle })
     <div class="blob blob-bl" aria-hidden="true" />
 
     <header class="topbar">
-      <div class="brand">
-        <div class="brand-mark">
-          <component :is="ICONS.PAW" :size="16" />
-        </div>
-        <span class="brand-name">VetSoftware</span>
-      </div>
+      <span class="brand-name">Lumbre</span>
       <div class="topbar-link"><slot name="topRight" /></div>
     </header>
 
@@ -121,7 +103,7 @@ defineExpose({ focusTitle })
     </main>
 
     <footer class="footer">
-      <span>© 2026 VetSoftware</span>
+      <span>© 2026 Lumbre</span>
       <div class="footer-links">
         <a href="#">Privacidad</a>
         <a href="#">Términos</a>
@@ -135,19 +117,24 @@ defineExpose({ focusTitle })
 .pub-shell {
   position: relative;
   min-height: 100vh;
-  background: radial-gradient(ellipse at top, #f3e8ff 0%, #f5f1fa 50%, #ede8f4 100%);
+  background: radial-gradient(
+    ellipse at top,
+    var(--amatista-100) 0%,
+    var(--brand-canvas) 50%,
+    var(--warm-150) 100%
+  );
   font-family:
     Inter,
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
-  color: #1a1325;
+  color: var(--text);
   overflow-x: hidden;
 }
 
 /* El anillo `--ring` solo está en contrato sobre `--warm-50`/`--surface`/blanco
-   (tokens.css:283-287). Sobre el degradado del shell queda fuera, así que el
+   (tokens.css:290-302). Sobre el degradado del shell queda fuera, así que el
    enlace se pinta con su propio fondo claro al recibir el foco (§2.4.11). */
 .pub-skip:focus-visible {
   position: fixed;
@@ -164,7 +151,7 @@ defineExpose({ focusTitle })
   clip-path: none;
   border-radius: 9px;
   background: var(--warm-50);
-  color: #7e22ce;
+  color: var(--amatista-600);
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
@@ -183,7 +170,7 @@ defineExpose({ focusTitle })
   right: -150px;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgb(192 132 252 / 25%), transparent 60%);
+  background: radial-gradient(circle, rgb(137 137 248 / 25%), transparent 60%);
 }
 
 .blob-bl {
@@ -191,7 +178,7 @@ defineExpose({ focusTitle })
   left: -150px;
   width: 450px;
   height: 450px;
-  background: radial-gradient(circle, rgb(168 85 247 / 18%), transparent 60%);
+  background: radial-gradient(circle, rgb(119 119 227 / 18%), transparent 60%);
 }
 
 .topbar {
@@ -203,45 +190,31 @@ defineExpose({ focusTitle })
   justify-content: space-between;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand-mark {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #a855f7, #581c87);
-  display: grid;
-  place-items: center;
-  color: #fff;
-  box-shadow: 0 2px 6px -1px rgb(126 34 206 / 40%);
-}
-
+/* Sin isotipo: por debajo de 48 px la ilustración de marca es una mancha sin
+   figura reconocible, así que en este tramo la identidad la carga el nombre. */
 .brand-name {
-  font-size: 14px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--text-body);
+  font-weight: var(--weight-bold);
   letter-spacing: -0.01em;
-  color: #1a1325;
+  color: var(--text);
 }
 
 .topbar-link {
   font-size: 13px;
-  color: #6b5b80;
+  color: var(--text-muted);
 }
 
 /* El enlace lo inyecta la vista por el slot `#topRight`, así que se compila con
    el `data-v` del PADRE y el scoped de aquí no lo alcanza sin `:deep()`. */
 .topbar-link :deep(a) {
-  color: #7e22ce;
+  color: var(--amatista-600);
   font-weight: 600;
   text-decoration: none;
 }
 
 .topbar-link :deep(a:hover) {
-  color: #581c87;
+  color: var(--amatista-700);
 }
 
 .pub-main {
@@ -263,12 +236,12 @@ defineExpose({ focusTitle })
 .pub-card {
   width: 100%;
   background: #fff;
-  border: 1px solid #ece5f4;
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 40px 44px;
   box-shadow:
-    0 24px 48px -16px rgb(91 33 182 / 18%),
-    0 4px 12px -4px rgb(91 33 182 / 8%);
+    0 24px 48px -16px rgb(67 57 160 / 18%),
+    0 4px 12px -4px rgb(67 57 160 / 8%);
 }
 
 /* Círculo de estado de los estados terminales (5 estados en tres vistas). El
@@ -285,20 +258,20 @@ defineExpose({ focusTitle })
 .eyebrow {
   font-size: 11px;
   font-weight: 600;
-  color: #7e22ce;
+  color: var(--amatista-600);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 8px;
 }
 
 .title {
-  font-family: 'Instrument Serif', serif;
+  font-family: var(--font-display);
   font-size: 34px;
   font-weight: 400;
   margin: 0;
   letter-spacing: -0.02em;
   line-height: 1.05;
-  color: #1a1325;
+  color: var(--text);
 }
 
 /* Recibe el foco por programa al cambiar de estado (A1). El anillo sobre un
@@ -309,7 +282,7 @@ defineExpose({ focusTitle })
 
 .subtitle {
   font-size: 13px;
-  color: #6b5b80;
+  color: var(--text-muted);
   margin: 10px 0 28px;
   line-height: 1.5;
 }
@@ -322,7 +295,7 @@ defineExpose({ focusTitle })
   align-items: center;
   justify-content: space-between;
   font-size: 12px;
-  color: #6b5b80;
+  color: var(--text-muted);
 }
 
 .footer-links {
@@ -331,12 +304,12 @@ defineExpose({ focusTitle })
 }
 
 .footer-links a {
-  color: #6b5b80;
+  color: var(--text-muted);
   text-decoration: none;
 }
 
 .footer-links a:hover {
-  color: #7e22ce;
+  color: var(--amatista-600);
 }
 
 @media (width <= 640px) {

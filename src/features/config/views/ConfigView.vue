@@ -49,17 +49,17 @@ const tab = ref<TabKey>('facturacion')
 .eyebrow {
   font-size: 11px;
   font-weight: 600;
-  color: #a89bbd;
+  color: var(--text-subtle);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 6px;
 }
 
 .title {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 32px;
   font-weight: 400;
-  color: #1a1325;
+  color: var(--text);
   letter-spacing: -0.01em;
   line-height: 1.1;
   margin: 0;
@@ -68,7 +68,7 @@ const tab = ref<TabKey>('facturacion')
 .tabs {
   display: flex;
   gap: 4px;
-  border-bottom: 1px solid #ece5f4;
+  border-bottom: 1px solid var(--border);
   margin-bottom: 24px;
 }
 
@@ -80,13 +80,13 @@ const tab = ref<TabKey>('facturacion')
   font-size: 13px;
   font-weight: 500;
   font-family: inherit;
-  color: #6b5b80;
+  color: var(--text-muted);
   position: relative;
 }
 
 .tab.active {
   font-weight: 600;
-  color: #7e22ce;
+  color: var(--amatista-600);
 }
 
 .tab.active::after {
@@ -96,14 +96,12 @@ const tab = ref<TabKey>('facturacion')
   right: 0;
   bottom: -1px;
   height: 2px;
-  background: #7e22ce;
+  background: var(--amatista-600);
   border-radius: 2px;
 }
 
-/* El color y el tamaño se quedan: son el matiz de esta consola, no el de
-   `.ds-empty` (que tiñe con --text-subtle). */
 .placeholder {
-  color: #a89bbd;
+  color: var(--text-subtle);
   font-size: 13px;
 }
 </style>

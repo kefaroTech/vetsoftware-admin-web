@@ -10,7 +10,7 @@
  */
 
 :root {
-  --hue: 300;
+  --hue: 281;
 
   /* INVARIANTE de esta rampa (y de `--warm-*`): el número mayor SIEMPRE
      oscurece. Nadie lo escribe porque parece obvio — y por eso se rompió en
@@ -21,18 +21,18 @@
      esperando a ocurrir: quien lo use confía en que el número mayor oscurece,
      no lo comprueba. */
   --amatista-50: oklch(97% 0.015 var(--hue));
-  --amatista-100: oklch(94% 0.035 var(--hue));
-  --amatista-200: oklch(88% 0.07 var(--hue));
-  --amatista-300: oklch(78% 0.12 var(--hue));
+  --amatista-100: oklch(94% 0.029 var(--hue));
+  --amatista-200: oklch(88% 0.059 var(--hue));
+  --amatista-300: oklch(78% 0.113 var(--hue));
   --amatista-400: oklch(68% 0.16 var(--hue));
 
   /* A11Y-09 · WCAG 2.2 §1.4.11 Non-text Contrast (AA). `--amatista-300` (78%)
-     mide 2,02:1 sobre `--warm-50` y 1,90:1 sobre `--amatista-50` — su fondo
+     mide 1,99:1 sobre `--warm-50` y 1,87:1 sobre `--amatista-50` — su fondo
      real en `.ds-tone--accent-selected`. Escalón nuevo SOLO para uso de
      borde; `--amatista-300` se conserva para fondos y textos, donde
-     §1.4.11 no aplica. 62% da 3,55:1 sobre `--amatista-50` y 3,77:1 sobre
+     §1.4.11 no aplica. 62% da 3,47:1 sobre `--amatista-50` y 3,69:1 sobre
      `--warm-50`. Guard-rail: es paramétrico sobre `--hue`; a 180deg cae a
-     2,92:1 e incumple — cambiar `--hue` puede tumbar la conformidad sin que
+     2,94:1 e incumple — cambiar `--hue` puede tumbar la conformidad sin que
      ningún gate lo mida. Nombrado `--amatista-450` (no `-350`): por su valor
      (62%) va entre `--amatista-400` (68%) y `--amatista-500` (58%), igual que
      su gemelo de grises `--warm-450`. */
@@ -42,93 +42,102 @@
   --amatista-700: oklch(42% 0.16 var(--hue));
   --amatista-800: oklch(32% 0.12 var(--hue));
   --amatista-900: oklch(22% 0.08 var(--hue));
-  --warm-50: oklch(99% 0.005 60deg);
-  --warm-100: oklch(97% 0.008 60deg);
-  --warm-150: oklch(95% 0.01 60deg);
-  --warm-200: oklch(92% 0.012 60deg);
-  --warm-300: oklch(86% 0.015 60deg);
-  --warm-400: oklch(72% 0.015 60deg);
+
+  /* Los neutros son fríos porque los tres que la marca declara —navy 265,8°,
+     text_secondary 257,3°, border 255,5°— lo son. A 256° `--warm-200` reproduce
+     el `#E2E8F0` del kit. El nombre `--warm-*` es anterior y se conserva hasta
+     que el renombrado se haga en su propia entrega: mezclarlo con un recoloreo
+     hace imposible atribuir qué línea base visual cambió por qué. */
+  --hue-neutral: 256;
+  --warm-50: oklch(99% 0.005 var(--hue-neutral));
+  --warm-100: oklch(97% 0.008 var(--hue-neutral));
+  --warm-150: oklch(95% 0.01 var(--hue-neutral));
+  --warm-200: oklch(92% 0.012 var(--hue-neutral));
+  --warm-300: oklch(86% 0.015 var(--hue-neutral));
+  --warm-400: oklch(72% 0.015 var(--hue-neutral));
 
   /* A11Y-09 · WCAG 2.2 §1.4.11 Non-text Contrast (AA). `--warm-200` (el
      borde de todo control) mide 1,23:1 sobre `--warm-50` y 1,27:1 sobre
      blanco: el límite de un campo es invisible con poca luz. Este escalón
      es SOLO para bordes de control e iconos; `--warm-200`/`--warm-300` se
      quedan para separadores y divisores, que §1.4.11 exime por decorativos.
-     62% da 3,55:1: mismo criterio de margen que se aplicó a `--warm-500`
+     62% da 3,54:1: mismo criterio de margen que se aplicó a `--warm-500`
      en A11Y-02. */
-  --warm-450: oklch(62% 0.015 60deg);
+  --warm-450: oklch(62% 0.015 var(--hue-neutral));
 
-  /* A11Y-02 / A11Y-09: 58% daba 4,17:1 sobre `--warm-50`, por debajo del
+  /* A11Y-02 / A11Y-09: 58% daba 4,15:1 sobre `--warm-50`, por debajo del
      4,5:1 que exige WCAG 2.2 §1.4.3 para texto normal — es el color real
      detrás de `--text-subtle`/`.ds-hint`/`.ds-meta`/`.ds-icon-muted`. 55%
      daba 4,72:1 SOLO sobre `--warm-50`; sobre `--warm-100`
-     (`.ds-panel`/`.ds-card--flat`) medía 4,46:1, sobre `--warm-150`
-     4,20:1 y sobre `--amatista-50` 4,45:1 — los tres por debajo del
-     mínimo. 52% da 5,36:1 / 5,06:1 / 4,77:1 / 5,05:1 respectivamente:
+     (`.ds-panel`/`.ds-card--flat`) medía 4,44:1, sobre `--warm-150`
+     4,19:1 y sobre `--amatista-50` 4,43:1 — los tres por debajo del
+     mínimo. 52% da 5,38:1 / 5,07:1 / 4,78:1 / 5,06:1 respectivamente:
      margen real sobre las cuatro superficies donde este color aparece. */
-  --warm-500: oklch(52% 0.012 60deg);
-  --warm-600: oklch(45% 0.012 60deg);
-  --warm-700: oklch(35% 0.012 60deg);
-  --warm-800: oklch(25% 0.012 60deg);
-  --warm-900: oklch(16% 0.012 60deg);
+  --warm-500: oklch(52% 0.012 var(--hue-neutral));
+  --warm-600: oklch(45% 0.012 var(--hue-neutral));
+  --warm-700: oklch(35% 0.012 var(--hue-neutral));
+  --warm-800: oklch(25% 0.012 var(--hue-neutral));
+  --warm-900: oklch(16% 0.012 var(--hue-neutral));
   --success-bg: oklch(94% 0.04 145deg);
   --success-fg: oklch(40% 0.1 145deg);
   --success-dot: oklch(55% 0.15 145deg);
-  --font-sans: 'Geist', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif;
-  --font-serif: 'Instrument Serif', georgia, serif;
+  --font-sans: 'Inter', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif;
+  --font-display: 'Poppins', 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
 
-  /* Vuetify theme refs (login/signup) */
-  --v-bg: #f9fafb;
-  --v-surface: #fff;
-  --v-primary: #4f46e5;
-  --v-secondary: #6b7280;
-  --v-success: #10b981;
-  --v-error: #ef4444;
-  --v-warning: #f59e0b;
-  --v-info: #3b82f6;
-
   /* ------------------------------------------------------------------ *
    * ESCALA SEMÁNTICA — danger (hue 25deg)
    * Los 3 primeros son el banner de error repetido 41 veces en los SFC.
    * ------------------------------------------------------------------ */
-  --danger-50: oklch(95% 0.05 25deg);
-  --danger-100: oklch(95% 0.06 25deg);
-  --danger-150: oklch(94% 0.06 25deg);
-  --danger-200: oklch(92% 0.06 25deg);
+
+  /* A11Y-11 · WCAG 2.2, gamut sRGB. A 25deg ninguna claridad de esta escala
+     admitía el croma declarado: el canal rojo se salía de [0, 1] y el
+     navegador lo recortaba por canal sin un algoritmo único (CSS Color 4 no
+     lo normaliza), así que el color pintado dependía del motor. Croma
+     reducido por bisección al máximo que sigue dentro de sRGB, conservando
+     L — mismo procedimiento que `--amatista-450`. A 95%/85% de claridad el
+     techo de croma en gamut es tan bajo que dos escalones antes distintos
+     por croma (`-50`/`-100` y `-300`/`-400`) coinciden en el mismo color:
+     ya lo hacían de facto, recortados por el navegador a valores casi
+     idénticos, así que esto vuelve explícito lo que ya se veía. */
+  --danger-50: oklch(95% 0.02 25deg);
+  --danger-100: oklch(95% 0.02 25deg);
+  --danger-150: oklch(94% 0.03 25deg);
+  --danger-200: oklch(92% 0.04 25deg);
   --danger-250: oklch(85% 0.08 25deg);
-  --danger-300: oklch(85% 0.1 25deg);
-  --danger-400: oklch(85% 0.12 25deg);
+  --danger-300: oklch(85% 0.08 25deg);
   --danger-500: oklch(55% 0.18 25deg);
   --danger-600: oklch(50% 0.18 25deg);
   --danger-700: oklch(48% 0.18 25deg);
   --danger-800: oklch(45% 0.18 25deg);
-  --danger-900: oklch(40% 0.18 25deg);
-  --danger-950: oklch(35% 0.15 25deg);
+  --danger-900: oklch(40% 0.16 25deg);
+  --danger-950: oklch(35% 0.14 25deg);
 
   /* Alias de intención para el banner/estado de error */
   --danger-bg: var(--danger-100);
 
-  /* A11Y-09 · el borde de banner anterior (`--danger-400`) medía 1,42:1
-     sobre su propio fondo — WCAG 2.2 §1.4.11 exige 3:1. 60% da 3,43:1
-     sobre `--danger-100`/`--danger-50` y 4,14:1 sobre `--warm-50`.
-     `--danger-400` NO se retira: lo siguen consumiendo `.ds-tone--danger`
-     y 11 usos directos en SFC del tenant, donde es fondo, no borde. */
+  /* A11Y-09 · ningún escalón de la escala danger llega a 3:1 sobre
+     `--danger-100`/`--danger-50` (WCAG 2.2 §1.4.11): el borde de banner
+     anterior medía 1,40:1. 60% da 3,68:1 sobre ese fondo y 4,16:1 sobre
+     `--warm-50`. */
   --danger-border: oklch(60% 0.16 25deg);
   --danger-fg: var(--danger-900);
 
   /* ESCALA SEMÁNTICA — warning (hue 80deg) */
-  --warning-50: oklch(95% 0.06 80deg);
+
+  /* A11Y-11 · WCAG 2.2, gamut sRGB — mismo defecto y mismo arreglo que la
+     escala danger de arriba. */
+  --warning-50: oklch(95% 0.04 80deg);
   --warning-200: oklch(88% 0.09 80deg);
-  --warning-900: oklch(40% 0.12 80deg);
+  --warning-900: oklch(40% 0.08 80deg);
   --warning-bg: var(--warning-50);
 
-  /* A11Y-09 · `--warning-200` medía 1,23:1 sobre su fondo. 60% 0.12 da
-     3,41:1 sobre `--warning-50` y 3,89:1 sobre `--warm-50`. `58% 0.13` daba
+  /* A11Y-09 · `--warning-200` medía 1,24:1 sobre su fondo. 60% 0.12 da
+     3,45:1 sobre `--warning-50` y 3,89:1 sobre `--warm-50`. `58% 0.13` daba
      más margen pero cae fuera de sRGB y el navegador lo recorta de forma
      impredecible; `60% 0.12` sí está en gamut. `--warning-200` NO se
      retira: sigue de fondo en `.ds-icon-btn--danger:hover` y otros usos. */
@@ -139,14 +148,21 @@
   --success-50: oklch(94% 0.06 150deg);
 
   /* A11Y-09 · el borde anterior (85% 0.1) medía 1,30:1. 58% 0.12 da
-     3,47:1 sobre `--success-50` y 3,94:1 sobre `--warm-50`. */
+     3,46:1 sobre `--success-50` y 3,94:1 sobre `--warm-50`. */
   --success-border: oklch(58% 0.12 150deg);
 
   /* A11Y-09 · `.ds-banner--info` (primitives.css) usaba `--amatista-200`:
-     1,34:1 sobre `--amatista-50`, el peor borde de banner del sistema.
-     62% 0.15 da 3,53:1 sobre `--amatista-50` y 3,75:1 sobre `--warm-50`.
+     1,32:1 sobre `--amatista-50`, el peor borde de banner del sistema.
+     62% 0.15 da 3,47:1 sobre `--amatista-50` y 3,70:1 sobre `--warm-50`.
      `--amatista-200` NO se retira: sigue de fondo en otros usos. */
-  --info-border: oklch(62% 0.15 300deg);
+  --info-border: oklch(62% 0.15 var(--hue));
+
+  /* Hex literal y no OKLCH: es el fondo que el kit aprueba para la plancha del
+     logotipo, y los PNG `-on-F5F3FF-` ya lo llevan quemado. Cualquier deriva de
+     conversión dejaría un borde visible alrededor del isotipo. NO es el fondo de
+     la aplicación: contra `--warm-100` mide 1,00:1 y colapsaría la jerarquía de
+     superficies. */
+  --brand-canvas: #f5f3ff;
 
   /* Alias neutrales de superficie/texto (los usos más repetidos) */
   --surface: var(--warm-50);
@@ -159,12 +175,12 @@
   --text-subtle: var(--warm-500);
 
   /* A11Y-10 · WCAG 2.2 §1.4.3 (AA). El marcador de posición de `BaseSelect`,
-     `SearchableSelect` y `BaseInput` usaba `--warm-400`: 2,42:1. Token
+     `SearchableSelect` y `BaseInput` usaba `--warm-400`: 2,41:1. Token
      propio y no alias de `--text-subtle` para que la jerarquía visual
      «marcador más claro que texto» quede fijada y no dependa de retocar la
      rampa. CONTRATO: solo sobre `--warm-50`/`--surface`/blanco (4,93:1 /
-     5,08:1). NO usar sobre `--warm-150` (4,38:1, incumple). */
-  --text-placeholder: oklch(54% 0.012 60deg);
+     5,06:1). NO usar sobre `--warm-150` (4,38:1, incumple). */
+  --text-placeholder: oklch(54% 0.012 var(--hue-neutral));
 
   /* ------------------------------------------------------------------ *
    * TIPOGRAFÍA — DS-05. En `rem` y no en `px`: `px` absoluto ignora el
@@ -272,15 +288,15 @@
   --shadow-modal: 0 20px 60px rgb(40 20 80 / 30%);
 
   /* Anillos de foco — auditoría A11Y-01: `--amatista-50`/`--danger-200` daban
-   * 1,06:1 y 1,29:1 sobre `--warm-50` (el único indicador de foco de
+   * 1,06:1 y 1,25:1 sobre `--warm-50` (el único indicador de foco de
    * `.ds-btn`, que hace `outline: none`). WCAG 2.2 §1.4.11 Non-text Contrast
    * (AA) exige 3:1 contra la superficie; §2.4.7 Focus Visible (AA) exige que
    * el indicador exista (no fija ratio) — no confundir con §2.4.11 Focus Not
    * Obscured (AA, contenido superpuesto) ni §2.4.13 Focus Appearance (AAA,
    * aspiracional). Anillo de dos capas: la primera repite la superficie
    * (`--warm-50`) para separar el color del borde del control, y la segunda
-   * es el color con contraste real. `--amatista-500` da 4,50:1 sobre
-   * `--warm-50` (4,64:1 sobre blanco) y `--danger-500` da 5,16:1 (5,32:1
+   * es el color con contraste real. `--amatista-500` da 4,44:1 sobre
+   * `--warm-50` (4,56:1 sobre blanco) y `--danger-500` da 5,16:1 (5,31:1
    * sobre blanco) — verificado OKLCH → sRGB → luminancia relativa WCAG 2.x,
    * no de memoria. */
   --ring: 0 0 0 2px var(--warm-50), 0 0 0 4px var(--amatista-500);
@@ -308,7 +324,10 @@
    * los consumidores de `compras`.
    * ------------------------------------------------------------------ */
   --compras-ok-bg: oklch(92% 0.08 150deg);
-  --compras-ok-fg: oklch(40% 0.12 150deg);
+
+  /* A11Y-11 · WCAG 2.2, gamut sRGB — mismo defecto y mismo arreglo que la
+     escala danger de tokens.css. */
+  --compras-ok-fg: oklch(40% 0.1 150deg);
 
   /* ------------------------------------------------------------------ *
    * MOVIMIENTO

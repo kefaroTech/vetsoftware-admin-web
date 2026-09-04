@@ -7,7 +7,7 @@
  * nunca ha tenido las familias del producto disponibles: caía a la pila de
  * respaldo del sistema, y `estabilizar()` remataba la faena fijando DejaVu.
  * Resultado: las líneas base fotografiaban una tipografía que la aplicación no
- * usa, y una caída de Geist al respaldo pasaba en verde para siempre.
+ * usa, y una caída al respaldo pasaba en verde para siempre.
  *
  * ── Por qué locales y no el `<link>` de Google ─────────────────────────────
  * La suite tiene que ser determinista y no depender de la red: una llamada a
@@ -16,14 +16,16 @@
  * `estabilizar()` sigue bloqueando ese dominio a propósito; lo que cambia es
  * que ahora la fuente de verdad llega por disco, no que se deje de bloquear.
  *
- * ── Ojo: Geist y JetBrains Mono son VARIABLES ──────────────────────────────
+ * ── Ojo: Inter y JetBrains Mono son VARIABLES ──────────────────────────────
  * Google sirve UN solo fichero por familia para todos sus pesos (mismo md5
- * para 400, 500 y 600), y declara una `@font-face` por peso apuntando al
+ * para 400, 500, 600 y 700), y declara una `@font-face` por peso apuntando al
  * mismo `src`. Se replica esa estructura tal cual, que es la que produce el
- * render de producción: declarar un único `font-weight: 400 600` no es
- * equivalente, y declarar tres pesos con tres ficheros distintos —que no
- * existen— pintaría los tres iguales sin avisar.
- * Instrument Serif sí trae ficheros distintos para redonda y cursiva.
+ * render de producción: declarar un único `font-weight: 400 700` no es
+ * equivalente, y declarar cuatro pesos con cuatro ficheros distintos —que no
+ * existen— pintaría los cuatro iguales sin avisar.
+ * Poppins no es variable en Google Fonts: 400/500/600/700 son cuatro
+ * ficheros distintos, y declarar uno solo pintaría los cuatro pesos iguales
+ * sin avisar.
  *
  * Subset `latin` únicamente (U+0000-00FF + puntuación general): cubre todo el
  * español —tildes, ñ, ¿, ¡, comillas, rayas— y el producto no tiene texto
@@ -36,43 +38,64 @@
  * `fonts/LICENSE.md`, que acompaña a los ficheros como exige la propia OFL.
  */
 
-/* Geist — variable, un solo fichero para 400/500/600. */
+/* Inter — variable, un solo fichero para 400/500/600/700. */
 @font-face {
-  font-family: 'Geist';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url('./fonts/geist-variable-latin.woff2') format('woff2');
+  src: url('./fonts/inter-variable-latin.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Geist';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
   font-display: block;
-  src: url('./fonts/geist-variable-latin.woff2') format('woff2');
+  src: url('./fonts/inter-variable-latin.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Geist';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
   font-display: block;
-  src: url('./fonts/geist-variable-latin.woff2') format('woff2');
+  src: url('./fonts/inter-variable-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url('./fonts/inter-variable-latin.woff2') format('woff2');
 }
 
-/* Instrument Serif — estática, redonda y cursiva son ficheros distintos. */
+/* Poppins — estática, cada peso es un fichero distinto. */
 @font-face {
-  font-family: 'Instrument Serif';
+  font-family: 'Poppins';
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url('./fonts/instrument-serif-400-latin.woff2') format('woff2');
+  src: url('./fonts/poppins-400-latin.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Instrument Serif';
-  font-style: italic;
-  font-weight: 400;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
   font-display: block;
-  src: url('./fonts/instrument-serif-400-italic-latin.woff2') format('woff2');
+  src: url('./fonts/poppins-500-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: block;
+  src: url('./fonts/poppins-600-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url('./fonts/poppins-700-latin.woff2') format('woff2');
 }
 
 /* JetBrains Mono — variable, un solo fichero para 400/500. */

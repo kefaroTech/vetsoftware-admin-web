@@ -36,12 +36,12 @@ export const catalogAiHintsRoutes: RouteRecordRaw[] = [
     path: '/asistente/pistas',
     name: CATALOG_AI_HINT_ROUTE_NAMES.LIST,
     component: () => import('@/features/catalog-ai-hints/views/CatalogAiHintsListView.vue'),
-    meta: { title: 'Pistas del asistente · VetSoftware' },
+    meta: { title: 'Pistas del asistente · Lumbre' },
   },
   {
     path: '/asistente/pistas/:catalogItemId',
     name: CATALOG_AI_HINT_ROUTE_NAMES.DETAIL,
     component: () => import('@/features/catalog-ai-hints/views/CatalogAiHintDetailView.vue'),
-    meta: { title: 'Historial de la pista · VetSoftware' },
+    meta: { title: 'Historial de la pista · Lumbre' },
   },
 ]

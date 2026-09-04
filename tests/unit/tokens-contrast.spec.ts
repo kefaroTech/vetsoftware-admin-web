@@ -7,7 +7,7 @@ import path from 'node:path'
  *
  * `.ds-btn` hace `outline: none`, así que `--ring` / `--ring-danger` son el
  * ÚNICO indicador de foco visible del sistema. Antes de la auditoría usaban
- * `--amatista-50` y `--danger-200`: 1,06:1 y 1,29:1 sobre la superficie. Un
+ * `--amatista-50` y `--danger-200`: 1,06:1 y 1,25:1 sobre la superficie. Un
  * usuario de teclado no podía ver dónde estaba. WCAG 2.2 §2.4.7 Focus Visible
  * (AA) obliga a que haya un indicador de foco visible, y §1.4.11 Non-text
  * Contrast (AA) es el que fija el 3:1 que se mide aquí. (§2.4.13 Focus
@@ -59,7 +59,11 @@ function parseRootTokens(css: string): Map<string, string> {
   const open = css.indexOf(':root {')
   if (open === -1) throw new Error('tokens.css no declara un bloque :root')
   const close = css.indexOf('\n}', open)
-  const block = css.slice(open, close)
+  // Sin este despojo, un `--danger:` citado dentro de un comentario (p. ej. el
+  // que menciona `.ds-icon-btn--danger:hover`) se lee como declaración: el
+  // regex de abajo consume hasta el siguiente `;`, que es el de la
+  // declaración real siguiente, y esa se pierde del mapa.
+  const block = css.slice(open, close).replace(/\/\*[\s\S]*?\*\//g, '')
 
   const tokens = new Map<string, string>()
   // `[^;]` cruza saltos de línea a propósito: hay valores multilínea.
@@ -73,6 +77,26 @@ function parseRootTokens(css: string): Map<string, string> {
 }
 
 const tokens = parseRootTokens(CSS)
+
+describe('el parseo de tokens.css', () => {
+  it('el mapa de tokens contiene todos los `--*-border` que tokens.css declara', () => {
+    // Enumeración independiente de `parseRootTokens`: si el parser vuelve a
+    // tragarse una declaración, esto falla con el nombre exacto en vez de
+    // fallar más tarde con "no está declarado en :root" en otro punto.
+    const declarados = new Set(
+      Array.from(CSS.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/(--[a-z0-9-]+-border)\s*:/gi)).map(
+        (m) => m[1] as string,
+      ),
+    )
+    expect(declarados.size).toBeGreaterThan(0)
+    for (const name of declarados) {
+      expect(
+        tokens.has(name),
+        `${name} se declara en tokens.css pero no está en el mapa parseado`,
+      ).toBe(true)
+    }
+  })
+})
 
 /**
  * Cuerpo de una regla de primer nivel de `primitives.css`, por selector exacto.
@@ -167,6 +191,33 @@ function oklchToLinearSrgb({ l, c, h }: Oklch): [number, number, number] {
   ]
 }
 
+/** sRGB lineal → sRGB con gamma (CSS Color 4 §7.2, IEC 61966-2-1). */
+function gammaEncode(linear: number): number {
+  return linear <= 0.0031308 ? 12.92 * linear : 1.055 * linear ** (1 / 2.4) - 0.055
+}
+
+/** sRGB con gamma → sRGB lineal (CSS Color 4 §7.2, IEC 61966-2-1). */
+function gammaDecode(encoded: number): number {
+  return encoded <= 0.04045 ? encoded / 12.92 : ((encoded + 0.055) / 1.055) ** 2.4
+}
+
+/**
+ * METODOLOGÍA DE REFERENCIA de este archivo: todo canal se cuantiza a 8 bits
+ * (redondeo a 1/255 tras codificar a gamma) antes de calcular luminancia. El
+ * navegador cuantiza igual antes de pintar, así que este es el contraste que
+ * el usuario ve de verdad — sin este paso, el motor mide un contraste más
+ * continuo que no corresponde a ningún píxel real, y calibra contra los
+ * comentarios de `tokens.css`/`primitives.css` con hasta 0,02:1 de
+ * desviación (verificado en `--amatista-450`/`--amatista-50`: 3,47 con
+ * cuantización, 3,49 sin ella). Quitar este paso no rompe ningún umbral hoy
+ * porque el margen sobre 3:1/4,5:1 lo absorbe, pero deja de reproducir los
+ * valores documentados y el próximo barrido de contraste "corregirá" tokens
+ * que ya estaban bien.
+ */
+function quantizeTo8Bit(encoded: number): number {
+  return Math.round(encoded * 255) / 255
+}
+
 /**
  * Luminancia relativa (WCAG 2.x). El recorte a [0, 1] es el mismo que hace el
  * navegador al pintar un OKLCH fuera del gamut sRGB, así que la cifra
@@ -174,10 +225,12 @@ function oklchToLinearSrgb({ l, c, h }: Oklch): [number, number, number] {
  */
 function relativeLuminance(color: Oklch): number {
   const clamp = (channel: number) => Math.min(1, Math.max(0, channel))
+  const toDisplayLinear = (channel: number) =>
+    gammaDecode(quantizeTo8Bit(gammaEncode(clamp(channel))))
   const [rRaw, gRaw, bRaw] = oklchToLinearSrgb(color)
-  const r = clamp(rRaw)
-  const g = clamp(gRaw)
-  const b = clamp(bRaw)
+  const r = toDisplayLinear(rRaw)
+  const g = toDisplayLinear(gRaw)
+  const b = toDisplayLinear(bRaw)
   return 0.2126 * r + 0.7152 * g + 0.0722 * b
 }
 
@@ -223,7 +276,7 @@ const surfaceLuminance = relativeLuminance(parseOklch(resolveVars(tokenValue('--
  */
 const RINGS = [
   { ring: '--ring', antes: '--amatista-50', contrasteAntes: 1.06 },
-  { ring: '--ring-danger', antes: '--danger-200', contrasteAntes: 1.29 },
+  { ring: '--ring-danger', antes: '--danger-200', contrasteAntes: 1.25 },
 ] as const
 
 describe('anillos de foco (A11Y-01 / WCAG 2.2 §2.4.7 + §1.4.11, AA)', () => {
@@ -320,7 +373,8 @@ describe('texto secundario (A11Y-02 / WCAG 2.2 §1.4.3, AA)', () => {
  * Foco sobre un campo inválido. Es el gemelo por la puerta de al lado de
  * A11Y-01: `--ring-danger` ya estaba arreglado y medido, pero `.ds-field-
  * invalid-focus` seguía escribiendo su propio `0 0 0 3px var(--danger-200)`
- * (1,29:1) sin enterarse. Ahora consume el token.
+ * (1,25:1) sin enterarse. El único origen admitido del anillo es el token:
+ * ningún valor de sombra se declara a mano.
  *
  * En ESTA consola la clase está huérfana —ningún componente la aplica— y aun
  * así la guarda se queda: `primitives.css` es un archivo de paridad TR-02, byte

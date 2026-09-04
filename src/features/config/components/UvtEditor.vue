@@ -160,14 +160,14 @@ function onKey(e: KeyboardEvent) {
 
 .card {
   background: #fff;
-  border: 1px solid #ece5f4;
+  border: 1px solid var(--border);
   border-radius: 14px;
   overflow: hidden;
 }
 
 .card-head {
   padding: 18px 24px;
-  border-bottom: 1px solid #ece5f4;
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -177,8 +177,8 @@ function onKey(e: KeyboardEvent) {
   width: 36px;
   height: 36px;
   border-radius: 9px;
-  background: #f3e8ff;
-  color: #7e22ce;
+  background: var(--amatista-100);
+  color: var(--amatista-600);
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -187,12 +187,12 @@ function onKey(e: KeyboardEvent) {
 .head-title {
   font-size: 14px;
   font-weight: 600;
-  color: #1a1325;
+  color: var(--text);
 }
 
 .head-sub {
   font-size: 12px;
-  color: #6b5b80;
+  color: var(--text-muted);
   margin-top: 2px;
 }
 
@@ -204,8 +204,8 @@ function onKey(e: KeyboardEvent) {
   border-radius: 999px;
   font-size: 11px;
   font-weight: 600;
-  background: #dcfce7;
-  color: #166534;
+  background: var(--success-bg);
+  color: var(--success-fg);
 }
 
 .badge .dot {
@@ -227,10 +227,10 @@ function onKey(e: KeyboardEvent) {
 }
 
 .value-big {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 56px;
   font-weight: 400;
-  color: #1a1325;
+  color: var(--text);
   line-height: 1;
   letter-spacing: -0.02em;
 }
@@ -238,7 +238,7 @@ function onKey(e: KeyboardEvent) {
 .value-unit {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
-  color: #a89bbd;
+  color: var(--text-subtle);
   padding-bottom: 8px;
 }
 
@@ -247,13 +247,13 @@ function onKey(e: KeyboardEvent) {
   gap: 24px;
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px solid #f3eef9;
+  border-top: 1px solid var(--border);
 }
 
 .info-lab {
   font-size: 10px;
   font-weight: 600;
-  color: #a89bbd;
+  color: var(--text-subtle);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 5px;
@@ -261,7 +261,7 @@ function onKey(e: KeyboardEvent) {
 
 .info-val {
   font-size: 13px;
-  color: #1a1325;
+  color: var(--text);
 }
 
 .spacer {
@@ -276,21 +276,21 @@ function onKey(e: KeyboardEvent) {
   padding: 10px 16px;
   border-radius: 9px;
   border: none;
-  background: linear-gradient(180deg, #9333ea, #7e22ce);
+  background: var(--gradient-primary);
   color: #fff;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
   box-shadow:
-    0 4px 12px -2px rgb(126 34 206 / 40%),
+    0 4px 12px -2px rgb(86 77 197 / 40%),
     inset 0 1px 0 rgb(255 255 255 / 15%);
 }
 
 .edit-label {
   font-size: 12px;
   font-weight: 600;
-  color: #3d2e57;
+  color: var(--warm-700);
   display: block;
   margin-bottom: 8px;
 }
@@ -301,20 +301,20 @@ function onKey(e: KeyboardEvent) {
   gap: 10px;
   padding: 12px 16px;
   background: #fff;
-  border: 1px solid #a855f7;
+  border: 1px solid var(--amatista-450);
   border-radius: 9px;
-  box-shadow: 0 0 0 4px rgb(168 85 247 / 12%);
+  box-shadow: 0 0 0 4px rgb(119 119 227 / 12%);
 }
 
 .edit-box.error {
-  border-color: #dc2626;
+  border-color: var(--danger-border);
   box-shadow: none;
 }
 
 .edit-prefix {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 28px;
-  color: #7e22ce;
+  color: var(--amatista-600);
 }
 
 .edit-input {
@@ -322,9 +322,9 @@ function onKey(e: KeyboardEvent) {
   border: none;
   outline: none;
   background: transparent;
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 40px;
-  color: #1a1325;
+  color: var(--text);
   min-width: 0;
   line-height: 1;
 }
@@ -332,12 +332,12 @@ function onKey(e: KeyboardEvent) {
 .edit-suffix {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
-  color: #a89bbd;
+  color: var(--text-subtle);
 }
 
 .edit-err {
   font-size: 12px;
-  color: #dc2626;
+  color: var(--danger-fg);
   margin-top: 8px;
   display: flex;
   align-items: center;
@@ -355,7 +355,7 @@ function onKey(e: KeyboardEvent) {
   padding: 10px 18px;
   border-radius: 9px;
   border: none;
-  background: #1a1325;
+  background: var(--warm-900);
   color: #fff;
   font-size: 13px;
   font-weight: 600;
@@ -371,9 +371,9 @@ function onKey(e: KeyboardEvent) {
 .btn-cancel {
   padding: 10px 18px;
   border-radius: 9px;
-  border: 1px solid #ece5f4;
+  border: 1px solid var(--warm-450);
   background: #fff;
-  color: #3d2e57;
+  color: var(--warm-700);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -382,31 +382,31 @@ function onKey(e: KeyboardEvent) {
 
 .edit-hint {
   font-size: 11px;
-  color: #a89bbd;
+  color: var(--text-subtle);
 }
 
 .history {
   padding: 18px 24px;
-  border-top: 1px solid #ece5f4;
-  background: #fbfaff;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .history-head {
   margin-bottom: 14px;
-  color: #7e22ce;
+  color: var(--amatista-600);
 }
 
 .history-head span {
   font-size: 11px;
   font-weight: 600;
-  color: #3d2e57;
+  color: var(--warm-700);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .history-empty {
   font-size: 12px;
-  color: #a89bbd;
+  color: var(--text-subtle);
   line-height: 1.5;
 }
 </style>

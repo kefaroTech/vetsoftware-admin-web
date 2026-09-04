@@ -10,12 +10,13 @@ Subset `latin` descargado desde Google Fonts.
 
 ## Avisos de copyright
 
-- **Geist** — Copyright 2024 The Geist Project Authors
-  (https://github.com/vercel/geist-font)
-  · `geist-variable-latin.woff2` (fuente variable; un fichero para 400/500/600)
-- **Instrument Serif** — Copyright 2022 The Instrument Serif Project Authors
-  (https://github.com/Instrument/instrument-serif)
-  · `instrument-serif-400-latin.woff2`, `instrument-serif-400-italic-latin.woff2`
+- **Inter** — Copyright 2020 The Inter Project Authors
+  (https://github.com/rsms/inter)
+  · `inter-variable-latin.woff2` (fuente variable; un fichero para 400/500/600/700)
+- **Poppins** — Copyright 2020 The Poppins Project Authors
+  (https://github.com/itfoundry/Poppins)
+  · `poppins-400-latin.woff2`, `poppins-500-latin.woff2`, `poppins-600-latin.woff2`,
+  `poppins-700-latin.woff2`
 - **JetBrains Mono** — Copyright 2020 The JetBrains Mono Project Authors
   (https://github.com/JetBrains/JetBrainsMono)
   · `jetbrains-mono-variable-latin.woff2` (fuente variable; un fichero para 400/500)

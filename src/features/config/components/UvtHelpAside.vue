@@ -17,8 +17,8 @@ import { ICONS } from '@/constants/icons'
         <div class="explain-kicker">// ¿QUÉ ES LA UVT?</div>
         <p>
           La <strong>Unidad de Valor Tributario</strong> es la medida que la DIAN actualiza cada año
-          para estandarizar valores tributarios. VetSoftware la usa para calcular topes y
-          referencias en la <strong>facturación electrónica</strong>.
+          para estandarizar valores tributarios. Lumbre la usa para calcular topes y referencias en
+          la <strong>facturación electrónica</strong>.
         </p>
       </div>
     </div>
@@ -37,7 +37,7 @@ import { ICONS } from '@/constants/icons'
 
 <style scoped>
 .explain {
-  background: linear-gradient(135deg, #581c87, #3b0764);
+  background: linear-gradient(135deg, var(--amatista-700), var(--amatista-800));
   border-radius: 14px;
   padding: 22px 24px;
   color: #fff;
@@ -52,7 +52,7 @@ import { ICONS } from '@/constants/icons'
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(216 180 254 / 25%), transparent 70%);
+  background: radial-gradient(circle, rgb(170 175 254 / 25%), transparent 70%);
 }
 
 .explain-body {
@@ -62,14 +62,14 @@ import { ICONS } from '@/constants/icons'
 .explain-kicker {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: #d8b4fe;
+  color: var(--amatista-200);
   letter-spacing: 0.08em;
   margin-bottom: 10px;
 }
 
 .explain p {
   font-size: 13px;
-  color: #e9d5ff;
+  color: var(--amatista-100);
   line-height: 1.55;
   margin: 0;
 }
@@ -80,7 +80,7 @@ import { ICONS } from '@/constants/icons'
 
 .note {
   background: #fff;
-  border: 1px solid #ece5f4;
+  border: 1px solid var(--info-border);
   border-radius: 12px;
   padding: 18px 20px;
   display: flex;
@@ -92,8 +92,8 @@ import { ICONS } from '@/constants/icons'
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: #f3e8ff;
-  color: #7e22ce;
+  background: var(--amatista-100);
+  color: var(--amatista-600);
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -102,13 +102,13 @@ import { ICONS } from '@/constants/icons'
 .note-title {
   font-size: 13px;
   font-weight: 600;
-  color: #1a1325;
+  color: var(--text);
   margin-bottom: 4px;
 }
 
 .note p {
   font-size: 12px;
-  color: #6b5b80;
+  color: var(--text-muted);
   line-height: 1.5;
   margin: 0;
 }

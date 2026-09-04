@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ICONS } from '@/constants/icons'
-
 /**
  * Cabecera del sidebar: marca y subtítulo de la consola.
  *
@@ -15,42 +13,27 @@ import { ICONS } from '@/constants/icons'
  * hay nada que ocultar ni, por tanto, nombre accesible que rescatar. Un
  * componente menos suscrito al viewport es también un punto menos donde dos
  * lecturas del mismo ancho pueden discrepar.
+ *
+ * Sin isotipo: por debajo de 48 px la ilustración de marca es una mancha sin
+ * figura reconocible, así que en este tramo la identidad la carga el nombre.
  */
 </script>
 
 <template>
   <div class="sidebar-header">
-    <div class="logo">
-      <component :is="ICONS.PAW" :size="16" />
-    </div>
-    <div class="brand-text">
-      <div class="brand">VetSoftware</div>
-      <div class="brand-sub">Panel administrativo</div>
-    </div>
+    <div class="brand">Lumbre</div>
+    <div class="brand-sub">Panel de plataforma</div>
   </div>
 </template>
 
 <style scoped>
 .sidebar-header {
-  display: flex;
-  align-items: center;
-  gap: var(--space-10);
   padding: 0 var(--space-12) var(--space-22);
   border-bottom: 1px solid var(--border);
 }
 
-.logo {
-  width: 30px;
-  height: 30px;
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, var(--amatista-500), var(--amatista-800));
-  display: grid;
-  place-items: center;
-  color: var(--warm-50);
-  box-shadow: var(--shadow-xs);
-}
-
 .brand {
+  font-family: var(--font-display);
   font-size: var(--text-body);
   font-weight: var(--weight-bold);
   color: var(--text);

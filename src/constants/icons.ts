@@ -39,7 +39,6 @@ import {
   Menu,
   Palette,
   PauseCircle,
-  PawPrint,
   Pencil,
   Pill,
   Files,
@@ -165,7 +164,6 @@ export const ICONS = {
   /** Ámbito global: lo que comparte toda la plataforma, frente a lo de una empresa. */
   GLOBE: Globe,
   BELL: Bell,
-  PAW: PawPrint,
   ARROW_RIGHT: ArrowRight,
   ARROW_UP_RIGHT: ArrowUpRight,
 

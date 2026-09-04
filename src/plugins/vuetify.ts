@@ -12,19 +12,19 @@ const lucide: IconSet = {
   component: (props: IconProps) => h(props.icon as Component, { size: 20 }),
 }
 
-// Amatista (hue 300) — alineado con el sistema de tokens en src/assets/styles/tokens.css.
-// Aproximación sRGB de oklch(50% 0.18 300) ≈ #7C3AED (--amatista-600).
+// Espejo en sRGB de los tokens de `tokens.css`, no una paleta aparte.
+// Ningún gate comprueba automáticamente que los dos coincidan.
 const customTheme = {
   dark: false,
   colors: {
-    background: '#F9FAFB',
+    background: '#FAFCFF',
     surface: '#FFFFFF',
-    primary: '#7C3AED',
-    secondary: '#6B7280',
-    success: '#10B981',
-    error: '#EF4444',
-    warning: '#F59E0B',
-    info: '#3B82F6',
+    primary: '#564DC5',
+    secondary: '#646970',
+    success: '#278733',
+    error: '#C53637',
+    warning: '#683D00',
+    info: '#564DC5',
   },
 }
 

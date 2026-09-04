@@ -70,7 +70,11 @@
 
 /* Variante fantasma — el `.btn-ghost` de los SFC */
 .ds-btn--ghost {
-  border-color: var(--border);
+  /* A11Y-09 · WCAG 2.2 §1.4.11 (AA): --warm-200 medía 1,23:1 sobre --warm-50
+     (reposo) y 1,16:1 sobre --warm-100 (fondo del hover, --surface-muted).
+     --warm-450 da 3,54:1 y 3,33:1 respectivamente. Es un borde de control,
+     no un separador. */
+  border-color: var(--warm-450);
   background: transparent;
   color: var(--warm-700);
 }
@@ -122,7 +126,9 @@
    Los valores son los de su único uso real en el código (AppointmentDetailModal):
    un rojo más apagado que el del banner de error. */
 .ds-btn--danger {
-  border-color: var(--danger-250);
+  /* A11Y-09: era --danger-250 (1,40:1 sobre --danger-50; es un control, no un
+     banner). --danger-border da 3,68:1 sobre el mismo fondo. */
+  border-color: var(--danger-border);
   background: var(--danger-50);
   color: var(--danger-700);
 }
@@ -227,8 +233,8 @@
 }
 
 .ds-banner--info {
-  /* A11Y-09: era --amatista-200 (1,34:1 sobre --amatista-50, el peor borde
-     de banner del sistema). --info-border da 3,53:1. */
+  /* A11Y-09: era --amatista-200 (1,32:1 sobre --amatista-50, el peor borde
+     de banner del sistema). --info-border da 3,47:1. */
   border-color: var(--info-border);
   background: var(--amatista-50);
   color: var(--amatista-800);
@@ -319,7 +325,7 @@
 /* Falta en el catálogo original: éxito, peligro, neutro y acento no cubrían
    aviso. Mismo par de tokens que `.ds-banner--warning` ya usa (líneas
    217-221), así que no introduce ninguna combinación de color nueva —
-   petición de suscripcion-tenant-especificacion.md §9.2. 7,92:1 medido
+   petición de suscripcion-tenant-especificacion.md §9.2. 8,02:1 medido
    OKLCH → sRGB → WCAG. */
 .ds-tone--warning {
   background: var(--warning-bg);
@@ -341,8 +347,8 @@
 .ds-tone--accent-selected {
   background: var(--amatista-50);
 
-  /* A11Y-09: era --amatista-300 (1,90:1 sobre este fondo). --amatista-450
-     da 3,55:1. */
+  /* A11Y-09: era --amatista-300 (1,87:1 sobre este fondo). --amatista-450
+     da 3,47:1. */
   border-color: var(--amatista-450);
 }
 
@@ -354,7 +360,7 @@
    que el hover comunica. Caso real: `AgendaDayView.vue` (`.clinical-btn`)
    copiaba este cuerpo a mano.
    Mismo valor que el reposo, no uno más flojo: `--amatista-450` ya da
-   3,55:1 sobre este mismo fondo (§1.4.11), así que repetirlo cumple la
+   3,47:1 sobre este mismo fondo (§1.4.11), así que repetirlo cumple la
    regla de esta primitiva sin necesitar reforzar — un estado de interacción
    nunca puede reducir el contraste del elemento. */
 .ds-tone--accent-selected:hover:not(:disabled) {
@@ -390,7 +396,7 @@
 }
 
 /* A11Y-09 / issues #205 (tenant) · #121 (consola). Era `border-color:
-   var(--warm-300)` en reposo Y en `:hover` — 1,49:1, incumple §1.4.11 en
+   var(--warm-300)` en reposo Y en `:hover` — 1,40:1, incumple §1.4.11 en
    los dos estados. El defecto real no era solo el valor: es que un consumidor
    que sube su propio reposo a `--warm-450` (el criterio vigente para bordes
    de control) se encontraba con que ESTA regla de `:hover` —peso (0,3,0),
@@ -400,7 +406,7 @@
    que llevaba un override local (0,4,0) marcado como provisional mientras
    se corregía aquí.
    REGLA: un estado de interacción nunca puede reducir el contraste del
-   elemento. Reposo `--warm-450` (3,55:1), `:hover` `--warm-500` (5,36:1) —
+   elemento. Reposo `--warm-450` (3,33:1), `:hover` `--warm-500` (5,07:1) —
    refuerza, nunca afloja. */
 .ds-tone--neutral-soft {
   background: var(--warm-100);
@@ -414,7 +420,7 @@
 
 /* Sin fondo, sólo borde+texto — 4 copias. */
 .ds-tone--accent-border {
-  /* A11Y-09: era --amatista-300. --amatista-450 da 3,77:1 sobre --warm-50. */
+  /* A11Y-09: era --amatista-300. --amatista-450 da 3,69:1 sobre --warm-50. */
   border-color: var(--amatista-450);
   color: var(--amatista-700);
 }
@@ -475,8 +481,8 @@
 .ds-empty--md {
   padding: var(--space-26);
 
-  /* A11Y-09/10: era --warm-400 (2,42:1, y esto es TEXTO, exige 4,5:1).
-     --text-subtle (--warm-500 tras A11Y-09) da 5,36:1. */
+  /* A11Y-09/10: era --warm-400 (2,41:1, y esto es TEXTO, exige 4,5:1).
+     --text-subtle (--warm-500 tras A11Y-09) da 5,38:1. */
   color: var(--text-subtle);
 }
 
@@ -566,7 +572,7 @@
 .ds-display {
   margin: 0;
   color: var(--text);
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: var(--text-display);
   font-weight: var(--weight-normal);
   line-height: var(--leading-display);
@@ -829,9 +835,9 @@
    DateInput porque se declara sobre `.mx-input:focus`, no sobre el
    wrapper). */
 .ds-field-invalid-focus {
-  border-color: oklch(55% 0.22 25deg);
+  border-color: var(--danger-border);
 
-  /* A11Y-02: `0 0 0 3px var(--danger-200)` a mano daba 1,29:1 — el mismo
+  /* A11Y-02: `0 0 0 3px var(--danger-200)` a mano daba 1,25:1 — el mismo
      defecto que A11Y-01 corrigió en `--ring-danger` (5,16:1, sujeto por
      `tests/unit/tokens-contrast.spec.ts`) pero por la puerta de al lado.
      Hereda el token en vez de mantener su propia guarda. */
@@ -939,8 +945,8 @@
 /* Variante más tenue (warm-400 en vez de warm-500) — "icono apagado", 5
    copias, siempre con el mismo `flex-shrink:0` de la base. */
 .ds-icon-muted--dim {
-  /* A11Y-09: era --warm-400 (2,42:1). Es icono, §1.4.11 pide 3:1, no 4,5:1;
-     --warm-450 da 3,55:1. */
+  /* A11Y-09: era --warm-400 (2,41:1). Es icono, §1.4.11 pide 3:1, no 4,5:1;
+     --warm-450 da 3,54:1. */
   color: var(--warm-450);
 }
 
@@ -1081,7 +1087,7 @@
   border-radius: 7px;
 
   /* A11Y-09: era var(--warm-200) (1,23:1). Es un control (se pulsa):
-     --warm-450 da 3,55:1. */
+     --warm-450 da 3,54:1. */
   border: 1px solid var(--warm-450);
   background: transparent;
   color: var(--warm-700);
@@ -1102,7 +1108,10 @@
 .ds-icon-btn--danger:hover:not(:disabled) {
   background: var(--danger-100);
   color: var(--danger-900);
-  border-color: var(--danger-400);
+
+  /* A11Y-09: era --danger-400 (1,40:1 sobre --danger-100). --danger-border
+     da 3,68:1 sobre el mismo fondo. */
+  border-color: var(--danger-border);
 }
 
 /* Acción de acento — "ir/editar/descargar/reponer" de la familia de
@@ -1111,7 +1120,7 @@
 .ds-icon-btn--accent:hover:not(:disabled) {
   background: var(--amatista-50);
 
-  /* A11Y-09: era --amatista-300. --amatista-450 da 3,55:1. */
+  /* A11Y-09: era --amatista-300. --amatista-450 da 3,47:1. */
   border-color: var(--amatista-450);
   color: var(--amatista-700);
 }
@@ -1143,7 +1152,10 @@
 .ds-catalog-error {
   margin-bottom: var(--space-14);
   padding: var(--space-10) var(--space-14);
-  border: 1px solid var(--danger-300);
+
+  /* A11Y-09: era --danger-300 (1,35:1 sobre --danger-150). --danger-border
+     da 3,55:1 sobre el mismo fondo. */
+  border: 1px solid var(--danger-border);
   border-radius: var(--radius-panel);
   background: var(--danger-150);
   color: var(--danger-950);
@@ -1514,7 +1526,7 @@
 .ds-hover-accent:hover:not(:disabled) {
   background: var(--amatista-50);
 
-  /* A11Y-09: era --amatista-300. --amatista-450 da 3,55:1. */
+  /* A11Y-09: era --amatista-300. --amatista-450 da 3,47:1. */
   border-color: var(--amatista-450);
   color: var(--amatista-700);
 }
@@ -1631,7 +1643,7 @@
 }
 
 /* A11Y-09: el borde de reposo de un control mide 1,23:1 con --warm-200.
-   --warm-450 da 3,55:1, igual que el resto de bordes de control migrados. */
+   --warm-450 da 3,54:1, igual que el resto de bordes de control migrados. */
 .ds-field-rest {
   border-color: var(--warm-450);
   background: var(--warm-50);
@@ -1640,12 +1652,12 @@
 /* Solo lectura — issue public-web#159. NO es lo mismo que deshabilitado: el
    campo SIGUE siendo operable (recibe foco, se selecciona, se copia) y su
    valor SÍ se envía. Por eso conserva el texto a contraste pleno
-   (`--warm-900`, 16,76:1 sobre esta superficie) en vez de atenuarlo como
-   `.ds-field-disabled`, y conserva el borde a 3:1 (`--warm-450`, 3,15:1): la
+   (`--warm-900`, 16,75:1 sobre esta superficie) en vez de atenuarlo como
+   `.ds-field-disabled`, y conserva el borde a 3:1 (`--warm-450`, 3,14:1): la
    excepción de «componentes inactivos» de WCAG 2.2 §1.4.11 exime a lo que
    «is visible but not currently operable», y esto es operable.
    Lo que cambia frente a `.ds-field-rest` es la superficie hundida — que por
-   sí sola NO es señal suficiente: mide 1,125:1 contra `--warm-50` y 1,061:1
+   sí sola NO es señal suficiente: mide 1,125:1 contra `--warm-50` y 1,059:1
    contra el fondo de `.ds-field-disabled` —, así que el canal que de verdad
    distingue el estado es el candado que `BaseField` pinta en la etiqueta.
    Quitarlo deja el estado invisible. */
@@ -1720,6 +1732,19 @@
 .ds-error-summary__list a {
   color: inherit;
   text-decoration: underline;
+}
+
+/* ========================================================================== *
+ * MARCA — el `<img>` del isotipo en cabeceras y tarjetas de auth. Sin
+ * `width`/`height` propios: cada consumidor los fija como atributos HTML
+ * (32×32 en sidebar/topbar, 160×160 en la tarjeta de auth) para que el
+ * navegador reserve la caja antes de la descarga.
+ * ========================================================================== */
+
+.ds-brand-mark {
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 /* ========================================================================== *

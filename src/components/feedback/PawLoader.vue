@@ -36,10 +36,17 @@ const filterId = `paw-glow-${useId()}`
       <defs>
         <filter v-if="props.glow" :id="filterId" x="-60%" y="-60%" width="220%" height="220%">
           <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur1" />
-          <feFlood flood-color="oklch(50% 0.18 300)" flood-opacity="0.55" result="color1" />
+          <feFlood
+            flood-color="var(--amatista-600, oklch(50% 0.18 281))"
+            flood-opacity="0.55"
+            result="color1"
+          />
           <feComposite in="color1" in2="blur1" operator="in" result="glow1" />
           <feGaussianBlur in="SourceAlpha" stdDeviation="9" result="blur2" />
-          <feFlood flood-color="oklch(55% 0.18 300)" flood-opacity="0.45" result="color2" />
+          <!-- Sin escalón propio en la rampa: va entre `--amatista-600` (50 %) y
+               `--amatista-500` (58 %), a propósito, para que el halo exterior se
+               vea más claro que el interior. -->
+          <feFlood flood-color="oklch(55% 0.18 281)" flood-opacity="0.45" result="color2" />
           <feComposite in="color2" in2="blur2" operator="in" result="glow2" />
           <feMerge>
             <feMergeNode in="glow2" />
@@ -83,7 +90,7 @@ const filterId = `paw-glow-${useId()}`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--amatista-700, oklch(42% 0.16 300deg));
+  color: var(--amatista-700, oklch(42% 0.16 281deg));
   flex-shrink: 0;
 }
 

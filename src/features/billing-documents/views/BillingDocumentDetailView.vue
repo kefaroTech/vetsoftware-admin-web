@@ -252,7 +252,7 @@ async function onReverse(applicationId: number) {
           <component :is="ICONS.INFO" :size="16" class="ds-banner-icon" />
           <span class="ds-flex-fill">
             Este documento todavía no tiene factura fiscal externa. La emite el proveedor, no
-            VetSoftware; aquí se registra su referencia para poder cruzarla después.
+            Lumbre; aquí se registra su referencia para poder cruzarla después.
           </span>
         </div>
 

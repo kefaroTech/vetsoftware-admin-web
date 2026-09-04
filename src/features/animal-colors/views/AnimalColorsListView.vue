@@ -5,6 +5,7 @@ import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import { useToast } from '@/composables/useToast'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
 import { getProblemDetailMessage } from '@/services/http/http.client'
+import { formatDate } from '@/composables/format'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
@@ -216,7 +217,7 @@ async function handleDelete(id: number, name: string) {
       <tr v-for="c in filtradas" :key="c.id" class="ds-row-hover">
         <td class="ds-text-strong">{{ c.name }}</td>
         <td>{{ c.specie?.name }}</td>
-        <td class="ds-meta">{{ c.createdDate }}</td>
+        <td class="ds-meta">{{ formatDate(c.createdDate) }}</td>
         <td>
           <div class="ds-actions ds-actions--start">
             <RouterLink :to="`/animales/colores/${c.id}`" class="ds-icon-btn" aria-label="Editar">

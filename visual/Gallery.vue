@@ -3,12 +3,10 @@ import { ref } from 'vue'
 import { Pencil, Trash2 } from 'lucide-vue-next'
 
 // ── La superficie de formulario (A11Y-09 / A11Y-10) ───────────────────────
-// Se montan los componentes REALES. Las clases `.app-*` que los pintan sí son
-// globales (`main.css`) y se podrían escribir a mano, como se hace con
-// `.ds-btn` más abajo, pero entonces la red no cubriría qué clase pone cada
-// componente en cada estado — que es la mitad de lo que un cambio de token
-// puede romper. Sólo se escribe marcado suelto donde NO hay prop que lo
-// produzca: la pista y el campo de solo lectura.
+// Se montan los componentes REALES y no su marcado copiado, como sí se hace
+// con `.ds-btn` más abajo: la mitad de lo que un cambio de token puede romper
+// es QUÉ clase pone cada componente en cada estado, y una copia del marcado no
+// cubre eso.
 import AppInput from '../src/components/ui/AppInput.vue'
 import AppSelect from '../src/components/ui/AppSelect.vue'
 import AppTextarea from '../src/components/ui/AppTextarea.vue'
@@ -19,6 +17,12 @@ import AppCheckbox from '../src/components/ui/AppCheckbox.vue'
 // —no marcado suelto— porque la mitad de lo que un cambio puede romper es qué
 // clase pone el propio componente en cada estado.
 import ErrorSummary from '../src/components/feedback/ErrorSummary.vue'
+
+// A11Y-09. `ToastStack` es el otro gemelo TR-02 sin una sola captura. Se monta
+// el componente REAL y sus avisos llegan por el store REAL, que es la única
+// entrada que tiene: no acepta datos por props.
+import ToastStack from '../src/components/feedback/ToastStack.vue'
+import { useToastStore } from '../src/stores/toast.store'
 
 // ── Valores de los campos ─────────────────────────────────────────────────
 // Escritos, no vacíos, salvo donde el estado que se retrata ES el hueco: un
@@ -31,6 +35,8 @@ const campoBloqueado = ref('EMP-0042')
 const campoNotas = ref('Contrato anual; facturación el día 5 de cada mes.')
 const campoPlan = ref('pro')
 const campoCheck = ref(true)
+const campoPista = ref('8')
+const campoSoloLectura = ref('a7f3-9c21-0e88')
 
 // Dos items, no uno: el encabezado tiene rama singular/plural y la separación
 // entre entradas (`li + li`) solo existe a partir del segundo.
@@ -94,6 +100,27 @@ const PAGOS = [
 ]
 
 const PAGOS_HEADERS: AppTableHeader[] = ['Pago', { label: 'Importe', align: 'num' }]
+
+/**
+ * Los cuatro tonos del aviso flotante, más el chip de traza — que es la
+ * superficie cuyo borde movió A11Y-09 y la única que lleva tipografía
+ * monoespaciada.
+ *
+ * Duración 0 y no la de por defecto: el store programa un `setTimeout` que
+ * borraría cada aviso a los 3 s, y la captura no puede depender de dispararse
+ * antes de que venza.
+ */
+const avisos = useToastStore()
+avisos.push('success', 'Consulta guardada', 'La historia clínica quedó registrada.', 0)
+avisos.push('info', 'Sin sede seleccionada', undefined, 0)
+avisos.push('warn', 'Alguien editó primero', 'Vuelve a cargar para ver los cambios.', 0)
+avisos.push(
+  'error',
+  'No se pudo anular el documento',
+  'El documento ya fue anulado (409).',
+  0,
+  '7f3a9c1e-0b22-4d51-9a6f-1c8e40b7d233',
+)
 
 /**
  * Catálogo de todo lo que la capa visual promete.
@@ -242,16 +269,13 @@ const PAGOS_HEADERS: AppTableHeader[] = ['Pago', { label: 'Importe', align: 'num
       <!-- Placeholder: texto tenue DENTRO del control. -->
       <AppInput v-model="campoVacio" label="NIT" placeholder="Sin dígito de verificación" />
 
-      <!-- Pista. La familia `App*` NO tiene prop de pista: el único texto
-           auxiliar que expone es `error`. Se escribe con `.ds-hint`, que existe
-           en `primitives.css` (fichero gemelo TR-02) pero que ningún componente
-           de esta consola consume todavía — razón de más para que el token que
-           la tiñe tenga una imagen que lo sujete. -->
-      <div class="app-field">
-        <label class="app-label" for="campo-pista">Cupo de sedes</label>
-        <div class="app-inputbox"><input id="campo-pista" value="8" /></div>
-        <p class="ds-hint">Sedes activas simultáneas incluidas en el plan.</p>
-      </div>
+      <!-- Pista. El texto auxiliar lo pinta `.ds-hint`, primitiva del fichero
+           gemelo TR-02: la captura es lo que sujeta el token que la tiñe. -->
+      <AppInput
+        v-model="campoPista"
+        label="Cupo de sedes"
+        hint="Sedes activas simultáneas incluidas en el plan."
+      />
 
       <!-- Inválido + mensaje de error. En esta familia son INSEPARABLES: la
            prop `error` pinta a la vez el borde rojo y el mensaje. El temblor lo
@@ -267,16 +291,11 @@ const PAGOS_HEADERS: AppTableHeader[] = ['Pago', { label: 'Importe', align: 'num
            así que retrata el token de borde. -->
       <AppInput v-model="campoBloqueado" label="Código de empresa" disabled />
 
-      <!-- Solo lectura. Tampoco hay prop: `AppInput` no expone `readonly` y en
-           `src/` de esta consola no existe una sola regla `:read-only`. Lo que
-           la línea base congela, entonces, es el hecho —no el estilo— de que un
-           campo bloqueado se ve EXACTAMENTE igual que uno editable. -->
-      <div class="app-field">
-        <label class="app-label" for="campo-solo-lectura">Identificador interno</label>
-        <div class="app-inputbox">
-          <input id="campo-solo-lectura" value="a7f3-9c21-0e88" readonly />
-        </div>
-      </div>
+      <!-- Solo lectura. `AppInput` acepta la prop pero su `toneClass` nunca
+           elige `.ds-field-readonly`, así que lo que la línea base congela es
+           el hecho —no el estilo— de que un campo de solo lectura se ve
+           EXACTAMENTE igual que uno editable. -->
+      <AppInput v-model="campoSoloLectura" label="Identificador interno" readonly />
 
       <!-- Área de texto: la tercera geometría de la familia. -->
       <AppTextarea v-model="campoNotas" label="Notas" :rows="2" />
@@ -441,6 +460,19 @@ const PAGOS_HEADERS: AppTableHeader[] = ['Pago', { label: 'Importe', align: 'num
         </tr>
       </AppTable>
     </section>
+
+    <!-- ── Avisos flotantes ───────────────────────────────────────────── -->
+    <!--
+      Mismo caso que el bloque `dialogos`: `.toast-stack` es `position: fixed`,
+      así que sin envoltorio se pintaría sobre la esquina de la galería entera
+      y la captura del bloque saldría del tamaño del viewport. El `transform`
+      convierte la caja en el bloque contenedor de sus descendientes fijos
+      (CSS Transforms §3.2), sin tocar una declaración del componente.
+    -->
+    <section data-shot="avisos">
+      <h2>Avisos flotantes</h2>
+      <div class="aviso-caja"><ToastStack /></div>
+    </section>
   </main>
 </template>
 
@@ -498,5 +530,15 @@ section > .ds-panel,
 section > [data-shot],
 section > div:not(.row) {
   width: 560px;
+}
+
+/* Ver el comentario del bloque `avisos`. El alto va holgado a propósito: la
+   pila es `fixed` y no aporta alto al envoltorio, así que si se quedara corto
+   el último aviso se recortaría sin que nada fallase. */
+.aviso-caja {
+  position: relative;
+  transform: translate(0);
+  height: 380px;
+  overflow: hidden;
 }
 </style>

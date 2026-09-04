@@ -5,6 +5,7 @@ import { useAdminPermissionPublish } from '../composables/useAdminPermissionPubl
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
 import { coincide } from '@/composables/text'
+import { formatDate } from '@/composables/format'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
@@ -163,7 +164,7 @@ async function handlePublish() {
       <tr v-for="p in filtrados" :key="p.id" class="ds-row-hover">
         <td>{{ p.baseRole?.name ?? '—' }}</td>
         <td>{{ p.basePermission?.name ?? '—' }}</td>
-        <td class="ds-meta">{{ p.createdDate }}</td>
+        <td class="ds-meta">{{ formatDate(p.createdDate) }}</td>
         <td>
           <div class="ds-actions ds-actions--start">
             <RouterLink

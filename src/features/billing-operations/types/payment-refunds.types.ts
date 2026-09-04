@@ -86,7 +86,7 @@ export const REFUND_REASON_LABEL: Record<RefundReasonCode, string> = {
  * `authorizedBySystemUserId`; esta es la de plataforma y sí lo lleva, además como
  * campo <b>obligatorio</b>. No es una versión «ampliada» que alguien olvidó
  * unificar: el id del operador interno es un entero pequeño y enumerable, y
- * servirlo al tenant deja mapear la plantilla de VetSoftware y correlacionar qué
+ * servirlo al tenant deja mapear la plantilla de Lumbre y correlacionar qué
  * operador atiende a qué clínica. El recorte vive en el `record` —la frontera— y
  * no en el DTO, para que añadir el campo al lado del cliente sea una fuga visible
  * en el diff.
@@ -138,7 +138,7 @@ export interface SystemPaymentRefundResponse {
  * <p><b>No lleva `authorizedBySystemUserId`, y esa ausencia es la regla, no un
  * defecto.</b> El bloque «Cobro y saldos» es <em>escribe plataforma, leen ambos</em>,
  * y una devolución es plata del cliente: la ve entera menos quién la autorizó. Ese
- * id es del personal interno de VetSoftware, y publicarlo a cualquier empleado con
+ * id es del personal interno de Lumbre, y publicarlo a cualquier empleado con
  * permiso de lectura de cualquier clínica es lo que el recorte impide. Quien
  * necesita el dato es la tesorería, y lo recibe en `SystemPaymentRefundResponse`.
  *
