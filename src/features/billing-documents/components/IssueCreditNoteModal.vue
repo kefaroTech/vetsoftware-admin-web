@@ -13,7 +13,7 @@ import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
  *
  * <p><b>Un documento no se edita para corregirlo.</b> Se emite una nota crédito y
  * se encadena al original; los dos quedan. Si el original se tocara, lo que dice
- * VetSoftware dejaría de coincidir con lo que tiene la DIAN y no habría forma de
+ * Lumbre dejaría de coincidir con lo que tiene la DIAN y no habría forma de
  * saber cuál de los dos miente. Por eso esta pantalla no ofrece —ni puede
  * ofrecer— un campo de «importe a corregir».
  *

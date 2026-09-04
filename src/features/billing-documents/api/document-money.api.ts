@@ -133,7 +133,7 @@ export const documentMoneyApi = {
    *
    * <p>Devuelve el <b>documento nuevo</b>, no el corregido. Los dos quedan y quedan
    * encadenados: el original no se toca nunca, porque si se tocara, lo que dice
-   * VetSoftware dejaría de coincidir con lo que tiene la DIAN y no habría forma de
+   * Lumbre dejaría de coincidir con lo que tiene la DIAN y no habría forma de
    * saber cuál de los dos miente.
    */
   async issueCreditNote(

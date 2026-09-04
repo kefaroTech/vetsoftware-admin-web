@@ -100,8 +100,8 @@ function onClose() {
            sin interrumpir: `status` (polite), nunca `alert` (§5.3). -->
       <p class="ds-sr-only" role="status">{{ loading ? '' : headline }}</p>
       <p class="ds-meta">
-        La factura fiscal la emite el proveedor externo, no VetSoftware. Aquí se registra su
-        referencia para poder cruzarla después.
+        La factura fiscal la emite el proveedor externo, no Lumbre. Aquí se registra su referencia
+        para poder cruzarla después.
       </p>
       <div>
         <p class="ds-pill ds-tone--neutral sello">

@@ -11,7 +11,7 @@ import type { RegisterExternalInvoiceRequest } from '../types/billing-operations
  * El único formulario de toda la pantalla de cobranza: los cuatro datos con los
  * que se anota la factura fiscal que **otro sistema** emitió.
  *
- * <p><b>Aquí no se emite nada.</b> VetSoftware no factura al cliente de la
+ * <p><b>Aquí no se emite nada.</b> Lumbre no factura al cliente de la
  * suscripción: lo hace el proveedor externo, y esto solo guarda su referencia
  * para poder cruzarla después. Por eso los rótulos hablan de «lo que devolvió el
  * proveedor» y el botón dice «Registrar la referencia», no «Facturar».
@@ -130,9 +130,9 @@ defineExpose({ submit, isDirty })
     <div class="ds-banner ds-banner--info">
       <component :is="ICONS.INFO" :size="16" class="ds-banner-icon" />
       <span class="ds-flex-fill">
-        Esta es la factura que el proveedor externo emite a la empresa por su suscripción a
-        VetSoftware. <strong>No es la facturación electrónica DIAN</strong> con la que la clínica le
-        factura a los dueños de las mascotas: son dos emisores y dos numeraciones distintas.
+        Esta es la factura que el proveedor externo emite a la empresa por su suscripción a Lumbre.
+        <strong>No es la facturación electrónica DIAN</strong> con la que la clínica le factura a
+        los dueños de las mascotas: son dos emisores y dos numeraciones distintas.
       </span>
     </div>
 

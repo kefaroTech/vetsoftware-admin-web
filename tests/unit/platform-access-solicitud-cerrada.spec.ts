@@ -91,7 +91,7 @@ describe('solicitud de acceso · el 404 es «cerrado», no un error', () => {
     expect(texto).toContain('Las solicitudes de acceso están cerradas')
     expect(texto).toContain('Esta consola no está aceptando solicitudes de acceso ahora mismo.')
     expect(texto).toContain(
-      'Si necesitas una cuenta de plataforma, pídesela a quien ya administra VetSoftware en tu organización.',
+      'Si necesitas una cuenta de plataforma, pídesela a quien ya administra Lumbre en tu organización.',
     )
     // Sigue habiendo un `<h1>`: una pantalla sin él deja al lector de pantalla
     // sin punto de referencia tras el cambio de estado.

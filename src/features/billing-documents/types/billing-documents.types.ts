@@ -284,7 +284,7 @@ export interface BillingDocumentApplicationResponse {
  * Emitir la nota crédito que corrige un documento ya registrado.
  *
  * <p>Es el <b>único</b> camino para corregir un documento con factura externa: el
- * original no se toca. Si se tocara, lo que dice VetSoftware dejaría de coincidir
+ * original no se toca. Si se tocara, lo que dice Lumbre dejaría de coincidir
  * con lo que tiene la DIAN y no habría forma de saber cuál de los dos miente.
  *
  * <p>El cuerpo son los cargos a acreditar, no un importe: el servidor deriva el

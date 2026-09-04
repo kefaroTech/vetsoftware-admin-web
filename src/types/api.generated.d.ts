@@ -11623,7 +11623,7 @@ export interface components {
              * @description Opcional: la columna es nulable.
              */
             economicActivityId?: number;
-            /** @description Si VetSoftware es autorretenedor. Coexiste con que sus clientes le retengan; no se deduce lo uno de lo otro. */
+            /** @description Si Lumbre es autorretenedor. Coexiste con que sus clientes le retengan; no se deduce lo uno de lo otro. */
             selfWithholder: boolean;
             /** Format: date */
             validFrom: string;
@@ -11649,7 +11649,7 @@ export interface components {
             fiscalEmail: string;
             commercialName?: string;
             economicActivity?: components["schemas"]["PlatformEconomicActivitySummary"];
-            /** @description Si VetSoftware es autorretenedor. Hoy ningun calculo lo consume todavia. */
+            /** @description Si Lumbre es autorretenedor. Hoy ningun calculo lo consume todavia. */
             selfWithholder: boolean;
             /** Format: date */
             validFrom: string;

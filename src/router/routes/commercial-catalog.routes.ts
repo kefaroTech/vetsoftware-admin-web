@@ -28,6 +28,6 @@ export const commercialCatalogRoutes: RouteRecordRaw[] = [
     path: '/catalogo-comercial/articulos/:id',
     name: COMMERCIAL_CATALOG_ROUTE_NAMES.CATALOG_ITEM_BRIDGES,
     component: () => import('@/features/commercial-catalog/views/CatalogItemBridgesView.vue'),
-    meta: { title: 'Puentes del artículo · VetSoftware' },
+    meta: { title: 'Puentes del artículo · Lumbre' },
   },
 ]

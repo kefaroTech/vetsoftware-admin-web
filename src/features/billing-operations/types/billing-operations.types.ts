@@ -90,7 +90,7 @@ export interface BillingDocumentResponse {
 }
 
 /**
- * Registro de la referencia de la factura fiscal emitida FUERA de VetSoftware.
+ * Registro de la referencia de la factura fiscal emitida FUERA de Lumbre.
  *
  * <p>Es la acción que saca un documento de la lista de pendientes. `cufe` es
  * opcional en el contrato (`@Size(max = 100)` sin `@NotBlank`) porque no todo
