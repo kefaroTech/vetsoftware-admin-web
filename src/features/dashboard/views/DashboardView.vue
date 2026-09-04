@@ -184,7 +184,7 @@ function goTo(path: string) {
   background: linear-gradient(135deg, var(--amatista-700) 0%, var(--amatista-800) 100%);
   border-radius: 14px;
   padding: 28px 32px;
-  color: #fff;
+  color: var(--warm-50);
   margin-bottom: 24px;
   position: relative;
   overflow: hidden;
@@ -197,7 +197,12 @@ function goTo(path: string) {
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(170 175 254 / 25%), transparent 70%);
+  background: radial-gradient(circle, var(--amatista-300), transparent 70%);
+
+  /* El alfa va en la capa y no dentro del color para que el halo siga al
+     token. Solo es equivalente mientras este elemento no pinte nada más que
+     este degradado. */
+  opacity: 0.25;
   pointer-events: none;
 }
 
@@ -221,7 +226,7 @@ function goTo(path: string) {
   margin: 0;
   letter-spacing: -0.01em;
   line-height: 1.1;
-  color: #fff;
+  color: var(--warm-50);
 }
 
 .hero-text {
@@ -240,7 +245,7 @@ function goTo(path: string) {
 .cta-primary {
   padding: 8px 14px;
   border-radius: 7px;
-  background: #fff;
+  background: var(--warm-50);
   color: var(--amatista-800);
   border: none;
   cursor: pointer;
@@ -257,28 +262,32 @@ function goTo(path: string) {
 
 .cta-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px -4px rgb(0 0 0 / 25%);
+  box-shadow: var(--shadow-sm);
 }
 
 .cta-secondary {
   padding: 8px 14px;
   border-radius: 7px;
-  background: rgb(255 255 255 / 10%);
-  color: #fff;
 
-  /* Token claro y no un blanco translúcido: el relleno del botón ya es blanco
-     sobre el hero, así que un blanco con alfa se acerca al relleno en vez de
-     separarse de él — ni al 60 % alcanza el 3:1 de §1.4.11 en el hover. */
+  /* Un velo blanco aclara la superficie sobre la que se lee la etiqueta, que
+     también es clara: subir el velo BAJA el contraste del texto en vez de
+     subirlo. El borde va por token opaco porque un blanco translúcido se
+     acercaría al velo del hover en vez de separarse de él. */
+  background: transparent;
   border: 1px solid var(--amatista-200);
+  color: var(--warm-50);
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
   font-family: inherit;
-  transition: background 0.12s;
+  transition:
+    background 0.12s,
+    border-color 0.12s;
 }
 
 .cta-secondary:hover {
-  background: rgb(255 255 255 / 20%);
+  background: var(--overlay-light-10);
+  border-color: var(--warm-50);
 }
 
 .uvt-strip {
@@ -290,7 +299,7 @@ function goTo(path: string) {
   font-family: inherit;
   padding: 16px 22px;
   margin-bottom: 24px;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--warm-450);
   border-radius: 12px;
   cursor: pointer;
@@ -301,7 +310,7 @@ function goTo(path: string) {
 
 .uvt-strip:hover {
   border-color: var(--amatista-450);
-  box-shadow: 0 4px 16px -6px rgb(86 77 197 / 15%);
+  box-shadow: var(--shadow-primary-soft);
 }
 
 .uvt-strip-ic {
@@ -407,9 +416,8 @@ function goTo(path: string) {
 }
 
 .tile:hover {
-  background: #fff;
   border-color: var(--amatista-450);
-  box-shadow: 0 4px 16px -6px rgb(86 77 197 / 15%);
+  box-shadow: var(--shadow-primary-soft);
 }
 
 .tile-row {
@@ -422,7 +430,7 @@ function goTo(path: string) {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--border);
   color: var(--amatista-600);
   display: grid;

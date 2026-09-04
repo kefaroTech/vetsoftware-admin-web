@@ -159,10 +159,10 @@ defineEmits<{ retry: []; focusDocument: [documentId: number] }>()
   text-align: right;
 }
 
-/* La fila cuya composición se está mirando. Solo geometría: el matiz lo pone el
-   borde izquierdo con un token, y NUNCA es el único portador — la frase del
-   filtro lo dice arriba en texto y la vive una región `role="status"`. */
+/* El borde izquierdo nunca es el único portador del estado: la frase del
+   filtro lo dice en texto dentro de una región `role="status"`
+   (WCAG 2.2 §1.4.1). */
 .enfocado {
-  box-shadow: inset 3px 0 0 0 var(--ring);
+  box-shadow: inset 3px 0 0 0 var(--amatista-500);
 }
 </style>

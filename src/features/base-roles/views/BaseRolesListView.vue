@@ -143,8 +143,10 @@ async function handleDelete(id: number, name: string) {
           <component
             :is="r.mandatory ? ICONS.CHECKED : ICONS.UNCHECKED"
             :size="16"
+            aria-hidden="true"
             :class="r.mandatory ? 'marca marca--si' : 'marca'"
           />
+          <span class="ds-sr-only">{{ r.mandatory ? 'Sí' : 'No' }}</span>
         </td>
         <td class="ds-meta">{{ formatDate(r.createdDate) }}</td>
         <td>
@@ -187,15 +189,13 @@ async function handleDelete(id: number, name: string) {
 </template>
 
 <style scoped>
+/* Icono de 16px sin texto visible: su color debe mantener 3:1 contra la
+   superficie (WCAG 2.2 §1.4.11). `--warm-450` (3,54:1) es el escalón más claro
+   de la rampa que lo cumple — cualquiera por encima incumple. */
 .marca {
-  color: var(--warm-400);
+  color: var(--warm-450);
 }
 
-/* Era `oklch(55% 0.16 145deg)` a pelo, fuera de la escala del repo cuyo problema
-   de fondo es justo ése. `--success-fg` es el verde semántico ya medido contra
-   §1.4.3; el tono baja de 55 % a 40 % de luminancia, así que la marca se ve algo
-   más oscura y la línea base visual de esta pantalla se mueve — a mejor: el
-   literal no tenía contraste comprobado. */
 .marca--si {
   color: var(--success-fg);
 }
