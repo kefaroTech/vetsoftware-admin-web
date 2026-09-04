@@ -39,6 +39,12 @@
   font-size: var(--text-body);
   font-weight: var(--weight-medium);
 
+  /* Sin esto, un `<a class="ds-btn">`/`RouterLink` conserva el subrayado del
+     agente de usuario y un `<button class="ds-btn">` no: el mismo botón se ve
+     distinto según qué elemento lo implemente. `.ds-btn` es la primitiva que
+     decide el aspecto del botón, no el agente de usuario. */
+  text-decoration: none;
+
   /* Sin `line-height` ni `white-space` a propósito: fijarlos cambiaría la
      altura y el salto de línea de los ~120 botones que hoy heredan `normal`.
      Verificado con el harness (ds-audit): con ellos, los botones encogían
@@ -202,6 +208,24 @@
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   font-size: var(--text-body);
+}
+
+/* §1.4.8 (AAA, techo citable): intervalo cómodo 45-75 caracteres, óptimo 66.
+   En `ch`, no en `px`, para que siga a la fuente y al tamaño. El tope es del
+   RENGLÓN de texto, no de la caja de alerta: un banner debe ocupar el ancho
+   de su contenedor (su peso visual forma parte del aviso). Por eso la raíz
+   sólo se estrecha cuando ES el texto — sin `.ds-flex-fill` ni un `<span>`
+   propio que lo separe del icono/traza/botón; si ese bloque existe, el tope
+   baja a él en vez de a la fila entera. `.ds-detail-grid` queda fuera del
+   tope porque es una rejilla de columnas, no texto corrido: capar su ancho
+   la reduciría a una sola columna. */
+.ds-banner:not(:has(> .ds-flex-fill, > span)) {
+  max-width: 66ch;
+}
+
+.ds-banner > span,
+.ds-banner > .ds-flex-fill:not(.ds-detail-grid) {
+  max-width: 66ch;
 }
 
 .ds-banner--flush {
@@ -753,6 +777,15 @@
 .ds-table-scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+/* R15: una tabla ancha se desplaza, no se recorta. Sin un ancho mínimo el
+   `<table>` nunca excede a `.ds-table-scroll` y `overflow-x: auto` queda
+   inerte: la maquetación de tabla contrae las columnas en vez de desbordar.
+   El consumidor ajusta el suelo con `--ds-table-min`; el valor por defecto
+   es el de una tabla de tres columnas legible. */
+.ds-table-scroll > table {
+  min-width: var(--ds-table-min, 560px);
 }
 
 /* ========================================================================== *

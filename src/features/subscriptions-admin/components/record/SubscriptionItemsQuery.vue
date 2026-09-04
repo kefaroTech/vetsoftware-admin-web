@@ -25,7 +25,7 @@ import type { SubscriptionItemsScope } from '../../stores/subscription-items.sto
  * fecha distinta y válida: emitir en cada pulsación dispararía una consulta por
  * cada dígito y anunciaría respuestas que nadie pidió. `AppInput` no vale aquí
  * porque emite en `input`; a cambio, esto se ata a mano lo que aquel trae hecho —
- * `aria-describedby` y `aria-invalid`—.
+ * `aria-describedby`, `aria-invalid` y el reparto del relleno vertical—.
  *
  * <p><b>Por qué un `&lt;fieldset&gt;` con dos radios nativos y no una casilla.</b>
  * Los dos estados tienen nombre y ninguno es «lo normal»: una casilla «ocultar
@@ -106,7 +106,7 @@ function onScopeChange(value: SubscriptionItemsScope) {
       <div class="ds-stack ds-stack--8">
         <label :for="dateId" class="ds-label">Ver a fecha</label>
         <div
-          class="ds-field ds-flex-row"
+          class="ds-field ds-flex-row fechabox"
           :class="invalidReason ? 'ds-field-invalid' : 'ds-field-rest ds-focus-ring'"
         >
           <input
@@ -183,10 +183,18 @@ function onScopeChange(value: SubscriptionItemsScope) {
   gap: var(--space-18);
 }
 
+/* El relleno vertical lo lleva el `<input>` y no el envoltorio, igual que en
+   `AppInput`: con el de `.ds-field` aquí, la mitad del alto visible del campo
+   queda fuera del objetivo de pulsación y el clic no enfoca nada. */
+.fechabox {
+  padding-block: 0;
+}
+
 /* El `<input type="date">` nativo trae su propio ancho según el idioma del
    sistema; se le deja crecer lo justo y no se estira a toda la fila. */
 .fecha {
   min-width: 9.5rem;
+  padding-block: var(--space-10);
   border: none;
   outline: none;
   background: transparent;

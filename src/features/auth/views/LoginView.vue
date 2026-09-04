@@ -51,7 +51,6 @@ async function handleSubmit() {
     eyebrow="Panel administrativo"
     title="Inicia sesión"
     subtitle="Accede al panel para administrar Lumbre."
-    document-title="Iniciar sesión · Lumbre"
   >
     <template #topRight>
       ¿Eres nuevo?
@@ -161,6 +160,12 @@ async function handleSubmit() {
    `.input-box input:disabled`. Mismo patrón estático que `AppListSearch.vue`. */
 .input-box {
   min-width: 0;
+
+  /* El relleno vertical lo lleva el `<input>`, no el envoltorio: con el de
+     `.ds-field` aquí, la mitad del alto visible del campo queda fuera del
+     objetivo de pulsación y el clic no enfoca nada. Mismo reparto que
+     `AppInput`/`AppTextarea`/`AppListSearch`. */
+  padding-block: 0;
 }
 
 .leading-icon {
@@ -182,6 +187,7 @@ async function handleSubmit() {
   color: var(--text);
   font-family: inherit;
   min-width: 0;
+  padding-block: var(--space-10);
 }
 
 .input-box input:disabled {

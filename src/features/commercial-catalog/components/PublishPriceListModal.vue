@@ -137,10 +137,13 @@ function confirm() {
         @retry="emit('retryCoverage')"
       />
 
-      <div v-if="hasGaps && !blocked" class="ds-stack ds-stack--8">
-        <AppCheckbox v-model="acknowledged" :label="acknowledgeLabel" />
-        <p v-if="acknowledgeError" class="error" role="alert">{{ acknowledgeError }}</p>
-      </div>
+      <AppCheckbox
+        v-if="hasGaps && !blocked"
+        v-model="acknowledged"
+        :label="acknowledgeLabel"
+        :error="acknowledgeError"
+        required
+      />
 
       <p v-if="blocked" class="ds-meta">
         No se publica mientras la cobertura no se haya podido comprobar: publicar sin saber qué
@@ -164,14 +167,3 @@ function confirm() {
     </template>
   </AppModal>
 </template>
-
-<style scoped>
-/* El texto de error de una casilla suelta. No sale de `primitives.css` —allí no
-   hay clase de error de campo— y no se puede añadir sin tocar un fichero gemelo
-   TR-02, así que se declara aquí lo mínimo: el tono y el tamaño. */
-.error {
-  margin: 0;
-  color: var(--danger-500);
-  font-size: var(--text-xs);
-}
-</style>

@@ -41,6 +41,7 @@ const controlId = computed(() => props.id ?? autoId)
  * porque `hint` no se pinta mientras hay error.
  */
 const errorId = computed(() => `${controlId.value}-error`)
+const listboxId = computed(() => `${controlId.value}-listbox`)
 const hintId = computed(() => `${controlId.value}-hint`)
 const describedBy = computed(() => {
   if (props.error) return errorId.value
@@ -102,9 +103,15 @@ function toggle() {
   open.value ? close(true) : openPanel()
 }
 
+/**
+ * R01 · `close(true)` y no `close()`: la activación por `@click` deja que el
+ * `mousedown` previo mueva el foco fuera del disparador (el panel vive en
+ * `<body>` y sus `<li>` no son enfocables), así que sin devolverlo a mano el
+ * foco acaba en `<body>` y se cambiaría R01 por R02.
+ */
 function pick(opt: Option) {
   emit('update:modelValue', opt.value)
-  close()
+  close(true)
   emit('blur')
 }
 
@@ -237,7 +244,7 @@ const toneClass = computed(() => {
 <template>
   <div class="field ds-stack">
     <label v-if="label" :for="controlId" class="label">
-      {{ label }}<span v-if="required" class="required">*</span>
+      {{ label }}<span v-if="required" class="required" aria-hidden="true">*</span>
     </label>
     <div ref="root" class="select">
       <button
@@ -249,7 +256,9 @@ const toneClass = computed(() => {
         role="combobox"
         aria-haspopup="listbox"
         :aria-expanded="open"
+        :aria-controls="open ? listboxId : undefined"
         :aria-invalid="!!error || undefined"
+        :aria-required="required || undefined"
         :aria-describedby="describedBy"
         :aria-activedescendant="
           open && highlighted >= 0 ? `${controlId}-opt-${highlighted}` : undefined
@@ -265,7 +274,15 @@ const toneClass = computed(() => {
       </button>
 
       <Teleport to="body">
-        <ul v-if="open" ref="panel" class="app-select-panel" role="listbox" :style="panelStyle">
+        <ul
+          v-if="open"
+          :id="listboxId"
+          ref="panel"
+          class="app-select-panel"
+          role="listbox"
+          :aria-label="label ?? placeholder"
+          :style="panelStyle"
+        >
           <li v-if="options.length === 0" class="app-select-panel__empty">Sin opciones</li>
           <li
             v-for="(o, i) in options"
@@ -276,7 +293,7 @@ const toneClass = computed(() => {
             role="option"
             :aria-selected="o.value === modelValue"
             :data-idx="i"
-            @mousedown.prevent="pick(o)"
+            @click="pick(o)"
             @mousemove="highlighted = i"
           >
             <span class="ds-flex-fill ds-truncate">{{ o.label }}</span>
