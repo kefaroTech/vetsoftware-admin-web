@@ -100,7 +100,7 @@ function onKey(e: KeyboardEvent) {
 
         <template v-else>
           <label class="edit-label">Nuevo valor de la UVT {{ currentYear }} (COP)</label>
-          <div class="edit-box" :class="{ error: err }">
+          <div class="edit-box ds-field-rest ds-focus-ring" :class="{ error: err }">
             <span class="edit-prefix">$</span>
             <input
               autofocus
@@ -159,7 +159,7 @@ function onKey(e: KeyboardEvent) {
 }
 
 .card {
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 14px;
   overflow: hidden;
@@ -277,14 +277,12 @@ function onKey(e: KeyboardEvent) {
   border-radius: 9px;
   border: none;
   background: var(--gradient-primary);
-  color: #fff;
+  color: var(--warm-50);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
-  box-shadow:
-    0 4px 12px -2px rgb(86 77 197 / 40%),
-    inset 0 1px 0 rgb(255 255 255 / 15%);
+  box-shadow: var(--shadow-primary);
 }
 
 .edit-label {
@@ -295,20 +293,27 @@ function onKey(e: KeyboardEvent) {
   margin-bottom: 8px;
 }
 
+/* El borde va en longhand y no con el atajo `border`: el atajo reinicia
+   `border-color` a `currentcolor` y, con la especificidad que le añade
+   `scoped`, le ganaría a `.ds-field-rest` y a `.ds-focus-ring`, que son
+   quienes ponen el tono desde el marcado. */
 .edit-box {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 12px 16px;
-  background: #fff;
-  border: 1px solid var(--amatista-450);
+  border-width: 1px;
+  border-style: solid;
   border-radius: 9px;
-  box-shadow: 0 0 0 4px rgb(119 119 227 / 12%);
 }
 
 .edit-box.error {
   border-color: var(--danger-border);
   box-shadow: none;
+}
+
+.edit-box.error:focus-within {
+  box-shadow: var(--ring-danger);
 }
 
 .edit-prefix {
@@ -356,7 +361,7 @@ function onKey(e: KeyboardEvent) {
   border-radius: 9px;
   border: none;
   background: var(--warm-900);
-  color: #fff;
+  color: var(--warm-50);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -372,7 +377,7 @@ function onKey(e: KeyboardEvent) {
   padding: 10px 18px;
   border-radius: 9px;
   border: 1px solid var(--warm-450);
-  background: #fff;
+  background: var(--surface);
   color: var(--warm-700);
   font-size: 13px;
   font-weight: 500;
