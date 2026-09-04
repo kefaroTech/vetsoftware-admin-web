@@ -10,9 +10,40 @@
     />
     <meta name="theme-color" content="#0F172A" />
 
-    <link rel="icon" href="/brand/favicon.ico" sizes="32x32" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16x16.png" />
+    <!-- Dos juegos de icono porque la marca es azul marino sobre hojas de color: sin caja
+         solo el 28 % del logo alcanza 3:1 contra la barra oscura del navegador, y el tronco
+         y los animales se pierden. En claro va suelto; en oscuro, sobre el lienzo de marca.
+         El `.ico` va sin `media` y cierra la lista: es el que reciben los navegadores que
+         ignoran el atributo. -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/brand/favicon-32x32.png"
+      media="(prefers-color-scheme: light)"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/brand/favicon-16x16.png"
+      media="(prefers-color-scheme: light)"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/brand/favicon-32x32-dark.png"
+      media="(prefers-color-scheme: dark)"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/brand/favicon-16x16-dark.png"
+      media="(prefers-color-scheme: dark)"
+    />
+    <link rel="icon" href="/brand/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
