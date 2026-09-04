@@ -91,8 +91,30 @@
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dev-api.kefaro.tech https://api.vetsoftware.co; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
   Cache-Control: no-cache
 
+# ─────────────────────────────────────────────────────────────────────────────
+# CACHÉ: `immutable` SOLO DONDE EL NOMBRE LLEVA HASH
+#
+# `/assets/*` son los artefactos de Vite y su nombre cambia con el contenido, así
+# que un año e `immutable` es correcto: un fichero nunca cambia bajo la misma URL.
+#
+# `/brand/*` NO lleva hash —`favicon-32x32.png` se llama igual antes y después de
+# un cambio de logotipo— y por eso NO puede llevar `immutable`: los navegadores
+# que ya lo hubieran cacheado se quedarían con el logotipo viejo durante un año
+# sin forma de invalidarlo salvo renombrar el fichero en los dos fronts, en
+# `index.html`, en `site.webmanifest` y en `PublicLayout.vue` a la vez. Se elige
+# un `max-age` medio (7 días) con `stale-while-revalidate`: el logotipo se sirve
+# desde caché sin bloquear la carga y el navegador lo refresca en segundo plano,
+# de modo que un cambio de marca llega solo, como mucho ocho días después.
+#
+# `docker/nginx.conf` declara lo mismo con un `map` sobre `$vs_ruta`, y
+# `tests/unit/security-headers.spec.ts` compara las dos declaraciones.
+# ─────────────────────────────────────────────────────────────────────────────
+
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+/brand/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 
 /index.html
   Cache-Control: no-cache

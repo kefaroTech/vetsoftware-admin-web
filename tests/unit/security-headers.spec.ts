@@ -161,12 +161,7 @@ const csp = parseCsp(cloudflare.get('Content-Security-Policy') ?? '')
 
 describe('cabeceras de seguridad', () => {
   it('declara las mismas cabeceras en Cloudflare Pages y en el contenedor', () => {
-    // Cache-Control lo gestiona cada plataforma a su manera (nginx usa `expires`),
-    // así que es la única que legítimamente puede diferir.
-    const comparable = new Map(cloudflare)
-    comparable.delete('Cache-Control')
-
-    expect(Object.fromEntries(nginx)).toEqual(Object.fromEntries(comparable))
+    expect(Object.fromEntries(nginx)).toEqual(Object.fromEntries(cloudflare))
   })
 
   it('incluye Content-Security-Policy', () => {
@@ -387,5 +382,61 @@ describe('Referrer-Policy en las rutas que llegan por enlace de correo', () => {
       .sort()
 
     expect(lectores).toEqual(['src/composables/useTokenDeEnlace.ts'])
+  })
+})
+
+/**
+ * LA CACHÉ TAMBIÉN TIENE QUE DECIR LO MISMO EN LOS DOS SITIOS.
+ *
+ * `Cache-Control` estuvo excluido de la comparación de arriba mientras nginx la
+ * resolvía con `expires` por `location` y Cloudflare con bloques de `_headers`:
+ * dos mecanismos que no se pueden igualar campo a campo. Con nginx resolviéndola
+ * por `map`, igual que Referrer-Policy, las dos declaraciones sí son comparables
+ * — y `/brand/*` deja de poder caer en el `no-cache` global sin que nada avise.
+ */
+describe('política de caché', () => {
+  const mapa = parseNginxMap('vs_cache_control')
+
+  /** `~^/brand/` (regex de nginx) y `/brand/*` (glob de Cloudflare) son la misma ruta. */
+  function comoGlob(clave: string): string {
+    return clave.replace(/^~\^/, '').replace(/\/$/, '/*')
+  }
+
+  it('nginx y Cloudflare declaran la misma caché en cada prefijo', () => {
+    const enNginx = Object.fromEntries([...mapa.entries].map(([k, v]) => [comoGlob(k), v]))
+    const enCloudflare = Object.fromEntries(
+      [...reglas]
+        .filter(([ruta]) => ruta in enNginx)
+        .map(([ruta, cabeceras]) => [ruta, cabeceras.get('Cache-Control')]),
+    )
+
+    expect(enCloudflare).toEqual(enNginx)
+  })
+
+  it('solo lleva immutable lo que lleva hash en el nombre', () => {
+    // `/assets/*` son los artefactos de Vite y su nombre cambia con el contenido.
+    // `/brand/*` no: `favicon-32x32.png` se llama igual antes y después de un
+    // cambio de logotipo, así que `immutable` congelaría la marca vieja durante
+    // un año en cada navegador que ya la hubiera pedido, sin invalidación posible.
+    for (const [ruta, valor] of mapa.entries) {
+      if (valor.includes('immutable')) expect(comoGlob(ruta)).toBe('/assets/*')
+    }
+    expect(mapa.entries.get('~^/brand/')).toMatch(/stale-while-revalidate=\d+/)
+    expect(mapa.entries.get('~^/brand/')).not.toContain('immutable')
+  })
+
+  it('los assets de marca que sirve la aplicación están cubiertos por el bloque', () => {
+    // Tripwire: si alguien mueve `public/brand/` o enlaza un asset desde otra
+    // carpeta, esa carpeta se queda en el `no-cache` global sin que nada avise.
+    const enlazados = filesUnder(path.join(ROOT, 'src'))
+      .concat(path.join(ROOT, 'index.html'))
+      .flatMap((file) => Array.from(readFileSync(file, 'utf8').matchAll(/"(\/brand\/[^"]+)"/g)))
+      .map((m) => m[1] ?? '')
+
+    expect(enlazados.length).toBeGreaterThan(0)
+    for (const url of enlazados) {
+      expect(mapa.entries.get('~^/brand/'), `${url} no cae en ningún bloque de caché`).toBeDefined()
+      expect(readdirSync(path.join(ROOT, 'public/brand'))).toContain(path.basename(url))
+    }
   })
 })
