@@ -53,7 +53,7 @@
       </style>
     <![endif]-->
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Instrument+Serif&family=JetBrains+Mono:wght@500;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600&family=JetBrains+Mono:wght@500;700&display=swap');
       body {
         margin: 0;
         padding: 0;
@@ -77,7 +77,7 @@
         text-decoration: none;
       }
       .hover-btn:hover {
-        background-color: #4a2168 !important;
+        background-color: #6d28d9 !important;
       }
       @media only screen and (max-width: 620px) {
         .container {
@@ -108,7 +108,7 @@
       }
     </style>
   </head>
-  <body style="margin: 0; padding: 0; background-color: #f1ece5">
+  <body style="margin: 0; padding: 0; background-color: #f5f3ff">
     <!-- Preheader (hidden preview text) -->
     <div
       style="
@@ -119,7 +119,7 @@
         mso-hide: all;
         font-size: 1px;
         line-height: 1px;
-        color: #f1ece5;
+        color: #f5f3ff;
       "
     >
       Una persona pidió acceso de superadministrador. Revisa los datos antes de aprobar; el enlace
@@ -132,7 +132,7 @@
       width="100%"
       cellpadding="0"
       cellspacing="0"
-      style="background-color: #f1ece5"
+      style="background-color: #f5f3ff"
     >
       <tr>
         <td align="center" style="padding: 32px 16px">
@@ -149,24 +149,44 @@
               background-color: #ffffff;
               border-radius: 18px;
               overflow: hidden;
-              box-shadow: 0 12px 40px -12px rgba(60, 30, 80, 0.2);
+              box-shadow: 0 12px 40px -12px rgba(15, 23, 42, 0.12);
             "
           >
             <!-- ===== Brand bar ===== -->
             <tr>
               <td
                 style="
-                  background-color: #4e2470;
-                  background-image: linear-gradient(135deg, #6a2e92 0%, #43215f 100%);
+                  background-color: #4f46e5;
+                  background-image: linear-gradient(135deg, #4f46e5 0%, #6d28d9 100%);
                   padding: 26px 40px;
                 "
               >
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                   <tr>
+                    <!-- El isotipo se suma a la banda de color y al nombre en texto, no los
+                         sustituye: Outlook de escritorio y la mayoría de clientes corporativos
+                         no descargan imágenes remotas hasta que el usuario lo pide, y el correo
+                         tiene que identificar la marca igual con la imagen bloqueada. La URL es
+                         absoluta y apunta al front del tenant (https://vetsoftware.co), que es
+                         público; la consola no tiene dominio de producción declarado. -->
+                    <td
+                      align="left"
+                      valign="middle"
+                      width="52"
+                      style="width: 52px; padding-right: 12px"
+                    >
+                      <img
+                        src="https://vetsoftware.co/brand/lumbre-logo-only-transparent-64.png"
+                        width="40"
+                        height="40"
+                        alt=""
+                        style="display: block; width: 40px; height: 40px; border: 0"
+                      />
+                    </td>
                     <td align="left" valign="middle">
                       <div
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 19px;
                           font-weight: 600;
                           color: #ffffff;
@@ -174,30 +194,30 @@
                           line-height: 1;
                         "
                       >
-                        Vetrina
+                        Lumbre
                       </div>
                       <div
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 10px;
                           font-weight: 500;
                           letter-spacing: 0.12em;
                           text-transform: uppercase;
-                          color: #d8c4e8;
+                          color: #e2e8f0;
                           padding-top: 4px;
                         "
                       >
-                        Consola de plataforma
+                        GESTIONA LO QUE CUIDAS
                       </div>
                     </td>
                     <td align="right" valign="middle">
                       <span
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 11px;
                           font-weight: 500;
-                          color: #f3e9fa;
-                          background-color: rgba(255, 255, 255, 0.18);
+                          color: #ffffff;
+                          background-color: rgba(255, 255, 255, 0.12);
                           padding: 6px 12px;
                           border-radius: 999px;
                         "
@@ -214,12 +234,12 @@
               <td class="px" style="padding: 40px 40px 8px 40px">
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 12px;
                     font-weight: 600;
                     letter-spacing: 0.08em;
                     text-transform: uppercase;
-                    color: #7a4e9e;
+                    color: #4f46e5;
                   "
                 >
                   Solicitud de acceso
@@ -227,11 +247,11 @@
                 <h1
                   style="
                     margin: 10px 0 0 0;
-                    font-family: 'Instrument Serif', Georgia, serif;
-                    font-weight: 400;
+                    font-family: 'Poppins', system-ui, Arial, sans-serif;
+                    font-weight: 600;
                     font-size: 34px;
                     line-height: 1.12;
-                    color: #2a2622;
+                    color: #0f172a;
                     letter-spacing: -0.01em;
                   "
                 >
@@ -246,30 +266,29 @@
                 <p
                   style="
                     margin: 0;
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 15px;
                     line-height: 1.62;
-                    color: #4a443d;
+                    color: #475569;
                   "
                 >
-                  Se registró una solicitud de acceso a la consola de plataforma de Vetrina desde el
+                  Se registró una solicitud de acceso a la consola de plataforma de Lumbre desde el
                   formulario público.
                 </p>
                 <p
                   style="
                     margin: 14px 0 0 0;
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 15px;
                     line-height: 1.62;
-                    color: #4a443d;
+                    color: #475569;
                   "
                 >
-                  <strong style="color: #2a2622"
+                  <strong style="color: #0f172a"
                     >Todo lo que aparece abajo lo escribió quien solicita el acceso.</strong
                   >
-                  Vetrina no ha comprobado su identidad, ni su correo, ni lo que cuenta. Trátalo
-                  como información aportada por un tercero y verifícala por tu cuenta antes de
-                  decidir.
+                  Lumbre no ha comprobado su identidad, ni su correo, ni lo que cuenta. Trátalo como
+                  información aportada por un tercero y verifícala por tu cuenta antes de decidir.
                 </p>
               </td>
             </tr>
@@ -282,18 +301,18 @@
                   width="100%"
                   cellpadding="0"
                   cellspacing="0"
-                  style="background-color: #faf7fc; border: 1px solid #eadff2; border-radius: 14px"
+                  style="background-color: #f5f3ff; border: 1px solid #e2e8f0; border-radius: 14px"
                 >
                   <tr>
                     <td style="padding: 22px 24px 8px 24px">
                       <div
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 11px;
                           font-weight: 600;
                           letter-spacing: 0.07em;
                           text-transform: uppercase;
-                          color: #7a4e9e;
+                          color: #4f46e5;
                         "
                       >
                         Datos declarados por el solicitante
@@ -311,9 +330,9 @@
                             width="180"
                             valign="top"
                             style="
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 13px;
-                              color: #6b655e;
+                              color: #475569;
                               padding: 6px 0;
                             "
                           >
@@ -325,10 +344,10 @@
                             align="right"
                             style="
                               padding: 6px 0;
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 14px;
                               font-weight: 600;
-                              color: #2a2622;
+                              color: #0f172a;
                               word-break: break-word;
                               overflow-wrap: anywhere;
                             "
@@ -346,7 +365,7 @@
                       <div
                         style="
                           height: 1px;
-                          background-color: #eadff2;
+                          background-color: #e2e8f0;
                           line-height: 1px;
                           font-size: 0;
                         "
@@ -366,9 +385,9 @@
                             width="180"
                             valign="top"
                             style="
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 13px;
-                              color: #6b655e;
+                              color: #475569;
                               padding: 6px 0;
                             "
                           >
@@ -380,10 +399,10 @@
                             align="right"
                             style="
                               padding: 6px 0;
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 14px;
                               font-weight: 600;
-                              color: #2a2622;
+                              color: #0f172a;
                               word-break: break-all;
                               overflow-wrap: anywhere;
                             "
@@ -401,7 +420,7 @@
                       <div
                         style="
                           height: 1px;
-                          background-color: #eadff2;
+                          background-color: #e2e8f0;
                           line-height: 1px;
                           font-size: 0;
                         "
@@ -421,9 +440,9 @@
                             width="180"
                             valign="top"
                             style="
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 13px;
-                              color: #6b655e;
+                              color: #475569;
                               padding: 6px 0;
                             "
                           >
@@ -435,10 +454,10 @@
                             align="right"
                             style="
                               padding: 6px 0;
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 14px;
                               font-weight: 600;
-                              color: #2a2622;
+                              color: #0f172a;
                             "
                           >
                             {{{REQUESTED_AT}}}
@@ -453,10 +472,10 @@
                     <td style="padding: 0 24px 20px 24px">
                       <div
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 12px;
                           line-height: 1.55;
-                          color: #6b655e;
+                          color: #475569;
                         "
                       >
                         Si apruebas, la invitación para crear la cuenta se enviará a ese correo.
@@ -473,12 +492,12 @@
               <td class="px" style="padding: 20px 40px 0 40px">
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 11px;
                     font-weight: 600;
                     letter-spacing: 0.07em;
                     text-transform: uppercase;
-                    color: #6b655e;
+                    color: #475569;
                     padding-bottom: 8px;
                   "
                 >
@@ -490,8 +509,8 @@
                   cellpadding="0"
                   cellspacing="0"
                   style="
-                    background-color: #f7f5f2;
-                    border: 1px solid #e5e0d8;
+                    background-color: #e2e8f0;
+                    border: 1px solid #e2e8f0;
                     border-radius: 12px;
                     table-layout: fixed;
                   "
@@ -501,7 +520,7 @@
                       width="4"
                       style="
                         width: 4px;
-                        background-color: #6b655e;
+                        background-color: #475569;
                         font-size: 0;
                         line-height: 0;
                         border-top-left-radius: 12px;
@@ -513,10 +532,10 @@
                     <td
                       style="
                         padding: 16px 20px;
-                        font-family: 'Geist', Arial, sans-serif;
+                        font-family: 'Inter', system-ui, Arial, sans-serif;
                         font-size: 14px;
                         line-height: 1.6;
-                        color: #4a443d;
+                        color: #475569;
                         word-break: break-word;
                         overflow-wrap: anywhere;
                         white-space: normal;
@@ -537,18 +556,18 @@
                   width="100%"
                   cellpadding="0"
                   cellspacing="0"
-                  style="background-color: #faf7fc; border: 1px solid #eadff2; border-radius: 14px"
+                  style="background-color: #f5f3ff; border: 1px solid #e2e8f0; border-radius: 14px"
                 >
                   <tr>
                     <td align="center" style="padding: 20px 24px 0 24px">
                       <div
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 11px;
                           font-weight: 600;
                           letter-spacing: 0.07em;
                           text-transform: uppercase;
-                          color: #7a4e9e;
+                          color: #4f46e5;
                         "
                       >
                         Código de verificación
@@ -563,7 +582,7 @@
                           font-family: 'JetBrains Mono', 'Courier New', monospace;
                           font-size: 32px;
                           font-weight: 700;
-                          color: #43215f;
+                          color: #4f46e5;
                           letter-spacing: 0.22em;
                           text-indent: 0.22em;
                           line-height: 1.2;
@@ -577,10 +596,10 @@
                     <td align="center" style="padding: 12px 24px 20px 24px">
                       <div
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 12px;
                           line-height: 1.55;
-                          color: #6b655e;
+                          color: #475569;
                         "
                       >
                         La pantalla de revisión te pedirá este código, tanto para aprobar como para
@@ -603,8 +622,8 @@
                     href="{{{REVIEW_URL}}}"
                     style="height: 50px; v-text-anchor: middle; width: 300px"
                     arcsize="20%"
-                    strokecolor="#43215F"
-                    fillcolor="#5B2A86"
+                    strokecolor="#6D28D9"
+                    fillcolor="#4F46E5"
                   >
                     <w:anchorlock />
                     <center
@@ -626,17 +645,17 @@
                   target="_blank"
                   style="
                     display: inline-block;
-                    background-color: #5b2a86;
-                    background-image: linear-gradient(135deg, #6a2e92 0%, #4a2168 100%);
+                    background-color: #4f46e5;
+                    background-image: linear-gradient(135deg, #4f46e5 0%, #6d28d9 100%);
                     color: #ffffff;
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 15px;
                     font-weight: 600;
                     line-height: 50px;
                     text-align: center;
                     width: 300px;
                     border-radius: 10px;
-                    box-shadow: 0 8px 22px -8px rgba(75, 33, 104, 0.55);
+                    box-shadow: 0 8px 22px -8px rgba(79, 70, 229, 0.35);
                   "
                   >Revisar la solicitud</a
                 >
@@ -649,10 +668,10 @@
               <td class="px" style="padding: 18px 40px 0 40px">
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 12.5px;
                     line-height: 1.55;
-                    color: #6b655e;
+                    color: #475569;
                   "
                 >
                   ¿El botón no funciona? Copia y pega este enlace en tu navegador:
@@ -663,11 +682,11 @@
                     font-family: 'JetBrains Mono', 'Courier New', monospace;
                     font-size: 12px;
                     line-height: 1.5;
-                    color: #6a2e92;
+                    color: #4f46e5;
                     word-break: break-all;
                     overflow-wrap: anywhere;
-                    background-color: #faf7fc;
-                    border: 1px solid #eadff2;
+                    background-color: #f5f3ff;
+                    border: 1px solid #e2e8f0;
                     border-radius: 8px;
                     padding: 11px 13px;
                     margin-top: 8px;
@@ -686,17 +705,17 @@
                   width="100%"
                   cellpadding="0"
                   cellspacing="0"
-                  style="background-color: #fbf6ec; border: 1px solid #f0e2c6; border-radius: 12px"
+                  style="background-color: #f5f3ff; border: 1px solid #f43f5e; border-radius: 12px"
                 >
                   <tr>
                     <td style="padding: 18px 20px 6px 20px">
                       <div
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 13px;
                           font-weight: 700;
                           line-height: 1.5;
-                          color: #7a3a12;
+                          color: #0f172a;
                         "
                       >
                         Qué pasa si apruebas
@@ -711,10 +730,10 @@
                             width="14"
                             valign="top"
                             style="
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 13px;
                               line-height: 1.55;
-                              color: #7a3a12;
+                              color: #0f172a;
                               padding: 3px 0;
                             "
                           >
@@ -723,10 +742,10 @@
                           <td
                             valign="top"
                             style="
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 13px;
                               line-height: 1.55;
-                              color: #7a3a12;
+                              color: #0f172a;
                               padding: 3px 0;
                             "
                           >
@@ -739,10 +758,10 @@
                             width="14"
                             valign="top"
                             style="
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 13px;
                               line-height: 1.55;
-                              color: #7a3a12;
+                              color: #0f172a;
                               padding: 3px 0;
                             "
                           >
@@ -751,10 +770,10 @@
                           <td
                             valign="top"
                             style="
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 13px;
                               line-height: 1.55;
-                              color: #7a3a12;
+                              color: #0f172a;
                               padding: 3px 0;
                             "
                           >
@@ -767,10 +786,10 @@
                             width="14"
                             valign="top"
                             style="
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 13px;
                               line-height: 1.55;
-                              color: #7a3a12;
+                              color: #0f172a;
                               padding: 3px 0;
                             "
                           >
@@ -779,10 +798,10 @@
                           <td
                             valign="top"
                             style="
-                              font-family: 'Geist', Arial, sans-serif;
+                              font-family: 'Inter', system-ui, Arial, sans-serif;
                               font-size: 13px;
                               line-height: 1.55;
-                              color: #7a3a12;
+                              color: #0f172a;
                               padding: 3px 0;
                             "
                           >
@@ -797,10 +816,10 @@
                     <td
                       style="
                         padding: 10px 20px 18px 20px;
-                        font-family: 'Geist', Arial, sans-serif;
+                        font-family: 'Inter', system-ui, Arial, sans-serif;
                         font-size: 13px;
                         line-height: 1.55;
-                        color: #7a3a12;
+                        color: #0f172a;
                       "
                     >
                       <strong
@@ -821,14 +840,14 @@
               <td class="px" style="padding: 16px 40px 0 40px">
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 12.5px;
                     line-height: 1.55;
-                    color: #6b655e;
+                    color: #475569;
                   "
                 >
                   El enlace y el código vencen
-                  <strong style="color: #4a443d">72 horas</strong> después de la solicitud. Pasado
+                  <strong style="color: #0f172a">72 horas</strong> después de la solicitud. Pasado
                   ese plazo dejan de funcionar y la persona tendrá que solicitar el acceso otra vez.
                 </div>
               </td>
@@ -840,13 +859,13 @@
                 <p
                   style="
                     margin: 0;
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 14px;
                     line-height: 1.6;
-                    color: #4a443d;
+                    color: #475569;
                   "
                 >
-                  Un saludo,<br /><strong style="color: #2a2622">El equipo de Vetrina</strong>
+                  Un saludo,<br /><strong style="color: #0f172a">El equipo de Lumbre</strong>
                 </p>
               </td>
             </tr>
@@ -866,18 +885,18 @@
               <td align="center" style="padding: 24px 40px 8px 40px">
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 12px;
                     line-height: 1.6;
-                    color: #5f5850;
+                    color: #475569;
                   "
                 >
                   Recibes este correo porque tu dirección está configurada como aprobadora de
-                  accesos de plataforma en Vetrina.
+                  accesos de plataforma en Lumbre.
                 </div>
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 12px;
                     line-height: 1.6;
                     padding-top: 10px;
@@ -885,30 +904,30 @@
                 >
                   <a
                     href="{{{HELP_URL}}}"
-                    style="color: #6a2e92; text-decoration: none; font-weight: 600"
+                    style="color: #4f46e5; text-decoration: none; font-weight: 600"
                     >Ayuda</a
                   >&nbsp;&nbsp;·&nbsp;&nbsp;
                   <a
                     href="{{{PRIVACY_URL}}}"
-                    style="color: #6a2e92; text-decoration: none; font-weight: 600"
+                    style="color: #4f46e5; text-decoration: none; font-weight: 600"
                     >Privacidad</a
                   >&nbsp;&nbsp;·&nbsp;&nbsp;
                   <a
                     href="{{{TERMS_URL}}}"
-                    style="color: #6a2e92; text-decoration: none; font-weight: 600"
+                    style="color: #4f46e5; text-decoration: none; font-weight: 600"
                     >Términos</a
                   >
                 </div>
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 12px;
                     line-height: 1.6;
-                    color: #6b655e;
+                    color: #475569;
                     padding-top: 10px;
                   "
                 >
-                  © 2026 Vetrina · Software de gestión veterinaria
+                  © 2026 Lumbre · Software de gestión veterinaria
                 </div>
               </td>
             </tr>

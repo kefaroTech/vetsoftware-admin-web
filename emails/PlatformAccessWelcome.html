@@ -41,7 +41,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="color-scheme" content="light only" />
     <meta name="supported-color-schemes" content="light only" />
-    <title>Tu cuenta de plataforma de Vetrina — código de usuario</title>
+    <title>Tu cuenta de plataforma de Lumbre — código de usuario</title>
     <!--[if mso]>
       <style>
         * {
@@ -53,7 +53,7 @@
       </style>
     <![endif]-->
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Instrument+Serif&family=JetBrains+Mono:wght@500;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600&family=JetBrains+Mono:wght@500;700&display=swap');
       body {
         margin: 0;
         padding: 0;
@@ -77,7 +77,7 @@
         text-decoration: none;
       }
       .hover-btn:hover {
-        background-color: #4a2168 !important;
+        background-color: #6d28d9 !important;
       }
       @media only screen and (max-width: 620px) {
         .container {
@@ -98,7 +98,7 @@
       }
     </style>
   </head>
-  <body style="margin: 0; padding: 0; background-color: #f1ece5">
+  <body style="margin: 0; padding: 0; background-color: #f5f3ff">
     <!-- Preheader (hidden preview text) -->
     <div
       style="
@@ -109,7 +109,7 @@
         mso-hide: all;
         font-size: 1px;
         line-height: 1px;
-        color: #f1ece5;
+        color: #f5f3ff;
       "
     >
       Tu cuenta ya existe. Se entra con tu código de usuario, no con tu correo: guárdalo antes de
@@ -122,7 +122,7 @@
       width="100%"
       cellpadding="0"
       cellspacing="0"
-      style="background-color: #f1ece5"
+      style="background-color: #f5f3ff"
     >
       <tr>
         <td align="center" style="padding: 32px 16px">
@@ -139,24 +139,44 @@
               background-color: #ffffff;
               border-radius: 18px;
               overflow: hidden;
-              box-shadow: 0 12px 40px -12px rgba(60, 30, 80, 0.2);
+              box-shadow: 0 12px 40px -12px rgba(15, 23, 42, 0.12);
             "
           >
             <!-- ===== Brand bar ===== -->
             <tr>
               <td
                 style="
-                  background-color: #4e2470;
-                  background-image: linear-gradient(135deg, #6a2e92 0%, #43215f 100%);
+                  background-color: #4f46e5;
+                  background-image: linear-gradient(135deg, #4f46e5 0%, #6d28d9 100%);
                   padding: 26px 40px;
                 "
               >
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                   <tr>
+                    <!-- El isotipo se suma a la banda de color y al nombre en texto, no los
+                         sustituye: Outlook de escritorio y la mayoría de clientes corporativos
+                         no descargan imágenes remotas hasta que el usuario lo pide, y el correo
+                         tiene que identificar la marca igual con la imagen bloqueada. La URL es
+                         absoluta y apunta al front del tenant (https://vetsoftware.co), que es
+                         público; la consola no tiene dominio de producción declarado. -->
+                    <td
+                      align="left"
+                      valign="middle"
+                      width="52"
+                      style="width: 52px; padding-right: 12px"
+                    >
+                      <img
+                        src="https://vetsoftware.co/brand/lumbre-logo-only-transparent-64.png"
+                        width="40"
+                        height="40"
+                        alt=""
+                        style="display: block; width: 40px; height: 40px; border: 0"
+                      />
+                    </td>
                     <td align="left" valign="middle">
                       <div
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 19px;
                           font-weight: 600;
                           color: #ffffff;
@@ -164,30 +184,30 @@
                           line-height: 1;
                         "
                       >
-                        Vetrina
+                        Lumbre
                       </div>
                       <div
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 10px;
                           font-weight: 500;
                           letter-spacing: 0.12em;
                           text-transform: uppercase;
-                          color: #d8c4e8;
+                          color: #e2e8f0;
                           padding-top: 4px;
                         "
                       >
-                        Consola de plataforma
+                        GESTIONA LO QUE CUIDAS
                       </div>
                     </td>
                     <td align="right" valign="middle">
                       <span
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 11px;
                           font-weight: 500;
-                          color: #f3e9fa;
-                          background-color: rgba(255, 255, 255, 0.18);
+                          color: #ffffff;
+                          background-color: rgba(255, 255, 255, 0.12);
                           padding: 6px 12px;
                           border-radius: 999px;
                         "
@@ -204,12 +224,12 @@
               <td class="px" style="padding: 40px 40px 8px 40px">
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 12px;
                     font-weight: 600;
                     letter-spacing: 0.08em;
                     text-transform: uppercase;
-                    color: #7a4e9e;
+                    color: #4f46e5;
                   "
                 >
                   Tu cuenta está lista
@@ -217,11 +237,11 @@
                 <h1
                   style="
                     margin: 10px 0 0 0;
-                    font-family: 'Instrument Serif', Georgia, serif;
-                    font-weight: 400;
+                    font-family: 'Poppins', system-ui, Arial, sans-serif;
+                    font-weight: 600;
                     font-size: 34px;
                     line-height: 1.12;
-                    color: #2a2622;
+                    color: #0f172a;
                     letter-spacing: -0.01em;
                   "
                 >
@@ -236,25 +256,25 @@
                 <p
                   style="
                     margin: 0;
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 15px;
                     line-height: 1.62;
-                    color: #4a443d;
+                    color: #475569;
                   "
                 >
-                  Hola <strong style="color: #2a2622">{{{FULL_NAME}}}</strong>,
+                  Hola <strong style="color: #0f172a">{{{FULL_NAME}}}</strong>,
                 </p>
                 <p
                   style="
                     margin: 14px 0 0 0;
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 15px;
                     line-height: 1.62;
-                    color: #4a443d;
+                    color: #475569;
                   "
                 >
-                  Tu cuenta en la consola de plataforma de Vetrina ya existe. Para entrar
-                  <strong style="color: #2a2622">no se usa tu correo</strong>: se usa el código de
+                  Tu cuenta en la consola de plataforma de Lumbre ya existe. Para entrar
+                  <strong style="color: #0f172a">no se usa tu correo</strong>: se usa el código de
                   usuario de abajo, junto con la contraseña que acabas de crear.
                 </p>
               </td>
@@ -269,8 +289,8 @@
                   cellpadding="0"
                   cellspacing="0"
                   style="
-                    background-color: #faf7fc;
-                    border: 1px solid #eadff2;
+                    background-color: #f5f3ff;
+                    border: 1px solid #e2e8f0;
                     border-radius: 14px;
                     table-layout: fixed;
                   "
@@ -279,12 +299,12 @@
                     <td align="center" style="padding: 22px 24px 0 24px">
                       <div
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 11px;
                           font-weight: 600;
                           letter-spacing: 0.07em;
                           text-transform: uppercase;
-                          color: #7a4e9e;
+                          color: #4f46e5;
                         "
                       >
                         Tu código de usuario
@@ -299,7 +319,7 @@
                           font-family: 'JetBrains Mono', 'Courier New', monospace;
                           font-size: 30px;
                           font-weight: 700;
-                          color: #43215f;
+                          color: #4f46e5;
                           letter-spacing: 0.1em;
                           text-indent: 0.1em;
                           line-height: 1.25;
@@ -315,14 +335,14 @@
                     <td align="center" style="padding: 14px 24px 22px 24px">
                       <div
                         style="
-                          font-family: 'Geist', Arial, sans-serif;
+                          font-family: 'Inter', system-ui, Arial, sans-serif;
                           font-size: 13px;
                           line-height: 1.55;
-                          color: #4a443d;
+                          color: #475569;
                         "
                       >
                         Escríbelo tal cual en el campo
-                        <strong style="color: #2a2622">Código de usuario</strong> del formulario de
+                        <strong style="color: #0f172a">Código de usuario</strong> del formulario de
                         inicio de sesión.
                       </div>
                     </td>
@@ -341,8 +361,8 @@
                     href="{{{LOGIN_URL}}}"
                     style="height: 50px; v-text-anchor: middle; width: 300px"
                     arcsize="20%"
-                    strokecolor="#43215F"
-                    fillcolor="#5B2A86"
+                    strokecolor="#6D28D9"
+                    fillcolor="#4F46E5"
                   >
                     <w:anchorlock />
                     <center
@@ -364,17 +384,17 @@
                   target="_blank"
                   style="
                     display: inline-block;
-                    background-color: #5b2a86;
-                    background-image: linear-gradient(135deg, #6a2e92 0%, #4a2168 100%);
+                    background-color: #4f46e5;
+                    background-image: linear-gradient(135deg, #4f46e5 0%, #6d28d9 100%);
                     color: #ffffff;
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 15px;
                     font-weight: 600;
                     line-height: 50px;
                     text-align: center;
                     width: 300px;
                     border-radius: 10px;
-                    box-shadow: 0 8px 22px -8px rgba(75, 33, 104, 0.55);
+                    box-shadow: 0 8px 22px -8px rgba(79, 70, 229, 0.35);
                   "
                   >Entrar a la consola</a
                 >
@@ -387,10 +407,10 @@
               <td class="px" style="padding: 18px 40px 0 40px">
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 12.5px;
                     line-height: 1.55;
-                    color: #6b655e;
+                    color: #475569;
                   "
                 >
                   ¿El botón no funciona? Copia y pega este enlace en tu navegador:
@@ -401,11 +421,11 @@
                     font-family: 'JetBrains Mono', 'Courier New', monospace;
                     font-size: 12px;
                     line-height: 1.5;
-                    color: #6a2e92;
+                    color: #4f46e5;
                     word-break: break-all;
                     overflow-wrap: anywhere;
-                    background-color: #faf7fc;
-                    border: 1px solid #eadff2;
+                    background-color: #f5f3ff;
+                    border: 1px solid #e2e8f0;
                     border-radius: 8px;
                     padding: 11px 13px;
                     margin-top: 8px;
@@ -424,23 +444,23 @@
                   width="100%"
                   cellpadding="0"
                   cellspacing="0"
-                  style="background-color: #fbf6ec; border: 1px solid #f0e2c6; border-radius: 12px"
+                  style="background-color: #f5f3ff; border: 1px solid #f43f5e; border-radius: 12px"
                 >
                   <tr>
                     <td
                       style="
                         padding: 16px 18px;
-                        font-family: 'Geist', Arial, sans-serif;
+                        font-family: 'Inter', system-ui, Arial, sans-serif;
                         font-size: 13px;
                         line-height: 1.55;
-                        color: #7a3a12;
+                        color: #0f172a;
                       "
                     >
                       <strong>Guarda este código antes de cerrar el correo</strong>, junto a tu
                       contraseña, en el gestor de contraseñas que uses. Sin él no podrás iniciar
                       sesión, aunque recuerdes la contraseña, y este correo es el único sitio donde
                       te lo damos. <br /><br />
-                      Tu cuenta tiene control total sobre la plataforma. Nadie de Vetrina te pedirá
+                      Tu cuenta tiene control total sobre la plataforma. Nadie de Lumbre te pedirá
                       tu contraseña por correo, por chat ni por teléfono.
                     </td>
                   </tr>
@@ -454,14 +474,14 @@
                 <p
                   style="
                     margin: 0;
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 14px;
                     line-height: 1.6;
-                    color: #4a443d;
+                    color: #475569;
                   "
                 >
-                  Te damos la bienvenida.<br /><strong style="color: #2a2622"
-                    >El equipo de Vetrina</strong
+                  Te damos la bienvenida.<br /><strong style="color: #0f172a"
+                    >El equipo de Lumbre</strong
                   >
                 </p>
               </td>
@@ -482,18 +502,18 @@
               <td align="center" style="padding: 24px 40px 8px 40px">
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 12px;
                     line-height: 1.6;
-                    color: #5f5850;
+                    color: #475569;
                   "
                 >
-                  Recibes este correo porque se creó una cuenta de plataforma de Vetrina con esta
+                  Recibes este correo porque se creó una cuenta de plataforma de Lumbre con esta
                   dirección.
                 </div>
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 12px;
                     line-height: 1.6;
                     padding-top: 10px;
@@ -501,30 +521,30 @@
                 >
                   <a
                     href="{{{HELP_URL}}}"
-                    style="color: #6a2e92; text-decoration: none; font-weight: 600"
+                    style="color: #4f46e5; text-decoration: none; font-weight: 600"
                     >Ayuda</a
                   >&nbsp;&nbsp;·&nbsp;&nbsp;
                   <a
                     href="{{{PRIVACY_URL}}}"
-                    style="color: #6a2e92; text-decoration: none; font-weight: 600"
+                    style="color: #4f46e5; text-decoration: none; font-weight: 600"
                     >Privacidad</a
                   >&nbsp;&nbsp;·&nbsp;&nbsp;
                   <a
                     href="{{{TERMS_URL}}}"
-                    style="color: #6a2e92; text-decoration: none; font-weight: 600"
+                    style="color: #4f46e5; text-decoration: none; font-weight: 600"
                     >Términos</a
                   >
                 </div>
                 <div
                   style="
-                    font-family: 'Geist', Arial, sans-serif;
+                    font-family: 'Inter', system-ui, Arial, sans-serif;
                     font-size: 12px;
                     line-height: 1.6;
-                    color: #6b655e;
+                    color: #475569;
                     padding-top: 10px;
                   "
                 >
-                  © 2026 Vetrina · Software de gestión veterinaria
+                  © 2026 Lumbre · Software de gestión veterinaria
                 </div>
               </td>
             </tr>
