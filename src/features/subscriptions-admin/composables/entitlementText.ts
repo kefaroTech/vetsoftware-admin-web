@@ -27,6 +27,13 @@ import type {
 
 type BadgeVariant = 'success' | 'warning' | 'danger' | 'neutral'
 
+/** La forma que comparten el nivel y el origen: rótulo, tono y significado. */
+export interface EntitlementPresentation {
+  label: string
+  variant: BadgeVariant
+  meaning: string
+}
+
 /**
  * La frase que encabeza la sub-vista: <b>esto es una tabla derivada</b>.
  *
@@ -101,6 +108,32 @@ export const ACCESS_LEVEL_PRESENTATION = {
 >
 
 /**
+ * El mismo mapa, <b>a prueba de un nivel que esta consola no conoce</b>.
+ *
+ * <p>El contrato declara `accessLevel` como `string` suelto —no como enum—, así
+ * que la unión de tres valores es un estrechamiento nuestro y nada impide que
+ * llegue un cuarto. Indexar el mapa con él devuelve `undefined`, y leer `.variant`
+ * sobre eso derriba la tabla entera de `/acceso`.
+ *
+ * <p>El respaldo es un hueco en tono neutro y <b>no afirma nada sobre lo que la
+ * empresa puede hacer</b>: inventar un nivel sobre un valor desconocido es
+ * exactamente la clase de frase que §3.4 no permite que un operador repita por
+ * teléfono.
+ */
+const UNKNOWN_ACCESS_LEVEL: EntitlementPresentation = {
+  label: '—',
+  variant: 'neutral',
+  meaning: 'Esta consola no conoce este nivel y no puede decir qué permite.',
+}
+
+export function accessLevelPresentation(
+  accessLevel: EntitlementAccessLevel | null | undefined,
+): EntitlementPresentation {
+  if (accessLevel == null) return UNKNOWN_ACCESS_LEVEL
+  return ACCESS_LEVEL_PRESENTATION[accessLevel] ?? UNKNOWN_ACCESS_LEVEL
+}
+
+/**
  * Los cuatro orígenes. <b>`MANUAL_GRANT` es el único que no se deriva del
  * contrato</b>, y por eso es el único con `variant: 'warning'`: el modelo dice
  * que «queda constancia de que fue a mano» y esa constancia tiene que verse sin
@@ -131,6 +164,28 @@ export const SOURCE_PRESENTATION = {
   EntitlementSource,
   { label: string; variant: BadgeVariant; meaning: string }
 >
+
+/**
+ * El mismo mapa, <b>a prueba de un origen que esta consola no conoce</b>, por la
+ * misma razón que `accessLevelPresentation()`: el contrato declara `source` como
+ * `string` suelto.
+ *
+ * <p>Tono neutro también aquí: el ámbar de `MANUAL_GRANT` significa «esto no sale
+ * del contrato», y prestarlo a un origen del que no se sabe nada diría algo que
+ * nadie ha comprobado.
+ */
+const UNKNOWN_SOURCE: EntitlementPresentation = {
+  label: '—',
+  variant: 'neutral',
+  meaning: 'Esta consola no conoce este origen y no puede decir de dónde sale el permiso.',
+}
+
+export function sourcePresentation(
+  source: EntitlementSource | null | undefined,
+): EntitlementPresentation {
+  if (source == null) return UNKNOWN_SOURCE
+  return SOURCE_PRESENTATION[source] ?? UNKNOWN_SOURCE
+}
 
 /** Nombre de la capacidad, para el `<label>` de su `<progress>`. */
 export const CAPACITY_UNIT_TITLE = {

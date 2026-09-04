@@ -17,7 +17,19 @@ const STATUS_PRESENTATION = {
   { label: string; variant: 'success' | 'warning' | 'danger' | 'neutral' }
 >
 
-const presentation = computed(() => STATUS_PRESENTATION[props.status])
+/**
+ * Un estado que la consola no conoce —un valor nuevo del enum, o el campo ausente
+ * en la respuesta— indexa el mapa a `undefined`, y `.label` sobre eso derriba el
+ * árbol entero: el expediente desaparece por culpa de un distintivo. El tipo no
+ * avisa, porque un `Record` de claves finitas se resuelve como `string`.
+ *
+ * <p>Un hueco honesto antes que una pantalla en blanco, igual que
+ * `billingCycleLabel()`. Tono neutro a propósito: inventar «vencida» o «activa»
+ * sobre un estado desconocido es peor que no decir nada.
+ */
+const UNKNOWN_STATUS = { label: '—', variant: 'neutral' } as const
+
+const presentation = computed(() => STATUS_PRESENTATION[props.status] ?? UNKNOWN_STATUS)
 </script>
 
 <template>

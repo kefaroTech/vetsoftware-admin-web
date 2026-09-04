@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import SubscriptionStatusBadge from '@/features/subscriptions-admin/components/SubscriptionStatusBadge.vue'
-import { BILLING_CYCLE_LABEL } from '@/features/subscriptions-admin/composables/subscriptionStatusText'
+import { billingCycleLabel } from '@/features/subscriptions-admin/composables/subscriptionStatusText'
 import { SUBSCRIPTION_RECORD_ROUTE_NAMES } from '@/router/routes/subscriptions-admin.routes'
 import { formatDate } from '@/composables/format'
 import type { SubscriptionResponse } from '@/features/subscriptions-admin/types/subscriptions-admin.types'
@@ -62,7 +62,7 @@ const periodo = computed(() => {
         </p>
         <p class="ds-meta parrafo">
           {{ subscription.current ? 'Vigente' : 'Histórico' }} ·
-          {{ BILLING_CYCLE_LABEL[subscription.billingCycle].toLowerCase() }}
+          {{ billingCycleLabel(subscription.billingCycle).toLowerCase() }}
         </p>
         <p v-if="periodo" class="ds-meta parrafo">Periodo {{ periodo }}</p>
         <p v-if="subscription.nextBillingDate" class="ds-meta parrafo">

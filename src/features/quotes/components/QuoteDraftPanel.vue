@@ -43,7 +43,7 @@ defineProps<{
     <header class="ds-stack ds-stack--10">
       <p class="ds-kicker">Cotización</p>
       <div class="ds-flex-row ds-flex-row--12 titular">
-        <h2 class="ds-title titulo">Borrador sin enviar</h2>
+        <h1 class="ds-title titulo">Borrador sin enviar</h1>
         <QuoteStatusBadge :status="quote.status" />
       </div>
       <p class="ds-meta numero">
@@ -74,7 +74,7 @@ defineProps<{
       </div>
       <div>
         <dt class="ds-label">Ciclo de facturación</dt>
-        <dd class="valor">{{ QUOTE_BILLING_CYCLE_LABEL[quote.billingCycle] }}</dd>
+        <dd class="valor">{{ QUOTE_BILLING_CYCLE_LABEL[quote.billingCycle] ?? '—' }}</dd>
       </div>
       <div>
         <dt class="ds-label">Vigente hasta</dt>

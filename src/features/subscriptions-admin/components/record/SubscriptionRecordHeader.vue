@@ -6,7 +6,7 @@ import { ICONS } from '@/constants/icons'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { formatDate } from '@/composables/format'
 import SubscriptionStatusBadge from '../SubscriptionStatusBadge.vue'
-import { BILLING_CYCLE_LABEL } from '../../composables/subscriptionStatusText'
+import { billingCycleLabel } from '../../composables/subscriptionStatusText'
 import type { CompanyResponse } from '@/features/companies/types/companies.types'
 import type { SubscriptionResponse } from '../../types/subscriptions-admin.types'
 
@@ -84,7 +84,7 @@ const periodo = computed(() => {
     </p>
 
     <p class="ds-meta">
-      Ciclo {{ BILLING_CYCLE_LABEL[subscription.billingCycle].toLowerCase() }} · periodo
+      Ciclo {{ billingCycleLabel(subscription.billingCycle).toLowerCase() }} · periodo
       {{ periodo }} · próximo cobro {{ formatDate(subscription.nextBillingDate) }}
     </p>
   </header>

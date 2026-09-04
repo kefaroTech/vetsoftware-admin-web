@@ -9,7 +9,7 @@ import { formatAmount, formatDate } from '@/composables/format'
 import { BILLING_DOCUMENT_ROUTE_NAMES } from '@/router/routes/billing-documents.routes'
 import ContractGapNotice from './ContractGapNotice.vue'
 import {
-  APPLICATION_SOURCE_PRESENTATION,
+  applicationSourcePresentation,
   type BillingDocumentApplicationResponse,
 } from '../types/billing-documents.types'
 /**
@@ -122,6 +122,7 @@ function canReverse(row: BillingDocumentApplicationResponse): boolean {
     </div>
 
     <AppTable
+      caption="Qué salda el documento"
       money
       :headers="HEADERS"
       :empty="rows.length === 0"
@@ -140,10 +141,10 @@ function canReverse(row: BillingDocumentApplicationResponse): boolean {
       <tr v-for="row in rows" :key="row.id" class="ds-row-hover">
         <td>
           <span class="ds-text-strong">{{
-            APPLICATION_SOURCE_PRESENTATION[row.sourceKind].label
+            applicationSourcePresentation(row.sourceKind).label
           }}</span>
           <span class="ds-meta linea">{{
-            APPLICATION_SOURCE_PRESENTATION[row.sourceKind].meaning
+            applicationSourcePresentation(row.sourceKind).meaning
           }}</span>
           <span v-if="row.reversalOfId" class="linea">
             <AppBadge
@@ -187,7 +188,7 @@ function canReverse(row: BillingDocumentApplicationResponse): boolean {
             type="button"
             class="ds-btn ds-btn--ghost ds-btn--sm"
             :disabled="reversingId !== null"
-            :aria-label="`Contra-aplicar la aplicación #${row.id} de ${APPLICATION_SOURCE_PRESENTATION[row.sourceKind].label}`"
+            :aria-label="`Contra-aplicar la aplicación #${row.id} de ${applicationSourcePresentation(row.sourceKind).label}`"
             @click="$emit('reverse', row.id)"
           >
             <component :is="ICONS.RETRY" :size="14" />

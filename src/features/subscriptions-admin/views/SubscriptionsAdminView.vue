@@ -10,7 +10,7 @@ import PlatformSetupChecklist from '@/components/feedback/PlatformSetupChecklist
 import { ICONS } from '@/constants/icons'
 import { formatDate } from '@/composables/format'
 import { useSubscriptionsAdmin } from '../composables/useSubscriptionsAdmin'
-import { BILLING_CYCLE_LABEL } from '../composables/subscriptionStatusText'
+import { billingCycleLabel } from '../composables/subscriptionStatusText'
 import SubscriptionStatusBadge from '../components/SubscriptionStatusBadge.vue'
 import SubscriptionOverlapsPanel from '../components/SubscriptionOverlapsPanel.vue'
 import { SUBSCRIPTION_RECORD_ROUTE_NAMES } from '@/router/routes/subscriptions-admin.routes'
@@ -84,6 +84,7 @@ onMounted(refreshAll)
         </div>
 
         <AppTable
+          caption="Contratos"
           :headers="[
             'Contrato',
             'Empresa',
@@ -140,7 +141,7 @@ onMounted(refreshAll)
                 :variant="subscription.current ? 'success' : 'neutral'"
               />
             </td>
-            <td>{{ BILLING_CYCLE_LABEL[subscription.billingCycle] }}</td>
+            <td>{{ billingCycleLabel(subscription.billingCycle) }}</td>
             <td>
               {{ formatDate(subscription.currentPeriodStart) }} →
               {{ formatDate(subscription.currentPeriodEnd) }}

@@ -74,8 +74,12 @@ export function useSubscriptionRecord() {
     subscription.value ? statusBannerTone(subscription.value.status) : null,
   )
 
+  // El `?? []` no es defensivo por costumbre: el mapa se indexa con el estado que
+  // llegue por HTTP, y uno que la consola no conoce lo resuelve a `undefined`. La
+  // plantilla lee `transitions.length`, y eso tumba la sub-vista entera. Sin
+  // acciones ofrecidas se sigue leyendo el expediente; sin expediente, no.
   const transitions = computed<SubscriptionStatusTransition[]>(() =>
-    subscription.value ? SUBSCRIPTION_STATUS_TRANSITIONS[subscription.value.status] : [],
+    subscription.value ? (SUBSCRIPTION_STATUS_TRANSITIONS[subscription.value.status] ?? []) : [],
   )
 
   const canCancel = computed(

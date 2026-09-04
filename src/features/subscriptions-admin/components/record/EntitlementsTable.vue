@@ -8,10 +8,10 @@ import { formatDate } from '@/composables/format'
 import { subscriptionRecordTabs } from '@/router/routes/subscriptions-admin.routes'
 import { RECORD_LINK_PARAMS, recordLinkQuery } from '../../composables/useRecordLink'
 import {
-  ACCESS_LEVEL_PRESENTATION,
-  SOURCE_PRESENTATION,
+  accessLevelPresentation,
   entitlementJustification,
   justificationLinkLabel,
+  sourcePresentation,
 } from '../../composables/entitlementText'
 import type { CompanyEntitlementResponse, EntitlementScope } from '../../types/entitlements.types'
 
@@ -82,6 +82,7 @@ function lineTarget(row: CompanyEntitlementResponse) {
 
 <template>
   <AppTable
+    caption="Permisos que concede el contrato"
     :headers="['Submódulo', 'Nivel de acceso', 'Origen', 'Vigencia', 'Qué lo justifica']"
     :empty="rows.length === 0"
     :loading="loading"
@@ -121,15 +122,15 @@ function lineTarget(row: CompanyEntitlementResponse) {
 
       <td>
         <AppBadge
-          :variant="ACCESS_LEVEL_PRESENTATION[row.accessLevel].variant"
-          :label="ACCESS_LEVEL_PRESENTATION[row.accessLevel].label"
+          :variant="accessLevelPresentation(row.accessLevel).variant"
+          :label="accessLevelPresentation(row.accessLevel).label"
         />
       </td>
 
       <td>
         <AppBadge
-          :variant="SOURCE_PRESENTATION[row.source].variant"
-          :label="SOURCE_PRESENTATION[row.source].label"
+          :variant="sourcePresentation(row.source).variant"
+          :label="sourcePresentation(row.source).label"
         />
         <!-- `MANUAL_GRANT` es lo único de esta tabla que NO se deriva del
              contrato, y el recálculo lo preserva a propósito. El badge ámbar lo

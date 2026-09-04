@@ -171,12 +171,14 @@ export interface RegisterSubscriptionPaymentRequest {
 }
 
 /**
- * Presentación de un tipo de cargo: el rótulo que ve el operador y qué significa.
+ * Presentación de un tipo de cargo: el rótulo que ve el operador y la definición
+ * a la que ese rótulo responde.
  *
- * <p>El significado se pinta <b>una vez</b>, en la leyenda de la pantalla, y no
- * repetido en cada una de veinte filas. Pero tiene que estar en alguna parte: sin
- * él, «Prorrateo» es una palabra que cada quien completa a su manera cuando se la
- * lee a un cliente por teléfono.
+ * <p><b>`meaning` no lo pinta hoy ninguna pantalla</b> —la sub-vista del dinero
+ * solo enseña los tres verbos—, y aun así tiene que estar escrito: sin él,
+ * «Prorrateo» es una palabra que cada quien completa a su manera cuando se la lee
+ * a un cliente por teléfono. Es además lo que `subscription-money.spec.ts` barre
+ * para que ninguna de estas frases use el vocabulario que §3.4 prohíbe.
  */
 export interface ChargeTypePresentation {
   label: string
@@ -214,6 +216,32 @@ export const CHARGE_TYPE_PRESENTATION: Record<SubscriptionChargeType, ChargeType
     meaning:
       'El consumo por encima del cupo contratado, en las suscripciones que compraron el derecho a superarlo. Se cobra por lo efectivamente usado de más, y por eso su importe es positivo.',
   },
+}
+
+/**
+ * El mismo mapa, <b>a prueba de un tipo de cargo que esta consola no conoce</b>.
+ *
+ * <p>La unión es cerrada en tiempo de compilación, pero el valor llega por HTTP:
+ * basta con que el backend emita un séptimo tipo —o con que el campo no venga—
+ * para que el `Record` se indexe a `undefined`, y leer `.label` sobre eso derriba
+ * el árbol entero de la pantalla. El tipo no avisa: un `Record` de claves finitas
+ * se resuelve como su valor, nunca como `T | undefined`.
+ *
+ * <p>Todo lo que pinta un cargo —en esta feature y en la del documento de
+ * cobro— pasa por aquí, para que el hueco se vea igual en las dos pantallas en
+ * vez de resolverse a mano y distinto en cada una. Un guion honesto antes que
+ * reventar o inventar un rótulo, igual que `billingCycleLabel()` (R14).
+ */
+const UNKNOWN_CHARGE_TYPE: ChargeTypePresentation = {
+  label: '—',
+  meaning: 'Esta consola no conoce este tipo de cargo y no puede decir qué significa.',
+}
+
+export function chargeTypePresentation(
+  chargeType: SubscriptionChargeType | null | undefined,
+): ChargeTypePresentation {
+  if (chargeType == null) return UNKNOWN_CHARGE_TYPE
+  return CHARGE_TYPE_PRESENTATION[chargeType] ?? UNKNOWN_CHARGE_TYPE
 }
 
 /**
@@ -260,6 +288,28 @@ export const CHARGE_STATUS_PRESENTATION: Record<
 }
 
 /**
+ * El mismo mapa, <b>a prueba de un estado que esta consola no conoce</b>, por la
+ * misma razón que `chargeTypePresentation()`.
+ *
+ * <p>El tono de respaldo es <b>neutro</b> a propósito: pintar de `warning` o de
+ * `danger` un estado del que no se sabe nada afirmaría sobre el dinero algo que
+ * nadie ha comprobado, y el color es lo único que aquí no lleva rótulo que lo
+ * corrija.
+ */
+const UNKNOWN_CHARGE_STATUS: ChargeStatusPresentation = {
+  label: '—',
+  variant: 'neutral',
+  meaning: 'Esta consola no conoce este estado de cargo y no puede decir qué significa.',
+}
+
+export function chargeStatusPresentation(
+  status: SubscriptionChargeStatus | null | undefined,
+): ChargeStatusPresentation {
+  if (status == null) return UNKNOWN_CHARGE_STATUS
+  return CHARGE_STATUS_PRESENTATION[status] ?? UNKNOWN_CHARGE_STATUS
+}
+
+/**
  * Presentación de la clase de un documento de cobro.
  *
  * <p><b>Una nota crédito NO se pinta en rojo con un menos.</b> Los importes de un
@@ -282,6 +332,26 @@ export const DOCUMENT_KIND_PRESENTATION: Record<DocumentKind, ChargeTypePresenta
     label: 'Nota débito',
     meaning: 'Suma sobre un documento anterior: corrige al alza.',
   },
+}
+
+/**
+ * El mismo mapa, <b>a prueba de una clase de documento que esta consola no
+ * conoce</b>. `documentKind` llega por HTTP y su rótulo alimenta un distintivo de
+ * la tabla de documentos: leer `.label` sobre `undefined` derriba la sub-vista.
+ *
+ * <p>Un guion honesto antes que inventar la clase de un documento contable, que es
+ * el dato del que cuelga el signo de su importe.
+ */
+const UNKNOWN_DOCUMENT_KIND: ChargeTypePresentation = {
+  label: '—',
+  meaning: 'Esta consola no conoce esta clase de documento y no puede decir qué significa.',
+}
+
+export function documentKindPresentation(
+  documentKind: DocumentKind | null | undefined,
+): ChargeTypePresentation {
+  if (documentKind == null) return UNKNOWN_DOCUMENT_KIND
+  return DOCUMENT_KIND_PRESENTATION[documentKind] ?? UNKNOWN_DOCUMENT_KIND
 }
 
 /**

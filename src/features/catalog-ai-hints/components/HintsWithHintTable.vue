@@ -50,6 +50,7 @@ const HEADERS = [
 
 <template>
   <AppTable
+    caption="Artículos con pista"
     :headers="HEADERS"
     :empty="empty"
     :loading="loading"

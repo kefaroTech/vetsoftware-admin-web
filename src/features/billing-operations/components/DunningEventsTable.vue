@@ -43,6 +43,7 @@ defineEmits<{ retry: []; 'update:page': [page: number] }>()
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      caption="Hitos de cobranza"
       money
       :headers="[
         'Ocurrió',
@@ -68,7 +69,11 @@ defineEmits<{ retry: []; 'update:page': [page: number] }>()
         <td>{{ formatDate(event.occurredAt) }}</td>
         <td><CompanyRef :company-id="event.companyId" /></td>
         <td class="ds-text-strong">
-          {{ event.subscription.subscriptionNumber ?? `#${event.subscription.id}` }}
+          {{
+            event.subscription
+              ? (event.subscription.subscriptionNumber ?? `#${event.subscription.id}`)
+              : '—'
+          }}
         </td>
         <td>
           <template v-if="event.billingDocument">

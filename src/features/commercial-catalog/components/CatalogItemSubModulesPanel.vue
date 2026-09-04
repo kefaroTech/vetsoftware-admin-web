@@ -187,6 +187,7 @@ function readOnlyLabel(link: CatalogItemSubModuleResponse) {
     </p>
 
     <AppTable
+      caption="Pantallas que abre el artículo"
       :headers="['Módulo', 'Pantalla', 'Código', 'Al dar de baja', 'Acciones']"
       :empty="subModuleLinks.length === 0"
       :loading="subModulesLoading"

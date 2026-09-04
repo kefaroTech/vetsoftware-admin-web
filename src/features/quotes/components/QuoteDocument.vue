@@ -40,6 +40,7 @@ defineEmits<{ reissue: [] }>()
     :document-number="quote.quoteNumber"
     seal-text="Documento · solo se agrega"
     title-id="quote-document-title"
+    heading-level="h1"
   >
     <template #titular>
       <QuoteStatusBadge :status="quote.status" />
@@ -68,7 +69,7 @@ defineEmits<{ reissue: [] }>()
       </div>
       <div>
         <dt class="ds-label">Ciclo de facturación</dt>
-        <dd>{{ QUOTE_BILLING_CYCLE_LABEL[quote.billingCycle] }}</dd>
+        <dd>{{ QUOTE_BILLING_CYCLE_LABEL[quote.billingCycle] ?? '—' }}</dd>
       </div>
       <div>
         <dt class="ds-label">Días de prueba</dt>

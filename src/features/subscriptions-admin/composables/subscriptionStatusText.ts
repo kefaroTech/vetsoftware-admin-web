@@ -32,8 +32,7 @@ import type {
  * </ul>
  *
  * <p>Este módulo es puro: funciones y datos, sin estado. El rótulo y el tono del
- * distintivo siguen viviendo en `SubscriptionStatusBadge.vue`, que ya era
- * correcto y no se toca.
+ * distintivo siguen viviendo en `SubscriptionStatusBadge.vue`.
  */
 
 /**
@@ -45,6 +44,17 @@ import type {
 export const BILLING_CYCLE_LABEL: Record<BillingCycle, string> = {
   MONTHLY: 'Mensual',
   ANNUAL: 'Anual',
+}
+
+/**
+ * El mismo mapa, <b>a prueba de un ciclo que esta consola no conoce</b>.
+ *
+ * <p>Indexar el `Record` con una clave que no está —un valor nuevo del enum, o el
+ * campo ausente en la respuesta— devuelve `undefined`, que quien lo consume
+ * encadena con `.toLowerCase()`. Un hueco antes que un dato inventado (R14).
+ */
+export function billingCycleLabel(cycle: BillingCycle | null | undefined): string {
+  return (cycle != null && BILLING_CYCLE_LABEL[cycle]) || '—'
 }
 
 /**

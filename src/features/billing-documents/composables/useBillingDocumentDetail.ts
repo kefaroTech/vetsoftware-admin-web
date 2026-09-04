@@ -143,7 +143,7 @@ export function useBillingDocumentDetail() {
   const taxCheck = computed(() => {
     const doc = document.value
     if (!doc) return null
-    const summed = doc.taxes.reduce((total, tax) => total + tax.taxAmount, 0)
+    const summed = (doc.taxes ?? []).reduce((total, tax) => total + tax.taxAmount, 0)
     const difference = Math.round((summed - doc.taxAmount) * 100) / 100
     const magnitude = Math.abs(difference)
     return {
