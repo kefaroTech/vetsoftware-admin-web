@@ -80,11 +80,12 @@
      4,5:1 que exige WCAG 2.2 §1.4.3 para texto normal — es el color real
      detrás de `--text-subtle`/`.ds-hint`/`.ds-meta`/`.ds-icon-muted`. 55%
      daba 4,69:1 SOLO sobre `--warm-50`; sobre `--warm-100`
-     (`.ds-panel`/`.ds-card--flat`) medía 4,41:1, sobre `--warm-150`
-     4,17:1 y sobre `--amatista-50` 4,40:1 — los tres por debajo del
-     mínimo. 52% da 5,34:1 / 5,03:1 / 4,75:1 / 5,01:1 respectivamente, y
-     5,49:1 sobre `--surface`: margen real sobre las cinco superficies donde
-     este color aparece. */
+     (`.ds-field-disabled`/`.ds-row-hover`) medía 4,41:1, sobre `--warm-150`
+     4,17:1, sobre `--amatista-50` 4,40:1 y sobre `--surface-panel`
+     4,06:1 — los cuatro por debajo del mínimo. 52% da 5,34:1 / 5,03:1 /
+     4,75:1 / 5,01:1 / 4,62:1 respectivamente, y 5,49:1 sobre `--surface`:
+     margen real sobre las seis superficies donde este color aparece.
+     `--surface-panel` es el peor caso y el que fija su suelo de claridad. */
   --warm-500: oklch(52% 0.0336 257deg);
 
   /* `text_secondary #475569` del kit, exacto. */
@@ -202,9 +203,11 @@
   /* Hex literal y no OKLCH: es el fondo que el kit aprueba para la plancha del
      logotipo, y los PNG `-on-F5F3FF-` ya lo llevan quemado. Cualquier deriva de
      conversión dejaría un borde visible alrededor del isotipo. Es además el fondo
-     de la aplicación (`base.css`): la jerarquía de superficies la sostiene
-     `--surface`, blanco puro, que mide 1,10:1 contra él. Contra `--warm-100`
-     mide 1,00:1, así que ninguna superficie de panel puede quedarse ahí. */
+     de la aplicación (`base.css`): la jerarquía de superficies la sostienen
+     `--surface`, blanco puro, 1,10:1 por encima, y `--surface-panel`, 1,08:1
+     por debajo. Contra `--warm-100` mide 1,00:1 —la rampa neutra lo cruza
+     justo en ese escalón—, así que ninguna superficie de panel puede
+     quedarse ahí. */
   --brand-canvas: #f5f3ff;
 
   /* Alias neutrales de superficie/texto (los usos más repetidos). `--surface` es
@@ -214,6 +217,22 @@
   --surface: #fff;
   --surface-muted: var(--warm-100);
   --surface-sunken: var(--warm-150);
+
+  /* Superficie de un panel apoyado en el fondo de PÁGINA, no dentro de una
+     tarjeta blanca. Token propio y no alias de la rampa —mismo motivo que
+     `--text-placeholder`— porque quien fija su valor es `--brand-canvas` y no
+     `--warm-*`: la rampa neutra cruza el canvas justo en `--warm-100`, y
+     `--surface-muted` está medido contra `--surface` (1,09:1), no contra la
+     página. 94% da 1,08:1 contra `--brand-canvas` y 1,19:1 contra
+     `--surface`, los dos fondos sobre los que un panel puede caer. TECHO de
+     claridad, y por eso no baja más: por debajo de 93,4% el borde de control
+     `--warm-450` cae del 3:1 de WCAG 2.2 §1.4.11 (aquí da 3,06:1) y
+     `--text-subtle` se acerca al 4,5:1 de §1.4.3 (aquí da 4,62:1) — el margen
+     de separación con la página está acotado por los controles que el panel
+     contiene, no por el panel. Hue 255,5deg y croma 0,0112 son la
+     interpolación de la rampa entre `--warm-150` y `--warm-200`, sus dos
+     vecinos en claridad. */
+  --surface-panel: oklch(94% 0.0112 255.5deg);
   --border: var(--warm-200);
   --border-strong: var(--warm-300);
   --text: var(--warm-900);
@@ -225,7 +244,8 @@
      propio y no alias de `--text-subtle` para que la jerarquía visual
      «marcador más claro que texto» quede fijada y no dependa de retocar la
      rampa. CONTRATO: solo sobre `--surface` (5,04:1), `--warm-50` (4,90:1) o
-     `--brand-canvas` (4,59:1). NO usar sobre `--warm-150` (4,36:1, incumple). */
+     `--brand-canvas` (4,59:1). NO usar sobre `--warm-150` (4,36:1) ni sobre
+     `--surface-panel` (4,23:1): los dos incumplen. */
   --text-placeholder: oklch(54% 0.0326 256.9deg);
 
   /* ------------------------------------------------------------------ *
