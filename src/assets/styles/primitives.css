@@ -1789,6 +1789,73 @@
 }
 
 /* ========================================================================== *
+ * CARRIL PEGAJOSO — el `<aside>`/columna fija junto al contenido: el
+ * cotizador del hero, el resumen de `/planes` y el del paso vinculante lo
+ * repiten cada uno con su propio sticky + tarjeta. Vive aquí y no en
+ * `<style scoped>` porque el presupuesto de CSS del repo es agregado
+ * (`maxStyleMinusScript`, gemelo TR-02, a cero de margen): tres copias del
+ * mismo bloque son CSS sin script que lo acompañe, justo el perfil que lo
+ * pone en rojo.
+ * ========================================================================== */
+
+.ds-rail {
+  position: sticky;
+  top: var(--space-16);
+  padding: var(--space-20) var(--space-22);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+/* Mismo punto de corte que ya usa el repo para colapsar la rejilla de dos
+   columnas a una (`PlanesView.vue`, `PlanesConfigurador.vue`): en una sola
+   columna no hay nada de qué quedarse "al lado" mientras se hace scroll. */
+@media (width <= 900px) {
+  .ds-rail {
+    position: static;
+  }
+}
+
+/* ========================================================================== *
+ * LISTA NUMERADA CON CÍRCULO — el «Cómo funciona» de tres pasos del carril
+ * del cotizador. El número es información de orden, no un adorno: por eso
+ * el marcador se genera con `counter()` sobre un `<ol>` real en vez de un
+ * dígito escrito a mano en cada `<li>`, que se desincroniza en cuanto
+ * alguien reordena el marcado sin tocar el texto.
+ * ========================================================================== */
+
+.ds-steps {
+  counter-reset: ds-steps;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ds-steps > li {
+  position: relative;
+  padding-inline-start: var(--space-40);
+}
+
+.ds-steps > li::before {
+  content: counter(ds-steps);
+  counter-increment: ds-steps;
+  position: absolute;
+  inset-inline-start: 0;
+  display: grid;
+  width: var(--space-28);
+  height: var(--space-28);
+  place-items: center;
+  border-radius: var(--radius-circle);
+  background: var(--amatista-100);
+  color: var(--amatista-700);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+/* ========================================================================== *
  * REVISIÓN — auditoría de especificidad, 3ª pasada TR-02
  *
  * La 2ª pasada repitió el selector de `.ds-empty`(+modificadores),
