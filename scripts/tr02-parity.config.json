@@ -31,6 +31,7 @@
     "scripts/check-bundle-budget.mjs",
     "scripts/ds-audit.mjs",
     "scripts/css-budget.mjs",
+    "scripts/brand-palette-check.mjs",
     "scripts/tr02-parity-check.mjs",
     "scripts/tr02-parity.config.json",
     "tests/unit/setup.ts",

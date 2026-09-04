@@ -99,6 +99,13 @@ comprueban, en dos momentos distintos:
   repo. Falla cuando el `<style>` de todos los SFC pesa más que el `<script>`,
   cuando un cuerpo de regla se repite en varios componentes, o cuando un SFC
   pasa de 500 líneas.
+- **`scripts/brand-palette-check.mjs`** (`npm run brand:palette`) — sobre el
+  color. Las dos anteriores miden repetición y tamaño; esta mide
+  **pertenencia**: todo color declarado en `src/` —también las cadenas de color
+  dentro de un `.ts`, que ninguna puerta de CSS ve— tiene que viajar por
+  `var(--token)` o caer a menos de 3° de uno de los nueve tonos del kit. Lo que
+  hoy queda fuera a sabiendas vive en su lista `EXENCIONES`, cada entrada con su
+  motivo y su issue; una exención que deja de hacer falta también lo pone rojo.
 
 **La trampa que costó tres tandas descubrir**: una primitiva global de una
 sola clase pesa (0,1,0). La regla base de un componente en CSS _scoped_ de
