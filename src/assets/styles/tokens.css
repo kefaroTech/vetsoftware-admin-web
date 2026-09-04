@@ -10,7 +10,10 @@
  */
 
 :root {
-  --hue: 281;
+  /* Hue del indigo `#4F46E5` del kit. De aquí cuelgan la rampa amatista,
+     `--info-border`, la primera parada de `--gradient-primary` y el tinte de
+     `--shadow-primary`. */
+  --hue: 277;
 
   /* INVARIANTE de esta rampa (y de `--warm-*`): el número mayor SIEMPRE
      oscurece. Nadie lo escribe porque parece obvio — y por eso se rompió en
@@ -27,60 +30,82 @@
   --amatista-400: oklch(68% 0.16 var(--hue));
 
   /* A11Y-09 · WCAG 2.2 §1.4.11 Non-text Contrast (AA). `--amatista-300` (78%)
-     mide 1,99:1 sobre `--warm-50` y 1,87:1 sobre `--amatista-50` — su fondo
+     mide 1,98:1 sobre `--warm-50` y 1,85:1 sobre `--amatista-50` — su fondo
      real en `.ds-tone--accent-selected`. Escalón nuevo SOLO para uso de
      borde; `--amatista-300` se conserva para fondos y textos, donde
-     §1.4.11 no aplica. 62% da 3,47:1 sobre `--amatista-50` y 3,69:1 sobre
-     `--warm-50`. Guard-rail: es paramétrico sobre `--hue`; a 180deg cae a
-     2,94:1 e incumple — cambiar `--hue` puede tumbar la conformidad sin que
-     ningún gate lo mida. Nombrado `--amatista-450` (no `-350`): por su valor
-     (62%) va entre `--amatista-400` (68%) y `--amatista-500` (58%), igual que
-     su gemelo de grises `--warm-450`. */
+     §1.4.11 no aplica. 62% da 3,46:1 sobre `--amatista-50`, 3,69:1 sobre
+     `--warm-50` y 3,79:1 sobre `--surface`. Guard-rail: es paramétrico sobre
+     `--hue`; a 180deg cae a 2,94:1 e incumple — cambiar `--hue` puede tumbar
+     la conformidad sin que ningún gate lo mida. Nombrado `--amatista-450` (no
+     `-350`): por su valor (62%) va entre `--amatista-400` (68%) y
+     `--amatista-500` (58%), igual que su gemelo de grises `--warm-450`. */
   --amatista-450: oklch(62% 0.16 var(--hue));
   --amatista-500: oklch(58% 0.18 var(--hue));
-  --amatista-600: oklch(50% 0.18 var(--hue));
+
+  /* El único escalón que no comparte el croma de la rampa: a esta claridad
+     ES el indigo `#4F46E5` del kit, el ancla de la que cuelga el resto de la
+     escala. Blanco encima da 6,29:1 (WCAG 2.2 §1.4.3, AA). */
+  --amatista-600: oklch(51.1% 0.2301 var(--hue));
   --amatista-700: oklch(42% 0.16 var(--hue));
   --amatista-800: oklch(32% 0.12 var(--hue));
   --amatista-900: oklch(22% 0.08 var(--hue));
 
-  /* Los neutros son fríos porque los tres que la marca declara —navy 265,8°,
-     text_secondary 257,3°, border 255,5°— lo son. A 256° `--warm-200` reproduce
-     el `#E2E8F0` del kit. El nombre `--warm-*` es anterior y se conserva hasta
-     que el renombrado se haga en su propia entrega: mezclarlo con un recoloreo
-     hace imposible atribuir qué línea base visual cambió por qué. */
-  --hue-neutral: 256;
-  --warm-50: oklch(99% 0.005 var(--hue-neutral));
-  --warm-100: oklch(97% 0.008 var(--hue-neutral));
-  --warm-150: oklch(95% 0.01 var(--hue-neutral));
-  --warm-200: oklch(92% 0.012 var(--hue-neutral));
-  --warm-300: oklch(86% 0.015 var(--hue-neutral));
-  --warm-400: oklch(72% 0.015 var(--hue-neutral));
+  /* Los neutros son fríos porque los tres que la marca declara lo son, y la
+     rampa los reproduce exactos: `--warm-200` es `border #E2E8F0`,
+     `--warm-600` es `text_secondary #475569` y `--warm-900` es `navy #0F172A`.
+     Los tres tienen hue distinto (255,5° · 257,3° · 265,8°), así que ningún
+     `--hue-neutral` único describe la rampa: los escalones intermedios
+     interpolan croma y hue en claridad entre sus dos anclas vecinas. El nombre
+     `--warm-*` es anterior y se conserva hasta que el renombrado se haga en su
+     propia entrega: mezclarlo con un recoloreo hace imposible atribuir qué
+     línea base visual cambió por qué. */
+  --warm-50: oklch(99% 0.005 255.5deg);
+  --warm-100: oklch(97% 0.008 255.5deg);
+  --warm-150: oklch(95% 0.01 255.5deg);
+  --warm-200: oklch(92.9% 0.0126 255.5deg);
+  --warm-300: oklch(86% 0.0161 255.8deg);
+  --warm-400: oklch(72% 0.0233 256.3deg);
 
   /* A11Y-09 · WCAG 2.2 §1.4.11 Non-text Contrast (AA). `--warm-200` (el
-     borde de todo control) mide 1,23:1 sobre `--warm-50` y 1,27:1 sobre
-     blanco: el límite de un campo es invisible con poca luz. Este escalón
+     borde de todo control) mide 1,23:1 sobre `--surface` y 1,20:1 sobre
+     `--warm-50`: el límite de un campo es invisible con poca luz. Este escalón
      es SOLO para bordes de control e iconos; `--warm-200`/`--warm-300` se
      quedan para separadores y divisores, que §1.4.11 exime por decorativos.
-     62% da 3,54:1: mismo criterio de margen que se aplicó a `--warm-500`
-     en A11Y-02. */
-  --warm-450: oklch(62% 0.015 var(--hue-neutral));
+     62% da 3,65:1 sobre `--surface`, 3,55:1 sobre `--warm-50` y 3,32:1 sobre
+     `--brand-canvas`, el fondo de la aplicación: mismo criterio de margen que
+     se aplicó a `--warm-500` en A11Y-02. */
+  --warm-450: oklch(62% 0.0285 256.7deg);
 
-  /* A11Y-02 / A11Y-09: 58% daba 4,15:1 sobre `--warm-50`, por debajo del
+  /* A11Y-02 / A11Y-09: 58% daba 4,18:1 sobre `--warm-50`, por debajo del
      4,5:1 que exige WCAG 2.2 §1.4.3 para texto normal — es el color real
      detrás de `--text-subtle`/`.ds-hint`/`.ds-meta`/`.ds-icon-muted`. 55%
-     daba 4,72:1 SOLO sobre `--warm-50`; sobre `--warm-100`
-     (`.ds-panel`/`.ds-card--flat`) medía 4,44:1, sobre `--warm-150`
-     4,19:1 y sobre `--amatista-50` 4,43:1 — los tres por debajo del
-     mínimo. 52% da 5,38:1 / 5,07:1 / 4,78:1 / 5,06:1 respectivamente:
-     margen real sobre las cuatro superficies donde este color aparece. */
-  --warm-500: oklch(52% 0.012 var(--hue-neutral));
-  --warm-600: oklch(45% 0.012 var(--hue-neutral));
-  --warm-700: oklch(35% 0.012 var(--hue-neutral));
-  --warm-800: oklch(25% 0.012 var(--hue-neutral));
-  --warm-900: oklch(16% 0.012 var(--hue-neutral));
-  --success-bg: oklch(94% 0.04 145deg);
-  --success-fg: oklch(40% 0.1 145deg);
-  --success-dot: oklch(55% 0.15 145deg);
+     daba 4,69:1 SOLO sobre `--warm-50`; sobre `--warm-100`
+     (`.ds-panel`/`.ds-card--flat`) medía 4,41:1, sobre `--warm-150`
+     4,17:1 y sobre `--amatista-50` 4,40:1 — los tres por debajo del
+     mínimo. 52% da 5,34:1 / 5,03:1 / 4,75:1 / 5,01:1 respectivamente, y
+     5,49:1 sobre `--surface`: margen real sobre las cinco superficies donde
+     este color aparece. */
+  --warm-500: oklch(52% 0.0336 257deg);
+
+  /* `text_secondary #475569` del kit, exacto. */
+  --warm-600: oklch(44.6% 0.0374 257.3deg);
+  --warm-700: oklch(35% 0.0384 260.7deg);
+  --warm-800: oklch(25% 0.0394 264.3deg);
+
+  /* `navy #0F172A` del kit, exacto: es el color de todo encabezado y de
+     `--text`. 17,85:1 sobre `--surface` y 16,28:1 sobre `--brand-canvas`. */
+  --warm-900: oklch(20.8% 0.0398 265.8deg);
+
+  /* Los tres tokens de éxito que ya vivían aquí. Hue 182,5deg, el teal
+     `#14B8A6` del kit, y es accesibilidad antes que marca: con el éxito en
+     145/150deg el borde de un banner de error y el de uno de éxito eran el
+     mismo color bajo deuteranopia (ΔEok 0,015, contraste de luminancia
+     1,02:1) — uno de cada doce varones no distinguía «guardado» de «no
+     guardado». A 182,5deg la separación sube a ΔEok 0,071. Contrapartida
+     aceptada: bajo protanopia ese par empeora un 12%. */
+  --success-bg: oklch(94% 0.055 182.5deg);
+  --success-fg: oklch(46% 0.077 182.5deg);
+  --success-dot: oklch(58% 0.097 182.5deg);
   --font-sans: 'Inter', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif;
   --font-display: 'Poppins', 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -90,82 +115,103 @@
   --radius-xl: 16px;
 
   /* ------------------------------------------------------------------ *
-   * ESCALA SEMÁNTICA — danger (hue 25deg)
+   * ESCALA SEMÁNTICA — danger (hue 16,4deg, el coral `#F43F5E` del kit).
    * Los 3 primeros son el banner de error repetido 41 veces en los SFC.
+   * Coral queda RESERVADO para el estado de error: si vuelve a usarse como
+   * acento decorativo, el mismo color diría «error» en un sitio y «adorno» en
+   * otro, y §1.4.1 Use of Color deja de sostenerse.
    * ------------------------------------------------------------------ */
 
-  /* A11Y-11 · WCAG 2.2, gamut sRGB. A 25deg ninguna claridad de esta escala
-     admitía el croma declarado: el canal rojo se salía de [0, 1] y el
-     navegador lo recortaba por canal sin un algoritmo único (CSS Color 4 no
-     lo normaliza), así que el color pintado dependía del motor. Croma
-     reducido por bisección al máximo que sigue dentro de sRGB, conservando
-     L — mismo procedimiento que `--amatista-450`. A 95%/85% de claridad el
-     techo de croma en gamut es tan bajo que dos escalones antes distintos
-     por croma (`-50`/`-100` y `-300`/`-400`) coinciden en el mismo color:
-     ya lo hacían de facto, recortados por el navegador a valores casi
-     idénticos, así que esto vuelve explícito lo que ya se veía. */
-  --danger-50: oklch(95% 0.02 25deg);
-  --danger-100: oklch(95% 0.02 25deg);
-  --danger-150: oklch(94% 0.03 25deg);
-  --danger-200: oklch(92% 0.04 25deg);
-  --danger-250: oklch(85% 0.08 25deg);
-  --danger-300: oklch(85% 0.08 25deg);
-  --danger-500: oklch(55% 0.18 25deg);
-  --danger-600: oklch(50% 0.18 25deg);
-  --danger-700: oklch(48% 0.18 25deg);
-  --danger-800: oklch(45% 0.18 25deg);
-  --danger-900: oklch(40% 0.16 25deg);
-  --danger-950: oklch(35% 0.14 25deg);
+  /* A11Y-11 · WCAG 2.2, gamut sRGB. CSS Color 4 no normaliza el recorte por
+     canal, así que un OKLCH pegado al borde del gamut se pinta distinto en
+     cada motor. Regla de esta escala y de las de aviso y éxito: el croma
+     declarado nunca pasa del 95% del techo de gamut sRGB para su (L, hue).
+     El 5% restante es el margen contra el redondeo del navegador. Los
+     escalones `-50`/`-100` y `-250`/`-300` vuelven a ser colores distintos:
+     a 25deg el techo de croma los hacía coincidir. */
+  --danger-50: oklch(96.5% 0.016 16.4deg);
+  --danger-100: oklch(94.5% 0.025 16.4deg);
+  --danger-150: oklch(93% 0.033 16.4deg);
+  --danger-200: oklch(91% 0.043 16.4deg);
+  --danger-250: oklch(85% 0.077 16.4deg);
+  --danger-300: oklch(78% 0.122 16.4deg);
+  --danger-500: oklch(55% 0.205 16.4deg);
+  --danger-600: oklch(50% 0.19 16.4deg);
+  --danger-700: oklch(45% 0.17 16.4deg);
+  --danger-800: oklch(40% 0.152 16.4deg);
+  --danger-900: oklch(36% 0.136 16.4deg);
+  --danger-950: oklch(30% 0.113 16.4deg);
 
   /* Alias de intención para el banner/estado de error */
   --danger-bg: var(--danger-100);
 
   /* A11Y-09 · ningún escalón de la escala danger llega a 3:1 sobre
      `--danger-100`/`--danger-50` (WCAG 2.2 §1.4.11): el borde de banner
-     anterior medía 1,40:1. 60% da 3,68:1 sobre ese fondo y 4,16:1 sobre
-     `--warm-50`. */
-  --danger-border: oklch(60% 0.16 25deg);
+     anterior medía 1,40:1. 60% da 3,67:1 sobre `--danger-100`, 3,89:1 sobre
+     `--danger-50`, 4,34:1 sobre `--surface` y 3,96:1 sobre `--brand-canvas`. */
+  --danger-border: oklch(60% 0.185 16.4deg);
   --danger-fg: var(--danger-900);
 
-  /* ESCALA SEMÁNTICA — warning (hue 80deg) */
+  /* ESCALA SEMÁNTICA — warning (hue 70deg, ámbar). El aviso no sale de la
+     paleta de marca porque la marca no declara ningún amarillo: los tres
+     estados de retroalimentación se fijan por norma y no por marca. 70deg es
+     el centro del cúmulo de la convención medida (Tailwind amber-500 a
+     70,1deg, amarillo de seguridad ISO 3864 a 74,4deg); a los 80deg
+     anteriores el escalón oscuro se pintaba oliva y se acercaba al éxito. */
 
-  /* A11Y-11 · WCAG 2.2, gamut sRGB — mismo defecto y mismo arreglo que la
-     escala danger de arriba. */
-  --warning-50: oklch(95% 0.04 80deg);
-  --warning-200: oklch(88% 0.09 80deg);
-  --warning-900: oklch(40% 0.08 80deg);
+  /* Mismo margen de gamut que la escala danger: croma ≤ 95% del techo sRGB. */
+  --warning-50: oklch(96% 0.027 70deg);
+
+  /* Sin consumidores: se conserva porque es la superficie contra la que se
+     mide el límite superior de claridad de `--warning-border`. */
+  --warning-200: oklch(91.5% 0.059 70deg);
+  --warning-900: oklch(42% 0.086 70deg);
   --warning-bg: var(--warning-50);
 
-  /* A11Y-09 · `--warning-200` medía 1,24:1 sobre su fondo. 60% 0.12 da
-     3,45:1 sobre `--warning-50` y 3,89:1 sobre `--warm-50`. `58% 0.13` daba
-     más margen pero cae fuera de sRGB y el navegador lo recorta de forma
-     impredecible; `60% 0.12` sí está en gamut. `--warning-200` NO se
-     retira: sigue de fondo en `.ds-icon-btn--danger:hover` y otros usos. */
-  --warning-border: oklch(60% 0.12 80deg);
+  /* A11Y-09 · `--warning-200` medía 1,24:1 sobre su fondo. El ámbar tiene la
+     banda utilizable más estrecha de los tres estados y es física del gamut,
+     no gusto: por encima de L 61% no llega a 3:1 sobre `--warning-200` y por
+     debajo de L 58% deja de leerse como ámbar. 61% da 3,45:1 sobre
+     `--warning-50`, 3,89:1 sobre `--surface`, 3,54:1 sobre `--brand-canvas` y
+     exactamente 3,00:1 sobre `--warning-200` — §1.4.11 dice que el valor
+     calculado no se redondea, así que 3,00 cumple y 2,99 no. Croma 0,125 es
+     el 95% del techo de gamut a (61%, 70deg). */
+  --warning-border: oklch(61% 0.125 70deg);
   --warning-fg: var(--warning-900);
 
   /* ESCALA SEMÁNTICA — success (extiende los 3 tokens que ya existían) */
-  --success-50: oklch(94% 0.06 150deg);
+  --success-50: oklch(95.5% 0.042 182.5deg);
 
-  /* A11Y-09 · el borde anterior (85% 0.1) medía 1,30:1. 58% 0.12 da
-     3,46:1 sobre `--success-50` y 3,94:1 sobre `--warm-50`. */
-  --success-border: oklch(58% 0.12 150deg);
+  /* Cierra la simetría con `--danger-200`/`--warning-200`, que sí tenían su
+     escalón de superficie de pastilla y de borde decorativo. `--success-fg`
+     encima da 5,27:1 (§1.4.3 AA); croma 0,11 sobre un techo de gamut de 0,155. */
+  --success-200: oklch(90% 0.11 182.5deg);
+
+  /* A11Y-09 · el borde anterior (85% 0.1) medía 1,30:1. 56% 0.095 da
+     3,96:1 sobre `--success-50`, 3,81:1 sobre `--success-bg` y 4,45:1 sobre
+     `--surface`. */
+  --success-border: oklch(56% 0.095 182.5deg);
 
   /* A11Y-09 · `.ds-banner--info` (primitives.css) usaba `--amatista-200`:
      1,32:1 sobre `--amatista-50`, el peor borde de banner del sistema.
-     62% 0.15 da 3,47:1 sobre `--amatista-50` y 3,70:1 sobre `--warm-50`.
-     `--amatista-200` NO se retira: sigue de fondo en otros usos. */
+     62% 0.15 da 3,45:1 sobre `--amatista-50`, 3,68:1 sobre `--warm-50` y
+     3,78:1 sobre `--surface`. `--amatista-200` NO se retira: sigue de fondo
+     en otros usos. */
   --info-border: oklch(62% 0.15 var(--hue));
 
   /* Hex literal y no OKLCH: es el fondo que el kit aprueba para la plancha del
      logotipo, y los PNG `-on-F5F3FF-` ya lo llevan quemado. Cualquier deriva de
-     conversión dejaría un borde visible alrededor del isotipo. NO es el fondo de
-     la aplicación: contra `--warm-100` mide 1,00:1 y colapsaría la jerarquía de
-     superficies. */
+     conversión dejaría un borde visible alrededor del isotipo. Es además el fondo
+     de la aplicación (`base.css`): la jerarquía de superficies la sostiene
+     `--surface`, blanco puro, que mide 1,10:1 contra él. Contra `--warm-100`
+     mide 1,00:1, así que ninguna superficie de panel puede quedarse ahí. */
   --brand-canvas: #f5f3ff;
 
-  /* Alias neutrales de superficie/texto (los usos más repetidos) */
-  --surface: var(--warm-50);
+  /* Alias neutrales de superficie/texto (los usos más repetidos). `--surface` es
+     el blanco puro que declara el kit, no un escalón de la rampa: tarjetas y
+     paneles blancos sobre el `--brand-canvas` de la página son la jerarquía que
+     la marca propone, 1,10:1 entre ambos. */
+  --surface: #fff;
   --surface-muted: var(--warm-100);
   --surface-sunken: var(--warm-150);
   --border: var(--warm-200);
@@ -175,12 +221,12 @@
   --text-subtle: var(--warm-500);
 
   /* A11Y-10 · WCAG 2.2 §1.4.3 (AA). El marcador de posición de `BaseSelect`,
-     `SearchableSelect` y `BaseInput` usaba `--warm-400`: 2,41:1. Token
+     `SearchableSelect` y `BaseInput` usaba `--warm-400`: 2,40:1. Token
      propio y no alias de `--text-subtle` para que la jerarquía visual
      «marcador más claro que texto» quede fijada y no dependa de retocar la
-     rampa. CONTRATO: solo sobre `--warm-50`/`--surface`/blanco (4,93:1 /
-     5,06:1). NO usar sobre `--warm-150` (4,38:1, incumple). */
-  --text-placeholder: oklch(54% 0.012 var(--hue-neutral));
+     rampa. CONTRATO: solo sobre `--surface` (5,04:1), `--warm-50` (4,90:1) o
+     `--brand-canvas` (4,59:1). NO usar sobre `--warm-150` (4,36:1, incumple). */
+  --text-placeholder: oklch(54% 0.0326 256.9deg);
 
   /* ------------------------------------------------------------------ *
    * TIPOGRAFÍA — DS-05. En `rem` y no en `px`: `px` absoluto ignora el
@@ -287,47 +333,58 @@
     0 1px 2px rgb(50 20 80 / 8%), 0 6px 16px -6px oklch(40% 0.18 var(--hue) / 45%);
   --shadow-modal: 0 20px 60px rgb(40 20 80 / 30%);
 
+  /* Velo claro sobre superficie oscura: es el `surface #FFFFFF` del kit con
+     alfa, no un gris. Único sitio donde un blanco translúcido es correcto —
+     sobre el hero de marca, donde ningún escalón de la rampa clara se separa
+     del fondo. Decorativos: el borde y el texto del control que rellenan van
+     por token opaco y son los que cumplen §1.4.11/§1.4.3. */
+  --overlay-light-10: rgb(255 255 255 / 10%);
+  --overlay-light-20: rgb(255 255 255 / 20%);
+
+  /* Velo del cargador global: el `navy #0F172A` que el kit marca como
+     `recommended_dark_ui`. Al 72% sobre una tarjeta blanca compone `#525866` y
+     la huella blanca encima mide 7,13:1; sobre `--brand-canvas`, 7,44:1. Un
+     cargador es indicador de estado, no adorno: le aplica el 3:1 de §1.4.11. */
+  --overlay-dark-72: rgb(15 23 42 / 72%);
+
   /* Anillos de foco — auditoría A11Y-01: `--amatista-50`/`--danger-200` daban
-   * 1,06:1 y 1,25:1 sobre `--warm-50` (el único indicador de foco de
+   * 1,07:1 y 1,30:1 sobre `--warm-50` (el único indicador de foco de
    * `.ds-btn`, que hace `outline: none`). WCAG 2.2 §1.4.11 Non-text Contrast
    * (AA) exige 3:1 contra la superficie; §2.4.7 Focus Visible (AA) exige que
    * el indicador exista (no fija ratio) — no confundir con §2.4.11 Focus Not
    * Obscured (AA, contenido superpuesto) ni §2.4.13 Focus Appearance (AAA,
-   * aspiracional). Anillo de dos capas: la primera repite la superficie
-   * (`--warm-50`) para separar el color del borde del control, y la segunda
-   * es el color con contraste real. `--amatista-500` da 4,44:1 sobre
-   * `--warm-50` (4,56:1 sobre blanco) y `--danger-500` da 5,16:1 (5,31:1
-   * sobre blanco) — verificado OKLCH → sRGB → luminancia relativa WCAG 2.x,
-   * no de memoria. */
+   * aspiracional). Anillo de dos capas: la primera es un casi blanco
+   * (`--warm-50`, 1,02:1 contra `--surface`) que separa el color del borde del
+   * control, y la segunda es el color con contraste real. `--amatista-500` da
+   * 4,39:1 sobre `--warm-50` (4,52:1 sobre `--surface`) y `--danger-500` da
+   * 5,28:1 (5,43:1 sobre `--surface`) — verificado OKLCH → sRGB → luminancia
+   * relativa WCAG 2.x, no de memoria. */
   --ring: 0 0 0 2px var(--warm-50), 0 0 0 4px var(--amatista-500);
   --ring-danger: 0 0 0 2px var(--warm-50), 0 0 0 4px var(--danger-500);
 
   /* ------------------------------------------------------------------ *
-   * SIGNO DEL IMPORTE — auditoría FE-08 (2ª pasada, `caja`): hex crudo sin
-   * token repetido en 4 sitios (CashMovementsTable, CloseCashModal,
-   * CashSessionDetailModal, FacturasProveedorView-negativo). No son el verde/
-   * rojo semántico de `--success-fg`/`--danger-900` — son un matiz propio del
-   * importe, así que se extraen aparte para no cambiar el tono al migrar.
+   * SIGNO DEL IMPORTE — alias de la escala semántica y no un tono propio: el
+   * signo de un importe es un atributo del dato, no una respuesta del sistema a
+   * una acción, y §1.4.1 ya queda cubierto por el `+`/`−` y los dígitos. El
+   * color solo acelera la lectura, así que puede reutilizar el par de estado sin
+   * decir «error» donde pone «egreso». REQUISITO que acompaña a esto: el signo
+   * tiene que estar SIEMPRE escrito, nunca implícito en el color.
    * ------------------------------------------------------------------ */
-  --amount-pos: #2f7d4f;
-  --amount-neg: #b4453a;
+  --amount-pos: var(--success-fg);
+  --amount-neg: var(--danger-900);
 
   /* ------------------------------------------------------------------ *
-   * "ACCIÓN POSITIVA" DE COMPRAS — auditoría FE-08 (fase final): el par
-   * quedó suelto, con el mismo valor byte a byte, en tres sitios —
-   * `CashStatusPill` (caja, literal) y `FacturasProveedorView`/
-   * `OrdenesRecepcionesView` (compras, cada una lo nombraba a mano como
-   * `--compras-ok-bg`/`-fg` en su propio `.ds-page`). No es el verde
-   * semántico de `--success-bg`/`-fg` (145deg, otro chroma/lightness) — es
-   * un matiz propio de "pagado/recibido/abierta", así que se extrae aparte
-   * para no cambiar el tono al migrar. Se conserva el nombre que ya usaban
-   * los consumidores de `compras`.
+   * "ACCIÓN POSITIVA" DE COMPRAS — «pagado», «recibido», «abierta» y
+   * «confirmado» son desenlaces positivos de un proceso: eso es el estado de
+   * éxito, no una familia aparte. Se conserva el nombre, que ya usan los seis
+   * consumidores (`CashStatusPill`, el hover de `ComprasIconButton`,
+   * `.pill.paid` de `FacturasProveedorView` y `.pill.received`/`.confirmed` de
+   * `OrdenesRecepcionesView`), pero el valor pasa a ser alias: 5deg de hue no
+   * son un matiz, son dos escalas para lo mismo. 5,84:1 (§1.4.3 AA). Si algún
+   * día hay que distinguir «pagado» de «guardado», se hace con texto e icono.
    * ------------------------------------------------------------------ */
-  --compras-ok-bg: oklch(92% 0.08 150deg);
-
-  /* A11Y-11 · WCAG 2.2, gamut sRGB — mismo defecto y mismo arreglo que la
-     escala danger de tokens.css. */
-  --compras-ok-fg: oklch(40% 0.1 150deg);
+  --compras-ok-bg: var(--success-bg);
+  --compras-ok-fg: var(--success-fg);
 
   /* ------------------------------------------------------------------ *
    * MOVIMIENTO
@@ -337,16 +394,26 @@
   --transition-slow: 0.18s ease;
 
   /* ------------------------------------------------------------------ *
-   * GRADIENTE PRIMARIO — el fondo de .btn-primary (16 copias en los SFC)
+   * GRADIENTE PRIMARIO — el fondo de `.ds-btn--primary` (`primitives.css`) y
+   * de los pocos CTA que todavía lo consumen directo.
+   * Las dos paradas SON los dos hexadecimales que el kit declara, no una
+   * interpolación entre ellos: indigo `#4F46E5` (`var(--hue)`, 277deg) y
+   * violet `#6D28D9` (292,6deg). Lo único que se pinta encima es `#fff` o
+   * `--warm-50`: 6,29:1 y 7,10:1 el primero, 6,12:1 y 6,91:1 el segundo
+   * (§1.4.3 AA; el peor caso de los cuatro es 6,12:1). El croma queda al
+   * 82,8 % y al 88,2 % del techo de gamut sRGB de su (L, hue).
    * ------------------------------------------------------------------ */
   --gradient-primary: linear-gradient(
     135deg,
-    oklch(45% 0.18 var(--hue)),
-    oklch(38% 0.18 calc(var(--hue) - 5))
+    oklch(51.1% 0.2301 var(--hue)),
+    oklch(49.1% 0.2412 292.6deg)
   );
 
-  /* Fondo de los botones destructivos de confirmación (modales de anulación). */
-  --gradient-danger: linear-gradient(135deg, oklch(52% 0.18 25deg), oklch(45% 0.18 22deg));
+  /* Fondo de los botones destructivos de confirmación (modales de anulación).
+     Blanco encima: 6,13:1 en la parada clara y 8,16:1 en la oscura (§1.4.3 AA).
+     La segunda parada estaba justo en el techo de gamut para su (L, hue), donde
+     el color pintado depende del motor. */
+  --gradient-danger: linear-gradient(135deg, oklch(52% 0.195 16.4deg), oklch(45% 0.17 13deg));
 
   /* ------------------------------------------------------------------ *
    * Z-INDEX — reemplaza los enteros sueltos (incluido un `2100 !important`)

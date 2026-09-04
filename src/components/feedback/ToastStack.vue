@@ -123,13 +123,12 @@ const iconFor = computed(() => (kind: ToastKind) => {
 }
 
 /* Sin escalón propio en `tokens.css`: la escala info de este sistema es el
-   matiz de marca (`--info-border`, hue de `--hue`), no este azul clásico, y
-   la escala warning no define un paso saturado equivalente a `--success-dot`. */
+   matiz de marca (`--info-border`, hue de `--hue`), no este azul clásico. */
 .toast-info .toast-icon {
   background: oklch(55% 0.16 240deg);
 }
 .toast-warn .toast-icon {
-  background: oklch(65% 0.16 75deg);
+  background: var(--warning-border);
 }
 .toast-error .toast-icon {
   background: var(--danger-500);
@@ -142,7 +141,7 @@ const iconFor = computed(() => (kind: ToastKind) => {
   border-left: 3px solid oklch(55% 0.16 240deg);
 }
 .toast-warn {
-  border-left: 3px solid oklch(65% 0.16 75deg);
+  border-left: 3px solid var(--warning-border);
 }
 .toast-error {
   border-left: 3px solid var(--danger-500);
@@ -170,8 +169,8 @@ const iconFor = computed(() => (kind: ToastKind) => {
   margin-top: 7px;
   padding: 3px 7px;
 
-  /* A11Y-09 · WCAG 2.2 §1.4.11 (AA): --warm-200 medía 1,23:1 sobre --warm-50.
-     --warm-450 da 3,54:1. Es un borde de control, no un separador. */
+  /* A11Y-09 · WCAG 2.2 §1.4.11 (AA): --warm-200 medía 1,20:1 sobre --warm-50.
+     --warm-450 da 3,55:1. Es un borde de control, no un separador. */
   border: 1px solid var(--warm-450);
   border-radius: 6px;
   background: var(--warm-50);
@@ -182,7 +181,7 @@ const iconFor = computed(() => (kind: ToastKind) => {
   max-width: 100%;
 }
 .toast-trace:hover {
-  /* --warm-500 (5,38:1): con el reposo en --warm-450, --warm-300 (1,48:1)
+  /* --warm-500 (5,34:1): con el reposo en --warm-450, --warm-300 (1,48:1)
      dejaba el hover más claro que el reposo. */
   border-color: var(--warm-500);
   color: var(--warm-700);

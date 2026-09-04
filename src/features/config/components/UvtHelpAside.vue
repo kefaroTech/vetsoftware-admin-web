@@ -40,7 +40,7 @@ import { ICONS } from '@/constants/icons'
   background: linear-gradient(135deg, var(--amatista-700), var(--amatista-800));
   border-radius: 14px;
   padding: 22px 24px;
-  color: #fff;
+  color: var(--warm-50);
   position: relative;
   overflow: hidden;
 }
@@ -52,7 +52,12 @@ import { ICONS } from '@/constants/icons'
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(170 175 254 / 25%), transparent 70%);
+  background: radial-gradient(circle, var(--amatista-300), transparent 70%);
+
+  /* El alfa va en la capa y no dentro del color para que el halo siga al
+     token. Solo es equivalente mientras este elemento no pinte nada más que
+     este degradado. */
+  opacity: 0.25;
 }
 
 .explain-body {
@@ -75,11 +80,11 @@ import { ICONS } from '@/constants/icons'
 }
 
 .explain strong {
-  color: #fff;
+  color: var(--warm-50);
 }
 
 .note {
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--info-border);
   border-radius: 12px;
   padding: 18px 20px;

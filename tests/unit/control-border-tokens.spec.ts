@@ -52,7 +52,14 @@ const ALLOWED_BORDER_TOKENS = new Set([
 ])
 
 /** Contenedores decorativos ya verificados uno a uno — no bordes de control. */
-const ALLOWLIST: readonly { file: string; selector: string; reason: string }[] = []
+const ALLOWLIST: readonly { file: string; selector: string; reason: string }[] = [
+  {
+    file: 'src/features/dashboard/views/DashboardView.vue',
+    selector: '.cta-secondary:hover',
+    reason:
+      'El borde va sobre el hero del panel (`linear-gradient(135deg, var(--amatista-700), var(--amatista-800))`), no sobre una superficie clara: la lista blanca está calibrada contra `--warm-50` y aquí `--warm-50` ES el borde. Mide 8,68:1 y 12,76:1 contra las dos paradas opacas del hero, y 6,66:1 / 4,83:1 contra la cara interior, donde el velo del `:hover` (`--overlay-light-10`) aclara el fondo — los dos últimos son el mismo píxel compuesto en espacio gamma y en espacio lineal, los dos modelos que el repo tiene vivos (public-web#334). El peor de los cuatro números, con cualquiera de los dos modelos, deja +1,83 sobre el 3:1 de §1.4.11.',
+  },
+]
 
 const BTN_RE = /btn/i
 const BUTTON_ELEMENT_RE = /(^|[^a-z0-9_])button([^a-z0-9_-]|$)/i
