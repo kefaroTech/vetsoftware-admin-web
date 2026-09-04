@@ -54,29 +54,36 @@ const SHOTS = [
   'dinero-tabla',
   'dinero-nota',
   'dinero-divisa',
+
+  // A11Y-09. `ToastStack` es gemelo TR-02 y no tenía NI UNA línea base: el
+  // borde del chip de traza pasó de 1,23:1 a 3,54:1 y ninguna captura miraba
+  // esa superficie, así que el cambio se habría ido a producción sin red.
+  'avisos',
 ] as const
 
 /**
  * Todo lo que haría que dos ejecuciones idénticas produjeran píxeles distintos.
  *
  * ── Las fuentes son las REALES, y llegan por disco ─────────────────────────
- * Antes esto reescribía `--font-sans/serif/mono` a las DejaVu del contenedor,
- * así que las capturas fotografiaban una tipografía que la aplicación no usa:
- * la migración a Geist no habría movido un solo píxel, y una caída de Geist a
- * la pila de respaldo habría pasado en verde para siempre.
- *
- * Ahora `gallery.html` enlaza `visual/fonts.css`, que declara las familias del
+ * `gallery.html` enlaza `visual/fonts.css`, que declara las familias del
  * producto desde ficheros `.woff2` versionados en `visual/fonts/`. Se sigue
  * bloqueando Google Fonts —la red metería latencia, fallos intermitentes y
  * diferencias entre ejecuciones—, pero ya no hace falta para nada: lo que se
  * compara es la MISMA fuente, la de verdad, en ambos lados.
+ *
+ * Están las DIEZ caras que `fonts.css` declara y no solo las que la galería
+ * pinta: la guarda `sinCargar` exige que ninguna quede en `unloaded`, y una
+ * cara que nadie pida se queda ahí aunque el bloque salga correcto.
  */
 const CARAS = [
-  '400 16px Geist',
-  '500 16px Geist',
-  '600 16px Geist',
-  '400 16px "Instrument Serif"',
-  'italic 400 16px "Instrument Serif"',
+  '400 16px Inter',
+  '500 16px Inter',
+  '600 16px Inter',
+  '700 16px Inter',
+  '400 16px Poppins',
+  '500 16px Poppins',
+  '600 16px Poppins',
+  '700 16px Poppins',
   '400 16px "JetBrains Mono"',
   '500 16px "JetBrains Mono"',
 ] as const
@@ -115,10 +122,10 @@ async function estabilizar(page: Page) {
     [...CARAS],
   )
 
-  // La guarda que faltaba. Sin ella, que Geist no cargue se manifiesta como un
-  // diff de píxeles enigmático —o como nada en absoluto, que es lo que pasaba—
-  // en vez de como un fallo que se explica solo. Se comprueba ANTES de comparar
-  // un solo píxel.
+  // La guarda que faltaba. Sin ella, que una familia no cargue se manifiesta
+  // como un diff de píxeles enigmático —o como nada en absoluto, que es lo que
+  // pasaba— en vez de como un fallo que se explica solo. Se comprueba ANTES de
+  // comparar un solo píxel.
   expect(fuentes.fallidas, 'no se pudieron descargar de visual/fonts/').toEqual([])
   expect(fuentes.sinCargar, 'declaradas en visual/fonts.css pero sin cargar').toEqual([])
   expect(

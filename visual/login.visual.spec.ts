@@ -24,17 +24,25 @@ import { test, expect, type Page } from '@playwright/test'
  * —la red mete latencia y fallos intermitentes, y el contenedor de CI no tiene
  * por qué salir a internet— y se inyecta `visual/fonts.css`, que sirve los MISMOS
  * ficheros `.woff2` desde el repositorio. Se comprueba que cargaron ANTES de
- * comparar un píxel: sin esa guarda, que Geist no cargue se manifiesta como un
- * diff enigmático o, peor, como nada en absoluto.
+ * comparar un píxel: sin esa guarda, que una familia no cargue se manifiesta
+ * como un diff enigmático o, peor, como nada en absoluto.
  */
 
-/** Las caras que usa esta pantalla. Menos que la galería: aquí no hay monoespaciada. */
+/**
+ * Las caras que usa esta pantalla. Menos que la galería: aquí no hay
+ * monoespaciada. De la familia de titular entran dos pesos —el 400 del
+ * `.title` y el 700 del nombre de marca de la barra—, y van los dos porque
+ * Poppins los sirve en ficheros `.woff2` distintos: si faltara el de 700, el
+ * navegador sintetizaría la negrita y la diferencia aparecería como un diff de
+ * píxeles enigmático en vez de como esta comprobación.
+ */
 const CARAS = [
-  '400 16px Geist',
-  '500 16px Geist',
-  '600 16px Geist',
-  '400 16px "Instrument Serif"',
-  'italic 400 16px "Instrument Serif"',
+  '400 16px Inter',
+  '500 16px Inter',
+  '600 16px Inter',
+  '700 16px Inter',
+  '400 16px Poppins',
+  '700 16px Poppins',
 ] as const
 
 async function estabilizar(page: Page) {

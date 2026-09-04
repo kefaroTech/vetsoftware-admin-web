@@ -45,8 +45,11 @@ import {
  * Se comprueba que cargaron antes de comparar un píxel.
  */
 
-/** Las caras del armazón: la consola no usa la serif fuera de la portada. */
-const CARAS = ['400 16px Geist', '500 16px Geist', '600 16px Geist'] as const
+/**
+ * Las caras del armazón. La familia de titular sólo la pide el logotipo de la
+ * barra lateral (`SidebarBrand`), y en su peso más alto.
+ */
+const CARAS = ['400 16px Inter', '500 16px Inter', '600 16px Inter', '700 16px Poppins'] as const
 
 async function estabilizar(page: Page) {
   await abrirListadoLargo(page)
