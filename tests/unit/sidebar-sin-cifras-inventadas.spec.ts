@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 import AppSidebar from '@/components/layout/AppSidebar.vue'
+import AppHeader from '@/components/layout/AppHeader.vue'
+import { useAuthStore } from '@/features/auth/stores/auth.store'
+import type { MeResponse } from '@/features/auth/types/auth.types'
 
 /**
  * Guarda de EST-12 — el sidebar no inventa datos.
@@ -59,8 +62,8 @@ async function montarSidebar() {
   })
 }
 
-/** Los textos visibles del `<nav>`, nodo a nodo y ya recortados. */
-function textosDeLaNavegacion(nav: Element): string[] {
+/** Los textos visibles de un subárbol, nodo a nodo y ya recortados. */
+function textosVisibles(nav: Element): string[] {
   const walker = nav.ownerDocument.createTreeWalker(nav, NodeFilter.SHOW_TEXT)
   const textos: string[] = []
   for (let node = walker.nextNode(); node !== null; node = walker.nextNode()) {
@@ -76,7 +79,7 @@ describe('sidebar sin cifras inventadas (EST-12)', () => {
     const nav = wrapper.find('nav')
     expect(nav.exists(), 'el sidebar dejó de tener un <nav>').toBe(true)
 
-    const cifras = textosDeLaNavegacion(nav.element).filter((texto) => FORMA_DE_CIFRA.test(texto))
+    const cifras = textosVisibles(nav.element).filter((texto) => FORMA_DE_CIFRA.test(texto))
 
     expect(
       cifras,
@@ -89,7 +92,7 @@ describe('sidebar sin cifras inventadas (EST-12)', () => {
     // silencio o el marcado cambió— haría pasar la prueba de arriba sin mirar
     // nada. Los submenús usan `v-show`, así que sus hijos están en el DOM.
     const wrapper = await montarSidebar()
-    const textos = textosDeLaNavegacion(wrapper.find('nav').element)
+    const textos = textosVisibles(wrapper.find('nav').element)
 
     expect(textos).toContain('Empresas')
     expect(textos).toContain('Permisos base')
@@ -152,7 +155,7 @@ describe('el menú cuenta la cadena del modelo de suscripciones (§2)', () => {
 
   it('las ocho entradas van en el orden de la cadena', async () => {
     const wrapper = await montarSidebar()
-    const textos = textosDeLaNavegacion(wrapper.find('nav').element)
+    const textos = textosVisibles(wrapper.find('nav').element)
     const posiciones = CADENA.map((etiqueta) => textos.indexOf(etiqueta))
 
     expect(posiciones, `falta alguna entrada del grupo: ${CADENA.join(' → ')}`).not.toContain(-1)
@@ -166,9 +169,81 @@ describe('el menú cuenta la cadena del modelo de suscripciones (§2)', () => {
     // §2.1: es UNA fila de configuración; un grupo de primer nivel le daría el
     // mismo peso que a «Contratos».
     const wrapper = await montarSidebar()
-    const textos = textosDeLaNavegacion(wrapper.find('nav').element)
+    const textos = textosVisibles(wrapper.find('nav').element)
 
     expect(textos).toContain('Facturación de plataforma')
     expect(textos.indexOf('Facturación de plataforma')).toBeGreaterThan(textos.indexOf('Sistema'))
+  })
+})
+
+/**
+ * El punto ciego que EST-12 dejó anotado y que R14 arrastraba «sin verificar»:
+ * las dos guardas de arriba recorren el `<nav>`, y la tarjeta de sesión es
+ * HERMANA del `<nav>`, no descendiente. Ahí siguieron «AD / Admin / Super
+ * administrador» escritos en duro, y en la cabecera un punto de aviso siempre
+ * encendido sin ningún aviso detrás.
+ *
+ * Por eso esta guarda recorre el `<aside>` ENTERO y monta la tarjeta de verdad,
+ * sin sustituirla por un doble: sustituida es justo como se escapó la primera
+ * vez.
+ */
+describe('el armazón no inventa identidad ni avisos (R14)', () => {
+  const IDENTIDAD_INVENTADA = /^(AD|Admin|Super administrador)$/
+
+  const SESION: MeResponse = {
+    id: 7,
+    type: 'SYSTEM_USER',
+    companyId: null,
+    name: 'Ana Ruiz Pérez',
+    employeeCode: null,
+    permissions: [],
+    mustChangePassword: false,
+    branchIds: [],
+  }
+
+  /**
+   * `AppSidebar` tiene DOS raíces (el velo y el `<aside>`), así que su
+   * `wrapper.element` es el marcador de posición del `v-if` y recorrerlo no
+   * visitaría ningún texto: la guarda pasaría sin mirar nada.
+   */
+  async function textosDelAside() {
+    await router.push('/empresas')
+    await router.isReady()
+    const aside = mount(AppSidebar, { global: { plugins: [router] } }).find('aside')
+    expect(aside.exists(), 'el armazón dejó de tener un <aside>').toBe(true)
+    return textosVisibles(aside.element)
+  }
+
+  it('sin sesión resuelta, el pie no afirma quién está operando', async () => {
+    const textos = await textosDelAside()
+    const inventados = textos.filter((texto) => IDENTIDAD_INVENTADA.test(texto))
+
+    expect(
+      inventados,
+      `el armazón volvió a afirmar una identidad que nadie entregó: ${inventados.join(', ')}`,
+    ).toEqual([])
+    expect(textos).toContain('Mi cuenta')
+  })
+
+  it('con `/auth/me` resuelto dice el nombre real y sus iniciales', async () => {
+    // Contrapartida: sin esto, una tarjeta que no pintara NADA pasaría la prueba
+    // de arriba sin que el usuario sepa nunca con qué cuenta está trabajando.
+    useAuthStore().me = SESION
+    const textos = await textosDelAside()
+
+    expect(textos).toContain('Ana Ruiz Pérez')
+    expect(textos).toContain('AP')
+    expect(textos).not.toContain('Mi cuenta')
+  })
+
+  it('la cabecera no lleva un indicador de estado sin dato que lo alimente', async () => {
+    await router.isReady()
+    const wrapper = mount(AppHeader, { global: { plugins: [router] } })
+
+    expect(
+      wrapper.find('[aria-label="Notificaciones"]').exists(),
+      'volvió un control de notificaciones: solo vale con un destino y un contador reales',
+    ).toBe(false)
+    expect(wrapper.html()).not.toMatch(/bell-dot/)
   })
 })

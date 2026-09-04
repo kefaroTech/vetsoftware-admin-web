@@ -23,16 +23,6 @@ function goToCompanies() {
 </script>
 
 <template>
-  <!--
-    Retirado el buscador global. NO era un campo: era un `<div>` con una lupa y
-    un `<span class="search-placeholder">Buscar empresas, módulos, permisos…
-    </span>`. No se podía enfocar, no se podía escribir en él y no hacía nada,
-    pero ocupaba 400 px del sitio más visible de la consola y era lo primero que
-    veía todo el que la abría. Un control muerto que aparenta estar vivo
-    incumple la heurística 1 de Nielsen (visibilidad del estado del sistema) y
-    §4.1.2 Name, Role, Value: o se implementa, o se retira. Implementarlo es una
-    feature con backend detrás —hay issue abierto—, así que aquí se retira.
-  -->
   <header class="topbar">
     <!--
       Primero de la fila y alineado a la izquierda: es el punto donde cae el
@@ -54,11 +44,12 @@ function goToCompanies() {
       <component :is="ICONS.MENU" :size="18" />
     </button>
     <div class="spacer" />
-    <button class="bell-btn ds-icon-btn--accent ds-focus-ring" aria-label="Notificaciones">
-      <component :is="ICONS.BELL" :size="15" />
-      <span class="bell-dot" />
-    </button>
-    <button v-if="!onCompaniesList" class="primary-btn ds-flex-row" @click="goToCompanies">
+    <button
+      v-if="!onCompaniesList"
+      type="button"
+      class="ds-btn ds-btn--solid ds-btn--snug ds-btn--strong ds-flex-row"
+      @click="goToCompanies"
+    >
       <component :is="ICONS.ADD" :size="14" />
       Nueva empresa
     </button>
@@ -67,6 +58,12 @@ function goToCompanies() {
 
 <style scoped>
 .topbar {
+  /* El tono oscuro del CTA se declara aquí, no en una regla de este `scoped`:
+     una regla local lleva `[data-v-…]` y pesa (0,2,0), así que le ganaría a la
+     primitiva (0,1,0) y `.ds-btn--solid` dejaría de gobernar el botón. La
+     variable de escape es la salida que la propia primitiva documenta. */
+  --ds-btn-solid-bg: var(--warm-900);
+
   padding: var(--space-16) var(--space-32);
   border-bottom: 1px solid var(--border);
   background: var(--surface);
@@ -80,19 +77,19 @@ function goToCompanies() {
   flex: 1;
 }
 
-/* Los dos botones de icono de la barra comparten cuerpo: se declaran juntos en
-   vez de dos veces, que es lo que `css:budget` cuenta como cuerpo repetido. */
-.menu-btn,
-.bell-btn {
-  width: 34px;
-  height: 34px;
+/* La hamburguesa es el ÚNICO acceso a la navegación en tablet, y solo existe
+   en esa banda (`v-if`), por eso no hay `@media` que la suba. §2.5.8 Target
+   Size (Minimum) pide 24×24 px CSS en AA; 44 es la cifra de comodidad, y en el
+   control que abre todo el menú se paga entera. */
+.menu-btn {
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-md);
   border: 1px solid var(--warm-450);
   background: var(--surface);
   display: grid;
   place-items: center;
   cursor: pointer;
-  position: relative;
   color: var(--warm-800);
   flex-shrink: 0;
   transition:
@@ -100,56 +97,11 @@ function goToCompanies() {
     border-color var(--transition-base);
 }
 
-/* La hamburguesa es el ÚNICO acceso a la navegación en tablet, así que va a
-   44×44 en las dos bandas. §2.5.8 Target Size (Minimum) pide 24×24 px CSS en
-   AA; 44 es la cifra de comodidad, y en el control que abre todo el menú se
-   paga entera. */
-.menu-btn {
-  width: 44px;
-  height: 44px;
-}
-
-.bell-dot {
-  position: absolute;
-  top: 6px;
-  right: 7px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--amatista-700);
-  border: 2px solid var(--surface);
-}
-
-.primary-btn {
-  padding: var(--space-8) var(--space-14);
-  border-radius: var(--radius-md);
-  border: none;
-  background: var(--warm-900);
-  font-size: var(--text-body);
-  font-weight: var(--weight-semibold);
-  color: var(--warm-50);
-  cursor: pointer;
-  font-family: inherit;
-  transition: background var(--transition-base);
-}
-
-.primary-btn:hover {
-  background: var(--warm-800);
-}
-
-/* A 768 px la barra superior tenía 32 px de padding a cada lado y competía por
-   el ancho con el contenido.
-   La campana sube a 44×44 en la banda de cajón: 34×34 pasa §2.5.8 (24×24 px
-   CSS, AA) pero queda por debajo del objetivo cómodo en táctil, y aquí es
-   vecina directa de la hamburguesa y del botón primario. */
+/* En la banda de cajón los 32 px de relleno lateral de `.topbar` compiten por el
+   ancho con el contenido. */
 @media (width <= 1024px) {
   .topbar {
     padding: var(--space-14) var(--space-18);
-  }
-
-  .bell-btn {
-    width: 44px;
-    height: 44px;
   }
 }
 </style>

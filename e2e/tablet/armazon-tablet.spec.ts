@@ -183,10 +183,10 @@ for (const { nombre, viewport } of VIEWPORTS_TABLET) {
       ).toEqual([])
 
       /*
-       * 19, y la cifra está MEDIDA en el navegador, no deducida de `sidebar-nav.ts`.
+       * 21, y la cifra está MEDIDA en el navegador, no deducida de `sidebar-nav.ts`.
        *
-       * Las dos no coinciden y por eso hay que medirla: el array declara 20
-       * entradas de primer nivel —18 hojas y 2 acordeones— y el cajón pinta 19.
+       * Las dos no coinciden y por eso hay que medirla: el array declara 22
+       * entradas de primer nivel —20 hojas y 2 acordeones— y el cajón pinta 21.
        * La que falta es «Empleados», cuyo `/empleados` no lo declara ningún
        * `routes/*.routes.ts`, así que `isAvailable()` (`AppSidebar.vue:31-40`)
        * la descarta por `router.resolve(...).matched.length === 0`. En `npm run
@@ -199,8 +199,12 @@ for (const { nombre, viewport } of VIEWPORTS_TABLET) {
        * verificado. Si vuelve a fallar, la respuesta NO es mover la constante:
        * es abrir el cajón y contar, porque lo que ha cambiado es el menú o el
        * router.
+       * Las dos que separan este 21 del 19 anterior son «Supresión de datos»
+       * (`/asistente/supresion-datos`) y «Pistas del asistente»
+       * (`/asistente/pistas`), ambas con su ruta registrada. La cifra se sacó
+       * contando el menú pintado, no sumándole dos a la anterior.
        */
-      expect(etiquetas.primerNivel.length, 'entradas de primer nivel del cajón').toBe(19)
+      expect(etiquetas.primerNivel.length, 'entradas de primer nivel del cajón').toBe(21)
     })
 
     test('§8.13 · con el cajón cerrado la navegación es inerte y Tab no la alcanza', async ({
@@ -413,10 +417,9 @@ for (const { nombre, viewport } of VIEWPORTS_TABLET) {
     }) => {
       await abrirListadoLargo(page)
 
-      // Los dos de la cabecera se miden con el cajón cerrado, que es como el
-      // usuario los encuentra.
+      // Se mide con el cajón cerrado, que es como el usuario lo encuentra.
       const cabecera = await page.evaluate(() =>
-        ['Menú de navegación', 'Notificaciones'].map((nombre) => {
+        ['Menú de navegación'].map((nombre) => {
           const el = document.querySelector<HTMLElement>(`[aria-label="${nombre}"]`)
           const r = el?.getBoundingClientRect()
           return { nombre, width: r?.width ?? 0, height: r?.height ?? 0 }

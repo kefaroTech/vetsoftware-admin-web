@@ -51,6 +51,16 @@ const toggle = (parent: NavParent) => {
 }
 
 /**
+ * Ancla de `aria-controls` de cada acordeón: sin ella el lector anuncia que
+ * algo se expande pero no QUÉ (patrón Disclosure del APG).
+ *
+ * Los espacios del rótulo se sustituyen porque `aria-controls` es una lista de
+ * IDREF separada por espacios: «Catálogos clínicos» tal cual apuntaría a dos
+ * identificadores inexistentes.
+ */
+const subListId = (parent: NavParent) => `navsub-${parent.label.replace(/\s+/g, '-')}`
+
+/**
  * En tablet el rótulo de cada enlace ya NO se oculta: el sidebar deja de
  * colapsar a un raíl de iconos y pasa a ser un cajón modal con el texto
  * completo. Por eso desaparece el `.ds-sr-only` que este componente aplicaba a
@@ -160,6 +170,7 @@ const { isDrawerViewport, navOpen, closeNav, onTrapTab } = useNavDrawer({
                 class="nav-item nav-item-parent ds-focus-ring"
                 :class="{ 'is-active': isChildActive(item) }"
                 :aria-expanded="isExpanded(item)"
+                :aria-controls="subListId(item)"
                 :title="item.label"
                 @click="toggle(item)"
               >
@@ -173,7 +184,11 @@ const { isDrawerViewport, navOpen, closeNav, onTrapTab } = useNavDrawer({
                 />
               </button>
 
-              <ul v-show="isExpanded(item)" class="nav-sublist ds-stack ds-list-reset">
+              <ul
+                v-show="isExpanded(item)"
+                :id="subListId(item)"
+                class="nav-sublist ds-stack ds-list-reset"
+              >
                 <li v-for="child in item.children" :key="child.path">
                   <RouterLink v-slot="{ href, navigate, isActive }" :to="child.path" custom>
                     <a
@@ -212,7 +227,7 @@ const { isDrawerViewport, navOpen, closeNav, onTrapTab } = useNavDrawer({
 .sidebar {
   background: var(--surface);
   border-right: 1px solid var(--border);
-  padding: var(--space-20) var(--space-16);
+  padding: var(--space-20) var(--space-12);
   height: 100%;
   min-height: 0;
   overflow: hidden;
@@ -226,8 +241,22 @@ const { isDrawerViewport, navOpen, closeNav, onTrapTab } = useNavDrawer({
   margin-top: var(--space-18);
 }
 
+/* El raíl persistente tiene que caber ENTERO en el alto de la ventana: en
+   cuanto no cabe, `.nav-groups` pasa a ser un segundo contenedor de scroll y
+   la consola vuelve a tener las dos barras que §8.3 de
+   `docs/ux/armazon-tablet-especificacion.md` prohíbe. El reparto vertical de
+   esta banda es, por tanto, una restricción de cabida y no una preferencia:
+   quien añada entradas al menú tiene que volver a medirlo.
+   La banda de cajón NO hereda la compresión —allí el alto es la pantalla
+   entera y las filas vuelven a 44 px— y por eso se restaura en el `@media`. */
 .nav-group {
-  margin-bottom: var(--space-18);
+  margin-bottom: var(--space-10);
+}
+
+/* Un margen final dentro de un contenedor desplazable es alto que nadie ve y
+   que sí cuenta para desbordar. */
+.nav-group:last-child {
+  margin-bottom: 0;
 }
 
 /* En compacto esto se convertía en una raya de 32×1 px de `--border`: 1,23:1
@@ -243,17 +272,28 @@ const { isDrawerViewport, navOpen, closeNav, onTrapTab } = useNavDrawer({
   padding: 0 var(--space-12) var(--space-6);
 }
 
+/* 1 px y no un escalón de la rampa, aquí y en `.nav-sublist`: es el pelo que
+   impide que los fondos de dos filas contiguas resaltadas se fundan en un solo
+   bloque, no un hueco de composición. Con `0` la lista se lee como una barra
+   continua al recorrerla con el teclado. */
 .nav-list {
   gap: 1px;
 }
 
+/* El rótulo más largo del menú («Facturación de plataforma») mide ~163 px a
+   13 px, y con esta caja le quedan 171 px. Subir el padding lo corta con puntos
+   suspensivos en todas las pantallas autenticadas: el raíl está en todas. */
 .nav-item {
   display: flex;
   align-items: center;
   gap: var(--space-10);
-  padding: 7px var(--space-12) 7px var(--space-16);
+  padding: 5px var(--space-12);
   border-radius: 7px;
   font-size: var(--text-body);
+
+  /* El rótulo siempre ocupa UNA línea (`.ds-truncate`), así que el 1,5 heredado
+     del texto corrido son 2,6 px de caja que no separan nada de nada. */
+  line-height: 1.3;
   font-weight: var(--weight-medium);
   color: var(--warm-800);
   text-decoration: none;
@@ -401,6 +441,13 @@ const { isDrawerViewport, navOpen, closeNav, onTrapTab } = useNavDrawer({
      las tres variantes porque las tres llevan `.nav-item`. */
   .nav-item {
     min-height: 44px;
+  }
+
+  /* El cajón no compite por el alto: ocupa la pantalla entera y ya asume su
+     propia barra cuando la lista no cabe (§8.4). La separación entre grupos
+     vuelve al aire que necesita una lista que se recorre con el dedo. */
+  .nav-group {
+    margin-bottom: var(--space-18);
   }
 }
 </style>
