@@ -100,12 +100,14 @@ export const subscriptionsAdminRoutes: RouteRecordRaw[] = [
     path: '/suscripciones',
     name: ROUTE_NAMES.SUBSCRIPTIONS_ADMIN,
     component: () => import('@/features/subscriptions-admin/views/SubscriptionsAdminView.vue'),
+    meta: { title: 'Contratos' },
   },
   {
     path: '/suscripciones/:companyId(\\d+)/:id(\\d+)',
     name: SUBSCRIPTION_RECORD_ROUTE_NAMES.RECORD,
     component: () => import('@/features/subscriptions-admin/views/SubscriptionRecordLayout.vue'),
     props: true,
+    meta: { title: 'Contrato' },
     // Conserva `companyId` e `id` al redirigir: sin los params, la sub-vista por
     // defecto no sabría sobre qué empresa se está trabajando.
     redirect: (to) => ({
@@ -117,6 +119,7 @@ export const subscriptionsAdminRoutes: RouteRecordRaw[] = [
       name: tab.routeName,
       component: tab.component,
       props: true,
+      meta: { title: `${tab.label} · Contrato` },
     })),
   },
 ]

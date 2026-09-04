@@ -42,7 +42,11 @@
     "lint-staged.config.mjs",
     "commitlint.config.js",
     "AGENTS.md",
-    "stylelint-plugins/no-duplicate-primitive.mjs"
+    "stylelint-plugins/no-duplicate-primitive.mjs",
+    "docs/ux/reglas-de-interfaz.md",
+    "docs/ux/README.md",
+    "docs/ux/patron-de-busqueda-en-listado.md",
+    "docs/ux/patron-de-mensajes.md"
   ],
   "allowlist": [
     {

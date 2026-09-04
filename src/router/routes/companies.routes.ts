@@ -100,14 +100,14 @@ export const companiesRoutes: RouteRecordRaw[] = [
     path: '/empresas',
     name: ROUTE_NAMES.COMPANIES_LIST,
     component: () => import('@/features/companies/views/CompaniesListView.vue'),
-    meta: { permission: PERMISSIONS.COMPANY_CREATE },
+    meta: { permission: PERMISSIONS.COMPANY_CREATE, title: 'Empresas' },
   },
   {
     path: '/empresas/:id(\\d+)',
     name: ROUTE_NAMES.COMPANY_DETAIL,
     component: () => import('@/features/companies/views/CompanyRecordLayout.vue'),
     props: true,
-    meta: { permission: PERMISSIONS.COMPANY_CREATE },
+    meta: { permission: PERMISSIONS.COMPANY_CREATE, title: 'Empresa' },
     // Conserva `id` al redirigir: sin el param, la sub-vista por defecto no
     // sabría de qué empresa se está hablando.
     redirect: (to) => ({
@@ -121,7 +121,7 @@ export const companiesRoutes: RouteRecordRaw[] = [
       // Las construidas reciben los params de la ruta; las pendientes reciben su
       // propia declaración de qué falta, que es lo único que tienen que pintar.
       props: tab.pending ? { pending: tab.pending } : true,
-      meta: { permission: PERMISSIONS.COMPANY_CREATE },
+      meta: { permission: PERMISSIONS.COMPANY_CREATE, title: `${tab.label} · Empresa` },
     })),
   },
 ]

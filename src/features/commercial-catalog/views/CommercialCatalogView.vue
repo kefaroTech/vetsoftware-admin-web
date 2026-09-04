@@ -176,6 +176,7 @@ async function toggleItem(item: CatalogItemResponse) {
 
     <section v-if="activeTab === 'items'" class="section ds-stack ds-stack--14">
       <AppTable
+        caption="Artículos del catálogo"
         :headers="['Código', 'Artículo', 'Tipo', 'Capacidad', 'Estado', 'Acciones']"
         :empty="catalogItems.items.value.length === 0"
         :loading="catalogItems.loading.value"

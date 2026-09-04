@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { ICONS } from '@/constants/icons'
 
 /**
@@ -32,33 +32,63 @@ const props = defineProps<{
   pageCount: number
 }>()
 
-defineEmits<{ 'update:page': [value: number] }>()
+const emit = defineEmits<{ 'update:page': [value: number] }>()
+
+const nav = ref<HTMLElement | null>(null)
+const anterior = ref<HTMLButtonElement | null>(null)
+const siguiente = ref<HTMLButtonElement | null>(null)
 
 const desde = computed(() => (props.total === 0 ? 0 : (props.page - 1) * props.pageSize + 1))
 const hasta = computed(() => Math.min(props.page * props.pageSize, props.total))
 const hayPrevia = computed(() => props.page > 1)
 const haySiguiente = computed(() => props.page < props.pageCount)
+
+/**
+ * Al llegar a un borde, el botón que se acaba de pulsar se deshabilita: el
+ * navegador suelta el foco y lo deja en `<body>`, así que el siguiente `Tab`
+ * reinicia el recorrido desde el principio del documento (R02, «Persistence of
+ * focus» del APG). Por eso el destino se elige aquí y no se le deja al
+ * navegador. Solo se interviene si el foco estaba en ese botón: tras un clic de
+ * ratón sobre otro sitio, mover el foco sería peor que no hacer nada.
+ */
+async function ir(destino: number) {
+  const pulsado = destino > props.page ? siguiente.value : anterior.value
+  const teniaFoco = document.activeElement === pulsado
+  emit('update:page', destino)
+  if (!teniaFoco) return
+  await nextTick()
+  if (!pulsado?.disabled) return
+  const otro = pulsado === siguiente.value ? anterior.value : siguiente.value
+  ;(otro && !otro.disabled ? otro : nav.value)?.focus()
+}
 </script>
 
 <template>
-  <nav class="paginador" aria-label="Paginación">
-    <p class="rango ds-meta">Mostrando {{ desde }}–{{ hasta }} de {{ total }}</p>
+  <!-- `tabindex="-1"` es el destino de último recurso del foco cuando los dos
+       botones quedan deshabilitados a la vez (una sola página). -->
+  <nav ref="nav" class="paginador" aria-label="Paginación" tabindex="-1">
+    <!-- El rango es la región viva: el nodo ya es persistente y visible, así que
+         `role="status"` lo anuncia al cambiar sin repetir la frase en un segundo
+         nodo que el lector leería dos veces al recorrer la página. -->
+    <p class="rango ds-meta" role="status">Mostrando {{ desde }}–{{ hasta }} de {{ total }}</p>
     <div class="botones ds-flex-row">
       <button
+        ref="anterior"
         type="button"
         class="ds-btn ds-btn--ghost ds-btn--sm"
         :disabled="!hayPrevia"
-        @click="$emit('update:page', page - 1)"
+        @click="ir(page - 1)"
       >
         <component :is="ICONS.CHEVRON_LEFT" :size="14" />
         Anterior
       </button>
       <span class="ds-meta">Página {{ page }} de {{ Math.max(pageCount, 1) }}</span>
       <button
+        ref="siguiente"
         type="button"
         class="ds-btn ds-btn--ghost ds-btn--sm"
         :disabled="!haySiguiente"
-        @click="$emit('update:page', page + 1)"
+        @click="ir(page + 1)"
       >
         Siguiente
         <component :is="ICONS.CHEVRON_RIGHT" :size="14" />

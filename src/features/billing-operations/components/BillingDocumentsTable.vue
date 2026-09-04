@@ -126,6 +126,7 @@ function formatPeriod(document: BillingDocumentResponse) {
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      caption="Documentos de cobro"
       money
       :headers="headers"
       :empty="documents.length === 0"
@@ -159,7 +160,7 @@ function formatPeriod(document: BillingDocumentResponse) {
           </span>
         </td>
         <td><CompanyRef :company-id="document.companyId" /></td>
-        <td>{{ DOCUMENT_KIND_LABEL[document.documentKind] }}</td>
+        <td>{{ DOCUMENT_KIND_LABEL[document.documentKind] ?? '—' }}</td>
         <td>#{{ document.subscriptionId }}</td>
         <td>{{ formatPeriod(document) }}</td>
         <td>

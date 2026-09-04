@@ -50,16 +50,19 @@ export const trialsRoutes: RouteRecordRaw[] = [
     name: TRIALS_ROUTE_NAMES.ROOT,
     redirect: { name: TRIALS_ROUTE_NAMES.EXPIRATIONS },
     component: () => import('@/features/trials/views/TrialsView.vue'),
+    meta: { title: 'Pruebas y concesiones' },
     children: [
       {
         path: 'vencimientos',
         name: TRIALS_ROUTE_NAMES.EXPIRATIONS,
         component: () => import('@/features/trials/views/TrialExpirationsView.vue'),
+        meta: { title: 'Vencimientos del día' },
       },
       {
         path: 'fotos',
         name: TRIALS_ROUTE_NAMES.SNAPSHOTS,
         component: () => import('@/features/trials/views/EntitlementSnapshotView.vue'),
+        meta: { title: 'Fotos de permisos' },
       },
     ],
   },

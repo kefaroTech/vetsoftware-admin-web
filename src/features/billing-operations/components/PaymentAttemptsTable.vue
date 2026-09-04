@@ -67,6 +67,7 @@ const HEADERS: AppTableHeader[] = [
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      caption="Intentos de cobro"
       money
       :headers="HEADERS"
       :empty="attempts.length === 0"
@@ -85,7 +86,7 @@ const HEADERS: AppTableHeader[] = [
           <span class="ds-meta linea">
             intento {{ attempt.attemptNumber }}
             <template
-              v-if="DECLINE_KIND_PRESENTATION[attempt.declineKind].consumesCustomerAttempts"
+              v-if="DECLINE_KIND_PRESENTATION[attempt.declineKind]?.consumesCustomerAttempts"
             >
               de {{ SOFT_MAX_ATTEMPTS }}
             </template>
@@ -145,7 +146,7 @@ const HEADERS: AppTableHeader[] = [
           <span
             v-else-if="showReschedule"
             class="ds-meta"
-            :title="DECLINE_KIND_PRESENTATION[attempt.declineKind].nextStep"
+            :title="DECLINE_KIND_PRESENTATION[attempt.declineKind]?.nextStep"
           >
             Pedir otro medio de pago
           </span>

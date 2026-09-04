@@ -153,6 +153,7 @@ async function submitLink(bankReceiptId: number) {
     </div>
 
     <AppTable
+      caption="Liquidaciones"
       money
       :headers="[
         'Pasarela',

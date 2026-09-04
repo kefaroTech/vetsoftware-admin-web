@@ -99,7 +99,7 @@ const rotuloNombre = computed(() =>
             <!-- Una lista vacía es un hecho, no un hueco: el contrato declara
                  `responsibilities` como requerido, así que vacía significa que la
                  empresa no declara ninguna. -->
-            <span v-if="profile.responsibilities.length === 0">
+            <span v-if="(profile.responsibilities?.length ?? 0) === 0">
               No declara ninguna responsabilidad fiscal.
             </span>
             <span v-else class="ds-flex-row etiquetas">

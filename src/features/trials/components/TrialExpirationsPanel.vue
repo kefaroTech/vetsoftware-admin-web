@@ -92,6 +92,7 @@ const HEADERS = ['Empresa', 'Artículo', 'Último día', 'Debía terminar en', '
     </p>
 
     <AppTable
+      caption="Pruebas que vencen ese día"
       :headers="HEADERS"
       :empty="rows.length === 0"
       :loading="loading"

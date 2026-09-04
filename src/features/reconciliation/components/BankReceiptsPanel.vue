@@ -115,6 +115,7 @@ async function markDiscarded(receipt: BankReceiptResponse) {
 
     <div :id="panelId" role="tabpanel" :aria-labelledby="activeTabId" class="ds-stack ds-stack--14">
       <AppTable
+        caption="Abonos del extracto"
         money
         :headers="[
           'Recibido',

@@ -37,6 +37,6 @@ export const platformBillingRoutes: RouteRecordRaw[] = [
     path: '/configuracion/facturacion',
     name: PLATFORM_BILLING_ROUTE_NAMES.PLATFORM_BILLING_CONFIG,
     component: () => import('@/features/platform-billing/views/PlatformBillingConfigView.vue'),
-    meta: { title: 'Facturación de plataforma · Lumbre' },
+    meta: { title: 'Facturación de plataforma' },
   },
 ]

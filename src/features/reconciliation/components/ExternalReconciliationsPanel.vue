@@ -134,6 +134,7 @@ async function submitResolve(payload: ResolveExternalInvoiceReconciliationReques
       </p>
 
       <AppTable
+        caption="Facturas del emisor casadas"
         money
         :headers="[
           'Empresa',

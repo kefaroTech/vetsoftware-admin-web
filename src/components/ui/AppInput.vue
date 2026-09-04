@@ -111,9 +111,14 @@ const toneClass = computed(() => {
 <template>
   <div class="field ds-stack">
     <label v-if="label" :for="fieldId()" class="label">
-      {{ label }}<span v-if="required" class="required">*</span>
+      {{ label }}<span v-if="required" class="required" aria-hidden="true">*</span>
     </label>
     <div class="inputbox ds-field ds-flex-row" :class="toneClass">
+      <!-- La obligatoriedad viaja por `aria-required` y NO por el atributo
+           nativo: en un `<form>` sin `novalidate` —la mayoría de los de la
+           consola— `required` dispara la burbuja del navegador ANTES del
+           `submit`, que es donde corre `validate()`, y ni el error en línea ni
+           el `ErrorSummary` del padre llegarían a pintarse. -->
       <input
         :id="fieldId()"
         :type="type"
@@ -125,6 +130,7 @@ const toneClass = computed(() => {
         :inputmode="inputmode"
         :maxlength="maxlength"
         :aria-invalid="!!error || undefined"
+        :aria-required="required || undefined"
         :aria-describedby="describedBy"
         class="ds-flex-fill"
         :class="mono ? 'mono' : null"
@@ -188,9 +194,17 @@ const toneClass = computed(() => {
   border-color: var(--warm-500);
 }
 
+/* El relleno vertical lo lleva el `<input>`, no el envoltorio: con el de
+   `.ds-field` aquí, la mitad del alto visible del campo queda fuera del objetivo
+   de pulsación y el clic no enfoca. */
+.inputbox {
+  padding-block: 0;
+}
+
 /* El `<input>` nativo hereda la superficie del envoltorio: aquí solo se le
    quita la suya. */
 .inputbox > input {
+  padding-block: var(--space-10);
   border: none;
   outline: none;
   background: transparent;

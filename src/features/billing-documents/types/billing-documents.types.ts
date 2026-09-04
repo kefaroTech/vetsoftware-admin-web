@@ -166,6 +166,28 @@ export const TAX_TREATMENT_PRESENTATION: Record<TaxTreatment, { label: string; m
   }
 
 /**
+ * El mismo mapa, <b>a prueba de un tratamiento que esta consola no conoce</b>. El
+ * valor llega por HTTP y el desglose lee `.label` y `.meaning` en cada fila: uno
+ * que no esté en el mapa tumba el bloque de impuestos entero.
+ *
+ * <p>El hueco no dice «gravado» ni «exento»: entre esos dos está la diferencia
+ * que decide si el emisor puede descontar el IVA de sus compras, y adivinarla en
+ * pantalla es peor que no decir nada.
+ */
+const UNKNOWN_TAX_TREATMENT: { label: string; meaning: string } = {
+  label: '—',
+  meaning: 'Esta consola no conoce este tratamiento y no puede decir qué significa.',
+}
+
+export function taxTreatmentPresentation(taxTreatment: TaxTreatment | null | undefined): {
+  label: string
+  meaning: string
+} {
+  if (taxTreatment == null) return UNKNOWN_TAX_TREATMENT
+  return TAX_TREATMENT_PRESENTATION[taxTreatment] ?? UNKNOWN_TAX_TREATMENT
+}
+
+/**
  * Los seis orígenes de una aplicación. El contrato los declara como enum, así que
  * son estos y no hay un séptimo hasta que el backend lo publique.
  */
@@ -210,6 +232,27 @@ export const APPLICATION_SOURCE_PRESENTATION: Record<
     meaning: 'Los centavos que ningún medio de pago mueve.',
   },
   WRITE_OFF: { label: 'Castigo', meaning: 'Se dio por incobrable. No entró plata.' },
+}
+
+/**
+ * El mismo mapa, <b>a prueba de un origen que esta consola no conoce</b>. El
+ * rótulo va también dentro del nombre accesible del botón de contra-aplicar, así
+ * que un séptimo origen no estropearía una celda: tumbaría el bloque con el que se
+ * demuestra qué salda el documento.
+ *
+ * <p>El hueco no se rellena con «Pago»: dar por sentado que entró plata es
+ * justamente el error que §G4 persigue en esta tabla.
+ */
+const UNKNOWN_APPLICATION_SOURCE: ApplicationSourcePresentation = {
+  label: '—',
+  meaning: 'Esta consola no conoce este origen y no puede decir qué saldó el documento.',
+}
+
+export function applicationSourcePresentation(
+  sourceKind: ApplicationSourceKind | null | undefined,
+): ApplicationSourcePresentation {
+  if (sourceKind == null) return UNKNOWN_APPLICATION_SOURCE
+  return APPLICATION_SOURCE_PRESENTATION[sourceKind] ?? UNKNOWN_APPLICATION_SOURCE
 }
 
 /**

@@ -102,6 +102,7 @@ onMounted(() => void loadQuotes(1))
         </div>
 
         <AppTable
+          caption="Cotizaciones"
           :headers="[
             'Cotización',
             'Cliente',

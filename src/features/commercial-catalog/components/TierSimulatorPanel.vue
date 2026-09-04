@@ -203,6 +203,7 @@ watch(itemOptions, (options) => {
         </div>
 
         <AppTable
+          caption="Tramos simulados"
           :headers="[
             'Tramo',
             { label: 'Unidades', align: 'num' },

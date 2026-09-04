@@ -150,7 +150,9 @@ export function useCatalogItemBridges() {
   /** ¿El artículo admite componentes? Solo un `BUNDLE`; para el resto no existe el bloque. */
   const isBundle = computed(() => item.value?.itemType === 'BUNDLE')
 
-  const catalogItemLabel = (id: number) => {
+  const catalogItemLabel = (id: number | null | undefined) => {
+    // Sin esta guarda el respaldo de la última línea pinta «Artículo #undefined».
+    if (id == null) return '—'
     const found = catalogOptions.value.find((option) => option.id === id)
     return found ? `${found.code} · ${found.name}` : `Artículo #${id}`
   }

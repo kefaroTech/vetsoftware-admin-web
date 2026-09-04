@@ -183,7 +183,14 @@ defineExpose({ limpiar })
   color: var(--text-subtle);
 }
 
+/* El relleno vertical lo lleva el `<input>` y no el envoltorio; ver
+   `AppInput.vue`. */
+.caja {
+  padding-block: 0;
+}
+
 .caja > input {
+  padding-block: var(--space-10);
   border: none;
   outline: none;
   background: transparent;

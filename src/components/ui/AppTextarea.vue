@@ -85,9 +85,10 @@ const toneClass = computed(() => {
 <template>
   <div class="field ds-stack">
     <label v-if="label" :for="fieldId()" class="label">
-      {{ label }}<span v-if="required" class="required">*</span>
+      {{ label }}<span v-if="required" class="required" aria-hidden="true">*</span>
     </label>
     <div class="textareabox ds-field" :class="toneClass">
+      <!-- `aria-required` y no el atributo nativo: ver el porqué en `AppInput.vue`. -->
       <textarea
         :id="fieldId()"
         :rows="rows"
@@ -96,6 +97,7 @@ const toneClass = computed(() => {
         :disabled="disabled"
         :maxlength="maxlength"
         :aria-invalid="!!error || undefined"
+        :aria-required="required || undefined"
         :aria-describedby="describedBy"
         @focus="focused = true"
         @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
@@ -145,9 +147,12 @@ const toneClass = computed(() => {
   border-color: var(--warm-450);
 }
 
+/* El relleno vertical lo lleva el `<textarea>` y no el envoltorio; ver
+   `AppInput.vue`. */
 .textareabox {
   display: flex;
   width: 100%;
+  padding-block: 0;
 }
 
 .textareabox:hover:not(.ds-field-invalid, .ds-field-disabled, :focus-within) {
@@ -156,6 +161,7 @@ const toneClass = computed(() => {
 
 .textareabox > textarea {
   width: 100%;
+  padding-block: var(--space-10);
   border: none;
   outline: none;
   background: transparent;

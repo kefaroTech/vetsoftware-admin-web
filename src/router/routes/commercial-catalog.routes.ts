@@ -18,6 +18,7 @@ export const commercialCatalogRoutes: RouteRecordRaw[] = [
     path: '/catalogo-comercial',
     name: ROUTE_NAMES.COMMERCIAL_CATALOG,
     component: () => import('@/features/commercial-catalog/views/CommercialCatalogView.vue'),
+    meta: { title: 'Catálogo y precios' },
   },
   {
     /**
@@ -28,6 +29,6 @@ export const commercialCatalogRoutes: RouteRecordRaw[] = [
     path: '/catalogo-comercial/articulos/:id',
     name: COMMERCIAL_CATALOG_ROUTE_NAMES.CATALOG_ITEM_BRIDGES,
     component: () => import('@/features/commercial-catalog/views/CatalogItemBridgesView.vue'),
-    meta: { title: 'Puentes del artículo · Lumbre' },
+    meta: { title: 'Puentes del artículo' },
   },
 ]

@@ -55,7 +55,7 @@ export function useCompanySummary() {
   /** Lo dice el servidor con `exhausted`, no se recalcula aquí a ojo. */
   const exhaustedCapacities = computed(() => capacities.value.filter((c) => c.exhausted))
 
-  const entitlementCount = computed(() => access.value?.entitlements.length ?? 0)
+  const entitlementCount = computed(() => access.value?.entitlements?.length ?? 0)
 
   /**
    * Lo único de la tabla de permisos que una persona puso a mano. Se cuenta
@@ -63,7 +63,7 @@ export function useCompanySummary() {
    * la paga?» sin abrir el contrato.
    */
   const manualGrantCount = computed(
-    () => access.value?.entitlements.filter((e) => e.source === 'MANUAL_GRANT').length ?? 0,
+    () => access.value?.entitlements?.filter((e) => e.source === 'MANUAL_GRANT').length ?? 0,
   )
 
   /** <b>Recarga siempre al abrir la pestaña.</b> Regla dura del proyecto. */

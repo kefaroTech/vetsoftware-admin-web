@@ -40,7 +40,8 @@
     "visual": "playwright test --config=playwright.visual.config.ts",
     "visual:update": "playwright test --config=playwright.visual.config.ts --update-snapshots",
     "visual:docker": "node scripts/visual-docker.mjs",
-    "visual:docker:update": "node scripts/visual-docker.mjs --update-snapshots"
+    "visual:docker:update": "node scripts/visual-docker.mjs --update-snapshots",
+    "uxaudit": "playwright test --config=playwright.uxaudit.config.ts"
   },
   "engines": {
     "node": ">=24.0.0",

@@ -2,7 +2,7 @@
 import { ICONS } from '@/constants/icons'
 import type { BillingDocumentTaxSummary } from '@/features/billing-operations/types/billing-operations.types'
 import ContractGapNotice from './ContractGapNotice.vue'
-import { TAX_TOLERANCE, TAX_TREATMENT_PRESENTATION } from '../types/billing-documents.types'
+import { TAX_TOLERANCE, taxTreatmentPresentation } from '../types/billing-documents.types'
 import { formatAmount } from '@/composables/format'
 import MoneyCaption from '@/components/ui/MoneyCaption.vue'
 
@@ -103,10 +103,10 @@ const VERDICT_ICON = {
           <tr v-for="tax in taxes" :key="tax.id" class="ds-row-hover">
             <td>
               <span class="ds-text-strong">{{
-                TAX_TREATMENT_PRESENTATION[tax.taxTreatment].label
+                taxTreatmentPresentation(tax.taxTreatment).label
               }}</span>
               <span class="ds-meta linea">{{
-                TAX_TREATMENT_PRESENTATION[tax.taxTreatment].meaning
+                taxTreatmentPresentation(tax.taxTreatment).meaning
               }}</span>
             </td>
             <td class="ds-num">{{ tax.taxRate }} %</td>

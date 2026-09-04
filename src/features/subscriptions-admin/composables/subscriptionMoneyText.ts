@@ -4,8 +4,8 @@ import type {
 } from '@/features/billing-operations/types/billing-operations.types'
 import type { AmountReading } from './subscriptionHistoryText'
 import {
-  CHARGE_STATUS_PRESENTATION,
-  CHARGE_TYPE_PRESENTATION,
+  chargeStatusPresentation,
+  chargeTypePresentation,
   type SubscriptionChargeResponse,
 } from '../types/subscription-money.types'
 import { formatAmount } from '@/composables/format'
@@ -346,8 +346,8 @@ export function correctionChainText(document: BillingDocumentResponse): string {
  * cadena y para el nombre accesible de sus enlaces.
  */
 export function chargeOriginLabel(charge: SubscriptionChargeResponse): string {
-  const tipo = CHARGE_TYPE_PRESENTATION[charge.chargeType].label
-  const estado = CHARGE_STATUS_PRESENTATION[charge.status].label
+  const tipo = chargeTypePresentation(charge.chargeType).label
+  const estado = chargeStatusPresentation(charge.status).label
   return `${tipo} · ${estado} · ${charge.description}`
 }
 

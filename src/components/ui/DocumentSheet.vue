@@ -39,25 +39,37 @@ import DocumentSeal from './DocumentSeal.vue'
  * los verbos al final obliga a recorrerla entera para actuar, y en teclado son un
  * viaje de vuelta. Es el orden que ya tenía `QuoteDocument` y se conserva.
  *
- * <h3>Sobre el `<h2>` y el foco</h3>
+ * <h3>Sobre el nivel del titular y el foco</h3>
  *
- * <p>El titular lleva `tabindex="-1"` y un `id` que fija el consumidor, porque las
- * dos pantallas que montan esta ficha le devuelven el foco tras una escritura que
- * cambia de chasis (§5.1): al pasar de borrador a documento, quien navega con
- * teclado se quedaría con el foco en un botón que acaba de salir del árbol. El `id`
- * es prop y no un valor fijo para que dos fichas puedan convivir en una pantalla sin
- * duplicarlo.
+ * <p>El nivel es prop porque esta ficha se monta de las dos maneras: como pantalla
+ * entera —y entonces su titular es el único encabezado de primer nivel que la vista
+ * tiene, que es lo que `useModalFocus.resolveReturnFocus()` y
+ * `useNavDrawer.enfocarContenidoNuevo()` buscan como `main h1`— y como tarjeta
+ * anidada dentro de una página que ya tiene el suyo, donde un segundo `h1` partiría
+ * el esquema del documento. Por omisión `h2`, que es el caso anidado.
+ *
+ * <p>Sea cual sea el nivel, el titular lleva `tabindex="-1"` y un `id` que fija el
+ * consumidor, porque las dos pantallas que montan esta ficha le devuelven el foco
+ * tras una escritura que cambia de chasis (§5.1): al pasar de borrador a documento,
+ * quien navega con teclado se quedaría con el foco en un botón que acaba de salir
+ * del árbol. El `id` es prop y no un valor fijo para que dos fichas puedan convivir
+ * en una pantalla sin duplicarlo.
  */
-defineProps<{
-  /** El número del documento. Es el titular: identifica la ficha. */
-  documentNumber: string
-  /** Qué clase de documento es. Va de antetítulo sobre el número. */
-  kindLabel: string
-  /** La frase del sello. Ver `DocumentSeal`. */
-  sealText: string
-  /** `id` del `<h2>`, para que el consumidor pueda devolverle el foco. */
-  titleId: string
-}>()
+withDefaults(
+  defineProps<{
+    /** El número del documento. Es el titular: identifica la ficha. */
+    documentNumber: string
+    /** Qué clase de documento es. Va de antetítulo sobre el número. */
+    kindLabel: string
+    /** La frase del sello. Ver `DocumentSeal`. */
+    sealText: string
+    /** `id` del titular, para que el consumidor pueda devolverle el foco. */
+    titleId: string
+    /** `h1` solo cuando la ficha ES la pantalla. Ver arriba. */
+    headingLevel?: 'h1' | 'h2'
+  }>(),
+  { headingLevel: 'h2' },
+)
 </script>
 
 <template>
@@ -65,7 +77,9 @@ defineProps<{
     <header class="ds-stack ds-stack--10">
       <p class="ds-kicker">{{ kindLabel }}</p>
       <div class="ds-flex-row ds-flex-row--12 titular">
-        <h2 :id="titleId" class="ds-display--xs numero" tabindex="-1">{{ documentNumber }}</h2>
+        <component :is="headingLevel" :id="titleId" class="ds-display--xs numero" tabindex="-1">
+          {{ documentNumber }}
+        </component>
         <!-- Distintivos de estado y vigencia: son de quien monta la ficha, porque
              cada tipo de documento tiene los suyos y ya existen (§6.2 descarta una
              variante nueva de `AppBadge`). -->

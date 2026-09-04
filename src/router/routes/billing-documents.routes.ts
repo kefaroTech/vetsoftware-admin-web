@@ -34,10 +34,12 @@ export const billingDocumentsRoutes: RouteRecordRaw[] = [
     path: '/documentos',
     name: BILLING_DOCUMENT_ROUTE_NAMES.LIST,
     component: () => import('@/features/billing-documents/views/BillingDocumentsView.vue'),
+    meta: { title: 'Documentos de cobro' },
   },
   {
     path: '/documentos/:companyId(\\d+)/:id(\\d+)',
     name: BILLING_DOCUMENT_ROUTE_NAMES.DETAIL,
     component: () => import('@/features/billing-documents/views/BillingDocumentDetailView.vue'),
+    meta: { title: 'Ficha del documento de cobro' },
   },
 ]

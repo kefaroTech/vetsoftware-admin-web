@@ -37,6 +37,7 @@ function tipo(item: CatalogItemResponse): string {
 
 <template>
   <AppTable
+    caption="Artículos sin pista"
     :headers="HEADERS"
     :empty="items.length === 0"
     :loading="loading"

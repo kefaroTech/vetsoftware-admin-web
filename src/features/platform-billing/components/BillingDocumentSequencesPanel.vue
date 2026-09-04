@@ -141,6 +141,7 @@ async function submit() {
     </form>
 
     <AppTable
+      caption="Series de numeración"
       :headers="['Prefijo', { label: 'Próximo número', align: 'num' }, 'Creada']"
       :empty="sequences.items.value.length === 0"
       :loading="sequences.loading.value"

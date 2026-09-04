@@ -38,10 +38,20 @@ export function useDiagnosticImagingTypes() {
 
   async function fetchById(id: number) {
     store.setLoading(true)
+    store.setError(null)
+    store.setSelected(null)
     try {
       const data = await diagnosticImagingTypesApi.findById(id)
       store.setSelected(data)
     } catch (e) {
+      // Se limpia otra vez aunque ya se limpiara antes del `await`: una carga
+      // concurrente pudo dejar OTRO registro en `selected` mientras esta estaba
+      // en vuelo, y la ficha lo pintaría como si fuera el de la ruta.
+      store.setSelected(null)
+      store.setError(
+        getProblemDetailMessage(e, 'No se pudo cargar el tipo de imagen diagnóstica'),
+        getTraceId(e) ?? null,
+      )
       errorFrom('Tipo de imagen diagnóstica no encontrado', e)
     } finally {
       store.setLoading(false)

@@ -30,5 +30,6 @@ export const proposalSuppressionRoutes: RouteRecordRaw[] = [
     path: '/asistente/supresion-datos',
     name: PROPOSAL_SUPPRESSION_ROUTE_NAMES.ROOT,
     component: () => import('@/features/proposal-suppression/views/ProposalSuppressionView.vue'),
+    meta: { title: 'Supresión de datos' },
   },
 ]

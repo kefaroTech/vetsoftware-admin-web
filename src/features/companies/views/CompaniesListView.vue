@@ -183,6 +183,7 @@ function handleClose() {
     />
 
     <AppTable
+      caption="Empresas"
       :headers="['Nombre', 'Identificador', 'Teléfono', 'Estado', 'Fecha creación', 'Acciones']"
       :empty="companies.length === 0"
       :loading="loading"
@@ -233,13 +234,17 @@ function handleClose() {
         <td class="ds-meta">{{ formatDate(company.createdDate) }}</td>
         <td>
           <div class="ds-actions ds-actions--start">
-            <RouterLink :to="`/empresas/${company.id}`" class="ds-icon-btn" aria-label="Editar">
+            <RouterLink
+              :to="`/empresas/${company.id}`"
+              class="ds-icon-btn"
+              :aria-label="`Editar ${company.name}`"
+            >
               <component :is="ICONS.EDIT" :size="15" />
             </RouterLink>
             <button
               type="button"
               class="ds-icon-btn ds-icon-btn--danger"
-              aria-label="Eliminar"
+              :aria-label="`Eliminar ${company.name}`"
               @click="handleDelete(company.id, company.name)"
             >
               <component :is="ICONS.DELETE" :size="15" />

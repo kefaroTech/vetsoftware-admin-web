@@ -29,11 +29,11 @@ defineProps<{
 <template>
   <span class="estado">
     <AppBadge
-      :variant="ISSUE_STATUS_PRESENTATION[status].variant"
-      :label="ISSUE_STATUS_PRESENTATION[status].label"
+      :variant="ISSUE_STATUS_PRESENTATION[status]?.variant ?? 'neutral'"
+      :label="ISSUE_STATUS_PRESENTATION[status]?.label ?? '—'"
     />
     <span v-if="explain" class="ds-meta significado">
-      {{ ISSUE_STATUS_PRESENTATION[status].meaning }}
+      {{ ISSUE_STATUS_PRESENTATION[status]?.meaning ?? '—' }}
     </span>
   </span>
 </template>

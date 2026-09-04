@@ -46,6 +46,7 @@ const HEADERS = ['Cuándo', 'Qué pasó', 'Eje', 'Cifras de entonces', 'Movimien
 
 <template>
   <AppTable
+    caption="Hechos de cupo de la empresa"
     :headers="HEADERS"
     :empty="rows.length === 0"
     :loading="loading"

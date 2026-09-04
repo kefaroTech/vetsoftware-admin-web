@@ -4,7 +4,7 @@ import type { AppTableHeader } from '@/components/ui/AppTable.vue'
 import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
 import { formatAmount, formatDate } from '@/composables/format'
 import {
-  CHARGE_TYPE_PRESENTATION,
+  chargeTypePresentation,
   type SubscriptionChargeResponse,
 } from '@/features/subscriptions-admin/types/subscription-money.types'
 import ContractGapNotice from './ContractGapNotice.vue'
@@ -87,6 +87,7 @@ const HEADERS: AppTableHeader[] = [
 
     <AppTable
       v-else
+      caption="Cargos del documento"
       money
       :headers="HEADERS"
       :empty="!lines || lines.rows.length === 0"
@@ -106,7 +107,7 @@ const HEADERS: AppTableHeader[] = [
         <td>
           <span class="ds-text-strong">{{ charge.description }}</span>
           <span class="ds-meta linea">
-            {{ CHARGE_TYPE_PRESENTATION[charge.chargeType].label }} · cargo #{{ charge.id }}
+            {{ chargeTypePresentation(charge.chargeType).label }} · cargo #{{ charge.id }}
           </span>
         </td>
         <td>

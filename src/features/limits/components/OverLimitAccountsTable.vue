@@ -63,6 +63,7 @@ defineEmits<{ retry: [] }>()
 
 <template>
   <AppTable
+    caption="Cuentas por encima del techo"
     :headers="[
       'Empresa',
       'Eje',

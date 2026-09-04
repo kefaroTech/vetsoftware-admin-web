@@ -55,6 +55,7 @@ const HEADERS: AppTableHeader[] = [
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      caption="Movimientos del saldo a favor"
       money
       :headers="HEADERS"
       :empty="rows.length === 0"

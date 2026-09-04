@@ -9,8 +9,8 @@ import {
   voidBadgeLabel,
 } from '../../composables/subscriptionMoneyText'
 import {
-  CHARGE_STATUS_PRESENTATION,
-  CHARGE_TYPE_PRESENTATION,
+  chargeStatusPresentation,
+  chargeTypePresentation,
   type SubscriptionChargeResponse,
 } from '../../types/subscription-money.types'
 import ChargeChain from './ChargeChain.vue'
@@ -75,6 +75,7 @@ defineEmits<{ retry: []; focusDocument: [documentId: number] }>()
 
 <template>
   <AppTable
+    caption="Cargos del contrato"
     money
     :headers="[
       'Concepto',
@@ -113,7 +114,7 @@ defineEmits<{ retry: []; focusDocument: [documentId: number] }>()
       <td>
         <span class="ds-text-strong">{{ charge.description }}</span>
         <span class="ds-meta bloque">
-          {{ CHARGE_TYPE_PRESENTATION[charge.chargeType].label }} · cargo #{{ charge.id }}
+          {{ chargeTypePresentation(charge.chargeType).label }} · cargo #{{ charge.id }}
         </span>
         <span
           v-if="highlightedAmendmentId != null && charge.amendmentId === highlightedAmendmentId"
@@ -145,8 +146,8 @@ defineEmits<{ retry: []; focusDocument: [documentId: number] }>()
 
       <td>
         <AppBadge
-          :variant="CHARGE_STATUS_PRESENTATION[charge.status].variant"
-          :label="CHARGE_STATUS_PRESENTATION[charge.status].label"
+          :variant="chargeStatusPresentation(charge.status).variant"
+          :label="chargeStatusPresentation(charge.status).label"
         />
         <!-- El distintivo textual de la anulación, ADEMÁS del importe negativo. -->
         <span v-if="voidBadgeLabel(charge)" class="ds-meta bloque">

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Check } from 'lucide-vue-next'
+import { computed, useId } from 'vue'
+import { ICONS } from '@/constants/icons'
 
 /**
  * Casilla de la consola (1 consumidor: `BaseRoleForm.vue`).
@@ -9,34 +11,63 @@ import { Check } from 'lucide-vue-next'
  * nunca fueron globales, y el prefijo inducía a pensar que venían de la hoja
  * `app.css` que este lote acaba de vaciar.
  */
-defineProps<{
+const props = defineProps<{
   modelValue?: boolean
   label?: string
   disabled?: boolean
+  id?: string
+  required?: boolean
+  error?: string
 }>()
 
 defineEmits<{
   'update:modelValue': [value: boolean]
 }>()
+
+const autoId = useId()
+const fieldId = computed(() => props.id ?? autoId)
+const errorId = computed(() => `${fieldId.value}-error`)
 </script>
 
 <template>
-  <label class="check" :class="{ checked: modelValue, disabled }">
-    <input
-      type="checkbox"
-      class="ds-sr-only"
-      :checked="modelValue"
-      :disabled="disabled"
-      @change="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
-    />
-    <span class="box">
-      <Check v-if="modelValue" :size="12" />
-    </span>
-    <span v-if="label" class="text">{{ label }}</span>
-  </label>
+  <div class="checkfield">
+    <!-- El mensaje de error queda FUERA del `<label>`: dentro pasaría a formar
+         parte del nombre accesible de la casilla en vez de describirla. -->
+    <label class="check" :class="{ checked: modelValue, disabled }">
+      <input
+        :id="fieldId"
+        type="checkbox"
+        class="ds-sr-only"
+        :checked="modelValue"
+        :disabled="disabled"
+        :aria-required="required || undefined"
+        :aria-invalid="!!error || undefined"
+        :aria-describedby="error ? errorId : undefined"
+        @change="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
+      />
+      <span class="box">
+        <Check v-if="modelValue" :size="12" />
+      </span>
+      <span v-if="label" class="text"
+        >{{ label }}<span v-if="required" class="required" aria-hidden="true">*</span></span
+      >
+    </label>
+    <p v-if="error" :id="errorId" class="error">
+      <component :is="ICONS.WARNING" :size="11" />
+      <span>{{ error }}</span>
+    </p>
+  </div>
 </template>
 
 <style scoped>
+/* `inline-flex` y no `flex`: la casilla se maqueta en flujo en línea, junto al
+   texto o a otro control, y un envoltorio de bloque la sacaría de esa línea. */
+.checkfield {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
 .check {
   display: inline-flex;
   align-items: center;
@@ -84,5 +115,21 @@ defineEmits<{
 .text {
   color: var(--text);
   font-size: var(--text-body);
+}
+
+.required {
+  color: var(--danger-500);
+}
+
+/* La sangría alinea el mensaje con el texto de la etiqueta y no con la casilla:
+   es el ancho de `.box` más el `gap` de `.check`, y se mueve con ellos. */
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: 0;
+  padding-inline-start: calc(18px + var(--space-8));
+  color: var(--danger-500);
+  font-size: var(--text-xs);
 }
 </style>

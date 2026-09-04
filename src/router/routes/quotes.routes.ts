@@ -29,18 +29,20 @@ export const quotesRoutes: RouteRecordRaw[] = [
     path: '/cotizaciones',
     name: QUOTE_ROUTE_NAMES.QUOTES_LIST,
     component: () => import('@/features/quotes/views/QuotesListView.vue'),
+    meta: { title: 'Cotizaciones' },
   },
   {
     // Antes que `/cotizaciones/:id`: si no, «nueva» entraría como identificador.
     path: '/cotizaciones/nueva',
     name: QUOTE_ROUTE_NAMES.QUOTE_NEW,
     component: () => import('@/features/quotes/views/NewQuoteView.vue'),
+    meta: { title: 'Nueva cotización' },
   },
   {
     path: '/cotizaciones/:id',
     name: QUOTE_ROUTE_NAMES.QUOTE_DETAIL,
     component: () => import('@/features/quotes/views/QuoteDetailView.vue'),
     props: true,
-    meta: { permission: PERMISSIONS.QUOTE_READ },
+    meta: { permission: PERMISSIONS.QUOTE_READ, title: 'Ficha de la cotización' },
   },
 ]

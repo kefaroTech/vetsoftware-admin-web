@@ -157,6 +157,7 @@ async function remove(row: BundleComponentResponse) {
     </p>
 
     <AppTable
+      caption="Piezas del paquete"
       :headers="['Pieza', { label: 'Cantidad', align: 'num' }, 'Acciones']"
       :empty="components.length === 0"
       :loading="componentsLoading"

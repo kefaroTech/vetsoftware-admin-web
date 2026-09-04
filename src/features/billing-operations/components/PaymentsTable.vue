@@ -50,6 +50,7 @@ function gatewayText(payment: SubscriptionPaymentResponse): string {
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      caption="Pagos"
       :headers="[
         'Pago',
         'Empresa',

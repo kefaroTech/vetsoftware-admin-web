@@ -184,7 +184,10 @@ const EXENCIONES = [
           'oklch(40% 0.12 80deg)',
         ],
       },
-      { archivo: 'src/components/layout/AppSidebar.vue', colores: ['oklch(58% 0.2 25deg)'] },
+      {
+        archivo: 'src/components/layout/SidebarNotifications.vue',
+        colores: ['oklch(58% 0.2 25deg)'],
+      },
       {
         archivo: 'src/components/layout/SidebarUserCard.vue',
         colores: [

@@ -128,6 +128,7 @@ async function handlePublish() {
     />
 
     <AppTable
+      caption="Permisos de roles base"
       :headers="['Rol base', 'Permiso base', 'Fecha creación', 'Acciones']"
       :empty="filtrados.length === 0"
       :loading="loading"
@@ -170,14 +171,14 @@ async function handlePublish() {
             <RouterLink
               :to="`/permisos-roles-base/${p.id}`"
               class="ds-icon-btn"
-              aria-label="Editar"
+              :aria-label="`Editar ${p.basePermission?.name ?? '—'} del rol ${p.baseRole?.name ?? '—'}`"
             >
               <component :is="ICONS.EDIT" :size="15" />
             </RouterLink>
             <button
               type="button"
               class="ds-icon-btn ds-icon-btn--danger"
-              aria-label="Eliminar"
+              :aria-label="`Eliminar ${p.basePermission?.name ?? '—'} del rol ${p.baseRole?.name ?? '—'}`"
               @click="handleDelete(p.id)"
             >
               <component :is="ICONS.DELETE" :size="15" />

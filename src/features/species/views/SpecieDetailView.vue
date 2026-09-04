@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSpecies } from '../composables/useSpecies'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
 import AppLayout from '@/components/layout/AppLayout.vue'
+import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
 import SpecieForm from '../components/SpecieForm.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 import { ICONS } from '@/constants/icons'
@@ -11,11 +12,17 @@ import type { CreateSpecieRequest } from '../types/species.types'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()
-const { selected, fetchById, update } = useSpecies()
+const { selected, loading, error, errorTraceId, fetchById, update } = useSpecies()
 const saving = ref(false)
 const formRef = ref<InstanceType<typeof SpecieForm> | null>(null)
 
-onMounted(() => fetchById(Number(props.id)))
+// El `RouterView` de `App.vue` no lleva `:key`, así que una navegación
+// ficha→ficha reutiliza el componente y `onMounted` no volvería a dispararse.
+watch(
+  () => props.id,
+  (id) => fetchById(Number(id)),
+  { immediate: true },
+)
 
 // FORM-08: esto es una ruta completa; pulsar el sidebar con la edición a medias
 // se llevaba lo escrito.
@@ -45,7 +52,20 @@ async function handleSave(data: CreateSpecieRequest) {
       <h1 class="ds-title">Editar especie</h1>
     </div>
 
-    <section v-if="selected" class="ds-card ds-detail-card">
+    <!-- EST-01: el error va ANTES que el vacío. Un fallo de carga no puede dejar
+         en pantalla la ficha anterior, que es lo que «Guardar» escribiría en el
+         identificador de la ruta. -->
+    <p v-if="error" class="ds-banner ds-banner--error" role="alert">
+      <component :is="ICONS.ERROR" :size="14" class="ds-banner-icon" />
+      <span class="ds-flex-fill">{{ error }}</span>
+      <span v-if="errorTraceId" class="ds-meta">{{ errorTraceId }}</span>
+      <button type="button" class="ds-btn ds-btn--ghost ds-btn--sm" @click="fetchById(Number(id))">
+        <component :is="ICONS.RETRY" :size="13" />
+        Reintentar
+      </button>
+    </p>
+
+    <section v-else-if="selected" class="ds-card ds-detail-card">
       <SpecieForm
         ref="formRef"
         :initial="selected"
@@ -54,6 +74,16 @@ async function handleSave(data: CreateSpecieRequest) {
         @cancel="router.back()"
       />
     </section>
+
+    <AppEmptyState
+      v-else-if="!loading"
+      title="Esa especie ya no está"
+      description="Puede haberse eliminado desde otra sesión, o el enlace apunta a un identificador que ya no existe."
+    >
+      <RouterLink :to="{ name: ROUTE_NAMES.SPECIES_LIST }" class="ds-btn ds-btn--primary">
+        Volver al listado
+      </RouterLink>
+    </AppEmptyState>
   </AppLayout>
 </template>
 

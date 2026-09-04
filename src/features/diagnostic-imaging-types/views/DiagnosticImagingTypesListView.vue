@@ -107,6 +107,7 @@ async function handleDelete(id: number, name: string) {
     />
 
     <AppTable
+      caption="Tipos de imagen diagnóstica"
       :headers="['Nombre', 'Descripción', 'Fecha creación', 'Acciones']"
       :empty="filtrados.length === 0"
       :loading="loading"
@@ -149,14 +150,14 @@ async function handleDelete(id: number, name: string) {
             <RouterLink
               :to="`/catalogos-clinicos/tipos-imagen/${t.id}`"
               class="ds-icon-btn"
-              aria-label="Editar"
+              :aria-label="`Editar ${t.name}`"
             >
               <component :is="ICONS.EDIT" :size="15" />
             </RouterLink>
             <button
               type="button"
               class="ds-icon-btn ds-icon-btn--danger"
-              aria-label="Eliminar"
+              :aria-label="`Eliminar ${t.name}`"
               @click="handleDelete(t.id, t.name)"
             >
               <component :is="ICONS.DELETE" :size="15" />

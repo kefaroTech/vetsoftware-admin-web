@@ -93,19 +93,28 @@ const TABS = [
   flex-wrap: wrap;
   gap: var(--space-4);
   border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
 }
 
 /* §2.5.8 · 24 px de alto efectivo como mínimo: el padding vertical de 10 px
-   sobre una línea de texto lo supera con margen. */
+   sobre una línea de texto lo supera con margen.
+   El color y el color del borde NO pueden vivir en la base: el `[data-v-…]`
+   del `scoped` la sube a (0,2,0) y ganaría a `.ds-tab--active` (0,1,0), que
+   es quien pinta el estado. El tono de la pestaña inactiva se hereda del
+   contenedor, que la clase de estado sí puede sobrescribir. */
 .pestana {
   padding: var(--space-10) var(--space-14);
-  border-bottom: 2px solid transparent;
-  color: var(--text-muted);
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
   font-size: var(--text-body);
   text-decoration: none;
 }
 
-.pestana:hover {
+.pestana:not(.ds-tab--active) {
+  border-bottom-color: transparent;
+}
+
+.pestana:not(.ds-tab--active):hover {
   color: var(--text);
 }
 </style>

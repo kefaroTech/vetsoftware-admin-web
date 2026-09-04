@@ -209,7 +209,7 @@ onUnmounted(reset)
         <!-- 3a · El contenido, con las columnas que la propia foto trae. -->
         <template v-if="reading && reading.parsed && reading.entries.length > 0">
           <h3 class="ds-subtitle">Lo que la empresa veía ese día</h3>
-          <AppTable :headers="headers" :empty="false">
+          <AppTable caption="Foto de permisos" :headers="headers" :empty="false">
             <tr v-for="(entry, index) in reading.entries" :key="index" class="ds-row-hover">
               <td v-for="key in headers" :key="key">{{ snapshotCell(entry[key]) }}</td>
             </tr>

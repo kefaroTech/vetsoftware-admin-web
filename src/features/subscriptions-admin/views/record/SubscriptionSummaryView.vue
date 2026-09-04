@@ -4,7 +4,7 @@ import AppBadge from '@/components/ui/AppBadge.vue'
 import { ICONS } from '@/constants/icons'
 import { formatDate } from '@/composables/format'
 import { useSubscriptionRecord } from '../../composables/useSubscriptionRecord'
-import { BILLING_CYCLE_LABEL } from '../../composables/subscriptionStatusText'
+import { billingCycleLabel } from '../../composables/subscriptionStatusText'
 import SubscriptionStatusBadge from '../../components/SubscriptionStatusBadge.vue'
 import StatusTransitionModal from '../../components/record/StatusTransitionModal.vue'
 import CancelSubscriptionModal from '../../components/record/CancelSubscriptionModal.vue'
@@ -103,7 +103,7 @@ async function onCancelSubmit(payload: CancelSubscriptionRequest) {
         </div>
         <div>
           <dt class="ds-label">Ciclo de facturación</dt>
-          <dd class="valor">{{ BILLING_CYCLE_LABEL[subscription.billingCycle] }}</dd>
+          <dd class="valor">{{ billingCycleLabel(subscription.billingCycle) }}</dd>
         </div>
         <div>
           <dt class="ds-label">Vigencia</dt>

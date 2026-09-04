@@ -64,10 +64,10 @@ export default defineConfig({
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
     {
       name: 'chromium',
-      // `./e2e/tablet`, `./e2e/supresion` y `./e2e/pistas` quedan fuera: esas
-      // tres suites miden con la API interceptada y NO deben arrastrar el
-      // `setup`, que exige backend real.
-      testIgnore: ['**/tablet/**', '**/supresion/**', '**/pistas/**'],
+      // `./e2e/tablet`, `./e2e/supresion`, `./e2e/pistas` y `./e2e/guardas`
+      // quedan fuera: esas suites miden con la API interceptada y NO deben
+      // arrastrar el `setup`, que exige backend real.
+      testIgnore: ['**/tablet/**', '**/supresion/**', '**/pistas/**', '**/guardas/**'],
       use: { ...devices['Desktop Chrome'], storageState: 'e2e/.auth/system-user.json' },
       dependencies: ['setup'],
     },
@@ -140,6 +140,28 @@ export default defineConfig({
     {
       name: 'pistas-asistente',
       testDir: './e2e/pistas',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    /**
+     * Guardas de interacción de las primitivas — relleno del campo, cancelación
+     * del puntero en `AppSelect`, rótulos del raíl sin recortar.
+     *
+     * Proyecto aparte y SIN `dependencies`, por el mismo motivo que los tres de
+     * arriba y por uno propio: lo que mide no es comportamiento de producto
+     * sino GEOMETRÍA y protocolo de puntero de los componentes compartidos, y
+     * eso no pasa por el servidor. Dos de las tres suites se montan sobre
+     * `visual/gallery.html`, que ni siquiera tiene router.
+     *
+     * Existen como E2E y no como pruebas unitarias porque en jsdom todo
+     * rectángulo mide 0×0 y no hay reparto de eventos por coordenadas: «el clic
+     * a 4 px del borde cae dentro del `<input>`» no es una afirmación que jsdom
+     * pueda evaluar.
+     *
+     * Se corre solo:  npx playwright test --project=guardas-ux
+     */
+    {
+      name: 'guardas-ux',
+      testDir: './e2e/guardas',
       use: { ...devices['Desktop Chrome'] },
     },
   ],

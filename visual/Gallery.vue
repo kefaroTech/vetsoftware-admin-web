@@ -421,7 +421,7 @@ avisos.push(
     <!-- ── Dinero · tabla cuyo DTO no declara divisa ──────────────────── -->
     <section data-shot="dinero-tabla">
       <h2>Dinero · tabla sin divisa en el contrato</h2>
-      <AppTable :headers="DOCUMENTOS_HEADERS" money>
+      <AppTable caption="Documentos de cobro" :headers="DOCUMENTOS_HEADERS" money>
         <tr v-for="documento in DOCUMENTOS" :key="documento.id" class="ds-row-hover">
           <td class="ds-text-strong">{{ documento.id }}</td>
           <td>{{ documento.empresa }}</td>
@@ -453,7 +453,7 @@ avisos.push(
     <!-- ── Dinero · tabla cuyo DTO SÍ declara divisa ──────────────────── -->
     <section data-shot="dinero-divisa">
       <h2>Dinero · divisa declarada por el contrato</h2>
-      <AppTable :headers="PAGOS_HEADERS">
+      <AppTable caption="Pagos" :headers="PAGOS_HEADERS">
         <tr v-for="pago in PAGOS" :key="pago.id" class="ds-row-hover">
           <td class="ds-text-strong">{{ pago.id }}</td>
           <td class="ds-num">{{ formatMoney(pago.importe, pago.currency) }}</td>

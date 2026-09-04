@@ -9,9 +9,9 @@ import {
   documentBalanceReading,
 } from '../../composables/subscriptionMoneyText'
 import {
-  DOCUMENT_KIND_PRESENTATION,
   ISSUE_STATUS_LABEL,
   ISSUE_STATUS_VARIANT,
+  documentKindPresentation,
 } from '../../types/subscription-money.types'
 /**
  * <b>Facturado</b>: se emitió el documento. Una fila por cuenta de cobro, nota
@@ -59,6 +59,7 @@ defineEmits<{ retry: []; focusDocument: [documentId: number] }>()
 
 <template>
   <AppTable
+    caption="Documentos del contrato"
     money
     :headers="[
       'Documento',
@@ -92,7 +93,7 @@ defineEmits<{ retry: []; focusDocument: [documentId: number] }>()
         <span class="ds-meta bloque">
           <AppBadge
             variant="neutral"
-            :label="DOCUMENT_KIND_PRESENTATION[document.documentKind].label"
+            :label="documentKindPresentation(document.documentKind).label"
           />
         </span>
         <!-- El contrato al que pertenece, con texto y no con un matiz de fondo:

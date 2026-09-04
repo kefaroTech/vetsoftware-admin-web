@@ -47,8 +47,8 @@ export function joinBlocks(blocks: string[]): string {
  * el changeset 382, no una invariante — el dominio exige estructura y no
  * vocabulario, y su javadoc explica por qué.
  */
-export function hintFirstBlock(text: string): string {
-  return splitBlocks(text)[0] ?? ''
+export function hintFirstBlock(text: string | null | undefined): string {
+  return text == null ? '' : (splitBlocks(text)[0] ?? '')
 }
 
 /** Lo mínimo que hace falta para nombrar el artículo de una pista. */
