@@ -76,6 +76,7 @@ const router = createRouter({
       path: '/dashboard',
       name: ROUTE_NAMES.DASHBOARD,
       component: () => import('@/features/dashboard/views/DashboardView.vue'),
+      meta: { title: 'Dashboard' },
     },
     ...authRoutes,
     ...platformAccessRoutes,
@@ -140,6 +141,27 @@ router.beforeEach((to, from) => {
 router.beforeEach(authGuard)
 router.beforeEach(permissionGuard)
 router.afterEach(endNavLoader)
+
+const APP_NAME = 'Lumbre'
+
+/**
+ * WCAG 2.2 §2.4.2 Página titulada (A). En una SPA el `<title>` de `index.html`
+ * es el de TODAS las rutas si nadie lo escribe, y esta consola se usa con varias
+ * pestañas abiertas a la vez —una empresa en una, la cobranza en otra—: sin esto
+ * son indistinguibles en la barra de pestañas y en el historial.
+ *
+ * `meta.title` lleva SOLO el nombre de la pantalla: el sufijo lo pone este
+ * `afterEach`, así que un literal que ya lo traiga dentro lo muestra dos veces.
+ *
+ * Los expedientes de empresa y de contrato se quedan en el rótulo de la
+ * sub-vista: el nombre de la empresa no lo conoce el router, solo el armazón
+ * cuando resuelve el dato.
+ */
+router.afterEach((to) => {
+  const title = to.meta.title as string | undefined
+  document.title = title ? `${title} · ${APP_NAME}` : APP_NAME
+})
+
 router.onError(endNavLoader)
 
 export default router

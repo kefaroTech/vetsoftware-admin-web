@@ -52,26 +52,31 @@ export const limitsRoutes: RouteRecordRaw[] = [
     name: LIMITS_ROUTE_NAMES.ROOT,
     redirect: { name: LIMITS_ROUTE_NAMES.DIMENSIONS },
     component: () => import('@/features/limits/views/LimitsView.vue'),
+    meta: { title: 'Cupos y límites' },
     children: [
       {
         path: 'ejes',
         name: LIMITS_ROUTE_NAMES.DIMENSIONS,
         component: () => import('@/features/limits/views/LimitDimensionsListView.vue'),
+        meta: { title: 'Ejes de cupo' },
       },
       {
         path: 'excepciones',
         name: LIMITS_ROUTE_NAMES.OVERRIDES,
         component: () => import('@/features/limits/views/LimitOverridesView.vue'),
+        meta: { title: 'Excepciones de techo' },
       },
       {
         path: 'desbordadas',
         name: LIMITS_ROUTE_NAMES.OVER_LIMIT,
         component: () => import('@/features/limits/views/OverLimitAccountsView.vue'),
+        meta: { title: 'Cuentas desbordadas' },
       },
       {
         path: 'bitacora',
         name: LIMITS_ROUTE_NAMES.EVENTS,
         component: () => import('@/features/limits/views/LimitEventsView.vue'),
+        meta: { title: 'Bitácora de cupo' },
       },
     ],
   },
@@ -83,5 +88,6 @@ export const limitsRoutes: RouteRecordRaw[] = [
     // una prueba sin router.
     props: true,
     component: () => import('@/features/limits/views/LimitDimensionDetailView.vue'),
+    meta: { title: 'Ficha del eje de cupo' },
   },
 ]

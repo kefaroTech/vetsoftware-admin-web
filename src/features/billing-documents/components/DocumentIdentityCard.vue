@@ -47,15 +47,18 @@ const period = computed(
  * El significado del estado, en texto. Se lee por teléfono y se copia en un
  * correo: nunca viaja solo en el tono del distintivo (§5.2, WCAG 2.2 §1.4.1).
  */
-const issueMeaning = computed(() => ISSUE_STATUS_PRESENTATION[props.document.issueStatus].meaning)
+const issueMeaning = computed(
+  () => ISSUE_STATUS_PRESENTATION[props.document.issueStatus]?.meaning ?? '—',
+)
 </script>
 
 <template>
   <DocumentSheet
-    :kind-label="DOCUMENT_KIND_LABEL[document.documentKind]"
+    :kind-label="DOCUMENT_KIND_LABEL[document.documentKind] ?? '—'"
     :document-number="document.documentNumber"
     seal-text="Documento · solo se agrega"
     title-id="documento-titulo"
+    heading-level="h1"
   >
     <template #titular>
       <DocumentCircuitBadge :status="document.issueStatus" />

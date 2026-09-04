@@ -6,11 +6,13 @@ export const spaTypesRoutes: RouteRecordRaw[] = [
     path: '/catalogos-clinicos/tipos-spa',
     name: ROUTE_NAMES.SPA_TYPES_LIST,
     component: () => import('@/features/spa-types/views/SpaTypesListView.vue'),
+    meta: { title: 'Tipos de spa' },
   },
   {
     path: '/catalogos-clinicos/tipos-spa/:id',
     name: ROUTE_NAMES.SPA_TYPE_DETAIL,
     component: () => import('@/features/spa-types/views/SpaTypeDetailView.vue'),
+    meta: { title: 'Ficha del tipo de spa' },
     props: true,
   },
 ]

@@ -6,11 +6,13 @@ export const baseRolesRoutes: RouteRecordRaw[] = [
     path: '/roles-base',
     name: ROUTE_NAMES.BASE_ROLES_LIST,
     component: () => import('@/features/base-roles/views/BaseRolesListView.vue'),
+    meta: { title: 'Roles base' },
   },
   {
     path: '/roles-base/:id',
     name: ROUTE_NAMES.BASE_ROLE_DETAIL,
     component: () => import('@/features/base-roles/views/BaseRoleDetailView.vue'),
+    meta: { title: 'Ficha del rol base' },
     props: true,
   },
 ]

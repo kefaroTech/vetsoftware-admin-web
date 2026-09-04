@@ -6,5 +6,6 @@ export const configRoutes: RouteRecordRaw[] = [
     path: '/configuracion',
     name: ROUTE_NAMES.CONFIG,
     component: () => import('@/features/config/views/ConfigView.vue'),
+    meta: { title: 'Configuración' },
   },
 ]
