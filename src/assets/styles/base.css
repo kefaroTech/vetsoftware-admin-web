@@ -72,7 +72,7 @@ button {
 
 /* Foco de campos nativos que no llevan ninguna primitiva encima
    (`.ds-focus-ring` cubre los que sí). A11Y-01: usa `--ring` —doble anillo
-   sólido, 4,50:1— y `:focus-visible` —no dispara con el ratón—, no el halo
+   sólido, 4,44:1— y `:focus-visible` —no dispara con el ratón—, no el halo
    translúcido de `--amatista-50` (1,06:1) que quedaba tras `:focus`. */
 input:focus-visible,
 textarea:focus-visible,
