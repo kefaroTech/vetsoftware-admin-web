@@ -66,6 +66,43 @@ export default tseslint.config(
     files: ['{tests,e2e}/**/*.ts'],
     rules: { '@typescript-eslint/no-empty-function': 'off' },
   },
+  // Guardarraíl de la migración a Lucide: `CLAUDE.md` declara "una sola librería
+  // de iconos" pero nada la comprobaba, así que un `mdi-`/`<v-icon>` puede
+  // colarse de vuelta sin que ningún gate lo note.
+  {
+    // `vue/no-restricted-syntax` (bloque siguiente) solo recorre la plantilla:
+    // un literal `mdi-*` dentro de `<script setup>` de un `.vue` se le escapa,
+    // así que este bloque cubre también `.vue`, no solo `.ts`/`.tsx`.
+    files: ['src/**/*.{ts,tsx,vue}'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'Literal[value=/^mdi-/]',
+          message:
+            'Los iconos de Material Design Icons (`mdi-*`) están retirados: usa un componente de `lucide-vue-next`, o `vuetify-icon-aliases.ts` para lo que Vuetify pide para sí.',
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/**/*.vue'],
+    rules: {
+      'vue/no-restricted-syntax': [
+        'error',
+        {
+          selector: 'Literal[value=/^mdi-/], VLiteral[value=/^mdi-/]',
+          message:
+            'Los iconos de Material Design Icons (`mdi-*`) están retirados: usa un componente de `lucide-vue-next`, o `vuetify-icon-aliases.ts` para lo que Vuetify pide para sí.',
+        },
+        {
+          selector: "VElement[rawName='v-icon']",
+          message:
+            'El componente `<v-icon>` (Material Design Icons) está retirado: usa un componente de `lucide-vue-next`, o `vuetify-icon-aliases.ts` para lo que Vuetify pide para sí.',
+        },
+      ],
+    },
+  },
   prettierConfig,
   {
     rules: {

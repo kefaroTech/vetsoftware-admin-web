@@ -3,7 +3,16 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [vue()],
+  // Sin esto, un `src`/`srcset` de plantilla que empiece por `/` —la forma
+  // documentada de referenciar un fichero de `public/`— lo resuelve el plugin
+  // contra el disco en vez de dejarlo pasar como ruta pública, y el fichero de
+  // pruebas de cualquier vista que monte ese componente no llega a cargarse: se
+  // cuenta como «0 tests», no como fallo de aserción, así que la suite pierde
+  // cobertura sin que nada se ponga rojo. `includeAbsolute: false` deja esas
+  // rutas absolutas tal cual y conserva la resolución de las relativas, que sí
+  // deben pasar por el bundler. `publicDir` no lo arregla: el fallo ocurre al
+  // resolver el import, antes de que `public/` entre en juego.
+  plugins: [vue({ template: { transformAssetUrls: { includeAbsolute: false } } })],
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, './src'),
