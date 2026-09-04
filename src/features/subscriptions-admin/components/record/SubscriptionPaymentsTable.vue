@@ -49,6 +49,7 @@ defineEmits<{ retry: [] }>()
 
 <template>
   <AppTable
+    caption="Pagos del contrato"
     :headers="[
       'Recibido',
       { label: 'Importe', align: 'num' },

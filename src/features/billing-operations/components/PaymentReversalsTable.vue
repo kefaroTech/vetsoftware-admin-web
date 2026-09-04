@@ -73,6 +73,7 @@ function isUrgent(row: PaymentReversalRequestResponse): boolean {
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      caption="Solicitudes de reverso"
       money
       :headers="HEADERS"
       :empty="rows.length === 0"

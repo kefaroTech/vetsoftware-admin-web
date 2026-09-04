@@ -35,6 +35,7 @@ defineEmits<{ retry: []; revoke: [override: CompanyLimitOverrideResponse] }>()
 
 <template>
   <AppTable
+    caption="Excepciones de techo"
     :headers="[
       'Eje',
       { label: 'Techo', align: 'num' },

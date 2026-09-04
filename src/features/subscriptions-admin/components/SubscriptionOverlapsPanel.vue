@@ -77,6 +77,7 @@ const health = computed(() => {
     </div>
 
     <AppTable
+      caption="Solapes de contrato"
       :headers="['Empresa', 'Contrato', 'Artículo', 'Primera línea', 'Segunda línea']"
       :empty="items.length === 0"
       :loading="loading"

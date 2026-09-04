@@ -42,6 +42,7 @@ defineEmits<{ retry: [] }>()
 
 <template>
   <AppTable
+    caption="Hechos de cupo"
     :headers="[
       'Cuándo',
       'Empresa',

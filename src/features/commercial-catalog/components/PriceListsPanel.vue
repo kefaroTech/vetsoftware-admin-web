@@ -271,6 +271,7 @@ defineExpose({ openCreatePriceList })
       />
 
       <AppTable
+        caption="Listas de precios"
         :headers="['Código', 'Lista', 'Moneda', 'Vigencia', 'Estado', 'Acciones']"
         :empty="priceLists.items.value.length === 0"
         :loading="priceLists.loading.value"

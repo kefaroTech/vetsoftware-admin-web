@@ -106,6 +106,7 @@ async function handleDelete(id: number, name: string) {
     />
 
     <AppTable
+      caption="Permisos base"
       :headers="['Nombre', 'Código', 'Submódulo', 'Fecha creación', 'Acciones']"
       :empty="filtrados.length === 0"
       :loading="loading"
@@ -146,13 +147,17 @@ async function handleDelete(id: number, name: string) {
         <td class="ds-meta">{{ formatDate(p.createdDate) }}</td>
         <td>
           <div class="ds-actions ds-actions--start">
-            <RouterLink :to="`/permisos-base/${p.id}`" class="ds-icon-btn" aria-label="Editar">
+            <RouterLink
+              :to="`/permisos-base/${p.id}`"
+              class="ds-icon-btn"
+              :aria-label="`Editar ${p.name}`"
+            >
               <component :is="ICONS.EDIT" :size="15" />
             </RouterLink>
             <button
               type="button"
               class="ds-icon-btn ds-icon-btn--danger"
-              aria-label="Eliminar"
+              :aria-label="`Eliminar ${p.name}`"
               @click="handleDelete(p.id, p.name)"
             >
               <component :is="ICONS.DELETE" :size="15" />

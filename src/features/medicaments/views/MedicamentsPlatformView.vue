@@ -106,6 +106,7 @@ function buscar(valor: string) {
     />
 
     <AppTable
+      caption="Medicamentos de la plataforma"
       :headers="['Medicamento', 'Descripción', 'Ámbito', 'Fecha creación']"
       :empty="medicaments.length === 0"
       :loading="loading"

@@ -179,6 +179,7 @@ async function remove(rule: CatalogItemDependencyResponse) {
     </div>
 
     <AppTable
+      caption="Reglas del configurador"
       :headers="['Regla', 'El otro artículo', 'Mensaje para el cliente', 'Acciones']"
       :empty="dependencies.length === 0"
       :loading="dependenciesLoading"

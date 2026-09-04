@@ -150,6 +150,7 @@ onUnmounted(closeReceivables)
         </p>
 
         <AppTable
+          caption="Hitos de cobranza de la empresa"
           :headers="HEADERS"
           :empty="events.length === 0"
           :loading="loading"

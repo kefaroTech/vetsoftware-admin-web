@@ -49,6 +49,7 @@ const HEADERS = ['Titular', 'Documento', 'Tipo', 'Régimen', 'Desde', 'Hasta', '
 
 <template>
   <AppTable
+    caption="Titulares de la empresa"
     :headers="HEADERS"
     :empty="rows.length === 0"
     :loading="loading"

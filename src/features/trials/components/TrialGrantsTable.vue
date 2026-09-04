@@ -73,6 +73,7 @@ const headers = computed(() =>
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      caption="Concesiones de la ventana de prueba"
       :headers="headers"
       :empty="rows.length === 0"
       :loading="loading"

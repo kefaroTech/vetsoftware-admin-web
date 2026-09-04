@@ -35,6 +35,7 @@ defineEmits<{ retry: [] }>()
 
 <template>
   <AppTable
+    caption="Ejes de cupo"
     :headers="['Código', 'Nombre', 'Mide', 'Submódulo', 'Disponible desde', 'Gracia', 'Acciones']"
     :empty="dimensions.length === 0"
     :loading="loading"

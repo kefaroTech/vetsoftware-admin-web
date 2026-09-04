@@ -21,7 +21,7 @@ export type AppTableHeader = string | AppTableColumn
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue'
 import { ICONS } from '@/constants/icons'
 import { useToast } from '@/composables/useToast'
 import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
@@ -73,6 +73,17 @@ import MoneyCaption from '@/components/ui/MoneyCaption.vue'
 const props = withDefaults(
   defineProps<{
     headers: AppTableHeader[]
+    /**
+     * <b>De qué es esta tabla</b>, en dos o tres palabras y sin la palabra
+     * «tabla»: el rol ya la anuncia. Es obligatoria a propósito — el lector de
+     * pantalla lista las tablas de la pantalla por su nombre, y en el expediente
+     * hay varias por pantalla; sin nombre se anuncian todas igual.
+     *
+     * <p>Sirve para dos cosas a la vez y por eso es una sola prop: el
+     * `<caption>` de la tabla y el nombre del contenedor que se desplaza, que
+     * sin nombre no puede llevar `role="region"`.
+     */
+    caption: string
     /** Sin filas que pintar. Va SIEMPRE acompañada de `loading` para que la
      *  primera carga muestre esqueleto y no el estado vacío. */
     empty?: boolean
@@ -110,6 +121,40 @@ const columns = computed<AppTableColumn[]>(() =>
 
 const ALIGN_CLASS = { num: 'ds-num', actions: 'ds-col-actions' } as const
 
+const scroll = useTemplateRef<HTMLElement>('scroll')
+const tabla = useTemplateRef<HTMLElement>('tabla')
+
+/**
+ * Si el envoltorio desborda, su contenido solo se alcanza desplazándolo, y sin
+ * ratón eso exige que sea enfocable (§2.1.1, regla `scrollable-region-focusable`
+ * de axe). Pero <b>solo si desborda de verdad</b>: un `tabindex` fijo metería una
+ * parada de tabulador que no lleva a ninguna parte en cada una de las tablas de
+ * la consola, que es cambiar un defecto por otro.
+ */
+const scrollable = ref(false)
+
+function measureScroll() {
+  const el = scroll.value
+  scrollable.value = el !== null && el.scrollWidth > el.clientWidth
+}
+
+let observer: ResizeObserver | null = null
+
+onMounted(() => {
+  measureScroll()
+  // Se observan los DOS: el envoltorio cambia con la ventana, y la tabla con las
+  // filas que llegan. Vigilar solo uno deja el `tabindex` desfasado.
+  if (typeof ResizeObserver === 'undefined') return
+  observer = new ResizeObserver(measureScroll)
+  if (scroll.value !== null) observer.observe(scroll.value)
+  if (tabla.value !== null) observer.observe(tabla.value)
+})
+
+onBeforeUnmount(() => {
+  observer?.disconnect()
+  observer = null
+})
+
 async function copyTrace() {
   if (!props.traceId) return
   await navigator.clipboard.writeText(props.traceId)
@@ -127,11 +172,22 @@ async function copyTrace() {
       {{ error ? 'Error al cargar la tabla' : loading ? 'Cargando…' : '' }}
     </p>
 
-    <div class="ds-table-scroll tabla-scroll">
-      <table class="ds-table" :aria-busy="loading || undefined">
+    <div
+      ref="scroll"
+      class="ds-table-scroll tabla-scroll"
+      :role="scrollable ? 'region' : undefined"
+      :tabindex="scrollable ? 0 : undefined"
+      :aria-label="scrollable ? caption : undefined"
+    >
+      <table ref="tabla" class="ds-table" :aria-busy="loading || undefined">
         <!-- Va ANTES de `<thead>` porque el HTML solo admite el `<caption>` como
              primer hijo de la tabla, y porque es lo primero que se anuncia. -->
-        <MoneyCaption v-if="money" />
+        <MoneyCaption v-if="money">{{ caption }}</MoneyCaption>
+        <caption v-else class="ds-sr-only">
+          {{
+            caption
+          }}
+        </caption>
 
         <thead>
           <tr>

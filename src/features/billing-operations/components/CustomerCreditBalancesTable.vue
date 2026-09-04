@@ -61,6 +61,7 @@ function expiresSoon(row: CustomerCreditBalanceResponse): boolean {
 <template>
   <div class="ds-stack ds-stack--10">
     <AppTable
+      caption="Saldos a favor por empresa"
       money
       :headers="HEADERS"
       :empty="rows.length === 0"

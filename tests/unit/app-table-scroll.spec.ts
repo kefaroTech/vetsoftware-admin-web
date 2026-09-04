@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import AppTable from '@/components/ui/AppTable.vue'
@@ -65,11 +66,48 @@ const PRIMITIVES = readFileSync(
 
 const montar = () =>
   mount(AppTable, {
-    props: { headers: ['Rol base', 'Permiso', 'Módulo', 'Submódulo', 'Estado', 'Acciones'] },
+    props: {
+      caption: 'Permisos de roles base',
+      headers: ['Rol base', 'Permiso', 'Módulo', 'Submódulo', 'Estado', 'Acciones'],
+    },
     slots: {
       default: '<tr><td>Administrador</td><td>company.read</td><td colspan="4">—</td></tr>',
     },
   })
+
+/**
+ * jsdom no calcula layout: `scrollWidth` y `clientWidth` valen 0 en todo. Se
+ * fuerzan sobre el prototipo para poder decidir el caso —desborda / no desborda—
+ * que es justo lo que gobierna el `tabindex`.
+ */
+async function conAnchos(scrollWidth: number, clientWidth: number, ejecutar: () => Promise<void>) {
+  const previo = {
+    scrollWidth: Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollWidth'),
+    clientWidth: Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'clientWidth'),
+  }
+  Object.defineProperty(HTMLElement.prototype, 'scrollWidth', {
+    configurable: true,
+    get: () => scrollWidth,
+  })
+  Object.defineProperty(HTMLElement.prototype, 'clientWidth', {
+    configurable: true,
+    get: () => clientWidth,
+  })
+  try {
+    await ejecutar()
+  } finally {
+    if (previo.scrollWidth) {
+      Object.defineProperty(HTMLElement.prototype, 'scrollWidth', previo.scrollWidth)
+    } else {
+      delete (HTMLElement.prototype as unknown as Record<string, unknown>).scrollWidth
+    }
+    if (previo.clientWidth) {
+      Object.defineProperty(HTMLElement.prototype, 'clientWidth', previo.clientWidth)
+    } else {
+      delete (HTMLElement.prototype as unknown as Record<string, unknown>).clientWidth
+    }
+  }
+}
 
 describe('AppTable — scroll horizontal (EST-10 / WCAG 2.2 §1.4.10, AA)', () => {
   it('envuelve la tabla en un contenedor .ds-table-scroll', () => {
@@ -102,6 +140,54 @@ describe('AppTable — scroll horizontal (EST-10 / WCAG 2.2 §1.4.10, AA)', () =
     expect(caja, '.tabla-caja volvió a recortar y amputa las últimas columnas').not.toMatch(
       /overflow[^:]*:\s*hidden/,
     )
+  })
+
+  /**
+   * WCAG 2.2 §2.1.1 (A) · regla `scrollable-region-focusable` de axe-core.
+   *
+   * Los cuatro casos de arriba miran `overflow`, y los cuatro pasaban con el
+   * defecto puesto: un contenedor que se desplaza pero al que el teclado no
+   * puede entrar. En las tablas anchas —colores y razas a 390 px— la columna de
+   * acciones, con el botón de eliminar dentro, quedaba fuera del alcance.
+   */
+  it('cuando desborda, el contenedor es enfocable y tiene nombre', async () => {
+    await conAnchos(900, 400, async () => {
+      const wrapper = montar()
+      // La medida ocurre en `onMounted`; el atributo aparece en el render de después.
+      await nextTick()
+      const scroll = wrapper.find('.ds-table-scroll')
+
+      expect(scroll.attributes('tabindex'), 'el contenedor que desborda no es enfocable').toBe('0')
+      expect(scroll.attributes('role')).toBe('region')
+      expect(scroll.attributes('aria-label')).toBe('Permisos de roles base')
+    })
+  })
+
+  /**
+   * Y el reverso, que es igual de importante: un `tabindex` fijo metería una
+   * parada de tabulador que no lleva a ninguna parte en cada una de las tablas
+   * de la consola.
+   */
+  it('cuando NO desborda, no añade una parada de tabulador vacía', async () => {
+    await conAnchos(400, 400, async () => {
+      const wrapper = montar()
+      await nextTick()
+      const scroll = wrapper.find('.ds-table-scroll')
+
+      expect(scroll.attributes('tabindex')).toBeUndefined()
+      expect(scroll.attributes('role')).toBeUndefined()
+    })
+  })
+
+  it('la tabla siempre tiene nombre accesible, desborde o no', () => {
+    // Sin `money` el nombre va en un `<caption>` solo para lector de pantalla:
+    // en el expediente hay varias tablas por pantalla y la lista de tablas del
+    // lector las anunciaba todas igual.
+    const caption = montar().find('table > caption')
+
+    expect(caption.exists(), 'la tabla no declara <caption>').toBe(true)
+    expect(caption.text()).toBe('Permisos de roles base')
+    expect(caption.classes()).toContain('ds-sr-only')
   })
 
   it('.ds-table-scroll sigue aportando overflow-x: auto', () => {

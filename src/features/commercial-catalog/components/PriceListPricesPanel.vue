@@ -101,6 +101,7 @@ function money(value: number) {
     </div>
 
     <AppTable
+      caption="Precios de la lista"
       :headers="['Artículo', 'Ciclo', 'Tramo', 'Incluido', 'Precio', 'Impuesto', 'Acciones']"
       :empty="paged.items.value.length === 0"
       :loading="paged.loading.value"

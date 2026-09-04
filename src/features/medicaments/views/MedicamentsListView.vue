@@ -337,6 +337,7 @@ function reintentar() {
       tabindex="0"
     >
       <AppTable
+        caption="Medicamentos globales"
         :headers="cabeceras"
         :empty="filas.length === 0"
         :loading="loading"

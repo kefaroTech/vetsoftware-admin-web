@@ -193,6 +193,7 @@ async function confirmPropagate(payload: PropagateCatalogLimitImprovementRequest
       tarifa desde la que se cobra el excedente.
     -->
     <AppTable
+      caption="Techos de fábrica del artículo"
       money
       :headers="['Eje', 'Techo de pago', 'Durante la prueba', 'Al llegar', 'Reinicio', 'Acciones']"
       :empty="limits.length === 0"
