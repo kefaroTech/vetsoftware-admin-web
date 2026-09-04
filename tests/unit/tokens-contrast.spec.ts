@@ -7,7 +7,7 @@ import path from 'node:path'
  *
  * `.ds-btn` hace `outline: none`, así que `--ring` / `--ring-danger` son el
  * ÚNICO indicador de foco visible del sistema. Antes de la auditoría usaban
- * `--amatista-50` y `--danger-200`: 1,06:1 y 1,25:1 sobre la superficie. Un
+ * `--amatista-50` y `--danger-200`: 1,07:1 y 1,30:1 sobre la superficie. Un
  * usuario de teclado no podía ver dónde estaba. WCAG 2.2 §2.4.7 Focus Visible
  * (AA) obliga a que haya un indicador de foco visible, y §1.4.11 Non-text
  * Contrast (AA) es el que fija el 3:1 que se mide aquí. (§2.4.13 Focus
@@ -275,8 +275,8 @@ const surfaceLuminance = relativeLuminance(parseOklch(resolveVars(tokenValue('--
  * roto que devolviera siempre contraste alto dejaría pasar cualquier cosa.
  */
 const RINGS = [
-  { ring: '--ring', antes: '--amatista-50', contrasteAntes: 1.06 },
-  { ring: '--ring-danger', antes: '--danger-200', contrasteAntes: 1.25 },
+  { ring: '--ring', antes: '--amatista-50', contrasteAntes: 1.066 },
+  { ring: '--ring-danger', antes: '--danger-200', contrasteAntes: 1.295 },
 ] as const
 
 describe('anillos de foco (A11Y-01 / WCAG 2.2 §2.4.7 + §1.4.11, AA)', () => {

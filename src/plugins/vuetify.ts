@@ -12,19 +12,22 @@ const lucide: IconSet = {
   component: (props: IconProps) => h(props.icon as Component, { size: 20 }),
 }
 
-// Espejo en sRGB de los tokens de `tokens.css`, no una paleta aparte.
-// Ningún gate comprueba automáticamente que los dos coincidan.
+// Espejo en sRGB de los tokens de `tokens.css`, no una paleta aparte:
+// `--brand-canvas` · `--surface` · `--amatista-600` (el indigo del kit) ·
+// `--warm-500` · `--success-dot` · `--danger-500` · `--warning-900` ·
+// `--amatista-600`. Ningún gate comprueba automáticamente que los dos
+// coincidan.
 const customTheme = {
   dark: false,
   colors: {
-    background: '#FAFCFF',
+    background: '#F5F3FF',
     surface: '#FFFFFF',
-    primary: '#564DC5',
-    secondary: '#646970',
-    success: '#278733',
-    error: '#C53637',
-    warning: '#683D00',
-    info: '#564DC5',
+    primary: '#4F46E5',
+    secondary: '#5D6A7D',
+    success: '#1C8D7F',
+    error: '#CD1E46',
+    warning: '#6A430A',
+    info: '#4F46E5',
   },
 }
 
