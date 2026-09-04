@@ -4,6 +4,7 @@ import { useBaseRoles } from '../composables/useBaseRoles'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
 import { coincide } from '@/composables/text'
+import { formatDate } from '@/composables/format'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
@@ -144,7 +145,7 @@ async function handleDelete(id: number, name: string) {
             :class="r.mandatory ? 'marca marca--si' : 'marca'"
           />
         </td>
-        <td class="ds-meta">{{ r.createdDate }}</td>
+        <td class="ds-meta">{{ formatDate(r.createdDate) }}</td>
         <td>
           <div class="ds-actions ds-actions--start">
             <RouterLink :to="`/roles-base/${r.id}`" class="ds-icon-btn" aria-label="Editar">

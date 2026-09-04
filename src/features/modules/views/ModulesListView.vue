@@ -4,6 +4,7 @@ import { useModules } from '../composables/useModules'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
 import { coincide } from '@/composables/text'
+import { formatDate } from '@/composables/format'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
@@ -136,7 +137,7 @@ async function handleDelete(id: number, name: string) {
       <tr v-for="m in filtrados" :key="m.id" class="ds-row-hover">
         <td class="ds-text-strong">{{ m.name }}</td>
         <td class="codigo">{{ m.code }}</td>
-        <td class="ds-meta">{{ m.createdDate }}</td>
+        <td class="ds-meta">{{ formatDate(m.createdDate) }}</td>
         <td>
           <div class="ds-actions ds-actions--start">
             <RouterLink :to="`/modulos/${m.id}`" class="ds-icon-btn" aria-label="Editar">

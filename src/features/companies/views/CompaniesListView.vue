@@ -4,6 +4,7 @@ import { useCompanies } from '../composables/useCompanies'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
 import { useQuerySync } from '@/composables/useQuerySync'
+import { formatDate } from '@/composables/format'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
@@ -229,7 +230,7 @@ function handleClose() {
             :label="company.enabled ? 'Activa' : 'Deshabilitada'"
           />
         </td>
-        <td class="ds-meta">{{ company.createdDate }}</td>
+        <td class="ds-meta">{{ formatDate(company.createdDate) }}</td>
         <td>
           <div class="ds-actions ds-actions--start">
             <RouterLink :to="`/empresas/${company.id}`" class="ds-icon-btn" aria-label="Editar">

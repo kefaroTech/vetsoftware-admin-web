@@ -5,6 +5,7 @@ import type { LaboratoryTestTypeFormData } from '../composables/useLaboratoryTes
 import { coincide } from '@/composables/text'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
+import { formatDate } from '@/composables/format'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
@@ -142,7 +143,7 @@ async function handleDelete(id: number, name: string) {
       <tr v-for="t in filtrados" :key="t.id" class="ds-row-hover">
         <td class="ds-text-strong">{{ t.name }}</td>
         <td class="ds-meta">{{ t.description }}</td>
-        <td class="ds-meta">{{ t.createdDate }}</td>
+        <td class="ds-meta">{{ formatDate(t.createdDate) }}</td>
         <td>
           <div class="ds-actions ds-actions--start">
             <RouterLink

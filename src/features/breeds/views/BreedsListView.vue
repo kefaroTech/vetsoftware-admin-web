@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useBreeds } from '../composables/useBreeds'
 import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import { useUnsavedChangesGuard } from '@/composables/useUnsavedChangesGuard'
+import { formatDate } from '@/composables/format'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import AppTable from '@/components/ui/AppTable.vue'
 import AppModal from '@/components/ui/AppModal.vue'
@@ -130,7 +131,7 @@ async function handleDelete(id: number, name: string) {
       <tr v-for="b in filtradas" :key="b.id" class="ds-row-hover">
         <td class="ds-text-strong">{{ b.name }}</td>
         <td>{{ b.specie?.name }}</td>
-        <td class="ds-meta">{{ b.createdDate }}</td>
+        <td class="ds-meta">{{ formatDate(b.createdDate) }}</td>
         <td>
           <div class="ds-actions ds-actions--start">
             <RouterLink :to="`/animales/razas/${b.id}`" class="ds-icon-btn" aria-label="Editar">
