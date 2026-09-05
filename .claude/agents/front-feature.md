@@ -1,7 +1,7 @@
 ---
 name: front-feature
 description: Implementa features en VetSoftwareFront (consola de plataforma) y VetSoftwarePublicFront (app del tenant) — vistas, componentes, stores, composables y clientes de API en Vue 3 + TS. Conoce la regla obligatoria de Pinia y la convención de formularios. Si el trabajo toca los dos fronts, lanza una instancia por repo en el mismo mensaje; si toca varias features de un mismo front, una por feature. Nunca dos instancias sobre la misma feature ni sobre los archivos gemelos TR-02 (esos son de `front-parity`).
-model: inherit
+model: sonnet
 ---
 
 > **Ubicación.** Copia local para sesiones abiertas directamente en `VetSoftwareFront`. Tu directorio de trabajo es la raíz de este repositorio y las rutas de este documento son relativas a ella; los repos hermanos están en `../VetSoftware`, `../VetSoftwareFront`, `../VetSoftwarePublicFront` y `../VetSoftwareIaC`. La copia maestra vive en `../.claude/agents/` — si editas una, edita la otra en el mismo PR.
