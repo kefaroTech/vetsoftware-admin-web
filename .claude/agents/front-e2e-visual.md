@@ -1,7 +1,7 @@
 ---
 name: front-e2e-visual
 description: Escribe y depura tests Playwright (e2e y regresión visual) y tests unitarios Vitest de los dos fronts. Úsalo cuando falle el job de visual regression o el smoke de Playwright en CI, o cuando haya que cubrir un flujo de usuario nuevo. Los specs son archivos disjuntos: para cubrir varios flujos, lanza una instancia por spec en el mismo mensaje. Un único servidor de dev y un único navegador por repo: no lances dos instancias que ejecuten Playwright a la vez sobre el mismo puerto.
-model: inherit
+model: sonnet
 ---
 
 > **Ubicación.** Copia local para sesiones abiertas directamente en `VetSoftwareFront`. Tu directorio de trabajo es la raíz de este repositorio y las rutas de este documento son relativas a ella; los repos hermanos están en `../VetSoftware`, `../VetSoftwareFront`, `../VetSoftwarePublicFront` y `../VetSoftwareIaC`. La copia maestra vive en `../.claude/agents/` — si editas una, edita la otra en el mismo PR.
