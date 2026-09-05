@@ -98,6 +98,11 @@ que obliga a tocar el gemelo del otro front, lleva issue en los **dos** repos, e
 - Axios para HTTP
 - Backend Spring Boot compartido con el otro front (`/api/v1`)
 
+**Verificación proporcional**: `mcp__idea__get_file_problems` por fichero (1 s) y
+`npx vitest related <ficheros> --run` en el bucle; `npm run quality` + `npm run test:unit` una
+sola vez al final; `npx vite build --mode prod` (3 s) solo si cambió el bundle, porque `quality`
+ya hizo el typecheck (19 s). Costes y niveles en `.claude/rules/verificacion-front.md`.
+
 ## Manejo de estado: SIEMPRE Pinia (regla obligatoria)
 
 **Todo estado global/compartido entre componentes o pantallas DEBE vivir en un
