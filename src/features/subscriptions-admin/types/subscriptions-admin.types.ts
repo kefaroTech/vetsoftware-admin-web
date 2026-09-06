@@ -27,6 +27,7 @@ export interface SubscriptionResponse {
   cancelReason: string | null
   createdDate: string
   enabled: boolean
+  origin: 'INITIAL' | 'QUOTE'
 }
 
 /** Dos líneas del mismo artículo que se facturan durante un tramo común. */

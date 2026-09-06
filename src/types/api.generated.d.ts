@@ -12778,6 +12778,11 @@ export interface components {
             /** Format: date-time */
             createdDate?: string;
             enabled?: boolean;
+            /**
+             * @description INITIAL si nacio del alta de la empresa, QUOTE si nacio de una cotizacion aceptada.
+             * @enum {string}
+             */
+            origin?: "INITIAL" | "QUOTE";
         };
         AddSubscriptionItemRequest: {
             clientRequestId: string;
