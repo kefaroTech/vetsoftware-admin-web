@@ -13111,8 +13111,11 @@ export interface components {
         };
         SelfServeQuoteLineRequest: {
             code: string;
-            /** Format: int32 */
-            quantity?: number;
+            /**
+             * Format: int32
+             * @description Cantidad a contratar de este articulo. En una capacidad adicional (EXTRA_USER, EXTRA_BRANCH...) es la cantidad POR ENCIMA de la que concede el nucleo, nunca el total contratado: el servidor no resta nada.
+             */
+            quantity: number;
         };
         SelfServeQuoteRequest: {
             clientRequestId: string;
