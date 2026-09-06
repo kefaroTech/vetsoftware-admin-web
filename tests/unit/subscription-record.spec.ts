@@ -47,6 +47,7 @@ function subscription(overrides: Partial<SubscriptionResponse> = {}): Subscripti
     cancelReason: null,
     createdDate: '2026-01-01T08:00:00',
     enabled: true,
+    origin: 'INITIAL',
     ...overrides,
   }
 }

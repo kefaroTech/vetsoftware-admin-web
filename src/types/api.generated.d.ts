@@ -2804,6 +2804,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/payment-gateway/wompi/payment-sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createPaymentSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/payment-gateway/wompi/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["events"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/owners": {
         parameters: {
             query?: never;
@@ -7516,6 +7548,38 @@ export interface paths {
             cookie?: never;
         };
         get: operations["listByPayment"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/payment-gateway/wompi/first-period-payment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["firstPeriodPayment"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/payment-gateway/wompi/checkout-config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["checkoutConfig"];
         put?: never;
         post?: never;
         delete?: never;
@@ -12714,6 +12778,11 @@ export interface components {
             /** Format: date-time */
             createdDate?: string;
             enabled?: boolean;
+            /**
+             * @description INITIAL si nacio del alta de la empresa, QUOTE si nacio de una cotizacion aceptada.
+             * @enum {string}
+             */
+            origin?: "INITIAL" | "QUOTE";
         };
         AddSubscriptionItemRequest: {
             clientRequestId: string;
@@ -13381,6 +13450,26 @@ export interface components {
             code: string;
             /** Format: int64 */
             subModuleId: number;
+        };
+        WompiPaymentSourceRequest: {
+            cardToken: string;
+            acceptanceToken: string;
+            personalDataAuthToken: string;
+            brand: string;
+            lastFour?: string;
+            /** Format: int32 */
+            expMonth?: number;
+            /** Format: int32 */
+            expYear?: number;
+        };
+        WompiPaymentMethodResponse: {
+            /** Format: int64 */
+            paymentMethodId?: number;
+            brand?: string;
+            lastFour?: string;
+            /** Format: date */
+            expiresOn?: string;
+            defaultMethod?: boolean;
         };
         CreateOwnerRequest: {
             name: string;
@@ -16168,6 +16257,25 @@ export interface components {
             reason: string;
             /** Format: date-time */
             createdDate: string;
+        };
+        FirstPeriodPaymentResponse: {
+            status?: string;
+            amount?: number;
+            currency?: string;
+            gatewayReference?: string;
+            /** Format: date-time */
+            attemptedAt?: string;
+        };
+        Acceptance: {
+            token?: string;
+            permalink?: string;
+        };
+        WompiCheckoutConfigResponse: {
+            environment?: string;
+            apiBaseUrl?: string;
+            publicKey?: string;
+            acceptance?: components["schemas"]["Acceptance"];
+            personalDataAuthorization?: components["schemas"]["Acceptance"];
         };
         PageResponsePaymentAttemptResponse: {
             content?: components["schemas"]["PaymentAttemptResponse"][];
@@ -25049,6 +25157,54 @@ export interface operations {
             };
         };
     };
+    createPaymentSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WompiPaymentSourceRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WompiPaymentMethodResponse"];
+                };
+            };
+        };
+    };
+    events: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Event-Checksum"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": string;
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     listAll_46: {
         parameters: {
             query?: {
@@ -33087,6 +33243,46 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PageResponsePaymentRefundResponse"];
+                };
+            };
+        };
+    };
+    firstPeriodPayment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FirstPeriodPaymentResponse"];
+                };
+            };
+        };
+    };
+    checkoutConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WompiCheckoutConfigResponse"];
                 };
             };
         };
