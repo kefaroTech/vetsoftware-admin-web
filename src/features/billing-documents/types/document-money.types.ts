@@ -5,14 +5,14 @@ import type { ApplicationSourceKind } from './billing-documents.types'
  * registrar una retención y emitir la nota crédito que lo corrige.
  *
  * <p>Vive aparte de `billing-documents.types.ts` porque aquello describe el
- * <b>documento</b> —su circuito, su desglose, lo que ya lo salda— y esto describe
- * las <b>escrituras</b>. Son dos ritmos distintos: el primero cambia cuando cambia
- * el modelo del documento, el segundo cuando el contrato publica una operación
+ * <b>Documento</b> —su circuito, su desglose, lo que ya lo salda— y esto describe
+ * Las <b>escrituras</b>. Son dos ritmos distintos: el primero cambia cuando cambia
+ * El modelo del documento, el segundo cuando el contrato publica una operación
  * nueva.
  *
  * <p><b>Los importes son siempre positivos.</b> El signo lo da el tipo del
  * documento y el sentido de la fila, nunca un menos en el campo. Un formulario
- * que aceptara «−40000» dejaría entrar dos convenciones de signo a la vez y a
+ * Que aceptara «−40000» dejaría entrar dos convenciones de signo a la vez y a
  * partir de ahí ninguna suma de pantalla cuadra con ninguna suma del servidor.
  */
 
@@ -48,13 +48,22 @@ export interface ApplyBillingDocumentRequest {
   writeOffReason?: string
   /**
    * La fecha con la que el asiento entra en la contabilidad. Si no viaja, la pone
-   * el servidor. Se manda cuando el operador está regularizando algo de un periodo
+   * El servidor. Se manda cuando el operador está regularizando algo de un periodo
    * anterior, que es justo cuando la fecha de registro y la de valor dejan de
    * coincidir.
    */
   valueDate?: string
   appliedAmount: number
   clientRequestId: string
+}
+
+/**
+ * `POST /billing-document-applications/{id}/reversal` · `ReverseBillingDocumentApplicationRequest`.
+ *
+ *
+ */
+export interface ReverseBillingDocumentApplicationRequest {
+  reason: string
 }
 
 /** Qué referencia admite cada origen. Es lo que decide qué campo pinta el formulario. */
@@ -66,7 +75,7 @@ export interface ApplicationSourceForm {
   /**
    * La ruta que el contrato prefiere para este origen, cuando existe otra mejor.
    * `null` = esta es la única. Se pinta como aviso dentro del formulario: ofrecer
-   * el camino largo sin decir que hay uno corto es cómo se acaban registrando
+   * El camino largo sin decir que hay uno corto es cómo se acaban registrando
    * retenciones sin base, sin tarifa y sin año gravable.
    */
   betterRoute: string | null
@@ -76,10 +85,10 @@ export interface ApplicationSourceForm {
  * <b>Cómo se registra cada uno de los seis orígenes.</b>
  *
  * <p>Los seis caben en `POST /billing-document-applications`, pero <b>tres tienen
- * un camino mejor</b> y el formulario lo dice en vez de dejar elegir a ciegas. Una
+ * Un camino mejor</b> y el formulario lo dice en vez de dejar elegir a ciegas. Una
  * retención registrada como aplicación suelta pierde el tipo, la base, la tarifa,
- * el municipio y el año gravable — exactamente los datos que hacen falta el día que
- * la contadora del cliente pide el certificado.
+ * El municipio y el año gravable — exactamente los datos que hacen falta el día que
+ * La contadora del cliente pide el certificado.
  */
 export const APPLICATION_SOURCE_FORM: Record<ApplicationSourceKind, ApplicationSourceForm> = {
   PAYMENT: { reference: 'PAYMENT', betterRoute: null },
@@ -134,14 +143,14 @@ export const WITHHOLDING_TYPE_OPTIONS: { value: WithholdingType; label: string }
  *
  * <p><b>Una retención saldada no es una deuda.</b> El cliente que retuvo bien y
  * giró el resto no está en mora aunque el saldo del documento no llegue a cero por
- * sí solo: la parte retenida está en la DIAN, no sin pagar. Registrarla es lo que
+ * Sí solo: la parte retenida está en la DIAN, no sin pagar. Registrarla es lo que
  * convierte ese saldo vivo en una fila explicada, y es lo que impide que la mora
  * arranque contra alguien que pagó correctamente.
  *
  * <p>`certificateId` llega cuando el cliente ya entregó el certificado. Vacío no
  * significa que no exista: significa que todavía no llegó, y el año gravable manda
  * — `GET /system/document-withholdings/uncertified?fiscalYear=` es la lista de las
- * que faltan.
+ * Que faltan.
  */
 export interface DocumentWithholdingResponse {
   id: number
@@ -182,6 +191,6 @@ export interface RegisterDocumentWithholdingRequest {
  * <p>No se corrige el importe automáticamente: el que manda es el que el cliente
  * escribió en su certificado, y ajustarlo «para que cuadre» produciría una
  * retención que no coincide con ningún papel. Lo que sí se hace es avisar, porque
- * una diferencia de miles suele ser una tarifa mal tecleada.
+ * Una diferencia de miles suele ser una tarifa mal tecleada.
  */
 export const WITHHOLDING_ROUNDING_TOLERANCE = 1

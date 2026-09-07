@@ -5,6 +5,7 @@ import type {
   BillingDocumentResponse,
   BillingOperationList,
   DunningEventResponse,
+  PaymentsFilterState,
   SubscriptionPaymentResponse,
 } from '../types/billing-operations.types'
 
@@ -14,7 +15,7 @@ import type {
  * <p><b>Por qué un store y no `ref()` dentro del composable.</b> Las cuatro
  * pestañas son cuatro RUTAS (§2.2), así que cada una monta y desmonta su propia
  * vista. Con estado por instancia, volver de «Pagos» a «Pendiente de facturar»
- * repintaría el esqueleto y perdería la página en la que estaba el operador a
+ * Repintaría el esqueleto y perdería la página en la que estaba el operador a
  * mitad del cierre de mes. El estado es compartido entre pantallas: por la regla
  * obligatoria del proyecto, vive en Pinia. Aquí no hay ningún `ref()` a nivel de
  * módulo — el patrón híbrido está prohibido.
@@ -50,7 +51,7 @@ export const useBillingOperationsStore = defineStore('billing-operations', () =>
    * (`/system/subscription-payments` y `/system/dunning-events`).
    *
    * <p>`null` = sin filtro. Es lo que separa el vacío «no hay nada y está bien»
-   * del vacío «este filtro no casó»: sin guardar si hay filtro aplicado, los dos
+   * Del vacío «este filtro no casó»: sin guardar si hay filtro aplicado, los dos
    * estados se pintarían igual y un logro parecería una avería (§3.7).
    *
    * <p>Las otras dos listas NO tienen filtro y por eso no aparecen aquí: el
@@ -60,6 +61,13 @@ export const useBillingOperationsStore = defineStore('billing-operations', () =>
   const companyFilter = ref<Record<'payments' | 'dunning', number | null>>({
     payments: null,
     dunning: null,
+  })
+
+  const paymentsFilter = ref<PaymentsFilterState>({
+    status: null,
+    receivedFrom: null,
+    receivedTo: null,
+    agingOnly: false,
   })
 
   function setAwaitingExternal(page: PageResponse<BillingDocumentResponse>) {
@@ -91,6 +99,10 @@ export const useBillingOperationsStore = defineStore('billing-operations', () =>
     companyFilter.value[list] = companyId
   }
 
+  function setPaymentsFilter(filter: PaymentsFilterState) {
+    paymentsFilter.value = filter
+  }
+
   return {
     awaitingExternal,
     overdue,
@@ -100,6 +112,7 @@ export const useBillingOperationsStore = defineStore('billing-operations', () =>
     errors,
     errorTraceIds,
     companyFilter,
+    paymentsFilter,
     setAwaitingExternal,
     setOverdue,
     setPayments,
@@ -107,5 +120,6 @@ export const useBillingOperationsStore = defineStore('billing-operations', () =>
     setLoading,
     setError,
     setCompanyFilter,
+    setPaymentsFilter,
   }
 })

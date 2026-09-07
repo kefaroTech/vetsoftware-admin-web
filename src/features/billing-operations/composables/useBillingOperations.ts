@@ -1,26 +1,47 @@
-import { computed, type Ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useToast } from '@/composables/useToast'
 import type { PageResponse } from '@/types/pagination'
 import { billingOperationsApi } from '../api/billing-operations.api'
 import { useBillingOperationsStore } from '../stores/billing-operations.store'
+import { buildPaymentsQuery } from './paymentsFilter'
 import { usePagedFeed } from './usePagedFeed'
 import type {
   BillingDocumentResponse,
   BillingOperationList,
   DunningEventResponse,
+  PaymentsFilterState,
   SubscriptionPaymentResponse,
 } from '../types/billing-operations.types'
+
+/** Descarga un `Blob` con el nombre dado, sin que el navegador navegue fuera de la SPA. */
+function downloadBlob(blob: Blob, filename: string): void {
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(url)
+}
+
+function todayStamp(): string {
+  const now = new Date()
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}`
+}
 
 /**
  * Las cuatro listas de `/cobranza`, cada una envuelta en su propio composable.
  *
  * <p>Todas comparten el mismo motor —`usePagedFeed`, que también mueve los ocho
  * listados del circuito del dinero— y todas leen y escriben en el store de Pinia
- * con `storeToRefs`: el estado sobrevive al cambio de pestaña, que aquí es un
+ * Con `storeToRefs`: el estado sobrevive al cambio de pestaña, que aquí es un
  * cambio de ruta. En este módulo no hay ninguna `ref()` a nivel de módulo.
  *
  * <p>Esta función es el <b>adaptador</b> entre ese motor y el store de cobranza:
- * traduce la clave de la lista a los cuatro accesos que el motor necesita. La
+ * Traduce la clave de la lista a los cuatro accesos que el motor necesita. La
  * lógica de aborto, de página y de error vive una sola vez, en `usePagedFeed`.
  */
 function useBillingList<T>(
@@ -84,21 +105,56 @@ export function useOverdueDocuments() {
  */
 export function usePlatformPayments() {
   const store = useBillingOperationsStore()
-  const { payments, companyFilter } = storeToRefs(store)
+  const { payments, companyFilter, paymentsFilter } = storeToRefs(store)
+  const { errorFrom } = useToast()
+  const exporting = ref(false)
+
+  const buildQuery = () => buildPaymentsQuery(companyFilter.value.payments, paymentsFilter.value)
+
   const list = useBillingList<SubscriptionPaymentResponse>(
     'payments',
     payments,
     store.setPayments,
     (page, pageSize, signal) =>
-      billingOperationsApi.listByPayments(page, pageSize, companyFilter.value.payments, signal),
+      billingOperationsApi.listByPayments(page, pageSize, buildQuery(), signal),
   )
+
+  async function exportCsv() {
+    exporting.value = true
+    try {
+      const blob = await billingOperationsApi.exportPayments(buildQuery())
+      downloadBlob(blob, `pagos-${todayStamp()}.csv`)
+    } catch (error: unknown) {
+      errorFrom('No se pudo exportar el CSV', error)
+    } finally {
+      exporting.value = false
+    }
+  }
+
   return {
     ...list,
     companyId: computed(() => companyFilter.value.payments),
+    filter: paymentsFilter,
+    exporting,
     applyCompanyFilter(companyId: number | null) {
       store.setCompanyFilter('payments', companyId)
       return list.reload()
     },
+    applyFilter(filter: PaymentsFilterState) {
+      store.setPaymentsFilter(filter)
+      return list.reload()
+    },
+    clearFilters() {
+      store.setCompanyFilter('payments', null)
+      store.setPaymentsFilter({
+        status: null,
+        receivedFrom: null,
+        receivedTo: null,
+        agingOnly: false,
+      })
+      return list.reload()
+    },
+    exportCsv,
   }
 }
 

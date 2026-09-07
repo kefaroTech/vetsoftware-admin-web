@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { agingText, daysSince } from '@/features/billing-operations/composables/billingFormat'
+import {
+  agingText,
+  daysSince,
+  endOfDayInstant,
+  hoursSince,
+  isPendingStale,
+  startOfDayInstant,
+} from '@/features/billing-operations/composables/billingFormat'
 
 /**
  * La antigüedad es el único criterio de urgencia de `/cobranza`: el endpoint no
@@ -45,6 +52,48 @@ describe('agingText dice la antigüedad en palabras', () => {
 
   it('nombra una fecha futura en vez de imprimir un negativo', () => {
     expect(agingText(-3)).toBe('en el futuro')
+  })
+})
+
+describe('hoursSince cuenta por diferencia de instantes, no por día de calendario', () => {
+  it('distingue 40 minutos de 3 horas aunque caigan en el mismo día', () => {
+    const now = new Date(2026, 8, 6, 15, 0)
+    expect(hoursSince('2026-09-06T14:20:00', now)).toBeCloseTo(2 / 3, 5)
+    expect(hoursSince('2026-09-06T12:00:00', now)).toBeCloseTo(3, 5)
+  })
+
+  it('devuelve null cuando la fecha no es parseable', () => {
+    expect(hoursSince(null)).toBeNull()
+    expect(hoursSince('')).toBeNull()
+    expect(hoursSince('no-es-una-fecha')).toBeNull()
+  })
+})
+
+describe('isPendingStale encuentra el webhook perdido', () => {
+  const now = new Date(2026, 8, 6, 15, 0)
+
+  it('marca un PENDING de más de 1 hora', () => {
+    expect(isPendingStale('PENDING', '2026-09-06T13:00:00', now)).toBe(true)
+  })
+
+  it('no marca un PENDING reciente', () => {
+    expect(isPendingStale('PENDING', '2026-09-06T14:30:00', now)).toBe(false)
+  })
+
+  it('un pago ya resuelto no envejece, por vieja que sea su fecha', () => {
+    expect(isPendingStale('CONFIRMED', '2026-01-01T00:00:00', now)).toBe(false)
+  })
+})
+
+describe('startOfDayInstant/endOfDayInstant acotan el rango de fechas de C-06', () => {
+  it('startOfDayInstant cae en la medianoche local del día elegido', () => {
+    const expected = new Date(2026, 8, 6, 0, 0, 0)
+    expect(startOfDayInstant('2026-09-06')).toBe(expected.toISOString())
+  })
+
+  it('endOfDayInstant no excluye lo recibido el mismo día', () => {
+    const expected = new Date(2026, 8, 6, 23, 59, 59, 999)
+    expect(endOfDayInstant('2026-09-06')).toBe(expected.toISOString())
   })
 })
 

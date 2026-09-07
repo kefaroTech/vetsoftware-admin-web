@@ -19,6 +19,7 @@ import {
   Component,
   Copy,
   Dog,
+  Download,
   Eraser,
   Eye,
   EyeOff,
@@ -61,6 +62,7 @@ import {
   Trash2,
   User,
   Users,
+  Webhook,
   X,
 } from 'lucide-vue-next'
 
@@ -71,11 +73,11 @@ import {
  * contra un subconjunto generado por `scripts/build-icon-subset.mjs`. Eso tenía
  * dos costes: un chunk de 183 kB —la mitad del bundle de esta consola— y un
  * paso de generación que había que recordar correr; y además nada comprobaba que
- * el nombre existiera, así que un icono mal escrito salía como un hueco en la
+ * El nombre existiera, así que un icono mal escrito salía como un hueco en la
  * interfaz (le pasó a `SURGERY_TYPE`).
  *
  * Con componentes, un nombre inexistente no compila y el bundler se lleva solo
- * los que se usan. El front operativo ya usaba Lucide: TR-02 los deja iguales.
+ * Los que se usan. El front operativo ya usaba Lucide: TR-02 los deja iguales.
  */
 export const ICONS = {
   DASHBOARD: LayoutDashboard,
@@ -85,7 +87,7 @@ export const ICONS = {
   /**
    * Las pistas que el asistente lee para decidir qué proponer. No había ningún
    * icono de asistente ni de IA en el inventario —de `DASHBOARD` a `UNCHECKED`,
-   * sin `SPARKLES`, `BOT` ni `WAND`— así que entra una clave nueva.
+   * Sin `SPARKLES`, `BOT` ni `WAND`— así que entra una clave nueva.
    */
   AI_HINT: Sparkles,
   /** Supresión de datos del asistente a petición del titular (habeas data). */
@@ -99,8 +101,8 @@ export const ICONS = {
   LIMIT: Gauge,
   /**
    * Ventanas de prueba y concesiones. Un reloj de arena y no un calendario: lo
-   * que define una ventana de prueba es que **se acaba**, y la pantalla existe
-   * para ver a quién se le está acabando hoy.
+   * Que define una ventana de prueba es que **se acaba**, y la pantalla existe
+   * Para ver a quién se le está acabando hoy.
    */
   TRIAL: Hourglass,
   /**
@@ -143,6 +145,7 @@ export const ICONS = {
   /** Disparador del cajón de navegación en tablet (ver `useNavDrawer.ts`). */
   MENU: Menu,
   COPY: Copy,
+  EXPORT: Download,
   BACK: ArrowLeft,
   LOGOUT: LogOut,
   CHECK: Check,
@@ -153,6 +156,7 @@ export const ICONS = {
   // documentos encadenados -la nota credito corrige a la factura-, no una hoja.
   BILLING_DOCUMENT: Files,
   HISTORY: History,
+  WEBHOOK_EVENT: Webhook,
 
   USER: User,
   LOCK: Lock,
