@@ -788,7 +788,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/countries/{id}": {
+    "/daycares/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -804,7 +804,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/consultation-types/{id}": {
+    "/countries/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -820,6 +820,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/consultation-types/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_40"];
+        put: operations["update_46"];
+        post?: never;
+        delete: operations["delete_41"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/company-tax-profile": {
         parameters: {
             query?: never;
@@ -828,7 +844,7 @@ export interface paths {
             cookie?: never;
         };
         get: operations["find_3"];
-        put: operations["update_46"];
+        put: operations["update_47"];
         post: operations["create_1"];
         delete?: never;
         options?: never;
@@ -859,22 +875,6 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_40"];
-        put: operations["update_47"];
-        post?: never;
-        delete: operations["delete_41"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/cities/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
         get: operations["findById_41"];
         put: operations["update_48"];
         post?: never;
@@ -884,7 +884,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/catalog-prices/{id}": {
+    "/cities/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -900,7 +900,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/catalog-items/{id}": {
+    "/catalog-prices/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -916,6 +916,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/catalog-items/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_44"];
+        put: operations["update_51"];
+        post?: never;
+        delete: operations["delete_45"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/catalog-items/{catalogItemId}/limits/{id}": {
         parameters: {
             query?: never;
@@ -924,7 +940,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_51"];
+        put: operations["update_52"];
         post?: never;
         delete?: never;
         options?: never;
@@ -940,9 +956,9 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_52"];
+        put: operations["update_53"];
         post?: never;
-        delete: operations["delete_45"];
+        delete: operations["delete_46"];
         options?: never;
         head?: never;
         patch?: never;
@@ -956,9 +972,9 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_53"];
+        put: operations["update_54"];
         post?: never;
-        delete: operations["delete_46"];
+        delete: operations["delete_47"];
         options?: never;
         head?: never;
         patch?: never;
@@ -988,7 +1004,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_54"];
+        put: operations["update_55"];
         post?: never;
         delete: operations["deactivate"];
         options?: never;
@@ -1003,10 +1019,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_44"];
-        put: operations["update_55"];
+        get: operations["findById_45"];
+        put: operations["update_56"];
         post?: never;
-        delete: operations["delete_47"];
+        delete: operations["delete_48"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1020,7 +1036,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_56"];
+        put: operations["update_57"];
         post?: never;
         delete?: never;
         options?: never;
@@ -1029,22 +1045,6 @@ export interface paths {
         trace?: never;
     };
     "/base-roles/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_45"];
-        put: operations["update_57"];
-        post?: never;
-        delete: operations["delete_48"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/base-role-permissions/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1060,7 +1060,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/base-permissions/{id}": {
+    "/base-role-permissions/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1071,6 +1071,22 @@ export interface paths {
         put: operations["update_59"];
         post?: never;
         delete: operations["delete_50"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/base-permissions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_48"];
+        put: operations["update_60"];
+        post?: never;
+        delete: operations["delete_51"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1099,10 +1115,26 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_48"];
-        put: operations["update_60"];
+        get: operations["findById_49"];
+        put: operations["update_61"];
         post?: never;
-        delete: operations["delete_51"];
+        delete: operations["delete_52"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/animals/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_50"];
+        put: operations["update_62"];
+        post?: never;
+        delete: operations["delete_53"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1115,10 +1147,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_49"];
-        put: operations["update_61"];
+        get: operations["findById_51"];
+        put: operations["update_63"];
         post?: never;
-        delete: operations["delete_52"];
+        delete: operations["delete_54"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1132,9 +1164,9 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put: operations["update_62"];
+        put: operations["update_64"];
         post?: never;
-        delete: operations["delete_53"];
+        delete: operations["delete_55"];
         options?: never;
         head?: never;
         patch?: never;
@@ -3540,7 +3572,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/countries": {
+    "/daycares": {
         parameters: {
             query?: never;
             header?: never;
@@ -3556,7 +3588,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/consultations": {
+    "/countries": {
         parameters: {
             query?: never;
             header?: never;
@@ -3572,7 +3604,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/consultation-types": {
+    "/consultations": {
         parameters: {
             query?: never;
             header?: never;
@@ -3582,6 +3614,22 @@ export interface paths {
         get: operations["listAll_65"];
         put?: never;
         post: operations["create_66"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consultation-types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAll_66"];
+        put?: never;
+        post: operations["create_67"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3643,9 +3691,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_66"];
+        get: operations["listAll_67"];
         put?: never;
-        post: operations["create_67"];
+        post: operations["create_68"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3659,9 +3707,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_67"];
+        get: operations["listAll_68"];
         put?: never;
-        post: operations["create_68"];
+        post: operations["create_69"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3677,7 +3725,7 @@ export interface paths {
         };
         get: operations["listByPriceList"];
         put?: never;
-        post: operations["create_69"];
+        post: operations["create_70"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3691,9 +3739,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_68"];
+        get: operations["listAll_69"];
         put?: never;
-        post: operations["create_70"];
+        post: operations["create_71"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3709,7 +3757,7 @@ export interface paths {
         };
         get: operations["listByCatalogItem"];
         put?: never;
-        post: operations["create_71"];
+        post: operations["create_72"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3725,7 +3773,7 @@ export interface paths {
         };
         get: operations["listByCatalogItem_1"];
         put?: never;
-        post: operations["create_72"];
+        post: operations["create_73"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3741,7 +3789,7 @@ export interface paths {
         };
         get: operations["listByCatalogItem_2"];
         put?: never;
-        post: operations["create_73"];
+        post: operations["create_74"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3757,7 +3805,7 @@ export interface paths {
         };
         get: operations["listByBundle"];
         put?: never;
-        post: operations["create_74"];
+        post: operations["create_75"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3789,7 +3837,7 @@ export interface paths {
         };
         get: operations["list_4"];
         put?: never;
-        post: operations["create_75"];
+        post: operations["create_76"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3851,9 +3899,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_69"];
+        get: operations["listAll_70"];
         put?: never;
-        post: operations["create_76"];
+        post: operations["create_77"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3867,9 +3915,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_70"];
+        get: operations["listAll_71"];
         put?: never;
-        post: operations["create_77"];
+        post: operations["create_78"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3915,9 +3963,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_71"];
+        get: operations["listAll_72"];
         put?: never;
-        post: operations["create_78"];
+        post: operations["create_79"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3931,9 +3979,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_72"];
+        get: operations["listAll_73"];
         put?: never;
-        post: operations["create_79"];
+        post: operations["create_80"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3947,9 +3995,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_73"];
+        get: operations["listAll_74"];
         put?: never;
-        post: operations["create_80"];
+        post: operations["create_81"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4125,7 +4173,7 @@ export interface paths {
         };
         get: operations["list_5"];
         put?: never;
-        post: operations["create_81"];
+        post: operations["create_82"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4139,9 +4187,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_74"];
+        get: operations["listAll_75"];
         put?: never;
-        post: operations["create_82"];
+        post: operations["create_83"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4157,7 +4205,7 @@ export interface paths {
         };
         get: operations["listByAnimal"];
         put?: never;
-        post: operations["create_83"];
+        post: operations["create_84"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4171,9 +4219,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_75"];
+        get: operations["listAll_76"];
         put?: never;
-        post: operations["create_84"];
+        post: operations["create_85"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4187,9 +4235,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_76"];
+        get: operations["listAll_77"];
         put?: never;
-        post: operations["create_85"];
+        post: operations["create_86"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4539,13 +4587,13 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_50"];
+        get: operations["findById_52"];
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["update_63"];
+        patch: operations["update_65"];
         trace?: never;
     };
     "/system/bank-receipts/{id}/identify": {
@@ -5691,7 +5739,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_51"];
+        get: operations["findById_53"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5739,7 +5787,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_52"];
+        get: operations["findById_54"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5899,7 +5947,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_53"];
+        get: operations["findById_55"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5947,7 +5995,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_77"];
+        get: operations["listAll_78"];
         put?: never;
         post?: never;
         delete?: never;
@@ -5979,7 +6027,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_78"];
+        get: operations["listAll_79"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6043,7 +6091,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_54"];
+        get: operations["findById_56"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6091,7 +6139,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_55"];
+        get: operations["findById_57"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6123,7 +6171,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_56"];
+        get: operations["findById_58"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6203,7 +6251,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_57"];
+        get: operations["findById_59"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6283,7 +6331,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_58"];
+        get: operations["findById_60"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6315,7 +6363,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_79"];
+        get: operations["listAll_80"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6395,7 +6443,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_59"];
+        get: operations["findById_61"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6587,7 +6635,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_60"];
+        get: operations["findById_62"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6619,7 +6667,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_61"];
+        get: operations["findById_63"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6651,7 +6699,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_62"];
+        get: operations["findById_64"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6699,7 +6747,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_63"];
+        get: operations["findById_65"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6811,7 +6859,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_64"];
+        get: operations["findById_66"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6875,7 +6923,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_65"];
+        get: operations["findById_67"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6891,7 +6939,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_66"];
+        get: operations["findById_68"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7163,10 +7211,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_67"];
+        get: operations["findById_69"];
         put?: never;
         post?: never;
-        delete: operations["delete_54"];
+        delete: operations["delete_56"];
         options?: never;
         head?: never;
         patch?: never;
@@ -7179,10 +7227,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_68"];
+        get: operations["findById_70"];
         put?: never;
         post?: never;
-        delete: operations["delete_55"];
+        delete: operations["delete_57"];
         options?: never;
         head?: never;
         patch?: never;
@@ -7211,7 +7259,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_80"];
+        get: operations["listAll_81"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7275,7 +7323,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_69"];
+        get: operations["findById_71"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7387,7 +7435,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_70"];
+        get: operations["findById_72"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7451,7 +7499,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_81"];
+        get: operations["listAll_82"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7531,7 +7579,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_71"];
+        get: operations["findById_73"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7563,7 +7611,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_72"];
+        get: operations["findById_74"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7643,7 +7691,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_73"];
+        get: operations["findById_75"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7691,10 +7739,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_74"];
+        get: operations["findById_76"];
         put?: never;
         post?: never;
-        delete: operations["delete_56"];
+        delete: operations["delete_58"];
         options?: never;
         head?: never;
         patch?: never;
@@ -8155,10 +8203,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_75"];
+        get: operations["findById_77"];
         put?: never;
         post?: never;
-        delete: operations["delete_57"];
+        delete: operations["delete_59"];
         options?: never;
         head?: never;
         patch?: never;
@@ -8299,7 +8347,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_82"];
+        get: operations["listAll_83"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8315,7 +8363,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_76"];
+        get: operations["findById_78"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8347,7 +8395,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_77"];
+        get: operations["findById_79"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8379,7 +8427,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_78"];
+        get: operations["findById_80"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8468,14 +8516,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/daycares": {
+    "/daycares/by-animal/{animalId}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["listAll_83"];
+        get: operations["listByAnimal_8"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8555,7 +8603,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_79"];
+        get: operations["findById_81"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8667,7 +8715,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_80"];
+        get: operations["findById_82"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8699,7 +8747,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_81"];
+        get: operations["findById_83"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8875,7 +8923,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["findById_82"];
+        get: operations["findById_84"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8940,22 +8988,6 @@ export interface paths {
             cookie?: never;
         };
         get: operations["me"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/animals/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findById_83"];
         put?: never;
         post?: never;
         delete?: never;
@@ -9070,7 +9102,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete_58"];
+        delete: operations["delete_60"];
         options?: never;
         head?: never;
         patch?: never;
@@ -9086,7 +9118,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete_59"];
+        delete: operations["delete_61"];
         options?: never;
         head?: never;
         patch?: never;
@@ -9102,7 +9134,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete_60"];
+        delete: operations["delete_62"];
         options?: never;
         head?: never;
         patch?: never;
@@ -9118,7 +9150,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete_61"];
+        delete: operations["delete_63"];
         options?: never;
         head?: never;
         patch?: never;
@@ -9134,7 +9166,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete_62"];
+        delete: operations["delete_64"];
         options?: never;
         head?: never;
         patch?: never;
@@ -10594,6 +10626,39 @@ export interface components {
             createdDate: string;
             enabled: boolean;
         };
+        UpdateDayCareRequest: {
+            /** Format: date */
+            date: string;
+            /** Format: date */
+            startDate: string;
+            /** Format: date */
+            endDate?: string;
+            /** @enum {string} */
+            type: "DAYCARE" | "HOTEL";
+            objects?: string;
+            observations?: string;
+            /** Format: int64 */
+            animalId: number;
+        };
+        DayCareResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: date */
+            date: string;
+            /** Format: date */
+            startDate: string;
+            /** Format: date */
+            endDate?: string;
+            /** @enum {string} */
+            type: "DAYCARE" | "HOTEL";
+            objects?: string;
+            observations?: string;
+            animal: components["schemas"]["AnimalSummary"];
+            company: components["schemas"]["CompanySummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
         UpdateCountryRequest: {
             name: string;
         };
@@ -11175,6 +11240,81 @@ export interface components {
             createdDate: string;
             /** @description Citas del mismo veterinario con las que esta se cruza. Desde BE-17 el cruce bloquea con 409 APPOINTMENT_OVERLAP, así que este array solo llega no vacío cuando la operación se guardó con forceOverlap=true. Incluye únicamente las citas de las sedes que el usuario tiene asignadas: los cruces en otras sedes bloquean o se fuerzan igual, pero no se identifican. Nunca es null. */
             overlappingAppointmentIds: number[];
+        };
+        UpdateAnimalRequest: {
+            name: string;
+            code?: string;
+            /** Format: int64 */
+            specieId: number;
+            /** Format: int64 */
+            breedId: number;
+            /** Format: int64 */
+            ownerId: number;
+            /** @enum {string} */
+            gender: "MALE" | "FEMALE";
+            /** @enum {string} */
+            weightType: "GRAMS" | "POUNDS" | "KILOGRAMS";
+            /** @enum {string} */
+            animalType: "SERVICE" | "SUPPORT" | "NONE";
+            /** @enum {string} */
+            reproductiveState: "STERILIZED" | "NO_STERILIZED" | "UNKNOWN";
+            /** Format: int64 */
+            colorId: number;
+            /** Format: date */
+            bod?: string;
+            /** Format: int32 */
+            size?: number;
+            deceased?: boolean;
+            /** Format: date */
+            deceasedDate?: string;
+        };
+        AnimalColorSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
+        AnimalResponse: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            code?: string;
+            specie: components["schemas"]["SpecieSummary"];
+            breed: components["schemas"]["BreedSummary"];
+            owner: components["schemas"]["OwnerSummary"];
+            /** @enum {string} */
+            gender: "MALE" | "FEMALE";
+            /** @enum {string} */
+            weightType: "GRAMS" | "POUNDS" | "KILOGRAMS";
+            /** @enum {string} */
+            animalType: "SERVICE" | "SUPPORT" | "NONE";
+            /** @enum {string} */
+            reproductiveState: "STERILIZED" | "NO_STERILIZED" | "UNKNOWN";
+            color: components["schemas"]["AnimalColorSummary"];
+            /** Format: date */
+            bod: string;
+            weight?: number;
+            /** Format: date */
+            weightMeasuredAt?: string;
+            /** Format: int32 */
+            size?: number;
+            deceased: boolean;
+            /** Format: date */
+            deceasedDate?: string;
+            company: components["schemas"]["CompanySummary"];
+            /** Format: date-time */
+            createdDate: string;
+            enabled: boolean;
+        };
+        BreedSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
+        OwnerSummary: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            document: string;
         };
         UpdateAnimalColorRequest: {
             name: string;
@@ -13574,12 +13714,6 @@ export interface components {
             /** Format: int64 */
             version: number;
         };
-        OwnerSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            document: string;
-        };
         CreateNumberingResolutionRequest: {
             /** @enum {string} */
             documentType: "FE_VENTA" | "DOC_EQUIV_POS" | "NOTA_CREDITO" | "NOTA_DEBITO";
@@ -14342,6 +14476,20 @@ export interface components {
             voidedAt?: string;
             voidReason?: string;
         };
+        CreateDayCareRequest: {
+            /** Format: date */
+            date: string;
+            /** Format: date */
+            startDate: string;
+            /** Format: date */
+            endDate?: string;
+            /** @enum {string} */
+            type: "DAYCARE" | "HOTEL";
+            objects?: string;
+            observations?: string;
+            /** Format: int64 */
+            animalId: number;
+        };
         CreateCountryRequest: {
             name: string;
         };
@@ -14949,48 +15097,6 @@ export interface components {
             deceased?: boolean;
             /** Format: date */
             deceasedDate?: string;
-        };
-        AnimalColorSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-        };
-        AnimalResponse: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            code?: string;
-            specie: components["schemas"]["SpecieSummary"];
-            breed: components["schemas"]["BreedSummary"];
-            owner: components["schemas"]["OwnerSummary"];
-            /** @enum {string} */
-            gender: "MALE" | "FEMALE";
-            /** @enum {string} */
-            weightType: "GRAMS" | "POUNDS" | "KILOGRAMS";
-            /** @enum {string} */
-            animalType: "SERVICE" | "SUPPORT" | "NONE";
-            /** @enum {string} */
-            reproductiveState: "STERILIZED" | "NO_STERILIZED" | "UNKNOWN";
-            color: components["schemas"]["AnimalColorSummary"];
-            /** Format: date */
-            bod: string;
-            weight?: number;
-            /** Format: date */
-            weightMeasuredAt?: string;
-            /** Format: int32 */
-            size?: number;
-            deceased: boolean;
-            /** Format: date */
-            deceasedDate?: string;
-            company: components["schemas"]["CompanySummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
-        };
-        BreedSummary: {
-            /** Format: int64 */
-            id: number;
-            name: string;
         };
         CreateWeightRecordRequest: {
             value: number;
@@ -16826,24 +16932,16 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
-        DayCareResponse: {
+        PageResponseDayCareResponse: {
+            content?: components["schemas"]["DayCareResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
             /** Format: int64 */
-            id: number;
-            /** Format: date */
-            date: string;
-            /** Format: date */
-            startDate: string;
-            /** Format: date */
-            endDate?: string;
-            /** @enum {string} */
-            type: "DAYCARE" | "HOTEL";
-            objects?: string;
-            observations?: string;
-            animal: components["schemas"]["AnimalSummary"];
-            company: components["schemas"]["CompanySummary"];
-            /** Format: date-time */
-            createdDate: string;
-            enabled: boolean;
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
         };
         PageResponseConsultationResponse: {
             content?: components["schemas"]["ConsultationResponse"][];
@@ -20141,7 +20239,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CountryResponse"];
+                    "*/*": components["schemas"]["DayCareResponse"];
                 };
             };
         };
@@ -20157,7 +20255,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateCountryRequest"];
+                "application/json": components["schemas"]["UpdateDayCareRequest"];
             };
         };
         responses: {
@@ -20167,7 +20265,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CountryResponse"];
+                    "*/*": components["schemas"]["DayCareResponse"];
                 };
             };
         };
@@ -20209,12 +20307,80 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ConsultationTypeResponse"];
+                    "*/*": components["schemas"]["CountryResponse"];
                 };
             };
         };
     };
     update_45: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCountryRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CountryResponse"];
+                };
+            };
+        };
+    };
+    delete_40: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_40: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConsultationTypeResponse"];
+                };
+            };
+        };
+    };
+    update_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -20240,7 +20406,7 @@ export interface operations {
             };
         };
     };
-    delete_40: {
+    delete_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -20280,7 +20446,7 @@ export interface operations {
             };
         };
     };
-    update_46: {
+    update_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -20372,7 +20538,7 @@ export interface operations {
             };
         };
     };
-    findById_40: {
+    findById_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -20394,7 +20560,7 @@ export interface operations {
             };
         };
     };
-    update_47: {
+    update_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -20416,74 +20582,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CompanyResponse"];
-                };
-            };
-        };
-    };
-    delete_41: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_41: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CityResponse"];
-                };
-            };
-        };
-    };
-    update_48: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateCityRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CityResponse"];
                 };
             };
         };
@@ -20525,7 +20623,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CatalogPriceResponse"];
+                    "*/*": components["schemas"]["CityResponse"];
                 };
             };
         };
@@ -20541,7 +20639,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateCatalogPriceRequest"];
+                "application/json": components["schemas"]["UpdateCityRequest"];
             };
         };
         responses: {
@@ -20551,7 +20649,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CatalogPriceResponse"];
+                    "*/*": components["schemas"]["CityResponse"];
                 };
             };
         };
@@ -20593,12 +20691,80 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CatalogItemResponse"];
+                    "*/*": components["schemas"]["CatalogPriceResponse"];
                 };
             };
         };
     };
     update_50: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCatalogPriceRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogPriceResponse"];
+                };
+            };
+        };
+    };
+    delete_44: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_44: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CatalogItemResponse"];
+                };
+            };
+        };
+    };
+    update_51: {
         parameters: {
             query?: never;
             header?: never;
@@ -20624,7 +20790,7 @@ export interface operations {
             };
         };
     };
-    delete_44: {
+    delete_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -20644,7 +20810,7 @@ export interface operations {
             };
         };
     };
-    update_51: {
+    update_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -20671,7 +20837,7 @@ export interface operations {
             };
         };
     };
-    update_52: {
+    update_53: {
         parameters: {
             query?: never;
             header?: never;
@@ -20698,7 +20864,7 @@ export interface operations {
             };
         };
     };
-    delete_45: {
+    delete_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -20719,7 +20885,7 @@ export interface operations {
             };
         };
     };
-    update_53: {
+    update_54: {
         parameters: {
             query?: never;
             header?: never;
@@ -20746,7 +20912,7 @@ export interface operations {
             };
         };
     };
-    delete_46: {
+    delete_47: {
         parameters: {
             query?: never;
             header?: never;
@@ -20835,7 +21001,7 @@ export interface operations {
             };
         };
     };
-    update_54: {
+    update_55: {
         parameters: {
             query?: never;
             header?: never;
@@ -20883,7 +21049,7 @@ export interface operations {
             };
         };
     };
-    findById_44: {
+    findById_45: {
         parameters: {
             query?: never;
             header?: never;
@@ -20905,7 +21071,7 @@ export interface operations {
             };
         };
     };
-    update_55: {
+    update_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -20931,7 +21097,7 @@ export interface operations {
             };
         };
     };
-    delete_47: {
+    delete_48: {
         parameters: {
             query?: never;
             header?: never;
@@ -20951,7 +21117,7 @@ export interface operations {
             };
         };
     };
-    update_56: {
+    update_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -20977,7 +21143,7 @@ export interface operations {
             };
         };
     };
-    findById_45: {
+    findById_46: {
         parameters: {
             query?: never;
             header?: never;
@@ -20999,7 +21165,7 @@ export interface operations {
             };
         };
     };
-    update_57: {
+    update_58: {
         parameters: {
             query?: never;
             header?: never;
@@ -21021,74 +21187,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["BaseRoleResponse"];
-                };
-            };
-        };
-    };
-    delete_48: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    findById_46: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BaseRolePermissionResponse"];
-                };
-            };
-        };
-    };
-    update_58: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateBaseRolePermissionRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BaseRolePermissionResponse"];
                 };
             };
         };
@@ -21130,12 +21228,80 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["BasePermissionResponse"];
+                    "*/*": components["schemas"]["BaseRolePermissionResponse"];
                 };
             };
         };
     };
     update_59: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBaseRolePermissionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BaseRolePermissionResponse"];
+                };
+            };
+        };
+    };
+    delete_50: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_48: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BasePermissionResponse"];
+                };
+            };
+        };
+    };
+    update_60: {
         parameters: {
             query?: never;
             header?: never;
@@ -21161,7 +21327,7 @@ export interface operations {
             };
         };
     };
-    delete_50: {
+    delete_51: {
         parameters: {
             query?: never;
             header?: never;
@@ -21205,7 +21371,7 @@ export interface operations {
             };
         };
     };
-    findById_48: {
+    findById_49: {
         parameters: {
             query?: never;
             header?: never;
@@ -21227,7 +21393,7 @@ export interface operations {
             };
         };
     };
-    update_60: {
+    update_61: {
         parameters: {
             query?: never;
             header?: never;
@@ -21253,7 +21419,7 @@ export interface operations {
             };
         };
     };
-    delete_51: {
+    delete_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -21273,7 +21439,75 @@ export interface operations {
             };
         };
     };
-    findById_49: {
+    findById_50: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AnimalResponse"];
+                };
+            };
+        };
+    };
+    update_62: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAnimalRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AnimalResponse"];
+                };
+            };
+        };
+    };
+    delete_53: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_51: {
         parameters: {
             query?: never;
             header?: never;
@@ -21295,7 +21529,7 @@ export interface operations {
             };
         };
     };
-    update_61: {
+    update_63: {
         parameters: {
             query?: never;
             header?: never;
@@ -21321,7 +21555,7 @@ export interface operations {
             };
         };
     };
-    delete_52: {
+    delete_54: {
         parameters: {
             query?: never;
             header?: never;
@@ -21341,7 +21575,7 @@ export interface operations {
             };
         };
     };
-    update_62: {
+    update_64: {
         parameters: {
             query?: never;
             header?: never;
@@ -21367,7 +21601,7 @@ export interface operations {
             };
         };
     };
-    delete_53: {
+    delete_55: {
         parameters: {
             query?: never;
             header?: never;
@@ -26763,12 +26997,56 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CountryResponse"][];
+                    "*/*": components["schemas"]["DayCareResponse"][];
                 };
             };
         };
     };
     create_64: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateDayCareRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DayCareResponse"];
+                };
+            };
+        };
+    };
+    listAll_64: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CountryResponse"][];
+                };
+            };
+        };
+    };
+    create_65: {
         parameters: {
             query?: never;
             header?: never;
@@ -26792,7 +27070,7 @@ export interface operations {
             };
         };
     };
-    listAll_64: {
+    listAll_65: {
         parameters: {
             query?: {
                 page?: number;
@@ -26815,7 +27093,7 @@ export interface operations {
             };
         };
     };
-    create_65: {
+    create_66: {
         parameters: {
             query?: never;
             header?: never;
@@ -26839,7 +27117,7 @@ export interface operations {
             };
         };
     };
-    listAll_65: {
+    listAll_66: {
         parameters: {
             query?: never;
             header?: never;
@@ -26859,7 +27137,7 @@ export interface operations {
             };
         };
     };
-    create_66: {
+    create_67: {
         parameters: {
             query?: never;
             header?: never;
@@ -26998,7 +27276,7 @@ export interface operations {
             };
         };
     };
-    listAll_66: {
+    listAll_67: {
         parameters: {
             query?: {
                 page?: number;
@@ -27021,7 +27299,7 @@ export interface operations {
             };
         };
     };
-    create_67: {
+    create_68: {
         parameters: {
             query?: never;
             header?: never;
@@ -27045,7 +27323,7 @@ export interface operations {
             };
         };
     };
-    listAll_67: {
+    listAll_68: {
         parameters: {
             query?: never;
             header?: never;
@@ -27065,7 +27343,7 @@ export interface operations {
             };
         };
     };
-    create_68: {
+    create_69: {
         parameters: {
             query?: never;
             header?: never;
@@ -27113,7 +27391,7 @@ export interface operations {
             };
         };
     };
-    create_69: {
+    create_70: {
         parameters: {
             query?: never;
             header?: never;
@@ -27137,7 +27415,7 @@ export interface operations {
             };
         };
     };
-    listAll_68: {
+    listAll_69: {
         parameters: {
             query?: {
                 page?: number;
@@ -27160,7 +27438,7 @@ export interface operations {
             };
         };
     };
-    create_70: {
+    create_71: {
         parameters: {
             query?: never;
             header?: never;
@@ -27206,7 +27484,7 @@ export interface operations {
             };
         };
     };
-    create_71: {
+    create_72: {
         parameters: {
             query?: never;
             header?: never;
@@ -27254,7 +27532,7 @@ export interface operations {
             };
         };
     };
-    create_72: {
+    create_73: {
         parameters: {
             query?: never;
             header?: never;
@@ -27302,7 +27580,7 @@ export interface operations {
             };
         };
     };
-    create_73: {
+    create_74: {
         parameters: {
             query?: never;
             header?: never;
@@ -27350,7 +27628,7 @@ export interface operations {
             };
         };
     };
-    create_74: {
+    create_75: {
         parameters: {
             query?: never;
             header?: never;
@@ -27446,7 +27724,7 @@ export interface operations {
             };
         };
     };
-    create_75: {
+    create_76: {
         parameters: {
             query?: never;
             header?: never;
@@ -27566,7 +27844,7 @@ export interface operations {
             };
         };
     };
-    listAll_69: {
+    listAll_70: {
         parameters: {
             query?: never;
             header?: never;
@@ -27586,7 +27864,7 @@ export interface operations {
             };
         };
     };
-    create_76: {
+    create_77: {
         parameters: {
             query?: never;
             header?: never;
@@ -27610,7 +27888,7 @@ export interface operations {
             };
         };
     };
-    listAll_70: {
+    listAll_71: {
         parameters: {
             query?: never;
             header?: never;
@@ -27630,7 +27908,7 @@ export interface operations {
             };
         };
     };
-    create_77: {
+    create_78: {
         parameters: {
             query?: never;
             header?: never;
@@ -27728,7 +28006,7 @@ export interface operations {
             };
         };
     };
-    listAll_71: {
+    listAll_72: {
         parameters: {
             query?: never;
             header?: never;
@@ -27748,7 +28026,7 @@ export interface operations {
             };
         };
     };
-    create_78: {
+    create_79: {
         parameters: {
             query?: never;
             header?: never;
@@ -27772,7 +28050,7 @@ export interface operations {
             };
         };
     };
-    listAll_72: {
+    listAll_73: {
         parameters: {
             query?: never;
             header?: never;
@@ -27792,7 +28070,7 @@ export interface operations {
             };
         };
     };
-    create_79: {
+    create_80: {
         parameters: {
             query?: never;
             header?: never;
@@ -27816,7 +28094,7 @@ export interface operations {
             };
         };
     };
-    listAll_73: {
+    listAll_74: {
         parameters: {
             query?: never;
             header?: never;
@@ -27836,7 +28114,7 @@ export interface operations {
             };
         };
     };
-    create_80: {
+    create_81: {
         parameters: {
             query?: never;
             header?: never;
@@ -28140,7 +28418,7 @@ export interface operations {
             };
         };
     };
-    create_81: {
+    create_82: {
         parameters: {
             query?: never;
             header?: never;
@@ -28164,7 +28442,7 @@ export interface operations {
             };
         };
     };
-    listAll_74: {
+    listAll_75: {
         parameters: {
             query?: {
                 page?: number;
@@ -28187,7 +28465,7 @@ export interface operations {
             };
         };
     };
-    create_82: {
+    create_83: {
         parameters: {
             query?: never;
             header?: never;
@@ -28233,7 +28511,7 @@ export interface operations {
             };
         };
     };
-    create_83: {
+    create_84: {
         parameters: {
             query?: never;
             header?: never;
@@ -28259,7 +28537,7 @@ export interface operations {
             };
         };
     };
-    listAll_75: {
+    listAll_76: {
         parameters: {
             query?: never;
             header?: never;
@@ -28279,7 +28557,7 @@ export interface operations {
             };
         };
     };
-    create_84: {
+    create_85: {
         parameters: {
             query?: never;
             header?: never;
@@ -28303,7 +28581,7 @@ export interface operations {
             };
         };
     };
-    listAll_76: {
+    listAll_77: {
         parameters: {
             query?: {
                 q?: string;
@@ -28327,7 +28605,7 @@ export interface operations {
             };
         };
     };
-    create_85: {
+    create_86: {
         parameters: {
             query?: never;
             header?: never;
@@ -28891,7 +29169,7 @@ export interface operations {
             };
         };
     };
-    findById_50: {
+    findById_52: {
         parameters: {
             query?: never;
             header?: never;
@@ -28913,7 +29191,7 @@ export interface operations {
             };
         };
     };
-    update_63: {
+    update_65: {
         parameters: {
             query?: never;
             header?: never;
@@ -30590,7 +30868,7 @@ export interface operations {
             };
         };
     };
-    findById_51: {
+    findById_53: {
         parameters: {
             query?: never;
             header?: never;
@@ -30660,7 +30938,7 @@ export interface operations {
             };
         };
     };
-    findById_52: {
+    findById_54: {
         parameters: {
             query?: never;
             header?: never;
@@ -30889,7 +31167,7 @@ export interface operations {
             };
         };
     };
-    findById_53: {
+    findById_55: {
         parameters: {
             query?: never;
             header?: never;
@@ -30962,7 +31240,7 @@ export interface operations {
             };
         };
     };
-    listAll_77: {
+    listAll_78: {
         parameters: {
             query?: {
                 companyId?: number;
@@ -31016,7 +31294,7 @@ export interface operations {
             };
         };
     };
-    listAll_78: {
+    listAll_79: {
         parameters: {
             query?: {
                 companyId?: number;
@@ -31110,7 +31388,7 @@ export interface operations {
             };
         };
     };
-    findById_54: {
+    findById_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -31181,7 +31459,7 @@ export interface operations {
             };
         };
     };
-    findById_55: {
+    findById_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -31228,7 +31506,7 @@ export interface operations {
             };
         };
     };
-    findById_56: {
+    findById_58: {
         parameters: {
             query?: never;
             header?: never;
@@ -31345,7 +31623,7 @@ export interface operations {
             };
         };
     };
-    findById_57: {
+    findById_59: {
         parameters: {
             query?: never;
             header?: never;
@@ -31456,7 +31734,7 @@ export interface operations {
             };
         };
     };
-    findById_58: {
+    findById_60: {
         parameters: {
             query?: never;
             header?: never;
@@ -31501,7 +31779,7 @@ export interface operations {
             };
         };
     };
-    listAll_79: {
+    listAll_80: {
         parameters: {
             query?: {
                 companyId?: number;
@@ -31620,7 +31898,7 @@ export interface operations {
             };
         };
     };
-    findById_59: {
+    findById_61: {
         parameters: {
             query?: never;
             header?: never;
@@ -31903,7 +32181,7 @@ export interface operations {
             };
         };
     };
-    findById_60: {
+    findById_62: {
         parameters: {
             query?: never;
             header?: never;
@@ -31948,7 +32226,7 @@ export interface operations {
             };
         };
     };
-    findById_61: {
+    findById_63: {
         parameters: {
             query?: never;
             header?: never;
@@ -31992,7 +32270,7 @@ export interface operations {
             };
         };
     };
-    findById_62: {
+    findById_64: {
         parameters: {
             query?: never;
             header?: never;
@@ -32061,7 +32339,7 @@ export interface operations {
             };
         };
     };
-    findById_63: {
+    findById_65: {
         parameters: {
             query?: never;
             header?: never;
@@ -32232,7 +32510,7 @@ export interface operations {
             };
         };
     };
-    findById_64: {
+    findById_66: {
         parameters: {
             query?: never;
             header?: never;
@@ -32324,7 +32602,7 @@ export interface operations {
             };
         };
     };
-    findById_65: {
+    findById_67: {
         parameters: {
             query?: never;
             header?: never;
@@ -32346,7 +32624,7 @@ export interface operations {
             };
         };
     };
-    findById_66: {
+    findById_68: {
         parameters: {
             query?: never;
             header?: never;
@@ -32730,7 +33008,7 @@ export interface operations {
             };
         };
     };
-    findById_67: {
+    findById_69: {
         parameters: {
             query?: never;
             header?: never;
@@ -32752,7 +33030,7 @@ export interface operations {
             };
         };
     };
-    delete_54: {
+    delete_56: {
         parameters: {
             query?: never;
             header?: never;
@@ -32772,7 +33050,7 @@ export interface operations {
             };
         };
     };
-    findById_68: {
+    findById_70: {
         parameters: {
             query?: never;
             header?: never;
@@ -32794,7 +33072,7 @@ export interface operations {
             };
         };
     };
-    delete_55: {
+    delete_57: {
         parameters: {
             query?: never;
             header?: never;
@@ -32834,7 +33112,7 @@ export interface operations {
             };
         };
     };
-    listAll_80: {
+    listAll_81: {
         parameters: {
             query?: {
                 page?: number;
@@ -32934,7 +33212,7 @@ export interface operations {
             };
         };
     };
-    findById_69: {
+    findById_71: {
         parameters: {
             query?: never;
             header?: never;
@@ -33092,7 +33370,7 @@ export interface operations {
             };
         };
     };
-    findById_70: {
+    findById_72: {
         parameters: {
             query?: never;
             header?: never;
@@ -33180,7 +33458,7 @@ export interface operations {
             };
         };
     };
-    listAll_81: {
+    listAll_82: {
         parameters: {
             query?: {
                 page?: number;
@@ -33286,7 +33564,7 @@ export interface operations {
             };
         };
     };
-    findById_71: {
+    findById_73: {
         parameters: {
             query?: never;
             header?: never;
@@ -33331,7 +33609,7 @@ export interface operations {
             };
         };
     };
-    findById_72: {
+    findById_74: {
         parameters: {
             query?: never;
             header?: never;
@@ -33441,7 +33719,7 @@ export interface operations {
             };
         };
     };
-    findById_73: {
+    findById_75: {
         parameters: {
             query?: never;
             header?: never;
@@ -33512,7 +33790,7 @@ export interface operations {
             };
         };
     };
-    findById_74: {
+    findById_76: {
         parameters: {
             query?: never;
             header?: never;
@@ -33534,7 +33812,7 @@ export interface operations {
             };
         };
     };
-    delete_56: {
+    delete_58: {
         parameters: {
             query?: never;
             header?: never;
@@ -34226,7 +34504,7 @@ export interface operations {
             };
         };
     };
-    findById_75: {
+    findById_77: {
         parameters: {
             query?: never;
             header?: never;
@@ -34248,7 +34526,7 @@ export interface operations {
             };
         };
     };
-    delete_57: {
+    delete_59: {
         parameters: {
             query?: never;
             header?: never;
@@ -34449,7 +34727,7 @@ export interface operations {
             };
         };
     };
-    listAll_82: {
+    listAll_83: {
         parameters: {
             query?: {
                 branchId?: number;
@@ -34475,7 +34753,7 @@ export interface operations {
             };
         };
     };
-    findById_76: {
+    findById_78: {
         parameters: {
             query?: never;
             header?: never;
@@ -34519,7 +34797,7 @@ export interface operations {
             };
         };
     };
-    findById_77: {
+    findById_79: {
         parameters: {
             query?: never;
             header?: never;
@@ -34564,7 +34842,7 @@ export interface operations {
             };
         };
     };
-    findById_78: {
+    findById_80: {
         parameters: {
             query?: never;
             header?: never;
@@ -34704,11 +34982,17 @@ export interface operations {
             };
         };
     };
-    listAll_83: {
+    listByAnimal_8: {
         parameters: {
-            query?: never;
+            query?: {
+                q?: string;
+                page?: number;
+                pageSize?: number;
+            };
             header?: never;
-            path?: never;
+            path: {
+                animalId: number;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -34719,7 +35003,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["DayCareResponse"][];
+                    "*/*": components["schemas"]["PageResponseDayCareResponse"];
                 };
             };
         };
@@ -34811,7 +35095,7 @@ export interface operations {
             };
         };
     };
-    findById_79: {
+    findById_81: {
         parameters: {
             query?: never;
             header?: never;
@@ -34960,7 +35244,7 @@ export interface operations {
             };
         };
     };
-    findById_80: {
+    findById_82: {
         parameters: {
             query?: never;
             header?: never;
@@ -35006,7 +35290,7 @@ export interface operations {
             };
         };
     };
-    findById_81: {
+    findById_83: {
         parameters: {
             query?: never;
             header?: never;
@@ -35260,7 +35544,7 @@ export interface operations {
             };
         };
     };
-    findById_82: {
+    findById_84: {
         parameters: {
             query?: never;
             header?: never;
@@ -35369,28 +35653,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["MeResponse"];
-                };
-            };
-        };
-    };
-    findById_83: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AnimalResponse"];
                 };
             };
         };
@@ -35538,46 +35800,6 @@ export interface operations {
             };
         };
     };
-    delete_58: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    delete_59: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     delete_60: {
         parameters: {
             query?: never;
@@ -35603,7 +35825,6 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                catalogItemId: number;
                 id: number;
             };
             cookie?: never;
@@ -35620,6 +35841,47 @@ export interface operations {
         };
     };
     delete_62: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_63: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                catalogItemId: number;
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_64: {
         parameters: {
             query?: never;
             header?: never;
