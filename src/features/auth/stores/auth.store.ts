@@ -96,8 +96,13 @@ export const useAuthStore = defineStore('auth', () => {
    */
   async function refreshSession(): Promise<string | null> {
     if (refreshInFlight) return refreshInFlight
+    const type = session.value?.type
+    if (!type) {
+      clearSession()
+      return null
+    }
     refreshInFlight = authApi
-      .refresh()
+      .refresh(type)
       .then((tokens) => {
         setSession({ token: tokens.token, type: tokens.type })
         return tokens.token
