@@ -6,6 +6,7 @@ import type { IssueCreditNoteRequest } from '../types/billing-documents.types'
 import type {
   ApplyBillingDocumentRequest,
   RegisterDocumentWithholdingRequest,
+  ReverseBillingDocumentApplicationRequest,
 } from '../types/document-money.types'
 
 /**
@@ -18,7 +19,7 @@ import type {
  * <p><b>Cada acción devuelve `boolean` y recarga la pantalla entera al terminar.</b>
  * No se parchea la fila en memoria a propósito: una aplicación cambia
  * `settledAmount` y `balanceAmount` del documento, y una nota crédito cambia además
- * el estado del circuito. Recalcular esos números en el cliente daría una cifra
+ * El estado del circuito. Recalcular esos números en el cliente daría una cifra
  * plausible que ya no es la del servidor — y en una pantalla de cartera, una cifra
  * plausible y equivocada es peor que un segundo de espera.
  *
@@ -57,13 +58,17 @@ export function useDocumentMoneyActions(reload: () => Promise<void> | void) {
    * <b>Contra-aplica</b> una aplicación equivocada.
    *
    * <p>El aviso de éxito nombra lo que de verdad pasó —quedan tres filas, no
-   * una— porque «Aplicación anulada» haría creer que la original desapareció, y
+   * Una— porque «Aplicación anulada» haría creer que la original desapareció, y
    * quien lo crea busca después una fila que sigue ahí y la contra-aplica otra vez.
    */
-  async function reverseApplication(companyId: number, applicationId: number): Promise<boolean> {
+  async function reverseApplication(
+    companyId: number,
+    applicationId: number,
+    payload: ReverseBillingDocumentApplicationRequest,
+  ): Promise<boolean> {
     store.setReversing(applicationId)
     try {
-      await documentMoneyApi.reverseApplication(companyId, applicationId)
+      await documentMoneyApi.reverseApplication(companyId, applicationId, payload)
       success(
         'Contra-aplicación registrada',
         `La aplicación #${applicationId} sigue en la tabla y ahora tiene debajo la fila que la anula.`,

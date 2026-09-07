@@ -2,8 +2,8 @@
  * Cobranza — los tres verbos del dinero, que el modelo separa a propósito.
  *
  * <p><b>Devengar</b> (`subscription_charges`: el servicio se prestó) ·
- * <b>facturar</b> (`subscription_billing_documents`: se emitió el documento) ·
- * <b>cobrar</b> (`subscription_payments`: entró la plata). No son sinónimos y la
+ * <b>Facturar</b> (`subscription_billing_documents`: se emitió el documento) ·
+ * <b>Cobrar</b> (`subscription_payments`: entró la plata). No son sinónimos y la
  * interfaz no los mezcla: cada uno tiene su tabla, su tipo y su pestaña
  * (especificación de suscripciones §3.5).
  *
@@ -11,12 +11,12 @@
  * suscripción la emite otro sistema; aquí solo se registra su referencia
  * (`externalInvoiceNumber`, `externalCufe`, `externalIssuedAt`,
  * `externalProvider`). No confundirla nunca con la facturación electrónica DIAN
- * que cada clínica emite a los dueños de mascotas: son dos emisores, dos
+ * Que cada clínica emite a los dueños de mascotas: son dos emisores, dos
  * numeraciones y dos tablas distintas, y mezclarlas en pantalla enreda la
  * contabilidad de los clientes con la propia.
  *
  * <p><b>Todo lo de aquí son documentos, no formularios</b> (§3.2): se agregan y
- * no se editan. Un documento con factura externa ya registrada no cambia de
+ * No se editan. Un documento con factura externa ya registrada no cambia de
  * importe — corregirlo exige una nota crédito encadenada al original.
  */
 
@@ -40,11 +40,11 @@ export interface BillingDocumentTaxSummary {
  * Documento de cobro de la plataforma.
  *
  * <p>⚠️ El contrato **no incluye moneda**. No se añade localmente ni se rotula
- * el importe con `COP` a mano: inventar una divisa en una pantalla contable es
+ * El importe con `COP` a mano: inventar una divisa en una pantalla contable es
  * peor que no ponerla. Por eso los importes de un documento se pintan con
  * `formatAmount()` (sin símbolo) y no con `formatMoney()`, que sí se usa en los
  * pagos porque `SubscriptionPaymentResponse.currency` sí existe. Esas dos son
- * las únicas funciones de dinero del producto y su regla de elección está
+ * Las únicas funciones de dinero del producto y su regla de elección está
  * escrita en `src/composables/format.ts`. Está abierto como issue de contrato.
  *
  * <p>`companyId` sí lo manda el backend, y es lo que permite ejecutar las
@@ -75,7 +75,7 @@ export interface BillingDocumentResponse {
    * <p>⚠️ La **vuelta no existe en el contrato**: un documento corregido no
    * expone `correctedByDocumentId`, así que desde el original no se puede
    * enlazar a su nota crédito. §3.2 exige que las dos partes se vean; aquí solo
-   * se puede pintar una. Está abierto como issue de contrato.
+   * Se puede pintar una. Está abierto como issue de contrato.
    */
   correctsDocumentId: number | null
   dueDate: string | null
@@ -132,8 +132,40 @@ export interface SubscriptionPaymentResponse {
   status: PaymentStatus
   /** Vacío = sin conciliar. Es justo lo que hay que revisar cada mes. */
   reconciledAt: string | null
+  /** Lo que se queda la pasarela. `null` hasta que la liquidación lo registre. */
+  feeAmount: number | null
+  /** Lo que de verdad entró a la cuenta: `amount - feeAmount`. */
+  netAmount: number | null
+  settlementReference: string | null
+  settledOn: string | null
+  refundedAmount: number | null
+  clientRequestId: string | null
+  /** `true` si está `PENDING` con pasarela pero sin `gatewayReference`: la pasarela aún no confirmó. */
+  reservation: boolean
   createdDate: string
   version: number | null
+}
+
+/** Espejo de los parámetros de `GET /system/subscription-payments` y de su exportación CSV. */
+export interface SubscriptionPaymentsQuery {
+  companyId?: number
+  status?: PaymentStatus
+  receivedFrom?: string
+  receivedTo?: string
+  pendingOlderThanMinutes?: number
+}
+
+/**
+ * El filtro de la pantalla de pagos, en la forma que edita el formulario —no la
+ * del contrato—. `buildPaymentsQuery` (`composables/paymentsFilter.ts`) es quien
+ * lo traduce a `SubscriptionPaymentsQuery`.
+ */
+export interface PaymentsFilterState {
+  status: PaymentStatus | null
+  /** `yyyy-MM-dd` de un `<input type="date">`, o `null` sin límite. */
+  receivedFrom: string | null
+  receivedTo: string | null
+  agingOnly: boolean
 }
 
 export type DunningEventType =

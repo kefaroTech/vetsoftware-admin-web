@@ -5,6 +5,7 @@ import type {
   DunningEventResponse,
   RegisterExternalInvoiceRequest,
   SubscriptionPaymentResponse,
+  SubscriptionPaymentsQuery,
 } from '../types/billing-operations.types'
 
 /**
@@ -14,7 +15,7 @@ import type {
  * especificación): las tres de lectura son cross-tenant por diseño —el operador
  * de la consola es un `SystemUserContext` y ve el feed completo— y la única
  * escritura lleva `companyId` **en la URL**. Esa es la razón de que esta pantalla
- * se pudiera construir sin esperar a W1-A: la empresa nunca es implícita.
+ * Se pudiera construir sin esperar a W1-A: la empresa nunca es implícita.
  *
  * <p>Lo que NO está aquí, y no por olvido: `POST /subscription-payments`,
  * `PATCH /subscription-payments/{id}/reconciliation` y `PATCH .../status`
@@ -64,18 +65,28 @@ export const billingOperationsApi = {
 
   /**
    * Feed global de pagos. A diferencia de los dos de arriba, **sí** admite
-   * `companyId`, así que el filtro de esta pestaña lo resuelve el servidor y no
-   * el cliente: cuando no hay resultados, «ninguno» es verdad sobre el total y
-   * no sobre una página.
+   * `companyId`, `status`, `receivedFrom`/`receivedTo` y
+   * `pendingOlderThanMinutes`: el filtro de esta pestaña lo resuelve el
+   * servidor y no el cliente, así que cuando no hay resultados «ninguno» es
+   * verdad sobre el total y no sobre una página.
    */
   async listByPayments(
     page = 0,
     pageSize = DEFAULT_PAGE_SIZE,
-    companyId: number | null = null,
+    query: SubscriptionPaymentsQuery = {},
     signal?: AbortSignal,
   ): Promise<PageResponse<SubscriptionPaymentResponse>> {
     const { data } = await http.get<PageResponse<SubscriptionPaymentResponse>>(SYSTEM_PAYMENTS, {
-      params: { page, pageSize, ...(companyId === null ? {} : { companyId }) },
+      params: { page, pageSize, ...query },
+      signal,
+    })
+    return data
+  },
+
+  async exportPayments(query: SubscriptionPaymentsQuery = {}, signal?: AbortSignal): Promise<Blob> {
+    const { data } = await http.get<Blob>(`${SYSTEM_PAYMENTS}/export`, {
+      params: query,
+      responseType: 'blob',
       signal,
     })
     return data
@@ -97,7 +108,7 @@ export const billingOperationsApi = {
 
   /**
    * Registra la referencia de la factura fiscal externa. Es la acción que saca
-   * el documento de la lista de pendientes.
+   * El documento de la lista de pendientes.
    *
    * <p>`companyId` viaja en la URL: es lo que hace que esta escritura funcione
    * desde la consola sin cabecera de empresa, y lo que garantiza que la empresa

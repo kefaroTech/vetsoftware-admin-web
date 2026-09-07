@@ -9,6 +9,7 @@ import type {
   ApplyBillingDocumentRequest,
   DocumentWithholdingResponse,
   RegisterDocumentWithholdingRequest,
+  ReverseBillingDocumentApplicationRequest,
 } from '../types/document-money.types'
 
 /**
@@ -23,7 +24,7 @@ import type {
  *       `authz.currentCompanyId()`, que para el operador de esta consola lee la
  *       cabecera `X-Company-Id`. Por eso `companyId` es un argumento obligatorio y
  *       explícito, igual que en `billing-documents.api.ts`. Una cabecera invisible
- *       que decide sobre la cartera de quién se está escribiendo es el mecanismo
+ *       Que decide sobre la cartera de quién se está escribiendo es el mecanismo
  *       exacto con el que se salda el documento de otra clínica.</li>
  *   <li><b>`/system/**` es de plataforma</b>: la empresa va en la URL —parámetro de
  *       consulta en las retenciones, segmento de ruta en la nota crédito— y no hace
@@ -39,11 +40,11 @@ import type {
  *       ninguna pantalla pueda ofrecer una papelera.</li>
  *   <li><b>No hay listado de las retenciones de UN documento.</b>
  *       `GET /system/document-withholdings` filtra por `companyId` y por nada más:
- *       no acepta `billingDocumentId`. Filtrar una página en el cliente diría «esta
- *       es la única retención» sobre un documento que puede tener otra en la página
+ *       No acepta `billingDocumentId`. Filtrar una página en el cliente diría «esta
+ *       Es la única retención» sobre un documento que puede tener otra en la página
  *       siguiente, así que no se hace y la pantalla declara el hueco.</li>
  *   <li><b>No hay «anular la nota crédito».</b> Una vez emitida es un documento más,
- *       con su propio circuito.</li>
+ *       Con su propio circuito.</li>
  * </ul>
  */
 const APPLICATIONS = '/billing-document-applications'
@@ -70,22 +71,21 @@ export const documentMoneyApi = {
   /**
    * <b>Contra-aplica</b> una aplicación equivocada: crea la fila que la anula.
    *
-   * <p><b>No lleva cuerpo</b> — el contrato no declara ninguno. Eso significa que el
-   * motivo de la corrección <b>no se puede guardar</b>, y por eso esta acción no usa
-   * el modal de acción firmada: pedir un motivo que el borde descarta haría creer al
-   * operador que queda registrado cuando no queda nada. La pantalla lo dice en vez
-   * de simularlo.
+   * <p>El motivo ya es obligatorio en el contrato (`reason`, máximo 255
+   * caracteres): antes el borde no aceptaba cuerpo y esta pantalla no lo pedía
+   * Para no simular un dato que se tiraba en el camino.
    *
    * <p>Devuelve la aplicación nueva, la que contra-aplica. La original sigue ahí:
-   * después de esto el documento tiene dos filas más, no una menos.
+   * Después de esto el documento tiene dos filas más, no una menos.
    */
   async reverseApplication(
     companyId: number,
     applicationId: number,
+    payload: ReverseBillingDocumentApplicationRequest,
   ): Promise<BillingDocumentApplicationResponse> {
     const { data } = await http.post<BillingDocumentApplicationResponse>(
       `${APPLICATIONS}/${applicationId}/reversal`,
-      undefined,
+      payload,
       { companyId },
     )
     return data
@@ -109,7 +109,7 @@ export const documentMoneyApi = {
 
   /**
    * Las retenciones de <b>una empresa</b> — no las de un documento, que el contrato
-   * no sabe filtrar. El nombre lo dice para que ninguna pantalla lo confunda.
+   * No sabe filtrar. El nombre lo dice para que ninguna pantalla lo confunda.
    */
   async listWithholdingsByCompany(
     companyId: number,

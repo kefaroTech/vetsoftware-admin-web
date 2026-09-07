@@ -24,21 +24,21 @@ import {
  * minuto.
  *
  * <p><b>La retención no dice «descuento».</b> Una retención no reduce el ingreso:
- * baja la cartera y sube un activo. El rótulo y su significado viven en
+ * Baja la cartera y sube un activo. El rótulo y su significado viven en
  * `APPLICATION_SOURCE_PRESENTATION`, una vez, para que ninguna pantalla lo
  * reescriba con otra palabra.
  *
  * <p><b>Ni un botón de eliminar, en ninguna fila, nunca</b> (§3.5). Una aplicación
- * no se borra: se contra-aplica, que crea otra fila y deja las dos. La papelera
+ * No se borra: se contra-aplica, que crea otra fila y deja las dos. La papelera
  * sería una promesa que el esquema no puede cumplir, y descubrirlo con un 409 es
- * la peor forma de aprenderlo. Lo que esta tabla ofrece es
+ * La peor forma de aprenderlo. Lo que esta tabla ofrece es
  * <b>«Contra-aplicar»</b> (`POST /billing-document-applications/{id}/reversal`),
- * que es otra cosa y se llama por su nombre: al pulsarlo el documento tiene
- * <b>una fila más</b>, no una menos.
+ * Que es otra cosa y se llama por su nombre: al pulsarlo el documento tiene
+ * <b>Una fila más</b>, no una menos.
  *
  * <p><b>Las tres filas de la corrección se leen juntas.</b> La equivocada queda
  * marcada como «contra-aplicada», la que la anula dice a cuál anula, y la correcta
- * se registra aparte. Ninguna de las tres desaparece, porque lo que hay que poder
+ * Se registra aparte. Ninguna de las tres desaparece, porque lo que hay que poder
  * reconstruir dentro de dos ejercicios no es el saldo de hoy sino cómo se llegó a
  * él.
  *
@@ -98,7 +98,7 @@ const reversedIds = computed(
 /**
  * Una fila se puede contra-aplicar si no es ya una contra-aplicación y nadie la ha
  * anulado todavía. Cuando no se puede, el botón <b>no está</b>: un botón apagado
- * en una tabla de dinero invita a buscar cómo encenderlo.
+ * En una tabla de dinero invita a buscar cómo encenderlo.
  */
 function canReverse(row: BillingDocumentApplicationResponse): boolean {
   return row.reversalOfId === null && !reversedIds.value.has(row.id)
@@ -207,19 +207,6 @@ function canReverse(row: BillingDocumentApplicationResponse): boolean {
         que llame."
       needed="Que la aplicación de origen `WITHHOLDING` traiga su detalle fiscal y la referencia
         del certificado."
-    />
-
-    <!-- El motivo de una corrección de dinero es justo lo que alguien va a
-         preguntar dentro de dos ejercicios. Se declara el hueco en vez de pedirlo
-         en un modal y tirarlo en el borde. -->
-    <ContractGapNotice
-      v-if="rows.some((row) => row.reversalOfId !== null)"
-      title="Por qué se contra-aplicó"
-      reason="`POST /billing-document-applications/{id}/reversal` no acepta cuerpo: no hay dónde
-        guardar el motivo ni quién lo hizo. Por eso esta pantalla no lo pide — un modal que pidiera
-        un motivo que el borde descarta haría creer que queda registrado cuando no queda nada."
-      needed="Que la contra-aplicación acepte motivo de lista cerrada y nota, como el resto de las
-        acciones firmadas de la consola."
     />
 
     <!-- La aritmética escrita, que es lo que convierte un saldo en algo que se

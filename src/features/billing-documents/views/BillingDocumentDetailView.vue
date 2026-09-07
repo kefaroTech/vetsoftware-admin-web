@@ -16,8 +16,10 @@ import DocumentIdentityCard from '../components/DocumentIdentityCard.vue'
 import DocumentTaxBreakdown from '../components/DocumentTaxBreakdown.vue'
 import IssueCreditNoteModal from '../components/IssueCreditNoteModal.vue'
 import RegisterWithholdingModal from '../components/RegisterWithholdingModal.vue'
+import ReverseApplicationModal from '../components/ReverseApplicationModal.vue'
 import { useBillingDocumentDetail } from '../composables/useBillingDocumentDetail'
 import { useDocumentMoneyActions } from '../composables/useDocumentMoneyActions'
+import type { ReverseBillingDocumentApplicationRequest } from '../types/document-money.types'
 
 /**
  * <b>El documento de cobro, entero</b> (§G3). Seis bloques, cada uno en su
@@ -27,7 +29,7 @@ import { useDocumentMoneyActions } from '../composables/useDocumentMoneyActions'
  * marcó esta pantalla como candidata a pasarse del techo de 500 líneas por SFC
  * (`css-budget.config.json`, `maxOversizedSfc: 0`), y el momento de partirla es
  * antes de escribirla: un fichero de 700 líneas se parte mal porque para entonces
- * los bloques ya se leen entre ellos. Aquí la vista orquesta y no pinta ningún
+ * Los bloques ya se leen entre ellos. Aquí la vista orquesta y no pinta ningún
  * dato por su cuenta.
  *
  * <p><b>Lo que esta pantalla NO ofrece, y por qué</b> (§3.6 — una operación que no
@@ -38,12 +40,12 @@ import { useDocumentMoneyActions } from '../composables/useDocumentMoneyActions'
  *       corrige: se emite una nota crédito encadenada y las dos quedan. Por eso no
  *       hay ni un lápiz apagado ni un `&lt;input disabled&gt;` con la cifra.</li>
  *   <li><b>Mandarle la factura al cliente.</b> Esto es un documento
- *       <b>interno</b>. La factura fiscal la emite un tercero y es la única que el
+ *       <b>Interno</b>. La factura fiscal la emite un tercero y es la única que el
  *       cliente debe ver; un botón de «enviar» aquí mandaría el documento
  *       equivocado.</li>
  *   <li><b>Anular el documento.</b> Existe en el contrato (`/void`) y no se ofrece:
- *       anular y corregir no son lo mismo, y ofrecer los dos botones juntos es cómo
- *       se anula un documento que ya existe fuera. Lo que sí se ofrece es la nota
+ *       Anular y corregir no son lo mismo, y ofrecer los dos botones juntos es cómo
+ *       Se anula un documento que ya existe fuera. Lo que sí se ofrece es la nota
  *       crédito.</li>
  * </ul>
  *
@@ -59,7 +61,7 @@ import { useDocumentMoneyActions } from '../composables/useDocumentMoneyActions'
  * subtotal. Sin esa prueba, el botón no está y el modal lo explica.
  *
  * <p><b>La empresa viene de la URL</b>, nunca de un store de «empresa activa»: es
- * la que se manda en `X-Company-Id` y decidirlo con un valor invisible es mirar la
+ * La que se manda en `X-Company-Id` y decidirlo con un valor invisible es mirar la
  * cartera de otra clínica creyendo que es esta.
  */
 const route = useRoute()
@@ -85,6 +87,8 @@ const registering = ref(false)
 const applying = ref(false)
 const withholding = ref(false)
 const creditNote = ref(false)
+/** La aplicación que el modal de contra-aplicación tiene abierta. `null` = cerrado. */
+const reverseTarget = ref<number | null>(null)
 
 const {
   saving,
@@ -98,7 +102,7 @@ const {
 
 /**
  * Recarga al abrir la pantalla y cada vez que cambia el documento de la URL:
- * regla obligatoria del proyecto, y además lo único que impide que el documento
+ * Regla obligatoria del proyecto, y además lo único que impide que el documento
  * anterior se quede pintado bajo el número del nuevo.
  */
 onMounted(() => void load(companyId.value, documentId.value))
@@ -118,22 +122,15 @@ async function onSubmitForExternalIssue() {
   if (accepted) await submitForExternalIssue()
 }
 
-/**
- * <b>Contra-aplicar se confirma, no se firma.</b> El borde
- * (`POST /billing-document-applications/{id}/reversal`) no acepta cuerpo, así que
- * no hay dónde guardar un motivo; abrir el modal de acción firmada pediría uno que
- * se tira en el camino y haría creer que queda registrado. La consecuencia sí se
- * escribe entera, porque es lo que la gente espera mal: no desaparece nada.
- */
-async function onReverse(applicationId: number) {
-  const accepted = await confirm({
-    message: `¿Contra-aplicar la aplicación #${applicationId}?`,
-    consequence:
-      'No se borra nada: se añade una fila que la anula y las dos quedan a la vista. El motivo no se puede guardar — el contrato de esta operación no acepta cuerpo.',
-    confirmLabel: 'Contra-aplicar',
-  })
-  if (!accepted) return
-  await reverseApplication(companyId.value, applicationId)
+function onReverse(applicationId: number) {
+  reverseTarget.value = applicationId
+}
+
+async function submitReversal(
+  applicationId: number,
+  payload: ReverseBillingDocumentApplicationRequest,
+) {
+  if (await reverseApplication(companyId.value, applicationId, payload)) reverseTarget.value = null
 }
 </script>
 
@@ -319,6 +316,15 @@ async function onReverse(applicationId: number) {
               if (await issueCreditNote(companyId, documentId, payload)) creditNote = false
             }
           "
+        />
+
+        <ReverseApplicationModal
+          :open="reverseTarget !== null"
+          :application-id="reverseTarget"
+          :saving="saving.reversal"
+          return-focus-to="#aplicaciones-titulo"
+          @close="reverseTarget = null"
+          @submit="submitReversal"
         />
       </template>
     </div>

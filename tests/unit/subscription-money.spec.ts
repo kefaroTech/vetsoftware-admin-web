@@ -40,7 +40,7 @@ import type {
  * Lee un fichero del repositorio por su ruta relativa a la raíz.
  *
  * <p>`resolve(__dirname, …)` y no `fileURLToPath(new URL(…, import.meta.url))`:
- * el segundo no resuelve de forma fiable en todas las fases de Vitest —falla con
+ * El segundo no resuelve de forma fiable en todas las fases de Vitest —falla con
  * «The URL must be of scheme file» según dónde se evalúe— y esta suite lo usa en
  * cuatro sitios. Es el mismo mecanismo que ya emplea `api-contract.spec.ts`.
  */
@@ -117,6 +117,13 @@ function payment(
     receivedAt: '2026-04-05T10:00:00',
     status: 'CONFIRMED',
     reconciledAt: null,
+    feeAmount: null,
+    netAmount: null,
+    settlementReference: null,
+    settledOn: null,
+    refundedAmount: null,
+    clientRequestId: null,
+    reservation: false,
     createdDate: '2026-04-05T10:05:00',
     version: 0,
     ...overrides,
@@ -352,8 +359,8 @@ describe('un documento dice cuánto queda por cobrar, no solo su total', () => {
 /**
  * Los rótulos del estado de emisión son los de W1-E, literales. §4.5 dice de esos
  * mapas que «ya son correctos y no se cambian», y esta prueba es lo que impide que
- * la copia se separe del original sin que nadie se entere: dos rótulos distintos
- * para el mismo estado en dos pantallas de la misma consola es cómo un operador
+ * La copia se separe del original sin que nadie se entere: dos rótulos distintos
+ * Para el mismo estado en dos pantallas de la misma consola es cómo un operador
  * acaba creyendo que son dos cosas.
  */
 describe('los rótulos del estado de emisión no se han separado de los de cobranza', () => {
@@ -380,7 +387,7 @@ describe('los rótulos del estado de emisión no se han separado de los de cobra
 
 /**
  * La política de §3.4 es innegociable y no vive en un documento: vive donde rompe
- * el build. No existe ni existirá un corte total de acceso, y una pantalla de
+ * El build. No existe ni existirá un corte total de acceso, y una pantalla de
  * cobranza es donde más fácil se cuela la palabra equivocada — es justo donde
  * alguien tiene la tentación de escribir «si no paga, se bloquea».
  */

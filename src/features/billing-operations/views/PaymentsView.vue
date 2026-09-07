@@ -3,6 +3,7 @@ import { computed, onMounted } from 'vue'
 import AppEmptyState from '@/components/feedback/AppEmptyState.vue'
 import { ICONS } from '@/constants/icons'
 import CompanyScopeFilter from '../components/CompanyScopeFilter.vue'
+import PaymentsAdvancedFilters from '../components/PaymentsAdvancedFilters.vue'
 import PaymentsTable from '../components/PaymentsTable.vue'
 import { usePlatformPayments } from '../composables/useBillingOperations'
 
@@ -13,15 +14,13 @@ import { usePlatformPayments } from '../composables/useBillingOperations'
  * diseño.</b> Registrar un pago, conciliarlo y cambiarle el estado resuelven la
  * empresa con `Authz.currentCompanyId()` y exigen la cabecera `X-Company-Id`.
  * Ofrecerlos aquí obligaría a que la empresa fuera implícita — el mecanismo con
- * el que se le aplica un cobro a la empresa equivocada. Esas tres acciones viven
- * en el expediente del contrato, donde la empresa es visible y permanente.
+ * El que se le aplica un cobro a la empresa equivocada. Esas tres acciones viven
+ * En el expediente del contrato, donde la empresa es visible y permanente.
  *
- * <p><b>Aquí sí aparece el segundo de los tres vacíos.</b> Este endpoint acepta
- * `companyId`, así que el filtro lo resuelve el SERVIDOR: cuando no casa,
- * «ninguno» es verdad sobre el total y no sobre una página. Ese vacío dice otra
- * cosa que el de «no hay pagos» y ofrece otra salida — quitar el filtro—, porque
- * confundir un filtro que no casó con un catálogo vacío hace que el operador
- * abra un ticket por algo que se arregla borrando un número.
+ * <p><b>El filtro de estado, fecha y antigüedad los resuelve el
+ * SERVIDOR</b>, igual que el filtro por empresa: cuando no hay resultados,
+ * «ninguno» es verdad sobre el total y no sobre una página. Filtrar en cliente
+ * La página cargada encuentra menos de lo que hay: el `PENDING` más viejo puede vivir en cualquier página.
  */
 const {
   items,
@@ -33,15 +32,29 @@ const {
   error,
   errorTraceId,
   companyId,
+  filter,
+  exporting,
   reload,
   goTo,
   applyCompanyFilter,
+  applyFilter,
+  clearFilters,
+  exportCsv,
 } = usePlatformPayments()
 
 const headline = computed(() => {
   const base = total.value === 1 ? '1 pago recibido' : `${total.value} pagos recibidos`
   return companyId.value === null ? base : `${base} de la empresa #${companyId.value}`
 })
+
+const hasActiveFilters = computed(
+  () =>
+    companyId.value !== null ||
+    filter.value.status !== null ||
+    filter.value.receivedFrom !== null ||
+    filter.value.receivedTo !== null ||
+    filter.value.agingOnly,
+)
 
 onMounted(() => void reload())
 </script>
@@ -60,6 +73,8 @@ onMounted(() => void reload())
       @apply="applyCompanyFilter"
     />
 
+    <PaymentsAdvancedFilters :filter="filter" @apply="applyFilter" />
+
     <div class="ds-banner ds-banner--info">
       <component :is="ICONS.INFO" :size="16" class="ds-banner-icon" />
       <span class="ds-flex-fill">
@@ -68,6 +83,11 @@ onMounted(() => void reload())
         concreta y la empresa nunca puede quedar implícita.
       </span>
     </div>
+
+    <button type="button" class="ds-btn ds-btn--ghost" :disabled="exporting" @click="exportCsv">
+      <component :is="ICONS.EXPORT" :size="14" />
+      {{ exporting ? 'Exportando…' : 'Exportar CSV' }}
+    </button>
 
     <PaymentsTable
       :payments="items"
@@ -82,23 +102,18 @@ onMounted(() => void reload())
       @update:page="goTo"
     >
       <template #empty>
-        <!-- Vacío nº 2 de los tres: el FILTRO no casó. Otro texto y otra salida
-             que el de «no hay pagos»; confundirlos manda a soporte un ticket por
-             un número mal escrito. -->
         <AppEmptyState
-          v-if="companyId !== null"
-          :title="`Ningún pago de la empresa #${companyId}`"
+          v-if="hasActiveFilters"
+          title="Ningún pago coincide con estos filtros"
           description="El filtro lo aplica el servidor, así que esto vale para todas las páginas, no solo para la que estás viendo."
           :icon="ICONS.SEARCH"
         >
-          <button type="button" class="ds-btn ds-btn--ghost" @click="applyCompanyFilter(null)">
+          <button type="button" class="ds-btn ds-btn--ghost" @click="clearFilters">
             <component :is="ICONS.CLOSE" :size="15" />
-            Quitar el filtro
+            Quitar filtros
           </button>
         </AppEmptyState>
 
-        <!-- Vacío nº 3: sin filtro y sin pagos. No es un logro ni una avería, así
-             que no lleva icono de éxito ni de error: es un hecho. -->
         <AppEmptyState
           v-else
           title="Todavía no se ha recibido ningún pago"

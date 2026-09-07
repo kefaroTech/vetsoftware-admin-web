@@ -5956,6 +5956,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/system/subscription-payments/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["export"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/system/subscription-payment-methods": {
         parameters: {
             query?: never;
@@ -6140,6 +6156,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["listExpiring_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/payment-gateway/wompi/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["search"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6731,7 +6763,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search"];
+        get: operations["search_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6747,7 +6779,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search_1"];
+        get: operations["search_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7035,7 +7067,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search_2"];
+        get: operations["search_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7227,7 +7259,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search_3"];
+        get: operations["search_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7291,7 +7323,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search_4"];
+        get: operations["search_5"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7371,7 +7403,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["export"];
+        get: operations["export_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7643,7 +7675,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search_5"];
+        get: operations["search_6"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7691,7 +7723,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search_6"];
+        get: operations["search_7"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7803,7 +7835,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search_7"];
+        get: operations["search_8"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8139,7 +8171,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search_8"];
+        get: operations["search_9"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8219,7 +8251,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search_9"];
+        get: operations["search_10"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8699,7 +8731,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search_10"];
+        get: operations["search_11"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8987,7 +9019,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["export_1"];
+        get: operations["export_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -12877,6 +12909,14 @@ export interface components {
             status: "PENDING" | "CONFIRMED" | "FAILED" | "REFUNDED";
             /** Format: date-time */
             reconciledAt?: string;
+            feeAmount?: number;
+            netAmount?: number;
+            settlementReference?: string;
+            /** Format: date */
+            settledOn?: string;
+            refundedAmount?: number;
+            clientRequestId?: string;
+            reservation: boolean;
             /** Format: date-time */
             createdDate: string;
             /** Format: int64 */
@@ -14772,6 +14812,9 @@ export interface components {
             totalAmount: number;
             balanceAmount?: number;
         };
+        ReverseBillingDocumentApplicationRequest: {
+            reason: string;
+        };
         CreateBaseRoleRequest: {
             name: string;
             code: string;
@@ -15417,6 +15460,33 @@ export interface components {
             totalElements?: number;
             /** Format: int32 */
             totalPages?: number;
+        };
+        PageResponseWompiWebhookEventResponse: {
+            content?: components["schemas"]["WompiWebhookEventResponse"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int64 */
+            totalElements?: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        WompiWebhookEventResponse: {
+            /** Format: int64 */
+            id: number;
+            gateway: string;
+            eventType: string;
+            gatewayReference?: string;
+            eventChecksum: string;
+            processingOutcome?: string;
+            /** Format: date-time */
+            receivedAt: string;
+            /** Format: date-time */
+            processedAt?: string;
+            /** Format: date-time */
+            createdDate: string;
+            rawBody?: string;
         };
         PageResponseSystemPaymentAttemptResponse: {
             content?: components["schemas"]["SystemPaymentAttemptResponse"][];
@@ -27641,7 +27711,11 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReverseBillingDocumentApplicationRequest"];
+            };
+        };
         responses: {
             /** @description Created */
             201: {
@@ -30892,6 +30966,10 @@ export interface operations {
         parameters: {
             query?: {
                 companyId?: number;
+                status?: "PENDING" | "CONFIRMED" | "FAILED" | "REFUNDED";
+                receivedFrom?: string;
+                receivedTo?: string;
+                pendingOlderThanMinutes?: number;
                 page?: number;
                 pageSize?: number;
             };
@@ -30908,6 +30986,32 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PageResponseSubscriptionPaymentResponse"];
+                };
+            };
+        };
+    };
+    export: {
+        parameters: {
+            query?: {
+                companyId?: number;
+                status?: "PENDING" | "CONFIRMED" | "FAILED" | "REFUNDED";
+                receivedFrom?: string;
+                receivedTo?: string;
+                pendingOlderThanMinutes?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
                 };
             };
         };
@@ -31186,6 +31290,33 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PageResponsePaymentReversalRequestResponse"];
+                };
+            };
+        };
+    };
+    search: {
+        parameters: {
+            query?: {
+                reference?: string;
+                companyId?: number;
+                from?: string;
+                to?: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseWompiWebhookEventResponse"];
                 };
             };
         };
@@ -32025,7 +32156,7 @@ export interface operations {
             };
         };
     };
-    search: {
+    search_1: {
         parameters: {
             query?: {
                 name?: string;
@@ -32050,7 +32181,7 @@ export interface operations {
             };
         };
     };
-    search_1: {
+    search_2: {
         parameters: {
             query?: {
                 supplierId?: number;
@@ -32463,7 +32594,7 @@ export interface operations {
             };
         };
     };
-    search_2: {
+    search_3: {
         parameters: {
             query?: {
                 name?: string;
@@ -32775,7 +32906,7 @@ export interface operations {
             };
         };
     };
-    search_3: {
+    search_4: {
         parameters: {
             query?: {
                 supplierId?: number;
@@ -32870,7 +33001,7 @@ export interface operations {
             };
         };
     };
-    search_4: {
+    search_5: {
         parameters: {
             query?: {
                 name?: string;
@@ -32983,7 +33114,7 @@ export interface operations {
             };
         };
     };
-    export: {
+    export_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -33357,7 +33488,7 @@ export interface operations {
             };
         };
     };
-    search_5: {
+    search_6: {
         parameters: {
             query: {
                 q: string;
@@ -33445,7 +33576,7 @@ export interface operations {
             };
         };
     };
-    search_6: {
+    search_7: {
         parameters: {
             query?: {
                 ownerId?: number;
@@ -33605,7 +33736,7 @@ export interface operations {
             };
         };
     };
-    search_7: {
+    search_8: {
         parameters: {
             query?: {
                 statuses?: string[];
@@ -34137,7 +34268,7 @@ export interface operations {
             };
         };
     };
-    search_8: {
+    search_9: {
         parameters: {
             query?: {
                 supplierId?: number;
@@ -34252,7 +34383,7 @@ export interface operations {
             };
         };
     };
-    search_9: {
+    search_10: {
         parameters: {
             query?: {
                 q?: string;
@@ -34920,7 +35051,7 @@ export interface operations {
             };
         };
     };
-    search_10: {
+    search_11: {
         parameters: {
             query: {
                 q: string;
@@ -35338,7 +35469,7 @@ export interface operations {
             };
         };
     };
-    export_1: {
+    export_2: {
         parameters: {
             query?: {
                 types?: ("CONSULTATION" | "SURGERY" | "VACCINATION" | "DEWORMING" | "HOSPITALIZATION" | "LABORATORY_TEST" | "DIAGNOSTIC_IMAGING" | "PRESCRIPTION" | "SPA")[];

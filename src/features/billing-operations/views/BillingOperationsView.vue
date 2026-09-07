@@ -3,15 +3,17 @@ import AppLayout from '@/components/layout/AppLayout.vue'
 import { BILLING_ROUTE_NAMES } from '@/router/routes/billing-operations.routes'
 
 /**
- * El armazón de `/cobranza`: encabezado, las ocho pestañas y poco más.
+ * El armazón de `/cobranza`: encabezado, las nueve pestañas y poco más.
  *
- * <p><b>Eran cuatro y ahora son ocho</b>: el circuito del dinero añadió intentos de
- * cobro, devoluciones, reversiones y saldo a favor. Van aquí y no en una sección
- * propia porque son el mismo trabajo — quien mira un documento vencido tiene que
- * poder saltar a los intentos que fallaron sobre él sin cambiar de pantalla.
- * «Intentos de cobro» va junto a «Pagos» y antes de «Gestión de mora» a propósito:
- * ese es el orden real de los hechos, y un intento fallido por <b>error nuestro</b>
- * no debería llegar nunca a la pestaña siguiente.
+ * <p><b>Nueve pestañas</b>: documentos, intentos de cobro, devoluciones, reversiones,
+ * saldo a favor y el histórico de eventos de Wompi. Van aquí y no en una sección propia porque son el mismo
+ * trabajo — quien mira un documento vencido tiene que poder saltar a los intentos
+ * Que fallaron sobre él sin cambiar de pantalla. «Intentos de cobro» va junto a
+ * «Pagos» y antes de «Gestión de mora» a propósito: ese es el orden real de los
+ * hechos, y un intento fallido por <b>error nuestro</b> no debería llegar nunca a
+ * La pestaña siguiente. «Eventos Wompi» va al final porque no es un paso del
+ * circuito: es la evidencia cruda que se consulta después, casi siempre a partir
+ * de la referencia de un pago concreto.
  *
  * <p><b>`/cobranza` abre en «Pendiente de facturar», no en un resumen.</b> El
  * motivo está en el modelo: los documentos atascados esperando la referencia
@@ -23,13 +25,13 @@ import { BILLING_ROUTE_NAMES } from '@/router/routes/billing-operations.routes'
  * patrón Tabs del APG —un `<nav>` de enlaces ya tiene su semántica—; soporte
  * puede pegar la URL de «Pagos» en un ticket; el presupuesto de SFC
  * (`maxSfcLines: 500`) no aguanta cuatro paneles en un fichero; y cada sub-vista
- * es un fichero propio. El patrón exacto —`RouterLink custom` + `isActive`
+ * Es un fichero propio. El patrón exacto —`RouterLink custom` + `isActive`
  * gobernando a la vez la clase y `aria-current`— se copia de
  * `AppSidebar.vue:224-247` en vez de inventarse otro.
  *
  * <p>La geometría de la pestaña la pone este componente; el ESTADO ACTIVO lo
  * pone `.ds-tab--active` (`primitives.css:1422`), que ya existe. No se inventa
- * una primitiva de pestaña nueva.
+ * Una primitiva de pestaña nueva.
  */
 const TABS = [
   { name: BILLING_ROUTE_NAMES.AWAITING_EXTERNAL, label: 'Pendiente de facturar' },
@@ -40,6 +42,7 @@ const TABS = [
   { name: BILLING_ROUTE_NAMES.REFUNDS, label: 'Devoluciones' },
   { name: BILLING_ROUTE_NAMES.REVERSALS, label: 'Reversiones' },
   { name: BILLING_ROUTE_NAMES.CUSTOMER_CREDIT, label: 'Saldo a favor' },
+  { name: BILLING_ROUTE_NAMES.WOMPI_EVENTS, label: 'Eventos Wompi' },
 ] as const
 </script>
 

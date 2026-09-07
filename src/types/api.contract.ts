@@ -2,7 +2,7 @@
  * Ata los tipos escritos a mano al contrato del backend (TR-01).
  *
  * <p>Este repositorio declara 90 interfaces que espejan los DTOs del servidor y nada las ataba
- * a él: renombrar un campo en un `record` de Java compilaba, desplegaba y fallaba en el navegador
+ * A él: renombrar un campo en un `record` de Java compilaba, desplegaba y fallaba en el navegador
  * del veterinario como `undefined`. Aquí ese fallo pasa a ser un error de compilación.
  *
  * <p><b>Por qué afirmar en vez de sustituir.</b> Lo evidente sería borrar las interfaces y usar
@@ -17,10 +17,10 @@
  *
  * <ol>
  *   <li><b>Campos que no existen</b> (`UnknownFields`). Si este repositorio declara un campo que
- *       el contrato no tiene, es un campo inventado, renombrado en el backend o eliminado — y en
+ *       El contrato no tiene, es un campo inventado, renombrado en el backend o eliminado — y en
  *       runtime vale `undefined`. Es el fallo que describe TR-01.</li>
  *   <li><b>Tipos primitivos incompatibles</b> (`MismatchedFields`), incluidos los enums: un campo
- *       que el backend declara como una unión cerrada y aquí se escribió como `string` acepta
+ *       Que el backend declara como una unión cerrada y aquí se escribió como `string` acepta
  *       valores que el servidor rechazará. Un tipo local MÁS estrecho que el del contrato sí
  *       pasa, y es legítimo.</li>
  *   <li><b>Campos obligatorios declarados opcionales</b> (`MissingRequiredFields`). springdoc
@@ -38,8 +38,8 @@
  *
  * <p><b>Consecuencia que hay que tener delante, porque es contraintuitiva.</b> El quinto conjunto
  * significa que <b>un campo NUEVO en una respuesta del backend rompe la compilación de todo front
- * que ate ese esquema</b>. Un cambio 100 % aditivo —nada renombrado, nada borrado— NO es seguro
- * para los fronts. Es deliberado: un campo que el servidor manda y la pantalla ignora es
+ * Que ate ese esquema</b>. Un cambio 100 % aditivo —nada renombrado, nada borrado— NO es seguro
+ * Para los fronts. Es deliberado: un campo que el servidor manda y la pantalla ignora es
  * exactamente cómo se pierden datos en silencio (ver el javadoc de `UndeclaredFields`).
  *
  * <p>Ya ocurrió, y no es hipotético: al regenerar el contrato, `CatalogItemResponse` ganó el campo
@@ -167,6 +167,7 @@ import type {
   RegisterExternalInvoiceRequest,
   SubscriptionPaymentResponse,
 } from '../features/billing-operations/types/billing-operations.types'
+import type { WompiWebhookEventResponse } from '../features/billing-operations/types/wompi-events.types'
 import type {
   BillingDocumentApplicationResponse,
   BillingDocumentSummary,
@@ -176,6 +177,7 @@ import type {
   ApplyBillingDocumentRequest,
   DocumentWithholdingResponse,
   RegisterDocumentWithholdingRequest,
+  ReverseBillingDocumentApplicationRequest,
 } from '../features/billing-documents/types/document-money.types'
 import type {
   RecordPaymentAttemptRequest,
@@ -373,8 +375,8 @@ type MissingRequiredFields<Local, Name extends keyof Schemas> = Exclude<
  * Campos que el contrato garantiza y este repositorio declara nulables.
  *
  * <p>Desde que los DTO de salida llevan requiredMode, el contrato sí dice qué garantiza devolver
- * el servidor. Declarar nulable aquí un campo garantizado obliga a comprobaciones
- * que nunca se cumplen y, peor, esconde que los dos fronts describían el mismo endpoint de forma
+ * El servidor. Declarar nulable aquí un campo garantizado obliga a comprobaciones
+ * Que nunca se cumplen y, peor, esconde que los dos fronts describían el mismo endpoint de forma
  * distinta.
  */
 type NullableWhereRequired<Local, Name extends keyof Schemas> = {
@@ -386,7 +388,7 @@ type NullableWhereRequired<Local, Name extends keyof Schemas> = {
  *
  * <p>Este era el agujero del propio guardián. Los cuatro conjuntos de arriba cruzan todos por
  * `keyof Local`, así que solo saben hablar de campos que este repositorio ya nombra: **omitir**
- * un campo entero les resultaba invisible. La petición de crear membresía declaraba `name` y
+ * Un campo entero les resultaba invisible. La petición de crear membresía declaraba `name` y
  * `status`, el contrato traía además `mandatory`, y su atadura pasaba en verde mientras cada
  * membresía creada o editada desde la consola se guardaba con `mandatory = false` sin que nadie
  * lo eligiera ni lo viera.
@@ -400,7 +402,7 @@ type NullableWhereRequired<Local, Name extends keyof Schemas> = {
  * `mandatory` **no** es `required` allí —springdoc solo marca lo que lleva `@NotNull` o
  * `@NotBlank`—, pero en el `record` de Java es un `boolean` primitivo. Un cuerpo JSON sin ese
  * campo no significa «déjalo como está»: significa `false`. Por eso este conjunto mira **todos**
- * los campos del esquema y no solo los exigidos.
+ * Los campos del esquema y no solo los exigidos.
  *
  * <p>`ToleratedGaps` descuenta la deuda que ya existía el día que esto se encendió: ver
  * `ContractGaps`.
@@ -434,7 +436,7 @@ type StaleGaps<Local, Name extends keyof Schemas> = [
 /**
  * `true` si el tipo local encaja con el esquema; si no, **los nombres de los campos que fallan**.
  * Es a propósito: el error de compilación los nombra uno a uno en vez de decir «no asignable»,
- * que obligaría a comparar cuarenta campos a ojo.
+ * Que obligaría a comparar cuarenta campos a ojo.
  */
 export type MatchesContract<Local, Name extends keyof Schemas> = [
   | UnknownFields<Local, Name>
@@ -457,9 +459,9 @@ type Expect<T extends true> = T
 
 /**
  * Entradas del techo que ya no describen nada real: un esquema que el contrato dejó de traer, o
- * un campo que ese esquema ya no tiene. Es la otra forma de pudrirse —la silenciosa, la que deja
- * el repositorio afirmando por escrito algo falso— y por eso se comprueba aparte de `StaleGaps`,
- * que solo mira el lado del front.
+ * Un campo que ese esquema ya no tiene. Es la otra forma de pudrirse —la silenciosa, la que deja
+ * El repositorio afirmando por escrito algo falso— y por eso se comprueba aparte de `StaleGaps`,
+ * Que solo mira el lado del front.
  */
 type RottenGapEntries = {
   [N in keyof ContractGaps]: N extends keyof Schemas
@@ -472,11 +474,11 @@ type RottenGapEntries = {
 /**
  * Las ataduras: una por cada tipo de este repositorio con un esquema homónimo en el contrato.
  * `api-contract.spec.ts` falla si aparece un tipo nuevo y nadie lo ata aquí, que es lo que evita
- * que esta lista envejezca en silencio.
+ * Que esta lista envejezca en silencio.
  */
 /**
  * **El techo de deuda, y solo baja.** Campos que el contrato declara y este repositorio todavía
- * no: la foto del día en que `UndeclaredFields` se encendió. Sin ella, encender la comprobación
+ * No: la foto del día en que `UndeclaredFields` se encendió. Sin ella, encender la comprobación
  * habría dejado en rojo el build de los dos fronts de golpe, que es la forma segura de que a
  * alguien se le ocurra apagarla.
  *
@@ -487,8 +489,8 @@ type RottenGapEntries = {
  *
  * <p>No todo lo de aquí es un defecto. `TokenResponse.refreshToken` se omite **a propósito**
  * (el backend lo emite en una cookie `HttpOnly` y el campo llega `null`), y los `enabled` de
- * los catálogos son inertes: sus entidades JPA llevan `@SQLRestriction("enabled = true")`, así
- * que por el cable nunca viaja otra cosa que `true`. Esa es justo la razón de que el techo
+ * Los catálogos son inertes: sus entidades JPA llevan `@SQLRestriction("enabled = true")`, así
+ * Que por el cable nunca viaja otra cosa que `true`. Esa es justo la razón de que el techo
  * exista en vez de una prohibición seca.
  */
 interface ContractGaps {
@@ -591,6 +593,7 @@ export type ContractAssertions = [
   Expect<MatchesContract<DunningEventResponse, 'DunningEventResponse'>>,
   Expect<MatchesContract<DunningSubscriptionSummary, 'DunningSubscriptionSummary'>>,
   Expect<MatchesContract<DunningBillingDocumentSummary, 'DunningBillingDocumentSummary'>>,
+  Expect<MatchesContract<WompiWebhookEventResponse, 'WompiWebhookEventResponse'>>,
 
   // El documento de cobro visto como documento (§G2–G4). Los tres esquemas del
   // bloque del dinero que ninguna pantalla anterior necesitaba.
@@ -614,6 +617,12 @@ export type ContractAssertions = [
   Expect<MatchesContract<BillingDocumentApplicationResponse, 'BillingDocumentApplicationResponse'>>,
   Expect<MatchesContract<BillingDocumentSummary, 'BillingDocumentSummary'>>,
   Expect<MatchesContract<IssueCreditNoteRequest, 'IssueCreditNoteRequest'>>,
+  Expect<
+    MatchesContract<
+      ReverseBillingDocumentApplicationRequest,
+      'ReverseBillingDocumentApplicationRequest'
+    >
+  >,
   Expect<
     MatchesContract<
       PageResponse<BillingDocumentApplicationResponse>,

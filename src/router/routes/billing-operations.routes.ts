@@ -19,9 +19,9 @@ import { PERMISSIONS } from '@/constants/permissions'
  * coincidente es el padre exacto: navegar a una hija sigue montando el armazón.
  *
  * <p><b>Los nombres de las hijas viven aquí y no en `src/constants/routes.ts`</b>,
- * por el mismo motivo que en `quotes.routes.ts`: ese fichero lo escriben a la
+ * Por el mismo motivo que en `quotes.routes.ts`: ese fichero lo escriben a la
  * vez varias tareas de la onda 1 y es un punto de colisión. `BILLING_OPERATIONS`
- * sí sigue en `ROUTE_NAMES` porque ya estaba y lo referencian `AppSidebar.vue` y
+ * Sí sigue en `ROUTE_NAMES` porque ya estaba y lo referencian `AppSidebar.vue` y
  * `DashboardView.vue`, que son de otra instancia.
  *
  * <p><b>Sobre `meta.permission`.</b> Solo lo llevan las dos pestañas cuyo
@@ -55,6 +55,7 @@ export const BILLING_ROUTE_NAMES = {
   ATTEMPTS: 'billing-attempts',
   REVERSALS: 'billing-reversals',
   CUSTOMER_CREDIT: 'billing-customer-credit',
+  WOMPI_EVENTS: 'billing-wompi-events',
 } as const
 
 export const billingOperationsRoutes: RouteRecordRaw[] = [
@@ -112,6 +113,12 @@ export const billingOperationsRoutes: RouteRecordRaw[] = [
         name: BILLING_ROUTE_NAMES.CUSTOMER_CREDIT,
         component: () => import('@/features/billing-operations/views/CustomerCreditView.vue'),
         meta: { title: 'Saldo a favor · Cobranza' },
+      },
+      {
+        path: 'eventos-wompi',
+        name: BILLING_ROUTE_NAMES.WOMPI_EVENTS,
+        component: () => import('@/features/billing-operations/views/WompiEventsView.vue'),
+        meta: { title: 'Eventos Wompi · Cobranza' },
       },
     ],
   },
