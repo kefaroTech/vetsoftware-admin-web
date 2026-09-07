@@ -20,6 +20,7 @@ import {
 } from '@/services/http/http.client'
 import { storageService } from '@/services/storage/storage.service'
 import { useLoaderStore } from '@/stores/loader.store'
+import { authApi } from '@/features/auth/api/auth.api'
 import { elemento } from '../helpers/exigir'
 
 /**
@@ -409,6 +410,37 @@ describe('401 y renovación de sesión', () => {
 
     expect(store.isAuthenticated).toBe(false)
     expect(store.session).toBeNull()
+  })
+
+  it('el refresh real manda el type de la sesión en el cuerpo', async () => {
+    const { useAuthStore } = await import('@/features/auth/stores/auth.store')
+    useAuthStore().setSession({ token: 'access-viejo', type: 'EMPLOYEE' })
+    const refresh = vi
+      .spyOn(authApi, 'refresh')
+      .mockResolvedValue({ token: 'access-nuevo', type: 'EMPLOYEE' })
+    useAdapter(async (config) => {
+      throw httpError(config, 401, { code: 'TOKEN_EXPIRED' })
+    })
+
+    await expect(http.get('/pacientes')).rejects.toThrow()
+
+    expect(refresh).toHaveBeenCalledWith('EMPLOYEE')
+    refresh.mockRestore()
+  })
+
+  it('sin sesión en memoria ni en storage, no llama a /auth/refresh', async () => {
+    storageService.clearSession()
+    const { useAuthStore } = await import('@/features/auth/stores/auth.store')
+    useAuthStore()
+    const refresh = vi.spyOn(authApi, 'refresh')
+    useAdapter(async (config) => {
+      throw httpError(config, 401, { code: 'TOKEN_EXPIRED' })
+    })
+
+    await expect(http.get('/pacientes')).rejects.toThrow()
+
+    expect(refresh).not.toHaveBeenCalled()
+    refresh.mockRestore()
   })
 })
 

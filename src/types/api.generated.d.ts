@@ -14985,7 +14985,8 @@ export interface components {
             newPassword: string;
         };
         RefreshTokenRequest: {
-            refreshToken?: string;
+            /** @enum {string} */
+            type: "EMPLOYEE" | "SYSTEM_USER";
         };
         TokenResponse: {
             token: string;
@@ -28165,11 +28166,9 @@ export interface operations {
             query?: never;
             header?: never;
             path?: never;
-            cookie?: {
-                vet_refresh?: string;
-            };
+            cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
                 "application/json": components["schemas"]["RefreshTokenRequest"];
             };
