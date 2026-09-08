@@ -83,8 +83,39 @@ const PROPS = [
 
 const browser = await chromium.launch()
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } })
-await page.goto(URL, { waitUntil: 'networkidle' })
-await page.evaluate(() => document.fonts.ready)
+
+async function gotoStable() {
+  await page.goto(URL, { waitUntil: 'networkidle' })
+  await page.evaluate(() => document.fonts.ready)
+}
+
+await gotoStable()
+
+// Con la caché de Vite fría (`npm ci` en CI), el optimizador de dependencias
+// reoptimiza tras la primera carga y fuerza un reload completo de la misma
+// URL; si llega en mitad de la ventana de medida, `page.evaluate` revienta con
+// "Execution context was destroyed". Si el reload ya llegó, se absorbe aquí;
+// si llega más tarde, lo cubre el reintento de `measure` de abajo.
+const reloadedDuringBoot = await page
+  .waitForEvent('framenavigated', {
+    predicate: (frame) => frame === page.mainFrame() && frame.url() === URL,
+    timeout: 3000,
+  })
+  .then(() => true)
+  .catch(() => false)
+if (reloadedDuringBoot) await gotoStable()
+
+async function measure(fn) {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await fn()
+    } catch (err) {
+      if (attempt >= 3 || !String(err.message).includes('Execution context was destroyed'))
+        throw err
+      await gotoStable()
+    }
+  }
+}
 
 async function styles(pair, side) {
   return page.evaluate(
@@ -106,8 +137,10 @@ const pairs = await page.$$eval('[data-pair]', (els) => els.map((e) => e.dataset
 const report = []
 
 for (const pair of pairs) {
-  const a = await styles(pair, 'a')
-  const b = await styles(pair, 'b')
+  const { a, b } = await measure(async () => ({
+    a: await styles(pair, 'a'),
+    b: await styles(pair, 'b'),
+  }))
   const diffs = []
   for (const k of [...PROPS, '__w', '__h']) {
     if (String(a[k]) !== String(b[k])) diffs.push({ prop: k, original: a[k], primitiva: b[k] })
@@ -119,13 +152,16 @@ for (const pair of pairs) {
 // leer antes devuelve el valor interpolado, no el final.
 for (const pair of pairs.filter((p) => p.includes('btn') || p.includes('cta'))) {
   if (pair.includes('disabled')) continue
-  await page.hover(`[data-pair="${pair}"] [data-side="a"]`)
-  await page.waitForTimeout(400)
-  const a = await styles(pair, 'a')
-  await page.hover(`[data-pair="${pair}"] [data-side="b"]`)
-  await page.waitForTimeout(400)
-  const b = await styles(pair, 'b')
-  await page.mouse.move(0, 0)
+  const { a, b } = await measure(async () => {
+    await page.hover(`[data-pair="${pair}"] [data-side="a"]`)
+    await page.waitForTimeout(400)
+    const a = await styles(pair, 'a')
+    await page.hover(`[data-pair="${pair}"] [data-side="b"]`)
+    await page.waitForTimeout(400)
+    const b = await styles(pair, 'b')
+    await page.mouse.move(0, 0)
+    return { a, b }
+  })
   const diffs = []
   for (const k of ['backgroundColor', 'backgroundImage', 'filter', 'borderTopColor', 'color']) {
     if (String(a[k]) !== String(b[k])) diffs.push({ prop: k, original: a[k], primitiva: b[k] })
