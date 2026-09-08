@@ -7,6 +7,7 @@ import ConfirmSuppressionModal from '../components/ConfirmSuppressionModal.vue'
 import SuppressionOutcomePanel from '../components/SuppressionOutcomePanel.vue'
 import { useProposalSuppression } from '../composables/useProposalSuppression'
 import { CONTACT_EMAIL_MAX, validateContactEmail } from '../composables/suppressionRules'
+import { scrollToFirstError } from '@/composables/scrollToError'
 
 /**
  * <b>Supresión de datos del asistente</b>, a petición del titular — artículo 8,
@@ -108,7 +109,10 @@ function focoAlCerrar(): HTMLElement | null {
 function pedirConfirmacion() {
   submitted.value = true
   touched.value = true
-  if (errorCorreo.value !== '') return
+  if (errorCorreo.value !== '') {
+    void scrollToFirstError()
+    return
+  }
   // Cada apertura arranca en «este cierre no escribe nada»: si el operador
   // cancela, el foco tiene que volver al botón desde el que abrió.
   volverAlTitulo.value = false

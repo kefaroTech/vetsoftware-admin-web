@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import { length } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import type { SpecieResponse, CreateSpecieRequest } from '../types/species.types'
 
 const props = defineProps<{
@@ -49,6 +50,7 @@ function submit() {
   if (props.saving) return
   submitted.value = true
   if (Object.values(errors.value).every((e) => !e)) emit('submit', form.value)
+  else void scrollToFirstError()
 }
 
 defineExpose({ isDirty })

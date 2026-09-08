@@ -3,6 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import { formatAmount } from '@/composables/format'
 import { length, maxLength } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import type {
   ExternalInvoiceReconciliationResponse,
   MatchExternalInvoiceRequest,
@@ -146,7 +147,10 @@ function validate() {
 }
 
 function submit() {
-  if (!validate()) return
+  if (!validate()) {
+    void scrollToFirstError()
+    return
+  }
   emit('submit', {
     externalInvoiceId: form.externalInvoiceId.trim(),
     externalCufe: form.externalCufe.trim() || null,

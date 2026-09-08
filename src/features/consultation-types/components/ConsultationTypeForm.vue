@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
 import { length } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import type {
   ConsultationTypeResponse,
   CreateConsultationTypeRequest,
@@ -55,6 +56,7 @@ function submit() {
   if (props.saving) return
   submitted.value = true
   if (Object.values(errors.value).every((e) => !e)) emit('submit', form.value)
+  else void scrollToFirstError()
 }
 
 defineExpose({ isDirty })

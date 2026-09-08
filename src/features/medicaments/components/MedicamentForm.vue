@@ -3,6 +3,7 @@ import { computed, ref, useId, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
 import { length, maxLength } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import type { MedicamentResponse } from '../types/medicaments.types'
 import type { MedicamentFormData } from '../composables/useMedicaments'
 
@@ -95,21 +96,11 @@ function isDirty() {
   return JSON.stringify(form.value) !== baseline.value
 }
 
-/**
- * El foco va al primer campo inválido al fallar el envío. Sin esto, el mensaje
- * puede quedar fuera de la vista y el usuario ve que «no pasa nada» al pulsar
- * el botón (WCAG 2.2 §2.4.3; GOV.UK, patrón de validación).
- */
-function focusFirstError() {
-  const id = errors.value.name ? nombreId : errors.value.description ? descripcionId : null
-  if (id) document.getElementById(id)?.focus()
-}
-
 function submit() {
   if (props.saving) return
   submitted.value = true
   if (Object.values(errors.value).every((e) => !e)) emit('submit', form.value)
-  else focusFirstError()
+  else void scrollToFirstError()
 }
 
 defineExpose({ isDirty })

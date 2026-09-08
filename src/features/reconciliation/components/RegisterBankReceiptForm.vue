@@ -3,6 +3,7 @@ import { computed, reactive } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
 import { length, maxLength } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import type { RegisterBankReceiptRequest } from '../types/reconciliation.types'
 
 /**
@@ -63,7 +64,11 @@ function validate() {
 }
 
 function submit() {
-  if (!validate() || props.saving) return
+  if (!validate()) {
+    void scrollToFirstError()
+    return
+  }
+  if (props.saving) return
   emit('submit', {
     bankAccountRef: form.bankAccountRef.trim(),
     bankReference: form.bankReference.trim(),

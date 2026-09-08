@@ -3,6 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import { selection } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import {
   LIMIT_ENFORCEMENT_MEANING,
   LIMIT_ENFORCEMENT_OPTIONS,
@@ -169,7 +170,11 @@ function validate() {
 }
 
 function submit() {
-  if (!validate() || props.saving) return
+  if (!validate()) {
+    void scrollToFirstError()
+    return
+  }
+  if (props.saving) return
   const dimensionId = form.limitDimensionId
   if (dimensionId === null) return
   emit('submit', {
