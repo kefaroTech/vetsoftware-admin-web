@@ -2,6 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import { length, pattern } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import type {
   CreatePriceListRequest,
   PriceListResponse,
@@ -70,7 +71,10 @@ function validate() {
 }
 
 function submit() {
-  if (!validate()) return
+  if (!validate()) {
+    void scrollToFirstError()
+    return
+  }
   const common: UpdatePriceListRequest = {
     name: form.name.trim(),
     currency: form.currency.trim().toUpperCase(),

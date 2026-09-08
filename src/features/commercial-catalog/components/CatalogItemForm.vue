@@ -5,6 +5,7 @@ import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import AppTextarea from '@/components/ui/AppTextarea.vue'
 import { length, maxLength, selection } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import {
   CAPACITY_UNIT_OPTIONS,
   CATALOG_ITEM_STATUS_OPTIONS,
@@ -143,7 +144,11 @@ function validate() {
 }
 
 function submit() {
-  if (!validate() || !form.itemType) return
+  if (!validate()) {
+    void scrollToFirstError()
+    return
+  }
+  if (!form.itemType) return
   const common: UpdateCatalogItemRequest = {
     name: form.name.trim(),
     shortDescription: form.shortDescription.trim() || null,

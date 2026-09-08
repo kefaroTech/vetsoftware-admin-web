@@ -4,6 +4,7 @@ import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import AppCheckbox from '@/components/ui/AppCheckbox.vue'
 import { length, selection } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import { useToast } from '@/composables/useToast'
 import { getProblemDetailMessage } from '@/services/http/http.client'
 import { ICONS } from '@/constants/icons'
@@ -123,6 +124,7 @@ function submit() {
   if (props.saving) return
   submitted.value = true
   if (Object.values(errors.value).every((e) => !e)) emit('submit', form.value)
+  else void scrollToFirstError()
 }
 
 defineExpose({ isDirty })

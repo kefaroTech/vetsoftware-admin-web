@@ -2,6 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import { length } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import type {
   AttachProviderInvoiceRequest,
   GatewaySettlementResponse,
@@ -56,7 +57,11 @@ function validate() {
 }
 
 function submit() {
-  if (!validate() || props.saving) return
+  if (!validate()) {
+    void scrollToFirstError()
+    return
+  }
+  if (props.saving) return
   emit('submit', {
     providerInvoiceRef: form.providerInvoiceRef.trim(),
     providerTaxId: form.providerTaxId.trim(),

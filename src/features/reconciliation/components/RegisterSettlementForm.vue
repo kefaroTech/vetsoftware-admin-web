@@ -3,6 +3,7 @@ import { computed, reactive } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import { formatAmount } from '@/composables/format'
 import { length } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import type { RegisterGatewaySettlementRequest } from '../types/reconciliation.types'
 import MoneyScopeNote from '@/components/ui/MoneyScopeNote.vue'
 
@@ -125,7 +126,11 @@ function validate() {
 }
 
 function submit() {
-  if (!validate() || props.saving) return
+  if (!validate()) {
+    void scrollToFirstError()
+    return
+  }
+  if (props.saving) return
   emit('submit', {
     gateway: form.gateway.trim(),
     settlementReference: form.settlementReference.trim(),

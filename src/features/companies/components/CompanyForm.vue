@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import { length } from '@/composables/validators'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import { useCompanyLocations } from '../composables/useCompanyLocations'
 import type { CompanyResponse, CreateCompanyRequest } from '../types/companies.types'
 
@@ -136,6 +137,7 @@ function submit() {
   if (props.saving) return
   submitted.value = true
   if (Object.values(errors.value).every((e) => !e)) emit('submit', form.value)
+  else void scrollToFirstError()
 }
 
 defineExpose({ isDirty })

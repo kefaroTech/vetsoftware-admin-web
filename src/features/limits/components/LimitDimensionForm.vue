@@ -65,6 +65,7 @@ import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
 import { ICONS } from '@/constants/icons'
 import { formatDate } from '@/composables/format'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import { useSubmodules } from '@/features/submodules/composables/useSubmodules'
 import {
   MEASURE_KIND_MEANING,
@@ -200,7 +201,11 @@ const releaseDelayDays = computed(() =>
 )
 
 function submit() {
-  if (!validate() || props.saving) return
+  if (!validate()) {
+    void scrollToFirstError()
+    return
+  }
+  if (props.saving) return
   if (isCreate.value) {
     emit('createSubmit', {
       code: form.code.trim(),

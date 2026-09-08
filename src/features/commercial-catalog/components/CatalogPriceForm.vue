@@ -2,6 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppSelect from '@/components/ui/AppSelect.vue'
+import { scrollToFirstError } from '@/composables/scrollToError'
 import {
   BILLING_CYCLE_OPTIONS,
   TAX_TREATMENT_OPTIONS,
@@ -157,7 +158,11 @@ function numberValue(value: string) {
 }
 
 function submit() {
-  if (!validate() || !form.catalogItemId) return
+  if (!validate()) {
+    void scrollToFirstError()
+    return
+  }
+  if (!form.catalogItemId) return
   const common: UpdateCatalogPriceRequest = {
     billingCycle: form.billingCycle,
     tierMin: Number(form.tierMin),
