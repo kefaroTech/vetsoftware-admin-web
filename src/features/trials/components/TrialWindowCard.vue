@@ -50,7 +50,7 @@ defineEmits<{ close: [] }>()
         <dt class="ds-label">Días de ventana</dt>
         <dd class="valor num">{{ window.windowDays }}</dd>
       </div>
-      <div>
+      <div v-if="window.sourceQuoteId">
         <dt class="ds-label">Cotización que la vendió</dt>
         <dd class="valor num">#{{ window.sourceQuoteId }}</dd>
       </div>

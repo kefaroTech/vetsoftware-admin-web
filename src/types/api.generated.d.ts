@@ -2228,6 +2228,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/subscriptions/modules/purchase": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["purchase"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/subscription-payments": {
         parameters: {
             query?: never;
@@ -6900,6 +6916,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/subscriptions/modules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_6"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/subscriptions/current": {
         parameters: {
             query?: never;
@@ -8251,7 +8283,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_6"];
+        get: operations["list_7"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8859,7 +8891,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_7"];
+        get: operations["list_8"];
         put?: never;
         post?: never;
         delete?: never;
@@ -12322,7 +12354,7 @@ export interface components {
             clientRequestId: string;
         };
         RecordCompanyUsageEventRequest: {
-            /** @description Solo los ejes contables: OWNER, ANIMAL, APPOINTMENT o INVOICE. */
+            /** @description Un eje contable: OWNER, ANIMAL, APPOINTMENT, INVOICE o GROOMING_SERVICE. */
             limitDimensionCode: string;
             /** Format: int64 */
             usageReferenceId: number;
@@ -12333,6 +12365,8 @@ export interface components {
             occurredAt: string;
             periodKey: string;
             billable: boolean;
+            /** @description Solo para GROOMING_SERVICE: SPA o DAYCARE. */
+            usageOrigin?: string;
         };
         CompanyUsageEventResponse: {
             /** Format: int64 */
@@ -12345,7 +12379,7 @@ export interface components {
              * @description El eje contable del hecho, que dice a que tabla apunta la referencia.
              * @enum {string}
              */
-            branch: "OWNER" | "ANIMAL" | "APPOINTMENT" | "INVOICE";
+            branch: "OWNER" | "ANIMAL" | "APPOINTMENT" | "INVOICE" | "GROOMING_SERVICE_SPA" | "GROOMING_SERVICE_DAYCARE";
             /**
              * Format: int64
              * @description El registro consumido, en la tabla que indica la rama.
@@ -12392,7 +12426,9 @@ export interface components {
             /** Format: int32 */
             windowDays: number;
             /** Format: int64 */
-            sourceQuoteId: number;
+            sourceQuoteId?: number;
+            /** @enum {string} */
+            origin: "SIGNUP" | "QUOTE";
             /** Format: date-time */
             closedAt?: string;
             open: boolean;
@@ -12441,6 +12477,8 @@ export interface components {
             sourceQuoteId?: number;
             /** Format: int64 */
             grantingAmendmentId?: number;
+            /** @enum {string} */
+            origin: "SIGNUP" | "QUOTE" | "AMENDMENT";
             /** Format: date-time */
             consumedAt?: string;
             /** @enum {string} */
@@ -13020,6 +13058,25 @@ export interface components {
             /** Format: date */
             effectiveDate: string;
             reason?: string;
+        };
+        ModulePurchaseRequest: {
+            catalogItemCodes: string[];
+            /** @enum {string} */
+            billingCycle: "MONTHLY" | "ANNUAL";
+            /** Format: int64 */
+            paymentSourceId: number;
+            clientRequestId: string;
+        };
+        ModulePurchaseResponse: {
+            /** Format: int64 */
+            quoteId?: number;
+            lines?: components["schemas"]["PurchasedModuleLineResponse"][];
+        };
+        PurchasedModuleLineResponse: {
+            catalogItemCode?: string;
+            /** Format: date */
+            firstChargeDate?: string;
+            chargedNow?: boolean;
         };
         RegisterSubscriptionPaymentRequest: {
             amount: number;
@@ -16010,6 +16067,30 @@ export interface components {
             clientRequestId?: string;
             /** Format: date-time */
             createdDate?: string;
+        };
+        ModuleCeilingResponse: {
+            dimensionCode?: string;
+            measureKind?: string;
+            /** Format: int32 */
+            used?: number;
+            /** Format: int32 */
+            limit?: number;
+            /** Format: int32 */
+            warnThreshold?: number;
+            enforcement?: string;
+        };
+        ModuleShowcaseResponse: {
+            code?: string;
+            name?: string;
+            shortDescription?: string;
+            state?: string;
+            /** Format: date */
+            trialEndDate?: string;
+            ceilings?: components["schemas"]["ModuleCeilingResponse"][];
+            monthlyPrice?: number;
+            annualPrice?: number;
+            purchasable?: boolean;
+            canPurchase?: boolean;
         };
         PageResponseSubscriptionChargeResponse: {
             content?: components["schemas"]["SubscriptionChargeResponse"][];
@@ -24098,6 +24179,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["SubscriptionItemResponse"];
+                };
+            };
+        };
+    };
+    purchase: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ModulePurchaseRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ModulePurchaseResponse"];
                 };
             };
         };
@@ -32581,6 +32686,26 @@ export interface operations {
             };
         };
     };
+    list_6: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ModuleShowcaseResponse"][];
+                };
+            };
+        };
+    };
     findCurrent_3: {
         parameters: {
             query?: never;
@@ -34595,7 +34720,7 @@ export interface operations {
             };
         };
     };
-    list_6: {
+    list_7: {
         parameters: {
             query?: {
                 page?: number;
@@ -35450,7 +35575,7 @@ export interface operations {
             };
         };
     };
-    list_7: {
+    list_8: {
         parameters: {
             query?: {
                 branchId?: number;
