@@ -34,6 +34,20 @@ export type TrialPolicyOutcome = 'CONVERT_TO_PAID' | 'LIMITED' | 'READ_ONLY'
 export type TrialOutcome = 'CONVERTED' | 'LIMITED' | 'READ_ONLY' | 'ABANDONED'
 
 /**
+ * Quién abrió la ventana. Solo dos vías: el alta pública, que no negocia nada,
+ * y una cotización aceptada — una empresa nace de una de esas dos formas y no
+ * de ninguna otra.
+ */
+export type TrialWindowOrigin = 'SIGNUP' | 'QUOTE'
+
+/**
+ * Quién concedió la prueba. Tres papeles, y el alta pública es uno de ellos y
+ * no la ausencia de los otros dos: la política del catálogo concede la prueba
+ * de todo artículo elegible al registrarse, sin cotización ni otrosí detrás.
+ */
+export type TrialGrantOrigin = 'SIGNUP' | 'QUOTE' | 'AMENDMENT'
+
+/**
  * La ventana de prueba de una empresa.
  *
  * <p><b>`endDate` es el último día en prueba, incluido.</b> Lo dice el propio
@@ -47,6 +61,9 @@ export type TrialOutcome = 'CONVERTED' | 'LIMITED' | 'READ_ONLY' | 'ABANDONED'
  * contrato publica abrir y cerrar, y nada más: no existe un `PATCH` de días. Una
  * pantalla que ofreciera «ampliar» tendría que inventarse el endpoint o cerrar y
  * reabrir, que son dos ventanas y no una más larga.
+ *
+ * <p><b>`sourceQuoteId` es opcional</b>: una ventana de origen `SIGNUP` no nace
+ * de ninguna cotización, así que no tiene nada que apuntar ahí.
  */
 export interface CompanyTrialWindowResponse {
   id: number
@@ -55,7 +72,8 @@ export interface CompanyTrialWindowResponse {
   /** Último día en prueba, <b>incluido</b>. */
   endDate: string
   windowDays: number
-  sourceQuoteId: number
+  sourceQuoteId?: number
+  origin: TrialWindowOrigin
   /** Cuándo se cerró a mano. Nulo mientras nadie la haya cerrado. */
   closedAt: string | null
   /** Lo dice el servidor. No sustituye a la comparación de fechas: la completa. */
@@ -90,6 +108,7 @@ export interface CompanyTrialGrantResponse {
   policyTrialOutcome: TrialPolicyOutcome
   sourceQuoteId: number | null
   grantingAmendmentId: number | null
+  origin: TrialGrantOrigin
   /** Cuándo se le puso desenlace. Nulo = todavía no se ha cerrado. */
   consumedAt: string | null
   /** El desenlace. Nulo = no lo hay todavía; nunca se rellena por defecto. */
