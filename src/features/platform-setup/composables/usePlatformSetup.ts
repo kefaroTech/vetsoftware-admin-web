@@ -301,8 +301,8 @@ interface StepInputs {
   current: PriceListResponse | null
 }
 
-/** La secuencia con la que se numeran las cuentas de cobro. */
-const DOCUMENT_SEQUENCE_PREFIX = 'DC'
+/** Las tres series con las que el backend numera documentos (`DocumentKind.sequencePrefix()`). */
+const DOCUMENT_SEQUENCE_PREFIXES = ['DC', 'NC', 'ND'] as const
 
 function buildSteps(input: StepInputs): PlatformSetupStep[] {
   const { items, priceLists, config, sequences, prices, bridges, current } = input
@@ -364,13 +364,15 @@ function buildSteps(input: StepInputs): PlatformSetupStep[] {
     {
       id: 'document-sequence',
       order: 6,
-      label: 'Una secuencia de numeración DC',
+      label: 'Las tres secuencias de numeración DC, NC y ND',
       detail:
-        'El alta de una empresa no la comprueba: lo que falla sin ella es la primera cuenta de cobro que haya que emitir.',
+        'El alta de una empresa no las comprueba: lo que falla sin ellas es el primer documento de cobro, nota crédito o nota débito que haya que emitir.',
       to: '/configuracion/facturacion',
       required: true,
       ...resolve(sequences, (page) =>
-        page.content.some((row) => row.prefix === DOCUMENT_SEQUENCE_PREFIX),
+        DOCUMENT_SEQUENCE_PREFIXES.every((prefix) =>
+          page.content.some((row) => row.prefix === prefix),
+        ),
       ),
     },
   ]

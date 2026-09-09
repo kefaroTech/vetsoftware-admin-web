@@ -619,7 +619,7 @@ Los pasos, en orden de dependencia real, cada uno con la llamada que decide su e
 | 3 | Una lista de precios `PUBLISHED` y vigente | `GET /price-lists` → `status === 'PUBLISHED'` y `validTo` vacío o futuro | **Sí** |
 | 4 | Precio para cada artículo activo en esa lista | `GET /catalog-prices?priceListId=…` → cubre los ids del paso 1 | **Sí** |
 | 5 | Configuración de facturación con lista por defecto | `GET /platform-billing-config` → `defaultPriceList` no nulo | **Sí** |
-| 6 | Una secuencia de numeración `DC` | `GET /system/billing-document-sequences` | **Sí** |
+| 6 | Las tres secuencias de numeración DC, NC y ND | `GET /system/billing-document-sequences` | **Sí** |
 | 7 | Cuestionario con al menos una pregunta | `GET /configurator/questions` → `total > 0` | No — *«recomendado»* |
 
 **Los textos, fijados aquí para que sean idénticos en todos los sitios donde aparezcan:**

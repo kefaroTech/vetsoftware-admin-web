@@ -672,7 +672,7 @@ sean idénticos en los cuatro sitios donde aparece. **Ese diseño es correcto y 
 | 6 | Configuración de facturación con lista por defecto | Sí | existe (`billing-config`) | `/configuracion/facturacion` |
 | **7** | **Días de prueba por defecto distintos de cero** | **Sí** | `platform_billing_config.default_trial_days > 0` | `/configuracion/facturacion` |
 | **8** | **La identidad fiscal de VetSoftware** | **Sí** | razón social y NIT del fabricante del software — va impresa en cada factura de cada cliente | `/configuracion/facturacion` |
-| 9 | Una secuencia de numeración `DC` | Sí | existe (`document-sequence`) | `/configuracion/facturacion` |
+| 9 | Las tres secuencias de numeración DC, NC y ND | Sí | existe (`document-sequence`) | `/configuracion/facturacion` |
 | **10** | **Los catálogos anuales del año en curso y del siguiente** | **Sí** | UVT, festivos y tarifas de retención del año actual **y del que viene** | `/catalogos-anuales` |
 | **11** | **Los textos legales publicados** | **Sí** | términos, política de tratamiento y **contrato de encargo** (D-88) — este último es obligatorio en el alta | `/textos-legales` |
 | **12** | **El primer periodo contable abierto** | **Sí** | existe una fila `OPEN` en `accounting_periods` | `/contabilidad/periodos` |
