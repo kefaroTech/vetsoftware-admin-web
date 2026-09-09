@@ -161,6 +161,32 @@ describe('la lista de comprobación de la puesta en marcha', () => {
     expect(setup.unknownSteps.value).toHaveLength(1)
   })
 
+  it('con solo la serie DC el paso 6 sigue pendiente: el backend numera tres tipos de documento', async () => {
+    billingDocumentSequencesApi.listAll.mockResolvedValue(
+      page([{ id: 1, prefix: 'DC', nextValue: 1, createdDate: '2026-08-01' }]),
+    )
+
+    const setup = usePlatformSetup()
+    await setup.load()
+
+    expect(setup.steps.value.find((s) => s.id === 'document-sequence')?.state).toBe('pending')
+  })
+
+  it('con las tres series DC, NC y ND el paso 6 está hecho', async () => {
+    billingDocumentSequencesApi.listAll.mockResolvedValue(
+      page([
+        { id: 1, prefix: 'DC', nextValue: 1, createdDate: '2026-08-01' },
+        { id: 2, prefix: 'NC', nextValue: 1, createdDate: '2026-08-01' },
+        { id: 3, prefix: 'ND', nextValue: 1, createdDate: '2026-08-01' },
+      ]),
+    )
+
+    const setup = usePlatformSetup()
+    await setup.load()
+
+    expect(setup.steps.value.find((s) => s.id === 'document-sequence')?.state).toBe('done')
+  })
+
   it('que falte la fila de configuración ES el paso 5 sin hacer, no un fallo', async () => {
     // El backend responde 503 `PLATFORM_BILLING_CONFIG_NOT_CONFIGURED` cuando la
     // fila única no existe. Pintarlo como «sin comprobar» escondería un paso que
